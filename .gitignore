@@ -1,0 +1,37 @@
+# --- BACKEND (Laravel) ---
+/Backend/vendor/
+/Backend/node_modules/
+/Backend/public/storage
+/Backend/public/hot
+/Backend/public/build
+/Backend/.env
+/Backend/.env.backup
+/Backend/.env.production
+/Backend/storage/*.key
+/Backend/.phpunit.result.cache
+/Backend/auth.json
+/Backend/storage/framework/cache/data/*
+/Backend/storage/framework/sessions/*
+/Backend/storage/framework/testing/*
+/Backend/storage/framework/views/*
+/Backend/storage/logs/*
+!/Backend/storage/logs/.gitignore
+
+# --- FRONTEND (React) ---
+/Frontend/node_modules/
+/Frontend/dist/
+/Frontend/.env
+/Frontend/.env.local
+/Frontend/.env.development.local
+/Frontend/.env.test.local
+/Frontend/.env.production.local
+/Frontend/npm-debug.log*
+/Frontend/yarn-debug.log*
+/Frontend/yarn-error.log*
+
+# --- GENERAL & IDEs ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
