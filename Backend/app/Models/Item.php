@@ -16,7 +16,8 @@ class Item extends Model
     protected $fillable = [
         'name',
         'description',
-        'image'
+        'image',
+        'category_id',
     ];
 
     // Relaciones
