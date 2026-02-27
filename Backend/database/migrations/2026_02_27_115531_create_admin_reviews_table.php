@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('admin_reviews', function (Blueprint $table) {
             $table->uuid('id')->primary();
 						$table->foreignUuid('admin_id')->constrained('users')->nullOnDelete();
-						$table->foreignUuid('item_id')->constrained('items')->nullOnDelete();
+						$table->foreignUuid('item_id')->constrained('items')->cascadeOnDelete();
 						$table->enum('final_state',['accepted', 'rejected']);
 						$table->string('reject_reason')->nullable();
             $table->timestamps();
