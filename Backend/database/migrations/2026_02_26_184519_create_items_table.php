@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('image')->nullable();
 
-            $table->enum('state', ['pending', 'active', 'inactive', 'accepted', 'rejected'])->default('pending');
+            $table->enum('state', ['pending', 'in_progress', 'accepted', 'rejected'])->default('pending');
 
             $table->float('vote_avg')->default(0.0);
             $table->integer('vote_count')->default(0);

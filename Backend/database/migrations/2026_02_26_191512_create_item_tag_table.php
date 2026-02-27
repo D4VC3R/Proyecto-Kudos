@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('item_tag', function (Blueprint $table) {
-            // Por si acaso, de momento en nullOnDelete pero hay que cambiarlo a CascadeOnDelete.
-            $table->foreignUuid('item_id')->constrained('items')->nullOnDelete();
-            $table->foreignUuid('tag_id')->constrained('tags')->nullOnDelete();
+
+            $table->foreignUuid('item_id')->constrained('items')->cascadeOnDelete();
+            $table->foreignUuid('tag_id')->constrained('tags')->cascadeOnDelete();
             // Clave primaria compuesta por los ids de las tablas relacionadas.
             $table->primary(['item_id', 'tag_id']);
 

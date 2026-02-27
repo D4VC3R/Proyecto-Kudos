@@ -20,6 +20,7 @@ public function up(): void
         $table->text('biography')->nullable();
         $table->json('social_links')->nullable(); // Para Twitter, Insta, etc.
         $table->string('city')->nullable();
+				$table->date('birthdate')->nullable();
 
         $table->timestamps();
     });

@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Models\Vote;
+use App\Models\Item;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Mapear Strings a modelo para obtener las referencias
+	    Relation::enforceMorphMap([
+		    'vote' => Vote::class,
+		    'item' => Item::class,
+	    ]);
     }
 }
