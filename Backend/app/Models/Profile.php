@@ -14,13 +14,13 @@ class Profile extends Model
     protected $fillable = [
         'avatar',
         'biography',
-        'social',
+        'social_links',
         'city',
         'birthdate'
     ];
 
     protected $casts = [
-        'social' => 'array',
+        'social_links' => 'array',
         'birthdate' => 'date'
     ];
 

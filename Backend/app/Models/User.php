@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -49,8 +50,25 @@ class User extends Authenticatable
         ];
     }
 
+		// Relaciones
     public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
     }
+		public function items(): HasMany
+		{
+			return $this->hasMany(Item::class, 'creator_id');
+		}
+		public function votes(): HasMany
+		{
+			return $this->hasMany(Vote::class);
+		}
+		public function kudosTransactions(): HasMany
+		{
+			return $this->hasMany(KudosTransaction::class);
+		}
+		public function adminReviews(): HasMany
+		{
+			return $this->hasMany(AdminReview::class, 'admin_id');
+		}
 }
