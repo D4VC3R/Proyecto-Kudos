@@ -20,9 +20,7 @@ class CategoryWithItemsResource extends JsonResource
 		    'description' => $this->description,
 		    'slug' => $this->slug,
 		    'image' => $this->image ? asset('storage/' . $this->image) : null,
-		    'items_count' => $this->whenLoaded('items', function () {
-			    return $this->items->count();
-		    }, 0),
+		    'items_count' => $this->items_count,
 		    'items' => ItemResource::collection($this->whenLoaded('items')),
 		    'created_at' => $this->created_at?->toIso8601String(),
 		    'updated_at' => $this->updated_at?->toIso8601String(),

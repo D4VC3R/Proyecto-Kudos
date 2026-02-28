@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\CategoryFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,8 @@ class Category extends Model
 			'updated_at' => 'datetime',
 		];
 
+		protected $appends = ['items_count'];
+
     // Relations
     // 1 to many Items
 
@@ -34,6 +37,27 @@ class Category extends Model
 		public function acceptedItems(): HasMany
 		{
 				return $this->hasMany(Item::class)->where('state', Item::STATE_ACCEPTED);
+		}
+
+	// ✅ Accessor para items_count
+		protected function itemsCount(): Attribute
+		{
+			return Attribute::make(
+				get: function () {
+					// Si ya está cargado con withCount, usar ese valor
+					if (isset($this->attributes['items_count'])) {
+						return $this->attributes['items_count'];
+					}
+
+					// Si la relación items ya está cargada, contar desde ahí
+					if ($this->relationLoaded('items')) {
+						return $this->items->where('state', Item::STATE_ACCEPTED)->count();
+					}
+
+					// Caso contrario, hacer query (solo cuando sea necesario)
+					return $this->acceptedItems()->count();
+				}
+			);
 		}
 
 	public function scopeWithItemCount($query)

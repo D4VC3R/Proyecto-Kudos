@@ -18,10 +18,7 @@ class CategoryController extends Controller
 	 */
 	public function index()
 	{
-		$categories = Category::withItemCount()
-			->orderBy('name')
-			->get();
-
+		$categories = Category::orderBy('name')->get();
 		return CategoryResource::collection($categories);
 	}
 
@@ -83,8 +80,7 @@ class CategoryController extends Controller
 
 		return response()->json([
 			'category' => new CategoryResource($category),
-			'ranking' =>
-				ItemResource::collection($items),
-					], 200);
+			'ranking' => ItemResource::collection($items),
+					]);
 	}
 }

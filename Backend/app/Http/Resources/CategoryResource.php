@@ -22,7 +22,7 @@ class CategoryResource extends JsonResource
 		    'description' => $this->description,
 		    'slug' => $this->slug,
 		    'image' => $this->image,
-		    'items_count' => $this->when(isset($this->items_count), $this->items_count),
+		    'items_count' => $this->items_count,
 		    'created_at' => $this->created_at?->toIso8601String(),
 		    'updated_at' => $this->updated_at?->toIso8601String(),
 	    ];
