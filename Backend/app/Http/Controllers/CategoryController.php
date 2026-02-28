@@ -9,7 +9,9 @@ use App\Http\Resources\CategoryWithItemsResource;
 use App\Http\Resources\ItemResource;
 use App\Models\Category;
 use App\Models\Item;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -27,7 +29,18 @@ class CategoryController extends Controller
 	 */
 	public function store(StoreCategoryRequest $request)
 	{
-		//
+		$category = Category::create([
+			'id' => Str::uuid(),
+			'name' => $request->name,
+			'description' => $request->description,
+			'slug' => $request->slug,
+			'image' => $request->image,
+		]);
+
+		return response()->json([
+			'message' => 'Categoría creada exitosamente.',
+			'data' => new CategoryResource($category),
+		], 201);
 	}
 
 	/**
@@ -49,9 +62,14 @@ class CategoryController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 */
-	public function update(UpdateCategoryRequest $request, Category $category)
+	public function update(UpdateCategoryRequest $request, Category $category): JsonResponse
 	{
-		//
+		$category->update($request->validated());
+
+		return response()->json([
+			'message' => 'Categoría actualizada exitosamente.',
+			'data' => new CategoryResource($category),
+		], 200);
 	}
 
 	/**
@@ -59,7 +77,19 @@ class CategoryController extends Controller
 	 */
 	public function destroy(Category $category)
 	{
-		//
+		if ($category->items()->exists()) {
+			return response()->json([
+				'message' => 'No se puede eliminar la categoría porque tiene items asociados.',
+				'items_count' => $category->items()->count(),
+			], 409); // 409 Conflict
+		}
+
+		$categoryName = $category->name;
+		$category->delete();
+
+		return response()->json([
+			'message' => "Categoría '{$categoryName}' eliminada exitosamente.",
+		], 200);
 	}
 
 	/**
