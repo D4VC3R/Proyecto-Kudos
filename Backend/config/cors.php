@@ -32,3 +32,24 @@ return [
     'supports_credentials' => true,
 
 ];
+
+//return [
+//	'paths' => ['api/*', 'sanctum/csrf-cookie'],
+//
+//	'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+//
+//	// ✅ Solo dominios específicos en producción
+//	'allowed_origins' => env('CORS_ALLOWED_ORIGINS')
+//		? explode(',', env('CORS_ALLOWED_ORIGINS'))
+//		: ['*'],
+//
+//	'allowed_origins_patterns' => [],
+//
+//	'allowed_headers' => ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
+//
+//	'exposed_headers' => ['X-RateLimit-Limit', 'X-RateLimit-Remaining'],
+//
+//	'max_age' => 86400, // 24 horas
+//
+//	'supports_credentials' => true,
+//];

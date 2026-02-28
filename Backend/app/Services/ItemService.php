@@ -8,6 +8,7 @@ use App\Repositories\ItemRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+
 class ItemService
 {
 	protected ItemRepository $itemRepository;
@@ -143,17 +144,15 @@ class ItemService
 
 	public function recalculateVoteStats(Item $item): Item
 	{
-		$votes = $item->votes;
 
-		$voteCount = $votes->count();
-		$voteAvg = $voteCount > 0 ? round($votes->avg('score'), 2) : 0;
+		$voteCount = $item->votes()->count();
+		$voteAvg = $voteCount > 0
+			? round($item->votes()->avg('score'), 2)
+			: 0;
 
 		return $this->itemRepository->update($item, [
 			'vote_count' => $voteCount,
 			'vote_avg' => $voteAvg,
 		]);
 	}
-
-
-
 }

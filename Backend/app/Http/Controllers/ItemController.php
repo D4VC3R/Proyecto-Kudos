@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateItemRequest;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use App\Services\ItemService;
+use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -72,7 +73,7 @@ class ItemController extends Controller
 				'data' => new ItemResource($item),
 			], 201);
 
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return response()->json([
 				'message' => 'Error al crear el item.',
 				'error' => $e->getMessage(),
@@ -115,7 +116,7 @@ class ItemController extends Controller
 				'data' => new ItemResource($updatedItem),
 			]);
 
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return response()->json([
 				'message' => $e->getMessage(),
 			], 422);
@@ -136,7 +137,7 @@ class ItemController extends Controller
 				'message' => 'Item eliminado exitosamente.',
 			]);
 
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return response()->json([
 				'message' => $e->getMessage(),
 			], 422);
@@ -197,7 +198,7 @@ class ItemController extends Controller
 				'data' => new ItemResource($acceptedItem),
 			]);
 
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return response()->json([
 				'message' => $e->getMessage(),
 			], 422);
@@ -227,7 +228,7 @@ class ItemController extends Controller
 				'data' => new ItemResource($rejectedItem),
 			]);
 
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return response()->json([
 				'message' => $e->getMessage(),
 			], 422);
@@ -248,7 +249,7 @@ class ItemController extends Controller
 				'message' => 'Item eliminado permanentemente.',
 			]);
 
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return response()->json([
 				'message' => 'Error al eliminar el item.',
 				'error' => $e->getMessage(),

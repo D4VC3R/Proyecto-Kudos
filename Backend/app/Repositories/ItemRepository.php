@@ -63,7 +63,7 @@ class ItemRepository
 		return Item::query()
 			->where('state', Item::STATE_PENDING)
 			->with(['category:id,name,slug', 'creator:id,name,email', 'tags:id,name'])
-			->orderBy('created_at', 'asc') // Los más antiguos primero
+			->orderBy('created_at', 'desc')
 			->paginate($perPage);
 	}
 

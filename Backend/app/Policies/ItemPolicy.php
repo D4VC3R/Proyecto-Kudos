@@ -39,7 +39,7 @@ class ItemPolicy
 		 */
 		public function create(User $user): bool
 		{
-			return true; // Cualquier usuario autenticado puede crear
+			return true;
 		}
 
 		/**
@@ -81,9 +81,9 @@ class ItemPolicy
 		/**
 		 * Determine if the user can accept/reject items (admin only).
 		 */
-		public function moderate(User $user): bool
+		public function moderate(?User $user): bool
 		{
-			return $user->role === 'admin';
+			return $user && $user->role === 'admin';
 		}
 
     /**

@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class VotePolicy
 {
@@ -29,7 +30,7 @@ class VotePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +38,12 @@ class VotePolicy
      */
     public function update(User $user, Vote $vote): bool
     {
-        return false;
+	    if ($user->id !== $vote->user_id) {
+		    return false;
+	    }
+
+	    // Solo si el item sigue aceptado
+	    return $vote->item->state === 'accepted';
     }
 
     /**
@@ -45,7 +51,7 @@ class VotePolicy
      */
     public function delete(User $user, Vote $vote): bool
     {
-        return false;
+	    return $user->id === $vote->user_id;
     }
 
     /**

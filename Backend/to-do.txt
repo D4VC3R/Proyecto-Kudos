@@ -1,0 +1,166 @@
+Falta por implementar:
+1. Sistema de Votación
+Model Vote existe
+VotePolicy implementada
+❌ VoteController NO implementado
+❌ VoteService NO implementado
+❌ VoteRepository NO implementado
+❌ Endpoints de votación NO funcionan
+❌ Recalculación de estadísticas NO se ejecuta
+2. Sistema de Kudos
+Model KudosTransaction existe
+Tabla kudos_transactions creada
+❌ Lógica de otorgamiento NO implementada
+❌ Campos en User (total_kudos, creations_accepted) NO se actualizan
+❌ Service/Repository para Kudos NO existe
+❌ No Implementado
+1. Sistema de Presentación Aleatoria
+❌ NO hay lógica para mostrar items aleatorios
+❌ NO hay tracking de items ya votados por usuario
+❌ NO hay endpoint para "siguiente item sin votar"
+2. Estadísticas y Rankings
+❌ NO hay dashboard de usuario
+❌ NO hay leaderboard global
+❌ NO hay estadísticas por categoría
+3. Profiles
+❌ Tabla profiles existe pero NO se usa
+❌ NO hay endpoints de perfil público
+❌ NO hay avatar/bio
+
+
+Tareas:
+├── Crear VoteRepository
+│   ├── createVote(User $user, Item $item, int $score): Vote
+│   ├── updateVote(Vote $vote, int $score): Vote
+│   ├── deleteVote(Vote $vote): bool
+│   └── getUserVoteForItem(User $user, Item $item): ?Vote
+│
+├── Crear VoteService
+│   ├── castVote(User $user, Item $item, int $score): Vote
+│   │   └── Validar que puede votar
+│   ├── updateVote(Vote $vote, int $score): Vote
+│   ├── deleteVote(Vote $vote): bool
+│   └── recalculateItemStats(Item $item): void
+│
+└── Crear VoteController
+    ├── store(Request $request): JsonResponse  → Votar item
+    ├── update(Request $request, Vote $vote): JsonResponse → Cambiar voto
+    └── destroy(Vote $vote): JsonResponse → Eliminar voto
+
+Endpoints:
+POST   /api/votes              (votar)
+PUT    /api/votes/{vote}       (actualizar voto)
+DELETE /api/votes/{vote}       (eliminar voto)
+
+Kudos
+Tareas:
+├── Crear KudosService
+│   ├── awardKudosForVote(Vote $vote): KudosTransaction
+│   ├── awardKudosForCreation(Item $item): KudosTransaction
+│   ├── revokeKudos(KudosTransaction $transaction): void
+│   └── updateUserTotalKudos(User $user): void
+│
+├── Integrar en VoteService
+│   └── Al crear voto → Otorgar kudos
+│       └── Crear KudosTransaction (type: 'vote', vote_id, +puntos)
+│
+├── Integrar en ItemService
+│   └── Al aceptar item → Otorgar kudos al creador
+│       └── Crear KudosTransaction (type: 'creation', item_id, +puntos)
+│
+└── Observer para Item
+    └── Cuando item->state cambia a 'accepted'
+        └── Otorgar kudos + incrementar creations_accepted
+
+
+Estadisticas
+Tareas:
+├── Event/Listener para recalcular stats
+│   ├── VoteCreated → RecalculateItemStats
+│   ├── VoteUpdated → RecalculateItemStats
+│   └── VoteDeleted → RecalculateItemStats
+│
+└── Queue Jobs (opcional, para performance)
+    └── RecalculateItemStatsJob
+
+Endpoint item aleatorio
+Tareas:
+├── ItemRepository::getRandomUnvotedItem(User $user, Category $category): ?Item
+│   └── SELECT * FROM items
+│       WHERE category_id = ?
+│       AND state = 'accepted'
+│       AND id NOT IN (
+│           SELECT item_id FROM votes WHERE user_id = ?
+│       )
+│       ORDER BY RANDOM()
+│       LIMIT 1
+│
+├── ItemService::getNextItemToVote(User $user, Category $category): ?Item
+│   └── Validar que quedan items sin votar
+│
+└── ItemController::random(Request $request): JsonResponse
+    └── GET /api/categories/{category}/random-item
+
+Endpoint:
+GET /api/categories/{category}/random-item
+Response:
+{
+  "data": { ...item... },
+  "remaining": 42  // Items sin votar en esta categoría
+}
+
+Progreso por categoria:
+Tareas:
+└── CategoryController::progress(Category $category): JsonResponse
+    └── GET /api/categories/{category}/progress
+
+Response:
+{
+  "category": { ...category... },
+  "total_items": 100,
+  "voted_items": 58,
+  "remaining_items": 42,
+  "progress_percentage": 58
+}
+
+Dashboard Usuario
+Endpoint:
+GET /api/user/dashboard
+
+Response:
+{
+  "user": {
+    "total_kudos": 1250,
+    "voting_streak": 7,  // Días consecutivos votando
+    "items_created": 12,
+    "items_accepted": 8,
+    "total_votes": 145
+  },
+  "recent_activity": [
+    { "type": "vote", "item": {...}, "created_at": "..." },
+    { "type": "creation", "item": {...}, "created_at": "..." }
+  ],
+  "categories_progress": [
+    { "category": "Películas", "voted": 23, "total": 50 },
+    { "category": "Libros", "voted": 12, "total": 30 }
+  ]
+}
+
+Clasificacion de usuarios
+Endpoint:
+GET /api/leaderboard
+
+Response:
+{
+  "top_users": [
+    {
+      "rank": 1,
+      "user": { "id": "...", "name": "John" },
+      "total_kudos": 5420,
+      "items_created": 45,
+      "total_votes": 892
+    },
+    // ...
+  ],
+  "current_user_rank": 42
+}

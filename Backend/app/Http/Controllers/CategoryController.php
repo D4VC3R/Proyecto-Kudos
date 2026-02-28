@@ -10,11 +10,13 @@ use App\Http\Resources\ItemResource;
 use App\Models\Category;
 use App\Services\CategoryService;
 use Exception;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+	use AuthorizesRequests;
 	protected CategoryService $categoryService;
 
 	public function __construct(CategoryService $categoryService)
@@ -38,6 +40,7 @@ class CategoryController extends Controller
 	 */
 	public function store(StoreCategoryRequest $request)
 	{
+		$this->authorize('create', Category::class);
 		try {
 			$category = $this->categoryService->createCategory($request->validated());
 
@@ -71,6 +74,7 @@ class CategoryController extends Controller
 	 */
 	public function update(UpdateCategoryRequest $request, Category $category): JsonResponse
 	{
+		$this->authorize('update', $category);
 		try {
 			$updatedCategory = $this->categoryService->updateCategory(
 				$category,
@@ -95,6 +99,7 @@ class CategoryController extends Controller
 	 */
 	public function destroy(Category $category)
 	{
+		$this->authorize('delete', $category);
 		try {
 			$categoryName = $category->name;
 			$this->categoryService->deleteCategory($category);
