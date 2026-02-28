@@ -8,20 +8,29 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryWithItemsResource;
 use App\Http\Resources\ItemResource;
 use App\Models\Category;
-use App\Models\Item;
+use App\Services\CategoryService;
+use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+	protected CategoryService $categoryService;
+
+	public function __construct(CategoryService $categoryService)
+	{
+		$this->categoryService = $categoryService;
+	}
+
 	/**
 	 * Display a listing of all categories.
 	 */
-	public function index()
+	public function index(): JsonResponse
 	{
-		$categories = Category::orderBy('name')->get();
-		return CategoryResource::collection($categories);
+		$categories = $this->categoryService->getAllCategories();
+		return response()->json([
+			'data' => CategoryResource::collection($categories),
+		]);
 	}
 
 	/**
@@ -29,34 +38,32 @@ class CategoryController extends Controller
 	 */
 	public function store(StoreCategoryRequest $request)
 	{
-		$category = Category::create([
-			'id' => Str::uuid(),
-			'name' => $request->name,
-			'description' => $request->description,
-			'slug' => $request->slug,
-			'image' => $request->image,
-		]);
+		try {
+			$category = $this->categoryService->createCategory($request->validated());
 
-		return response()->json([
-			'message' => 'Categoría creada exitosamente.',
-			'data' => new CategoryResource($category),
-		], 201);
+			return response()->json([
+				'message' => 'Categoría creada con éxito.',
+				'data' => new CategoryResource($category),
+			], 201);
+
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => 'Error al crear la categoría.',
+				'error' => $e->getMessage(),
+			], 500);
+		}
 	}
 
 	/**
 	 * Display the specified category with its items (no sorting).
 	 */
-	public function show(Category $category)
+	public function show(Category $category): JsonResponse
 	{
-		$category->load([
-			'items' => function ($query) {
-				$query->where('state', Item::STATE_ACCEPTED)
-				->with(['creator:id,name', 'tags:id,name'])
-					->latest();
-			}
-		]);
+		$categoryWithItems = $this->categoryService->getCategoryWithItems($category);
 
-		return new CategoryWithItemsResource($category);
+		return response()->json([
+			'data' => new CategoryWithItemsResource($categoryWithItems),
+		]);
 	}
 
 	/**
@@ -64,12 +71,23 @@ class CategoryController extends Controller
 	 */
 	public function update(UpdateCategoryRequest $request, Category $category): JsonResponse
 	{
-		$category->update($request->validated());
+		try {
+			$updatedCategory = $this->categoryService->updateCategory(
+				$category,
+				$request->validated()
+			);
 
-		return response()->json([
-			'message' => 'Categoría actualizada exitosamente.',
-			'data' => new CategoryResource($category),
-		], 200);
+			return response()->json([
+				'message' => 'Categoría actualizada correctamente.',
+				'data' => new CategoryResource($updatedCategory),
+			]);
+
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => 'No se ha podido actualizar la categoría.',
+				'error' => $e->getMessage(),
+			], 500);
+		}
 	}
 
 	/**
@@ -77,40 +95,31 @@ class CategoryController extends Controller
 	 */
 	public function destroy(Category $category)
 	{
-		if ($category->items()->exists()) {
+		try {
+			$categoryName = $category->name;
+			$this->categoryService->deleteCategory($category);
+
 			return response()->json([
-				'message' => 'No se puede eliminar la categoría porque tiene items asociados.',
-				'items_count' => $category->items()->count(),
-			], 409); // 409 Conflict
+				'message' => "Categoría '{$categoryName}' eliminada correctamente.",
+			]);
+
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => $e->getMessage(),
+			], $e->getCode());
 		}
-
-		$categoryName = $category->name;
-		$category->delete();
-
-		return response()->json([
-			'message' => "Categoría '{$categoryName}' eliminada correctamente.",
-		], 200);
 	}
 
 	/**
 	 * Display category ranking
 	 */
-	public function ranking(Category $category): \Illuminate\Http\JsonResponse
+	public function ranking(Category $category): JsonResponse
 	{
-
-		// Cargar items aceptados ordenados por puntuación
-		$items = $category->items()
-			->where('state', Item::STATE_ACCEPTED)
-			->with('creator:id,name')
-			->orderByDesc('vote_avg')
-			->orderByDesc('vote_count')
-			->orderBy('name')
-			->get();
-
+		$items = $this->categoryService->getCategoryRanking($category);
 
 		return response()->json([
 			'category' => new CategoryResource($category),
 			'ranking' => ItemResource::collection($items),
-					]);
+		]);
 	}
 }
