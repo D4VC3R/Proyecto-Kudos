@@ -15,12 +15,30 @@ class Item extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'image',
-        'category_id',
-    ];
+	const STATE_PENDING = 'pending';
+	const STATE_ACCEPTED = 'accepted';  // ⬅️ CAMBIADO de APPROVED a ACCEPTED
+	const STATE_REJECTED = 'rejected';
+
+	protected $fillable = [
+		'name',
+		'description',
+		'image',
+		'state',
+		'locked_at',
+		'locked_by_admin_id',
+		'vote_avg',
+		'vote_count',
+		'creator_id',
+		'category_id',
+	];
+
+	protected $casts = [
+		'vote_avg' => 'float',
+		'vote_count' => 'integer',
+		'locked_at' => 'datetime',
+		'created_at' => 'datetime',
+		'updated_at' => 'datetime',
+	];
 
     // Relaciones
     public function creator(): BelongsTo
@@ -37,7 +55,7 @@ class Item extends Model
     }
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class, 'item_tag');
     }
 		public function votes(): HasMany
 		{
@@ -52,4 +70,20 @@ class Item extends Model
 		{
 			return $this->morphMany(KudosTransaction::class, 'reference');
 		}
+
+	// Scopes útiles
+	public function scopeAccepted($query)
+	{
+		return $query->where('state', self::STATE_ACCEPTED);
+	}
+
+	public function scopePending($query)
+	{
+		return $query->where('state', self::STATE_PENDING);
+	}
+
+	public function scopeRejected($query)
+	{
+		return $query->where('state', self::STATE_REJECTED);
+	}
 }
