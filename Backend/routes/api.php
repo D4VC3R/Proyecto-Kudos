@@ -17,7 +17,6 @@ Route::prefix('categories')->group(function () {
 // Items
 Route::prefix('items')->group(function () {
 	Route::get('/', [ItemController::class, 'index']); // Todos los items aceptados
-	Route::get('/{item}', [ItemController::class, 'show']); // Detalle de un item
 });
 
 // Rutas para usuarios autenticados (faltan las asociadas al perfil).
@@ -27,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
 	Route::prefix('items')->group(function () {
 		Route::post('/', [ItemController::class, 'store']); // Crear propuesta de item
 		Route::get('/my-items', [ItemController::class, 'myItems']); // Mis items creados
+		Route::get('/{item}', [ItemController::class, 'show']); // Detalle de un item
 		Route::put('/{item}', [ItemController::class, 'update']); // Editar mi item (solo si es pending)
 		Route::delete('/{item}', [ItemController::class, 'destroy']); // Eliminar mi item (solo si es pending)
 	});

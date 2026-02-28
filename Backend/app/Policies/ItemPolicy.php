@@ -13,40 +13,78 @@ class ItemPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Item $item): bool
-    {
-        return false;
-    }
+		public function view(?User $user, Item $item): bool
+		{
+			// Items aceptados son públicos
+			if ($item->state === Item::STATE_ACCEPTED) {
+				return true;
+			}
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return false;
-    }
+			// Items pending/rejected solo los ve el creador o admin
+			if ($user) {
+				return $user->id === $item->creator_id || $user->role === 'admin';
+			}
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Item $item): bool
-    {
-        return false;
-    }
+			return false;
+		}
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Item $item): bool
-    {
-        return false;
-    }
+		/**
+		 * Determine if the user can create items.
+		 */
+		public function create(User $user): bool
+		{
+			return true; // Cualquier usuario autenticado puede crear
+		}
+
+		/**
+		 * Determine if the user can update the item.
+		 */
+		public function update(User $user, Item $item): bool
+		{
+			// Solo el creador puede editar su item
+			if ($user->id !== $item->creator_id) {
+				return false;
+			}
+
+			// Solo se puede editar si está pending
+			return $item->state === Item::STATE_PENDING;
+		}
+
+		/**
+		 * Determine if the user can delete the item.
+		 */
+		public function delete(User $user, Item $item): bool
+		{
+			// Solo el creador puede eliminar su item
+			if ($user->id !== $item->creator_id) {
+				return false;
+			}
+
+			// Solo se puede eliminar si está pending
+			return $item->state === Item::STATE_PENDING;
+		}
+
+		/**
+		 * Determine if the user can force delete the item (admin only).
+		 */
+		public function forceDelete(User $user, Item $item): bool
+		{
+			return $user->role === 'admin';
+		}
+
+		/**
+		 * Determine if the user can accept/reject items (admin only).
+		 */
+		public function moderate(User $user): bool
+		{
+			return $user->role === 'admin';
+		}
 
     /**
      * Determine whether the user can restore the model.
@@ -56,11 +94,4 @@ class ItemPolicy
         return false;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Item $item): bool
-    {
-        return false;
-    }
 }
