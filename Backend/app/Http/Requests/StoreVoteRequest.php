@@ -11,7 +11,7 @@ class StoreVoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,12 @@ class StoreVoteRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+	    return [
+		    // Obligatorio, debe ser un UUID válido, y debe existir en la tabla items
+		    'item_id' => ['required', 'uuid', 'exists:items,id'],
+
+		    // Obligatorio, entero, entre 0 y 10 (según tu PDF de propuesta)
+		    'score' => ['required', 'integer', 'min:0', 'max:10'],
+	    ];
     }
 }

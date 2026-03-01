@@ -19,7 +19,7 @@ class CategoryPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Category $category): bool
+    public function view(?User $user, Category $category): bool
     {
         return true;
     }

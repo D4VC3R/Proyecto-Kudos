@@ -36,6 +36,14 @@ class ItemRepository
 			});
 		}
 
+		// Filtro para excluir items votados por un usuario específico
+		if (!empty($filters['exclude_voted_by'])) {
+			$userId = $filters['exclude_voted_by'];
+			$query->whereDoesntHave('votes', function ($q) use ($userId) {
+				$q->where('user_id', $userId);
+			});
+		}
+
 		// Ordenamiento
 		$sortBy = $filters['sort_by'] ?? 'vote_avg';
 		$sortOrder = $filters['sort_order'] ?? 'desc';
@@ -50,6 +58,9 @@ class ItemRepository
 				break;
 			case 'name':
 				$query->orderBy('name', $sortOrder);
+				break;
+			case 'random':
+				$query->inRandomOrder();
 				break;
 			default:
 				$query->orderBy('vote_avg', 'desc');

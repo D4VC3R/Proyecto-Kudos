@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\ItemRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ItemService
@@ -99,16 +100,29 @@ class ItemService
 			throw new \Exception('El item ya ha sido revisado.');
 		}
 
-		$item = $this->itemRepository->updateState($item, Item::STATE_ACCEPTED, $admin);
+		return DB::transaction(function () use ($item, $admin) {
+			// 1. Cambiamos el estado
+			$item = $this->itemRepository->updateState($item, Item::STATE_ACCEPTED, $admin);
 
-		$item->adminReviews()->create([
-			'id' => Str::uuid(),
-			'admin_id' => $admin->id,
-			'final_state' => Item::STATE_ACCEPTED,
-			'reason' => null,
-		]);
+			// 2. Registramos la revisión del admin
+			$item->adminReviews()->create([
+				'id' => Str::uuid(),
+				'admin_id' => $admin->id,
+				'final_state' => Item::STATE_ACCEPTED,
+				'reason' => null,
+			]);
 
-		return $item;
+			// 3. ¡Damos los Kudos al creador del item!
+			$item->kudosTransactions()->create([
+				'user_id' => $item->creator_id,
+				'kudos_amount' => 10,
+				'reason' => 'item_accepted'
+			]);
+
+			$item->creator->increment('total_kudos', 10);
+
+			return $item;
+		});
 	}
 
 	public function rejectItem(Item $item, User $admin, ?string $reason = null): Item

@@ -11,7 +11,7 @@ class UpdateVoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class UpdateVoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+	        'score' => ['required', 'integer', 'min:0', 'max:10'],
         ];
     }
 }
