@@ -2,48 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Resources\ProfileResource;
 use App\Models\Profile;
+use App\Services\ProfileService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+	protected ProfileService $profileService;
+
+	public function __construct(ProfileService $profileService){
+		$this->profileService = $profileService;
+	}
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-    }
+	public function show(Request $request): JsonResponse
+	{
+		$user = $request->user();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+		return response()->json([
+			'profile' => new ProfileResource($user->profile)
+		], 200);
+	}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Profile $profile)
-    {
-        //
-    }
+	public function update(UpdateProfileRequest $request): JsonResponse
+	{
+		$user = $request->user();
+		$validatedData = $request->validated();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Profile $profile)
-    {
-        //
-    }
+		$profile = $this->profileService->updateProfile($user, $validatedData);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Profile $profile)
-    {
-        //
-    }
+		return response()->json([
+			'message' => 'Perfil actualizado correctamente.',
+			'profile' => new ProfileResource($profile)
+		], 200);
+	}
 }
