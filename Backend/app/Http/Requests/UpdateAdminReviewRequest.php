@@ -11,7 +11,7 @@ class UpdateAdminReviewRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true; // Protegido por el middleware de admin.
     }
 
     /**
@@ -22,7 +22,7 @@ class UpdateAdminReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            // Por hacer
         ];
     }
 }

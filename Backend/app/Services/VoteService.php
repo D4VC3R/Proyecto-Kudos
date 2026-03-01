@@ -21,7 +21,7 @@ class VoteService
 	 */
 	public function emitVote(User $user, array $voteData): Vote
 	{
-		// 1. REGLA DE NEGOCIO: Comprobar si ya ha votado a este ítem.
+		// 1. Comprobar si ya ha votado a este ítem.
 		$existingVote = $this->voteRepository->findByUserAndItem($user->id, $voteData['item_id']);
 		if ($existingVote) {
 			abort(400, 'Ya has emitido un voto para este elemento. Si quieres cambiarlo, edita tu voto actual.');

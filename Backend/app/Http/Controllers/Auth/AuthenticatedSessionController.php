@@ -13,6 +13,7 @@ class AuthenticatedSessionController extends Controller
 {
 	/**
 	 * Handle an incoming authentication request.
+	 * La función es nativa de Breeze pero se ha adaptado para usar Bearer Tokens..
 	 */
 	public function store(LoginRequest $request): JsonResponse
 	{

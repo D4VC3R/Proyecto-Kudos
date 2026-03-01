@@ -25,7 +25,7 @@ class StoreVoteRequest extends FormRequest
 		    // Obligatorio, debe ser un UUID válido, y debe existir en la tabla items
 		    'item_id' => ['required', 'uuid', 'exists:items,id'],
 
-		    // Obligatorio, entero, entre 0 y 10 (según tu PDF de propuesta)
+		    // Obligatorio, entero, entre 0 y 10
 		    'score' => ['required', 'integer', 'min:0', 'max:10'],
 	    ];
     }

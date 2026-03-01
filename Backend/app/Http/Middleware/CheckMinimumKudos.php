@@ -11,8 +11,8 @@ class CheckMinimumKudos
 {
 	/**
 	 * Handle an incoming request.
+	 * Para proteger ciertas rutas o acciones.
 	 *
-	 * @param int $minKudos La cantidad mínima de puntos requerida.
 	 */
 	public function handle(Request $request, Closure $next, int $minKudos = 0): Response
 	{
