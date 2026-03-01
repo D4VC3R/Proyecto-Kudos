@@ -69,7 +69,7 @@ class ItemController extends Controller
 			);
 
 			return response()->json([
-				'message' => 'Item propuesto exitosamente. Será revisado por un administrador.',
+				'message' => 'Item propuesto correctamente. Será revisado por un administrador.',
 				'data' => new ItemResource($item),
 			], 201);
 
@@ -112,7 +112,7 @@ class ItemController extends Controller
 			$updatedItem = $this->itemService->updateItem($item, $request->validated());
 
 			return response()->json([
-				'message' => 'Item actualizado exitosamente.',
+				'message' => 'Item actualizado correctamente.',
 				'data' => new ItemResource($updatedItem),
 			]);
 
@@ -134,7 +134,7 @@ class ItemController extends Controller
 			$this->itemService->deleteItem($item);
 
 			return response()->json([
-				'message' => 'Item eliminado exitosamente.',
+				'message' => 'Item eliminado correctamente.',
 			]);
 
 		} catch (Exception $e) {
@@ -194,7 +194,7 @@ class ItemController extends Controller
 			$acceptedItem = $this->itemService->acceptItem($item, $request->user());
 
 			return response()->json([
-				'message' => 'Item aceptado exitosamente.',
+				'message' => 'Item aceptado correctamente.',
 				'data' => new ItemResource($acceptedItem),
 			]);
 

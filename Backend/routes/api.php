@@ -20,8 +20,7 @@ Route::prefix('items')->group(function () {
 });
 
 // Rutas para usuarios autenticados (faltan las asociadas al perfil).
-Route::middleware('auth:sanctum')->group(function () {
-	Route::middleware('verified')->group(function () {
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 		// Items - Acciones de usuario
 		Route::prefix('items')->group(function () {
@@ -58,7 +57,6 @@ Route::middleware('auth:sanctum')->group(function () {
 				Route::delete('/{item}/force', [ItemController::class, 'forceDestroy']); // Eliminar por completo cualquier item
 			});
 		});
-	});
 });
 
 // Rutas de autenticación

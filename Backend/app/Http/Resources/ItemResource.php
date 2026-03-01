@@ -20,14 +20,14 @@ class ItemResource extends JsonResource
 			'id' => $this->id,
 			'name' => $this->name,
 			'description' => $this->description,
-			'image' => $this->image ? asset('storage/' . $this->image) : null,
+			'image' => $this->image ?? null,
 			'state' => $this->state,
 
 			// Estadísticas de votación
 			'vote_avg' => (float) $this->vote_avg,
 			'vote_count' => (int) $this->vote_count,
 
-			// 🎯 Voto del usuario autenticado (si existe)
+
 			'user_vote' => $this->when($user, function () use ($user) {
 				$vote = $this->votes->firstWhere('user_id', $user->id);
 				return $vote ? [

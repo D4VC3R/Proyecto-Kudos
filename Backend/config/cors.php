@@ -38,7 +38,7 @@ return [
 //
 //	'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 //
-//	// ✅ Solo dominios específicos en producción
+//
 //	'allowed_origins' => env('CORS_ALLOWED_ORIGINS')
 //		? explode(',', env('CORS_ALLOWED_ORIGINS'))
 //		: ['*'],

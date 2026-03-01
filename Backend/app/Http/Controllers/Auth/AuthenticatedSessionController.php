@@ -16,14 +16,22 @@ class AuthenticatedSessionController extends Controller
 	 */
 	public function store(LoginRequest $request): JsonResponse
 	{
-		$request->authenticate();
+		$request->validate([
+			'email' => ['required', 'string', 'email'],
+			'password' => ['required', 'string'],
+		]);
 
-		$user = $request->user();
+		if (!Auth::attempt($request->only('email', 'password'))) {
+			return response()->json(['message' => 'Email o contraseña incorrectos.'], 401);
+		}
+
+		$user = Auth::user();
 		$token = $user->createToken('auth_token')->plainTextToken;
 
 		return response()->json([
 			'access_token' => $token,
 			'token_type' => 'Bearer',
+			'status' => 'success',
 			'user' => [
 				'id' => $user->id,
 				'name' => $user->name,
