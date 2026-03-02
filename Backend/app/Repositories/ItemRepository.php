@@ -14,7 +14,7 @@ class ItemRepository
 	{
 		$query = Item::query()
 			->where('state', Item::STATE_ACCEPTED)
-			->with(['category:id,name,slug', 'creator:id,name', 'tags:id,name']);
+			->with(['category:id,name,slug,image,description,created_at,updated_at', 'creator:id,name', 'tags:id,name']);
 
 		// Filtro por categoría
 		if (!empty($filters['category_id'])) {

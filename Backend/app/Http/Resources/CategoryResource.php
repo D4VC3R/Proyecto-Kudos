@@ -23,8 +23,8 @@ class CategoryResource extends JsonResource
 		    'slug' => $this->slug,
 		    'image' => $this->image,
 		    'items_count' => $this->items_count,
-		    'created_at' => $this->created_at?->toIso8601String(),
-		    'updated_at' => $this->updated_at?->toIso8601String(),
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
 	    ];
     }
 }
