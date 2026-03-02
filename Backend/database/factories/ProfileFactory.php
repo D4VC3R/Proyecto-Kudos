@@ -17,7 +17,15 @@ class ProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'avatar' => fake()->imageUrl(200, 200, 'people'),
+            'biography' => fake()->paragraph(3),
+            'social_links' => [
+                'twitter' => fake()->optional()->url(),
+                'linkedin' => fake()->optional()->url(),
+                'github' => fake()->optional()->url(),
+            ],
+            'city' => fake()->city(),
+            'birthdate' => fake()->dateTimeBetween('-60 years', '-18 years'),
         ];
     }
 }

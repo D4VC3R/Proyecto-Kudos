@@ -2,22 +2,42 @@
 
 namespace Database\Factories;
 
+use App\Models\Item;
+use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Vote>
- */
 class VoteFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Vote::class;
+
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::inRandomOrder()->first()->id,
+            'item_id' => Item::where('state', Item::STATE_ACCEPTED)->inRandomOrder()->first()->id,
+            'score' => fake()->numberBetween(0, 10),
         ];
+    }
+
+    public function forItem(Item $item): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'item_id' => $item->id,
+        ]);
+    }
+
+    public function byUser(User $user): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'user_id' => $user->id,
+        ]);
+    }
+
+    public function withScore(int $score): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'score' => max(0, min(10, $score)),
+        ]);
     }
 }

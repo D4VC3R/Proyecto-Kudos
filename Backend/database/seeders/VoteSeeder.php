@@ -6,81 +6,61 @@ use App\Models\Item;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class VoteSeeder extends Seeder
 {
-	public function run(): void
-	{
-		// Obtener solo items aprobados
-		$items = Item::where('state', Item::STATE_ACCEPTED)->get();
+    public function run(): void
+    {
+        $items = Item::where('state', Item::STATE_ACCEPTED)->get();
 
-		if ($items->isEmpty()) {
-			$this->command->error("No hay items aprobados. Ejecuta ItemSeeder primero.");
-			return;
-		}
+        if ($items->isEmpty()) {
+            $this->command->error("No hay items aprobados. Ejecuta ItemSeeder primero.");
+            return;
+        }
 
-		// Obtener todos los usuarios
-		$users = User::all();
+        $users = User::all();
 
-		if ($users->isEmpty()) {
-			$this->command->error("No hay usuarios disponibles. Ejecuta UserSeeder primero.");
-			return;
-		}
+        if ($users->isEmpty()) {
+            $this->command->error("No hay usuarios disponibles. Ejecuta UserSeeder primero.");
+            return;
+        }
 
-		$votesCreated = 0;
-		$votesData = [];
+        $votesCreated = 0;
 
-		foreach ($items as $item) {
-			// 🎲 Número aleatorio de votos entre 5 y 20
-			$numVotes = rand(5, 20);
+        foreach ($items as $item) {
+            $numVotes = rand(5, 20);
+            $voters = $users->random(min($numVotes, $users->count()));
 
-			// Seleccionar usuarios aleatorios únicos para este item
-			$voters = $users->random(min($numVotes, $users->count()));
+            foreach ($voters as $voter) {
+                $vote = Vote::factory()
+                    ->forItem($item)
+                    ->byUser($voter)
+                    ->create([
+                        'created_at' => now()->subDays(rand(1, 60)),
+                    ]);
 
-			$itemScores = [];
+                // ✅ Registrar kudos por la votación
+                $vote->kudosTransactions()->create([
+                    'user_id' => $voter->id,
+                    'kudos_amount' => 5,
+                    'reason' => 'item_voted',
+                ]);
 
-			foreach ($voters as $voter) {
-				// 🎲 Puntuación aleatoria entre 0 y 10
-				$score = rand(0, 10);
+                // ✅ Actualizar total_kudos del votante
+                $voter->increment('total_kudos', 5);
 
-				$itemScores[] = $score;
+                $votesCreated++;
+            }
 
-				$votesData[] = [
-					'id' => Str::uuid(),
-					'user_id' => $voter->id,
-					'item_id' => $item->id,
-					'score' => $score,
-					'created_at' => now()->subDays(rand(1, 60)),
-					'updated_at' => now(),
-				];
+            // Recalcular estadísticas del item
+            $item->update([
+                'vote_avg' => round($item->votes()->avg('score'), 2),
+                'vote_count' => $item->votes()->count(),
+            ]);
+        }
 
-				$votesCreated++;
-
-				// Insertar en lotes de 500 para optimizar
-				if (count($votesData) >= 500) {
-					Vote::insert($votesData);
-					$votesData = [];
-				}
-			}
-
-			// Calcular y actualizar el vote_avg del item inmediatamente
-			$voteAvg = count($itemScores) > 0 ? round(array_sum($itemScores) / count($itemScores), 2) : 0;
-			$voteCount = count($itemScores);
-
-			$item->update([
-				'vote_avg' => $voteAvg,
-				'vote_count' => $voteCount,
-			]);
-		}
-
-		// Insertar votos restantes
-		if (!empty($votesData)) {
-			Vote::insert($votesData);
-		}
-
-		$this->command->newLine();
-		$this->command->info("✅ {$votesCreated} votos generados correctamente.");
-		$this->command->newLine();
-	}
+        $this->command->newLine();
+        $this->command->info("{$votesCreated} votos generados con kudos registrados.");
+        $this->command->newLine();
+    }
 }
