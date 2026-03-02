@@ -78,11 +78,11 @@ class ItemRepository
 
 	public function getItemsByUser(User $user): Collection
 	{
-		return Item::query()
-			->where('creator_id', $user->id)
-			->with(['category:id,name,slug', 'tags:id,name'])
-			->orderBy('created_at', 'desc')
-			->get();
+        return Item::query()
+            ->where('creator_id', $user->id)
+            ->with(['category:id,name,slug,image,description,created_at,updated_at', 'tags:id,name'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 	}
 	public function create(array $data): Item
 	{

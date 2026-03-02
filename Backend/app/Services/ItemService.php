@@ -186,18 +186,4 @@ class ItemService
 		// Eliminar el item
 		return $this->itemRepository->delete($item);
 	}
-
-	public function recalculateVoteStats(Item $item): Item
-	{
-
-		$voteCount = $item->votes()->count();
-		$voteAvg = $voteCount > 0
-			? round($item->votes()->avg('score'), 2)
-			: 0;
-
-		return $this->itemRepository->update($item, [
-			'vote_count' => $voteCount,
-			'vote_avg' => $voteAvg,
-		]);
-	}
 }

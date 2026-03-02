@@ -16,9 +16,7 @@ Route::prefix('categories')->group(function () {
 });
 
 // Items
-Route::prefix('items')->group(function () {
-	Route::get('/', [ItemController::class, 'index']); // Todos los items aceptados
-});
+Route::get('/items', [ItemController::class, 'index']); // Todos los items aceptados. Solo testeo.
 
 // Rutas para usuarios autenticados.
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -48,7 +46,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 
-// Rutas de administrador (faltan las asociadas a la gestión de usuarios y tags)
+// Rutas de administrador (faltarian las asociadas a la gestión de usuarios y tags)
 Route::middleware(['auth:sanctum','verified','admin'])->group(function () {
 
 	// Categorías - CRUD completo

@@ -135,7 +135,7 @@ class ItemController extends Controller
 	{
 		$items = $this->itemService->getItemsByUser($request->user());
 
-		// 
+		//
 		$this->itemService->enrichItemsWithUserContext($items, $request->user());
 
 		return response()->json([
