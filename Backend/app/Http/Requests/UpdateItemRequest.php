@@ -22,6 +22,7 @@ class UpdateItemRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
+            'id' => ['sometimes','required', 'uuid', 'exists:items,uuid'],
 			'name' => ['sometimes', 'required', 'string', 'max:255'],
 			'description' => ['sometimes', 'required', 'string', 'min:20', 'max:2000'],
 			'image' => ['sometimes', 'nullable', 'string', 'url', 'max:500'],
@@ -34,6 +35,7 @@ class UpdateItemRequest extends FormRequest
 	public function messages(): array
 	{
 		return [
+            'id.required' => 'El item seleccionado no existe.',
 			'name.required' => 'El nombre del item es obligatorio.',
 			'name.max' => 'El nombre no puede exceder 255 caracteres.',
 			'description.required' => 'La descripción es obligatoria.',

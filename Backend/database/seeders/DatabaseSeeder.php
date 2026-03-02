@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
 			VoteSeeder::class,      // Finalmente los votos
 		]);
 
-		$this->command->info("🎉 Database seeding completado exitosamente!");
+		$this->command->info("Seeding completado.");
 	}
 }

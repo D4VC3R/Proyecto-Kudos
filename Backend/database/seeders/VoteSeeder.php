@@ -60,7 +60,7 @@ class VoteSeeder extends Seeder
         }
 
         $this->command->newLine();
-        $this->command->info("{$votesCreated} votos generados con kudos registrados.");
+        $this->command->info("{$votesCreated} votos generados.");
         $this->command->newLine();
     }
 }
