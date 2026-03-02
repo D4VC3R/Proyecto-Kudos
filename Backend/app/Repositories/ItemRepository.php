@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Item;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -20,13 +21,10 @@ class ItemRepository
 			$query->where('category_id', $filters['category_id']);
 		}
 
-		// Filtro por búsqueda en nombre/descripción
+		// Filtro por nombre
 		if (!empty($filters['search'])) {
 			$search = $filters['search'];
-			$query->where(function ($q) use ($search) {
-				$q->where('name', 'ilike', "%{$search}%")
-					->orWhere('description', 'ilike', "%{$search}%");
-			});
+			$query->where('name', 'ilike', "%{$search}%");
 		}
 
 		// Filtro por tags
@@ -73,7 +71,7 @@ class ItemRepository
 	{
 		return Item::query()
 			->where('state', Item::STATE_PENDING)
-			->with(['category:id,name,slug', 'creator:id,name,email', 'tags:id,name'])
+			->with(['category:id,name,slug,description,created_at,updated_at', 'creator:id,name,email', 'tags:id,name'])
 			->orderBy('created_at', 'desc')
 			->paginate($perPage);
 	}
@@ -130,6 +128,28 @@ class ItemRepository
 		}
 
 		return $query->first();
+	}
+
+	/**
+	 * Enriquece una colección de items con votos del usuario de forma eficiente.
+	 * Carga todos los votos en UNA sola query adicional.
+	 */
+	public function loadUserVotes($items, User $user): void
+	{
+		if ($items->isEmpty()) {
+			return;
+		}
+
+		// Una sola query para obtener todos los votos del usuario
+		$userVotes = Vote::where('user_id', $user->id)
+			->whereIn('item_id', $items->pluck('id'))
+			->get()
+			->keyBy('item_id');
+
+		// Attachar el voto a cada item
+		$items->each(function ($item) use ($userVotes) {
+			$item->setRelation('userVote', $userVotes->get($item->id));
+		});
 	}
 
 }

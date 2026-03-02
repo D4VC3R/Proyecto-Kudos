@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Item;
+use App\Models\Vote;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class StoreVoteRequest extends FormRequest
 {
@@ -11,7 +14,15 @@ class StoreVoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+	    $itemId = $this->input('item_id');
+
+	    $item = Item::find($itemId);
+
+	    if (!$item) {
+		    return false;
+	    }
+
+	    return Gate::allows('create', [Vote::class, $item]);
     }
 
     /**
@@ -22,7 +33,7 @@ class StoreVoteRequest extends FormRequest
     public function rules(): array
     {
 	    return [
-		    // Obligatorio, debe ser un UUID válido, y debe existir en la tabla items
+		    // Obligatorio, debe ser un UUID válido, debe existir en la tabla items y su estado debe ser 'accepted'
 		    'item_id' => ['required', 'uuid', 'exists:items,id'],
 
 		    // Obligatorio, entero, entre 0 y 10

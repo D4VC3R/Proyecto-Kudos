@@ -25,6 +25,34 @@ class ItemService
 		return $this->itemRepository->getAcceptedItems($filters, $perPage);
 	}
 
+	/**
+	 * Enriquece los items con información del contexto del usuario.
+	 * Pre-calcula permisos y carga votos de forma eficiente.
+	 */
+	public function enrichItemsWithUserContext($items, ?User $user): void
+	{
+		if (!$user || $items->isEmpty()) {
+			return;
+		}
+
+		// Cargar todos los votos del usuario en UNA query
+		$this->itemRepository->loadUserVotes($items, $user);
+
+		// Pre-calcular permisos
+		$isAdmin = $user->role === 'admin';
+
+		foreach ($items as $item) {
+			$hasVoted = $item->userVote !== null;
+
+			// Attachar datos calculados como atributos del modelo
+			$item->setAttribute('can_vote', $item->state === Item::STATE_ACCEPTED && !$hasVoted);
+			$item->setAttribute('can_edit', !$isAdmin && $item->creator_id === $user->id && $item->state === Item::STATE_PENDING);
+			$item->setAttribute('can_delete', $isAdmin || ($item->creator_id === $user->id && $item->state === Item::STATE_PENDING));
+			$item->setAttribute('is_creator', $item->creator_id === $user->id);
+			$item->setAttribute('is_admin_user', $isAdmin);
+		}
+	}
+
 	// Obtener items pendientes para revisión
 	public function getPendingItems(int $perPage = 10): LengthAwarePaginator
 	{
@@ -85,6 +113,9 @@ class ItemService
 		return $item->load(['category', 'creator', 'tags']);
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function deleteItem(Item $item): bool
 	{
 		if ($item->state !== Item::STATE_PENDING) {

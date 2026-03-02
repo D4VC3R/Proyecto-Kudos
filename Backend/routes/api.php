@@ -45,24 +45,25 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 		Route::put('/{vote}', [VoteController::class, 'update']); // Actualizar mi voto
 		Route::delete('/{vote}', [VoteController::class, 'destroy']); // Eliminar mi voto
 	});
+});
 
-	// Rutas de administrador (faltan las asociadas a la gestión de usuarios y tags)
-	Route::middleware('admin')->group(function () {
 
-		// Categorías - CRUD completo
-		Route::prefix('categories')->group(function () {
-			Route::post('/', [CategoryController::class, 'store']); // Guardar nueva categoría
-			Route::put('/{category}', [CategoryController::class, 'update']);
-			Route::delete('/{category}', [CategoryController::class, 'destroy']);
-		});
+// Rutas de administrador (faltan las asociadas a la gestión de usuarios y tags)
+Route::middleware(['auth:sanctum','verified','admin'])->group(function () {
 
-		// Items - Gestión administrativa
-		Route::prefix('admin/items')->group(function () {
-			Route::get('/pending', [ItemController::class, 'pending']); // Listar items pendientes de revisión
-			Route::patch('/{item}/accept', [ItemController::class, 'accept']); // Aceptar item
-			Route::patch('/{item}/reject', [ItemController::class, 'reject']); // Rechazar item
-			Route::delete('/{item}/force', [ItemController::class, 'forceDestroy']); // Eliminar por completo cualquier item
-		});
+	// Categorías - CRUD completo
+	Route::prefix('categories')->group(function () {
+		Route::post('/', [CategoryController::class, 'store']); // Guardar nueva categoría
+		Route::put('/{category}', [CategoryController::class, 'update']);
+		Route::delete('/{category}', [CategoryController::class, 'destroy']);
+	});
+
+	// Items - Gestión administrativa
+	Route::prefix('admin/items')->group(function () {
+		Route::get('/pending', [ItemController::class, 'pending']); // Listar items pendientes de revisión
+		Route::patch('/{item}/accept', [ItemController::class, 'accept']); // Aceptar item
+		Route::patch('/{item}/reject', [ItemController::class, 'reject']); // Rechazar item
+		Route::delete('/{item}/force', [ItemController::class, 'forceDestroy']); // Eliminar por completo cualquier item
 	});
 });
 

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Item;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Auth\Access\Response;
@@ -28,9 +29,9 @@ class VotePolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Item $item): bool
     {
-        return false;
+        return $item->state === 'accepted';
     }
 
     /**

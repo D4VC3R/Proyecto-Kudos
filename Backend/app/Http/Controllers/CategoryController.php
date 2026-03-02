@@ -12,7 +12,6 @@ use App\Services\CategoryService;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {

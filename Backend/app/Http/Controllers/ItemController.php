@@ -38,7 +38,7 @@ class ItemController extends Controller
 				: null,
 		];
 
-		$perPage = min(max((int) $request->query('per_page', 15), 1), 100);
+		$perPage = min(max((int)$request->query('per_page', 15), 1), 100);
 
 		$items = $this->itemService->getAcceptedItems($filters, $perPage);
 
@@ -66,34 +66,28 @@ class ItemController extends Controller
 	{
 		Gate::authorize('create', Item::class);
 
-			$item = $this->itemService->createItem(
-				$request->validated(),
-				$request->user()
-			);
+		$item = $this->itemService->createItem(
+			$request->validated(),
+			$request->user()
+		);
 
-			return response()->json([
-				'message' => 'Item propuesto correctamente. Será revisado por un administrador.',
-				'data' => new ItemResource($item),
-			], 201);
+		return response()->json([
+			'message' => 'Item propuesto correctamente. Será revisado por un administrador.',
+			'data' => new ItemResource($item),
+		], 201);
 
 	}
 
 	/**
 	 * Display the specified item.
 	 */
-	public function show(Request $request, Item $item): JsonResponse
+	public function show(Item $item): JsonResponse
 	{
-
-		// Autorizar visualización
 		Gate::authorize('view', $item);
+
 		$item->load(['category', 'creator', 'tags']);
 
-		// Si hay usuario autenticado, cargar su voto
-		if ($user = $request->user()) {
-			$item->load(['votes' => function ($query) use ($user) {
-				$query->where('user_id', $user->id);
-			}]);
-		}
+		// ✅ ItemResource calcula automáticamente
 		return response()->json([
 			'data' => new ItemResource($item),
 		]);
@@ -105,12 +99,12 @@ class ItemController extends Controller
 	public function update(UpdateItemRequest $request, Item $item): JsonResponse
 	{
 		Gate::authorize('update', $item);
-			$updatedItem = $this->itemService->updateItem($item, $request->validated());
+		$updatedItem = $this->itemService->updateItem($item, $request->validated());
 
-			return response()->json([
-				'message' => 'Item actualizado correctamente.',
-				'data' => new ItemResource($updatedItem),
-			]);
+		return response()->json([
+			'message' => 'Item actualizado correctamente.',
+			'data' => new ItemResource($updatedItem),
+		]);
 	}
 
 	/**
@@ -120,11 +114,17 @@ class ItemController extends Controller
 	{
 		Gate::authorize('delete', $item);
 
+		try {
 			$this->itemService->deleteItem($item);
-
 			return response()->json([
-				'message' => 'Item eliminado correctamente.',
-			]);
+				'message' => 'Item eliminado correctamente.',]);
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => 'No se ha podido eliminar el item.',
+				'error' => $e->getMessage(),
+			], 401);
+		}
+
 
 	}
 
@@ -134,6 +134,9 @@ class ItemController extends Controller
 	public function myItems(Request $request): JsonResponse
 	{
 		$items = $this->itemService->getItemsByUser($request->user());
+
+		// 
+		$this->itemService->enrichItemsWithUserContext($items, $request->user());
 
 		return response()->json([
 			'data' => ItemResource::collection($items),
@@ -151,10 +154,7 @@ class ItemController extends Controller
 	 */
 	public function pending(Request $request): JsonResponse
 	{
-
-		Gate::authorize('moderate', Item::class);
-
-		$perPage = min(max((int) $request->query('per_page', 15), 1), 100);
+		$perPage = min(max((int)$request->query('per_page', 15), 1), 100);
 		$items = $this->itemService->getPendingItems($perPage);
 
 		return response()->json([
@@ -175,12 +175,12 @@ class ItemController extends Controller
 	{
 		Gate::authorize('moderate', Item::class);
 
-			$acceptedItem = $this->itemService->acceptItem($item, $request->user());
+		$acceptedItem = $this->itemService->acceptItem($item, $request->user());
 
-			return response()->json([
-				'message' => 'Item aceptado correctamente.',
-				'data' => new ItemResource($acceptedItem),
-			]);
+		return response()->json([
+			'message' => 'Item aceptado correctamente.',
+			'data' => new ItemResource($acceptedItem),
+		]);
 	}
 
 	/**
@@ -195,16 +195,16 @@ class ItemController extends Controller
 		]);
 
 
-			$rejectedItem = $this->itemService->rejectItem(
-				$item,
-				$request->user(),
-				$request->input('reason')
-			);
+		$rejectedItem = $this->itemService->rejectItem(
+			$item,
+			$request->user(),
+			$request->input('reason')
+		);
 
-			return response()->json([
-				'message' => 'Item rechazado.',
-				'data' => new ItemResource($rejectedItem),
-			]);
+		return response()->json([
+			'message' => 'Item rechazado.',
+			'data' => new ItemResource($rejectedItem),
+		]);
 
 	}
 
@@ -215,10 +215,10 @@ class ItemController extends Controller
 	{
 		Gate::authorize('moderate', Item::class);
 
-			$this->itemService->forceDeleteItem($item);
+		$this->itemService->forceDeleteItem($item);
 
-			return response()->json([
-				'message' => 'Item eliminado permanentemente.',
-			]);
+		return response()->json([
+			'message' => 'Item eliminado permanentemente.',
+		]);
 	}
 }
