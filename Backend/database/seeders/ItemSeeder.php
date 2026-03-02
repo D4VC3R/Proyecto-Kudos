@@ -18,8 +18,9 @@ class ItemSeeder extends Seeder
         foreach ($categories as $category) {
             // Crear 5 items aceptados por categoría
             $acceptedItems = Item::factory()
+                ->forCategory($category)
                 ->count(5)
-                ->create(['category_id' => $category->id]);
+                ->create();
 
             foreach ($acceptedItems as $item) {
                 $item->creator->increment('creations_accepted');
@@ -35,9 +36,10 @@ class ItemSeeder extends Seeder
 
             // Crear 2 items pendientes por categoría
             Item::factory()
+                ->forCategory($category)
                 ->pending()
                 ->count(2)
-                ->create(['category_id' => $category->id]);
+                ->create();
 
         }
     }

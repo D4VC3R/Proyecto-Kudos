@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ItemFactory extends Factory
 {
+    private static array $usedItemsPerCategory = [];
     private static array $itemsByCategory = [
         'videojuegos' => [
             ['name' => 'The Legend of Zelda: Breath of the Wild', 'description' => 'Aventura épica en mundo abierto con mecánicas innovadoras'],
@@ -112,7 +113,10 @@ class ItemFactory extends Factory
      */
     public function definition(): array
     {
-        $category = Category::inRandomOrder()->first();
+        $category = isset($this->context['category_id'])
+            ? Category::find($this->context['category_id'])
+            : Category::inRandomOrder()->first();
+
         $categorySlug = $category->slug;
 
         $items = self::$itemsByCategory[$categorySlug] ?? [
@@ -165,5 +169,42 @@ class ItemFactory extends Factory
             'locked_by_admin_id' => User::where('role', 'admin')->inRandomOrder()->first()?->id,
         ]);
     }
+    public function forCategory(Category $category): static
+    {
+        return $this->state(function (array $attributes) use ($category) {
+            $categorySlug = $category->slug;
 
+            // Inicializar el tracking si no existe
+            if (!isset(self::$usedItemsPerCategory[$categorySlug])) {
+                self::$usedItemsPerCategory[$categorySlug] = [];
+            }
+
+            $allItems = self::$itemsByCategory[$categorySlug] ?? [
+                ['name' => fake()->words(3, true), 'description' => fake()->sentence(12)]
+            ];
+
+            // Obtener items disponibles (no usados)
+            $availableItems = array_filter($allItems, function ($item) use ($categorySlug) {
+                return !in_array($item['name'], self::$usedItemsPerCategory[$categorySlug]);
+            });
+
+            // Si no quedan items disponibles, resetear y usar todos
+            if (empty($availableItems)) {
+                self::$usedItemsPerCategory[$categorySlug] = [];
+                $availableItems = $allItems;
+            }
+
+            // Seleccionar un item disponible
+            $item = fake()->randomElement($availableItems);
+
+            // Marcar como usado
+            self::$usedItemsPerCategory[$categorySlug][] = $item['name'];
+
+            return [
+                'name' => $item['name'],
+                'description' => $item['description'],
+                'category_id' => $category->id,
+            ];
+        });
+    }
 }
