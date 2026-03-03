@@ -13,7 +13,7 @@ class ItemPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -39,7 +39,7 @@ class ItemPolicy
 		 */
 		public function create(User $user): bool
 		{
-			return $user->total_kudos >= 100;
+			return true;
 		}
 
 		/**

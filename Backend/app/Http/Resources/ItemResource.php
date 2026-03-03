@@ -53,12 +53,6 @@ class ItemResource extends JsonResource
 				'name' => $this->creator->name,
 			]),
 			// 'tags' => TagResource::collection($this->whenLoaded('tags')),
-
-			// Información administrativa (solo para admins o creador)
-			'locked_at' => $this->when(
-				$user && ($this->is_admin_user ?? false || $this->is_creator ?? false),
-				$this->locked_at?->toIso8601String()
-			),
 			'locked_by_admin' => $this->when(
 				$user && ($this->is_admin_user ?? false) && $this->relationLoaded('lockedByAdmin'),
 				$this->lockedByAdmin ? [
@@ -66,10 +60,6 @@ class ItemResource extends JsonResource
 					'name' => $this->lockedByAdmin->name,
 				] : null
 			),
-
-            // Timestamps
-            'created_at' => $this->created_at->toIso8601String(),
-            'updated_at' => $this->updated_at->toIso8601String(),
             ];
 	}
 	private function calculateUserContext($user): void
@@ -82,7 +72,7 @@ class ItemResource extends JsonResource
 			$this->setRelation('userVote', $this->votes->first());
 		}
 
-		$isAdmin = $user->role === 'admin';
+		$isAdmin = $user->hasRole('admin');
 		$hasVoted = $this->userVote !== null;
 
 		// Calcular permisos

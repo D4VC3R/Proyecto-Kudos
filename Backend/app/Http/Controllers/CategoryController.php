@@ -13,6 +13,9 @@ use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 
+/**
+ *
+ */
 class CategoryController extends Controller
 {
 	use AuthorizesRequests;
@@ -39,6 +42,7 @@ class CategoryController extends Controller
 	 */
 	public function store(StoreCategoryRequest $request)
 	{
+
 		$this->authorize('create', Category::class);
 		try {
 			$category = $this->categoryService->createCategory($request->validated());

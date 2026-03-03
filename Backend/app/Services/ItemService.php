@@ -39,7 +39,7 @@ class ItemService
 		$this->itemRepository->loadUserVotes($items, $user);
 
 		// Pre-calcular permisos
-		$isAdmin = $user->role === 'admin';
+		$isAdmin = $user->hasRole('admin');
 
 		foreach ($items as $item) {
 			$hasVoted = $item->userVote !== null;
