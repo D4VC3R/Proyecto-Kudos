@@ -31,7 +31,9 @@ class VotePolicy
      */
     public function create(User $user, Item $item): bool
     {
-        if ($user->votes()->item_id === $item->item_id){
+        $existingVote = $user->votes()->where('item_id', $item->id)->exists();
+
+        if ($existingVote) {
             return false;
         }
 

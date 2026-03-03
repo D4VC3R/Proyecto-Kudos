@@ -29,7 +29,7 @@ class VoteController extends Controller
 		$vote = $this->voteService->emitVote($user, $validatedData);
 
 		return response()->json([
-			'message' => 'Voto registrado correctamente. ¡Has ganado Kudos!',
+			'message' => 'Voto registrado correctamente. ¡Has ganado Kudos! Ahora tienes: ' . $user->total_kudos,
 			'vote' => $vote
 		], 201); // 201 Created
 	}
