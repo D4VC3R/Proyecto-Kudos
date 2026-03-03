@@ -40,9 +40,6 @@ class AuthenticatedSessionController extends Controller
 				'email_verified_at' => $user->email_verified_at,
 				'total_kudos' => $user->total_kudos,
 				'creations_accepted' => $user->creations_accepted,
-				'role' => $user->role,
-				'created_at' => $user->created_at,
-				'updated_at' => $user->updated_at,
 			],
 		], 200);
 	}

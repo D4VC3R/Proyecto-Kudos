@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Vote;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateVoteRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UpdateVoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::user()->can('update', Vote::class);
     }
 
     /**

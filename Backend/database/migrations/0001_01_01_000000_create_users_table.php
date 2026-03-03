@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('password');
             $table->integer('total_kudos')->default(0);
             $table->integer('creations_accepted')->default(0);
-            $table->enum('role', [Role::ADMIN, Role::USER])->default(Role::USER);
             $table->rememberToken();
             $table->timestamps();
         });

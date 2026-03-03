@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
 	{
 		$this->call([
 			CategorySeeder::class,  // Primero las categorías
+            PermissionSeeder::class,
+            RoleSeeder::class,
 			UserSeeder::class,      // Luego los usuarios
 			ItemSeeder::class,      // Después los items
 			VoteSeeder::class,      // Finalmente los votos

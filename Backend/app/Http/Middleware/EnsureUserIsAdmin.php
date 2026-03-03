@@ -23,7 +23,7 @@ class EnsureUserIsAdmin
 	    }
 
 	    // Y que el usuario sea admin
-	    if ($request->user()->role !== 'admin') {
+	    if ($request->user()->hasRole('user')) {
 		    return response()->json([
 			    'message' => 'Acceso denegado, se necesitan permisos de administrador para esta acción.',
 		    ], 403);

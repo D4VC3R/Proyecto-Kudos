@@ -19,8 +19,10 @@ class UserSeeder extends Seeder
         // Crear 50 usuarios con sus perfiles
         User::factory()
             ->count(50)
-            ->create();
+            ->create()->each(function ($user) {
+                $user->assignRole('user');
+            });
 
-        User::factory()->admin()->create();
+        User::factory()->admin()->create()->assignRole('admin');
     }
 }

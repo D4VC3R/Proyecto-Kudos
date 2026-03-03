@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class StoreCategoryRequest extends FormRequest
@@ -12,7 +13,7 @@ class StoreCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // La autorización se maneja en el middleware EnsureUserIsAdmin
+        return Auth::user()->hasRole('admin');
     }
 
     /**

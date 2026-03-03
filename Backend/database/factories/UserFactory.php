@@ -53,7 +53,6 @@ class UserFactory extends Factory
             'name' => 'Administrador',
             'email' => 'admin@kudos.com',
             'password' => Hash::make('password123'),
-            'role' => 'admin',
             'email_verified_at' => now(),
         ]);
     }

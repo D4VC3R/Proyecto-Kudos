@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreItemRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreItemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // Lo manejamos en la política de Item
+        return Auth::user()->can('create', Item::class);
     }
 
     /**

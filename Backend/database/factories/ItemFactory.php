@@ -135,7 +135,7 @@ class ItemFactory extends Factory
             'creator_id' => User::inRandomOrder()->first()->id,
             'category_id' => $category->id,
             'locked_at' => null,
-            'locked_by_admin_id' => User::where('role', 'admin')->inRandomOrder()->first()?->id,
+            'locked_by_admin_id' => User::role('admin')->inRandomOrder()->first()?->id,
         ];
     }
 
