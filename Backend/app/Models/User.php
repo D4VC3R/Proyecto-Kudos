@@ -2,6 +2,14 @@
 
 namespace App\Models;
 
+/**
+ * Modelo User:
+ * Los usuarios tienen dos roles, 'user' o 'admin', roles que se manejan con Spatie.
+ * Un user puede ganar puntos Kudos votando elementos (ítems) de distintas categorías
+ * y creando nuevos ítems si un usuario administrador los acepta.
+ *
+ *  */
+
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -34,6 +42,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $attributes = [
+        'total_kudos' => 0,
+        'creations_accepted' => 0,
     ];
 
     /**

@@ -13,24 +13,29 @@ class Vote extends Model
 {
     use HasFactory, HasUuids;
 
-		protected $fillable = [
-			'user_id',
-			'item_id',
-			'score'
-		];
+    protected $fillable = [
+        'user_id',
+        'item_id',
+        'score'
+    ];
 
-		public function kudosTransactions():MorphMany
-		{
-			return $this->morphMany(KudosTransaction::class, 'reference');
-		}
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 
-		public function user(): BelongsTo
-		{
-			return $this->belongsTo(User::class);
-		}
+    public function kudosTransactions(): MorphMany
+    {
+        return $this->morphMany(KudosTransaction::class, 'reference');
+    }
 
-		public function item(): BelongsTo
-		{
-			return $this->belongsTo(Item::class);
-		}
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function item(): BelongsTo
+    {
+        return $this->belongsTo(Item::class);
+    }
 }

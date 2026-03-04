@@ -14,19 +14,19 @@ class KudosTransaction extends Model
 {
     use HasFactory, HasUuids;
 
-		protected $fillable = [
-			'user_id',
-			'kudos_amount',
-			'reason'
-		];
+    protected $fillable = [
+        'user_id',
+        'kudos_amount',
+        'reason'
+    ];
 
-		public function user(): BelongsTo
-		{
-			return $this->belongsTo(User::class);
-		}
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
-		public function reference():MorphTo
-		{
-			return $this->morphTo();
-		}
+    public function reference(): MorphTo
+    {
+        return $this->morphTo();
+    }
 }

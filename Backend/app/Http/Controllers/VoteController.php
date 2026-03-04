@@ -22,6 +22,7 @@ class VoteController extends Controller
 	public function store(StoreVoteRequest $request): JsonResponse
 	{
 		// 1. Extraemos usuario y datos validados
+        Gate::authorize('create', Vote::class);
 		$user = $request->user();
 		$validatedData = $request->validated();
 
@@ -41,9 +42,7 @@ class VoteController extends Controller
 	{
 		Gate::authorize('update', $vote);
 
-
 		$validatedData = $request->validated();
-
 
 		$updatedVote = $this->voteService->changeVote($vote, $validatedData['score']);
 
@@ -60,8 +59,7 @@ class VoteController extends Controller
 	{
 		Gate::authorize('delete', $vote);
 
-
-		 $this->voteService->deleteVote($vote);
+        $this->voteService->deleteVote($vote);
 
 		return response()->json([
 			'message' => 'Voto eliminado correctamente.'
