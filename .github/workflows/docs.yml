@@ -21,7 +21,7 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:3 \
             -d ./Backend/src/app \
-            -t ./Backend/public-docs \
+            -t ./Backend/docs \
             --template="clean"
 
       - name: Setup Pages
