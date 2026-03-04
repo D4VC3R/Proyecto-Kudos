@@ -1,4 +1,4 @@
-name: Generate API Documentation
+﻿name: Generate API Documentation
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './Backend/public-docs'
+          path: './Backend/docs'
 
       - name: Deploy to GitHub Pages
         id: deployment
