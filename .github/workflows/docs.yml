@@ -20,19 +20,33 @@ jobs:
       - name: Generate Documentation (phpDocumentor)
         run: |
           docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:3 \
-            -d ./Backend/src/app \
+            -d ./Backend/src/app/Http/Controllers \
+            -d ./Backend/src/app/Models \
+            -d ./Backend/src/app/Http/Middleware \
+            -d ./Backend/src/app/Http/Requests \
+            -d ./Backend/src/app/Http/Resources \
+            -d ./Backend/src/app/Policies \
+            -d ./Backend/src/app/Providers \
+            -d ./Backend/src/app/Services \
+            -d ./Backend/src/app/Exceptions \
+            -d ./Backend/src/routes \
+            -d ./Backend/src/database/migrations \
+            -d ./Backend/src/database/seeders \
+            -d ./Backend/src/database/factories \
             -t ./Backend/docs \
-            --template="clean"
-
-      - name: List generated files
-        run: |
-          echo "=== Contents of Backend/docs ==="
-          ls -la ./Backend/docs
-          echo "=== Files structure ==="
-          find ./Backend/docs -type f | head -20
+            --template="clean" \
+            --title="Proyecto Kudos - API Documentation" \
+            --ignore="vendor/*,storage/*,bootstrap/cache/*,node_modules/*"
 
       - name: Create .nojekyll file
         run: touch ./Backend/docs/.nojekyll
+
+      - name: List generated files
+        run: |
+          echo "=== Documentation files generated ==="
+          ls -la ./Backend/docs
+          echo "=== Index.html check ==="
+          test -f ./Backend/docs/index.html && echo "✓ index.html exists" || echo "✗ index.html missing"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
