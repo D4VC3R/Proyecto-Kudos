@@ -22,8 +22,14 @@ jobs:
           docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:3 \
             -d ./Backend/src/app \
             -t ./Backend/docs \
-            --template="clean" \
-            --setting="guides.base_url=/Proyecto-Kudos/"
+            --template="clean"
+
+      - name: List generated files
+        run: |
+          echo "=== Contents of Backend/docs ==="
+          ls -la ./Backend/docs
+          echo "=== Files structure ==="
+          find ./Backend/docs -type f | head -20
 
       - name: Create .nojekyll file
         run: touch ./Backend/docs/.nojekyll
