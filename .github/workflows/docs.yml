@@ -20,20 +20,20 @@ jobs:
       - name: Generate Documentation (phpDocumentor)
         run: |
           docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:3 \
-            -d ./Backend/src/app/Http/Controllers \
-            -d ./Backend/src/app/Models \
-            -d ./Backend/src/app/Http/Middleware \
-            -d ./Backend/src/app/Http/Requests \
-            -d ./Backend/src/app/Http/Resources \
-            -d ./Backend/src/app/Policies \
-            -d ./Backend/src/app/Providers \
-            -d ./Backend/src/app/Services \
-            -d ./Backend/src/app/Exceptions \
-            -d ./Backend/src/routes \
-            -d ./Backend/src/database/migrations \
-            -d ./Backend/src/database/seeders \
-            -d ./Backend/src/database/factories \
-            -t ./Backend/docs \
+            -d ./Backend/app/Http/Controllers \
+            -d ./Backend/app/Models \
+            -d ./Backend/app/Http/Middleware \
+            -d ./Backend/app/Http/Requests \
+            -d ./Backend/app/Http/Resources \
+            -d ./Backend/app/Policies \
+            -d ./Backend/app/Providers \
+            -d ./Backend/app/Services \
+            -d ./Backend/app/Repositories \
+            -d ./Backend/routes \
+            -d ./Backend/database/migrations \
+            -d ./Backend/database/seeders \
+            -d ./Backend/database/factories \
+            -t ./Backend/docs/api \
             --template="clean" \
             --title="Proyecto Kudos - API Documentation" \
             --ignore="vendor/*,storage/*,bootstrap/cache/*,node_modules/*"
@@ -44,9 +44,9 @@ jobs:
       - name: List generated files
         run: |
           echo "=== Documentation files generated ==="
-          ls -la ./Backend/docs
+          ls -la ./Backend/docs/api
           echo "=== Index.html check ==="
-          test -f ./Backend/docs/index.html && echo "✓ index.html exists" || echo "✗ index.html missing"
+          test -f ./Backend/docs/api/index.html && echo "✓ index.html exists" || echo "✗ index.html missing"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -54,9 +54,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './Backend/docs'
+          path: './Backend/docs/api'
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
