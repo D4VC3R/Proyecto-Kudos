@@ -1,4 +1,4 @@
-﻿name: Generate API Documentation
+name: Generate API Documentation
 
 on:
   push:
@@ -22,7 +22,11 @@ jobs:
           docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:3 \
             -d ./Backend/src/app \
             -t ./Backend/docs \
-            --template="clean"
+            --template="clean" \
+            --setting="guides.base_url=/Proyecto-Kudos/"
+
+      - name: Create .nojekyll file
+        run: touch ./Backend/docs/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -35,3 +39,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
