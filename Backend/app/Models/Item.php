@@ -55,7 +55,7 @@ class Item extends Model
     }
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'item_tag');
+        return $this->BelongsToMany(Tag::class);
     }
 		public function votes(): HasMany
 		{
@@ -70,6 +70,7 @@ class Item extends Model
 		{
 			return $this->morphMany(KudosTransaction::class, 'reference');
 		}
+
 
 	// Scopes útiles
 	public function scopeAccepted($query)

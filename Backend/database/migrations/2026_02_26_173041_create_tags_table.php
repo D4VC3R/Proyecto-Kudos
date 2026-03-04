@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name')->unique();
+
+            $table->foreignUuid('category_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

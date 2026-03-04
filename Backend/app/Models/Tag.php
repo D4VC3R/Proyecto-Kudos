@@ -20,4 +20,8 @@ class Tag extends Model
 		{
 			return $this->belongsToMany(Item::class);
 		}
+        public function category(): BelongsTo
+        {
+            return $this->belongsTo(Category::class);
+        }
 }

@@ -42,6 +42,10 @@ class Category extends Model
     {
         return $this->hasMany(Item::class)->where('state', Item::STATE_ACCEPTED);
     }
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
 
     // ✅ Accessor para items_count
     protected function itemsCount(): Attribute
