@@ -21,15 +21,13 @@ class ItemPolicy
      */
 		public function view(?User $user, Item $item): bool
 		{
-			// Items aceptados son públicos
-			if ($item->state === Item::STATE_ACCEPTED) {
+
+			if ($item->status === Item::STATUS_ACTIVE) {
 				return true;
 			}
-
-			// Items pending/rejected solo los ve el creador o admin
-			if ($user) {
-				return $user->id === $item->creator_id || $user->hasRole('admin');
-			}
+            if ($user) {
+                return $user->id === $item->creator_id || $user->hasRole('admin');
+            }
 
 			return false;
 		}
@@ -39,7 +37,7 @@ class ItemPolicy
 		 */
 		public function create(User $user): bool
 		{
-			return true;
+            return $user->hasRole('admin');
 		}
 
 		/**
@@ -47,16 +45,7 @@ class ItemPolicy
 		 */
 		public function update(User $user, Item $item): bool
 		{
-            // Al admin, a pajera abierta.
-            if ($user->hasRole('admin')) {
-                return true;
-            }
-			// Solo el creador puede editar su item.
-			if ($user->id !== $item->creator_id) {
-				return false;
-			}
-			// Solo se puede editar si está pending
-			return $item->state === Item::STATE_PENDING && $user->id === $item->creator_id;
+           return $user->hasRole('admin');
 		}
 
 		/**
@@ -64,13 +53,7 @@ class ItemPolicy
 		 */
 		public function delete(User $user, Item $item): bool
 		{
-			// Solo el creador puede eliminar su item
-			if ($user->id !== $item->creator_id) {
-				return false;
-			}
-
-			// Solo se puede eliminar si está pending
-			return $item->state === Item::STATE_PENDING;
+            return $user->hasRole('admin');
 		}
 
 		/**

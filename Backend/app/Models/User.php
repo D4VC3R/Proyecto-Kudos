@@ -71,6 +71,14 @@ class User extends Authenticatable
 		{
 			return $this->hasMany(Item::class, 'creator_id');
 		}
+		public function proposals(): HasMany
+		{
+			return $this->hasMany(Proposal::class, 'creator_id');
+		}
+		public function reviewedProposals(): HasMany
+		{
+			return $this->hasMany(Proposal::class, 'reviewed_by');
+		}
 		public function votes(): HasMany
 		{
 			return $this->hasMany(Vote::class);
@@ -78,9 +86,5 @@ class User extends Authenticatable
 		public function kudosTransactions(): HasMany
 		{
 			return $this->hasMany(KudosTransaction::class);
-		}
-		public function adminReviews(): HasMany
-		{
-			return $this->hasMany(AdminReview::class, 'admin_id');
 		}
 }

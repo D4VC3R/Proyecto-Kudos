@@ -19,10 +19,10 @@ class ItemService
 		$this->itemRepository = $itemRepository;
 	}
 
-	// Obtener items aceptados con filtros y paginación
-	public function getAcceptedItems(array $filters, int $perPage = 10): LengthAwarePaginator
+	// Obtener items activos con filtros y paginación
+	public function getActiveItems(array $filters, int $perPage = 10): LengthAwarePaginator
 	{
-		return $this->itemRepository->getAcceptedItems($filters, $perPage);
+		return $this->itemRepository->getActiveItems($filters, $perPage);
 	}
 
 	/**
@@ -45,18 +45,12 @@ class ItemService
 			$hasVoted = $item->userVote !== null;
 
 			// Attachar datos calculados como atributos del modelo
-			$item->setAttribute('can_vote', $item->state === Item::STATE_ACCEPTED && !$hasVoted);
-			$item->setAttribute('can_edit', !$isAdmin && $item->creator_id === $user->id && $item->state === Item::STATE_PENDING);
-			$item->setAttribute('can_delete', $isAdmin || ($item->creator_id === $user->id && $item->state === Item::STATE_PENDING));
+			$item->setAttribute('can_vote', $item->status === Item::STATUS_ACTIVE && !$hasVoted);
+			$item->setAttribute('can_edit', $isAdmin);
+			$item->setAttribute('can_delete', $isAdmin);
 			$item->setAttribute('is_creator', $item->creator_id === $user->id);
 			$item->setAttribute('is_admin_user', $isAdmin);
 		}
-	}
-
-	// Obtener items pendientes para revisión
-	public function getPendingItems(int $perPage = 10): LengthAwarePaginator
-	{
-		return $this->itemRepository->getPendingItems($perPage);
 	}
 
 	public function getItemsByUser(User $user): Collection
@@ -70,8 +64,8 @@ class ItemService
 			'id' => Str::uuid(),
 			'name' => $data['name'],
 			'description' => $data['description'],
-			'image' => $data['image'] ?? null,
-			'state' => Item::STATE_PENDING, // Siempre empieza como pending
+			'images' => $data['images'] ?? null,
+			'status' => Item::STATUS_ACTIVE,
 			'category_id' => $data['category_id'],
 			'creator_id' => $user->id,
 			'vote_avg' => 0,
@@ -90,17 +84,13 @@ class ItemService
 
 	public function updateItem(Item $item, array $data): Item
 	{
-		// Validar que el item esté en estado pending
-		if ($item->state !== Item::STATE_PENDING) {
-			throw new \Exception('Solo se pueden editar items en estado pendiente.');
-		}
-
 		// Actualizar datos básicos
 		$updateData = [
 			'name' => $data['name'] ?? $item->name,
 			'description' => $data['description'] ?? $item->description,
-			'image' => $data['image'] ?? $item->image,
+			'images' => array_key_exists('images', $data) ? $data['images'] : $item->images,
 			'category_id' => $data['category_id'] ?? $item->category_id,
+			'status' => $data['status'] ?? $item->status,
 		];
 
 		$item = $this->itemRepository->update($item, $updateData);
@@ -113,77 +103,8 @@ class ItemService
 		return $item->load(['category', 'creator', 'tags']);
 	}
 
-	/**
-	 * @throws \Exception
-	 */
 	public function deleteItem(Item $item): bool
 	{
-		if ($item->state !== Item::STATE_PENDING) {
-			throw new \Exception('Solo se pueden eliminar items en estado pendiente.');
-		}
-
-		return $this->itemRepository->delete($item);
-	}
-
-	public function acceptItem(Item $item, User $admin): Item
-	{
-		if ($item->state !== Item::STATE_PENDING) {
-			throw new \Exception('El item ya ha sido revisado.');
-		}
-
-		return DB::transaction(function () use ($item, $admin) {
-			// 1. Cambiamos el estado
-			$item = $this->itemRepository->updateState($item, Item::STATE_ACCEPTED, $admin);
-
-			// 2. Registramos la revisión del admin
-			$item->adminReviews()->create([
-				'id' => Str::uuid(),
-				'admin_id' => $admin->id,
-				'final_state' => Item::STATE_ACCEPTED,
-				'reason' => null,
-			]);
-
-			// 3. ¡Damos los Kudos al creador del item!
-			$item->kudosTransactions()->create([
-				'user_id' => $item->creator_id,
-				'kudos_amount' => 10,
-				'reason' => 'item_accepted'
-			]);
-
-			$item->creator->increment('total_kudos', 10);
-
-			return $item;
-		});
-	}
-
-	public function rejectItem(Item $item, User $admin, ?string $reason = null): Item
-	{
-		if ($item->state !== Item::STATE_PENDING) {
-			throw new \Exception('El item ya ha sido revisado.');
-		}
-
-		$item = $this->itemRepository->updateState($item, Item::STATE_REJECTED, $admin);
-
-		// Crear registro de revisión administrativa con el motivo
-		$item->adminReviews()->create([
-			'id' => Str::uuid(),
-			'admin_id' => $admin->id,
-			'final_state' => Item::STATE_REJECTED,
-			'reason' => $reason,
-		]);
-
-		return $item;
-	}
-
-	public function forceDeleteItem(Item $item): bool
-	{
-		// Eliminar votos asociados
-		$item->votes()->delete();
-
-		// Eliminar relaciones con tags
-		$item->tags()->detach();
-
-		// Eliminar el item
 		return $this->itemRepository->delete($item);
 	}
 }

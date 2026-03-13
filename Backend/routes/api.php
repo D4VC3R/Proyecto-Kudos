@@ -3,67 +3,66 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
-
-//Rutas Públicas
-// Categorías
+// Públicas
 Route::prefix('categories')->group(function () {
-	Route::get('/', [CategoryController::class, 'index']);
-	Route::get('/{category}', [CategoryController::class, 'show']);
-	Route::get('/{category}/ranking', [CategoryController::class, 'ranking']);
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::get('/{category}', [CategoryController::class, 'show']);
+    Route::get('/{category}/ranking', [CategoryController::class, 'ranking']);
 });
 
-// Items
-Route::get('/items', [ItemController::class, 'index']); // Todos los items aceptados. Solo testeo.
+Route::get('/items', [ItemController::class, 'index']);
 
-// Rutas para usuarios autenticados.
+// Autenticadas
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'show']);
+        Route::put('/', [ProfileController::class, 'update']);
+    });
 
-	// Perfil de usuarios
-	Route::prefix('profile')->group(function () {
-		Route::get('/', [ProfileController::class, 'show']); // Ver mi propio perfil
-		Route::put('/', [ProfileController::class, 'update']); // Actualizar mi propio perfil
-	});
+    // Proposals de usuario
+    Route::prefix('proposals')->group(function () {
+        Route::post('/', [ProposalController::class, 'store']);
+        Route::get('/my-proposals', [ProposalController::class, 'myProposals']);
+        Route::get('/{proposal}', [ProposalController::class, 'show']);
+        Route::put('/{proposal}', [ProposalController::class, 'update']);
+        Route::delete('/{proposal}', [ProposalController::class, 'destroy']);
+    });
 
-	// Items - Acciones de usuario
-	Route::prefix('items')->group(function () {
-		Route::post('/', [ItemController::class, 'store']); // Crear propuesta de item
-		Route::get('/my-items', [ItemController::class, 'myItems']); // Mis items creados
-		Route::get('/{item}', [ItemController::class, 'show']); // Detalle de un item
-		Route::put('/{item}', [ItemController::class, 'update']); // Editar mi item (solo si es pending)
-		Route::delete('/{item}', [ItemController::class, 'destroy']); // Eliminar mi item (solo si es pending)
-	});
+    // Items accesibles a usuario autenticado
+    Route::prefix('items')->group(function () {
+        Route::get('/my-items', [ItemController::class, 'myItems']);
+        Route::get('/{item}', [ItemController::class, 'show']);
+        Route::put('/{item}', [ItemController::class, 'update']);
+        Route::delete('/{item}', [ItemController::class, 'destroy']);
+    });
 
-	// Votos - Sistema de votación
-	Route::prefix('votes')->group(function () {
-		Route::post('/', [VoteController::class, 'store']); // Votar un item
-		Route::get('/my-votes', [VoteController::class, 'myVotes']); // Mis votos
-		Route::put('/{vote}', [VoteController::class, 'update']); // Actualizar mi voto
-		Route::delete('/{vote}', [VoteController::class, 'destroy']); // Eliminar mi voto
-	});
+    Route::prefix('votes')->group(function () {
+        Route::post('/', [VoteController::class, 'store']);
+        //Route::get('/my-votes', [VoteController::class, 'myVotes']); // pendiente de implementar
+        Route::put('/{vote}', [VoteController::class, 'update']);
+        Route::delete('/{vote}', [VoteController::class, 'destroy']);
+    });
 });
 
+// Admin
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
+    Route::prefix('categories')->group(function () {
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::put('/{category}', [CategoryController::class, 'update']);
+        Route::delete('/{category}', [CategoryController::class, 'destroy']);
+    });
 
-// Rutas de administrador (faltarian las asociadas a la gestión de usuarios y tags)
-Route::middleware(['auth:sanctum','verified','admin'])->group(function () {
+    // Crear items directos solo admin
+    Route::post('/items', [ItemController::class, 'store']);
 
-	// Categorías - CRUD completo
-	Route::prefix('categories')->group(function () {
-		Route::post('/', [CategoryController::class, 'store']); // Guardar nueva categoría
-		Route::put('/{category}', [CategoryController::class, 'update']);
-		Route::delete('/{category}', [CategoryController::class, 'destroy']);
-	});
-
-	// Items - Gestión administrativa
-	Route::prefix('admin/items')->group(function () {
-		Route::get('/pending', [ItemController::class, 'pending']); // Listar items pendientes de revisión
-		Route::patch('/{item}/accept', [ItemController::class, 'accept']); // Aceptar item
-		Route::patch('/{item}/reject', [ItemController::class, 'reject']); // Rechazar item
-		Route::delete('/{item}/force', [ItemController::class, 'forceDestroy']); // Eliminar por completo cualquier item
-	});
+    Route::prefix('admin/proposals')->group(function () {
+        Route::get('/pending', [ProposalController::class, 'pending']);
+        Route::patch('/{proposal}/review', [ProposalController::class, 'review']);
+    });
 });
 
-// Rutas de autenticación
 require __DIR__ . '/auth.php';

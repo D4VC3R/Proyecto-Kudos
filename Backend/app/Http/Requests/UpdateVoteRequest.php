@@ -13,7 +13,7 @@ class UpdateVoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->can('update', Vote::class);
+        return $this->user()->can('update', $this->route('vote'));
     }
 
     /**

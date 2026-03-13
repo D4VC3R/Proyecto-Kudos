@@ -18,15 +18,21 @@ class EnsureUserIsAdmin
 	    // Verificamos que el usuario esté autenticado
 	    if (!$request->user()) {
 		    return response()->json([
-			    'message' => 'No autorizado, se necesita login para esta acción.',
-		    ], 401);
+                'error' => [
+                    'code' => 'unauthenticated',
+                    'message' => 'No autorizado, se necesita login para esta acción.',
+                ],
+            ], 401);
 	    }
 
 	    // Y que el usuario sea admin
 	    if (!$request->user()->hasRole('admin')) {
 		    return response()->json([
-			    'message' => 'Acceso denegado, se necesitan permisos de administrador para esta acción.',
-		    ], 403);
+                'error' => [
+                    'code' => 'forbidden',
+                    'message' => 'Acceso denegado, se necesitan permisos de administrador para esta acción.',
+                ],
+            ], 403);
 	    }
 
         return $next($request);

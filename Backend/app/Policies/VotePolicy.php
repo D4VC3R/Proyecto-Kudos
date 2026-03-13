@@ -37,7 +37,7 @@ class VotePolicy
             return false;
         }
 
-        return $item->state === 'accepted';
+        return $item->status === Item::STATUS_ACTIVE;
     }
 
     /**
@@ -50,7 +50,7 @@ class VotePolicy
 	    }
 
 	    // Solo si el item sigue aceptado
-	    return $vote->item->state === 'accepted';
+        return $vote->item && $vote->item->status === Item::STATUS_ACTIVE;
     }
 
     /**

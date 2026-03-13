@@ -23,7 +23,7 @@ class ItemController extends Controller
 	}
 
 	/**
-	 * Display a listing of accepted items.
+	 * Display a listing of active items.
 	 */
 	public function index(Request $request): JsonResponse
 	{
@@ -40,7 +40,7 @@ class ItemController extends Controller
 
 		$perPage = min(max((int)$request->query('per_page', 15), 1), 100);
 
-		$items = $this->itemService->getAcceptedItems($filters, $perPage);
+		$items = $this->itemService->getActiveItems($filters, $perPage);
 
 		return response()->json([
 			'data' => ItemResource::collection($items),
@@ -60,7 +60,7 @@ class ItemController extends Controller
 	}
 
 	/**
-	 * Store a newly created item proposal.
+	 * Store a newly created item.
 	 */
 	public function store(StoreItemRequest $request): JsonResponse
 	{
@@ -72,10 +72,9 @@ class ItemController extends Controller
 		);
 
 		return response()->json([
-			'message' => 'Item propuesto correctamente. Será revisado por un administrador.',
+			'message' => 'Item creado correctamente.',
 			'data' => new ItemResource($item),
 		], 201);
-
 	}
 
 	/**
@@ -94,7 +93,7 @@ class ItemController extends Controller
 	}
 
 	/**
-	 * Update the specified item (only if pending).
+	 * Update the specified item.
 	 */
 	public function update(UpdateItemRequest $request, Item $item): JsonResponse
 	{
@@ -108,7 +107,7 @@ class ItemController extends Controller
 	}
 
 	/**
-	 * Remove the specified item (only if pending).
+	 * Remove the specified item.
 	 */
 	public function destroy(Item $item): JsonResponse
 	{
@@ -117,15 +116,14 @@ class ItemController extends Controller
 		try {
 			$this->itemService->deleteItem($item);
 			return response()->json([
-				'message' => 'Item eliminado correctamente.',]);
+				'message' => 'Item eliminado correctamente.',
+			]);
 		} catch (Exception $e) {
 			return response()->json([
 				'message' => 'No se ha podido eliminar el item.',
 				'error' => $e->getMessage(),
-			], 401);
+			], 400);
 		}
-
-
 	}
 
 	/**
@@ -135,90 +133,21 @@ class ItemController extends Controller
 	{
 		$items = $this->itemService->getItemsByUser($request->user());
 
-		//
 		$this->itemService->enrichItemsWithUserContext($items, $request->user());
 
 		return response()->json([
 			'data' => ItemResource::collection($items),
 			'meta' => [
 				'total' => $items->count(),
-				'pending' => $items->where('state', Item::STATE_PENDING)->count(),
-				'accepted' => $items->where('state', Item::STATE_ACCEPTED)->count(),
-				'rejected' => $items->where('state', Item::STATE_REJECTED)->count(),
+				'active' => $items->where('status', Item::STATUS_ACTIVE)->count(),
+				'inactive' => $items->where('status', Item::STATUS_INACTIVE)->count(),
 			],
 		]);
 	}
 
-	/**
-	 * Get pending items for admin review.
-	 */
-	public function pending(Request $request): JsonResponse
-	{
-		$perPage = min(max((int)$request->query('per_page', 15), 1), 100);
-		$items = $this->itemService->getPendingItems($perPage);
-
-		return response()->json([
-			'data' => ItemResource::collection($items),
-			'meta' => [
-				'current_page' => $items->currentPage(),
-				'last_page' => $items->lastPage(),
-				'per_page' => $items->perPage(),
-				'total' => $items->total(),
-			],
-		]);
-	}
-
-	/**
-	 * Accept an item (admin only).
-	 */
-	public function accept(Request $request, Item $item): JsonResponse
-	{
-		Gate::authorize('moderate', Item::class);
-
-		$acceptedItem = $this->itemService->acceptItem($item, $request->user());
-
-		return response()->json([
-			'message' => 'Item aceptado correctamente.',
-			'data' => new ItemResource($acceptedItem),
-		]);
-	}
-
-	/**
-	 * Reject an item (admin only).
-	 */
-	public function reject(Request $request, Item $item): JsonResponse
-	{
-		Gate::authorize('moderate', Item::class);
-
-		$request->validate([
-			'reason' => ['nullable', 'string', 'max:500'],
-		]);
-
-
-		$rejectedItem = $this->itemService->rejectItem(
-			$item,
-			$request->user(),
-			$request->input('reason')
-		);
-
-		return response()->json([
-			'message' => 'Item rechazado.',
-			'data' => new ItemResource($rejectedItem),
-		]);
-
-	}
-
-	/**
-	 * Force delete an item (admin only).
-	 */
-	public function forceDestroy(Item $item): JsonResponse
-	{
-		Gate::authorize('moderate', Item::class);
-
-		$this->itemService->forceDeleteItem($item);
-
-		return response()->json([
-			'message' => 'Item eliminado permanentemente.',
-		]);
-	}
+	// Moderación movida a ProposalController (Paso 3):
+	// - pending
+	// - accept
+	// - reject
+	// - forceDestroy
 }

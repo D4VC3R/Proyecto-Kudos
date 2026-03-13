@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-
-use Database\Factories\KudosTransactionFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +15,15 @@ class KudosTransaction extends Model
     protected $fillable = [
         'user_id',
         'kudos_amount',
-        'reason'
+        'reason',
+        'reference_type',
+        'reference_id',
+    ];
+
+    protected $casts = [
+        'kudos_amount' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function user(): BelongsTo

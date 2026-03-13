@@ -34,8 +34,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (AuthorizationException $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json([
-                    'message' => 'No tienes permisos para realizar esta acción.',
-                    'error' => 'unauthorized'
+                    'error' => [
+                        'code' => 'forbidden',
+                        'message' => 'No tienes permisos para realizar esta acción.',
+                    ],
                 ], 403);
             }
         });
@@ -64,8 +66,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 $message = $messages[$model] ?? 'El recurso no existe.';
 
                 return response()->json([
-                    'message' => $message,
-                    'error' => 'not_found'
+                    'error' => [
+                        'code' => 'not_found',
+                        'message' => $message,
+                    ],
                 ], 404);
             }
         });
@@ -74,8 +78,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (NotFoundHttpException $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json([
-                    'message' => 'La ruta solicitada no existe.',
-                    'error' => 'route_not_found'
+                    'error' => [
+                        'code' => 'route_not_found',
+                        'message' => 'La ruta solicitada no existe.',
+                    ],
                 ], 404);
             }
         });

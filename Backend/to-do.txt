@@ -1,166 +1,125 @@
-Falta por implementar:
-1. Sistema de Votación
-Model Vote existe
-VotePolicy implementada
-❌ VoteController NO implementado
-❌ VoteService NO implementado
-❌ VoteRepository NO implementado
-❌ Endpoints de votación NO funcionan
-❌ Recalculación de estadísticas NO se ejecuta
-2. Sistema de Kudos
-Model KudosTransaction existe
-Tabla kudos_transactions creada
-❌ Lógica de otorgamiento NO implementada
-❌ Campos en User (total_kudos, creations_accepted) NO se actualizan
-❌ Service/Repository para Kudos NO existe
-❌ No Implementado
-1. Sistema de Presentación Aleatoria
-❌ NO hay lógica para mostrar items aleatorios
-❌ NO hay tracking de items ya votados por usuario
-❌ NO hay endpoint para "siguiente item sin votar"
-2. Estadísticas y Rankings
-❌ NO hay dashboard de usuario
-❌ NO hay leaderboard global
-❌ NO hay estadísticas por categoría
-3. Profiles
-❌ Tabla profiles existe pero NO se usa
-❌ NO hay endpoints de perfil público
-❌ NO hay avatar/bio
-
-
-Tareas:
-├── Crear VoteRepository
-│   ├── createVote(User $user, Item $item, int $score): Vote
-│   ├── updateVote(Vote $vote, int $score): Vote
-│   ├── deleteVote(Vote $vote): bool
-│   └── getUserVoteForItem(User $user, Item $item): ?Vote
-│
-├── Crear VoteService
-│   ├── castVote(User $user, Item $item, int $score): Vote
-│   │   └── Validar que puede votar
-│   ├── updateVote(Vote $vote, int $score): Vote
-│   ├── deleteVote(Vote $vote): bool
-│   └── recalculateItemStats(Item $item): void
-│
-└── Crear VoteController
-    ├── store(Request $request): JsonResponse  → Votar item
-    ├── update(Request $request, Vote $vote): JsonResponse → Cambiar voto
-    └── destroy(Vote $vote): JsonResponse → Eliminar voto
-
-Endpoints:
-POST   /api/votes              (votar)
-PUT    /api/votes/{vote}       (actualizar voto)
-DELETE /api/votes/{vote}       (eliminar voto)
-
-Kudos
-Tareas:
-├── Crear KudosService
-│   ├── awardKudosForVote(Vote $vote): KudosTransaction
-│   ├── awardKudosForCreation(Item $item): KudosTransaction
-│   ├── revokeKudos(KudosTransaction $transaction): void
-│   └── updateUserTotalKudos(User $user): void
-│
-├── Integrar en VoteService
-│   └── Al crear voto → Otorgar kudos
-│       └── Crear KudosTransaction (type: 'vote', vote_id, +puntos)
-│
-├── Integrar en ItemService
-│   └── Al aceptar item → Otorgar kudos al creador
-│       └── Crear KudosTransaction (type: 'creation', item_id, +puntos)
-│
-└── Observer para Item
-    └── Cuando item->state cambia a 'accepted'
-        └── Otorgar kudos + incrementar creations_accepted
-
-
-Estadisticas
-Tareas:
-├── Event/Listener para recalcular stats
-│   ├── VoteCreated → RecalculateItemStats
-│   ├── VoteUpdated → RecalculateItemStats
-│   └── VoteDeleted → RecalculateItemStats
-│
-└── Queue Jobs (opcional, para performance)
-    └── RecalculateItemStatsJob
-
-Endpoint item aleatorio
-Tareas:
-├── ItemRepository::getRandomUnvotedItem(User $user, Category $category): ?Item
-│   └── SELECT * FROM items
-│       WHERE category_id = ?
-│       AND state = 'accepted'
-│       AND id NOT IN (
-│           SELECT item_id FROM votes WHERE user_id = ?
-│       )
-│       ORDER BY RANDOM()
-│       LIMIT 1
-│
-├── ItemService::getNextItemToVote(User $user, Category $category): ?Item
-│   └── Validar que quedan items sin votar
-│
-└── ItemController::random(Request $request): JsonResponse
-    └── GET /api/categories/{category}/random-item
-
-Endpoint:
-GET /api/categories/{category}/random-item
-Response:
-{
-  "data": { ...item... },
-  "remaining": 42  // Items sin votar en esta categoría
-}
-
-Progreso por categoria:
-Tareas:
-└── CategoryController::progress(Category $category): JsonResponse
-    └── GET /api/categories/{category}/progress
-
-Response:
-{
-  "category": { ...category... },
-  "total_items": 100,
-  "voted_items": 58,
-  "remaining_items": 42,
-  "progress_percentage": 58
-}
-
-Dashboard Usuario
-Endpoint:
-GET /api/user/dashboard
-
-Response:
-{
-  "user": {
-    "total_kudos": 1250,
-    "voting_streak": 7,  // Días consecutivos votando
-    "items_created": 12,
-    "items_accepted": 8,
-    "total_votes": 145
-  },
-  "recent_activity": [
-    { "type": "vote", "item": {...}, "created_at": "..." },
-    { "type": "creation", "item": {...}, "created_at": "..." }
-  ],
-  "categories_progress": [
-    { "category": "Películas", "voted": 23, "total": 50 },
-    { "category": "Libros", "voted": 12, "total": 30 }
-  ]
-}
-
-Clasificacion de usuarios
-Endpoint:
-GET /api/leaderboard
-
-Response:
-{
-  "top_users": [
-    {
-      "rank": 1,
-      "user": { "id": "...", "name": "John" },
-      "total_kudos": 5420,
-      "items_created": 45,
-      "total_votes": 892
-    },
-    // ...
-  ],
-  "current_user_rank": 42
-}
+Matriz final por archivo (cambio, motivo, impacto, dependencia)
+database/migrations/2026_02_26_184519_create_items_table.php
+Cambio: no editar histórico en producción; crear nueva migración de alter.
+Motivo: ya existe con state + locked_* + image único.
+Impacto: base para transición segura.
+Dependencia: migraciones nuevas.
+database/migrations/<new>_alter_items_for_public_catalog.php
+Cambio: quitar state, locked_at, locked_by_admin_id; añadir status (active,inactive), images JSON, softDeletes.
+Motivo: separar moderación de catálogo votable.
+Impacto: alto (consultas, validaciones, votos, ranking).
+Dependencia: modelo Item, repositorios y policies.
+database/migrations/<new>_create_proposals_table.php
+Cambio: crear proposals con name, description, images JSON, category_id, creator_id, status, reviewed_by, reviewed_at, admin_notes, timestamps, softDeletes.
+Motivo: sustituir admin_reviews y sacar revisión de items.
+Impacto: alto.
+Dependencia: Proposal model + servicios + rutas.
+database/migrations/2026_02_27_115531_create_admin_reviews_table.php
+Cambio: añadir nueva migración drop_admin_reviews_table (hard delete).
+Motivo: tabla vacía y reemplazada.
+Impacto: medio.
+Dependencia: retirar referencias en código primero.
+app/Models/Item.php
+Cambio: actualizar casts/fillable/scopes para status, images, soft delete; eliminar referencias a state/locked_*.
+Motivo: items solo publicación/voto.
+Impacto: alto.
+Dependencia: alter de tabla.
+app/Models/Proposal.php (nuevo)
+Cambio: modelo completo con relaciones (creator, reviewer, category) y casts (images, reviewed_at).
+Motivo: nuevo núcleo de moderación.
+Impacto: alto.
+Dependencia: tabla proposals.
+app/Models/KudosTransaction.php
+Cambio: normalizar tipo/razón (vote, proposal_accepted, extensible).
+Motivo: escalar fuentes de kudos.
+Impacto: medio-alto.
+Dependencia: servicios de dominio.
+app/Repositories/ItemRepository.php
+Cambio: filtrar siempre status=active en listados públicos/rankings; excluir soft deleted.
+Motivo: regla funcional cerrada.
+Impacto: alto.
+Dependencia: Item actualizado.
+app/Repositories/ProposalRepository.php (nuevo o adaptación de lógica actual de pending)
+Cambio: consultas por estado, creador, cola admin.
+Motivo: mover revisión desde ItemRepository.
+Impacto: alto.
+Dependencia: Proposal.
+app/Services/ItemService.php
+Cambio: retirar lógica accept/reject/review; mantener CRUD de catálogo visible + activación/desactivación.
+Motivo: responsabilidad única.
+Impacto: alto.
+Dependencia: rutas/controlador de items.
+app/Services/ProposalService.php (nuevo)
+Cambio: submit, requestChanges, reject, accept, resubmitAfterChanges.
+Motivo: ciclo editorial completo.
+Impacto: alto.
+Dependencia: repositorios + kudos service + DB transaction.
+app/Services/VoteService.php
+Cambio: validar no voto en inactive; mantener actualización de métricas de item.
+Motivo: bloqueo funcional de voto.
+Impacto: alto.
+Dependencia: Item.status.
+app/Services/KudosService.php (nuevo o extraído)
+Cambio: centralizar creación de transacciones y actualización sincrónica de profiles.kudos.
+Motivo: evitar duplicados e inconsistencias.
+Impacto: alto.
+Dependencia: KudosTransaction, Profile.
+app/Http/Controllers/ItemController.php
+Cambio: conservar lectura pública y gestión de active/inactive; quitar endpoints de revisión admin.
+Motivo: separar catálogos de moderación.
+Impacto: alto.
+Dependencia: rutas nuevas.
+app/Http/Controllers/ProposalController.php (nuevo)
+Cambio: endpoints usuario (store, myProposals, show, update/resubmit) y admin (pending, accept, reject, requestChanges).
+Motivo: flujo editorial dedicado.
+Impacto: alto.
+Dependencia: ProposalService.
+app/Http/Requests/*
+Cambio: crear requests para propuesta (creación/edición/revisión) con validación images.* <= 5MB, estructura JSON objetos.
+Motivo: reglas de entrada explícitas para frontend.
+Impacto: alto.
+Dependencia: controladores nuevos.
+app/Policies/ItemPolicy.php
+Cambio: adaptar a ownership/publicación; eliminar checks de revisión legacy.
+Motivo: nuevo modelo de permisos.
+Impacto: medio-alto.
+Dependencia: rutas/controlador.
+app/Policies/ProposalPolicy.php (nuevo)
+Cambio: reglas para autor/admin por estado (ver propias, editar tras changes_requested, revisar admin).
+Motivo: seguridad del nuevo flujo.
+Impacto: alto.
+Dependencia: middleware admin, auth.
+routes/api.php
+Cambio: mantener bloques público/auth/admin; mover revisión a admin/proposals/*; añadir endpoints de propuestas de usuario; mantener items públicos activos.
+Motivo: contrato claro para frontend separado.
+Impacto: alto.
+Dependencia: controladores/policies.
+app/Http/Resources/*
+Cambio: recursos ProposalResource, ajuste ItemResource, metadatos de paginación/estado.
+Motivo: salida homogénea para frontend.
+Impacto: medio.
+Dependencia: endpoints.
+docs/api/*
+Cambio: documentar rutas, estados, errores y payloads (images JSON objects).
+Motivo: consumo frontend desacoplado.
+Impacto: medio.
+Dependencia: rutas definitivas.
+tests/Feature/* y tests/Unit/*
+Cambio: cubrir flujo completo propuesta→revisión→item→kudos; veto de voto en inactive; rankings.
+Motivo: evitar regresiones en migración.
+Impacto: alto.
+Dependencia: implementación estable.
+Orden operativo (sprint ejecutable)
+Migraciones nuevas (proposals, alter items, drop admin_reviews al final).
+Modelos + repositorios.
+Servicios (ProposalService, extracción/ajuste de KudosService).
+Controllers + Requests + Policies.
+Rutas API y Resources.
+Rankings y ajustes finales de consultas.
+Tests de regresión y retirada de código legacy no usado.
+Criterios de “hecho”
+No queda lógica de revisión en items.
+Todo flujo editorial vive en proposals.
+inactive bloquea voto y desaparece de rankings/listados públicos.
+Cada recompensa crea kudos_transaction y sincroniza profiles.kudos en el mismo flujo.
+admin_reviews y locked_* eliminados del sistema.

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
 						$table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
 						$table->integer('kudos_amount');
-						$table->enum('reason', ['item_voted', 'item_accepted']);
+						$table->string('reason');
 						$table->uuidMorphs('reference');
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
+use App\Models\Item;
 use App\Models\Vote;
 use App\Services\VoteService;
 use Illuminate\Http\JsonResponse;
@@ -22,16 +23,21 @@ class VoteController extends Controller
 	public function store(StoreVoteRequest $request): JsonResponse
 	{
 		// 1. Extraemos usuario y datos validados
-        Gate::authorize('create', Vote::class);
-		$user = $request->user();
+        $user = $request->user();
 		$validatedData = $request->validated();
+
+		$item = Item::findOrFail($validatedData['item_id']);
+        Gate::authorize('create', [Vote::class, $item]);
 
 		// 2. Pasamos la pelota al Servicio
 		$vote = $this->voteService->emitVote($user, $validatedData);
 
 		return response()->json([
-			'message' => 'Voto registrado correctamente. ¡Has ganado Kudos! Ahora tienes: ' . $user->total_kudos,
-			'vote' => $vote
+			'message' => 'Voto registrado correctamente.',
+			'data' => $vote,
+            'meta' => [
+                'total_kudos' => $user->total_kudos,
+            ],
 		], 201); // 201 Created
 	}
 
@@ -48,7 +54,7 @@ class VoteController extends Controller
 
 		return response()->json([
 			'message' => 'Voto actualizado correctamente.',
-			'vote' => $updatedVote
+			'data' => $updatedVote
 		], 200);
 	}
 

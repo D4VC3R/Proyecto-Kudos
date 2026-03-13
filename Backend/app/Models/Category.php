@@ -38,10 +38,16 @@ class Category extends Model
         return $this->hasMany(Item::class);
     }
 
-    public function acceptedItems(): HasMany
+    public function activeItems(): HasMany
     {
-        return $this->hasMany(Item::class)->where('state', Item::STATE_ACCEPTED);
+        return $this->hasMany(Item::class)->where('status', Item::STATUS_ACTIVE);
     }
+
+    public function proposals(): HasMany
+    {
+        return $this->hasMany(Proposal::class);
+    }
+
     public function tags(): HasMany
     {
         return $this->hasMany(Tag::class);
@@ -59,11 +65,11 @@ class Category extends Model
 
                 // Si la relación items ya está cargada, contar desde ahí
                 if ($this->relationLoaded('items')) {
-                    return $this->items->where('state', Item::STATE_ACCEPTED)->count();
+                    return $this->items->where('status', Item::STATUS_ACTIVE)->count();
                 }
 
                 // Caso contrario, hacer query (solo cuando sea necesario)
-                return $this->acceptedItems()->count();
+                return $this->activeItems()->count();
             }
         );
     }
@@ -71,7 +77,7 @@ class Category extends Model
     public function scopeWithItemCount($query)
     {
         return $query->withCount(['items as items_count' => function ($query) {
-            $query->where('state', Item::STATE_ACCEPTED);
+            $query->where('status', Item::STATUS_ACTIVE);
         }]);
     }
 

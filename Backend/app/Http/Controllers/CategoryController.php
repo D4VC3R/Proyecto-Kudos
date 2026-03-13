@@ -126,8 +126,10 @@ class CategoryController extends Controller
 		$items = $this->categoryService->getCategoryRanking($category);
 
 		return response()->json([
-			'category' => new CategoryResource($category),
-			'ranking' => ItemResource::collection($items),
+            'data' => [
+                'category' => new CategoryResource($category),
+                'ranking' => ItemResource::collection($items),
+                ],
 		]);
 	}
 }

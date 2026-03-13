@@ -24,7 +24,7 @@ class ProfileController extends Controller
 		$user = $request->user();
 
 		return response()->json([
-			'profile' => new ProfileResource($user->profile)
+			'data' => new ProfileResource($user->profile)
 		], 200);
 	}
 
@@ -37,7 +37,7 @@ class ProfileController extends Controller
 
 		return response()->json([
 			'message' => 'Perfil actualizado correctamente.',
-			'profile' => new ProfileResource($profile)
+			'data' => new ProfileResource($profile)
 		], 200);
 	}
 }

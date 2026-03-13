@@ -10,10 +10,10 @@ use Illuminate\Support\Collection;
 
 class ItemRepository
 {
-	public function getAcceptedItems(array $filters = [], int $perPage = 15): LengthAwarePaginator
+	public function getActiveItems(array $filters = [], int $perPage = 15): LengthAwarePaginator
 	{
 		$query = Item::query()
-			->where('state', Item::STATE_ACCEPTED)
+			->where('status', Item::STATUS_ACTIVE)
 			->with(['category:id,name,slug,image,description,created_at,updated_at', 'creator:id,name', 'tags:id,name']);
 
 		// Filtro por categoría
@@ -61,19 +61,11 @@ class ItemRepository
 				$query->inRandomOrder();
 				break;
 			default:
-				$query->orderBy('vote_avg', 'desc');
+				$query->orderBy('vote_avg', 'desc')
+					->orderBy('vote_count', 'desc');
 		}
 
 		return $query->paginate($perPage);
-	}
-
-	public function getPendingItems(int $perPage = 15): LengthAwarePaginator
-	{
-		return Item::query()
-			->where('state', Item::STATE_PENDING)
-			->with(['category:id,name,slug,description,created_at,updated_at', 'creator:id,name,email', 'tags:id,name'])
-			->orderBy('created_at', 'desc')
-			->paginate($perPage);
 	}
 
 	public function getItemsByUser(User $user): Collection
@@ -98,19 +90,6 @@ class ItemRepository
 		return $item->delete();
 	}
 
-	/**
-	 * Actualizar el estado de un item
-	 */
-	public function updateState(Item $item, string $state, User $admin): Item
-	{
-		$item->update([
-			'state' => $state,
-			'locked_at' => now(),
-			'locked_by_admin_id' => $admin->id,
-		]);
-
-		return $item->fresh();
-	}
 
 	/**
 	 * Buscar item con voto del usuario autenticado

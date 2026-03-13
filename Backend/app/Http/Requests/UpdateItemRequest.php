@@ -22,10 +22,14 @@ class UpdateItemRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-            'id' => ['sometimes','required', 'uuid', 'exists:items,uuid'],
+            'id' => ['sometimes','required', 'uuid', 'exists:items,id'],
 			'name' => ['sometimes', 'required', 'string', 'max:255'],
 			'description' => ['sometimes', 'required', 'string', 'min:20', 'max:2000'],
-			'image' => ['sometimes', 'nullable', 'string', 'url', 'max:500'],
+            'images' => ['sometimes', 'nullable', 'array', 'max:10'],
+            'images.*.path' => ['sometimes', 'required_with:images', 'string', 'max:500'],
+            'images.*.disk' => ['sometimes', 'required_with:images', 'string', 'in:public'],
+            'images.*.alt' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'images.*.order' => ['sometimes', 'nullable', 'integer', 'min:0'],
 			'category_id' => ['sometimes', 'required', 'uuid', 'exists:categories,id'],
 			'tag_ids' => ['sometimes', 'nullable', 'array', 'max:5'],
 			'tag_ids.*' => ['uuid', 'exists:tags,id'],
@@ -41,7 +45,7 @@ class UpdateItemRequest extends FormRequest
 			'description.required' => 'La descripción es obligatoria.',
 			'description.min' => 'La descripción debe tener al menos 20 caracteres.',
 			'description.max' => 'La descripción no puede exceder 2000 caracteres.',
-			'image.url' => 'La imagen debe ser una URL válida.',
+            'images.*.path.required' => 'La imagen es obligatoria.',
 			'category_id.required' => 'Debes seleccionar una categoría.',
 			'category_id.exists' => 'La categoría seleccionada no existe.',
 			'tag_ids.max' => 'No puedes seleccionar más de 5 tags.',
