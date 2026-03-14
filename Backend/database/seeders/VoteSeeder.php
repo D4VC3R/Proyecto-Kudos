@@ -11,7 +11,7 @@ class VoteSeeder extends Seeder
 {
     public function run(): void
     {
-        $items = Item::where('state', Item::STATE_ACCEPTED)->get();
+        $items = Item::where('status', Item::STATUS_ACTIVE)->get();
 
         if ($items->isEmpty()) {
             $this->command->error("No hay items aprobados. Ejecuta ItemSeeder primero.");

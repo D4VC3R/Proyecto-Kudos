@@ -44,7 +44,7 @@ class CategoryRepository
 	{
 		return $category->load([
 			'items' => function ($query) {
-				$query->where('state', Item::STATE_ACCEPTED)
+				$query->where('status', Item::STATUS_ACTIVE)
 					->with(['creator:id,name', 'tags:id,name'])
 					->latest();
 			}
@@ -54,7 +54,7 @@ class CategoryRepository
 	public function getItemsRanking(Category $category): Collection
 	{
 		return $category->items()
-			->where('state', Item::STATE_ACCEPTED)
+			->where('status', Item::STATUS_ACTIVE)
 			->with('creator:id,name')
 			->orderByDesc('vote_avg')
 			->orderByDesc('vote_count')

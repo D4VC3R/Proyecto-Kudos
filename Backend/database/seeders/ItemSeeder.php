@@ -33,14 +33,6 @@ class ItemSeeder extends Seeder
                 ]);
                 $item->creator->increment('total_kudos', 10);
             }
-
-            // Crear 2 items pendientes por categoría
-            Item::factory()
-                ->forCategory($category)
-                ->pending()
-                ->count(2)
-                ->create();
-
         }
     }
 }

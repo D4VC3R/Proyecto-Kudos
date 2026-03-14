@@ -15,10 +15,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
 	          $table->integer('score')->nullable();
 
-              $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+						$table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
 	          $table->foreignUuid('item_id')->constrained('items')->cascadeOnDelete();
 
-              $table->unique(['user_id', 'item_id']);
+						$table->unique(['user_id', 'item_id'], 'votes_user_item_unique');
 
             $table->timestamps();
         });

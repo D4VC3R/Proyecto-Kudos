@@ -15,7 +15,7 @@ class VoteFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id,
-            'item_id' => Item::where('state', Item::STATE_ACCEPTED)->inRandomOrder()->first()->id,
+            'item_id' => Item::where('status', Item::STATUS_ACTIVE)->inRandomOrder()->first()->id,
             'score' => fake()->numberBetween(0, 10),
         ];
     }
