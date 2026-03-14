@@ -1,0 +1,6 @@
+Se pretende sustituir el apartado tags por colecciones.
+Las colecciones serán un apartado de la web que funcione como una categoria con un rango de especifidad mas alto y solo podrán ser propuestas por usuarios con un numero de kudos superior a 50000.
+Ejemplo: Categoria con nombre videojuegos agrupa todo tipo de videojuegos en su interior.
+Coleccion con nombre The Legend of Zelda, solo agrupa videojuegos de la saga Zelda en su interior y pertenece a la categoria videojuegos.
+ A la hora de crear una coleccion, el usuario podrá elegir items que ya formen parte de la web además de crear los que considere faltantes para completar la coleccion.
+ El admin revisa la propuesta de coleccion junto con todos los items nuevos que contiene en su interior, si es aceptada, la coleccion se añade a la tabla colecciones y los items, además de en la propia coleccion, tambien se añaden a los items de la categoria a la que pertenece la coleccion.

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AdminItemController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProposalController;
@@ -17,7 +19,7 @@ Route::prefix('categories')->group(function () {
 Route::get('/items', [ItemController::class, 'index']);
 
 // Autenticadas
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function () {
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
@@ -49,7 +51,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 // Admin
-Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'not_banned', 'admin'])->group(function () {
     Route::prefix('categories')->group(function () {
         Route::post('/', [CategoryController::class, 'store']);
         Route::put('/{category}', [CategoryController::class, 'update']);
@@ -59,7 +61,21 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
     // Crear items directos solo admin
     Route::post('/items', [ItemController::class, 'store']);
 
+    Route::prefix('admin/items')->group(function () {
+        Route::get('/', [AdminItemController::class, 'index']);
+        Route::put('/{item}', [AdminItemController::class, 'update']);
+        Route::patch('/{item}/moderate', [AdminItemController::class, 'moderate']);
+    });
+
+    Route::prefix('admin/users')->group(function () {
+        Route::get('/', [AdminUserController::class, 'index']);
+        Route::patch('/{user}/ban', [AdminUserController::class, 'ban']);
+        Route::patch('/{user}/unban', [AdminUserController::class, 'unban']);
+        Route::post('/{user}/sessions/revoke', [AdminUserController::class, 'revokeTokens']);
+    });
+
     Route::prefix('admin/proposals')->group(function () {
+        Route::get('/', [ProposalController::class, 'adminIndex']);
         Route::get('/pending', [ProposalController::class, 'pending']);
         Route::patch('/{proposal}/review', [ProposalController::class, 'review']);
     });

@@ -7,68 +7,169 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Proyecto Kudos - Backend
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Backend API de Kudos construido con Laravel, autenticación por token (Sanctum), verificación de email, votación y creación de ítems, sistema de puntos (kudos) y panel de administración con moderación y baneos.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Objetivo de arquitectura
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Este backend sigue una arquitectura orientada a casos de uso para mantener responsabilidades claras:
 
-## Learning Laravel
+- `Controller` -> entrada/salida HTTP (auth, validación, respuesta)
+- `Action/Query` -> caso de uso concreto (escritura/lectura)
+- `Service` -> reglas de negocio y orquestación
+- `Repository` -> acceso a datos (Eloquent/DB)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Esto permite evitar controladores grandes, reducir duplicación y aislar la lógica de dominio.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Estructura principal
 
-## Laravel Sponsors
+```text
+app/
+  Http/
+    Controllers/         # capa HTTP
+    Requests/            # validación de entrada
+    Middleware/          # políticas transversales (admin, verified, not_banned)
+  Actions/               # casos de uso de escritura
+    Admin/
+      Users/
+      Items/
+      Proposals/
+    Items/
+    Votes/
+    Categories/
+  Queries/               # casos de uso de lectura
+    Admin/
+      Users/
+      Items/
+      Proposals/
+    Items/
+    Categories/
+  Services/              # dominio/orquestación
+  Repositories/          # persistencia
+  Models/                # entidades Eloquent
+routes/
+  api.php                # rutas públicas, autenticadas y admin
+  auth.php               # login/register/logout/verificación
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Módulos de negocio
 
-### Premium Partners
+### 1) Autenticación y sesiones
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Login por token con Sanctum (`Bearer`).
+- Verificación de email obligatoria en rutas protegidas.
+- Bloqueo de cuentas baneadas en login y en rutas autenticadas.
+- Cierre de sesión individual y global (revocación de tokens).
 
-## Contributing
+Piezas clave:
+- `app/Http/Controllers/Auth/AuthenticatedSessionController.php`
+- `app/Http/Middleware/EnsureEmailIsVerified.php`
+- `app/Http/Middleware/EnsureUserIsNotBanned.php`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2) Sistema de kudos
 
-## Code of Conduct
+Sistema idempotente con ledger de transacciones.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Tabla `kudos_transactions` con `action_key` único.
+- Reglas centralizadas en `config/kudos.php`.
+- Escritura centralizada en `KudosService`.
+- Motivos actuales:
+  - primer voto por item
+  - propuesta aceptada
+  - login diario en racha (10/25/50/100/200)
 
-## Security Vulnerabilities
+Piezas clave:
+- `app/Services/KudosService.php`
+- `app/Services/KudosRules.php`
+- `app/Services/DailyLoginKudosService.php`
+- `config/kudos.php`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3) Propuestas y moderación
 
-## License
+- Usuario crea propuestas (`pending`).
+- Admin revisa: `accepted`, `rejected` o `changes_requested`.
+- Si se acepta:
+  - se crea item
+  - se otorgan kudos al creador
+  - se incrementa `creations_accepted`
+- Auditoría de moderación por logs.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Piezas clave:
+- `app/Services/ProposalService.php`
+- `app/Actions/Admin/Proposals/ReviewProposalAction.php`
+- `app/Services/ModerationAuditLogger.php`
 
-## Kudos Audit Command
+### 4) Administración
 
-Para auditar consistencia entre `users.total_kudos` y el ledger `kudos_transactions`:
+Incluye gestión de usuarios, items y propuestas:
+
+- **Usuarios**
+  - listado con filtros (`role`, `is_banned`, `ban_state`, `search`)
+  - ban temporal/permanente y unban
+  - revocación de todas las sesiones
+- **Items**
+  - listado admin con filtros
+  - edición completa
+  - moderación de estado (`active/inactive`) con motivo
+- **Propuestas**
+  - listado admin histórico con filtros
+  - listado pending
+  - review
+
+Piezas clave:
+- `app/Http/Controllers/AdminUserController.php`
+- `app/Http/Controllers/AdminItemController.php`
+- `app/Http/Controllers/ProposalController.php` (bloque admin)
+
+## Middleware y seguridad
+
+Middlewares relevantes:
+
+- `auth:sanctum` -> autenticación por token
+- `verified` -> email verificado
+- `not_banned` -> bloquea usuarios suspendidos
+- `admin` -> rol administrador
+
+Grupos de rutas:
+- Públicas (`categories`, `items` list)
+- Autenticadas (`profile`, `votes`, `proposals` de usuario, `my-items`)
+- Admin (`admin/users`, `admin/items`, `admin/proposals`, categorías admin)
+
+## Persistencia y consistencia
+
+- `users.total_kudos` funciona como cache agregada.
+- `kudos_transactions` es fuente de verdad del historial de puntos.
+- Reconciliación disponible por comando de auditoría.
+
+## Comandos útiles
+
+### Auditoría de kudos
 
 ```bash
 php artisan kudos:audit-consistency
 ```
 
-Para reconciliar automaticamente los desajustes detectados:
+### Reconciliación automática de kudos
 
 ```bash
 php artisan kudos:audit-consistency --fix
 ```
+
+### Entorno local (Docker)
+
+```bash
+php artisan migrate:fresh --seed
+php artisan route:list
+```
+
+## Convención de desarrollo del proyecto
+
+Para nuevas features:
+
+1. Crear `Request` para validación.
+2. Crear `Action` (escritura) o `Query` (lectura).
+3. Reutilizar/mover reglas de negocio a `Service`.
+4. Reutilizar/mover acceso a datos a `Repository`.
+5. Dejar el controlador solo para gestionar respuestas HTTP.
 

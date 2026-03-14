@@ -1,0 +1,19 @@
+Repository
+Encapsula acceso a datos (Eloquent/query builder).
+No debería contener reglas de negocio complejas.
+Service
+Orquesta casos de negocio y transacciones.
+Puede coordinar varios repositorios y side-effects (kudos, logs, etc.).
+Query
+Caso de uso de lectura específico (listados/filtros/paginación para una pantalla endpoint concreto).
+Muy útil para no inflar controladores y separar consultas complejas.
+Action
+Caso de uso de escritura específico (ban user, review proposal, update admin item, etc.).
+Ideal para mantener cada operación pequeña y testeable.
+
+Nada de lógica de negocio en controladores (solo auth, request, response).
+Lecturas complejas van en Queries.
+Escrituras/casos de uso van en Actions.
+Reglas compartidas (transacciones, invariantes) viven en Services.
+Acceso a datos reusable en Repositories.
+No duplicar: si un Action empieza a repetir negocio, mover a Service.

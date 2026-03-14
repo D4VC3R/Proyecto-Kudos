@@ -16,6 +16,7 @@ class ProposalService
     public function __construct(
         protected ProposalRepository $proposalRepository,
         protected KudosService $kudosService,
+        protected ModerationAuditLogger $moderationAuditLogger,
     ) {
     }
 
@@ -27,6 +28,11 @@ class ProposalService
     public function getByUser(User $user): Collection
     {
         return $this->proposalRepository->getByUser($user);
+    }
+
+    public function getForAdmin(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->proposalRepository->getForAdmin($filters, $perPage);
     }
 
     public function createProposal(array $data, User $user): Proposal
@@ -71,6 +77,10 @@ class ProposalService
                 ->lockForUpdate()
                 ->findOrFail($proposal->id);
 
+            if (!$lockedProposal instanceof Proposal) {
+                abort(500, 'No se pudo cargar la propuesta para revisión.');
+            }
+
             if ($lockedProposal->trashed()) {
                 abort(422, 'No se puede revisar una propuesta eliminada.');
             }
@@ -87,6 +97,10 @@ class ProposalService
                 abort(422, 'Solo se pueden revisar propuestas en estado pending.');
             }
 
+            if ($lockedProposal->creator_id === $admin->id) {
+                abort(422, 'No puedes revisar una propuesta creada por tu propio usuario.');
+            }
+
             if (
                 in_array($status, [Proposal::STATUS_REJECTED, Proposal::STATUS_CHANGES_REQUESTED], true)
                 && blank($adminNotes)
@@ -100,6 +114,8 @@ class ProposalService
                 'reviewed_at' => now(),
                 'admin_notes' => $adminNotes,
             ]);
+
+            $this->moderationAuditLogger->logProposalReview($lockedProposal, $admin, $status, $adminNotes);
 
             if ($status === Proposal::STATUS_ACCEPTED) {
                 Item::create([

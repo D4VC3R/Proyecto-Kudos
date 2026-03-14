@@ -2,35 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Votes\DeleteVoteAction;
+use App\Actions\Votes\EmitVoteAction;
+use App\Actions\Votes\UpdateVoteAction;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
-use App\Models\Item;
+use App\Models\User;
 use App\Models\Vote;
-use App\Services\VoteService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
 
 class VoteController extends Controller
 {
-	protected VoteService $voteService;
+    public function __construct(
+        protected EmitVoteAction $emitVoteAction,
+        protected UpdateVoteAction $updateVoteAction,
+        protected DeleteVoteAction $deleteVoteAction,
+    ) {
+    }
 
-	public function __construct(VoteService $voteService){
-		$this->voteService = $voteService;
-	}
     /**
      * Display a listing of the resource.
      */
 	public function store(StoreVoteRequest $request): JsonResponse
 	{
-		// 1. Extraemos usuario y datos validados
-        $user = $request->user();
-		$validatedData = $request->validated();
+		$user = $request->user();
+        if (!$user instanceof User) {
+            return response()->json(['message' => 'No se pudo obtener el usuario autenticado.'], 500);
+        }
 
-		$item = Item::findOrFail($validatedData['item_id']);
-        Gate::authorize('create', [Vote::class, $item]);
-
-		// 2. Pasamos la pelota al Servicio
-		$vote = $this->voteService->emitVote($user, $validatedData);
+        $vote = $this->emitVoteAction->execute($user, $request->validated());
+        $user->refresh();
 
 		return response()->json([
 			'message' => 'Voto registrado correctamente.',
@@ -46,15 +48,11 @@ class VoteController extends Controller
 	 */
 	public function update(UpdateVoteRequest $request, Vote $vote): JsonResponse
 	{
-		Gate::authorize('update', $vote);
-
-		$validatedData = $request->validated();
-
-		$updatedVote = $this->voteService->changeVote($vote, $validatedData['score']);
+		$updatedVote = $this->updateVoteAction->execute($vote, (int) $request->validated()['score']);
 
 		return response()->json([
 			'message' => 'Voto actualizado correctamente.',
-			'data' => $updatedVote
+			'data' => $updatedVote,
 		], 200);
 	}
 
@@ -65,10 +63,10 @@ class VoteController extends Controller
 	{
 		Gate::authorize('delete', $vote);
 
-        $this->voteService->deleteVote($vote);
+        $this->deleteVoteAction->execute($vote);
 
 		return response()->json([
-			'message' => 'Voto eliminado correctamente.'
+			'message' => 'Voto eliminado correctamente.',
 		], 200);
 	}
 }

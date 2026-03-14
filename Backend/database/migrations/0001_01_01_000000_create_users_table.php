@@ -21,6 +21,11 @@ return new class extends Migration
             $table->integer('creations_accepted')->default(0);
             $table->unsignedInteger('login_streak_count')->default(0);
             $table->date('last_login_streak_date')->nullable();
+            $table->boolean('is_banned')->default(false);
+            $table->timestamp('banned_at')->nullable();
+            $table->timestamp('banned_until')->nullable();
+            $table->text('ban_reason')->nullable();
+            $table->uuid('banned_by')->nullable()->index();
             $table->rememberToken();
             $table->timestamps();
         });

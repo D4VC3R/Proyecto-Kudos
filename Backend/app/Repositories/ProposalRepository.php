@@ -27,6 +27,38 @@ class ProposalRepository
             ->get();
     }
 
+    public function getForAdmin(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        $query = Proposal::query()
+            ->with(['creator:id,name,email', 'category:id,name,slug', 'reviewer:id,name']);
+
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        if (!empty($filters['creator_id'])) {
+            $query->where('creator_id', $filters['creator_id']);
+        }
+
+        if (!empty($filters['reviewed_by'])) {
+            $query->where('reviewed_by', $filters['reviewed_by']);
+        }
+
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        if (!empty($filters['search'])) {
+            $search = $filters['search'];
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'ilike', "%{$search}%")
+                    ->orWhere('description', 'ilike', "%{$search}%");
+            });
+        }
+
+        return $query->orderByDesc('created_at')->paginate($perPage);
+    }
+
     public function create(array $data): Proposal
     {
         return Proposal::create($data);

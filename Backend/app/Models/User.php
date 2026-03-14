@@ -49,6 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'total_kudos' => 0,
         'creations_accepted' => 0,
         'login_streak_count' => 0,
+        'is_banned' => false,
     ];
 
     /**
@@ -63,7 +64,19 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'login_streak_count' => 'integer',
             'last_login_streak_date' => 'date',
+            'is_banned' => 'boolean',
+            'banned_at' => 'datetime',
+            'banned_until' => 'datetime',
         ];
+    }
+
+    public function isCurrentlyBanned(): bool
+    {
+        if (!$this->is_banned) {
+            return false;
+        }
+
+        return $this->banned_until === null || $this->banned_until->isFuture();
     }
 
 		// Relaciones

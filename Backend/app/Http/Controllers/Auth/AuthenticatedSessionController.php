@@ -39,6 +39,16 @@ class AuthenticatedSessionController extends Controller
 			return response()->json(['message' => 'No se pudo obtener el usuario autenticado.'], 500);
 		}
 
+		if ($user->isCurrentlyBanned()) {
+			return response()->json([
+				'message' => 'Tu cuenta está suspendida y no puede iniciar sesión.',
+				'meta' => [
+					'banned_until' => $user->banned_until,
+					'ban_reason' => $user->ban_reason,
+				],
+			], 403);
+		}
+
 		$dailyLoginResult = $this->dailyLoginKudosService->handleSuccessfulLogin($user);
 		$user->refresh();
 		$token = $user->createToken('auth_token')->plainTextToken;

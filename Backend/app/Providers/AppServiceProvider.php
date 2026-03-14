@@ -4,8 +4,12 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\Proposal;
+use App\Models\Vote;
 use App\Policies\CategoryPolicy;
 use App\Policies\ItemPolicy;
+use App\Policies\ProposalPolicy;
+use App\Policies\VotePolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -30,5 +34,7 @@ class AppServiceProvider extends ServiceProvider
 		});
 		Gate::policy(Item::class, ItemPolicy::class);
 		Gate::policy(Category::class, CategoryPolicy::class);
+		Gate::policy(Proposal::class, ProposalPolicy::class);
+		Gate::policy(Vote::class, VotePolicy::class);
 	}
 }
