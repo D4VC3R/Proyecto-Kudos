@@ -57,3 +57,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Kudos Audit Command
+
+Para auditar consistencia entre `users.total_kudos` y el ledger `kudos_transactions`:
+
+```bash
+php artisan kudos:audit-consistency
+```
+
+Para reconciliar automaticamente los desajustes detectados:
+
+```bash
+php artisan kudos:audit-consistency --fix
+```
+

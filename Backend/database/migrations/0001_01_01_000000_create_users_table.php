@@ -1,6 +1,5 @@
 <?php
 
-use App\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->integer('total_kudos')->default(0);
             $table->integer('creations_accepted')->default(0);
+            $table->unsignedInteger('login_streak_count')->default(0);
+            $table->date('last_login_streak_date')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

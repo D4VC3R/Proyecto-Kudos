@@ -47,6 +47,7 @@ class User extends Authenticatable
     protected $attributes = [
         'total_kudos' => 0,
         'creations_accepted' => 0,
+        'login_streak_count' => 0,
     ];
 
     /**
@@ -59,6 +60,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'login_streak_count' => 'integer',
+            'last_login_streak_date' => 'date',
         ];
     }
 

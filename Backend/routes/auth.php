@@ -34,7 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
 		->name('verification.send');
 
 	Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-		->middleware('auth')
 		->name('logout');
 
 	Route::post('/logout-all', [AuthenticatedSessionController::class, 'destroyAll'])
