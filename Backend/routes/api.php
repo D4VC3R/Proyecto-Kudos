@@ -38,8 +38,6 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
     Route::prefix('items')->group(function () {
         Route::get('/my-items', [ItemController::class, 'myItems']);
         Route::get('/{item}', [ItemController::class, 'show']);
-        Route::put('/{item}', [ItemController::class, 'update']);
-        Route::delete('/{item}', [ItemController::class, 'destroy']);
     });
 
     Route::prefix('votes')->group(function () {
@@ -60,6 +58,7 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned', 'admin'])->group(fu
 
     // Crear items directos solo admin
     Route::post('/items', [ItemController::class, 'store']);
+    Route::delete('/items/{item}', [ItemController::class, 'destroy']);
 
     Route::prefix('admin/items')->group(function () {
         Route::get('/', [AdminItemController::class, 'index']);

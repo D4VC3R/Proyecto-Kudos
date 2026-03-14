@@ -34,6 +34,10 @@ class ProposalPolicy
 
     public function delete(User $user, Proposal $proposal): bool
     {
+        if (!in_array($proposal->status, [Proposal::STATUS_PENDING, Proposal::STATUS_CHANGES_REQUESTED], true)) {
+            return false;
+        }
+
         return $user->hasRole('admin') || $proposal->creator_id === $user->id;
     }
 
