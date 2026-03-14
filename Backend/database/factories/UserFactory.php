@@ -50,7 +50,7 @@ class UserFactory extends Factory
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'name' => 'Administrador',
+            'name' => 'kudosAdmin',
             'email' => 'admin@kudos.com',
             'password' => Hash::make('password123'),
             'email_verified_at' => now(),

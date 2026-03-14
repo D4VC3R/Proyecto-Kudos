@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('kudos_transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-						$table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
-						$table->integer('kudos_amount');
-						$table->string('reason');
-						$table->uuidMorphs('reference');
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
+            $table->integer('kudos_amount');
+            $table->string('reason');
+            $table->string('action_key', 191)->unique();
+            $table->uuidMorphs('reference');
             $table->timestamps();
         });
     }

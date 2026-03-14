@@ -16,6 +16,7 @@ class KudosTransaction extends Model
         'user_id',
         'kudos_amount',
         'reason',
+        'action_key',
         'reference_type',
         'reference_id',
     ];

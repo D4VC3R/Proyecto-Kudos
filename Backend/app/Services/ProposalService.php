@@ -13,10 +13,10 @@ use Illuminate\Support\Str;
 
 class ProposalService
 {
-    public const KUDOS_FOR_ACCEPTED_PROPOSAL = 20;
-
-    public function __construct(protected ProposalRepository $proposalRepository)
-    {
+    public function __construct(
+        protected ProposalRepository $proposalRepository,
+        protected KudosService $kudosService,
+    ) {
     }
 
     public function getPending(int $perPage = 15): LengthAwarePaginator
@@ -67,7 +67,11 @@ class ProposalService
     public function review(Proposal $proposal, User $admin, string $status, ?string $adminNotes): Proposal
     {
         return DB::transaction(function () use ($proposal, $admin, $status, $adminNotes) {
-            if ($proposal->trashed()) {
+            $lockedProposal = Proposal::withTrashed()
+                ->lockForUpdate()
+                ->findOrFail($proposal->id);
+
+            if ($lockedProposal->trashed()) {
                 abort(422, 'No se puede revisar una propuesta eliminada.');
             }
 
@@ -76,10 +80,10 @@ class ProposalService
                 Proposal::STATUS_REJECTED,
                 Proposal::STATUS_CHANGES_REQUESTED,
             ], true)) {
-                abort(422, 'Estado de revisión no válido.');
+                abort(422, 'Estado de revision no valido.');
             }
 
-            if ($proposal->status !== Proposal::STATUS_PENDING) {
+            if ($lockedProposal->status !== Proposal::STATUS_PENDING) {
                 abort(422, 'Solo se pueden revisar propuestas en estado pending.');
             }
 
@@ -90,7 +94,7 @@ class ProposalService
                 abort(422, 'admin_notes es obligatorio para rejected o changes_requested.');
             }
 
-            $proposal = $this->proposalRepository->update($proposal, [
+            $lockedProposal->update([
                 'status' => $status,
                 'reviewed_by' => $admin->id,
                 'reviewed_at' => now(),
@@ -98,33 +102,33 @@ class ProposalService
             ]);
 
             if ($status === Proposal::STATUS_ACCEPTED) {
-                $item = Item::create([
+                Item::create([
                     'id' => (string) Str::uuid(),
-                    'name' => $proposal->name,
-                    'description' => $proposal->description,
-                    'images' => $proposal->images,
+                    'name' => $lockedProposal->name,
+                    'description' => $lockedProposal->description,
+                    'images' => $lockedProposal->images,
                     'status' => Item::STATUS_ACTIVE,
                     'vote_avg' => 0,
                     'vote_count' => 0,
-                    'creator_id' => $proposal->creator_id,
-                    'category_id' => $proposal->category_id,
+                    'creator_id' => $lockedProposal->creator_id,
+                    'category_id' => $lockedProposal->category_id,
                 ]);
 
-                $creator = User::lockForUpdate()->findOrFail($proposal->creator_id);
+                $creator = User::lockForUpdate()->findOrFail($lockedProposal->creator_id);
 
-                $creator->kudosTransactions()->create([
-                    'id' => (string) Str::uuid(),
-                    'kudos_amount' => self::KUDOS_FOR_ACCEPTED_PROPOSAL,
-                    'reason' => 'proposal_accepted',
-                    'reference_type' => Item::class,
-                    'reference_id' => $item->id,
-                ]);
+                $this->kudosService->awardIfFirst(
+                    user: $creator,
+                    kudosAmount: KudosRules::rewardForAcceptedProposal(),
+                    reason: KudosRules::reasonForAcceptedProposal(),
+                    actionKey: KudosRules::actionKeyForAcceptedProposal($lockedProposal->id),
+                    referenceType: Proposal::class,
+                    referenceId: $lockedProposal->id,
+                );
 
-                $creator->increment('total_kudos', self::KUDOS_FOR_ACCEPTED_PROPOSAL);
                 $creator->increment('creations_accepted');
             }
 
-            return $proposal->fresh(['creator:id,name', 'category:id,name,slug', 'reviewer:id,name']);
+            return $lockedProposal->fresh(['creator:id,name', 'category:id,name,slug', 'reviewer:id,name']);
         });
     }
 

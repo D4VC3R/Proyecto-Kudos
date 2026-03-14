@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class VoteService
 {
-    public const KUDOS_FOR_VOTING = 5;
-
-    public function __construct(protected VoteRepository $voteRepository)
-    {
+    public function __construct(
+        protected VoteRepository $voteRepository,
+        protected KudosService $kudosService,
+    ) {
     }
 
     public function emitVote(User $user, array $voteData): Vote
@@ -37,14 +37,14 @@ class VoteService
                 abort(409, 'Ya has votado este item.');
             }
 
-            $vote->kudosTransactions()->create([
-                'user_id' => $user->id,
-                'kudos_amount' => self::KUDOS_FOR_VOTING,
-                'reason' => 'item_voted',
-            ]);
-
-            // Mantienes tu esquema actual de cache en users.total_kudos
-            $user->increment('total_kudos', self::KUDOS_FOR_VOTING);
+            $this->kudosService->awardIfFirst(
+                user: $user,
+                kudosAmount: KudosRules::rewardForVoteFirstTimeItem(),
+                reason: KudosRules::reasonForVoteFirstTimeItem(),
+                actionKey: KudosRules::actionKeyForVoteFirstTimeItem($user->id, $voteData['item_id']),
+                referenceType: Item::class,
+                referenceId: $voteData['item_id'],
+            );
 
             $this->updateItemAverages($voteData['item_id'], (int) $voteData['score']);
 
@@ -71,7 +71,7 @@ class VoteService
             $item = Item::lockForUpdate()->findOrFail($vote->item_id);
 
             if ($item->status !== Item::STATUS_ACTIVE) {
-                abort(422, 'No se puede actualizar el voto porque el item está inactivo.');
+                abort(422, 'No se puede actualizar el voto porque el item esta inactivo.');
             }
 
             $oldScore = $vote->score;

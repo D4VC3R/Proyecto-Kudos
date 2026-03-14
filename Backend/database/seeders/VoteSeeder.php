@@ -5,23 +5,27 @@ namespace Database\Seeders;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Vote;
+use App\Services\KudosRules;
+use App\Services\KudosService;
 use Illuminate\Database\Seeder;
 
 class VoteSeeder extends Seeder
 {
     public function run(): void
     {
+        $kudosService = app(KudosService::class);
+
         $items = Item::where('status', Item::STATUS_ACTIVE)->get();
 
         if ($items->isEmpty()) {
-            $this->command->error("No hay items aprobados. Ejecuta ItemSeeder primero.");
+            $this->command->error('No hay items aprobados. Ejecuta ItemSeeder primero.');
             return;
         }
 
         $users = User::all();
 
         if ($users->isEmpty()) {
-            $this->command->error("No hay usuarios disponibles. Ejecuta UserSeeder primero.");
+            $this->command->error('No hay usuarios disponibles. Ejecuta UserSeeder primero.');
             return;
         }
 
@@ -39,20 +43,18 @@ class VoteSeeder extends Seeder
                         'created_at' => now()->subDays(rand(1, 60)),
                     ]);
 
-                // ✅ Registrar kudos por la votación
-                $vote->kudosTransactions()->create([
-                    'user_id' => $voter->id,
-                    'kudos_amount' => 5,
-                    'reason' => 'item_voted',
-                ]);
-
-                // ✅ Actualizar total_kudos del votante
-                $voter->increment('total_kudos', 5);
+                $kudosService->awardIfFirst(
+                    user: $voter,
+                    kudosAmount: KudosRules::rewardForVoteFirstTimeItem(),
+                    reason: KudosRules::reasonForVoteFirstTimeItem(),
+                    actionKey: KudosRules::actionKeyForVoteFirstTimeItem($voter->id, $item->id),
+                    referenceType: Item::class,
+                    referenceId: $item->id,
+                );
 
                 $votesCreated++;
             }
 
-            // Recalcular estadísticas del item
             $item->update([
                 'vote_avg' => round($item->votes()->avg('score'), 2),
                 'vote_count' => $item->votes()->count(),
