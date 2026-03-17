@@ -22,6 +22,8 @@ Route::get('/users/ranking', [UserRankingController::class, 'index']);
 
 // Autenticadas
 Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function () {
+    Route::get('/categories/{category}/next-item', [CategoryController::class, 'nextItem']);
+
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
@@ -44,7 +46,7 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
 
     Route::prefix('votes')->group(function () {
         Route::post('/', [VoteController::class, 'store']);
-        //Route::get('/my-votes', [VoteController::class, 'myVotes']); // pendiente de implementar
+        Route::get('/my-votes', [VoteController::class, 'myVotes']);
         Route::put('/{vote}', [VoteController::class, 'update']);
         Route::delete('/{vote}', [VoteController::class, 'destroy']);
     });

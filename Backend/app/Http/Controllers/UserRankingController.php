@@ -24,21 +24,21 @@ class UserRankingController extends Controller
 
         $result = $this->listPublicKudosRankingQuery->execute($authenticatedUser);
 
-        return response()->json([
-            'data' => [
+        return $this->respondList(
+            data: [
                 'top_page' => $result['top_page'],
                 'my_page_data' => $result['my_page_data'],
             ],
-            'meta' => [
+            meta: [
                 'top_pagination' => $result['top_pagination'],
                 'my_position' => $result['my_position'],
                 'my_page_pagination' => $result['my_page_pagination'],
             ],
-            'links' => [
+            links: [
                 'top_page' => $result['top_links'],
                 'my_page' => $result['my_page_links'],
             ],
-        ]);
+        );
     }
 }
 

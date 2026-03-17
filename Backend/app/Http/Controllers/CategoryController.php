@@ -6,6 +6,7 @@ use App\Actions\Categories\CreateCategoryAction;
 use App\Actions\Categories\DeleteCategoryAction;
 use App\Actions\Categories\UpdateCategoryAction;
 use App\Http\Requests\DeleteCategoryRequest;
+use App\Http\Requests\GetNextCategoryItemRequest;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
@@ -15,7 +16,9 @@ use App\Models\Category;
 use App\Queries\Categories\GetCategoryRankingQuery;
 use App\Queries\Categories\GetCategoryWithItemsQuery;
 use App\Queries\Categories\ListCategoriesQuery;
+use App\Queries\Items\GetNextCategoryItemQuery;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -23,6 +26,7 @@ class CategoryController extends Controller
         protected ListCategoriesQuery $listCategoriesQuery,
         protected GetCategoryWithItemsQuery $getCategoryWithItemsQuery,
         protected GetCategoryRankingQuery $getCategoryRankingQuery,
+        protected GetNextCategoryItemQuery $getNextCategoryItemQuery,
         protected CreateCategoryAction $createCategoryAction,
         protected UpdateCategoryAction $updateCategoryAction,
         protected DeleteCategoryAction $deleteCategoryAction,
@@ -36,9 +40,7 @@ class CategoryController extends Controller
     {
         $categories = $this->listCategoriesQuery->execute();
 
-        return response()->json([
-            'data' => CategoryResource::collection($categories),
-        ]);
+        return $this->respondData(CategoryResource::collection($categories));
     }
 
     /**
@@ -48,10 +50,7 @@ class CategoryController extends Controller
     {
         $category = $this->createCategoryAction->execute($request->validated());
 
-        return response()->json([
-            'message' => 'Categoría creada con éxito.',
-            'data' => new CategoryResource($category),
-        ], 201);
+        return $this->respondMutation('Categoría creada con éxito.', new CategoryResource($category), status: 201);
     }
 
     /**
@@ -61,9 +60,7 @@ class CategoryController extends Controller
     {
         $categoryWithItems = $this->getCategoryWithItemsQuery->execute($category);
 
-        return response()->json([
-            'data' => new CategoryWithItemsResource($categoryWithItems),
-        ]);
+        return $this->respondData(new CategoryWithItemsResource($categoryWithItems));
     }
 
     /**
@@ -73,10 +70,7 @@ class CategoryController extends Controller
     {
         $updatedCategory = $this->updateCategoryAction->execute($category, $request->validated());
 
-        return response()->json([
-            'message' => 'Categoría actualizada correctamente.',
-            'data' => new CategoryResource($updatedCategory),
-        ]);
+        return $this->respondMutation('Categoría actualizada correctamente.', new CategoryResource($updatedCategory));
     }
 
     /**
@@ -88,9 +82,7 @@ class CategoryController extends Controller
         $categoryName = $category->name;
         $this->deleteCategoryAction->execute($category);
 
-        return response()->json([
-            'message' => "Categoría '{$categoryName}' eliminada correctamente.",
-        ]);
+        return $this->respondMutation("Categoría '{$categoryName}' eliminada correctamente.");
     }
 
     /**
@@ -100,11 +92,26 @@ class CategoryController extends Controller
     {
         $items = $this->getCategoryRankingQuery->execute($category);
 
-        return response()->json([
-            'data' => [
-                'category' => new CategoryResource($category),
-                'ranking' => ItemResource::collection($items),
-            ],
+        return $this->respondData([
+            'category' => new CategoryResource($category),
+            'ranking' => ItemResource::collection($items),
         ]);
+    }
+
+    public function nextItem(GetNextCategoryItemRequest $request, Category $category): JsonResponse|Response
+    {
+        $user = $request->user();
+        $result = $this->getNextCategoryItemQuery->execute($user, $category);
+
+        if ($result === null) {
+            return response()->noContent();
+        }
+
+        return $this->respondData(
+            data: new ItemResource($result['item']),
+            meta: [
+                'remaining' => $result['remaining'],
+            ],
+        );
     }
 }

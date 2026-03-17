@@ -7,8 +7,6 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
@@ -37,11 +35,14 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return response()->json([
-						'message' => 'Usuario creado correctamente',
-						'user' => $user,
-						'access_token' => $user->createToken('auth_token')->plainTextToken,
-						'token_type' => 'Bearer',
-				], 201);
+        return $this->respondMutation(
+            message: 'Usuario creado correctamente',
+            data: [
+                'user' => $user,
+                'access_token' => $user->createToken('auth_token')->plainTextToken,
+                'token_type' => 'Bearer',
+            ],
+            status: 201,
+        );
     }
 }

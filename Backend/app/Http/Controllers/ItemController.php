@@ -46,21 +46,21 @@ class ItemController extends Controller
         $perPage = min(max((int) $request->query('per_page', 15), 1), 100);
         $items = $this->listActiveItemsQuery->execute($filters, $perPage);
 
-        return response()->json([
-            'data' => ItemResource::collection($items),
-            'meta' => [
+        return $this->respondList(
+            data: ItemResource::collection($items),
+            meta: [
                 'current_page' => $items->currentPage(),
                 'last_page' => $items->lastPage(),
                 'per_page' => $items->perPage(),
                 'total' => $items->total(),
             ],
-            'links' => [
+            links: [
                 'first' => $items->url(1),
                 'last' => $items->url($items->lastPage()),
                 'prev' => $items->previousPageUrl(),
                 'next' => $items->nextPageUrl(),
             ],
-        ]);
+        );
     }
 
     /**
@@ -70,15 +70,12 @@ class ItemController extends Controller
     {
         $user = $request->user();
         if (!$user) {
-            return response()->json(['message' => 'No se pudo obtener el usuario autenticado.'], 500);
+            return $this->respondMutation('No se pudo obtener el usuario autenticado.', status: 500);
         }
 
         $item = $this->createItemAction->execute($request->validated(), $user);
 
-        return response()->json([
-            'message' => 'Item creado correctamente.',
-            'data' => new ItemResource($item),
-        ], 201);
+        return $this->respondMutation('Item creado correctamente.', new ItemResource($item), status: 201);
     }
 
     /**
@@ -88,9 +85,7 @@ class ItemController extends Controller
     {
         $item->load(['category', 'creator', 'tags']);
 
-        return response()->json([
-            'data' => new ItemResource($item),
-        ]);
+        return $this->respondData(new ItemResource($item));
     }
 
     /**
@@ -100,10 +95,7 @@ class ItemController extends Controller
     {
         $updatedItem = $this->updateItemAction->execute($item, $request->validated());
 
-        return response()->json([
-            'message' => 'Item actualizado correctamente.',
-            'data' => new ItemResource($updatedItem),
-        ]);
+        return $this->respondMutation('Item actualizado correctamente.', new ItemResource($updatedItem));
     }
 
     /**
@@ -113,9 +105,7 @@ class ItemController extends Controller
     {
         $this->deleteItemAction->execute($item);
 
-        return response()->json([
-            'message' => 'Item eliminado correctamente.',
-        ]);
+        return $this->respondMutation('Item eliminado correctamente.');
     }
 
     /**
@@ -125,18 +115,18 @@ class ItemController extends Controller
     {
         $user = $request->user();
         if (!$user) {
-            return response()->json(['message' => 'No se pudo obtener el usuario autenticado.'], 500);
+            return $this->respondMutation('No se pudo obtener el usuario autenticado.', status: 500);
         }
 
         $items = $this->listMyItemsQuery->execute($user);
 
-        return response()->json([
-            'data' => ItemResource::collection($items),
-            'meta' => [
+        return $this->respondList(
+            data: ItemResource::collection($items),
+            meta: [
                 'total' => $items->count(),
                 'active' => $items->where('status', Item::STATUS_ACTIVE)->count(),
                 'inactive' => $items->where('status', Item::STATUS_INACTIVE)->count(),
             ],
-        ]);
+        );
     }
 }

@@ -22,11 +22,13 @@ class AuthenticationTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonStructure([
-                'access_token',
-                'token_type',
-                'status',
+                'data' => [
+                    'access_token',
+                    'token_type',
+                    'status',
+                    'user',
+                ],
                 'meta',
-                'user',
             ]);
     }
 

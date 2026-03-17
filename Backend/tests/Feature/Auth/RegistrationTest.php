@@ -22,9 +22,11 @@ class RegistrationTest extends TestCase
             ->assertStatus(201)
             ->assertJsonStructure([
                 'message',
-                'user' => ['id', 'name', 'email'],
-                'access_token',
-                'token_type',
+                'data' => [
+                    'user' => ['id', 'name', 'email'],
+                    'access_token',
+                    'token_type',
+                ],
             ]);
 
         $this->assertDatabaseHas('users', [

@@ -2,11 +2,13 @@
 
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\EnsureUserIsNotBanned;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -32,6 +34,17 @@ return Application::configure(basePath: dirname(__DIR__))
 		//
 	})
     ->withExceptions(function (Exceptions $exceptions) {
+        $exceptions->render(function (AuthenticationException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'error' => [
+                        'code' => 'unauthenticated',
+                        'message' => 'Debes iniciar sesión para acceder a esta funcionalidad.',
+                    ],
+                ], 401);
+            }
+        });
+
         // Error de autorización
         $exceptions->render(function (AuthorizationException $e, $request) {
             if ($request->expectsJson()) {
@@ -47,9 +60,23 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (AccessDeniedHttpException $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json([
-                    'message' => 'No tienes permisos para realizar esta acción.',
-                    'error' => 'unauthorized'
+                    'error' => [
+                        'code' => 'forbidden',
+                        'message' => 'No tienes permisos para realizar esta acción.',
+                    ],
                 ], 403);
+            }
+        });
+
+        $exceptions->render(function (ValidationException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'error' => [
+                        'code' => 'validation_error',
+                        'message' => 'La solicitud contiene errores de validación.',
+                        'details' => $e->errors(),
+                    ],
+                ], 422);
             }
         });
 

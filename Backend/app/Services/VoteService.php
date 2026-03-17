@@ -21,13 +21,9 @@ class VoteService
     {
         $existingVote = $this->voteRepository->findByUserAndItem($user->id, $voteData['item_id']);
         if ($existingVote) {
-            $updated = $this->changeVote($existingVote, [
-                'type' => $voteData['type'] ?? $existingVote->type,
-                'score' => array_key_exists('score', $voteData) ? $voteData['score'] : $existingVote->score,
-            ]);
-            $updated->setAttribute('was_existing', true);
+            $existingVote->setAttribute('was_existing', true);
 
-            return $updated;
+            return $existingVote;
         }
 
         $item = Item::findOrFail($voteData['item_id']);
@@ -41,7 +37,14 @@ class VoteService
             try {
                 $vote = $this->voteRepository->create($voteData);
             } catch (QueryException $e) {
-                abort(409, 'Ya has votado este item.');
+                $raceVote = $this->voteRepository->findByUserAndItem($user->id, $voteData['item_id']);
+                if ($raceVote) {
+                    $raceVote->setAttribute('was_existing', true);
+
+                    return $raceVote;
+                }
+
+                throw $e;
             }
 
             if ($voteData['type'] === Vote::TYPE_VOTE) {
@@ -85,78 +88,19 @@ class VoteService
                 abort(422, 'No se puede actualizar el voto porque el item esta inactivo.');
             }
 
-            $newType = $payload['type'] ?? $vote->type;
-            $newScore = array_key_exists('score', $payload) ? $payload['score'] : $vote->score;
-
-            if ($newType === Vote::TYPE_VOTE && $newScore === null) {
-                abort(422, 'score es obligatorio cuando type es vote.');
+            if ($vote->type !== Vote::TYPE_VOTE) {
+                abort(422, 'Solo se puede editar la puntuacion de una votacion emitida.');
             }
 
-            if ($newType === Vote::TYPE_SKIP) {
-                $newScore = null;
-            }
+            $newScore = (int) ($payload['score'] ?? $vote->score);
 
-            $oldType = $vote->type;
-            $oldScore = $vote->score;
+            $oldScore = (int) $vote->score;
 
-            $vote->update([
-                'type' => $newType,
-                'score' => $newScore,
-            ]);
+            $vote->update(['score' => $newScore]);
 
-            if ($oldType === Vote::TYPE_VOTE && $newType === Vote::TYPE_VOTE) {
-                $safeOldScore = (int) $oldScore;
-                $safeNewScore = (int) $newScore;
-                $newAvg = (($item->vote_avg * $item->vote_count) - $safeOldScore + $safeNewScore) / $item->vote_count;
-                $item->update(['vote_avg' => round($newAvg, 2)]);
+            $newAvg = (($item->vote_avg * $item->vote_count) - $oldScore + $newScore) / $item->vote_count;
+            $item->update(['vote_avg' => round($newAvg, 2)]);
 
-                return $vote->fresh();
-            }
-
-            if ($oldType === Vote::TYPE_SKIP && $newType === Vote::TYPE_SKIP) {
-                return $vote->fresh();
-            }
-
-            if ($oldType === Vote::TYPE_SKIP && $newType === Vote::TYPE_VOTE) {
-                $safeNewScore = (int) $newScore;
-                $newCount = $item->vote_count + 1;
-                $newAvg = (($item->vote_avg * $item->vote_count) + $safeNewScore) / $newCount;
-
-                $voteOwner = User::lockForUpdate()->findOrFail($vote->user_id);
-
-                $this->kudosService->awardIfFirst(
-                    user: $voteOwner,
-                    kudosAmount: KudosRules::rewardForVoteFirstTimeItem(),
-                    reason: KudosRules::reasonForVoteFirstTimeItem(),
-                    actionKey: KudosRules::actionKeyForVoteFirstTimeItem($vote->user_id, $vote->item_id),
-                    referenceType: Item::class,
-                    referenceId: $vote->item_id,
-                );
-
-                $item->update([
-                    'vote_count' => $newCount,
-                    'vote_avg' => round($newAvg, 2),
-                ]);
-
-                return $vote->fresh();
-            }
-
-            // old vote -> new skip
-            $safeOldScore = (int) $oldScore;
-            if ($item->vote_count > 1) {
-                $newCount = $item->vote_count - 1;
-                $newAvg = (($item->vote_avg * $item->vote_count) - $safeOldScore) / $newCount;
-
-                $item->update([
-                    'vote_count' => $newCount,
-                    'vote_avg' => round($newAvg, 2),
-                ]);
-            } else {
-                $item->update([
-                    'vote_count' => 0,
-                    'vote_avg' => 0,
-                ]);
-            }
 
             return $vote->fresh();
         });

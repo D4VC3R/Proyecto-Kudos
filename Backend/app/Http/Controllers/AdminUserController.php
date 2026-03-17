@@ -41,16 +41,16 @@ class AdminUserController extends Controller
 
         $users = $result['users'];
 
-        return response()->json([
-            'data' => $users->items(),
-            'meta' => [
+        return $this->respondList(
+            data: $users->items(),
+            meta: [
                 'current_page' => $users->currentPage(),
                 'last_page' => $users->lastPage(),
                 'per_page' => $users->perPage(),
                 'total' => $users->total(),
                 'summary' => $result['summary'],
             ],
-        ]);
+        );
     }
 
     public function ban(BanUserRequest $request, User $user): JsonResponse
@@ -65,10 +65,7 @@ class AdminUserController extends Controller
             reason: (string) $request->input('reason'),
         );
 
-        return response()->json([
-            'message' => 'Usuario baneado correctamente.',
-            'data' => $updatedUser,
-        ]);
+        return $this->respondMutation('Usuario baneado correctamente.', $updatedUser);
     }
 
     public function unban(UnbanUserRequest $request, User $user): JsonResponse
@@ -77,10 +74,7 @@ class AdminUserController extends Controller
 
         $updatedUser = $this->unbanUserAction->execute($admin, $user);
 
-        return response()->json([
-            'message' => 'Usuario desbaneado correctamente.',
-            'data' => $updatedUser,
-        ]);
+        return $this->respondMutation('Usuario desbaneado correctamente.', $updatedUser);
     }
 
     public function revokeTokens(RevokeUserTokensRequest $request, User $user): JsonResponse
@@ -89,12 +83,12 @@ class AdminUserController extends Controller
 
         $revoked = $this->revokeUserTokensAction->execute($admin, $user);
 
-        return response()->json([
-            'message' => 'Sesiones del usuario revocadas correctamente.',
-            'meta' => [
+        return $this->respondMutation(
+            'Sesiones del usuario revocadas correctamente.',
+            meta: [
                 'revoked_tokens' => $revoked,
             ],
-        ]);
+        );
     }
 }
 

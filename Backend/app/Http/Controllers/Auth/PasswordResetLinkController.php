@@ -34,6 +34,8 @@ class PasswordResetLinkController extends Controller
             ]);
         }
 
-        return response()->json(['status' => __($status)]);
+        return $this->respondMutation('Solicitud de restablecimiento enviada.', [
+            'status' => __($status),
+        ]);
     }
 }

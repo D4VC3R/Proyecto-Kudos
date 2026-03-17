@@ -37,15 +37,15 @@ class AdminItemController extends Controller
             perPage: (int) ($validated['per_page'] ?? 20),
         );
 
-        return response()->json([
-            'data' => ItemResource::collection($items),
-            'meta' => [
+        return $this->respondList(
+            data: ItemResource::collection($items),
+            meta: [
                 'current_page' => $items->currentPage(),
                 'last_page' => $items->lastPage(),
                 'per_page' => $items->perPage(),
                 'total' => $items->total(),
             ],
-        ]);
+        );
     }
 
     public function update(AdminUpdateItemRequest $request, Item $item): JsonResponse
@@ -58,10 +58,7 @@ class AdminItemController extends Controller
 
         $updated = $this->updateAdminItemAction->execute($admin, $item, $payload, $reason);
 
-        return response()->json([
-            'message' => 'Item actualizado por administración.',
-            'data' => new ItemResource($updated),
-        ]);
+        return $this->respondMutation('Item actualizado por administración.', new ItemResource($updated));
     }
 
     public function moderate(ModerateItemRequest $request, Item $item): JsonResponse
@@ -73,10 +70,7 @@ class AdminItemController extends Controller
 
         $updated = $this->moderateItemStatusAction->execute($admin, $item, $status, $reason);
 
-        return response()->json([
-            'message' => 'Estado del item actualizado por administración.',
-            'data' => new ItemResource($updated),
-        ]);
+        return $this->respondMutation('Estado del item actualizado por administración.', new ItemResource($updated));
     }
 }
 

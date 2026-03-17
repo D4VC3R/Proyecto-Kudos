@@ -34,52 +34,42 @@ class ProposalController extends Controller
             $request->user()
         );
 
-        return response()->json([
-            'message' => 'Propuesta creada correctamente.',
-            'data' => $proposal,
-        ], 201);
+        return $this->respondMutation('Propuesta creada correctamente.', $proposal, status: 201);
     }
 
     public function myProposals(Request $request): JsonResponse
     {
         $proposals = $this->proposalService->getByUser($request->user());
 
-        return response()->json([
-            'data' => $proposals,
-            'meta' => [
+        return $this->respondList(
+            data: $proposals,
+            meta: [
                 'total' => $proposals->count(),
                 'pending' => $proposals->where('status', Proposal::STATUS_PENDING)->count(),
                 'accepted' => $proposals->where('status', Proposal::STATUS_ACCEPTED)->count(),
                 'rejected' => $proposals->where('status', Proposal::STATUS_REJECTED)->count(),
                 'changes_requested' => $proposals->where('status', Proposal::STATUS_CHANGES_REQUESTED)->count(),
             ],
-        ]);
+        );
     }
 
     public function show(ShowProposalRequest $request, Proposal $proposal): JsonResponse
     {
-        return response()->json([
-            'data' => $proposal->load(['creator:id,name', 'category:id,name,slug', 'reviewer:id,name']),
-        ]);
+        return $this->respondData($proposal->load(['creator:id,name', 'category:id,name,slug', 'reviewer:id,name']));
     }
 
     public function update(UpdateProposalRequest $request, Proposal $proposal): JsonResponse
     {
         $updated = $this->proposalService->updateAndResubmit($proposal, $request->validated());
 
-        return response()->json([
-            'message' => 'Propuesta actualizada y reenviada a revisión.',
-            'data' => $updated,
-        ]);
+        return $this->respondMutation('Propuesta actualizada y reenviada a revisión.', $updated);
     }
 
     public function destroy(DeleteProposalRequest $request, Proposal $proposal): JsonResponse
     {
         $this->proposalService->deleteProposal($proposal);
 
-        return response()->json([
-            'message' => 'Propuesta eliminada correctamente.',
-        ]);
+        return $this->respondMutation('Propuesta eliminada correctamente.');
     }
 
     public function pending(ListPendingProposalsRequest $request): JsonResponse
@@ -88,15 +78,15 @@ class ProposalController extends Controller
         $perPage = (int) ($validated['per_page'] ?? 15);
         $pending = $this->listPendingProposalsQuery->execute($perPage);
 
-        return response()->json([
-            'data' => $pending->items(),
-            'meta' => [
+        return $this->respondList(
+            data: $pending->items(),
+            meta: [
                 'current_page' => $pending->currentPage(),
                 'last_page' => $pending->lastPage(),
                 'per_page' => $pending->perPage(),
                 'total' => $pending->total(),
             ],
-        ]);
+        );
     }
 
     public function adminIndex(ListAdminProposalsRequest $request): JsonResponse
@@ -114,15 +104,15 @@ class ProposalController extends Controller
         $perPage = (int) ($validated['per_page'] ?? 15);
         $proposals = $this->listAdminProposalsQuery->execute($filters, $perPage);
 
-        return response()->json([
-            'data' => $proposals->items(),
-            'meta' => [
+        return $this->respondList(
+            data: $proposals->items(),
+            meta: [
                 'current_page' => $proposals->currentPage(),
                 'last_page' => $proposals->lastPage(),
                 'per_page' => $proposals->perPage(),
                 'total' => $proposals->total(),
             ],
-        ]);
+        );
     }
 
     public function review(ReviewProposalRequest $request, Proposal $proposal): JsonResponse
@@ -138,9 +128,6 @@ class ProposalController extends Controller
             adminNotes: $validated['admin_notes'] ?? null,
         );
 
-        return response()->json([
-            'message' => 'Propuesta revisada correctamente.',
-            'data' => $updated,
-        ]);
+        return $this->respondMutation('Propuesta revisada correctamente.', $updated);
     }
 }

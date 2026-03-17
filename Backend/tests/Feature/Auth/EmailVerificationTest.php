@@ -25,11 +25,14 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1($user->email)]
         );
 
-        $response = $this->actingAs($user)->get($verificationUrl);
+        $response = $this->actingAs($user)->getJson($verificationUrl);
 
         Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
-        $response->assertRedirect(config('app.frontend_url').'/dashboard?verified=1');
+        $response
+            ->assertOk()
+            ->assertJsonPath('message', 'Email verificado correctamente.')
+            ->assertJsonPath('data.status', 'verified');
     }
 
     public function test_email_is_not_verified_with_invalid_hash(): void
@@ -42,8 +45,20 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1('wrong-email')]
         );
 
-        $this->actingAs($user)->get($verificationUrl);
+        $this->actingAs($user)->getJson($verificationUrl)
+            ->assertStatus(403);
 
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
+    }
+
+    public function test_email_verification_notification_returns_json_when_already_verified(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->postJson('/api/email/verification-notification')
+            ->assertOk()
+            ->assertJsonPath('message', 'El email ya estaba verificado.')
+            ->assertJsonPath('data.status', 'already-verified');
     }
 }

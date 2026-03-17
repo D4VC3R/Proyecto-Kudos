@@ -15,11 +15,14 @@ class StoreVoteRequest extends FormRequest
     public function authorize(): bool
     {
         $itemId = $this->input('item_id');
-        if (!is_string($itemId) || $itemId === '') {
-            return false;
+        if (!is_string($itemId) || $itemId === '' || !preg_match('/^[0-9a-fA-F-]{36}$/', $itemId)) {
+            return $this->user() !== null;
         }
 
         $item = Item::query()->select(['id', 'status'])->find($itemId);
+        if (!$item) {
+            return $this->user() !== null;
+        }
 
         return $item && ($this->user()?->can('create', [Vote::class, $item]) ?? false);
     }

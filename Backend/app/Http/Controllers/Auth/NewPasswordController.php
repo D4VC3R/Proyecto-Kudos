@@ -48,6 +48,8 @@ class NewPasswordController extends Controller
             ]);
         }
 
-        return response()->json(['status' => __($status)]);
+        return $this->respondMutation('Contraseña restablecida correctamente.', [
+            'status' => __($status),
+        ]);
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Resources\ProfileResource;
-use App\Models\Profile;
 use App\Services\ProfileService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,9 +22,7 @@ class ProfileController extends Controller
 	{
 		$user = $request->user();
 
-		return response()->json([
-			'data' => new ProfileResource($user->profile)
-		], 200);
+		return $this->respondData(new ProfileResource($user->profile));
 	}
 
 	public function update(UpdateProfileRequest $request): JsonResponse
@@ -35,9 +32,9 @@ class ProfileController extends Controller
 
 		$profile = $this->profileService->updateProfile($user, $validatedData);
 
-		return response()->json([
-			'message' => 'Perfil actualizado correctamente.',
-			'data' => new ProfileResource($profile)
-		], 200);
+		return $this->respondMutation(
+			'Perfil actualizado correctamente.',
+			new ProfileResource($profile),
+		);
 	}
 }

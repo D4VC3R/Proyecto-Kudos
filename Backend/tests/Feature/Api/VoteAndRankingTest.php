@@ -51,7 +51,7 @@ class VoteAndRankingTest extends TestCase
         ]);
     }
 
-    public function test_vote_update_allows_vote_skip_transitions_and_only_first_vote_awards_kudos(): void
+    public function test_vote_update_edits_score_and_keeps_kudos_unchanged(): void
     {
         $user = User::factory()->create();
         $category = Category::factory()->create();
@@ -61,17 +61,17 @@ class VoteAndRankingTest extends TestCase
             'vote_count' => 0,
         ]);
 
-        $vote = Vote::create([
-            'user_id' => $user->id,
-            'item_id' => $item->id,
-            'type' => Vote::TYPE_SKIP,
-            'score' => null,
-        ]);
-
         Sanctum::actingAs($user);
 
-        $this->putJson("/api/votes/{$vote->id}", [
+        $this->postJson('/api/votes', [
             'type' => Vote::TYPE_VOTE,
+            'item_id' => $item->id,
+            'score' => 6,
+        ])->assertStatus(201);
+
+        $vote = Vote::query()->where('user_id', $user->id)->where('item_id', $item->id)->firstOrFail();
+
+        $this->putJson("/api/votes/{$vote->id}", [
             'score' => 8,
         ])->assertOk();
 
@@ -81,21 +81,9 @@ class VoteAndRankingTest extends TestCase
         $this->assertSame(1, $item->vote_count);
         $this->assertSame(8.0, (float) $item->vote_avg);
         $this->assertSame(KudosRules::rewardForVoteFirstTimeItem(), $user->total_kudos);
-
-        $this->putJson("/api/votes/{$vote->id}", [
-            'type' => Vote::TYPE_SKIP,
-            'score' => null,
-        ])->assertOk();
-
-        $item->refresh();
-        $user->refresh();
-
-        $this->assertSame(0, $item->vote_count);
-        $this->assertSame(0.0, (float) $item->vote_avg);
-        $this->assertSame(KudosRules::rewardForVoteFirstTimeItem(), $user->total_kudos);
     }
 
-    public function test_post_vote_updates_existing_interaction_instead_of_failing(): void
+    public function test_post_vote_is_idempotent_and_does_not_mutate_existing_interaction(): void
     {
         $user = User::factory()->create();
         $category = Category::factory()->create();
@@ -121,14 +109,43 @@ class VoteAndRankingTest extends TestCase
         ])
             ->assertOk()
             ->assertJsonPath('meta.was_existing', true)
-            ->assertJsonPath('meta.vote_type', Vote::TYPE_VOTE);
+            ->assertJsonPath('meta.idempotent_hit', true)
+            ->assertJsonPath('meta.vote_type', Vote::TYPE_SKIP);
 
         $item->refresh();
         $user->refresh();
 
-        $this->assertSame(1, $item->vote_count);
-        $this->assertSame(9.0, (float) $item->vote_avg);
-        $this->assertSame(KudosRules::rewardForVoteFirstTimeItem(), $user->total_kudos);
+        $this->assertSame(0, $item->vote_count);
+        $this->assertSame(0.0, (float) $item->vote_avg);
+        $this->assertSame(0, $user->total_kudos);
+        $this->assertDatabaseHas('votes', [
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+            'type' => Vote::TYPE_SKIP,
+            'score' => null,
+        ]);
+    }
+
+    public function test_store_vote_with_invalid_item_id_returns_422_not_403(): void
+    {
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/votes', [
+            'item_id' => 'invalido',
+            'type' => Vote::TYPE_VOTE,
+            'score' => 5,
+        ])
+            ->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_error')
+            ->assertJsonStructure([
+                'error' => [
+                    'code',
+                    'message',
+                    'details' => ['item_id'],
+                ],
+            ]);
     }
 
     public function test_public_ranking_returns_top_page_and_my_position_with_tie_breaker(): void

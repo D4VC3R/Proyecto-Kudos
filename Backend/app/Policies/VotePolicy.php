@@ -37,12 +37,7 @@ class VotePolicy
      */
     public function update(User $user, Vote $vote): bool
     {
-	    if ($user->id !== $vote->user_id) {
-		    return false;
-	    }
-
-	    // Solo si el item sigue activo
-        return $vote->item && $vote->item->status === Item::STATUS_ACTIVE;
+      return $user->id === $vote->user_id;
     }
 
     /**

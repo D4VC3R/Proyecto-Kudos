@@ -173,3 +173,10 @@ Para nuevas features:
 4. Reutilizar/mover acceso a datos a `Repository`.
 5. Dejar el controlador solo para gestionar respuestas HTTP.
 
+## Documentación de contrato API
+
+- Contrato JSON de respuestas y errores: `docs/api-contract.md`
+- Referencia completa de endpoints y flujos: `docs/api-reference.md`
+- Convención de autorización: `docs/authorization-conventions.md`
+- Colección Postman: `docs/postman/Proyecto-Kudos.postman_collection.json`
+
