@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BanUserRequest extends FormRequest
+class RevokeUserTokensRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -13,11 +13,7 @@ class BanUserRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            'is_permanent' => ['sometimes', 'boolean'],
-            'days' => ['required_unless:is_permanent,true', 'nullable', 'integer', 'min:1', 'max:3650'],
-            'reason' => ['required', 'string', 'max:1000'],
-        ];
+        return [];
     }
 
     public function withValidator($validator): void
@@ -27,10 +23,9 @@ class BanUserRequest extends FormRequest
             $target = $this->route('user');
 
             if ($admin && $target && $admin->id === $target->id) {
-                $validator->errors()->add('user', 'No puedes banear tu propia cuenta.');
+                $validator->errors()->add('user', 'No puedes revocar tu propia sesión desde esta acción.');
             }
         });
     }
 }
-
 

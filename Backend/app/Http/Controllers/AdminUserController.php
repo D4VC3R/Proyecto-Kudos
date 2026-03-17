@@ -6,10 +6,12 @@ use App\Actions\Admin\Users\BanUserAction;
 use App\Actions\Admin\Users\RevokeUserTokensAction;
 use App\Actions\Admin\Users\UnbanUserAction;
 use App\Http\Requests\BanUserRequest;
+use App\Http\Requests\ListAdminUsersRequest;
+use App\Http\Requests\RevokeUserTokensRequest;
+use App\Http\Requests\UnbanUserRequest;
 use App\Models\User;
 use App\Queries\Admin\Users\ListAdminUsersQuery;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class AdminUserController extends Controller
 {
@@ -21,18 +23,20 @@ class AdminUserController extends Controller
     ) {
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(ListAdminUsersRequest $request): JsonResponse
     {
+        $validated = $request->validated();
+
         $filters = [
-            'search' => $request->query('search'),
-            'is_banned' => $request->query('is_banned'),
-            'ban_state' => $request->query('ban_state'),
-            'role' => $request->query('role'),
+            'search' => $validated['search'] ?? null,
+            'is_banned' => $validated['is_banned'] ?? null,
+            'ban_state' => $validated['ban_state'] ?? null,
+            'role' => $validated['role'] ?? null,
         ];
 
         $result = $this->listAdminUsersQuery->execute(
             filters: $filters,
-            perPage: (int) $request->query('per_page', 20),
+            perPage: (int) ($validated['per_page'] ?? 20),
         );
 
         $users = $result['users'];
@@ -52,13 +56,6 @@ class AdminUserController extends Controller
     public function ban(BanUserRequest $request, User $user): JsonResponse
     {
         $admin = $request->user();
-        if (!$admin instanceof User) {
-            return response()->json(['message' => 'No se pudo obtener el administrador autenticado.'], 500);
-        }
-
-        if ($admin->id === $user->id) {
-            return response()->json(['message' => 'No puedes banear tu propia cuenta.'], 422);
-        }
 
         $updatedUser = $this->banUserAction->execute(
             admin: $admin,
@@ -74,12 +71,9 @@ class AdminUserController extends Controller
         ]);
     }
 
-    public function unban(Request $request, User $user): JsonResponse
+    public function unban(UnbanUserRequest $request, User $user): JsonResponse
     {
         $admin = $request->user();
-        if (!$admin instanceof User) {
-            return response()->json(['message' => 'No se pudo obtener el administrador autenticado.'], 500);
-        }
 
         $updatedUser = $this->unbanUserAction->execute($admin, $user);
 
@@ -89,16 +83,9 @@ class AdminUserController extends Controller
         ]);
     }
 
-    public function revokeTokens(Request $request, User $user): JsonResponse
+    public function revokeTokens(RevokeUserTokensRequest $request, User $user): JsonResponse
     {
         $admin = $request->user();
-        if (!$admin instanceof User) {
-            return response()->json(['message' => 'No se pudo obtener el administrador autenticado.'], 500);
-        }
-
-        if ($admin->id === $user->id) {
-            return response()->json(['message' => 'No puedes revocar tu propia sesión desde esta acción.'], 422);
-        }
 
         $revoked = $this->revokeUserTokensAction->execute($admin, $user);
 

@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Actions\Admin\Items\ModerateItemStatusAction;
 use App\Actions\Admin\Items\UpdateAdminItemAction;
 use App\Http\Requests\AdminUpdateItemRequest;
+use App\Http\Requests\ListAdminItemsRequest;
 use App\Http\Requests\ModerateItemRequest;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
-use App\Models\User;
 use App\Queries\Admin\Items\ListAdminItemsQuery;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class AdminItemController extends Controller
 {
@@ -22,18 +21,20 @@ class AdminItemController extends Controller
     ) {
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(ListAdminItemsRequest $request): JsonResponse
     {
+        $validated = $request->validated();
+
         $filters = [
-            'status' => $request->query('status'),
-            'category_id' => $request->query('category_id'),
-            'creator_id' => $request->query('creator_id'),
-            'search' => $request->query('search'),
+            'status' => $validated['status'] ?? null,
+            'category_id' => $validated['category_id'] ?? null,
+            'creator_id' => $validated['creator_id'] ?? null,
+            'search' => $validated['search'] ?? null,
         ];
 
         $items = $this->listAdminItemsQuery->execute(
             filters: $filters,
-            perPage: (int) $request->query('per_page', 20),
+            perPage: (int) ($validated['per_page'] ?? 20),
         );
 
         return response()->json([
@@ -50,9 +51,6 @@ class AdminItemController extends Controller
     public function update(AdminUpdateItemRequest $request, Item $item): JsonResponse
     {
         $admin = $request->user();
-        if (!$admin instanceof User) {
-            return response()->json(['message' => 'No se pudo obtener el administrador autenticado.'], 500);
-        }
 
         $payload = $request->validated();
         $reason = $payload['moderation_reason'] ?? null;
@@ -69,9 +67,6 @@ class AdminItemController extends Controller
     public function moderate(ModerateItemRequest $request, Item $item): JsonResponse
     {
         $admin = $request->user();
-        if (!$admin instanceof User) {
-            return response()->json(['message' => 'No se pudo obtener el administrador autenticado.'], 500);
-        }
 
         $status = $request->validated()['status'];
         $reason = $request->validated()['reason'] ?? null;

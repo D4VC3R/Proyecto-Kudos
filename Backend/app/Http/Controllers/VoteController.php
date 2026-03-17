@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Actions\Votes\DeleteVoteAction;
 use App\Actions\Votes\EmitVoteAction;
 use App\Actions\Votes\UpdateVoteAction;
+use App\Http\Requests\DeleteVoteRequest;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
-use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 
 class VoteController extends Controller
 {
@@ -27,20 +26,29 @@ class VoteController extends Controller
 	public function store(StoreVoteRequest $request): JsonResponse
 	{
 		$user = $request->user();
-        if (!$user instanceof User) {
-            return response()->json(['message' => 'No se pudo obtener el usuario autenticado.'], 500);
-        }
+				if (!$user) {
+					return response()->json(['message' => 'No se pudo obtener el usuario autenticado.'], 500);
+				}
 
-        $vote = $this->emitVoteAction->execute($user, $request->validated());
+		$validated = $request->validated();
+		$vote = $this->emitVoteAction->execute($user, $validated);
         $user->refresh();
 
+		$isSkip = ($validated['type'] ?? Vote::TYPE_VOTE) === Vote::TYPE_SKIP;
+		$wasExisting = (bool) ($vote->getAttribute('was_existing') ?? false);
+		$statusCode = $wasExisting ? 200 : 201;
+
 		return response()->json([
-			'message' => 'Voto registrado correctamente.',
+	  'message' => $wasExisting
+			? ($isSkip ? 'Interacción actualizada a skip correctamente.' : 'Voto actualizado correctamente.')
+			: ($isSkip ? 'Item pasado correctamente.' : 'Voto registrado correctamente.'),
 			'data' => $vote,
             'meta' => [
                 'total_kudos' => $user->total_kudos,
+				'vote_type' => $vote->type,
+				'was_existing' => $wasExisting,
             ],
-		], 201); // 201 Created
+		], $statusCode);
 	}
 
 	/**
@@ -48,10 +56,13 @@ class VoteController extends Controller
 	 */
 	public function update(UpdateVoteRequest $request, Vote $vote): JsonResponse
 	{
-		$updatedVote = $this->updateVoteAction->execute($vote, (int) $request->validated()['score']);
+		$payload = $request->validated();
+		$updatedVote = $this->updateVoteAction->execute($vote, $payload);
 
 		return response()->json([
-			'message' => 'Voto actualizado correctamente.',
+			'message' => $updatedVote->type === Vote::TYPE_SKIP
+				? 'Interacción actualizada a skip correctamente.'
+				: 'Voto actualizado correctamente.',
 			'data' => $updatedVote,
 		], 200);
 	}
@@ -59,9 +70,8 @@ class VoteController extends Controller
 	/**
 	 * Eliminar un voto.
 	 */
-	public function destroy(Vote $vote): JsonResponse
+	public function destroy(DeleteVoteRequest $request, Vote $vote): JsonResponse
 	{
-		Gate::authorize('delete', $vote);
 
         $this->deleteVoteAction->execute($vote);
 

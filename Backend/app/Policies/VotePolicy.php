@@ -5,8 +5,6 @@ namespace App\Policies;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Vote;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Auth;
 
 class VotePolicy
 {
@@ -31,12 +29,6 @@ class VotePolicy
      */
     public function create(User $user, Item $item): bool
     {
-        $existingVote = $user->votes()->where('item_id', $item->id)->exists();
-
-        if ($existingVote) {
-            return false;
-        }
-
         return $item->status === Item::STATUS_ACTIVE;
     }
 
@@ -49,7 +41,7 @@ class VotePolicy
 		    return false;
 	    }
 
-	    // Solo si el item sigue aceptado
+	    // Solo si el item sigue activo
         return $vote->item && $vote->item->status === Item::STATUS_ACTIVE;
     }
 

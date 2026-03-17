@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-	          $table->integer('score')->nullable();
+            $table->enum('type', ['vote', 'skip'])->default('vote');
+            $table->integer('score')->nullable();
 
-						$table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
-	          $table->foreignUuid('item_id')->constrained('items')->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('item_id')->constrained('items')->cascadeOnDelete();
 
-						$table->unique(['user_id', 'item_id'], 'votes_user_item_unique');
+            $table->unique(['user_id', 'item_id'], 'votes_user_item_unique');
+            $table->index(['item_id', 'type']);
 
             $table->timestamps();
         });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Categories\CreateCategoryAction;
 use App\Actions\Categories\DeleteCategoryAction;
 use App\Actions\Categories\UpdateCategoryAction;
+use App\Http\Requests\DeleteCategoryRequest;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
@@ -14,13 +15,10 @@ use App\Models\Category;
 use App\Queries\Categories\GetCategoryRankingQuery;
 use App\Queries\Categories\GetCategoryWithItemsQuery;
 use App\Queries\Categories\ListCategoriesQuery;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
-    use AuthorizesRequests;
-
     public function __construct(
         protected ListCategoriesQuery $listCategoriesQuery,
         protected GetCategoryWithItemsQuery $getCategoryWithItemsQuery,
@@ -48,8 +46,6 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request): JsonResponse
     {
-        $this->authorize('create', Category::class);
-
         $category = $this->createCategoryAction->execute($request->validated());
 
         return response()->json([
@@ -75,8 +71,6 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category): JsonResponse
     {
-        $this->authorize('update', $category);
-
         $updatedCategory = $this->updateCategoryAction->execute($category, $request->validated());
 
         return response()->json([
@@ -88,9 +82,8 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category): JsonResponse
+    public function destroy(DeleteCategoryRequest $request, Category $category): JsonResponse
     {
-        $this->authorize('delete', $category);
 
         $categoryName = $category->name;
         $this->deleteCategoryAction->execute($category);

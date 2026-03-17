@@ -11,9 +11,12 @@ class UpdateVoteAction
     {
     }
 
-    public function execute(Vote $vote, int $score): Vote
+    /**
+     * @param array<string,mixed> $payload
+     */
+    public function execute(Vote $vote, array $payload): Vote
     {
-        return $this->voteService->changeVote($vote, $score);
+        return $this->voteService->changeVote($vote, $payload);
     }
 }
 

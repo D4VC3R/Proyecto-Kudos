@@ -13,10 +13,18 @@ class Vote extends Model
 {
     use HasFactory, HasUuids;
 
+    public const TYPE_VOTE = 'vote';
+    public const TYPE_SKIP = 'skip';
+
     protected $fillable = [
         'user_id',
         'item_id',
-        'score'
+        'type',
+        'score',
+    ];
+
+    protected $casts = [
+        'score' => 'integer',
     ];
 
     protected $hidden = [

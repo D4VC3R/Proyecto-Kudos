@@ -22,6 +22,11 @@ class ProposalPolicy
         return true;
     }
 
+    public function reviewAny(User $user): bool
+    {
+        return $user->hasRole('admin');
+    }
+
     public function update(User $user, Proposal $proposal): bool
     {
         if ($user->hasRole('admin')) {
@@ -41,8 +46,8 @@ class ProposalPolicy
         return $user->hasRole('admin') || $proposal->creator_id === $user->id;
     }
 
-    public function review(User $user): bool
+    public function review(User $user, Proposal $proposal): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin') && $proposal->creator_id !== $user->id;
     }
 }

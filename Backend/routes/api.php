@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\UserRankingController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,7 @@ Route::prefix('categories')->group(function () {
 });
 
 Route::get('/items', [ItemController::class, 'index']);
+Route::get('/users/ranking', [UserRankingController::class, 'index']);
 
 // Autenticadas
 Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function () {

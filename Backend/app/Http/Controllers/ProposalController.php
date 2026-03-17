@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Admin\Proposals\ReviewProposalAction;
+use App\Http\Requests\DeleteProposalRequest;
+use App\Http\Requests\ListAdminProposalsRequest;
+use App\Http\Requests\ListPendingProposalsRequest;
 use App\Http\Requests\ReviewProposalRequest;
+use App\Http\Requests\ShowProposalRequest;
 use App\Http\Requests\StoreProposalRequest;
 use App\Http\Requests\UpdateProposalRequest;
 use App\Models\Proposal;
-use App\Models\User;
 use App\Queries\Admin\Proposals\ListAdminProposalsQuery;
 use App\Queries\Admin\Proposals\ListPendingProposalsQuery;
 use App\Services\ProposalService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class ProposalController extends Controller
 {
@@ -27,8 +29,6 @@ class ProposalController extends Controller
 
     public function store(StoreProposalRequest $request): JsonResponse
     {
-        Gate::authorize('create', Proposal::class);
-
         $proposal = $this->proposalService->createProposal(
             $request->validated(),
             $request->user()
@@ -56,10 +56,8 @@ class ProposalController extends Controller
         ]);
     }
 
-    public function show(Proposal $proposal): JsonResponse
+    public function show(ShowProposalRequest $request, Proposal $proposal): JsonResponse
     {
-        Gate::authorize('view', $proposal);
-
         return response()->json([
             'data' => $proposal->load(['creator:id,name', 'category:id,name,slug', 'reviewer:id,name']),
         ]);
@@ -67,8 +65,6 @@ class ProposalController extends Controller
 
     public function update(UpdateProposalRequest $request, Proposal $proposal): JsonResponse
     {
-        Gate::authorize('update', $proposal);
-
         $updated = $this->proposalService->updateAndResubmit($proposal, $request->validated());
 
         return response()->json([
@@ -77,10 +73,8 @@ class ProposalController extends Controller
         ]);
     }
 
-    public function destroy(Proposal $proposal): JsonResponse
+    public function destroy(DeleteProposalRequest $request, Proposal $proposal): JsonResponse
     {
-        Gate::authorize('delete', $proposal);
-
         $this->proposalService->deleteProposal($proposal);
 
         return response()->json([
@@ -88,11 +82,10 @@ class ProposalController extends Controller
         ]);
     }
 
-    public function pending(Request $request): JsonResponse
+    public function pending(ListPendingProposalsRequest $request): JsonResponse
     {
-        Gate::authorize('review', Proposal::class);
-
-        $perPage = min(max((int)$request->query('per_page', 15), 1), 100);
+        $validated = $request->validated();
+        $perPage = (int) ($validated['per_page'] ?? 15);
         $pending = $this->listPendingProposalsQuery->execute($perPage);
 
         return response()->json([
@@ -106,19 +99,19 @@ class ProposalController extends Controller
         ]);
     }
 
-    public function adminIndex(Request $request): JsonResponse
+    public function adminIndex(ListAdminProposalsRequest $request): JsonResponse
     {
-        Gate::authorize('review', Proposal::class);
+        $validated = $request->validated();
 
         $filters = [
-            'status' => $request->query('status'),
-            'creator_id' => $request->query('creator_id'),
-            'reviewed_by' => $request->query('reviewed_by'),
-            'category_id' => $request->query('category_id'),
-            'search' => $request->query('search'),
+            'status' => $validated['status'] ?? null,
+            'creator_id' => $validated['creator_id'] ?? null,
+            'reviewed_by' => $validated['reviewed_by'] ?? null,
+            'category_id' => $validated['category_id'] ?? null,
+            'search' => $validated['search'] ?? null,
         ];
 
-        $perPage = min(max((int) $request->query('per_page', 15), 1), 100);
+        $perPage = (int) ($validated['per_page'] ?? 15);
         $proposals = $this->listAdminProposalsQuery->execute($filters, $perPage);
 
         return response()->json([
@@ -134,12 +127,7 @@ class ProposalController extends Controller
 
     public function review(ReviewProposalRequest $request, Proposal $proposal): JsonResponse
     {
-        Gate::authorize('review', Proposal::class);
-
         $admin = $request->user();
-        if (!$admin instanceof User) {
-            return response()->json(['message' => 'No se pudo obtener el administrador autenticado.'], 500);
-        }
 
         $validated = $request->validated();
 

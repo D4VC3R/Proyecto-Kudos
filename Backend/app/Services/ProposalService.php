@@ -97,10 +97,6 @@ class ProposalService
                 abort(422, 'Solo se pueden revisar propuestas en estado pending.');
             }
 
-            if ($lockedProposal->creator_id === $admin->id) {
-                abort(422, 'No puedes revisar una propuesta creada por tu propio usuario.');
-            }
-
             if (
                 in_array($status, [Proposal::STATUS_REJECTED, Proposal::STATUS_CHANGES_REQUESTED], true)
                 && blank($adminNotes)

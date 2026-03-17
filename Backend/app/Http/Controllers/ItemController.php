@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Actions\Items\CreateItemAction;
 use App\Actions\Items\DeleteItemAction;
 use App\Actions\Items\UpdateItemAction;
+use App\Http\Requests\DeleteItemRequest;
+use App\Http\Requests\ShowItemRequest;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
-use App\Models\User;
 use App\Queries\Items\ListActiveItemsQuery;
 use App\Queries\Items\ListMyItemsQuery;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class ItemController extends Controller
 {
@@ -68,10 +68,8 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request): JsonResponse
     {
-        Gate::authorize('create', Item::class);
-
         $user = $request->user();
-        if (!$user instanceof User) {
+        if (!$user) {
             return response()->json(['message' => 'No se pudo obtener el usuario autenticado.'], 500);
         }
 
@@ -86,10 +84,8 @@ class ItemController extends Controller
     /**
      * Display the specified item.
      */
-    public function show(Item $item): JsonResponse
+    public function show(ShowItemRequest $request, Item $item): JsonResponse
     {
-        Gate::authorize('view', $item);
-
         $item->load(['category', 'creator', 'tags']);
 
         return response()->json([
@@ -102,8 +98,6 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item): JsonResponse
     {
-        Gate::authorize('update', $item);
-
         $updatedItem = $this->updateItemAction->execute($item, $request->validated());
 
         return response()->json([
@@ -115,10 +109,8 @@ class ItemController extends Controller
     /**
      * Remove the specified item.
      */
-    public function destroy(Item $item): JsonResponse
+    public function destroy(DeleteItemRequest $request, Item $item): JsonResponse
     {
-        Gate::authorize('delete', $item);
-
         $this->deleteItemAction->execute($item);
 
         return response()->json([
@@ -132,7 +124,7 @@ class ItemController extends Controller
     public function myItems(Request $request): JsonResponse
     {
         $user = $request->user();
-        if (!$user instanceof User) {
+        if (!$user) {
             return response()->json(['message' => 'No se pudo obtener el usuario autenticado.'], 500);
         }
 

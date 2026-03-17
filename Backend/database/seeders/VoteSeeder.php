@@ -56,8 +56,8 @@ class VoteSeeder extends Seeder
             }
 
             $item->update([
-                'vote_avg' => round($item->votes()->avg('score'), 2),
-                'vote_count' => $item->votes()->count(),
+                'vote_avg' => round($item->votes()->where('type', Vote::TYPE_VOTE)->avg('score') ?? 0, 2),
+                'vote_count' => $item->votes()->where('type', Vote::TYPE_VOTE)->count(),
             ]);
         }
 
