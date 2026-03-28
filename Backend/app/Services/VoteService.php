@@ -134,4 +134,13 @@ class VoteService
             return (bool) $vote->delete();
         });
     }
+
+    /**
+     * Lista los votos del usuario autenticado con filtros y paginación.
+     * @param array{type?: ?string, category_id?: ?string, search?: ?string} $filters
+     */
+    public function listMyVotes(User $user, array $filters = [], int $perPage = 15)
+    {
+        return $this->voteRepository->paginateByUser($user, $filters, $perPage);
+    }
 }

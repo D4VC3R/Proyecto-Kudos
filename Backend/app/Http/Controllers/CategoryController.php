@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Categories\CreateCategoryAction;
-use App\Actions\Categories\DeleteCategoryAction;
-use App\Actions\Categories\UpdateCategoryAction;
 use App\Http\Requests\DeleteCategoryRequest;
 use App\Http\Requests\GetNextCategoryItemRequest;
 use App\Http\Requests\StoreCategoryRequest;
@@ -13,23 +10,16 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryWithItemsResource;
 use App\Http\Resources\ItemResource;
 use App\Models\Category;
-use App\Queries\Categories\GetCategoryRankingQuery;
-use App\Queries\Categories\GetCategoryWithItemsQuery;
-use App\Queries\Categories\ListCategoriesQuery;
-use App\Queries\Items\GetNextCategoryItemQuery;
+use App\Services\CategoryService;
+use App\Services\NextCategoryItemService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
     public function __construct(
-        protected ListCategoriesQuery $listCategoriesQuery,
-        protected GetCategoryWithItemsQuery $getCategoryWithItemsQuery,
-        protected GetCategoryRankingQuery $getCategoryRankingQuery,
-        protected GetNextCategoryItemQuery $getNextCategoryItemQuery,
-        protected CreateCategoryAction $createCategoryAction,
-        protected UpdateCategoryAction $updateCategoryAction,
-        protected DeleteCategoryAction $deleteCategoryAction,
+        protected CategoryService $categoryService,
+        protected NextCategoryItemService $nextCategoryItemService,
     ) {
     }
 
@@ -38,7 +28,7 @@ class CategoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        $categories = $this->listCategoriesQuery->execute();
+        $categories = $this->categoryService->getAllCategories();
 
         return $this->respondData(CategoryResource::collection($categories));
     }
@@ -48,7 +38,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request): JsonResponse
     {
-        $category = $this->createCategoryAction->execute($request->validated());
+        $category = $this->categoryService->createCategory($request->validated());
 
         return $this->respondMutation('Categoría creada con éxito.', new CategoryResource($category), status: 201);
     }
@@ -58,7 +48,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category): JsonResponse
     {
-        $categoryWithItems = $this->getCategoryWithItemsQuery->execute($category);
+        $categoryWithItems = $this->categoryService->getCategoryWithItems($category);
 
         return $this->respondData(new CategoryWithItemsResource($categoryWithItems));
     }
@@ -68,7 +58,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category): JsonResponse
     {
-        $updatedCategory = $this->updateCategoryAction->execute($category, $request->validated());
+        $updatedCategory = $this->categoryService->updateCategory($category, $request->validated());
 
         return $this->respondMutation('Categoría actualizada correctamente.', new CategoryResource($updatedCategory));
     }
@@ -80,7 +70,7 @@ class CategoryController extends Controller
     {
 
         $categoryName = $category->name;
-        $this->deleteCategoryAction->execute($category);
+        $this->categoryService->deleteCategory($category);
 
         return $this->respondMutation("Categoría '{$categoryName}' eliminada correctamente.");
     }
@@ -90,7 +80,7 @@ class CategoryController extends Controller
      */
     public function ranking(Category $category): JsonResponse
     {
-        $items = $this->getCategoryRankingQuery->execute($category);
+        $items = $this->categoryService->getCategoryRanking($category);
 
         return $this->respondData([
             'category' => new CategoryResource($category),
@@ -101,8 +91,7 @@ class CategoryController extends Controller
     public function nextItem(GetNextCategoryItemRequest $request, Category $category): JsonResponse|Response
     {
         $user = $request->user();
-        $result = $this->getNextCategoryItemQuery->execute($user, $category);
-
+        $result = $this->nextCategoryItemService->getNextItem($user, $category);
         if ($result === null) {
             return response()->noContent();
         }

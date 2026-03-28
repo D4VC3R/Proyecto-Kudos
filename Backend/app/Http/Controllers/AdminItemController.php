@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Admin\Items\ModerateItemStatusAction;
-use App\Actions\Admin\Items\UpdateAdminItemAction;
 use App\Http\Requests\AdminUpdateItemRequest;
 use App\Http\Requests\ListAdminItemsRequest;
 use App\Http\Requests\ModerateItemRequest;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
-use App\Queries\Admin\Items\ListAdminItemsQuery;
+use App\Services\AdminService;
 use Illuminate\Http\JsonResponse;
 
 class AdminItemController extends Controller
 {
     public function __construct(
-        protected ListAdminItemsQuery $listAdminItemsQuery,
-        protected UpdateAdminItemAction $updateAdminItemAction,
-        protected ModerateItemStatusAction $moderateItemStatusAction,
+        protected AdminService $adminService,
     ) {
     }
 
@@ -32,7 +28,7 @@ class AdminItemController extends Controller
             'search' => $validated['search'] ?? null,
         ];
 
-        $items = $this->listAdminItemsQuery->execute(
+        $items = $this->adminService->listItems(
             filters: $filters,
             perPage: (int) ($validated['per_page'] ?? 20),
         );
@@ -56,7 +52,7 @@ class AdminItemController extends Controller
         $reason = $payload['moderation_reason'] ?? null;
         unset($payload['moderation_reason']);
 
-        $updated = $this->updateAdminItemAction->execute($admin, $item, $payload, $reason);
+        $updated = $this->adminService->updateAdminItem($admin, $item, $payload, $reason);
 
         return $this->respondMutation('Item actualizado por administración.', new ItemResource($updated));
     }
@@ -68,9 +64,8 @@ class AdminItemController extends Controller
         $status = $request->validated()['status'];
         $reason = $request->validated()['reason'] ?? null;
 
-        $updated = $this->moderateItemStatusAction->execute($admin, $item, $status, $reason);
+        $updated = $this->adminService->moderateItemStatus($admin, $item, $status, $reason);
 
         return $this->respondMutation('Estado del item actualizado por administración.', new ItemResource($updated));
     }
 }
-

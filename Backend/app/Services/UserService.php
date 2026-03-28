@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Queries\Users;
+namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Repositories\UserRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class ListPublicKudosRankingQuery
+class UserService
 {
-    private const PER_PAGE = 10;
+    public function __construct(
+        protected UserRepository $userRepository
+    ) {}
 
-    /**
-     * @return array{top_page: array<int,array<string,mixed>>, top_pagination: array<string,mixed>, top_links: array<string,mixed>, my_position: ?array<string,mixed>, my_page_data: ?array<int,array<string,mixed>>, my_page_pagination: ?array<string,mixed>, my_page_links: ?array<string,mixed>}
-     */
-    public function execute(?User $authenticatedUser): array
+    public function getPublicKudosRanking(?User $authenticatedUser): array
     {
-        $topPaginator = $this->baseQuery()->paginate(self::PER_PAGE, ['*'], 'page', 1);
+        $PER_PAGE = 10;
+        $topPaginator = $this->userRepository->paginateRanking($PER_PAGE, 1);
 
         $response = [
             'top_page' => $this->mapPaginatorData($topPaginator),
@@ -33,10 +33,10 @@ class ListPublicKudosRankingQuery
 
         $authenticatedUser->refresh();
 
-        $myRank = $this->resolveRank($authenticatedUser);
-        $myPage = (int) ceil($myRank / self::PER_PAGE);
+        $myRank = $this->userRepository->getUserRank($authenticatedUser);
+        $myPage = (int) ceil($myRank / $PER_PAGE);
 
-        $myPagePaginator = $this->baseQuery()->paginate(self::PER_PAGE, ['*'], 'page', $myPage);
+        $myPagePaginator = $this->userRepository->paginateRanking($PER_PAGE, $myPage);
 
         $response['my_position'] = [
             'user_id' => $authenticatedUser->id,
@@ -51,39 +51,6 @@ class ListPublicKudosRankingQuery
         return $response;
     }
 
-    private function baseQuery(): Builder
-    {
-        return User::query()
-            ->select(['id', 'name', 'total_kudos', 'created_at'])
-            ->orderByDesc('total_kudos')
-            ->orderBy('created_at')
-            ->orderBy('id');
-    }
-
-    private function resolveRank(User $user): int
-    {
-        $usersAhead = User::query()
-            ->where(function (Builder $query) use ($user) {
-                $query->where('total_kudos', '>', $user->total_kudos)
-                    ->orWhere(function (Builder $tieBreaker) use ($user) {
-                        $tieBreaker->where('total_kudos', $user->total_kudos)
-                            ->where(function (Builder $sameKudos) use ($user) {
-                                $sameKudos->where('created_at', '<', $user->created_at)
-                                    ->orWhere(function (Builder $sameTimestamp) use ($user) {
-                                        $sameTimestamp->where('created_at', $user->created_at)
-                                            ->where('id', '<', $user->id);
-                                    });
-                            });
-                    });
-            })
-            ->count();
-
-        return $usersAhead + 1;
-    }
-
-    /**
-     * @return array<int,array<string,mixed>>
-     */
     private function mapPaginatorData(LengthAwarePaginator $paginator): array
     {
         $offset = ($paginator->currentPage() - 1) * $paginator->perPage();
@@ -102,9 +69,6 @@ class ListPublicKudosRankingQuery
             ->all();
     }
 
-    /**
-     * @return array<string,mixed>
-     */
     private function extractPagination(LengthAwarePaginator $paginator): array
     {
         return [
@@ -115,9 +79,6 @@ class ListPublicKudosRankingQuery
         ];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
     private function extractLinks(LengthAwarePaginator $paginator): array
     {
         return [

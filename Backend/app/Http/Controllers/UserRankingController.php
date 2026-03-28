@@ -3,27 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Queries\Users\ListPublicKudosRankingQuery;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserRankingController extends Controller
 {
-    public function __construct(protected ListPublicKudosRankingQuery $listPublicKudosRankingQuery)
+    public function __construct(protected UserService $userService)
     {
     }
 
     public function index(Request $request): JsonResponse
     {
         $authenticatedUser = Auth::guard('sanctum')->user();
-
         if ($authenticatedUser && !$authenticatedUser instanceof User) {
             $authenticatedUser = null;
         }
-
-        $result = $this->listPublicKudosRankingQuery->execute($authenticatedUser);
-
+        $result = $this->userService->getPublicKudosRanking($authenticatedUser);
         return $this->respondList(
             data: [
                 'top_page' => $result['top_page'],
@@ -41,4 +38,3 @@ class UserRankingController extends Controller
         );
     }
 }
-

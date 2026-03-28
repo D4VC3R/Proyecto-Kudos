@@ -2,28 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Items\CreateItemAction;
-use App\Actions\Items\DeleteItemAction;
-use App\Actions\Items\UpdateItemAction;
 use App\Http\Requests\DeleteItemRequest;
 use App\Http\Requests\ShowItemRequest;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
-use App\Queries\Items\ListActiveItemsQuery;
-use App\Queries\Items\ListMyItemsQuery;
+use App\Services\ItemService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
     public function __construct(
-        protected ListActiveItemsQuery $listActiveItemsQuery,
-        protected ListMyItemsQuery $listMyItemsQuery,
-        protected CreateItemAction $createItemAction,
-        protected UpdateItemAction $updateItemAction,
-        protected DeleteItemAction $deleteItemAction,
+        protected ItemService $itemService,
     ) {
     }
 
@@ -42,10 +34,8 @@ class ItemController extends Controller
                 ? $request->user()->id
                 : null,
         ];
-
         $perPage = min(max((int) $request->query('per_page', 15), 1), 100);
-        $items = $this->listActiveItemsQuery->execute($filters, $perPage);
-
+        $items = $this->itemService->getActiveItems($filters, $perPage);
         return $this->respondList(
             data: ItemResource::collection($items),
             meta: [
@@ -72,9 +62,7 @@ class ItemController extends Controller
         if (!$user) {
             return $this->respondMutation('No se pudo obtener el usuario autenticado.', status: 500);
         }
-
-        $item = $this->createItemAction->execute($request->validated(), $user);
-
+        $item = $this->itemService->createItem($request->validated(), $user);
         return $this->respondMutation('Item creado correctamente.', new ItemResource($item), status: 201);
     }
 
@@ -84,7 +72,6 @@ class ItemController extends Controller
     public function show(ShowItemRequest $request, Item $item): JsonResponse
     {
         $item->load(['category', 'creator', 'tags']);
-
         return $this->respondData(new ItemResource($item));
     }
 
@@ -93,8 +80,7 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item): JsonResponse
     {
-        $updatedItem = $this->updateItemAction->execute($item, $request->validated());
-
+        $updatedItem = $this->itemService->updateItem($item, $request->validated());
         return $this->respondMutation('Item actualizado correctamente.', new ItemResource($updatedItem));
     }
 
@@ -103,8 +89,7 @@ class ItemController extends Controller
      */
     public function destroy(DeleteItemRequest $request, Item $item): JsonResponse
     {
-        $this->deleteItemAction->execute($item);
-
+        $this->itemService->deleteItem($item);
         return $this->respondMutation('Item eliminado correctamente.');
     }
 
@@ -117,9 +102,8 @@ class ItemController extends Controller
         if (!$user) {
             return $this->respondMutation('No se pudo obtener el usuario autenticado.', status: 500);
         }
-
-        $items = $this->listMyItemsQuery->execute($user);
-
+        $items = $this->itemService->getItemsByUser($user);
+        $this->itemService->enrichItemsWithUserContext($items, $user);
         return $this->respondList(
             data: ItemResource::collection($items),
             meta: [

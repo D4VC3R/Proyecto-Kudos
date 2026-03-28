@@ -148,6 +148,59 @@ class VoteAndRankingTest extends TestCase
             ]);
     }
 
+    public function test_store_vote_for_inactive_item_returns_forbidden(): void
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+        $item = Item::factory()->forCategory($category)->create([
+            'status' => Item::STATUS_INACTIVE,
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/votes', [
+            'item_id' => $item->id,
+            'type' => Vote::TYPE_VOTE,
+            'score' => 5,
+        ])
+            ->assertStatus(403)
+            ->assertJsonPath('error.code', 'forbidden');
+    }
+
+    public function test_update_vote_fails_if_item_becomes_inactive_and_keeps_score(): void
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+        $item = Item::factory()->forCategory($category)->create([
+            'status' => Item::STATUS_ACTIVE,
+            'vote_avg' => 0,
+            'vote_count' => 0,
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/votes', [
+            'type' => Vote::TYPE_VOTE,
+            'item_id' => $item->id,
+            'score' => 6,
+        ])->assertStatus(201);
+
+        $vote = Vote::query()->where('user_id', $user->id)->where('item_id', $item->id)->firstOrFail();
+
+        $item->update(['status' => Item::STATUS_INACTIVE]);
+
+        $this->putJson("/api/votes/{$vote->id}", [
+            'score' => 9,
+        ])->assertStatus(422);
+
+        $vote->refresh();
+        $item->refresh();
+
+        $this->assertSame(6, $vote->score);
+        $this->assertSame(1, $item->vote_count);
+        $this->assertSame(6.0, (float) $item->vote_avg);
+    }
+
     public function test_public_ranking_returns_top_page_and_my_position_with_tie_breaker(): void
     {
         $baseDate = CarbonImmutable::parse('2026-01-01 10:00:00');

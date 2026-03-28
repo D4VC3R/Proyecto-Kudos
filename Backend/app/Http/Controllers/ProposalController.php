@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Admin\Proposals\ReviewProposalAction;
 use App\Http\Requests\DeleteProposalRequest;
 use App\Http\Requests\ListAdminProposalsRequest;
 use App\Http\Requests\ListPendingProposalsRequest;
@@ -11,8 +10,7 @@ use App\Http\Requests\ShowProposalRequest;
 use App\Http\Requests\StoreProposalRequest;
 use App\Http\Requests\UpdateProposalRequest;
 use App\Models\Proposal;
-use App\Queries\Admin\Proposals\ListAdminProposalsQuery;
-use App\Queries\Admin\Proposals\ListPendingProposalsQuery;
+use App\Services\AdminService;
 use App\Services\ProposalService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,10 +18,8 @@ use Illuminate\Http\Request;
 class ProposalController extends Controller
 {
     public function __construct(
+        protected AdminService $adminService,
         protected ProposalService $proposalService,
-        protected ListPendingProposalsQuery $listPendingProposalsQuery,
-        protected ListAdminProposalsQuery $listAdminProposalsQuery,
-        protected ReviewProposalAction $reviewProposalAction,
     ) {
     }
 
@@ -76,7 +72,7 @@ class ProposalController extends Controller
     {
         $validated = $request->validated();
         $perPage = (int) ($validated['per_page'] ?? 15);
-        $pending = $this->listPendingProposalsQuery->execute($perPage);
+        $pending = $this->proposalService->getPending($perPage);
 
         return $this->respondList(
             data: $pending->items(),
@@ -102,7 +98,7 @@ class ProposalController extends Controller
         ];
 
         $perPage = (int) ($validated['per_page'] ?? 15);
-        $proposals = $this->listAdminProposalsQuery->execute($filters, $perPage);
+        $proposals = $this->adminService->listProposals($filters, $perPage);
 
         return $this->respondList(
             data: $proposals->items(),
@@ -121,7 +117,7 @@ class ProposalController extends Controller
 
         $validated = $request->validated();
 
-        $updated = $this->reviewProposalAction->execute(
+        $updated = $this->adminService->reviewProposal(
             proposal: $proposal,
             admin: $admin,
             status: $validated['status'],

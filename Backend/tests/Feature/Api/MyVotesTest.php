@@ -100,5 +100,55 @@ class MyVotesTest extends TestCase
             ->assertJsonPath('data.0.type', Vote::TYPE_VOTE)
             ->assertJsonPath('data.0.item.name', 'Juego Alpha');
     }
+
+    public function test_my_votes_supports_category_filter(): void
+    {
+        $user = User::factory()->create();
+        $categoryA = Category::factory()->create();
+        $categoryB = Category::factory()->create();
+
+        $itemA = Item::factory()->forCategory($categoryA)->create([
+            'status' => Item::STATUS_ACTIVE,
+        ]);
+        $itemB = Item::factory()->forCategory($categoryB)->create([
+            'status' => Item::STATUS_ACTIVE,
+        ]);
+
+        Vote::create([
+            'user_id' => $user->id,
+            'item_id' => $itemA->id,
+            'type' => Vote::TYPE_VOTE,
+            'score' => 8,
+        ]);
+        Vote::create([
+            'user_id' => $user->id,
+            'item_id' => $itemB->id,
+            'type' => Vote::TYPE_SKIP,
+            'score' => null,
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $this->getJson('/api/votes/my-votes?category_id=' . $categoryA->id)
+            ->assertOk()
+            ->assertJsonPath('meta.total', 1)
+            ->assertJsonPath('data.0.item.category_id', $categoryA->id);
+    }
+
+    public function test_my_votes_rejects_invalid_filters(): void
+    {
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user);
+
+        $this->getJson('/api/votes/my-votes?type=invalido&per_page=1000&category_id=no-es-uuid')
+            ->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_error')
+            ->assertJsonStructure([
+                'error' => [
+                    'details' => ['type', 'per_page', 'category_id'],
+                ],
+            ]);
+    }
 }
 

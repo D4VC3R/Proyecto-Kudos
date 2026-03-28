@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Admin\Users\BanUserAction;
-use App\Actions\Admin\Users\RevokeUserTokensAction;
-use App\Actions\Admin\Users\UnbanUserAction;
 use App\Http\Requests\BanUserRequest;
 use App\Http\Requests\ListAdminUsersRequest;
 use App\Http\Requests\RevokeUserTokensRequest;
 use App\Http\Requests\UnbanUserRequest;
 use App\Models\User;
-use App\Queries\Admin\Users\ListAdminUsersQuery;
+use App\Services\AdminService;
 use Illuminate\Http\JsonResponse;
 
 class AdminUserController extends Controller
 {
     public function __construct(
-        protected ListAdminUsersQuery $listAdminUsersQuery,
-        protected BanUserAction $banUserAction,
-        protected UnbanUserAction $unbanUserAction,
-        protected RevokeUserTokensAction $revokeUserTokensAction,
+        protected AdminService $adminService,
     ) {
     }
 
@@ -34,7 +28,7 @@ class AdminUserController extends Controller
             'role' => $validated['role'] ?? null,
         ];
 
-        $result = $this->listAdminUsersQuery->execute(
+        $result = $this->adminService->listUsers(
             filters: $filters,
             perPage: (int) ($validated['per_page'] ?? 20),
         );
@@ -57,7 +51,7 @@ class AdminUserController extends Controller
     {
         $admin = $request->user();
 
-        $updatedUser = $this->banUserAction->execute(
+        $updatedUser = $this->adminService->banUser(
             admin: $admin,
             targetUser: $user,
             isPermanent: (bool) $request->boolean('is_permanent'),
@@ -72,7 +66,7 @@ class AdminUserController extends Controller
     {
         $admin = $request->user();
 
-        $updatedUser = $this->unbanUserAction->execute($admin, $user);
+        $updatedUser = $this->adminService->unbanUser($admin, $user);
 
         return $this->respondMutation('Usuario desbaneado correctamente.', $updatedUser);
     }
@@ -81,7 +75,7 @@ class AdminUserController extends Controller
     {
         $admin = $request->user();
 
-        $revoked = $this->revokeUserTokensAction->execute($admin, $user);
+        $revoked = $this->adminService->revokeUserTokens($admin, $user);
 
         return $this->respondMutation(
             'Sesiones del usuario revocadas correctamente.',
@@ -91,4 +85,3 @@ class AdminUserController extends Controller
         );
     }
 }
-
