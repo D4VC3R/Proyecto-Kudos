@@ -159,6 +159,22 @@ php artisan kudos:audit-consistency
 php artisan kudos:audit-consistency --fix
 ```
 
+### Seed de items desde snapshots locales
+
+`ItemSeeder` carga directamente JSONs en `database/seed-data/`.
+
+Categorias cubiertas por snapshots locales:
+
+- videojuegos
+- peliculas
+- series
+- paises
+- ciudades
+- politicos
+- albumes musicales
+- artistas musicales
+- libros
+
 ### Entorno local (Docker)
 
 ```bash

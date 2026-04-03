@@ -61,6 +61,27 @@ class CategoryFieldDefinitionSeeder extends Seeder
                 ['key' => 'genre', 'label' => 'Genero musical', 'type' => 'string', 'required' => false, 'sort_order' => 20],
                 ['key' => 'release_year', 'label' => 'Ano de lanzamiento', 'type' => 'integer', 'required' => false, 'sort_order' => 30, 'rules' => ['min' => 1800, 'max' => 2100]],
             ],
+            'albumes-musicales' => [
+                ['key' => 'artist', 'label' => 'Artista', 'type' => 'string', 'required' => true, 'sort_order' => 10],
+                ['key' => 'genre', 'label' => 'Genero musical', 'type' => 'string', 'required' => false, 'sort_order' => 20],
+                ['key' => 'release_year', 'label' => 'Ano de lanzamiento', 'type' => 'integer', 'required' => false, 'sort_order' => 30, 'rules' => ['min' => 1800, 'max' => 2100]],
+                ['key' => 'origin_country', 'label' => 'Pais de origen', 'type' => 'string', 'required' => false, 'sort_order' => 40],
+                ['key' => 'listening_url', 'label' => 'URL de escucha', 'type' => 'url', 'required' => false, 'sort_order' => 50],
+            ],
+            'artistas-musicales' => [
+                ['key' => 'origin_country', 'label' => 'Pais de origen', 'type' => 'string', 'required' => false, 'sort_order' => 10],
+                ['key' => 'genre', 'label' => 'Genero principal', 'type' => 'string', 'required' => false, 'sort_order' => 20],
+                ['key' => 'active_since_year', 'label' => 'Activo desde', 'type' => 'integer', 'required' => false, 'sort_order' => 30, 'rules' => ['min' => 1800, 'max' => 2100]],
+                ['key' => 'website', 'label' => 'Sitio web', 'type' => 'url', 'required' => false, 'sort_order' => 40],
+            ],
+            'libros' => [
+                ['key' => 'author', 'label' => 'Autor', 'type' => 'string', 'required' => true, 'sort_order' => 10],
+                ['key' => 'publisher', 'label' => 'Editorial', 'type' => 'string', 'required' => false, 'sort_order' => 20],
+                ['key' => 'published_year', 'label' => 'Ano de publicacion', 'type' => 'integer', 'required' => false, 'sort_order' => 30, 'rules' => ['min' => 1500, 'max' => 2100]],
+                ['key' => 'isbn_13', 'label' => 'ISBN-13', 'type' => 'string', 'required' => false, 'sort_order' => 40],
+                ['key' => 'info_url', 'label' => 'URL informativa', 'type' => 'url', 'required' => false, 'sort_order' => 50],
+                ['key' => 'origin_country', 'label' => 'Pais de publicacion', 'type' => 'string', 'required' => false, 'sort_order' => 60],
+            ],
             'marcas' => [
                 ['key' => 'industry', 'label' => 'Industria', 'type' => 'string', 'required' => true, 'sort_order' => 10],
                 ['key' => 'origin_country', 'label' => 'Pais de origen', 'type' => 'string', 'required' => false, 'sort_order' => 20],

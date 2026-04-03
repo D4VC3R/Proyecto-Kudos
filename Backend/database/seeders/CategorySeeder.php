@@ -23,6 +23,24 @@ class CategorySeeder extends Seeder
                 'image' => 'https://via.placeholder.com/640x480.png?text=musica',
             ],
             [
+                'name' => 'Albumes Musicales',
+                'slug' => 'albumes-musicales',
+                'description' => 'Albumes musicales relevantes a nivel mundial y en Espana',
+                'image' => 'https://via.placeholder.com/640x480.png?text=albumes',
+            ],
+            [
+                'name' => 'Artistas Musicales',
+                'slug' => 'artistas-musicales',
+                'description' => 'Artistas musicales destacados de Espana y del mundo',
+                'image' => 'https://via.placeholder.com/640x480.png?text=artistas',
+            ],
+            [
+                'name' => 'Libros',
+                'slug' => 'libros',
+                'description' => 'Libros publicados en Espana con titulo y descripcion en espanol',
+                'image' => 'https://via.placeholder.com/640x480.png?text=libros',
+            ],
+            [
                 'name' => 'Peliculas',
                 'slug' => 'peliculas',
                 'description' => 'El cine que ha marcado historia y entretenimiento',

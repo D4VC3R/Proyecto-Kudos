@@ -26,6 +26,9 @@ class CategoryFieldDefinitionSeederTest extends TestCase
             'paises',
             'politicos',
             'musica',
+            'albumes-musicales',
+            'artistas-musicales',
+            'libros',
             'marcas',
         ];
 
