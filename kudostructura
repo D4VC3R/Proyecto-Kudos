@@ -4,12 +4,7 @@ No debería contener reglas de negocio complejas.
 Service
 Orquesta casos de negocio y transacciones.
 Puede coordinar varios repositorios y side-effects (kudos, logs, etc.).
-Query
-Caso de uso de lectura específico (listados/filtros/paginación para una pantalla endpoint concreto).
-Muy útil para no inflar controladores y separar consultas complejas.
-Action
-Caso de uso de escritura específico (ban user, review proposal, update admin item, etc.).
-Ideal para mantener cada operación pequeña y testeable.
+
 
 Nada de lógica de negocio en controladores (solo auth, request, response).
 Lecturas complejas van en Queries.

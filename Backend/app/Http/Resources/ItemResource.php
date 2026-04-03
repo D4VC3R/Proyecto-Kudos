@@ -21,6 +21,7 @@ class ItemResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'images' => $this->images ?? [],
+            'extra_data' => $this->extra_data ?? [],
             'status' => $this->status,
 
             'vote_avg' => (float) $this->vote_avg,

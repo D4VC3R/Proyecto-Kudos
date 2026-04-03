@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
 	{
 		$this->call([
 			CategorySeeder::class,  // Primero las categorías
-            PermissionSeeder::class,
-            RoleSeeder::class,
+			CategoryFieldDefinitionSeeder::class,
+			PermissionSeeder::class,
+			RoleSeeder::class,
 			UserSeeder::class,      // Luego los usuarios
 			ItemSeeder::class,      // Items base del sistema
 			ProposalSeeder::class,  // Simulacion de moderacion de propuestas

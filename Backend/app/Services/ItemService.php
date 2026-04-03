@@ -65,6 +65,7 @@ class ItemService
 			'name' => $data['name'],
 			'description' => $data['description'],
 			'images' => $data['images'] ?? null,
+			'extra_data' => $data['extra_data'] ?? null,
 			'status' => Item::STATUS_ACTIVE,
 			'category_id' => $data['category_id'],
 			'creator_id' => $user->id,
@@ -89,6 +90,7 @@ class ItemService
 			'name' => $data['name'] ?? $item->name,
 			'description' => $data['description'] ?? $item->description,
 			'images' => array_key_exists('images', $data) ? $data['images'] : $item->images,
+			'extra_data' => array_key_exists('extra_data', $data) ? $data['extra_data'] : $item->extra_data,
 			'category_id' => $data['category_id'] ?? $item->category_id,
 			'status' => $data['status'] ?? $item->status,
 		];

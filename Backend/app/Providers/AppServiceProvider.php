@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\ItemComment;
 use App\Models\Proposal;
 use App\Models\Vote;
 use App\Policies\CategoryPolicy;
 use App\Policies\ItemPolicy;
+use App\Policies\ItemCommentPolicy;
 use App\Policies\ProposalPolicy;
 use App\Policies\VotePolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -33,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
 			return config('app.frontend_url') . "/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
 		});
 		Gate::policy(Item::class, ItemPolicy::class);
+		Gate::policy(ItemComment::class, ItemCommentPolicy::class);
 		Gate::policy(Category::class, CategoryPolicy::class);
 		Gate::policy(Proposal::class, ProposalPolicy::class);
 		Gate::policy(Vote::class, VotePolicy::class);

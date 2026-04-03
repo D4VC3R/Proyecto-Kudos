@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CategoryFieldDefinition;
 use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -51,6 +52,13 @@ class Category extends Model
     public function tags(): HasMany
     {
         return $this->hasMany(Tag::class);
+    }
+
+    public function fieldDefinitions(): HasMany
+    {
+        return $this->hasMany(CategoryFieldDefinition::class)
+            ->where('is_active', true)
+            ->orderBy('sort_order');
     }
 
     // ✅ Accessor para items_count

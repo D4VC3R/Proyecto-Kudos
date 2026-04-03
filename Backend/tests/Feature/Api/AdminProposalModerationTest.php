@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Models\Category;
+use App\Models\Item;
 use App\Models\Proposal;
 use App\Models\Role;
 use App\Models\User;
@@ -18,6 +19,7 @@ class AdminProposalModerationTest extends TestCase
 
     public function test_non_admin_cannot_review_proposals(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
         $proposal = $this->createPendingProposal();
 
@@ -59,6 +61,10 @@ class AdminProposalModerationTest extends TestCase
         $proposal = Proposal::factory()->create([
             'name' => 'Nuevo Item Moderado',
             'description' => 'Descripcion de prueba para item generado por moderacion.',
+            'extra_data' => [
+                'developer' => 'Team Cherry',
+                'metacritic_score' => 90,
+            ],
             'creator_id' => $creator->id,
             'category_id' => $category->id,
             'status' => Proposal::STATUS_PENDING,
@@ -83,6 +89,12 @@ class AdminProposalModerationTest extends TestCase
             'category_id' => $category->id,
             'status' => 'active',
         ]);
+        $createdItem = Item::query()
+            ->where('name', 'Nuevo Item Moderado')
+            ->where('creator_id', $creator->id)
+            ->firstOrFail();
+        $this->assertSame('Team Cherry', $createdItem->extra_data['developer']);
+        $this->assertSame(90, $createdItem->extra_data['metacritic_score']);
         $this->assertSame(KudosRules::rewardForAcceptedProposal(), $creator->total_kudos);
         $this->assertSame(1, $creator->creations_accepted);
     }
@@ -128,14 +140,19 @@ class AdminProposalModerationTest extends TestCase
 
     private function createPendingProposal(): Proposal
     {
+        /** @var User $creator */
         $creator = User::factory()->create();
+        /** @var Category $category */
         $category = Category::factory()->create();
 
-        return Proposal::factory()->create([
+        /** @var Proposal $proposal */
+        $proposal = Proposal::factory()->create([
             'creator_id' => $creator->id,
             'category_id' => $category->id,
             'status' => Proposal::STATUS_PENDING,
         ]);
+
+        return $proposal;
     }
 
     private function createAdminUser(): User
@@ -147,6 +164,7 @@ class AdminProposalModerationTest extends TestCase
             'guard_name' => 'web',
         ]);
 
+        /** @var User $admin */
         $admin = User::factory()->create();
         $admin->assignRole('admin');
 

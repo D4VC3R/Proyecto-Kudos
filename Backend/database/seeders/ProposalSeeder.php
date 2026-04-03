@@ -50,7 +50,10 @@ class ProposalSeeder extends Seeder
                 ]);
 
                 $proposal = $proposalService->createProposal(
-                    Arr::only($draft->toArray(), ['name', 'description', 'images', 'category_id']),
+                    [
+                        ...Arr::only($draft->toArray(), ['name', 'description', 'images', 'category_id']),
+                        'extra_data' => $this->buildExtraDataForCategory($category->slug),
+                    ],
                     $creator,
                 );
 
@@ -76,6 +79,68 @@ class ProposalSeeder extends Seeder
             Proposal::STATUS_REJECTED => 'La propuesta no cumple los criterios de moderacion.',
             Proposal::STATUS_CHANGES_REQUESTED => 'Ajusta la descripcion y mejora la calidad de las imagenes.',
             default => null,
+        };
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    private function buildExtraDataForCategory(string $slug): array
+    {
+        return match ($slug) {
+            'videojuegos' => [
+                'developer' => fake()->company(),
+                'publisher' => fake()->company(),
+                'platforms' => fake()->randomElements(['PC', 'PS5', 'Xbox Series', 'Switch'], fake()->numberBetween(1, 3)),
+                'genre' => fake()->randomElement(['accion', 'aventura', 'rpg', 'estrategia', 'deportes', 'simulacion', 'indie']),
+                'release_date' => fake()->date(),
+                'metacritic_score' => fake()->numberBetween(60, 99),
+            ],
+            'peliculas' => [
+                'director' => fake()->name(),
+                'release_year' => fake()->numberBetween(1950, 2026),
+                'actors' => [fake()->name(), fake()->name(), fake()->name()],
+                'platforms' => fake()->randomElements(['netflix', 'prime video', 'max', 'disney+'], fake()->numberBetween(1, 3)),
+            ],
+            'series' => [
+                'seasons' => fake()->numberBetween(1, 12),
+                'platforms' => fake()->randomElements(['netflix', 'prime video', 'max', 'apple tv+'], fake()->numberBetween(1, 3)),
+                'actors' => [fake()->name(), fake()->name(), fake()->name()],
+                'release_year' => fake()->numberBetween(1970, 2026),
+                'director' => fake()->name(),
+            ],
+            'ciudades' => [
+                'country' => fake()->country(),
+                'population' => fake()->numberBetween(100000, 25000000),
+                'language' => fake()->languageCode(),
+                'places_of_interest' => [fake()->streetName(), fake()->streetName()],
+            ],
+            'paises' => [
+                'continent' => fake()->randomElement(['europa', 'asia', 'america', 'africa', 'oceania']),
+                'population' => fake()->numberBetween(500000, 1500000000),
+                'language' => fake()->languageCode(),
+                'interesting_cities' => [fake()->city(), fake()->city(), fake()->city()],
+                'main_religion' => fake()->randomElement(['cristianismo', 'islam', 'hinduismo', 'budismo', 'otra']),
+            ],
+            'politicos' => [
+                'party' => fake()->company(),
+                'age' => fake()->numberBetween(30, 85),
+                'quotes' => [fake()->sentence(), fake()->sentence()],
+                'position' => fake()->randomElement(['presidente', 'ministro', 'militante', 'diputado', 'senador', 'alcalde']),
+            ],
+            'musica' => [
+                'artist' => fake()->name(),
+                'genre' => fake()->randomElement(['pop', 'rock', 'rap', 'electronica', 'jazz']),
+                'release_year' => fake()->numberBetween(1950, 2026),
+            ],
+            'marcas' => [
+                'industry' => fake()->word(),
+                'origin_country' => fake()->country(),
+                'website' => fake()->url(),
+            ],
+            default => [
+                'source' => 'proposal_seeder',
+            ],
         };
     }
 }

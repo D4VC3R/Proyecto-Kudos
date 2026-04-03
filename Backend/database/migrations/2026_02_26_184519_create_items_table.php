@@ -16,6 +16,7 @@ return new class extends Migration
 		    $table->string('name');
 		    $table->text('description');
 		    $table->json('images')->nullable();
+		    $table->json('extra_data')->nullable();
 		    $table->enum('status', ['active', 'inactive'])->default('active');
 
 		    $table->float('vote_avg')->default(0.0);

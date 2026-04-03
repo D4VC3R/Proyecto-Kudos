@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AdminItemController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ItemCommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\UserRankingController;
@@ -18,6 +19,7 @@ Route::prefix('categories')->group(function () {
 });
 
 Route::get('/items', [ItemController::class, 'index']);
+Route::get('/items/{item}/comments', [ItemCommentController::class, 'index']);
 Route::get('/users/ranking', [UserRankingController::class, 'index']);
 
 // Autenticadas
@@ -42,7 +44,11 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
     Route::prefix('items')->group(function () {
         Route::get('/my-items', [ItemController::class, 'myItems']);
         Route::get('/{item}', [ItemController::class, 'show']);
+        Route::post('/{item}/comments', [ItemCommentController::class, 'store']);
     });
+
+    Route::put('/comments/{comment}', [ItemCommentController::class, 'update']);
+    Route::delete('/comments/{comment}', [ItemCommentController::class, 'destroy']);
 
     Route::prefix('votes')->group(function () {
         Route::post('/', [VoteController::class, 'store']);
@@ -81,6 +87,11 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned', 'admin'])->group(fu
         Route::get('/', [ProposalController::class, 'adminIndex']);
         Route::get('/pending', [ProposalController::class, 'pending']);
         Route::patch('/{proposal}/review', [ProposalController::class, 'review']);
+    });
+
+    Route::prefix('admin/comments')->group(function () {
+        Route::patch('/{comment}/hide', [ItemCommentController::class, 'hide']);
+        Route::patch('/{comment}/unhide', [ItemCommentController::class, 'unhide']);
     });
 });
 

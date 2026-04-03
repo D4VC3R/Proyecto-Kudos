@@ -85,7 +85,9 @@ Codigos globales:
 - `401` `unauthenticated`
 - `403` `forbidden`
 - `404` `not_found` / `route_not_found`
+- `409` `conflict`
 - `422` `validation_error`
+- `429` `too_many_requests`
 
 ---
 
@@ -95,8 +97,11 @@ Codigos globales:
 - `Profile`: datos de perfil del usuario.
 - `Category`: agrupa items y propuestas.
 - `Item`: recurso votable, con promedio y conteo de votos.
+- `Item.extra_data`: metadatos flexibles por categoria (JSON).
 - `Vote`: interaccion de usuario sobre item (`vote` o `skip`).
 - `Proposal`: propuesta de item enviada por usuarios.
+- `Proposal.extra_data`: metadatos transferibles al item al aceptar la propuesta.
+- `ItemComment`: comentarios de usuarios sobre items con moderacion administrativa.
 - `KudosTransaction`: refleja al usuario y la accion por la que gana puntos.
 
 ---
@@ -129,8 +134,14 @@ Codigos globales:
 ### 6.2 Items
 - `GET /items`
   - filtros: `category_id`, `search`, `tag_ids[]`, `sort_by`, `sort_order`, `per_page`
+  - cada item puede incluir `extra_data`.
 
-### 6.3 Ranking de usuarios
+### 6.3 Comentarios de items
+- `GET /items/{item}/comments`
+  - listado paginado de comentarios del item.
+  - usuarios no admin solo ven comentarios no ocultos.
+
+### 6.4 Ranking de usuarios
 - `GET /users/ranking`
   - top publico (10 por pagina)
   - si hay token valido en cabecera, incluye posicion/pagina personal
@@ -179,6 +190,11 @@ Codigos globales:
 - `GET /items/my-items`
 - `GET /items/{item}`
 
+### 7.5 Comentarios en items
+- `POST /items/{item}/comments`
+- `PUT /comments/{comment}`
+- `DELETE /comments/{comment}`
+
 ---
 
 ## 8. Endpoints admin (`auth + verified + not_banned + admin`)
@@ -207,6 +223,10 @@ Codigos globales:
 - `GET /admin/proposals`
 - `GET /admin/proposals/pending`
 - `PATCH /admin/proposals/{proposal}/review`
+
+### 8.6 Admin comentarios
+- `PATCH /admin/comments/{comment}/hide`
+- `PATCH /admin/comments/{comment}/unhide`
 
 ---
 
@@ -252,6 +272,19 @@ Codigos globales:
 - `category_id`: uuid existente (opcional).
 - `search`: string (opcional).
 - `per_page`: 1..100.
+
+### 10.4 `POST /items` y `PUT /admin/items/{item}`
+- `extra_data`: objeto JSON opcional.
+- si la categoria tiene definiciones activas en `category_field_definitions`, el backend valida:
+  - claves permitidas,
+  - campos obligatorios,
+  - tipo de dato (`string`, `integer`, `date`, `enum`, etc.),
+  - reglas adicionales (`min`, `max`, longitudes, lista de opciones).
+- el seeder `CategoryFieldDefinitionSeeder` deja un esquema inicial cargado para todas las categorias base (`videojuegos`, `peliculas`, `series`, `ciudades`, `paises`, `politicos`, `musica`, `marcas`).
+
+### 10.5 `POST /items/{item}/comments`
+- `content`: requerido, string, longitud 2..2000.
+- requiere autenticacion y solo aplica a items activos.
 
 ---
 
