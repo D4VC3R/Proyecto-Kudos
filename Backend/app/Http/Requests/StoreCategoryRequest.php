@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Str;
 
 class StoreCategoryRequest extends FormRequest
@@ -52,13 +51,4 @@ class StoreCategoryRequest extends FormRequest
 				]);
 			}
 		}
-
-    protected function failedAuthorization()
-    {
-        throw new HttpResponseException(
-            response()->json([
-                'message' => 'No tienes permisos para realizar esta acción.'
-            ], 403)
-        );
-    }
 }

@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
-use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CategoryService
 {
@@ -43,9 +43,9 @@ class CategoryService
 		// Validación de negocio: no eliminar si tiene items
 		if ($this->categoryRepository->hasItems($category)) {
 			$itemsCount = $this->categoryRepository->getItemsCount($category);
-			throw new Exception(
-				"No se puede eliminar la categoría porque tiene {$itemsCount} items asociados.",
-				409
+			throw new HttpException(
+				409,
+				"No se puede eliminar la categoria porque tiene {$itemsCount} items asociados."
 			);
 		}
 

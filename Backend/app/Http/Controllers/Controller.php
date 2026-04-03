@@ -11,6 +11,22 @@ abstract class Controller extends BaseController
 {
 	use AuthorizesRequests, ValidatesRequests;
 
+	protected function respondError(string $code, string $message, ?array $details = null, int $status = 400): JsonResponse
+	{
+		$payload = [
+			'error' => [
+				'code' => $code,
+				'message' => $message,
+			],
+		];
+
+		if ($details !== null && $details !== []) {
+			$payload['error']['details'] = $details;
+		}
+
+		return response()->json($payload, $status);
+	}
+
 	protected function respondData(mixed $data, array $meta = [], int $status = 200): JsonResponse
 	{
 		$payload = ['data' => $data];

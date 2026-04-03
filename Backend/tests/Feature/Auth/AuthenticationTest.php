@@ -41,7 +41,27 @@ class AuthenticationTest extends TestCase
             'password' => 'wrong-password',
         ]);
 
-        $response->assertStatus(401);
+        $response->assertStatus(401)
+            ->assertJsonPath('error.code', 'unauthenticated')
+            ->assertJsonPath('error.message', 'Credenciales invalidas.');
+    }
+
+    public function test_banned_user_cannot_authenticate_and_receives_forbidden_error_contract(): void
+    {
+        $user = User::factory()->create([
+            'is_banned' => true,
+            'banned_until' => now()->addDay(),
+            'ban_reason' => 'incumplimiento de normas',
+        ]);
+
+        $response = $this->postJson('/api/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertStatus(403)
+            ->assertJsonPath('error.code', 'forbidden')
+            ->assertJsonPath('error.details.ban_reason', 'incumplimiento de normas');
     }
 
     public function test_users_can_logout(): void

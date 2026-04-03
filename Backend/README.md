@@ -30,20 +30,8 @@ app/
     Controllers/         # capa HTTP
     Requests/            # validación de entrada
     Middleware/          # políticas transversales (admin, verified, not_banned)
-  Actions/               # casos de uso de escritura
-    Admin/
-      Users/
-      Items/
-      Proposals/
     Items/
     Votes/
-    Categories/
-  Queries/               # casos de uso de lectura
-    Admin/
-      Users/
-      Items/
-      Proposals/
-    Items/
     Categories/
   Services/              # dominio/orquestación
   Repositories/          # persistencia

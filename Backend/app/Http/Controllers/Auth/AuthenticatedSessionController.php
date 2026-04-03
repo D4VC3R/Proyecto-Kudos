@@ -31,7 +31,19 @@ class AuthenticatedSessionController extends Controller
 				? 429
 				: 401;
 
-			return $this->respondMutation($message, status: $status);
+			if ($status === 429) {
+				return $this->respondError(
+					code: 'too_many_requests',
+					message: 'Demasiados intentos de inicio de sesion. Intentalo nuevamente en unos segundos.',
+					status: 429,
+				);
+			}
+
+			return $this->respondError(
+				code: 'unauthenticated',
+				message: 'Credenciales invalidas.',
+				status: 401,
+			);
 		}
 
 		$user = Auth::user();
@@ -40,10 +52,11 @@ class AuthenticatedSessionController extends Controller
 		}
 
 		if ($user->isCurrentlyBanned()) {
-			return $this->respondMutation(
-				'Tu cuenta está suspendida y no puede iniciar sesión.',
-				meta: [
-					'banned_until' => $user->banned_until,
+			return $this->respondError(
+				code: 'forbidden',
+				message: 'Tu cuenta esta suspendida y no puede iniciar sesion.',
+				details: [
+					'banned_until' => $user->banned_until?->toIso8601String(),
 					'ban_reason' => $user->ban_reason,
 				],
 				status: 403,

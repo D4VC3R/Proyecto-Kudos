@@ -19,7 +19,12 @@ class EnsureEmailIsVerified
         if (! $request->user() ||
             ($request->user() instanceof MustVerifyEmail &&
             ! $request->user()->hasVerifiedEmail())) {
-            return response()->json(['message' => 'Error. Email no verificado.'], 403);
+            return response()->json([
+                'error' => [
+                    'code' => 'forbidden',
+                    'message' => 'No tienes permisos para realizar esta acción.',
+                ],
+            ], 403);
         }
 
         return $next($request);

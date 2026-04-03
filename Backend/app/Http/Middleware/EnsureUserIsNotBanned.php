@@ -21,10 +21,13 @@ class EnsureUserIsNotBanned
         }
 
         return response()->json([
-            'message' => 'Tu cuenta está suspendida y no puede acceder a esta funcionalidad.',
-            'meta' => [
-                'banned_until' => $user->banned_until,
-                'ban_reason' => $user->ban_reason,
+            'error' => [
+                'code' => 'forbidden',
+                'message' => 'Tu cuenta esta suspendida y no puede acceder a esta funcionalidad.',
+                'details' => [
+                    'banned_until' => $user->banned_until?->toIso8601String(),
+                    'ban_reason' => $user->ban_reason,
+                ],
             ],
         ], 403);
     }

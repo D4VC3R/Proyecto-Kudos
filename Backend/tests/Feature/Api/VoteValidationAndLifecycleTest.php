@@ -204,7 +204,8 @@ class VoteValidationAndLifecycleTest extends TestCase
 
         $this->getJson('/api/profile')
             ->assertStatus(403)
-            ->assertJsonPath('message', 'Error. Email no verificado.');
+            ->assertJsonPath('error.code', 'forbidden')
+            ->assertJsonPath('error.message', 'No tienes permisos para realizar esta acción.');
     }
 
     public function test_banned_user_is_blocked_from_authenticated_routes(): void
@@ -219,8 +220,9 @@ class VoteValidationAndLifecycleTest extends TestCase
 
         $this->getJson('/api/profile')
             ->assertStatus(403)
-            ->assertJsonPath('message', 'Tu cuenta está suspendida y no puede acceder a esta funcionalidad.')
-            ->assertJsonPath('meta.ban_reason', 'incumplimiento de normas');
+            ->assertJsonPath('error.code', 'forbidden')
+            ->assertJsonPath('error.message', 'Tu cuenta esta suspendida y no puede acceder a esta funcionalidad.')
+            ->assertJsonPath('error.details.ban_reason', 'incumplimiento de normas');
     }
 
     public function test_non_admin_user_cannot_access_admin_users_endpoint(): void

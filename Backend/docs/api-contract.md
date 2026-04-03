@@ -67,7 +67,9 @@ Códigos usados:
 - `401` -> `unauthenticated`
 - `403` -> `forbidden`
 - `404` -> `not_found` / `route_not_found`
+- `409` -> `conflict`
 - `422` -> `validation_error`
+- `429` -> `too_many_requests`
 
 ## 3) Reglas de votación
 
