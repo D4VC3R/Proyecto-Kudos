@@ -21,6 +21,8 @@ class ListAdminItemsRequest extends FormRequest
             'creator_id' => ['sometimes', 'uuid', 'exists:users,id'],
             'search' => ['sometimes', 'string', 'max:255'],
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
+            'sort_by' => ['sometimes', Rule::in(['name', 'status', 'created_at'])],
+            'sort_direction' => ['sometimes', Rule::in(['asc', 'desc'])],
         ];
     }
 }

@@ -6,19 +6,21 @@ use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Models\Item;
 use App\Models\Proposal;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class AdminRepository
 {
     /**
      * Obtiene usuarios paginados con filtros de administración.
      *
-     * @param array{search?: ?string, is_banned?: mixed, ban_state?: ?string, role?: ?string} $filters
+     * @param array{search?: ?string, is_banned?: mixed, ban_state?: ?string, role?: ?string, sort_by?: ?string, sort_direction?: ?string} $filters
      * @param int $perPage
      * @return LengthAwarePaginator
      */
     public function paginateUsers(array $filters, int $perPage = 20): LengthAwarePaginator
     {
-        $query = User::query()->with('roles:id,name')->orderByDesc('created_at');
+        $query = User::query()->with('roles:uuid,name');
         $now = now();
 
         if (!empty($filters['search'])) {
@@ -62,8 +64,104 @@ class AdminRepository
             $query->role($filters['role']);
         }
 
+        $this->applyUsersSorting($query, $filters);
+
         $safePerPage = min(max($perPage, 1), 100);
         return $query->paginate($safePerPage);
+    }
+
+    /**
+     * Aplica ordenación server-side al listado de usuarios admin.
+     *
+     * @param Builder<User> $query
+     * @param array<string,mixed> $filters
+     */
+    private function applyUsersSorting(Builder $query, array $filters): void
+    {
+        $sortBy = in_array($filters['sort_by'] ?? null, ['name', 'email', 'role', 'status', 'created_at'], true)
+            ? $filters['sort_by']
+            : 'name';
+
+        $sortDirection = ($filters['sort_direction'] ?? 'desc') === 'asc' ? 'asc' : 'desc';
+
+        $normalizedName = $this->normalizedTextExpression('users.name');
+
+        match ($sortBy) {
+            'email' => $query->orderByRaw("lower(users.email) {$sortDirection}"),
+            'role' => $this->applyUsersRoleSorting($query, $sortDirection),
+            'status' => $query->orderByRaw(
+                "CASE
+                    WHEN is_banned = false THEN 'activo'
+                    WHEN banned_until IS NULL THEN 'baneado_permanente'
+                    ELSE 'baneado_temporal'
+                END {$sortDirection}"
+            ),
+            'created_at' => $query->orderBy('created_at', $sortDirection),
+            default => $query->orderByRaw("{$normalizedName} {$sortDirection}"),
+        };
+
+        // Empates estables para evitar cambios de orden entre páginas.
+        if ($sortBy !== 'created_at') {
+            $query->orderByDesc('created_at');
+        }
+
+        $query->orderBy('id');
+    }
+
+    /**
+     * Devuelve una expresion SQL para ordenar texto ignorando tildes y mayusculas.
+     */
+    private function normalizedTextExpression(string $column): string
+    {
+        $driver = DB::connection()->getDriverName();
+
+        if ($driver === 'pgsql') {
+            return "translate(lower({$column}), 'áàäâãåéèëêíìïîóòöôõúùüûçñ', 'aaaaaaeeeeiiiiooooouuuucn')";
+        }
+
+        $replacements = [
+            'á' => 'a', 'Á' => 'a',
+            'é' => 'e', 'É' => 'e',
+            'í' => 'i', 'Í' => 'i',
+            'ó' => 'o', 'Ó' => 'o',
+            'ú' => 'u', 'Ú' => 'u',
+            'ñ' => 'n', 'Ñ' => 'n',
+        ];
+
+        $expression = "lower({$column})";
+
+        foreach ($replacements as $from => $to) {
+            $expression = "replace({$expression}, '{$from}', '{$to}')";
+        }
+
+        return $expression;
+    }
+
+    /**
+     * Ordena por el primer rol alfabético del usuario (si existe).
+     *
+     * @param Builder<User> $query
+     */
+    private function applyUsersRoleSorting(Builder $query, string $sortDirection): void
+    {
+        $tableNames = config('permission.table_names');
+        $columnNames = config('permission.column_names');
+
+        $modelHasRolesTable = $tableNames['model_has_roles'] ?? 'model_has_roles';
+        $rolesTable = $tableNames['roles'] ?? 'roles';
+        $modelMorphKey = $columnNames['model_morph_key'] ?? 'model_id';
+        $rolePivotKey = $columnNames['role_pivot_key'] ?? 'role_id';
+
+        $query->orderByRaw(
+            "(
+                SELECT MIN(r.name)
+                FROM {$modelHasRolesTable} AS mhr
+                INNER JOIN {$rolesTable} AS r ON r.uuid = mhr.{$rolePivotKey}
+                WHERE mhr.{$modelMorphKey} = users.id
+                    AND mhr.model_type = ?
+            ) {$sortDirection}",
+            [User::class]
+        );
     }
 
     /**
@@ -93,10 +191,18 @@ class AdminRepository
         ];
     }
 
+    public function findUserDetail(string $userId): ?User
+    {
+        return User::query()
+            ->with(['roles:uuid,name', 'profile'])
+            ->withCount(['proposals', 'votes', 'comments', 'items', 'reviewedProposals'])
+            ->find($userId);
+    }
+
     /**
      * Obtiene items paginados con filtros de administración.
      *
-     * @param array{status?: ?string, category_id?: ?string, creator_id?: ?string, search?: ?string} $filters
+     * @param array{status?: ?string, category_id?: ?string, creator_id?: ?string, search?: ?string, sort_by?: ?string, sort_direction?: ?string} $filters
      * @param int $perPage
      * @return LengthAwarePaginator
      */
@@ -120,8 +226,42 @@ class AdminRepository
             $query->where('name', 'ilike', '%' . $filters['search'] . '%');
         }
 
+        $this->applyItemsSorting($query, $filters);
+
         $safePerPage = min(max($perPage, 1), 100);
-        return $query->orderByDesc('created_at')->paginate($safePerPage);
+        return $query->paginate($safePerPage);
+    }
+
+    /**
+     * Aplica ordenacion server-side al listado de items admin.
+     *
+     * @param Builder<Item> $query
+     * @param array<string,mixed> $filters
+     */
+    private function applyItemsSorting(Builder $query, array $filters): void
+    {
+        $sortBy = in_array($filters['sort_by'] ?? null, ['name', 'status', 'created_at'], true)
+            ? $filters['sort_by']
+            : 'created_at';
+
+        $sortDirection = ($filters['sort_direction'] ?? 'desc') === 'asc' ? 'asc' : 'desc';
+
+        match ($sortBy) {
+            'name' => $query->orderBy('name', $sortDirection),
+            'status' => $query->orderByRaw(
+                "CASE
+                    WHEN status = 'active' THEN 0
+                    ELSE 1
+                END {$sortDirection}"
+            ),
+            default => $query->orderBy('created_at', $sortDirection),
+        };
+
+        if ($sortBy !== 'created_at') {
+            $query->orderByDesc('created_at');
+        }
+
+        $query->orderBy('id');
     }
 
     /**

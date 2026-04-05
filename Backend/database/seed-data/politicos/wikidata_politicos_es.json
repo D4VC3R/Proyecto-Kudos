@@ -1,0 +1,2393 @@
+{
+    "source": "wikidata",
+    "category_slug": "politicos",
+    "fetched_at": "2026-04-03T18:18:31+00:00",
+    "count": 159,
+    "items": [
+        {
+            "name": "Juan Antonio Samaranch",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 89,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q171166",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Núria de Gispert",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Demòcrates de Catalunya",
+                "age": 76,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q171194",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Felipe González",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Socialista Obrero Español",
+                "age": 84,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q156799",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Javier Solana",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Socialista Obrero Español",
+                "age": 83,
+                "quotes": [],
+                "position": "diputado",
+                "source": "wikidata",
+                "source_id": "Q154855",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Jorge Semprún",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Comunista de España",
+                "age": 87,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q157004",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Mariano Rajoy",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Unión Nacional Española",
+                "age": 71,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q10819",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Joan Herrera",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Iniciativa per Catalunya Verds",
+                "age": 55,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q12777",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Lluís Companys",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Esquerra Republicana de Catalunya",
+                "age": 0,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q7981",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Artur Mas",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partit Demòcrata Europeu Català",
+                "age": 70,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q8015",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Willy Brandt",
+            "description": "Politico destacado de Imperio alemán importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Socialdemócrata de Alemania",
+                "age": 78,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q2514",
+                "country": "Imperio alemán"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Lluís Llach",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 77,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q7999",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Manuel Valls",
+            "description": "Politico destacado de Francia importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Socialista",
+                "age": 63,
+                "quotes": [],
+                "position": "diputado",
+                "source": "wikidata",
+                "source_id": "Q10287",
+                "country": "Francia"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Humberto Baena",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 25,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q94602",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Ángel Otaegui",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 33,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q80310",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Pilar Miró",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 57,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q75004",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Joan Saura i Laporta",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Iniciativa per Catalunya Verds",
+                "age": 75,
+                "quotes": [],
+                "position": "diputado",
+                "source": "wikidata",
+                "source_id": "Q12785",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "José María Aznar",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Popular",
+                "age": 73,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q55637",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Soraya Sáenz de Santamaría",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Popular",
+                "age": 54,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q41267",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Mario Vargas Llosa",
+            "description": "Politico destacado de República Dominicana importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Libertad Popular",
+                "age": 89,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q39803",
+                "country": "República Dominicana"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "José Antonio Rueda Crespo",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 73,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q55446",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "José Luis Rodríguez Zapatero",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Socialista Obrero Español",
+                "age": 65,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q41395",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Ana Botella",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Alianza Popular",
+                "age": 72,
+                "quotes": [],
+                "position": "alcalde",
+                "source": "wikidata",
+                "source_id": "Q41266",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Camilo Cienfuegos",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Movimiento 26 de Julio",
+                "age": 27,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q26853",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Eloy Gutiérrez Menoyo",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 77,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q44456",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "José María Oriol",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Falange Española Tradicionalista y de las JONS",
+                "age": 80,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q40387",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Ronaldinho",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 46,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q39444",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Jaime Caruana",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 74,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q25569",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Oriol Junqueras",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Esquerra Republicana de Catalunya",
+                "age": 56,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q116812",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Tirso Sánchez Rey",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 81,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q140994",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "José Muñoz Molleda",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 83,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q139379",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Ramón González-Babé y Castro",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 79,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q140962",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Alicia Sánchez-Camacho",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Popular",
+                "age": 59,
+                "quotes": [],
+                "position": "diputado",
+                "source": "wikidata",
+                "source_id": "Q117023",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Belisario Betancur",
+            "description": "Politico destacado de Colombia importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Conservador Colombiano",
+                "age": 95,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q345571",
+                "country": "Colombia"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "José Solís",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Falange Española Tradicionalista y de las JONS",
+                "age": 76,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q344671",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Benjamín Álvarez Fernández",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 74,
+                "quotes": [],
+                "position": "alcalde",
+                "source": "wikidata",
+                "source_id": "Q140989",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Rafael Alberti",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Comunista de España",
+                "age": 96,
+                "quotes": [],
+                "position": "diputado",
+                "source": "wikidata",
+                "source_id": "Q118936",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Pere Navarro i Morera",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partit Socialista de Catalunya-Congrés",
+                "age": 66,
+                "quotes": [],
+                "position": "diputado",
+                "source": "wikidata",
+                "source_id": "Q116814",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Miguel Ángel Moratinos",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Socialista Obrero Español",
+                "age": 74,
+                "quotes": [],
+                "position": "diputado",
+                "source": "wikidata",
+                "source_id": "Q352302",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Manuel Portela Nogueira",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 76,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q136789",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Juan José Ibarretxe Markuartu",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacionalista Vasco",
+                "age": 69,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q351738",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Pasqual Maragall",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido de los Socialistas de Cataluña",
+                "age": 85,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q355265",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Camilo José Cela",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 85,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q132589",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Carme Chacón",
+            "description": "Politico destacado de España importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido de los Socialistas de Cataluña",
+                "age": 46,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q138416",
+                "country": "España"
+            },
+            "segment": "espana_1970_actualidad"
+        },
+        {
+            "name": "Jorge Chapper",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 78,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q5934773",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Héctor Rodríguez",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 78,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5906390",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Rubio (político)",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Movimiento 26 de Marzo",
+                "age": 74,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5819663",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Héctor Lorenzo Ríos",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Por la Patria",
+                "age": 59,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5906249",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Francisco Rodríguez Camusso",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 81,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q5867271",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daniel Peña Fernández",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 53,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5798595",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Federico Casaretto",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 57,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5857552",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Edgardo Rodríguez",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 64,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5817800",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gonzalo Mujica",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 69,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5883126",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Francisco Gallinal",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 68,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5865769",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ernesto Amorín Larrañaga",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 80,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q5836753",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Diego Delgrossi",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 54,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5806022",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Isaac Alfie",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 63,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5920552",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Javier de Haedo",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 64,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5928355",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Fernández Farías",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 75,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5819215",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gabriel Frugoni",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 60,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5873322",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daoiz Uriarte",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 69,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5799279",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Paz Aguirre",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 59,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5819543",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Pons Echeverry",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 72,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q5819585",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Elisa Delle Piane",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Agrupación por el Gobierno del Pueblo",
+                "age": 83,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5829531",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Francisco Mario Ubillos",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 91,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q5866652",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Francisco Beltrame",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 74,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5865226",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Hugo Villar",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 88,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5904699",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Humberto Ciganda",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Unión Cívica",
+                "age": 89,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5904889",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Glenda Eulalia del Rosario Rondán Freira",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 80,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5880804",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Facundo Suárez Lastra",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Unión Cívica Radical",
+                "age": 72,
+                "quotes": [],
+                "position": "diputado",
+                "source": "wikidata",
+                "source_id": "Q5855240",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Guzmán Pedreira",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 55,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5890079",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ivonne Passada",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Movimiento de Participación Popular",
+                "age": 66,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5923354",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Iván Posada",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Independiente",
+                "age": 72,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5923545",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gustavo Borsari",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 71,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5889520",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Enrique Braga",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 66,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q5833100",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daniel Olesker",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 73,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q5852655",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Héctor Leis",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 52,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5906239",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gustavo Lapaz",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 72,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5889698",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Edgardo Ortuño",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 55,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5817796",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Hugo Medina",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 68,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5904585",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Felipe Michelini",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 59,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5858305",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Guillermo García Costa",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 84,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q5800043",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Bottinelli",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 75,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5819047",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Héctor Giorgi",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 84,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5906175",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Hamlet Reyes",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 85,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5891655",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Dionisio Vivián",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 74,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5807608",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Minutti",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 74,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5819460",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daniela Payssé Rodríguez",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Asamblea Uruguay",
+                "age": 72,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5798838",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ignacio de Posadas",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 82,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5913646",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Estanislao Valdés Otero",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 95,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q5848810",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Enrique Beltrán Mullin",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 95,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5833080",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Domingo Burgueño Miguel",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 72,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5812735",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Doreen Javier Ibarra",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 26,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5813529",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Hugo Dibarboure Icasuriaga",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 85,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5904444",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Homero Guerrero",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 63,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5901323",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daniel Caggiani",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 42,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5798178",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Germán Cardoso",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 52,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5878631",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Jorge Gandini",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 68,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5935143",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gerardo Amaral",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 72,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5878190",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Federico García Capurro",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 93,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q5857624",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daniel Lamas",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 76,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5798477",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eber da Rosa Vázquez",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 69,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5816805",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gustavo Rombys",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 64,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5889851",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gustavo Cersósimo",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 73,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5889565",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daniel García Pintos",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 26,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5798370",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Julio Lacarte Muró",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 97,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5811143",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Guillermo Pomi",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 75,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5888827",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Malaquina",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 120,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5819416",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Fernando Amado",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 43,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5859170",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Rodrigo Goñi Reyes",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 58,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6110710",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Justino Carrere Sapriza",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 72,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q5956871",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mario Bergara",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 60,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q5998504",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Julio Sánchez Padilla",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 88,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5955815",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Luis Bernardo Pozzolo",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 70,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5982911",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Raúl Sendic Rodríguez",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 63,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q6101178",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Rodrigo Goñi",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 63,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6110709",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mario Cayota",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Demócrata Cristiano",
+                "age": 86,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5998566",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Pedro Cersósimo",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 75,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q6068483",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ricardo Prato",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 81,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6108419",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Michelle Suárez",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 38,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q6013021",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Pablo Iturralde",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 66,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6056102",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Max Sapolinsky",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 66,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6007343",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Pablo Abdala",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 59,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6055716",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Kimal Amir",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 74,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5959770",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mariano Brito",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 84,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5997612",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Norma Liliam Kechichian García",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Seregnistas",
+                "age": 74,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5976346",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Luis José Gallo",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 91,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5983711",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Luis Eduardo Mallo",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 86,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q5983229",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "María Urruzola",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 71,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6004736",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Raúl Ybarra San Martín",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 86,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6101514",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Samuel Lichtensztejn",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 83,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q6118159",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Raúl Rodríguez da Silva",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 82,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6101412",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mario Perrachón",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 83,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5998973",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Oscar López Goldaracena",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 66,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6053909",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Martín Tierno",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 57,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6002905",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Leonel Viera",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 61,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5973311",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mario Álvarez Giambruno",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 67,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5999167",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Pedro Zabalza Arrospide",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 83,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q6070366",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ricardo Reilly Salaverry",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 79,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6108437",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Oscar Terzaghi",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Frente Amplio",
+                "age": 72,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6053984",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Matilde Rodríguez-Larreta",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 85,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6006218",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Martín Laventure Otegui",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Nacional",
+                "age": 67,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6002735",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Juan Manuel Garino",
+            "description": "Politico destacado de Uruguay importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Colorado",
+                "age": 38,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5951011",
+                "country": "Uruguay"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "George H. W. Bush",
+            "description": "Politico destacado de Estados Unidos importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Republicano",
+                "age": 94,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q23505",
+                "country": "Estados Unidos"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "EMD GP7",
+            "description": "Politico destacado de Pais no especificado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": null,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q203694",
+                "country": "Pais no especificado"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Donald Trump",
+            "description": "Politico destacado de Estados Unidos importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Republicano",
+                "age": 79,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q22686",
+                "country": "Estados Unidos"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "palma",
+            "description": "Politico destacado de Pais no especificado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": null,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q14080",
+                "country": "Pais no especificado"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "VMware",
+            "description": "Politico destacado de Pais no especificado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": null,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q11407",
+                "country": "Pais no especificado"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "presidente de los Estados Unidos",
+            "description": "Politico destacado de Pais no especificado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": null,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q11696",
+                "country": "Pais no especificado"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Winston Churchill",
+            "description": "Politico destacado de Reino Unido importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Conservador",
+                "age": 90,
+                "quotes": [],
+                "position": "ministro",
+                "source": "wikidata",
+                "source_id": "Q8016",
+                "country": "Reino Unido"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Nelson Mandela",
+            "description": "Politico destacado de Sudáfrica importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Congreso Nacional Africano",
+                "age": 95,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q8023",
+                "country": "Sudáfrica"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Q76",
+            "description": "Politico destacado de Kenia importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Demócrata",
+                "age": 64,
+                "quotes": [],
+                "position": "senador",
+                "source": "wikidata",
+                "source_id": "Q76",
+                "country": "Kenia"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Angela Merkel",
+            "description": "Politico destacado de Alemania importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Unión Demócrata Cristiana",
+                "age": 71,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q567",
+                "country": "Alemania"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Vladímir Putin",
+            "description": "Politico destacado de Rusia importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 73,
+                "quotes": [],
+                "position": "presidente",
+                "source": "wikidata",
+                "source_id": "Q7747",
+                "country": "Rusia"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Joe Biden",
+            "description": "Politico destacado de Estados Unidos importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Partido Demócrata",
+                "age": 83,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q6279",
+                "country": "Estados Unidos"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Roger Federer",
+            "description": "Politico destacado de Suiza importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 44,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q1426",
+                "country": "Suiza"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "hada",
+            "description": "Politico destacado de Pais no especificado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": null,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q8028",
+                "country": "Pais no especificado"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Platón",
+            "description": "Politico destacado de Antigua Atenas importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": 80,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q859",
+                "country": "Antigua Atenas"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Wikimedia:Portada",
+            "description": "Politico destacado de Pais no especificado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": null,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q5296",
+                "country": "Pais no especificado"
+            },
+            "segment": "global_ilustres"
+        },
+        {
+            "name": "Shanghái",
+            "description": "Politico destacado de Pais no especificado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "party": "Independiente",
+                "age": null,
+                "quotes": [],
+                "position": "militante",
+                "source": "wikidata",
+                "source_id": "Q8686",
+                "country": "Pais no especificado"
+            },
+            "segment": "global_ilustres"
+        }
+    ]
+}

@@ -45,6 +45,11 @@ class AdminService
         ];
     }
 
+    public function getUserDetail(User $user): ?User
+    {
+        return $this->adminRepository->findUserDetail($user->id);
+    }
+
     /**
      * Devuelve items paginados para administración.
      *

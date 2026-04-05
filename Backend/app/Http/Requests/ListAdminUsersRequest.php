@@ -20,6 +20,8 @@ class ListAdminUsersRequest extends FormRequest
             'ban_state' => ['sometimes', Rule::in(['temporary', 'permanent', 'expired', 'active'])],
             'role' => ['sometimes', 'string', 'max:100'],
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
+            'sort_by' => ['sometimes', Rule::in(['name', 'email', 'role', 'status', 'created_at'])],
+            'sort_direction' => ['sometimes', Rule::in(['asc', 'desc'])],
         ];
     }
 }

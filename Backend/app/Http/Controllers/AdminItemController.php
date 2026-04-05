@@ -26,6 +26,8 @@ class AdminItemController extends Controller
             'category_id' => $validated['category_id'] ?? null,
             'creator_id' => $validated['creator_id'] ?? null,
             'search' => $validated['search'] ?? null,
+            'sort_by' => $validated['sort_by'] ?? 'created_at',
+            'sort_direction' => $validated['sort_direction'] ?? 'desc',
         ];
 
         $items = $this->adminService->listItems(

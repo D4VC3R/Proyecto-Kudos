@@ -1,0 +1,4180 @@
+{
+    "source": "wikidata",
+    "category_slug": "artistas-musicales",
+    "fetched_at": "2026-04-03T18:53:57+00:00",
+    "count": 298,
+    "items": [
+        {
+            "name": "María Dolores Pradera",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "música tradicional",
+                "active_since_year": 1943,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q30510"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Itziar Ituño",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 1993,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q35633"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Shakira",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "rock",
+                "active_since_year": 1990,
+                "website": "https://www.shakira.com",
+                "source": "wikidata",
+                "source_id": "Q34424"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Enrique Iglesias",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "rhythm and blues",
+                "active_since_year": 1995,
+                "website": "https://enriqueiglesias.com",
+                "source": "wikidata",
+                "source_id": "Q47122"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Rocío Dúrcal",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "bolero",
+                "active_since_year": 1954,
+                "website": "http://www.rociodurcal.net",
+                "source": "wikidata",
+                "source_id": "Q56074"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Lucrecia",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.lucreciamusic.com/wp/",
+                "source": "wikidata",
+                "source_id": "Q46036"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Pedro Almodóvar",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 1974,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q55171"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Natalia Jiménez",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop latino",
+                "active_since_year": 2000,
+                "website": "http://www.nataliajimenezmusic.com/",
+                "source": "wikidata",
+                "source_id": "Q55436"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Luis Fernando de Baviera",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q62263"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Fabio McNamara",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 1976,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q59970"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Gisela",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 2001,
+                "website": "http://www.giselaworld.com",
+                "source": "wikidata",
+                "source_id": "Q236085"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Belinda",
+            "description": "Artista musical destacado importado desde Wikidata (México).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "México",
+                "genre": "pop",
+                "active_since_year": 2000,
+                "website": "https://www.belinda.com",
+                "source": "wikidata",
+                "source_id": "Q232514"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Lucía Pérez",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 2002,
+                "website": "https://www.luciaperez.es/",
+                "source": "wikidata",
+                "source_id": "Q232208"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Natalia Oreiro",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop rock",
+                "active_since_year": 1990,
+                "website": "https://www.nataliaoreiro.com/",
+                "source": "wikidata",
+                "source_id": "Q232458"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Victoria de los Ángeles",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "ópera",
+                "active_since_year": 1945,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q231608"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Salomé",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 1960,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q231266"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Leonor Watling",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 1993,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q235384"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "María Isabel López",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 2004,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q229891"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Elsa Pataky",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 1997,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q230123"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Natalia Tena",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 2000,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q232163"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Maria del Mar Bonet",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "música mediterránea",
+                "active_since_year": 1966,
+                "website": "https://mariadelmarbonet.com/",
+                "source": "wikidata",
+                "source_id": "Q237042"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Bebe",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 2004,
+                "website": "http://www.bebeoficial.com/",
+                "source": "wikidata",
+                "source_id": "Q234037"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Ana Belén",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop rock",
+                "active_since_year": 1961,
+                "website": "http://www.anabelen.es/",
+                "source": "wikidata",
+                "source_id": "Q235421"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Massiel",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 1966,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q230544"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Pastora Soler",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 1994,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q234677"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Soraya Arnelas",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 2005,
+                "website": "https://www.sorayaarnelas.es",
+                "source": "wikidata",
+                "source_id": "Q230340"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Ricky Martin",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "música de América Latina",
+                "active_since_year": 1984,
+                "website": "http://rickymartinmusic.com/",
+                "source": "wikidata",
+                "source_id": "Q128799"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Julio Iglesias",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "balada romántica",
+                "active_since_year": 1968,
+                "website": "http://www.julioiglesias.com",
+                "source": "wikidata",
+                "source_id": "Q122003"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "María Ostiz",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "música folclórica",
+                "active_since_year": 1965,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q118424"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Joaquín Rodrigo",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "ópera",
+                "active_since_year": null,
+                "website": "https://www.joaquin-rodrigo.com/",
+                "source": "wikidata",
+                "source_id": "Q151084"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Daniel Barenboim",
+            "description": "Artista musical destacado importado desde Wikidata (Israel).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Israel",
+                "genre": "música clásica",
+                "active_since_year": 1950,
+                "website": "https://danielbarenboim.com/",
+                "source": "wikidata",
+                "source_id": "Q152768"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Carlos Leal",
+            "description": "Artista musical destacado importado desde Wikidata (Suiza).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Suiza",
+                "genre": null,
+                "active_since_year": 1990,
+                "website": "https://www.carloslealartist.com",
+                "source": "wikidata",
+                "source_id": "Q123628"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Paco de Lucía",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "flamenco",
+                "active_since_year": 1963,
+                "website": "http://pacodelucia.org",
+                "source": "wikidata",
+                "source_id": "Q153300"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Arianna Savall",
+            "description": "Artista musical destacado importado desde Wikidata (Suiza).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Suiza",
+                "genre": null,
+                "active_since_year": null,
+                "website": "https://www.ariannasavall.com",
+                "source": "wikidata",
+                "source_id": "Q124294"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Estrellita Castro",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "copla",
+                "active_since_year": 1925,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q127643"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Perlita de Huelva",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q153390"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Ana Torroja",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 1981,
+                "website": "http://www.anatorroja.info/",
+                "source": "wikidata",
+                "source_id": "Q270873"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Mari Trini",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q270842"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Concha Buika",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "jazz",
+                "active_since_year": 2000,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q266042"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Fátima Miranda",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "música vanguardista",
+                "active_since_year": null,
+                "website": "https://fatima-miranda.com/",
+                "source": "wikidata",
+                "source_id": "Q274085"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Concha Velasco",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q270812"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Concha Piquer",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q270830"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Luz Casal",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "blues",
+                "active_since_year": 1977,
+                "website": "https://luzcasal.es",
+                "source": "wikidata",
+                "source_id": "Q265053"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Carmen Machi",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 1994,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q275932"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Angy Fernández",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 2007,
+                "website": "http://www.angyfernandez.es",
+                "source": "wikidata",
+                "source_id": "Q270264"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Gala Évora",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q274108"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Marta Botía",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q274094"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "La Bella Otero",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q275991"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Sara Montiel",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 1944,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q268587"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Enrique Jiménez Fernández",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "alegría",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q284082"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Alejandro Sanz",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop latino",
+                "active_since_year": 1989,
+                "website": "http://www.alejandrosanz.co",
+                "source": "wikidata",
+                "source_id": "Q276170"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Rosa López",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 2001,
+                "website": "https://www.rosalopezoficial.com/",
+                "source": "wikidata",
+                "source_id": "Q270817"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Cristina del Valle",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 1986,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q274069"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Niña Pastori",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "flamenco",
+                "active_since_year": 1995,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q270828"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Rossy de Palma",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 1987,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q266626"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Conchita Bautista",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q269787"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Jennifer Serrano",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 2006,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q275902"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Carles Benavent",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "jazz",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q269335"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Najwa Nimri",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "trip hop",
+                "active_since_year": 1995,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q264867"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Soledad Miranda",
+            "description": "Artista musical destacado importado desde Wikidata (Portugal).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Portugal",
+                "genre": null,
+                "active_since_year": 1960,
+                "website": "https://www.soledadmiranda.com/",
+                "source": "wikidata",
+                "source_id": "Q266319"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Miguel Bosé",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "rock",
+                "active_since_year": 1973,
+                "website": "http://www.miguelbose.com",
+                "source": "wikidata",
+                "source_id": "Q356762"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Mala Rodríguez",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "hip hop latino",
+                "active_since_year": 1996,
+                "website": "https://malarodriguez.com/",
+                "source": "wikidata",
+                "source_id": "Q257403"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "José Antonio Ramos",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q204836"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Rocío Jurado",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "flamenco",
+                "active_since_year": 1958,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q259152"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Abraham Maffeo",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop latino",
+                "active_since_year": 2009,
+                "website": "http://www.abrahammateoofficial.com/",
+                "source": "wikidata",
+                "source_id": "Q330316"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Manu Chao",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "ska",
+                "active_since_year": 1980,
+                "website": "http://www.manuchao.net/",
+                "source": "wikidata",
+                "source_id": "Q207898"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Lluís Llach",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "canción de protesta",
+                "active_since_year": 1965,
+                "website": "http://www.lluisllach.cat",
+                "source": "wikidata",
+                "source_id": "Q7999"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Jeanette",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 1968,
+                "website": "http://www.jeanette-rebelde.blogspot.com/",
+                "source": "wikidata",
+                "source_id": "Q297548"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Farid Bang",
+            "description": "Artista musical destacado importado desde Wikidata (Marruecos).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Marruecos",
+                "genre": "hip hop hardcore",
+                "active_since_year": null,
+                "website": "http://www.faridbang.com",
+                "source": "wikidata",
+                "source_id": "Q89832"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Fernando Sor",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "música clásica",
+                "active_since_year": null,
+                "website": "http://www.sorfernando.com/",
+                "source": "wikidata",
+                "source_id": "Q254110"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Pablo Espinosa",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 2008,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q81403"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Manuel García",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "ópera",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q333183"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Xavier Cugat",
+            "description": "Artista musical destacado importado desde Wikidata (Estados Unidos).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Estados Unidos",
+                "genre": "pop",
+                "active_since_year": 1912,
+                "website": "https://www.xaviercugat.org",
+                "source": "wikidata",
+                "source_id": "Q334180"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Joan Manuel Serrat",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "trova",
+                "active_since_year": 1965,
+                "website": "http://www.jmserrat.com",
+                "source": "wikidata",
+                "source_id": "Q312753"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Inma Serrano",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://inmaserrano.com/",
+                "source": "wikidata",
+                "source_id": "Q297642"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Malú",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 1998,
+                "website": "http://www.maluweb.com/",
+                "source": "wikidata",
+                "source_id": "Q209409"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Silvia Tortosa",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": null,
+                "active_since_year": 1966,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q206367"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Pepito Arriola",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "música clásica",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q339070"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Ismael Serrano",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "música tradicional",
+                "active_since_year": 1997,
+                "website": "http://www.ismaelserrano.com",
+                "source": "wikidata",
+                "source_id": "Q22624"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "David Bisbal",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "pop",
+                "active_since_year": 2001,
+                "website": "https://davidbisbal.com",
+                "source": "wikidata",
+                "source_id": "Q298310"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Beatriz Luengo",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "R&B contemporáneo",
+                "active_since_year": 1999,
+                "website": "http://www.beatrizluengo.net/",
+                "source": "wikidata",
+                "source_id": "Q297598"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Pablo Sciuto",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1996,
+                "website": "http://www.pablosciuto.com",
+                "source": "wikidata",
+                "source_id": "Q262505"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Camarón de la Isla",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "flamenco",
+                "active_since_year": 1969,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q312093"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Antonio Moreno",
+            "description": "Artista musical destacado importado desde Wikidata (Estados Unidos).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Estados Unidos",
+                "genre": null,
+                "active_since_year": 1912,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q291228"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Manolo Escobar",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "copla",
+                "active_since_year": 1956,
+                "website": "http://www.manoloescobar.net/",
+                "source": "wikidata",
+                "source_id": "Q354141"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Estrella Morente",
+            "description": "Artista musical destacado importado desde Wikidata (España).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "España",
+                "genre": "flamenco",
+                "active_since_year": 2001,
+                "website": "https://estrella-morente.es/",
+                "source": "wikidata",
+                "source_id": "Q293773"
+            },
+            "segment": "espana_relevantes"
+        },
+        {
+            "name": "Pablo Podestá",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "Circo criollo",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5549272"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "José Carbajal",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música popular",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1709075"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "José Razzano",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q929828"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Beto Satragni",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "jazz",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q579422"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Tabaré Etcheverry",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música tradicional",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2386382"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gabe Saporta",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "synth pop",
+                "active_since_year": 1998,
+                "website": "http://www.cobrastarship.com/",
+                "source": "wikidata",
+                "source_id": "Q983812"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ethel Afamado",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "trova",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1371122"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Bernardo Aguerre",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q822943"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Jorge Drexler",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "pop",
+                "active_since_year": 1990,
+                "website": "http://www.jorgedrexler.com",
+                "source": "wikidata",
+                "source_id": "Q543506"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Elli Medeiros",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "pop",
+                "active_since_year": null,
+                "website": "http://elli-medeiros.com",
+                "source": "wikidata",
+                "source_id": "Q456596"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Alfredo Zitarrosa",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "zamba",
+                "active_since_year": null,
+                "website": "https://www.zitarrosa.org",
+                "source": "wikidata",
+                "source_id": "Q203413"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Luis Trochón",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música popular",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q929321"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlos Canzani",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1042780"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Martín Méndez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "rock progresivo",
+                "active_since_year": 1997,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2618412"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Julio Sosa",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": 1964,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1712411"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Alfredo Alonso",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5667498"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Andrés Stagnaro",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5676131"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlos Gardel",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": 1917,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q229613"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "César Amaro",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1150645"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Erika Büsch",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música popular",
+                "active_since_year": null,
+                "website": "http://www.erikabusch.uy/",
+                "source": "wikidata",
+                "source_id": "Q2877032"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Wilson de Oliveira",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "jazz",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2582612"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Leo Maslíah",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.leomasliah.com/",
+                "source": "wikidata",
+                "source_id": "Q629512"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlos Nilson",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5042435"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Osvaldo Fattoruso",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1283813"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "José Luis Guerra",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1284924"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Francisco Fattoruso",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1285180"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daniel Viglietti",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música tradicional",
+                "active_since_year": 1963,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1163000"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Fernández",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1290931"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Alejandro Balbis",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "rock and roll",
+                "active_since_year": 1980,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q4714484"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mariana Ingold",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música popular",
+                "active_since_year": null,
+                "website": "https://www.marianaingold.com/",
+                "source": "wikidata",
+                "source_id": "Q1896720"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Washington Luna",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2550471"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Erwin Schrott",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.erwinschrott.com/index.php/en-GB/",
+                "source": "wikidata",
+                "source_id": "Q1363457"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Rubén Rada",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": 1955,
+                "website": "http://www.negrorada.com/",
+                "source": "wikidata",
+                "source_id": "Q974970"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Nina Miranda",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q512952"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Fernando Cabrera",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1977,
+                "website": "http://www.fernandocabrerauruguay.com",
+                "source": "wikidata",
+                "source_id": "Q1406622"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Lauro Ayestarán",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q175829"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Darnauchans",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q926658"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Samantha Navarro",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música popular",
+                "active_since_year": null,
+                "website": "http://www.samanthanavarro.com",
+                "source": "wikidata",
+                "source_id": "Q2888348"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Hugo Balzo",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1634809"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Agustín Carlevaro",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q399111"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Washington Benavides",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q551015"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Cacho Labandera",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5391913"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Romeo Gavioli",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1729145"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ana Solari",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.ana-solari.com/",
+                "source": "wikidata",
+                "source_id": "Q5674089"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Walter Bordoni",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "trova",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1718048"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Fernando Quijano",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5444885"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Mateo",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música folclórica",
+                "active_since_year": 1960,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q704112"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Tabaré Rivero",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q3512725"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Juan Carlos Mareco",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1948,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q3466333"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Pablo Estramín",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1346282"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gabino Sosa Benítez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5515413"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Roberto Darvin",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2159478"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlo Ventre",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q3659940"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gerardo Matos Rodríguez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": 1917,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q937502"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Anselmo Grau",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q569650"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Álvaro Pierri",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q251198"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gustavo Núñez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2221511"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Alberto Moreno",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2877419"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Amalia de la Vega",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q452926"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Jaime Roos",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "rock",
+                "active_since_year": 1977,
+                "website": "http://www.jaimeroos.uy/",
+                "source": "wikidata",
+                "source_id": "Q382570"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gaúcho da Fronteira",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "Música gaúcha brasileña",
+                "active_since_year": 1968,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5552611"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Osvaldo Laport",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1983,
+                "website": "http://www.osvaldolaport.com.ar/",
+                "source": "wikidata",
+                "source_id": "Q2620033"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Fernando Santullo",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q1406825"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Alberto Mastra",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5663290"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Alberto Wolf",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5663673"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Alberto Zapicán",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5663682"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daniel Rucks",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2879482"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlos Julio Eizmendi",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2880419"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Andrés Ibarburu",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5675841"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ramiro Guzmán",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q260028"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Jorge Lazaroff",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q465215"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Atilio Rapat",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5710829"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Braulio López",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5733409"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Cacho de la Cruz",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5738668"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Roberto Fugazot",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": 1933,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6109748"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlos Darakjian",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5750130"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlos María Fossati",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5750905"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Cecilia Prato",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5759831"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Cédar Viglietti",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5796008"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Dahd Sfeir",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5797510"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Daniel Morgade",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5798559"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gustavo Pena",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://imaginandobuenas.com.uy/",
+                "source": "wikidata",
+                "source_id": "Q5889788"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Darío Iglesias",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5799520"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mariana García Vigil",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "Canto popular uruguayo",
+                "active_since_year": 1970,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5997432"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Dani Umpi",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://daniumpi.bandcamp.com/",
+                "source": "wikidata",
+                "source_id": "Q5216262"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Julio Gallego",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5836086"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eustaquio Sosa",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5852417"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Fernando Torrado",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5860319"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gastón Ciarlo",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5876177"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gerardo Grasso",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5878291"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Horacio Buscaglia",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5901822"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Humberto de Vargas",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5905064"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Jorge Bonaldi",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5934618"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Jorge Schellemberg",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5936041"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "José Pierri Sapere",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5944619"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ariel Ameijenda",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://ameijenda.com/ArielAmeijenda",
+                "source": "wikidata",
+                "source_id": "Q5704009"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Julio Frade",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5955281"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Joaquín Lencina",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q9012250"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Leandro Marziotte",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5972255"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Lucio Muniz",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5982305"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Luis Di Matteo",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5983180"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Manuel Campoamor",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5992540"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Manuel Capella",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5992565"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mariela Celentano",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5998190"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mario Núñez Iordi",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5998928"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlos Casacuberta",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5749978"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Martín Buscaglia",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6002533"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Martín Ibarburu",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6002705"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mauricio Ubal",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6007103"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Miguel Livichich",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6014601"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Sebastián Teysera",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1995,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q4208489"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Estela Magnone",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música popular",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5849246"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Sergio Cervetti",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.sergiocervetti.com",
+                "source": "wikidata",
+                "source_id": "Q6125380"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Cristina Fernández",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5791451"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Lágrima Ríos",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q9025786"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Héctor Numa Moraes",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música popular",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5906313"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Washington Carrasco",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6166488"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Roberto Musso",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "rock alternativo",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6109886"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Emiliano Brancciari",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1994,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5371682"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Rafael Antognazza",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6096985"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Rita Contino",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6109122"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Roberto Diringuer",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6109697"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Roberto Rodríguez Luna",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6109979"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Rufino Mario García",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6113519"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Abel García",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música tradicional",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5654893"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Santiago Chalar",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6120864"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Tabaré Arapí",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6137732"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Hilario Pérez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música tradicional",
+                "active_since_year": 1957,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6443593"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Teresita Minetti",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6142649"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gonzalo Yáñez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "pop rock",
+                "active_since_year": 2001,
+                "website": "http://www.gonzaloyanezmusic.com/",
+                "source": "wikidata",
+                "source_id": "Q5883346"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Tunda Prada",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6153819"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Urbano Moraes",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6157361"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Valeria Lima",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6158934"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Luciano Supervielle",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1997,
+                "website": "http://www.lucianosupervielle.net/",
+                "source": "wikidata",
+                "source_id": "Q5982137"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Vera Sienra",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6160485"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Verónica Loza",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6160729"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Álvaro Pintos",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6172893"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Yamandú Palacios",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6169720"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Alika",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "dancehall",
+                "active_since_year": 1996,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2836910"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ana Prada",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5694197"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Fernando Núñez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5859794"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Tabaré Cardozo",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1998,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6137735"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Diego Azar",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5805905"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Laura Canoura",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música popular",
+                "active_since_year": null,
+                "website": "http://www.lauracanoura.com.uy/blog/bio/",
+                "source": "wikidata",
+                "source_id": "Q9020828"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Víctor Ocampo",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6165676"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Jorge Galemire",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6278018"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Laura Prieto",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6499328"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "José Liard",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6292693"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Larbanois",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5340654"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Roberto Barry",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q7351593"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Waldemar Sasía",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "folclore",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6166084"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Julio Mora",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música tradicional",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5955537"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Juan Campodónico",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música electrónica",
+                "active_since_year": null,
+                "website": "http://www.juancampodonico.com",
+                "source": "wikidata",
+                "source_id": "Q6299140"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "René Marino Rivero",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.duoriverodiaz.com",
+                "source": "wikidata",
+                "source_id": "Q6105737"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Luz del Alba Rubio",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.luzdelalbarubio.com/",
+                "source": "wikidata",
+                "source_id": "Q5985038"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "José María Aguilar Porras",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": 1920,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5942542"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Jorge Nasser",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6453718"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Marcelo Silvera",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1970,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5995947"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gastón Rodríguez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.gastonrodriguez.com.uy/",
+                "source": "wikidata",
+                "source_id": "Q5876249"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Héctor Bingert",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5576382"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Yábor",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5577513"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ariel Martínez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5704072"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Rubén Olivera",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música popular",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6113325"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Enrique Campos",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "tango",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5601695"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlos Benavides",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "balada",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5749813"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "André de Badet",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2848839"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Abel Soria",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5646496"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Yalta",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q6169697"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Arturo de Nava",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2865964"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Antonio Podestá",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q5699385"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mariana Vázquez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q23641369"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Hugo Trova",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q16302685"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Leonardo Franco (músico)",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1958,
+                "website": "https://instagram.com/losiracundos.oficial?igshid=MzRlODBiNWFlZA==",
+                "source": "wikidata",
+                "source_id": "Q21614065"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Gustavo Espinosa",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q18719716"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Laura Gutman",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": 1995,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q20995262"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Pedro Restuccia",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "rock",
+                "active_since_year": 1999,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q9057641"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Carlos Warren",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q16490320"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Eduardo Franco",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q16492175"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Emil Montgomery",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q16492597"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Mario Carrero",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "música tradicional",
+                "active_since_year": null,
+                "website": "http://www.larbanois-carrero.com.uy/",
+                "source": "wikidata",
+                "source_id": "Q6764599"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Aldo Mazzucchelli",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q41777028"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ariel Britos",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q16532425"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ernesto Negrín",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q16563065"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Laura Chinelli",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q16589666"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Oscar Nelson",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q18960470"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Ricardo Martínez",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q9068925"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Sergio Fachelli",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.sergiofachelli.net",
+                "source": "wikidata",
+                "source_id": "Q7454247"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Jorginho Gularte",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": "funk",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q15901419"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Aquilino Pío",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q10856725"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Adriana Ducret",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q21554862"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Josep Soler Dosaigües",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q11928938"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Rossana Taddei",
+            "description": "Artista musical destacado importado desde Wikidata (Uruguay).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Uruguay",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q14753246"
+            },
+            "segment": "latam_relevantes"
+        },
+        {
+            "name": "Elvis Presley",
+            "description": "Artista musical destacado importado desde Wikidata (Estados Unidos).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Estados Unidos",
+                "genre": "rhythm and blues",
+                "active_since_year": 1954,
+                "website": "https://elvisthemusic.com",
+                "source": "wikidata",
+                "source_id": "Q303"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Ariana Grande",
+            "description": "Artista musical destacado importado desde Wikidata (Estados Unidos).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Estados Unidos",
+                "genre": "R&B contemporáneo",
+                "active_since_year": 2008,
+                "website": "https://arianagrande.com",
+                "source": "wikidata",
+                "source_id": "Q151892"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "reduccionismo",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q206829"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "John Lennon",
+            "description": "Artista musical destacado importado desde Wikidata (Reino Unido).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Reino Unido",
+                "genre": "pop rock",
+                "active_since_year": 1956,
+                "website": "http://www.johnlennon.com/",
+                "source": "wikidata",
+                "source_id": "Q1203"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Bob Dylan",
+            "description": "Artista musical destacado importado desde Wikidata (Estados Unidos).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Estados Unidos",
+                "genre": "folk rock",
+                "active_since_year": 1962,
+                "website": "https://www.bobdylan.com/",
+                "source": "wikidata",
+                "source_id": "Q392"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Marie Curie",
+            "description": "Artista musical destacado importado desde Wikidata (Francia).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Francia",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q7186"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Taylor Swift",
+            "description": "Artista musical destacado importado desde Wikidata (Estados Unidos).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Estados Unidos",
+                "genre": "pop",
+                "active_since_year": 2003,
+                "website": "https://taylorswift.com",
+                "source": "wikidata",
+                "source_id": "Q26876"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "consejo de administración",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q188628"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Arquímedes",
+            "description": "Artista musical destacado importado desde Wikidata (Antigua Siracusa).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Antigua Siracusa",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q8739"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Elon Musk",
+            "description": "Artista musical destacado importado desde Wikidata (Estados Unidos).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "Estados Unidos",
+                "genre": null,
+                "active_since_year": 1995,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q317521"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Born to Die",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": "rock alternativo",
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q37148"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "teoría",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q17737"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "10 de agosto",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2779"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "línea B",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q2965"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "San Dorligo della Valle",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q16938"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Emperor Shao of Liu Song",
+            "description": "Artista musical destacado importado desde Wikidata (China Imperial).",
+            "images": [],
+            "extra_data": {
+                "origin_country": "China Imperial",
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q49701"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Block DM-2 11S861",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q35369"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Primera Guerra Mundial",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q361"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Expedición 34",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": "http://www.nasa.gov/mission_pages/station/expeditions/expedition34/index.html",
+                "source": "wikidata",
+                "source_id": "Q17236"
+            },
+            "segment": "global_relevantes"
+        },
+        {
+            "name": "Polo Sur",
+            "description": "Artista musical destacado importado desde Wikidata.",
+            "images": [],
+            "extra_data": {
+                "origin_country": null,
+                "genre": null,
+                "active_since_year": null,
+                "website": null,
+                "source": "wikidata",
+                "source_id": "Q933"
+            },
+            "segment": "global_relevantes"
+        }
+    ]
+}

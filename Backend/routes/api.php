@@ -78,6 +78,7 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned', 'admin'])->group(fu
 
     Route::prefix('admin/users')->group(function () {
         Route::get('/', [AdminUserController::class, 'index']);
+        Route::get('/{user}', [AdminUserController::class, 'show']);
         Route::patch('/{user}/ban', [AdminUserController::class, 'ban']);
         Route::patch('/{user}/unban', [AdminUserController::class, 'unban']);
         Route::post('/{user}/sessions/revoke', [AdminUserController::class, 'revokeTokens']);
