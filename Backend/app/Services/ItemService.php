@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Repositories\ItemRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ItemService
@@ -75,12 +74,7 @@ class ItemService
 
 		$item = $this->itemRepository->create($itemData);
 
-		// Asociar tags si existen
-		if (!empty($data['tag_ids'])) {
-			$item->tags()->attach($data['tag_ids']);
-		}
-
-		return $item->load(['category', 'creator', 'tags']);
+		return $item->load(['category', 'creator']);
 	}
 
 	public function updateItem(Item $item, array $data): Item
@@ -97,12 +91,7 @@ class ItemService
 
 		$item = $this->itemRepository->update($item, $updateData);
 
-		// Actualizar tags si se proporcionan
-		if (isset($data['tag_ids'])) {
-			$item->tags()->sync($data['tag_ids']);
-		}
-
-		return $item->load(['category', 'creator', 'tags']);
+		return $item->load(['category', 'creator']);
 	}
 
 	public function deleteItem(Item $item): bool

@@ -102,7 +102,7 @@ class AdminRepository
      */
     public function paginateItems(array $filters, int $perPage = 20): LengthAwarePaginator
     {
-        $query = Item::query()->with(['category:id,name,slug', 'creator:id,name,email', 'tags:id,name']);
+        $query = Item::query()->with(['category:id,name,slug', 'creator:id,name,email']);
 
         if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);

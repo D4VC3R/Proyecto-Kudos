@@ -25,8 +25,6 @@ class AdminUpdateItemRequest extends FormRequest
             'images.*.order' => ['sometimes', 'nullable', 'integer', 'min:0'],
             'extra_data' => ['sometimes', 'nullable', 'array'],
             'category_id' => ['sometimes', 'required', 'uuid', 'exists:categories,id'],
-            'tag_ids' => ['sometimes', 'nullable', 'array', 'max:5'],
-            'tag_ids.*' => ['uuid', 'exists:tags,id'],
             'status' => ['sometimes', 'string', 'in:' . Item::STATUS_ACTIVE . ',' . Item::STATUS_INACTIVE],
             'moderation_reason' => ['sometimes', 'nullable', 'string', 'max:1000'],
         ];

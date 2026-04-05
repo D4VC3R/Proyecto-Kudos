@@ -133,7 +133,7 @@ Codigos globales:
 
 ### 6.2 Items
 - `GET /items`
-  - filtros: `category_id`, `search`, `tag_ids[]`, `sort_by`, `sort_order`, `per_page`
+  - filtros: `category_id`, `search`, `sort_by`, `sort_order`, `per_page`
   - cada item puede incluir `extra_data`.
 
 ### 6.3 Comentarios de items

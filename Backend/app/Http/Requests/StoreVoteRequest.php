@@ -14,17 +14,21 @@ class StoreVoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if (!$this->user()) {
+            return false;
+        }
+
         $itemId = $this->input('item_id');
-        if (!is_string($itemId) || $itemId === '' || !preg_match('/^[0-9a-fA-F-]{36}$/', $itemId)) {
-            return $this->user() !== null;
+        if (!is_string($itemId) || $itemId === '') {
+            return true;
         }
 
         $item = Item::query()->select(['id', 'status'])->find($itemId);
         if (!$item) {
-            return $this->user() !== null;
+            return true;
         }
 
-        return $item && ($this->user()?->can('create', [Vote::class, $item]) ?? false);
+        return $this->user()->can('create', [Vote::class, $item]);
     }
 
     /**
@@ -37,23 +41,22 @@ class StoreVoteRequest extends FormRequest
         return [
             'item_id' => ['required', 'uuid', Rule::exists('items', 'id')],
             'type' => ['required', Rule::in([Vote::TYPE_VOTE, Vote::TYPE_SKIP])],
-            'score' => ['nullable', 'integer', 'min:0', 'max:10'],
+            'score' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'max:10',
+                Rule::requiredIf(fn () => $this->input('type') === Vote::TYPE_VOTE),
+                Rule::prohibitedIf(fn () => $this->input('type') === Vote::TYPE_SKIP),
+            ],
         ];
     }
 
-    public function withValidator($validator): void
+    public function messages(): array
     {
-        $validator->after(function ($validator) {
-            $type = $this->input('type');
-            $score = $this->input('score');
-
-            if ($type === Vote::TYPE_VOTE && $score === null) {
-                $validator->errors()->add('score', 'No se ha registrado puntuacion asociada al voto.');
-            }
-
-            if ($type === Vote::TYPE_SKIP && $score !== null) {
-                $validator->errors()->add('score', 'No se ha registrado la puntuación: votación omitida.');
-            }
-        });
+        return [
+            'score.required' => 'No se ha registrado puntuacion asociada al voto.',
+            'score.prohibited' => 'No se ha registrado la puntuación: votación omitida.',
+        ];
     }
 }

@@ -14,7 +14,7 @@ class ItemRepository
 	{
 		$query = Item::query()
 			->where('status', Item::STATUS_ACTIVE)
-			->with(['category:id,name,slug,image,description,created_at,updated_at', 'creator:id,name', 'tags:id,name']);
+			->with(['category:id,name,slug,image,description,created_at,updated_at', 'creator:id,name']);
 
 		// Filtro por categoría
 		if (!empty($filters['category_id'])) {
@@ -25,13 +25,6 @@ class ItemRepository
 		if (!empty($filters['search'])) {
 			$search = $filters['search'];
 			$query->where('name', 'ilike', "%{$search}%");
-		}
-
-		// Filtro por tags
-		if (!empty($filters['tag_ids'])) {
-			$query->whereHas('tags', function ($q) use ($filters) {
-				$q->whereIn('tags.id', $filters['tag_ids']);
-			});
 		}
 
 		// Filtro para excluir items votados por un usuario específico
@@ -72,7 +65,7 @@ class ItemRepository
 	{
 		$query = Item::query()
 			->where('creator_id', $user->id)
-			->with(['category:id,name,slug,image,description,created_at,updated_at', 'tags:id,name'])
+			->with(['category:id,name,slug,image,description,created_at,updated_at'])
 			->orderBy('created_at', 'desc');
 
 		if (!$user->hasRole('admin')) {
@@ -103,7 +96,7 @@ class ItemRepository
 	{
 		$query = Item::query()
 			->where('id', $itemId)
-			->with(['category:id,name,slug', 'creator:id,name', 'tags:id,name']);
+			->with(['category:id,name,slug', 'creator:id,name']);
 
 		if ($user) {
 			$query->with(['votes' => function ($q) use ($user) {

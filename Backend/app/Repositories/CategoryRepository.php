@@ -45,7 +45,7 @@ class CategoryRepository
 		return $category->load([
 			'items' => function ($query) {
 				$query->where('status', Item::STATUS_ACTIVE)
-					->with(['creator:id,name', 'tags:id,name'])
+					->with(['creator:id,name'])
 					->latest();
 			}
 		]);

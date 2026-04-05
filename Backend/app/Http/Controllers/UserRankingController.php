@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ListUserRankingRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserRankingController extends Controller
@@ -14,13 +14,16 @@ class UserRankingController extends Controller
     {
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(ListUserRankingRequest $request): JsonResponse
     {
         $authenticatedUser = Auth::guard('sanctum')->user();
         if ($authenticatedUser && !$authenticatedUser instanceof User) {
             $authenticatedUser = null;
         }
-        $result = $this->userService->getPublicKudosRanking($authenticatedUser);
+
+        $page = (int) ($request->validated()['page'] ?? 1);
+        $result = $this->userService->getPublicKudosRanking($authenticatedUser, $page);
+
         return $this->respondList(
             data: [
                 'top_page' => $result['top_page'],

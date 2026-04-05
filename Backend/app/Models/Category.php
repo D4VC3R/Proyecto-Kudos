@@ -49,10 +49,6 @@ class Category extends Model
         return $this->hasMany(Proposal::class);
     }
 
-    public function tags(): HasMany
-    {
-        return $this->hasMany(Tag::class);
-    }
 
     public function fieldDefinitions(): HasMany
     {

@@ -27,7 +27,6 @@ class ItemController extends Controller
         $filters = [
             'category_id' => $request->query('category_id'),
             'search' => $request->query('search'),
-            'tag_ids' => $request->query('tag_ids', []),
             'sort_by' => $request->query('sort_by', 'vote_avg'),
             'sort_order' => $request->query('sort_order', 'desc'),
             'exclude_voted_by' => ($request->query('sort_by') === 'random' && $request->user())
@@ -71,7 +70,7 @@ class ItemController extends Controller
      */
     public function show(ShowItemRequest $request, Item $item): JsonResponse
     {
-        $item->load(['category', 'creator', 'tags']);
+        $item->load(['category', 'creator']);
         return $this->respondData(new ItemResource($item));
     }
 

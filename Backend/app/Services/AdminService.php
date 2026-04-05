@@ -6,14 +6,26 @@ use App\Repositories\AdminRepository;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Proposal;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class AdminService
 {
     protected AdminRepository $adminRepository;
+    protected ItemService $itemService;
+    protected ProposalService $proposalService;
+    protected ModerationAuditLogger $moderationAuditLogger;
 
-    public function __construct(AdminRepository $adminRepository)
+    public function __construct(
+        AdminRepository $adminRepository,
+        ItemService $itemService,
+        ProposalService $proposalService,
+        ModerationAuditLogger $moderationAuditLogger,
+    )
     {
         $this->adminRepository = $adminRepository;
+        $this->itemService = $itemService;
+        $this->proposalService = $proposalService;
+        $this->moderationAuditLogger = $moderationAuditLogger;
     }
 
     /**
@@ -21,7 +33,7 @@ class AdminService
      *
      * @param array $filters
      * @param int $perPage
-     * @return array{users: \Illuminate\Contracts\Pagination\LengthAwarePaginator, summary: array<string,int>}
+     * @return array{users: LengthAwarePaginator, summary: array<string,int>}
      */
     public function listUsers(array $filters, int $perPage = 20): array
     {
@@ -38,7 +50,7 @@ class AdminService
      *
      * @param array $filters
      * @param int $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function listItems(array $filters, int $perPage = 20)
     {
@@ -50,7 +62,7 @@ class AdminService
      *
      * @param array $filters
      * @param int $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function listProposals(array $filters, int $perPage = 15)
     {
@@ -78,13 +90,11 @@ class AdminService
 
         $targetUser->tokens()->delete();
 
-        if (isset($this->moderationAuditLogger)) {
-            $this->moderationAuditLogger->logUserBanChange($targetUser, $admin, 'ban', [
-                'is_permanent' => $isPermanent,
-                'days' => $isPermanent ? null : $days,
-                'reason' => $reason,
-            ]);
-        }
+        $this->moderationAuditLogger->logUserBanChange($targetUser, $admin, 'ban', [
+            'is_permanent' => $isPermanent,
+            'days' => $isPermanent ? null : $days,
+            'reason' => $reason,
+        ]);
 
         return $targetUser->fresh();
     }
@@ -105,9 +115,7 @@ class AdminService
         $targetUser->banned_by = null;
         $targetUser->save();
 
-        if (isset($this->moderationAuditLogger)) {
-            $this->moderationAuditLogger->logUserBanChange($targetUser, $admin, 'unban');
-        }
+        $this->moderationAuditLogger->logUserBanChange($targetUser, $admin, 'unban');
 
         return $targetUser->fresh();
     }
@@ -124,11 +132,9 @@ class AdminService
         $revoked = $targetUser->tokens()->count();
         $targetUser->tokens()->delete();
 
-        if (isset($this->moderationAuditLogger)) {
-            $this->moderationAuditLogger->logUserBanChange($targetUser, $admin, 'revoke_tokens', [
-                'revoked_tokens' => $revoked,
-            ]);
-        }
+        $this->moderationAuditLogger->logUserBanChange($targetUser, $admin, 'revoke_tokens', [
+            'revoked_tokens' => $revoked,
+        ]);
 
         return $revoked;
     }
@@ -145,21 +151,19 @@ class AdminService
     public function updateAdminItem(User $admin, Item $item, array $payload, ?string $reason = null): Item
     {
         $before = $item->only(['name', 'description', 'images', 'status', 'category_id']);
-        $updated = app(\App\Services\ItemService::class)->updateItem($item, $payload);
+        $updated = $this->itemService->updateItem($item, $payload);
         $after = $updated->only(['name', 'description', 'images', 'status', 'category_id']);
 
-        if (isset($this->moderationAuditLogger)) {
-            $this->moderationAuditLogger->logItemModeration(
-                $updated,
-                $admin,
-                'admin_update_item',
-                [
-                    'before' => $before,
-                    'after' => $after,
-                ],
-                $reason,
-            );
-        }
+        $this->moderationAuditLogger->logItemModeration(
+            $updated,
+            $admin,
+            'admin_update_item',
+            [
+                'before' => $before,
+                'after' => $after,
+            ],
+            $reason,
+        );
 
         return $updated;
     }
@@ -176,17 +180,15 @@ class AdminService
     public function moderateItemStatus(User $admin, Item $item, string $newStatus, ?string $reason = null): Item
     {
         $previousStatus = $item->status;
-        $updated = app(\App\Services\ItemService::class)->updateItem($item, ['status' => $newStatus]);
+        $updated = $this->itemService->updateItem($item, ['status' => $newStatus]);
 
-        if (isset($this->moderationAuditLogger)) {
-            $this->moderationAuditLogger->logItemModeration(
-                $updated,
-                $admin,
-                'admin_moderate_item_status',
-                ['from' => $previousStatus, 'to' => $newStatus],
-                $reason,
-            );
-        }
+        $this->moderationAuditLogger->logItemModeration(
+            $updated,
+            $admin,
+            'admin_moderate_item_status',
+            ['from' => $previousStatus, 'to' => $newStatus],
+            $reason,
+        );
 
         return $updated;
     }
@@ -202,7 +204,7 @@ class AdminService
      */
     public function reviewProposal(Proposal $proposal, User $admin, string $status, ?string $adminNotes): Proposal
     {
-        return app(\App\Services\ProposalService::class)->review($proposal, $admin, $status, $adminNotes);
+        return $this->proposalService->review($proposal, $admin, $status, $adminNotes);
     }
 
     // Aquí se añadirán otros métodos de administración (items, proposals, etc.)

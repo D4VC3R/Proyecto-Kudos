@@ -12,10 +12,11 @@ class UserService
         protected UserRepository $userRepository
     ) {}
 
-    public function getPublicKudosRanking(?User $authenticatedUser): array
+    public function getPublicKudosRanking(?User $authenticatedUser, int $topPage = 1): array
     {
         $PER_PAGE = 10;
-        $topPaginator = $this->userRepository->paginateRanking($PER_PAGE, 1);
+        $safeTopPage = max(1, $topPage);
+        $topPaginator = $this->userRepository->paginateRanking($PER_PAGE, $safeTopPage);
 
         $response = [
             'top_page' => $this->mapPaginatorData($topPaginator),
@@ -89,4 +90,3 @@ class UserService
         ];
     }
 }
-

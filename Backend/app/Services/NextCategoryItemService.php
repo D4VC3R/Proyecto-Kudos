@@ -53,7 +53,7 @@ class NextCategoryItemService
         Cache::put($cacheKey, $state, now()->addSeconds(self::CACHE_TTL_SECONDS));
 
         $item = Item::query()
-            ->with(['category', 'creator', 'tags'])
+            ->with(['category', 'creator'])
             ->find($nextItemId);
 
         if (!$item) {

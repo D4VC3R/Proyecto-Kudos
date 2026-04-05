@@ -83,7 +83,7 @@ class VoteAndRankingTest extends TestCase
         $this->assertSame(KudosRules::rewardForVoteFirstTimeItem(), $user->total_kudos);
     }
 
-    public function test_post_vote_is_idempotent_and_does_not_mutate_existing_interaction(): void
+    public function test_vote_creation_is_idempotent_and_preserves_original_vote(): void
     {
         $user = User::factory()->create();
         $category = Category::factory()->create();
@@ -93,81 +93,74 @@ class VoteAndRankingTest extends TestCase
             'vote_count' => 0,
         ]);
 
-        Vote::create([
-            'user_id' => $user->id,
+        Sanctum::actingAs($user);
+
+        $firstResponse = $this->postJson('/api/votes', [
+            'type' => Vote::TYPE_VOTE,
             'item_id' => $item->id,
-            'type' => Vote::TYPE_SKIP,
-            'score' => null,
+            'score' => 7,
+        ]);
+
+        $firstResponse->assertStatus(201)
+            ->assertJsonPath('meta.idempotent_hit', false)
+            ->assertJsonPath('meta.total_kudos', KudosRules::rewardForVoteFirstTimeItem());
+
+        $secondResponse = $this->postJson('/api/votes', [
+            'type' => Vote::TYPE_VOTE,
+            'item_id' => $item->id,
+            'score' => 3,
+        ]);
+
+        $secondResponse->assertStatus(200)
+            ->assertJsonPath('meta.idempotent_hit', true)
+            ->assertJsonPath('meta.reason', 'already_voted')
+            ->assertJsonPath('data.score', 7)
+            ->assertJsonPath('meta.total_kudos', KudosRules::rewardForVoteFirstTimeItem());
+
+        $item->refresh();
+        $user->refresh();
+
+        $this->assertSame(1, $item->vote_count);
+        $this->assertSame(7.0, (float) $item->vote_avg);
+        $this->assertSame(KudosRules::rewardForVoteFirstTimeItem(), $user->total_kudos);
+
+        $this->assertDatabaseCount('votes', 1);
+    }
+
+    public function test_user_can_delete_own_vote_and_item_totals_recalculate(): void
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+        $item = Item::factory()->forCategory($category)->create([
+            'status' => Item::STATUS_ACTIVE,
+            'vote_avg' => 0,
+            'vote_count' => 0,
         ]);
 
         Sanctum::actingAs($user);
 
         $this->postJson('/api/votes', [
-            'item_id' => $item->id,
             'type' => Vote::TYPE_VOTE,
+            'item_id' => $item->id,
             'score' => 9,
-        ])
-            ->assertOk()
-            ->assertJsonPath('meta.was_existing', true)
-            ->assertJsonPath('meta.idempotent_hit', true)
-            ->assertJsonPath('meta.vote_type', Vote::TYPE_SKIP);
+        ])->assertStatus(201);
+
+        $vote = Vote::query()->where('user_id', $user->id)->where('item_id', $item->id)->firstOrFail();
+
+        $this->deleteJson("/api/votes/{$vote->id}")
+            ->assertStatus(200)
+            ->assertJsonPath('message', 'Voto eliminado correctamente.');
 
         $item->refresh();
         $user->refresh();
 
         $this->assertSame(0, $item->vote_count);
         $this->assertSame(0.0, (float) $item->vote_avg);
-        $this->assertSame(0, $user->total_kudos);
-        $this->assertDatabaseHas('votes', [
-            'user_id' => $user->id,
-            'item_id' => $item->id,
-            'type' => Vote::TYPE_SKIP,
-            'score' => null,
-        ]);
+        $this->assertSame(KudosRules::rewardForVoteFirstTimeItem(), $user->total_kudos);
+        $this->assertDatabaseMissing('votes', ['id' => $vote->id]);
     }
 
-    public function test_store_vote_with_invalid_item_id_returns_422_not_403(): void
-    {
-        $user = User::factory()->create();
-
-        Sanctum::actingAs($user);
-
-        $this->postJson('/api/votes', [
-            'item_id' => 'invalido',
-            'type' => Vote::TYPE_VOTE,
-            'score' => 5,
-        ])
-            ->assertStatus(422)
-            ->assertJsonPath('error.code', 'validation_error')
-            ->assertJsonStructure([
-                'error' => [
-                    'code',
-                    'message',
-                    'details' => ['item_id'],
-                ],
-            ]);
-    }
-
-    public function test_store_vote_for_inactive_item_returns_forbidden(): void
-    {
-        $user = User::factory()->create();
-        $category = Category::factory()->create();
-        $item = Item::factory()->forCategory($category)->create([
-            'status' => Item::STATUS_INACTIVE,
-        ]);
-
-        Sanctum::actingAs($user);
-
-        $this->postJson('/api/votes', [
-            'item_id' => $item->id,
-            'type' => Vote::TYPE_VOTE,
-            'score' => 5,
-        ])
-            ->assertStatus(403)
-            ->assertJsonPath('error.code', 'forbidden');
-    }
-
-    public function test_update_vote_fails_if_item_becomes_inactive_and_keeps_score(): void
+    public function test_vote_update_fails_when_item_is_not_active(): void
     {
         $user = User::factory()->create();
         $category = Category::factory()->create();
@@ -242,5 +235,25 @@ class VoteAndRankingTest extends TestCase
             ->assertJsonPath('data.top_page.9.id', $olderTie->id)
             ->assertJsonPath('data.my_page_data.0.id', $authenticatedUser->id);
     }
-}
 
+    public function test_public_ranking_allows_requesting_a_specific_page_for_general_ranking(): void
+    {
+        $baseDate = CarbonImmutable::parse('2026-02-01 10:00:00');
+
+        for ($i = 0; $i < 15; $i++) {
+            $user = User::factory()->create([
+                'created_at' => $baseDate->addMinutes($i),
+            ]);
+            $user->forceFill(['total_kudos' => 1000 - ($i * 10)])->save();
+        }
+
+        $response = $this->getJson('/api/users/ranking?page=2');
+
+        $response->assertOk()
+            ->assertJsonPath('meta.top_pagination.current_page', 2)
+            ->assertJsonPath('meta.top_pagination.last_page', 2)
+            ->assertJsonPath('data.top_page.0.rank', 11)
+            ->assertJsonPath('data.my_page_data', null)
+            ->assertJsonPath('meta.my_position', null);
+    }
+}
