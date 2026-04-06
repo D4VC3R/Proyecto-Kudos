@@ -1,36 +1,42 @@
 import { Link } from 'react-router-dom';
+import { StateCard } from '../components/common/StateCard';
+import { useCategoriesQuery } from '../hooks/useCategoriesQuery';
 
 export const HomePage = () => {
+  const { data: categories, isLoading, isError, error } = useCategoriesQuery();
+
+  const hasCategories = Array.isArray(categories) && categories.length > 0;
+
   return (
     <section className="space-y-6">
-      <header className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
-        <h1 className="text-3xl font-bold">Kudos Frontend</h1>
-        <p className="mt-2 text-slate-300">
-          Base minima navegable lista para iterar por modulos: votacion, ranking, perfil y panel admin.
-        </p>
-      </header>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <article className="rounded-xl border border-slate-800 bg-slate-900 p-4">
-          <h2 className="font-semibold">Categorias y votacion</h2>
-          <p className="mt-2 text-sm text-slate-400">Conecta luego con next-item y flujo idempotente de votos.</p>
-        </article>
-        <article className="rounded-xl border border-slate-800 bg-slate-900 p-4">
-          <h2 className="font-semibold">Ranking</h2>
-          <p className="mt-2 text-sm text-slate-400">Pantalla publica preparada para integrar posicion personal.</p>
-        </article>
-        <article className="rounded-xl border border-slate-800 bg-slate-900 p-4">
-          <h2 className="font-semibold">Admin</h2>
-          <p className="mt-2 text-sm text-slate-400">Ruta protegida por sesion, verificacion y rol administrador.</p>
-        </article>
-      </div>
+      <section className="space-y-3 rounded-xl border border-slate-800 bg-slate-900 p-4">
+        <h2 className="text-lg font-semibold">Iniciar votacion por categoria</h2>
+
+        {isLoading ? <StateCard message="Cargando categorias disponibles..." /> : null}
+        {isError ? <StateCard error={error} tone="error" /> : null}
+        {!isLoading && !isError && !hasCategories ? <StateCard message="No hay categorias disponibles por ahora." /> : null}
+
+        {!isLoading && !isError && hasCategories ? (
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {categories.map((category) => {
+              return (
+                <Link
+                  className="rounded-md border border-slate-700 px-3 py-2 text-sm font-medium text-slate-100 hover:bg-slate-800"
+                  key={category.id}
+                  to={`/categories/${category.id}/vote`}
+                >
+                  {category.name}
+                </Link>
+              );
+            })}
+          </div>
+        ) : null}
+      </section>
 
       <div className="flex gap-3">
         <Link className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium hover:bg-indigo-500" to="/ranking">
           Ver ranking
-        </Link>
-        <Link className="rounded-md border border-slate-700 px-4 py-2 text-sm font-medium hover:bg-slate-800" to="/categories/demo/vote">
-          Ir a votacion demo
         </Link>
       </div>
     </section>

@@ -20,9 +20,9 @@ class UserSeeder extends Seeder
         User::factory()
             ->count(50)
             ->create()->each(function ($user) {
-                $user->assignRole('user');
+                $user->syncRoles(['user']);
             });
 
-        User::factory()->admin()->create()->assignRole('admin');
+        User::factory()->admin()->create()->syncRoles(['admin']);
     }
 }

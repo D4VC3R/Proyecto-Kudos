@@ -21,7 +21,7 @@ class CategoryWithItemsResource extends JsonResource
 		    'slug' => $this->slug,
 		    'image' => $this->image,
 		    'items_count' => $this->items_count,
-		    'items' => ItemResource::collection($this->whenLoaded('items')),
+		    'items' => ItemListResource::collection($this->whenLoaded('items')),
 		    'created_at' => $this->created_at?->toIso8601String(),
 		    'updated_at' => $this->updated_at?->toIso8601String(),
 	    ];

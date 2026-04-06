@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProposalResource;
 use App\Http\Requests\DeleteProposalRequest;
 use App\Http\Requests\ListAdminProposalsRequest;
 use App\Http\Requests\ListPendingProposalsRequest;
@@ -30,7 +31,7 @@ class ProposalController extends Controller
             $request->user()
         );
 
-        return $this->respondMutation('Propuesta creada correctamente.', $proposal, status: 201);
+        return $this->respondMutation('Propuesta creada correctamente.', new ProposalResource($proposal), status: 201);
     }
 
     public function myProposals(Request $request): JsonResponse
@@ -38,7 +39,7 @@ class ProposalController extends Controller
         $proposals = $this->proposalService->getByUser($request->user());
 
         return $this->respondList(
-            data: $proposals,
+            data: ProposalResource::collection($proposals),
             meta: [
                 'total' => $proposals->count(),
                 'pending' => $proposals->where('status', Proposal::STATUS_PENDING)->count(),
@@ -51,14 +52,16 @@ class ProposalController extends Controller
 
     public function show(ShowProposalRequest $request, Proposal $proposal): JsonResponse
     {
-        return $this->respondData($proposal->load(['creator:id,name', 'category:id,name,slug', 'reviewer:id,name']));
+        return $this->respondData(
+            new ProposalResource($proposal->load(['creator:id,name', 'category:id,name,slug', 'reviewer:id,name']))
+        );
     }
 
     public function update(UpdateProposalRequest $request, Proposal $proposal): JsonResponse
     {
         $updated = $this->proposalService->updateAndResubmit($proposal, $request->validated());
 
-        return $this->respondMutation('Propuesta actualizada y reenviada a revisión.', $updated);
+        return $this->respondMutation('Propuesta actualizada y reenviada a revisión.', new ProposalResource($updated));
     }
 
     public function destroy(DeleteProposalRequest $request, Proposal $proposal): JsonResponse
@@ -75,7 +78,7 @@ class ProposalController extends Controller
         $pending = $this->proposalService->getPending($perPage);
 
         return $this->respondList(
-            data: $pending->items(),
+            data: ProposalResource::collection($pending),
             meta: [
                 'current_page' => $pending->currentPage(),
                 'last_page' => $pending->lastPage(),
@@ -101,7 +104,7 @@ class ProposalController extends Controller
         $proposals = $this->adminService->listProposals($filters, $perPage);
 
         return $this->respondList(
-            data: $proposals->items(),
+            data: ProposalResource::collection($proposals),
             meta: [
                 'current_page' => $proposals->currentPage(),
                 'last_page' => $proposals->lastPage(),
@@ -124,6 +127,6 @@ class ProposalController extends Controller
             adminNotes: $validated['admin_notes'] ?? null,
         );
 
-        return $this->respondMutation('Propuesta revisada correctamente.', $updated);
+        return $this->respondMutation('Propuesta revisada correctamente.', new ProposalResource($updated));
     }
 }

@@ -1,109 +1,72 @@
 import { createContext, useMemo, useState } from 'react';
-import { useAdminProposalsQuery, useAdminReviewProposalMutation } from '../hooks/admin/index.js';
+import { useAdminProposalsQuery, useAdminReviewProposalMutation } from '../hooks/admin/domains/proposalsAdminHooks';
+import { useTableState } from '../hooks/useTableState';
 
 export const AdminProposalsContext = createContext(null);
 
 export const AdminProposalsProvider = ({ children }) => {
-  const [page, setPage] = useState(1);
-  const [searchInput, setSearchInput] = useState('');
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [perPage, setPerPage] = useState(15);
+    const tableState = useTableState(15);
+    const [statusFilter, setStatusFilter] = useState('');
 
-  const proposalsQuery = useAdminProposalsQuery({ page, search, status: statusFilter, perPage });
-  const reviewMutation = useAdminReviewProposalMutation();
+    const proposalsQuery = useAdminProposalsQuery({
+        page: tableState.page,
+        perPage: tableState.perPage,
+        search: tableState.search,
+        status: statusFilter,
+    });
 
-  const proposals = proposalsQuery.data?.proposals ?? [];
-  const meta = proposalsQuery.data?.meta ?? null;
+    const reviewMutation = useAdminReviewProposalMutation();
 
-  const currentPage = meta?.current_page ?? page;
-  const lastPage = meta?.last_page ?? 1;
-  const total = meta?.total ?? proposals.length;
-  const canGoPrev = currentPage > 1;
-  const canGoNext = currentPage < lastPage;
+    const proposals = proposalsQuery.data?.data ?? [];
+    const meta = proposalsQuery.data?.meta ?? null;
 
-  const updateSearchInput = (value) => {
-    setSearchInput(value);
-  };
+    const currentPage = tableState.page;
+    const lastPage = meta?.last_page ?? 1;
+    const total = meta?.total ?? proposals.length;
+    const canGoPrev = currentPage > 1;
+    const canGoNext = currentPage < lastPage;
 
-  const updateStatusFilter = (value) => {
-    setStatusFilter(value);
-    setPage(1);
-  };
+    const updateStatusFilter = (value) => {
+        setStatusFilter(value);
+        tableState.goToPage(1);
+    };
 
-  const updatePerPage = (value) => {
-    const safePerPage = Number(value) || 15;
-    setPerPage(safePerPage);
-    setPage(1);
-  };
+    const resetFilters = () => {
+        tableState.resetTableState();
+        setStatusFilter('');
+    };
 
-  const applyFilters = () => {
-    setSearch(searchInput.trim());
-    setPage(1);
-  };
+    const reviewProposal = async ({ proposalId, status, adminNotes }) => {
+        await reviewMutation.mutateAsync({ proposalId, status, adminNotes });
+    };
 
-  const resetFilters = () => {
-    setSearchInput('');
-    setSearch('');
-    setStatusFilter('');
-    setPerPage(15);
-    setPage(1);
-  };
+    const value = useMemo(
+        () => ({
+            proposals, total, currentPage, lastPage, canGoPrev, canGoNext,
+            searchInput: tableState.searchInput,
+            statusFilter, perPage: tableState.perPage,
+            isLoadingProposals: proposalsQuery.isLoading,
+            isProposalsError: proposalsQuery.isError,
+            proposalsError: proposalsQuery.error,
+            isFetchingProposals: proposalsQuery.isFetching,
+            isMutatingProposals: reviewMutation.isPending,
+            updateSearchInput: tableState.updateSearchInput,
+            updateStatusFilter,
+            updatePerPage: tableState.updatePerPage,
+            applyFilters: tableState.applySearch,
+            resetFilters,
+            goToFirstPage: () => tableState.goToPage(1),
+            goToPreviousPage: () => tableState.goToPage(Math.max(1, currentPage - 1)),
+            goToNextPage: () => tableState.goToPage(Math.min(lastPage, currentPage + 1)),
+            goToLastPage: () => tableState.goToPage(lastPage),
+            reviewProposal,
+        }),
+        [
+            proposals, total, currentPage, lastPage, canGoPrev, canGoNext,
+            tableState, statusFilter, proposalsQuery.isLoading, proposalsQuery.isError,
+            proposalsQuery.error, proposalsQuery.isFetching, reviewMutation.isPending,
+        ],
+    );
 
-  const goToFirstPage = () => setPage(1);
-  const goToPreviousPage = () => setPage((prevPage) => Math.max(1, prevPage - 1));
-  const goToNextPage = () => setPage((prevPage) => Math.min(lastPage, prevPage + 1));
-  const goToLastPage = () => setPage(lastPage);
-
-  const reviewProposal = async ({ proposalId, status, adminNotes }) => {
-    await reviewMutation.mutateAsync({ proposalId, status, adminNotes });
-  };
-
-  const value = useMemo(
-    () => ({
-      proposals,
-      total,
-      currentPage,
-      lastPage,
-      canGoPrev,
-      canGoNext,
-      searchInput,
-      statusFilter,
-      perPage,
-      isLoadingProposals: proposalsQuery.isLoading,
-      isProposalsError: proposalsQuery.isError,
-      proposalsError: proposalsQuery.error,
-      isFetchingProposals: proposalsQuery.isFetching,
-      isMutatingProposals: reviewMutation.isPending,
-      updateSearchInput,
-      updateStatusFilter,
-      updatePerPage,
-      applyFilters,
-      resetFilters,
-      goToFirstPage,
-      goToPreviousPage,
-      goToNextPage,
-      goToLastPage,
-      reviewProposal,
-    }),
-    [
-      proposals,
-      total,
-      currentPage,
-      lastPage,
-      canGoPrev,
-      canGoNext,
-      searchInput,
-      statusFilter,
-      perPage,
-      proposalsQuery.isLoading,
-      proposalsQuery.isError,
-      proposalsQuery.error,
-      proposalsQuery.isFetching,
-      reviewMutation.isPending,
-    ],
-  );
-
-  return <AdminProposalsContext.Provider value={value}>{children}</AdminProposalsContext.Provider>;
+    return <AdminProposalsContext.Provider value={value}>{children}</AdminProposalsContext.Provider>;
 };
-

@@ -1,60 +1,39 @@
-import { keepPreviousData } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '../../../lib/apiClient';
-import { adminQueryKeys, adminQueryScopes } from '../adminQueryKeys';
-import { useAdminMutation } from '../useAdminMutation';
-import { useAdminQuery } from '../useAdminQuery';
+import { adminQueryKeys, adminQueryScopes, useAdminMutation } from '../adminQueryBase';
+import { useAdminPaginatedQuery } from '../useAdminPaginatedQuery';
 
-export const adminUsersQueryKey = adminQueryKeys.users;
-
-export const useAdminUsersQuery = ({ page, search, banState, role, perPage, sortBy, sortDirection }) => {
-  return useAdminQuery({
-    queryKey: adminUsersQueryKey({ page, search, banState, role, perPage, sortBy, sortDirection }),
-    placeholderData: keepPreviousData,
-    queryFn: async () => {
-      const params = {
-        page,
-        per_page: perPage,
-        sort_by: sortBy,
-        sort_direction: sortDirection,
-      };
-
-      if (search) {
-        params.search = search;
-      }
-
-      if (banState) {
-        params.ban_state = banState;
-      }
-
-      if (role) {
-        params.role = role;
-      }
-
-      const response = await apiClient.get('/admin/users', { params });
-      return response.data;
+export const useAdminUsersQuery = (params) => {
+  return useAdminPaginatedQuery({
+    queryKey: adminQueryKeys.users(params),
+    endpoint: '/admin/users',
+    params: {
+      page: params.page,
+      per_page: params.perPage,
+      sort_by: params.sortBy,
+      sort_direction: params.sortDirection,
+      search: params.search,
+      ban_state: params.banState,
+      role: params.role,
     },
   });
 };
 
 export const useAdminUsersSummaryQuery = () => {
-  return useAdminQuery({
+  return useQuery({
     queryKey: adminQueryKeys.usersSummary(),
     queryFn: async () => {
       const response = await apiClient.get('/admin/users', {
-        params: {
-          page: 1,
-          per_page: 1,
-        },
+        params: { page: 1, per_page: 1 },
       });
-
       return response.data;
     },
   });
 };
 
 export const useAdminUserDetailQuery = ({ userId }) => {
-  return useAdminQuery({
-    queryKey: adminQueryKeys.userDetail({ userId }),
+  return useQuery({
+    queryKey: adminQueryKeys.userDetail(userId),
     enabled: Boolean(userId),
     queryFn: async () => {
       const response = await apiClient.get(`/admin/users/${userId}`);
@@ -66,16 +45,11 @@ export const useAdminUserDetailQuery = ({ userId }) => {
 export const useAdminBanUserMutation = () => {
   return useAdminMutation({
     mutationFn: async ({ userId, payload }) => {
-      const response = await apiClient.patch(`/admin/users/${userId}/ban`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+      const response = await apiClient.patch(`/admin/users/${userId}/ban`, payload);
       return response.data;
     },
     defaultSuccessMessage: 'Usuario baneado correctamente.',
-    invalidateQueryKeys: [adminQueryScopes.users],
+    invalidateQueryKeys: [adminQueryScopes.users, adminQueryScopes.userDetail],
   });
 };
 
@@ -86,7 +60,7 @@ export const useAdminUnbanUserMutation = () => {
       return response.data;
     },
     defaultSuccessMessage: 'Usuario desbaneado correctamente.',
-    invalidateQueryKeys: [adminQueryScopes.users],
+    invalidateQueryKeys: [adminQueryScopes.users, adminQueryScopes.userDetail],
   });
 };
 
@@ -97,7 +71,6 @@ export const useAdminRevokeSessionsMutation = () => {
       return response.data;
     },
     defaultSuccessMessage: 'Sesiones revocadas correctamente.',
-    invalidateQueryKeys: [adminQueryScopes.users],
+    invalidateQueryKeys: [adminQueryScopes.users, adminQueryScopes.userDetail],
   });
 };
-

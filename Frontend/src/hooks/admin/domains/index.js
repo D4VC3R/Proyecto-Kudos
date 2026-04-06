@@ -1,5 +1,4 @@
 export {
-  adminUsersQueryKey,
   useAdminUsersQuery,
   useAdminUsersSummaryQuery,
   useAdminUserDetailQuery,
@@ -8,9 +7,18 @@ export {
   useAdminRevokeSessionsMutation,
 } from './usersAdminHooks';
 
-export { adminItemsQueryKey, useAdminItemsQuery, useAdminModerateItemMutation } from './itemsAdminHooks';
+export {
+  useAdminItemsQuery,
+  useAdminModerateItemMutation
+} from './itemsAdminHooks';
 
-export { adminProposalsQueryKey, useAdminProposalsQuery, useAdminReviewProposalMutation } from './proposalsAdminHooks';
+export {
+  useAdminProposalsQuery,
+  useAdminReviewProposalMutation
+} from './proposalsAdminHooks';
 
-export { adminCommentsQueryKey, useAdminCommentsQuery, useAdminHideCommentMutation, useAdminUnhideCommentMutation } from './commentsAdminHooks';
-
+export {
+  useAdminCommentsQuery,
+  useAdminHideCommentMutation,
+  useAdminUnhideCommentMutation
+} from './commentsAdminHooks';

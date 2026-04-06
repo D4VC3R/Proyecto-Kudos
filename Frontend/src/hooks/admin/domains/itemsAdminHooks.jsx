@@ -1,76 +1,30 @@
 import { apiClient } from '../../../lib/apiClient';
-import { adminQueryKeys, adminQueryScopes } from '../adminQueryKeys';
-import { useAdminMutation } from '../useAdminMutation';
-import { useAdminQuery } from '../useAdminQuery';
+import { adminQueryKeys, adminQueryScopes, useAdminMutation } from '../adminQueryBase';
+import { useAdminPaginatedQuery } from '../useAdminPaginatedQuery';
 
-const normalizeItemsData = (responseData) => {
-  const rawData = responseData?.data;
-
-  if (Array.isArray(rawData)) {
-    return rawData;
-  }
-
-  if (rawData && Array.isArray(rawData.data)) {
-    return rawData.data;
-  }
-
-  return [];
-};
-
-export const adminItemsQueryKey = adminQueryKeys.items;
-
-export const useAdminItemsQuery = ({ page, search, status, sortBy, sortDirection, perPage }) => {
-  return useAdminQuery({
-    queryKey: adminItemsQueryKey({ page, search, status, sortBy, sortDirection, perPage }),
-    queryFn: async () => {
-      const params = {
-        page,
-        per_page: perPage,
-        sort_by: sortBy,
-        sort_direction: sortDirection,
-      };
-
-      if (search) {
-        params.search = search;
-      }
-
-      if (status) {
-        params.status = status;
-      }
-
-      const response = await apiClient.get('/admin/items', { params });
-      const responseData = response.data;
-
-      return {
-        items: normalizeItemsData(responseData),
-        meta: responseData?.meta ?? null,
-      };
+export const useAdminItemsQuery = (params) => {
+  return useAdminPaginatedQuery({
+    queryKey: adminQueryKeys.items(params),
+    endpoint: '/admin/items',
+    params: {
+      page: params.page,
+      per_page: params.perPage,
+      sort_by: params.sortBy,
+      sort_direction: params.sortDirection,
+      search: params.search,
+      status: params.status,
     },
-    placeholderData: (previousData) => previousData,
   });
 };
 
 export const useAdminModerateItemMutation = () => {
   return useAdminMutation({
     mutationFn: async ({ itemId, status, reason }) => {
-      const payload = {
-        status,
-      };
-
-      if (reason) {
-        payload.reason = reason;
-      }
-
-      const response = await apiClient.patch(`/admin/items/${itemId}/moderate`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+      const payload = reason ? { status, reason } : { status };
+      const response = await apiClient.patch(`/admin/items/${itemId}/moderate`, payload);
       return response.data;
     },
     defaultSuccessMessage: 'Estado del item actualizado por administracion.',
     invalidateQueryKeys: [adminQueryScopes.items],
   });
 };
-

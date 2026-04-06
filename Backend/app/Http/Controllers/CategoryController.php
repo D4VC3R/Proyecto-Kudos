@@ -6,9 +6,10 @@ use App\Http\Requests\DeleteCategoryRequest;
 use App\Http\Requests\GetNextCategoryItemRequest;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryRankingResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryWithItemsResource;
-use App\Http\Resources\ItemResource;
+use App\Http\Resources\ItemDetailResource;
 use App\Models\Category;
 use App\Services\CategoryService;
 use App\Services\NextCategoryItemService;
@@ -82,10 +83,10 @@ class CategoryController extends Controller
     {
         $items = $this->categoryService->getCategoryRanking($category);
 
-        return $this->respondData([
-            'category' => new CategoryResource($category),
-            'ranking' => ItemResource::collection($items),
-        ]);
+        return $this->respondData(new CategoryRankingResource([
+            'category' => $category,
+            'ranking' => $items,
+        ]));
     }
 
     public function nextItem(GetNextCategoryItemRequest $request, Category $category): JsonResponse|Response
@@ -97,7 +98,7 @@ class CategoryController extends Controller
         }
 
         return $this->respondData(
-            data: new ItemResource($result['item']),
+            data: new ItemDetailResource($result['item']),
             meta: [
                 'remaining' => $result['remaining'],
             ],

@@ -212,6 +212,5 @@ class AdminService
         return $this->proposalService->review($proposal, $admin, $status, $adminNotes);
     }
 
-    // Aquí se añadirán otros métodos de administración (items, proposals, etc.)
 }
 

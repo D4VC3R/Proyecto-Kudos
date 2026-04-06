@@ -14,7 +14,7 @@ import { HomePage } from '../pages/HomePage.jsx';
 import { LoginPage } from '../pages/LoginPage.jsx';
 import { NotFoundPage } from '../pages/NotFoundPage.jsx';
 import { ProfilePage } from '../pages/ProfilePage.jsx';
-import { RankingPage } from '../pages/RankingPage.jsx';
+import { UserRankingPage } from '../pages/UserRankingPage.jsx';
 import { VotePage } from '../pages/VotePage.jsx';
 
 export const AppRoutes = () => {
@@ -22,7 +22,7 @@ export const AppRoutes = () => {
     <Routes>
       <Route element={<AppLayout />}>
         <Route element={<HomePage />} path="/" />
-        <Route element={<RankingPage />} path="/ranking" />
+        <Route element={<UserRankingPage />} path="/ranking" />
         <Route element={<LoginPage />} path="/login" />
         <Route element={<ForbiddenPage />} path="/forbidden" />
 

@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
+import { useLogoutMutation } from '../../hooks/useLogoutMutation';
 import { selectIsAdmin, selectToken, selectUser, useSessionStore } from '../../store/useSessionStore';
 
 const baseLinkClass = 'rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white';
@@ -8,7 +9,7 @@ export const AppNav = () => {
   const token = useSessionStore(selectToken);
   const user = useSessionStore(selectUser);
   const isAdmin = useSessionStore(selectIsAdmin);
-  const clearSession = useSessionStore((state) => state.clearSession);
+  const logoutMutation = useLogoutMutation();
 
   const adminNavContent = token && isAdmin ? (
     <NavLink
@@ -55,11 +56,12 @@ export const AppNav = () => {
             <>
               <span className="hidden text-xs text-slate-400 md:inline">{user?.email ?? 'Sesion iniciada'}</span>
               <button
-                className="rounded-md border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800"
-                onClick={clearSession}
+                className="rounded-md border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+                disabled={logoutMutation.isPending}
+                onClick={() => logoutMutation.mutate()}
                 type="button"
               >
-                Cerrar sesion
+                {logoutMutation.isPending ? 'Cerrando...' : 'Cerrar sesion'}
               </button>
             </>
           ) : (

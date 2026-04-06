@@ -65,7 +65,7 @@ class AuthenticatedSessionController extends Controller
 
 		$dailyLoginResult = $this->dailyLoginKudosService->handleSuccessfulLogin($user);
 		$user->refresh();
-		$roles = $user->getRoleNames()->values()->all();
+		$role = $user->hasRole('admin') ? 'admin' : 'user';
 		$token = $user->createToken('auth_token')->plainTextToken;
 
 		return $this->respondData(
@@ -82,8 +82,8 @@ class AuthenticatedSessionController extends Controller
 					'creations_accepted' => $user->creations_accepted,
 					'login_streak_count' => $user->login_streak_count,
 					'last_login_streak_date' => $user->last_login_streak_date,
-					'roles' => $roles,
-					'is_admin' => in_array('admin', $roles, true),
+					'role' => $role,
+					'is_admin' => $role === 'admin',
 				],
 			],
 			meta: [

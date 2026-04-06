@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdminUpdateItemRequest;
 use App\Http\Requests\ListAdminItemsRequest;
 use App\Http\Requests\ModerateItemRequest;
-use App\Http\Resources\ItemResource;
+use App\Http\Resources\ItemDetailResource;
+use App\Http\Resources\ItemListResource;
 use App\Models\Item;
 use App\Services\AdminService;
 use Illuminate\Http\JsonResponse;
@@ -36,7 +37,7 @@ class AdminItemController extends Controller
         );
 
         return $this->respondList(
-            data: ItemResource::collection($items),
+            data: ItemListResource::collection($items),
             meta: [
                 'current_page' => $items->currentPage(),
                 'last_page' => $items->lastPage(),
@@ -56,7 +57,7 @@ class AdminItemController extends Controller
 
         $updated = $this->adminService->updateAdminItem($admin, $item, $payload, $reason);
 
-        return $this->respondMutation('Item actualizado por administración.', new ItemResource($updated));
+        return $this->respondMutation('Item actualizado por administración.', new ItemDetailResource($updated));
     }
 
     public function moderate(ModerateItemRequest $request, Item $item): JsonResponse
@@ -68,6 +69,6 @@ class AdminItemController extends Controller
 
         $updated = $this->adminService->moderateItemStatus($admin, $item, $status, $reason);
 
-        return $this->respondMutation('Estado del item actualizado por administración.', new ItemResource($updated));
+        return $this->respondMutation('Estado del item actualizado por administración.', new ItemDetailResource($updated));
     }
 }

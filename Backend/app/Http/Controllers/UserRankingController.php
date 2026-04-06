@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ListUserRankingRequest;
+use App\Http\Resources\UserRankingDataResource;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
@@ -25,10 +26,7 @@ class UserRankingController extends Controller
         $result = $this->userService->getPublicKudosRanking($authenticatedUser, $page);
 
         return $this->respondList(
-            data: [
-                'top_page' => $result['top_page'],
-                'my_page_data' => $result['my_page_data'],
-            ],
+            data: new UserRankingDataResource($result),
             meta: [
                 'top_pagination' => $result['top_pagination'],
                 'my_position' => $result['my_position'],

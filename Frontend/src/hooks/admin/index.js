@@ -6,9 +6,12 @@ export {
   useAdminUserDetailContext,
 } from './useAdminContexts';
 
-export { adminQueryKeys, adminQueryScopes } from './adminQueryKeys';
-export { useAdminQuery } from './useAdminQuery';
-export { useAdminMutation } from './useAdminMutation';
+export {
+  adminQueryKeys,
+  adminQueryScopes,
+  useAdminMutation
+} from './adminQueryBase';
+
+export { useAdminPaginatedQuery } from './useAdminPaginatedQuery';
+
 export * from './domains';
-
-

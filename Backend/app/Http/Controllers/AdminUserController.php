@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Admin\AdminUserDetailResource;
+use App\Http\Resources\Admin\AdminUserListResource;
 use App\Http\Requests\BanUserRequest;
 use App\Http\Requests\ListAdminUsersRequest;
 use App\Http\Requests\RevokeUserTokensRequest;
@@ -39,7 +41,7 @@ class AdminUserController extends Controller
         $users = $result['users'];
 
         return $this->respondList(
-            data: $users->items(),
+            data: AdminUserListResource::collection($users),
             meta: [
                 'current_page' => $users->currentPage(),
                 'last_page' => $users->lastPage(),
@@ -62,28 +64,7 @@ class AdminUserController extends Controller
             );
         }
 
-        return $this->respondData([
-            'id' => $detail->id,
-            'name' => $detail->name,
-            'email' => $detail->email,
-            'roles' => $detail->getRoleNames()->values()->all(),
-            'is_banned' => (bool) $detail->is_banned,
-            'banned_at' => $detail->banned_at?->toIso8601String(),
-            'banned_until' => $detail->banned_until?->toIso8601String(),
-            'ban_reason' => $detail->ban_reason,
-            'total_kudos' => (int) $detail->total_kudos,
-            'creations_accepted' => (int) $detail->creations_accepted,
-            'proposals_count' => (int) $detail->proposals_count,
-            'votes_count' => (int) $detail->votes_count,
-            'comments_count' => (int) $detail->comments_count,
-            'items_count' => (int) $detail->items_count,
-            'reviewed_proposals_count' => (int) $detail->reviewed_proposals_count,
-            'sessions_count' => (int) $detail->tokens()->count(),
-            'profile' => [
-                'city' => $detail->profile?->city,
-                'birthdate' => $detail->profile?->birthdate?->format('Y-m-d'),
-            ],
-        ]);
+        return $this->respondData(new AdminUserDetailResource($detail));
     }
 
     public function ban(BanUserRequest $request, User $user): JsonResponse
@@ -98,7 +79,7 @@ class AdminUserController extends Controller
             reason: (string) $request->input('reason'),
         );
 
-        return $this->respondMutation('Usuario baneado correctamente.', $updatedUser);
+        return $this->respondMutation('Usuario baneado correctamente.', new AdminUserListResource($updatedUser));
     }
 
     public function unban(UnbanUserRequest $request, User $user): JsonResponse
@@ -107,7 +88,7 @@ class AdminUserController extends Controller
 
         $updatedUser = $this->adminService->unbanUser($admin, $user);
 
-        return $this->respondMutation('Usuario desbaneado correctamente.', $updatedUser);
+        return $this->respondMutation('Usuario desbaneado correctamente.', new AdminUserListResource($updatedUser));
     }
 
     public function revokeTokens(RevokeUserTokensRequest $request, User $user): JsonResponse

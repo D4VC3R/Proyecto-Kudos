@@ -72,7 +72,7 @@ class VoteController extends Controller
             message: $wasExisting
                 ? 'La interacción ya estaba registrada para este item.'
                 : ($isSkip ? 'Item pasado correctamente.' : 'Voto registrado correctamente.'),
-            data: $vote,
+            data: new VoteResource($vote),
             meta: [
                 'total_kudos' => $user->total_kudos,
                 'vote_type' => $vote->type,
@@ -95,7 +95,7 @@ class VoteController extends Controller
 			message: $updatedVote->type === Vote::TYPE_SKIP
 				? 'Interacción actualizada a skip correctamente.'
 				: 'Voto actualizado correctamente.',
-			data: $updatedVote,
+      data: new VoteResource($updatedVote),
 		);
 	}
 

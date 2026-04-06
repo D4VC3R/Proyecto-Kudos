@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\PermissionRegistrar;
@@ -116,6 +117,45 @@ class ItemExtraDataTest extends TestCase
             ])
             ->assertJsonPath('data.0.extra_data.director', 'Christopher Nolan')
             ->assertJsonPath('data.0.extra_data.release_year', 2010);
+    }
+
+    public function test_items_listing_resolves_can_vote_from_authenticated_user_context(): void
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+
+        $votedItem = Item::factory()->forCategory($category)->create([
+            'status' => Item::STATUS_ACTIVE,
+            'creator_id' => $user->id,
+        ]);
+
+        $availableItem = Item::factory()->forCategory($category)->create([
+            'status' => Item::STATUS_ACTIVE,
+            'creator_id' => $user->id,
+        ]);
+
+        Vote::create([
+            'user_id' => $user->id,
+            'item_id' => $votedItem->id,
+            'type' => Vote::TYPE_VOTE,
+            'score' => 8,
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson('/api/items?sort_by=name&sort_order=asc');
+
+        $responseData = collect($response->json('data'));
+        $availableRow = $responseData->firstWhere('id', $availableItem->id);
+        $votedRow = $responseData->firstWhere('id', $votedItem->id);
+
+        $response->assertOk();
+
+        $this->assertIsArray($availableRow);
+        $this->assertIsArray($votedRow);
+        $this->assertTrue($availableRow['can_vote']);
+        $this->assertFalse($votedRow['can_vote']);
+        $this->assertSame(8, $votedRow['user_vote']['score']);
     }
 
     private function createAdminUser(): User

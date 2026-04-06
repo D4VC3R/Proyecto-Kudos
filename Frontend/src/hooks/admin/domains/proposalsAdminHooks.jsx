@@ -1,48 +1,16 @@
 import { apiClient } from '../../../lib/apiClient';
-import { adminQueryKeys, adminQueryScopes } from '../adminQueryKeys';
-import { useAdminMutation } from '../useAdminMutation';
-import { useAdminQuery } from '../useAdminQuery';
+import { adminQueryKeys, adminQueryScopes, useAdminMutation } from '../adminQueryBase';
+import { useAdminPaginatedQuery } from '../useAdminPaginatedQuery';
 
-export const adminProposalsQueryKey = adminQueryKeys.proposals;
-
-const normalizeProposalsData = (responseData) => {
-  const rawData = responseData?.data;
-
-  if (Array.isArray(rawData)) {
-    return rawData;
-  }
-
-  if (rawData && Array.isArray(rawData.data)) {
-    return rawData.data;
-  }
-
-  return [];
-};
-
-export const useAdminProposalsQuery = ({ page, search, status, perPage }) => {
-  return useAdminQuery({
-    queryKey: adminProposalsQueryKey({ page, search, status, perPage }),
-    queryFn: async () => {
-      const params = {
-        page,
-        per_page: perPage,
-      };
-
-      if (search) {
-        params.search = search;
-      }
-
-      if (status) {
-        params.status = status;
-      }
-
-      const response = await apiClient.get('/admin/proposals', { params });
-      const responseData = response.data;
-
-      return {
-        proposals: normalizeProposalsData(responseData),
-        meta: responseData?.meta ?? null,
-      };
+export const useAdminProposalsQuery = (params) => {
+  return useAdminPaginatedQuery({
+    queryKey: adminQueryKeys.proposals(params),
+    endpoint: '/admin/proposals',
+    params: {
+      page: params.page,
+      per_page: params.perPage,
+      search: params.search,
+      status: params.status,
     },
   });
 };
@@ -54,17 +22,10 @@ export const useAdminReviewProposalMutation = () => {
       if (adminNotes) {
         payload.admin_notes = adminNotes;
       }
-
-      const response = await apiClient.patch(`/admin/proposals/${proposalId}/review`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+      const response = await apiClient.patch(`/admin/proposals/${proposalId}/review`, payload);
       return response.data;
     },
     defaultSuccessMessage: 'Propuesta revisada correctamente.',
     invalidateQueryKeys: [adminQueryScopes.proposals],
   });
 };
-

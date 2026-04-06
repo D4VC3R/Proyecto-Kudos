@@ -1,42 +1,15 @@
 import { apiClient } from '../../../lib/apiClient';
-import { adminQueryKeys, adminQueryScopes } from '../adminQueryKeys';
-import { useAdminMutation } from '../useAdminMutation';
-import { useAdminQuery } from '../useAdminQuery';
-
-export const adminCommentsQueryKey = adminQueryKeys.comments;
-
-const normalizeCommentsData = (responseData) => {
-  const rawData = responseData?.data;
-
-  if (Array.isArray(rawData)) {
-    return rawData;
-  }
-
-  if (rawData && Array.isArray(rawData.data)) {
-    return rawData.data;
-  }
-
-  return [];
-};
+import { adminQueryKeys, adminQueryScopes, useAdminMutation } from '../adminQueryBase';
+import { useAdminPaginatedQuery } from '../useAdminPaginatedQuery';
 
 export const useAdminCommentsQuery = ({ itemId, page, perPage }) => {
-  return useAdminQuery({
-    queryKey: adminCommentsQueryKey({ itemId, page, perPage }),
+  return useAdminPaginatedQuery({
+    queryKey: adminQueryKeys.comments({ itemId, page, perPage }),
+    endpoint: `/items/${itemId}/comments`,
     enabled: Boolean(itemId),
-    queryFn: async () => {
-      const response = await apiClient.get(`/items/${itemId}/comments`, {
-        params: {
-          page,
-          per_page: perPage,
-        },
-      });
-
-      const responseData = response.data;
-
-      return {
-        comments: normalizeCommentsData(responseData),
-        meta: responseData?.meta ?? null,
-      };
+    params: {
+      page,
+      per_page: perPage
     },
   });
 };
@@ -44,17 +17,8 @@ export const useAdminCommentsQuery = ({ itemId, page, perPage }) => {
 export const useAdminHideCommentMutation = () => {
   return useAdminMutation({
     mutationFn: async ({ commentId, reason }) => {
-      const payload = {};
-      if (reason) {
-        payload.reason = reason;
-      }
-
-      const response = await apiClient.patch(`/admin/comments/${commentId}/hide`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+      const payload = reason ? { reason } : {};
+      const response = await apiClient.patch(`/admin/comments/${commentId}/hide`, payload);
       return response.data;
     },
     defaultSuccessMessage: 'Comentario ocultado correctamente.',
@@ -72,4 +36,3 @@ export const useAdminUnhideCommentMutation = () => {
     invalidateQueryKeys: [adminQueryScopes.comments],
   });
 };
-
