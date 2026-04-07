@@ -1,4 +1,4 @@
-import { useAdminItemsContext } from '../../hooks/admin';
+import { useAdminItemsContext } from '../../hooks/admin/useAdminContexts';
 import { AdminItemsFilters } from './AdminItemsFilters';
 import { AdminSectionHeader } from './shared/AdminSectionHeader';
 import { AdminItemsTable } from './AdminItemsTable';

@@ -27,7 +27,18 @@ class AdminUsersListTest extends TestCase
         $this->getJson('/api/admin/users?per_page=10')
             ->assertOk()
             ->assertJsonStructure([
-                'data',
+                'data' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'email',
+                        'role',
+                        'is_banned',
+                        'ban_state',
+                        'ban_state_label',
+                        'banned_until',
+                    ],
+                ],
                 'meta' => [
                     'current_page',
                     'last_page',
@@ -71,8 +82,10 @@ class AdminUsersListTest extends TestCase
                     'id',
                     'name',
                     'email',
-                    'roles',
+                    'role',
                     'is_banned',
+                    'ban_state',
+                    'ban_state_label',
                     'total_kudos',
                     'creations_accepted',
                     'proposals_count',
@@ -137,7 +150,7 @@ class AdminUsersListTest extends TestCase
         $admin = User::factory()->create([
             'name' => $name ?? fake()->name(),
         ]);
-        $admin->assignRole('admin');
+        $admin->syncRoles(['admin']);
 
         return $admin;
     }

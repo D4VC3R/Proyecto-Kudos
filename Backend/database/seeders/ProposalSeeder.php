@@ -32,10 +32,10 @@ class ProposalSeeder extends Seeder
         }
 
         $statusPlan = [
-            Proposal::STATUS_ACCEPTED => 6,
-            Proposal::STATUS_REJECTED => 12,
-            Proposal::STATUS_CHANGES_REQUESTED => 9,
-            Proposal::STATUS_PENDING => 3,
+            Proposal::STATUS_ACCEPTED => 1,
+            Proposal::STATUS_REJECTED => 0,
+            Proposal::STATUS_CHANGES_REQUESTED => 0,
+            Proposal::STATUS_PENDING => 29,
         ];
 
         $created = 0;

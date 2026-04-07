@@ -1,15 +1,9 @@
 import { Link, NavLink } from 'react-router-dom';
-import { useLogoutMutation } from '../../hooks/useLogoutMutation';
-import { selectIsAdmin, selectToken, selectUser, useSessionStore } from '../../store/useSessionStore';
-
-const baseLinkClass = 'rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white';
-const activeLinkClass = 'bg-slate-800 text-white';
 
 export const AppNav = () => {
-  const token = useSessionStore(selectToken);
-  const user = useSessionStore(selectUser);
-  const isAdmin = useSessionStore(selectIsAdmin);
-  const logoutMutation = useLogoutMutation();
+
+  const activeLinkClass = 'bg-slate-800 text-white';
+  const { token, user, isAdmin, isLoggingOut, logout } = useAppLayoutContext();
 
   const adminNavContent = token && isAdmin ? (
     <NavLink
@@ -56,12 +50,13 @@ export const AppNav = () => {
             <>
               <span className="hidden text-xs text-slate-400 md:inline">{user?.email ?? 'Sesion iniciada'}</span>
               <button
-                className="rounded-md border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
-                disabled={logoutMutation.isPending}
+                disabled={}
                 onClick={() => logoutMutation.mutate()}
+                disabled={isLoggingOut}
+                {logoutMutation.isPending ? 'Cerrando...' : 'Cerrar sesion'}
                 type="button"
               >
-                {logoutMutation.isPending ? 'Cerrando...' : 'Cerrar sesion'}
+                {isLoggingOut ? 'Cerrando...' : 'Cerrar sesion'}
               </button>
             </>
           ) : (

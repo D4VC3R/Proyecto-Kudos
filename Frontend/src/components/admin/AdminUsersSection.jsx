@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAdminUsersContext } from '../../hooks/admin';
+import { useAdminUsersContext } from '../../hooks/admin/useAdminContexts';
 import { AdminUsersFilters } from './AdminUsersFilters';
 import { AdminUsersTable } from './AdminUsersTable';
 import { AdminAsyncBadge } from './shared/AdminAsyncBadge';

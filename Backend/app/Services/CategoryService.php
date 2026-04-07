@@ -40,7 +40,6 @@ class CategoryService
 	}
 	public function deleteCategory(Category $category): bool
 	{
-		// Validación de negocio: no eliminar si tiene items
 		if ($this->categoryRepository->hasItems($category)) {
 			$itemsCount = $this->categoryRepository->getItemsCount($category);
 			throw new HttpException(

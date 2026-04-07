@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAdminUserDetailContext } from '../../hooks/admin';
+import { useAdminUserDetailContext } from '../../hooks/admin/useAdminContexts';
 import { AdminUserBanForm } from './AdminUserBanForm';
 
 export const AdminUserDetailActions = () => {
@@ -62,4 +62,3 @@ export const AdminUserDetailActions = () => {
 
   return content;
 };
-

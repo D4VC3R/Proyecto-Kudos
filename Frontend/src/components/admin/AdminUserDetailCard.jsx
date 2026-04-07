@@ -1,4 +1,4 @@
-import { useAdminUserDetailContext } from '../../hooks/admin';
+import { useAdminUserDetailContext } from '../../hooks/admin/useAdminContexts';
 
 export const AdminUserDetailCard = () => {
   const { user } = useAdminUserDetailContext();
@@ -47,4 +47,3 @@ export const AdminUserDetailCard = () => {
     </section>
   );
 };
-

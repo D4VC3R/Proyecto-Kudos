@@ -1,4 +1,4 @@
-import { useAdminUsersContext } from '../../hooks/admin';
+import { useAdminUsersContext } from '../../hooks/admin/useAdminContexts';
 import { AdminFilterActionButtons } from './shared/AdminFilterActionButtons';
 import { AdminFilterInput } from './shared/AdminFilterInput';
 import { AdminFiltersContainer } from './shared/AdminFiltersContainer';
@@ -58,4 +58,3 @@ export const AdminUsersFilters = () => {
     </AdminFiltersContainer>
   );
 };
-

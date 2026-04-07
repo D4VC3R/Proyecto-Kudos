@@ -1,4 +1,4 @@
-import { useAdminProposalsContext } from '../../hooks/admin';
+import { useAdminProposalsContext } from '../../hooks/admin/useAdminContexts';
 import { AdminProposalsFilters } from './AdminProposalsFilters';
 import { AdminSectionHeader } from './shared/AdminSectionHeader';
 import { AdminProposalsTable } from './AdminProposalsTable';

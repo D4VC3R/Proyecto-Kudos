@@ -1,5 +1,4 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { AppLayout } from './layouts/AppLayout.jsx';
 import { RequireAdmin } from './guards/RequireAdmin.jsx';
 import { RequireAuth } from './guards/RequireAuth.jsx';
 import { RequireVerified } from './guards/RequireVerified.jsx';
@@ -16,6 +15,7 @@ import { NotFoundPage } from '../pages/NotFoundPage.jsx';
 import { ProfilePage } from '../pages/ProfilePage.jsx';
 import { UserRankingPage } from '../pages/UserRankingPage.jsx';
 import { VotePage } from '../pages/VotePage.jsx';
+import {AppLayout} from "./layouts/AppLayout.jsx";
 
 export const AppRoutes = () => {
   return (
