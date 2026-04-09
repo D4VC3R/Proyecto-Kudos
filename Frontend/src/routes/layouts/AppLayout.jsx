@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
 
 export const AppLayout = () => {
   return (
@@ -20,9 +19,6 @@ export const AppLayout = () => {
       <main className="mx-auto w-full max-w-6xl flex-grow px-4 py-8">
         <Outlet />
       </main>
-
-      {/* Proveedor global de notificaciones */}
-      <Toaster position="bottom-right" reverseOrder={false} />
     </div>
   );
 };
