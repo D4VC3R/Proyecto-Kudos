@@ -49,7 +49,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Ciudades',
                 'slug' => 'ciudades',
-                'description' => '¿Quieres descubrir grandes del mundo?¿O prefieres valorar en las que has estado? Entra y vota por la ciudad más bonita, acogedora o simplemente, por la que más te guste.',
+                'description' => '¿Quieres descubrir grandes ciudades del mundo? ¿O prefieres valorar en las que has estado? Entra y vota por la ciudad más bonita, acogedora o simplemente, por la que más te guste.',
                 'image' => 'https://via.placeholder.com/640x480.png?text=ciudades',
             ],
             [
