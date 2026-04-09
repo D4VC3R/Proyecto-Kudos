@@ -16,7 +16,7 @@ Esqueleto base para empezar a desarrollar el frontend desacoplado consumiendo la
 Copia `.env.example` a `.env` y ajusta si hace falta:
 
 ```bash
-cp .env.example .env
+cp .env .env
 ```
 
 Variable actual:
