@@ -4,7 +4,7 @@
 
 1. **`FormRequest::authorize()`** decide permisos HTTP (403).
 2. **`Policy`** contiene reglas actor-recurso (`create`, `update`, `delete`, etc.).
-3. **`Service/Action`** contiene reglas de dominio y estado (422), nunca permisos.
+3. **`Service`** contiene reglas de dominio y estado (422), nunca permisos.
 4. **Controller** orquesta entrada/salida; no repite `Gate::authorize()` si ya hay `FormRequest`.
 
 ## Semantica de errores
