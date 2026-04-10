@@ -55,12 +55,6 @@ class CategoryFieldDefinitionSeeder extends Seeder
                 ['key' => 'quotes', 'label' => 'Citas celebres', 'type' => 'string_list', 'required' => false, 'sort_order' => 30, 'rules' => ['max_items' => 20]],
                 ['key' => 'position', 'label' => 'Cargo', 'type' => 'enum', 'required' => true, 'sort_order' => 40, 'options' => ['presidente', 'ministro', 'militante', 'diputado', 'senador', 'alcalde']],
             ],
-            // Categorias actuales no detalladas por negocio: set base flexible.
-            'musica' => [
-                ['key' => 'artist', 'label' => 'Artista', 'type' => 'string', 'required' => true, 'sort_order' => 10],
-                ['key' => 'genre', 'label' => 'Genero musical', 'type' => 'string', 'required' => false, 'sort_order' => 20],
-                ['key' => 'release_year', 'label' => 'Ano de lanzamiento', 'type' => 'integer', 'required' => false, 'sort_order' => 30, 'rules' => ['min' => 1800, 'max' => 2100]],
-            ],
             'albumes-musicales' => [
                 ['key' => 'artist', 'label' => 'Artista', 'type' => 'string', 'required' => true, 'sort_order' => 10],
                 ['key' => 'genre', 'label' => 'Genero musical', 'type' => 'string', 'required' => false, 'sort_order' => 20],
@@ -81,11 +75,6 @@ class CategoryFieldDefinitionSeeder extends Seeder
                 ['key' => 'isbn_13', 'label' => 'ISBN-13', 'type' => 'string', 'required' => false, 'sort_order' => 40],
                 ['key' => 'info_url', 'label' => 'URL informativa', 'type' => 'url', 'required' => false, 'sort_order' => 50],
                 ['key' => 'origin_country', 'label' => 'Pais de publicacion', 'type' => 'string', 'required' => false, 'sort_order' => 60],
-            ],
-            'marcas' => [
-                ['key' => 'industry', 'label' => 'Industria', 'type' => 'string', 'required' => true, 'sort_order' => 10],
-                ['key' => 'origin_country', 'label' => 'Pais de origen', 'type' => 'string', 'required' => false, 'sort_order' => 20],
-                ['key' => 'website', 'label' => 'Sitio web', 'type' => 'url', 'required' => false, 'sort_order' => 30],
             ],
         ];
     }
