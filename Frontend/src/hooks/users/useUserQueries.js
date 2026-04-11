@@ -14,10 +14,9 @@ export const useProfile = () => {
   });
 };
 
-export const useUserRanking = () => {
+export const useUserRanking = (page = 1) => {
   return useQuery({
-    queryKey: USER_KEYS.ranking,
-    queryFn: () => axiosClient.get('/users/ranking'),
-    select: (response) => response.data,
+    queryKey: [...USER_KEYS.ranking, page],
+    queryFn: () => axiosClient.get('/users/ranking', { params: { page } }),
   });
 };

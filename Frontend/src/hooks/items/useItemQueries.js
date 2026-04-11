@@ -30,6 +30,15 @@ export const useItem = (id) => {
   });
 };
 
+export const useItemComments = (id) => {
+  return useQuery({
+    queryKey: [...ITEM_KEYS.detail(id), 'comments'],
+    queryFn: () => axiosClient.get(`/items/${id}/comments`),
+    enabled: !!id,
+    select: (response) => response.data || [],
+  });
+};
+
 export const useMyItems = () => {
   return useQuery({
     queryKey: ITEM_KEYS.myItems(),

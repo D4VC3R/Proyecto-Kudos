@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { VOTE_KEYS } from './useVoteQueries';
 import { ITEM_KEYS } from '../items/useItemQueries';
 // Necesitamos actualizar los puntos del usuario en vivo
-import { useSessionStore } from '../../stores/useSessionStore';
+import { useSessionStore } from '../../store/useSessionStore';
 
 export const useCreateVote = () => {
   const queryClient = useQueryClient();

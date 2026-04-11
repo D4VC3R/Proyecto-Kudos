@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('votes', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->enum('type', ['vote', 'skip'])->default('vote');
-            $table->integer('score')->nullable();
+            $table->decimal('score', 4, 1)->nullable();
 
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignUuid('item_id')->constrained('items')->cascadeOnDelete();

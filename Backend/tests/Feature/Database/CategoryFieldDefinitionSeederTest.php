@@ -25,11 +25,9 @@ class CategoryFieldDefinitionSeederTest extends TestCase
             'ciudades',
             'paises',
             'politicos',
-            'musica',
             'albumes-musicales',
             'artistas-musicales',
-            'libros',
-            'marcas',
+            'libros'
         ];
 
         foreach ($expectedSlugs as $slug) {

@@ -43,7 +43,7 @@ class StoreVoteRequest extends FormRequest
             'type' => ['required', Rule::in([Vote::TYPE_VOTE, Vote::TYPE_SKIP])],
             'score' => [
                 'nullable',
-                'integer',
+                'numeric',
                 'min:0',
                 'max:10',
                 Rule::requiredIf(fn () => $this->input('type') === Vote::TYPE_VOTE),

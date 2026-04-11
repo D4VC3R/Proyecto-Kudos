@@ -17,11 +17,19 @@ export const useUpdateProfile = () => {
 
       // 2. Sincronizamos Zustand para que la barra de navegación (nombre/avatar) se actualice al instante
       if (response.data) {
-        setSession({ token, user: response.data });
+        const currentUser = useSessionStore.getState().user;
+        setSession({ token, user: { ...currentUser, avatar: response.data.avatar } });
       }
 
       toast.success(response.message || 'Perfil actualizado correctamente');
     },
-    onError: (error) => toast.error(error.message),
+    onError: (error) => {
+      const details = error.response?.data?.error?.details;
+      if (details) {
+        Object.values(details).forEach(err => toast.error(err[0]));
+      } else {
+        toast.error(error.message || 'Error al actualizar el perfil');
+      }
+    },
   });
 };

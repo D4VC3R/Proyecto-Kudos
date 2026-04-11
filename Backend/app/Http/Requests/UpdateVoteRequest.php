@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\Vote;
 
 class UpdateVoteRequest extends FormRequest
 {
@@ -22,7 +24,13 @@ class UpdateVoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'score' => ['required', 'integer', 'min:0', 'max:10'],
+            'type' => ['nullable', Rule::in([Vote::TYPE_VOTE, Vote::TYPE_SKIP])],
+            'score' => [
+                'nullable',
+                'numeric',
+                'min:0',
+                'max:10',
+            ],
         ];
     }
 }

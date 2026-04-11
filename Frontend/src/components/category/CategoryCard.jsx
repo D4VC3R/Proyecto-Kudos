@@ -6,7 +6,7 @@ import {bouncyCardVariants} from "../../lib/animations.js";
 
 export const CategoryCard = ({ category }) => {
     return (
-        <Link to={`/categories/${category.id}`}>
+        <Link to={`/${category.slug}`}>
             <motion.article
                 variants={bouncyCardVariants} // <-- Lo usamos aquí
                 whileHover="hover"
