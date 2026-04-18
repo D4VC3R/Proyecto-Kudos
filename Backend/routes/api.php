@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
     Route::get('/categories/{category}/next-item', [CategoryController::class, 'nextItem']);
 
     Route::prefix('profile')->group(function () {
+        Route::get('/minimal', [ProfileController::class, 'minimal']);
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
     });

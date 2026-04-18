@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Resources\ProfileResource;
+use App\Http\Resources\MinimalProfileResource;
 use App\Services\ProfileService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,6 +25,14 @@ class ProfileController extends Controller
 
 		return $this->respondData(new ProfileResource($user->profile));
 	}
+
+    public function minimal(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $user->load('profile:id,user_id,avatar');
+
+        return $this->respondData(new MinimalProfileResource($user));
+    }
 
 	public function update(UpdateProfileRequest $request): JsonResponse
 	{

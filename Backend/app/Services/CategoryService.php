@@ -54,8 +54,8 @@ class CategoryService
 	{
 		return $this->categoryRepository->loadAcceptedItems($category);
 	}
-	public function getCategoryRanking(Category $category): Collection
+	public function getCategoryRanking(Category $category, int $perPage = 10)
 	{
-		return $this->categoryRepository->getItemsRanking($category);
+		return $this->categoryRepository->getItemsRanking($category, $perPage);
 	}
 }

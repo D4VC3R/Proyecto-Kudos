@@ -1,8 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import axiosClient from './../../lib/axiosClient';
 
 export const USER_KEYS = {
   profile: ['profile'],
+  minimalProfile: ['profile', 'minimal'],
   ranking: ['users', 'ranking'],
 };
 
@@ -14,9 +15,18 @@ export const useProfile = () => {
   });
 };
 
+export const useMinimalProfile = () => {
+  return useQuery({
+    queryKey: USER_KEYS.minimalProfile,
+    queryFn: () => axiosClient.get('/profile/minimal'),
+    select: (response) => response.data,
+  });
+};
+
 export const useUserRanking = (page = 1) => {
   return useQuery({
     queryKey: [...USER_KEYS.ranking, page],
     queryFn: () => axiosClient.get('/users/ranking', { params: { page } }),
+    placeholderData: keepPreviousData,
   });
 };

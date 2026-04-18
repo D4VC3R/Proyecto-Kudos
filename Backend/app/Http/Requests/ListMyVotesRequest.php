@@ -18,9 +18,8 @@ class ListMyVotesRequest extends FormRequest
         return [
             'type' => ['sometimes', Rule::in([Vote::TYPE_VOTE, Vote::TYPE_SKIP])],
             'category_id' => ['sometimes', 'uuid', 'exists:categories,id'],
-            'search' => ['sometimes', 'string', 'max:255'],
+            'search' => ['sometimes', 'nullable', 'string', 'max:255'],
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
         ];
     }
 }
-

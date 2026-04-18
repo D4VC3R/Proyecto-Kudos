@@ -24,11 +24,11 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
 	->middleware('guest')
 	->name('password.store');
 
-Route::middleware('auth:sanctum')->group(function () {
-	Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-		->middleware(['signed', 'throttle:6,1'])
-		->name('verification.verify');
+Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
+	->middleware(['signed', 'throttle:6,1'])
+	->name('verification.verify');
 
+Route::middleware('auth:sanctum')->group(function () {
 	Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
 		->middleware('throttle:6,1')
 		->name('verification.send');
@@ -39,5 +39,3 @@ Route::middleware('auth:sanctum')->group(function () {
 	Route::post('/logout-all', [AuthenticatedSessionController::class, 'destroyAll'])
 		->name('logout.all');
 });
-
-

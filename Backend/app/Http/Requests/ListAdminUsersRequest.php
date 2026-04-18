@@ -15,7 +15,7 @@ class ListAdminUsersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => ['sometimes', 'string', 'max:255'],
+            'search' => ['sometimes', 'nullable', 'string', 'max:255'],
             'is_banned' => ['sometimes', 'boolean'],
             'ban_state' => ['sometimes', Rule::in(['temporary', 'permanent', 'expired', 'active'])],
             'role' => ['sometimes', 'string', 'max:100'],

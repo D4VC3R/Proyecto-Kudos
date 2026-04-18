@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ItemCard } from '../item/ItemCard';
+import { ItemCard } from '../items/ItemCard.jsx';
 
 const InfiniteSlider = ({ items = [] }) => {
   if (!items || items.length === 0) return null;

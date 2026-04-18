@@ -2,18 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { UserCircle, Trophy, Medal } from 'lucide-react';
 import { useSessionStore } from '../../store/useSessionStore';
-import { useUserRanking, useProfile } from '../../hooks/users/useUserQueries';
+import { useMinimalProfile } from '../../hooks/users/useUserQueries';
+import { KudosCounter } from '../ui/KudosCounter';
 
 export const UserInfo = () => {
   const user = useSessionStore((state) => state.user);
   
-  // We can fetch user ranking. It should return my_position
-  const { data: rankingData } = useUserRanking(1);
-  const { data: profileData } = useProfile();
+  const { data: minimalProfile } = useMinimalProfile();
 
-  const position = rankingData?.meta?.my_position?.rank;
-  const totalKudos = rankingData?.meta?.my_position?.total_kudos ?? user?.total_kudos ?? 0;
-  const displayAvatar = profileData?.avatar || user?.avatar;
+  const profile = minimalProfile;
+  const position = profile?.ranking_position;
+  const totalKudos = profile?.total_kudos ?? user?.total_kudos ?? 0;
+  const displayName = profile?.name ?? user?.name;
+  const displayAvatar = profile?.avatar ?? user?.avatar;
 
   return (
     <Link 
@@ -29,11 +30,11 @@ export const UserInfo = () => {
       </div>
       
       <div className="flex flex-col">
-        <span className="text-xs md:text-sm font-bold text-slate-900 leading-tight">{user?.name}</span>
+        <span className="text-xs md:text-sm font-bold text-slate-900 leading-tight">{displayName}</span>
         <div className="flex items-center gap-2 md:gap-3 text-[10px] md:text-xs font-bold mt-0.5">
           <span className="flex items-center gap-1 text-slate-500">
             <Trophy size={10} className="text-blue-500 md:w-3 md:h-3" />
-            {totalKudos} K
+            <KudosCounter value={totalKudos} /> K
           </span>
           <span className="flex items-center gap-1 text-slate-500">
             <Medal size={10} className="text-yellow-500 md:w-3 md:h-3" />

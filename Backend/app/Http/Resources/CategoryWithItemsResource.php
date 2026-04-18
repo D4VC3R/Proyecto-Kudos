@@ -14,16 +14,17 @@ class CategoryWithItemsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-	    return [
-		    'id' => $this->id,
-		    'name' => $this->name,
-		    'description' => $this->description,
-		    'slug' => $this->slug,
-		    'image' => $this->image,
-		    'items_count' => $this->items_count,
-		    'items' => ItemListResource::collection($this->whenLoaded('items')),
-		    'created_at' => $this->created_at?->toIso8601String(),
-		    'updated_at' => $this->updated_at?->toIso8601String(),
-	    ];
+            return [
+                    'id' => $this->id,
+                    'name' => $this->name,
+                    'description' => $this->description,
+                    'slug' => $this->slug,
+                    'image' => $this->image,
+                    'items_count' => $this->items_count,
+                    'field_definitions' => $this->whenLoaded('fieldDefinitions'),
+                    'items' => ItemListResource::collection($this->whenLoaded('items')),
+                    'created_at' => $this->created_at?->toIso8601String(),
+                    'updated_at' => $this->updated_at?->toIso8601String(),
+            ];
     }
 }

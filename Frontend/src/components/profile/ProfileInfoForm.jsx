@@ -1,17 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { Loader2, Save, User as UserIcon, MapPin, Calendar, Image as ImageIcon } from 'lucide-react';
 import { useUpdateProfile } from '../../hooks/users/useUserMutations';
 import { useSessionStore } from '../../store/useSessionStore';
-
-const profileSchema = z.object({
-  avatar: z.string().url('Debe ser una URL válida').or(z.literal('')).nullable(),
-  biography: z.string().max(500, 'Máximo 500 caracteres').nullable(),
-  city: z.string().max(100, 'Máximo 100 caracteres').nullable(),
-  birthdate: z.string().nullable(),
-});
+import { profileSchema } from '../../lib/schemas/profileSchema';
 
 export const ProfileInfoForm = ({ profile }) => {
   const user = useSessionStore((state) => state.user);

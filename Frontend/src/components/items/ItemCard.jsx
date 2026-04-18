@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
-import { bouncyCardVariants } from '../../lib/animations';
+import { bouncyCardVariants } from '../../lib/animations.js';
 
 export const ItemCard = ({ item }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
@@ -15,7 +15,7 @@ export const ItemCard = ({ item }) => {
     >
       <div className="absolute inset-0">
         <img
-          src={item.image}
+          src={item.images[0]?.path}
           alt={item.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />

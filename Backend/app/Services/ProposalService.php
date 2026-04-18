@@ -55,8 +55,8 @@ class ProposalService
             abort(422, 'No se puede editar una propuesta eliminada.');
         }
 
-        if ($proposal->status !== Proposal::STATUS_CHANGES_REQUESTED) {
-            abort(422, 'Solo se pueden reenviar propuestas en estado changes_requested.');
+        if (!in_array($proposal->status, [Proposal::STATUS_CHANGES_REQUESTED, Proposal::STATUS_PENDING], true)) {
+            abort(422, 'Solo se pueden editar o reenviar propuestas en estado pending o changes_requested.');
         }
 
         return $this->proposalRepository->update($proposal, [

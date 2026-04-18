@@ -34,7 +34,7 @@ class ProposalPolicy
         }
 
         return $proposal->creator_id === $user->id
-            && $proposal->status === Proposal::STATUS_CHANGES_REQUESTED;
+            && in_array($proposal->status, [Proposal::STATUS_CHANGES_REQUESTED, Proposal::STATUS_PENDING], true);
     }
 
     public function delete(User $user, Proposal $proposal): bool

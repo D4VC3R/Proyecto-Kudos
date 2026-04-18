@@ -15,6 +15,7 @@ use App\Services\CategoryService;
 use App\Services\NextCategoryItemService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -79,14 +80,20 @@ class CategoryController extends Controller
     /**
      * Display category ranking
      */
-    public function ranking(Category $category): JsonResponse
+    public function ranking(Request $request, Category $category): JsonResponse
     {
-        $items = $this->categoryService->getCategoryRanking($category);
+        $perPage = (int) $request->query('per_page', 10);
+        $items = $this->categoryService->getCategoryRanking($category, $perPage);
 
         return $this->respondData(new CategoryRankingResource([
             'category' => $category,
             'ranking' => $items,
-        ]));
+        ]), meta: [
+            'total' => $items->total(),
+            'current_page' => $items->currentPage(),
+            'last_page' => $items->lastPage(),
+            'per_page' => $items->perPage(),
+        ]);
     }
 
     public function nextItem(GetNextCategoryItemRequest $request, Category $category): JsonResponse|Response

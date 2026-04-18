@@ -1,18 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { Loader2, Mail, Lock } from 'lucide-react';
 import { useLogin } from '../../hooks/auth/useAuthMutations';
-import { useNavigate } from 'react-router-dom';
-
-const loginSchema = z.object({
-  email: z.string().min(1, 'El email es requerido').email('Email no válido'),
-  password: z.string().min(1, 'La contraseña es requerida'),
-});
+import { useNavigate, useLocation } from 'react-router-dom';
+import { loginSchema } from '../../lib/schemas/authSchemas';
 
 export const LoginForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { mutate: login, isPending } = useLogin();
   
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -21,7 +17,10 @@ export const LoginForm = () => {
 
   const onSubmit = (data) => {
     login(data, {
-      onSuccess: () => navigate('/') // Redirect to home on success
+      onSuccess: () => {
+        const destination = location.state?.from?.pathname || '/';
+        navigate(destination, { replace: true });
+      }
     });
   };
 
@@ -74,4 +73,3 @@ export const LoginForm = () => {
     </form>
   );
 };
-

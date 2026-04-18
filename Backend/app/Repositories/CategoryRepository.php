@@ -43,15 +43,17 @@ class CategoryRepository
 	public function loadAcceptedItems(Category $category): Category
 	{
 		return $category->load([
+			'fieldDefinitions',
 			'items' => function ($query) {
 				$query->where('status', Item::STATUS_ACTIVE)
 					->with(['creator:id,name'])
-					->latest();
+					->inRandomOrder()
+					->take(30);
 			}
 		]);
 	}
 
-	public function getItemsRanking(Category $category): Collection
+	public function getItemsRanking(Category $category, int $perPage = 10)
 	{
 		return $category->items()
 			->where('status', Item::STATUS_ACTIVE)
@@ -59,6 +61,6 @@ class CategoryRepository
 			->orderByDesc('vote_avg')
 			->orderByDesc('vote_count')
 			->orderBy('name')
-			->get();
+			->paginate($perPage);
 	}
 }

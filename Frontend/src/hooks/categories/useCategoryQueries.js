@@ -1,10 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
 
 const CATEGORIES_KEYS = {
   all: ['categories'],
   detail: (slug) => ['categories', slug],
-  ranking: (slug) => ['categories', slug, 'ranking'],
+  ranking: (slug, page, limit) => ['categories', slug, 'ranking', page, limit],
+  infiniteRanking: (slug) => ['categories', slug, 'ranking', 'infinite'],
   nextItem: (slug) => ['categories', slug, 'next-item'],
 };
 
@@ -16,12 +17,29 @@ export const useCategories = () => {
   });
 };
 
-export const useCategoryRanking = (categorySlug) => {
+export const useCategoryRanking = (categorySlug, page = 1, perPage = 10) => {
   return useQuery({
-    queryKey: CATEGORIES_KEYS.ranking(categorySlug),
-    queryFn: () => axiosClient.get(`/categories/${categorySlug}/ranking`),
+    queryKey: CATEGORIES_KEYS.ranking(categorySlug, page, perPage),
+    queryFn: () => axiosClient.get(`/categories/${categorySlug}/ranking`, { params: { page, per_page: perPage } }),
     select: (response) => {
-      return response.data?.ranking || [];
+      // response includes .data and .meta
+      return response;
+    },
+    enabled: !!categorySlug,
+  });
+};
+
+export const useInfiniteCategoryRanking = (categorySlug, perPage = 10) => {
+  return useInfiniteQuery({
+    queryKey: CATEGORIES_KEYS.infiniteRanking(categorySlug),
+    queryFn: ({ pageParam }) =>
+      axiosClient.get(`/categories/${categorySlug}/ranking`, { params: { page: pageParam, per_page: perPage } }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.meta) return undefined;
+      return lastPage.meta.current_page < lastPage.meta.last_page
+        ? lastPage.meta.current_page + 1
+        : undefined;
     },
     enabled: !!categorySlug,
   });

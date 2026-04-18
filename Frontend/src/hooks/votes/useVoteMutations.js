@@ -3,6 +3,7 @@ import axiosClient from '../../lib/axiosClient';
 import toast from 'react-hot-toast';
 import { VOTE_KEYS } from './useVoteQueries';
 import { ITEM_KEYS } from '../items/useItemQueries';
+import { USER_KEYS } from '../users/useUserQueries';
 // Necesitamos actualizar los puntos del usuario en vivo
 import { useSessionStore } from '../../store/useSessionStore';
 
@@ -13,11 +14,23 @@ export const useCreateVote = () => {
     mutationFn: (voteData) => axiosClient.post('/votes', voteData),
     onSuccess: (response) => {
       // 1. Sincronizar Kudos en Zustand (si el backend nos los manda en los metadatos)
-      if (response.meta?.total_kudos !== undefined) {
+      const tk = response.data?.meta?.total_kudos ?? response.meta?.total_kudos;
+      if (tk !== undefined) {
         const { token, user, setSession } = useSessionStore.getState();
         if (user) {
-          setSession({ token, user: { ...user, total_kudos: response.meta.total_kudos } });
+          setSession({ token, user: { ...user, total_kudos: tk } });
         }
+
+        queryClient.setQueryData(USER_KEYS.minimalProfile, (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              total_kudos: tk
+            }
+          };
+        });
       }
 
       // 2. Invalidar cachés relacionadas para que la UI se repinte sola

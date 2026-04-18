@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 export const VoteActions = ({ onSkip, isPending, showComments, onToggleComments }) => {
   return (
-    <div className="flex items-center justify-center gap-4 mt-8">
+    <div className="flex items-center justify-between">
       <button
         onClick={onSkip}
         disabled={isPending}

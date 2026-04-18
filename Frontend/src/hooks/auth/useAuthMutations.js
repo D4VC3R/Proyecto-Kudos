@@ -41,18 +41,13 @@ export const useLogout = () => {
 };
 
 export const useRegister = () => {
-  const setSession = useSessionStore((state) => state.setSession);
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data) => axiosClient.post('/register', data),
-    onSuccess: (response) => {
-      const { access_token, user } = response.data;
-      
-      setSession({ token: access_token, user });
-
+    onSuccess: () => {
       queryClient.clear();
-      toast.success('Cuenta creada correctamente');
+      toast.success('Cuenta creada. Revisa tu email para confirmar y empezar a jugar.');
     },
     onError: (error) => {
       // Check if we get a specific error message, otherwise use generic

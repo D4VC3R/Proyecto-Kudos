@@ -39,7 +39,7 @@ class RegisteredUserController extends Controller
 
         $user->syncRoles(['user']);
 
-				$user->profile()->create();
+        $user->profile()->create();
 
         event(new Registered($user));
 
@@ -50,9 +50,7 @@ class RegisteredUserController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                ],
-                'access_token' => $user->createToken('auth_token')->plainTextToken,
-                'token_type' => 'Bearer',
+                ]
             ],
             status: 201,
         );

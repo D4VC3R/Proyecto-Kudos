@@ -1,20 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { Loader2, Mail, Lock, User } from 'lucide-react';
 import { useRegister } from '../../hooks/auth/useAuthMutations';
 import { useNavigate } from 'react-router-dom';
-
-const registerSchema = z.object({
-  name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
-  email: z.string().min(1, 'El email es requerido').email('Email no válido'),
-  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
-  password_confirmation: z.string()
-}).refine((data) => data.password === data.password_confirmation, {
-  message: "Las contraseñas no coinciden",
-  path: ["password_confirmation"],
-});
+import { registerSchema } from '../../lib/schemas/authSchemas';
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
@@ -26,7 +16,9 @@ export const RegisterForm = () => {
 
   const onSubmit = (data) => {
     registerUser(data, {
-      onSuccess: () => navigate('/') // Redirect to home on success
+      onSuccess: () => {
+        navigate('/verify-email', { replace: true, state: { registered: true } });
+      }
     });
   };
 
@@ -110,4 +102,3 @@ export const RegisterForm = () => {
     </form>
   );
 };
-
