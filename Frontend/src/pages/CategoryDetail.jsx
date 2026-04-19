@@ -15,6 +15,7 @@ const CategoryDetail = () => {
   const {
     data: rankingData,
     isLoading: isLoadingRanking,
+    isFetching: isFetchingRanking,
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
@@ -44,14 +45,14 @@ const CategoryDetail = () => {
         <Loader2 className="animate-spin text-blue-500" size={40} />
       </div>
         :
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8">
+      <div className={`mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-300 ${(isFetchingRanking && !isFetchingNextPage) ? 'opacity-60' : 'opacity-100'}`}>
 
         <div className="text-center md:text-left">
           <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
-            Bienvenido a <span className="text-blue-600 drop-shadow-sm">{category.name}</span>
+            Bienvenido a <span className="text-blue-600 drop-shadow-sm">{category?.name}</span>
           </h1>
           <p className="mt-2 text-lg font-medium text-slate-500">
-            {category.description}
+            {category?.description}
           </p>
         </div>
 
@@ -77,7 +78,7 @@ const CategoryDetail = () => {
           </div>
 
           <div className="lg:col-span-7">
-            {isLoadingRanking && !hasRankingData ? (
+            {(isLoadingRanking || (isFetchingRanking && !hasRankingData)) ? (
               <div className="flex min-h-[420px] items-center justify-center rounded-3xl bg-white shadow-2xl ring-2 ring-slate-200">
                 <Loader2 className="animate-spin text-blue-500" size={40} />
               </div>
@@ -98,7 +99,7 @@ const CategoryDetail = () => {
 
         </div>
 
-        {category.items && category.items.length > 0 && (
+        {category?.items && category.items.length > 0 && (
           <div className="mt-8 rounded-3xl bg-white py-8 shadow-xl ring-1 ring-slate-200">
             <div className="mb-6 px-8 flex items-center justify-between border-b border-slate-100 pb-4">
               <h3 className="text-2xl font-black text-slate-900">Candidatos Destacados</h3>

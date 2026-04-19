@@ -23,20 +23,18 @@ export const RankingPage = () => {
   const ITEMS_PER_PAGE = 10;
 
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8">
+    <div className={`mx-auto flex w-full max-w-4xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-300 ${isFetching ? 'opacity-60 pointer-events-none' : 'opacity-100'}`}>
       <UserRankingHeader />
 
       <UserRankingMyPositionCard position={myPosition} />
 
-      <div className={`transition-opacity duration-300 ${isFetching ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
-        <UserRankingTable
-          items={topPageData}
-          page={page}
-          setPage={setPage}
-          meta={meta}
-          itemsPerPage={ITEMS_PER_PAGE}
-        />
-      </div>
+      <UserRankingTable
+        items={topPageData}
+        page={page}
+        setPage={setPage}
+        meta={meta}
+        itemsPerPage={ITEMS_PER_PAGE}
+      />
     </div>
   );
 };

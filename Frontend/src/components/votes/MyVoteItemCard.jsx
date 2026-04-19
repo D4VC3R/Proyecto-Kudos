@@ -3,7 +3,7 @@ import { Star, Trash2, ShieldQuestion, Clock, CheckCircle2, XCircle } from 'luci
 import { Modal } from '../common/Modal';
 import { formatDate } from '../../lib/formatters';
 
-export const MyVoteItemCard = ({ vote, isDeleting, isUpdating, onDelete, onUpdate }) => {
+export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const isSkip = vote.type === 'skip';
 
@@ -13,23 +13,21 @@ export const MyVoteItemCard = ({ vote, isDeleting, isUpdating, onDelete, onUpdat
   };
 
   const item = vote.item;
-
-  const getVoteColor = () => {
-    if (vote.type === 'skip') return 'bg-slate-100 text-slate-500 border-slate-200';
-    if (vote.score >= 8) return 'bg-green-100 text-green-700 border-green-200';
-    if (vote.score >= 5) return 'bg-blue-100 text-blue-700 border-blue-200';
-    return 'bg-red-100 text-red-700 border-red-200';
-  };
+  const imageUrl = item?.images?.[0]?.path;
 
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
         <div className="flex items-start gap-4 flex-1">
-          {/* Icono de Estado (Estrella para voto, X para skip) */}
-          <div className={`mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${
-            isSkip ? 'bg-slate-100 text-slate-400' : 'bg-yellow-50 text-yellow-500'
+          {/* Icono de Estado o Imagen */}
+          <div className={`mt-1 flex h-16 w-14 shrink-0 items-center justify-center rounded-xl overflow-hidden shadow-inner ${
+            !imageUrl ? (isSkip ? 'bg-slate-100 text-slate-400' : 'bg-yellow-50 text-yellow-500') : 'bg-slate-100'
           }`}>
-            {isSkip ? <XCircle size={24} /> : <Star size={24} fill="currentColor" />}
+            {imageUrl ? (
+              <img src={imageUrl} alt={item?.name || 'Ítem'} className="h-full w-full object-cover" />
+            ) : (
+              isSkip ? <XCircle size={24} /> : <Star size={24} fill="currentColor" />
+            )}
           </div>
 
           <div className="flex flex-col w-full">

@@ -24,7 +24,7 @@ class VoteController extends Controller
         $validated = $request->validated();
         $filters = [
             'type' => $validated['type'] ?? null,
-            'category_id' => $validated['category_id'] ?? null,
+            'category_slug' => $validated['category_slug'] ?? null,
             'search' => $validated['search'] ?? null,
         ];
         $votes = $this->voteService->listMyVotes(

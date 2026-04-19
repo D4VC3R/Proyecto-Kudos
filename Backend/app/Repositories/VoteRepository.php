@@ -27,28 +27,28 @@ class VoteRepository
 	}
 
 			/**
-			 * @param array{type?: ?string, category_id?: ?string, search?: ?string} $filters
+			 * @param array{type?: ?string, category_slug?: ?string, search?: ?string} $filters
 			 */
 			public function paginateByUser(User $user, array $filters = [], int $perPage = 15): LengthAwarePaginator
 			{
-				$query = Vote::query()
-					->where('user_id', $user->id)
-					->with(['item:id,name,category_id,status', 'item.category:id,name,slug']);
+					$query = Vote::query()
+							->where('user_id', $user->id)
+							->with(['item:id,name,images,category_id,status', 'item.category:id,name,slug']);
 
-				if (!empty($filters['type'])) {
-					$query->where('type', $filters['type']);
-				}
+					if (!empty($filters['type'])) {
+						$query->where('type', $filters['type']);
+					}
 
-				if (!empty($filters['category_id'])) {
-					$categoryId = $filters['category_id'];
-					$query->whereHas('item', function ($q) use ($categoryId) {
-						$q->where('category_id', $categoryId);
-					});
-				}
+					if (!empty($filters['category_slug'])) {
+						$categorySlug = $filters['category_slug'];
+						$query->whereHas('item.category', function ($q) use ($categorySlug) {
+							$q->where('slug', $categorySlug);
+						});
+					}
 
-				if (!empty($filters['search'])) {
-					$search = $filters['search'];
-					$query->whereHas('item', function ($q) use ($search) {
+					if (!empty($filters['search'])) {
+						$search = $filters['search'];
+						$query->whereHas('item', function ($q) use ($search) {
 												$q->where('name', 'like', "%{$search}%");
 					});
 				}

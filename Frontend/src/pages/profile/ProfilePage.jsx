@@ -9,6 +9,7 @@ import { ProfileStatistics } from '../../components/profile/ProfileStatistics';
 
 export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('info');
+  const [votesFilters, setVotesFilters] = useState({ type: 'all', category_slug: undefined });
   const { data: profile, isLoading, isError } = useProfile();
 
   const tabs = [
@@ -76,7 +77,7 @@ export const ProfilePage = () => {
         )}
 
         {activeTab === 'votes' && (
-          <MyVotesPage />
+          <MyVotesPage filters={votesFilters} setFilters={setVotesFilters} />
         )}
 
         {activeTab === 'stats' && (

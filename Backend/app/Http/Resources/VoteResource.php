@@ -18,6 +18,7 @@ class VoteResource extends JsonResource
             'item' => $this->whenLoaded('item', [
                 'id' => $this->item?->id,
                 'name' => $this->item?->name,
+                'images' => $this->item?->images,
                 'category_id' => $this->item?->category_id,
                 'category' => $this->when($this->item?->relationLoaded('category'), [
                     'id' => $this->item?->category?->id,
@@ -28,4 +29,3 @@ class VoteResource extends JsonResource
         ];
     }
 }
-

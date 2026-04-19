@@ -5,6 +5,7 @@ import { Loader2, Save, User as UserIcon, MapPin, Calendar, Image as ImageIcon }
 import { useUpdateProfile } from '../../hooks/users/useUserMutations';
 import { useSessionStore } from '../../store/useSessionStore';
 import { profileSchema } from '../../lib/schemas';
+import { motion } from 'framer-motion';
 
 export const ProfileInfoForm = ({ profile }) => {
   const user = useSessionStore((state) => state.user);
@@ -32,7 +33,11 @@ export const ProfileInfoForm = ({ profile }) => {
   };
 
   return (
-    <div className="flex flex-col gap-8 md:flex-row max-w-4xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex flex-col gap-8 md:flex-row max-w-4xl mx-auto"
+    >
       <div className="flex flex-col items-center p-6 bg-slate-50 rounded-3xl border border-slate-200 md:w-1/3">
         <div className="w-32 h-32 rounded-full overflow-hidden bg-blue-100 text-blue-600 flex items-center justify-center mb-4 ring-4 ring-white shadow-lg">
           {profile?.avatar ? (
@@ -137,7 +142,6 @@ export const ProfileInfoForm = ({ profile }) => {
           </div>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 };
-

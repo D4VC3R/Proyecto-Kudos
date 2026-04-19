@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
 
 const CATEGORIES_KEYS = {
@@ -26,6 +26,7 @@ export const useCategoryRanking = (categorySlug, page = 1, perPage = 10) => {
       return response;
     },
     enabled: !!categorySlug,
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -42,6 +43,7 @@ export const useInfiniteCategoryRanking = (categorySlug, perPage = 10) => {
         : undefined;
     },
     enabled: !!categorySlug,
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -62,5 +64,6 @@ export const useCategoryDetail = (categorySlug) => {
     // Extraemos la 'data' del envoltorio de la respuesta axios
     select: (response) => response.data,
     enabled: !!categorySlug,
+    placeholderData: keepPreviousData,
   });
 };

@@ -8,7 +8,7 @@ import { MyProposalsEmpty } from '../../components/proposals/MyProposalsEmpty';
 import { MyProposalItemCard } from '../../components/proposals/MyProposalItemCard';
 
 export const MyProposalsPage = () => {
-  const { data: response, isLoading } = useMyProposals();
+  const { data: response, isLoading, isFetching } = useMyProposals();
   const { mutate: deleteProposal, isPending: isDeleting } = useDeleteProposal();
 
   if (isLoading) {
@@ -23,7 +23,7 @@ export const MyProposalsPage = () => {
   const meta = response?.meta || {};
 
   return (
-    <div className="flex w-full flex-col">
+    <div className={`flex w-full flex-col transition-opacity duration-300 ${isFetching ? 'opacity-60' : 'opacity-100'}`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -52,5 +52,3 @@ export const MyProposalsPage = () => {
 };
 
 export default MyProposalsPage;
-
-
