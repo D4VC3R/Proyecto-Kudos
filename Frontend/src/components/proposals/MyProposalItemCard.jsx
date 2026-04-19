@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FileText, Trash2, Edit3, Clock } from 'lucide-react';
 import { Modal } from '../common/Modal';
-import { PROPOSAL_STATUS_CONFIG } from '../../lib/constants/proposalStatus';
+import { PROPOSAL_STATUS_CONFIG } from '../../lib/constants';
 
 export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);

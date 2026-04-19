@@ -1,5 +1,6 @@
 import React from 'react';
 import { UserCircle } from 'lucide-react';
+import { formatDate } from '../../lib/formatters';
 
 export const Comment = ({ comment }) => {
   return (
@@ -14,7 +15,7 @@ export const Comment = ({ comment }) => {
       <div className="flex-1">
         <div className="flex justify-between items-start mb-1">
           <span className="font-bold text-sm text-slate-800">{comment.user?.name || 'Usuario'}</span>
-          <span className="text-xs text-slate-400">{new Date(comment.created_at).toLocaleDateString()}</span>
+          <span className="text-xs text-slate-400">{formatDate(comment.created_at)}</span>
         </div>
         <p className="text-sm text-slate-700 mt-1">{comment.content}</p>
       </div>

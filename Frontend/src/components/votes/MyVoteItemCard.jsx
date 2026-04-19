@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Star, Trash2, ShieldQuestion, Clock, CheckCircle2, XCircle } from 'lucide-react';
 import { Modal } from '../common/Modal';
+import { formatDate } from '../../lib/formatters';
 
 export const MyVoteItemCard = ({ vote, isDeleting, isUpdating, onDelete, onUpdate }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -11,12 +12,14 @@ export const MyVoteItemCard = ({ vote, isDeleting, isUpdating, onDelete, onUpdat
     setIsDeleteModalOpen(false);
   };
 
-  // Convertir fecha
-  const formattedDate = new Date(vote.voted_at).toLocaleDateString('es-ES', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-  });
+  const item = vote.item;
+
+  const getVoteColor = () => {
+    if (vote.type === 'skip') return 'bg-slate-100 text-slate-500 border-slate-200';
+    if (vote.score >= 8) return 'bg-green-100 text-green-700 border-green-200';
+    if (vote.score >= 5) return 'bg-blue-100 text-blue-700 border-blue-200';
+    return 'bg-red-100 text-red-700 border-red-200';
+  };
 
   return (
     <>
@@ -42,7 +45,7 @@ export const MyVoteItemCard = ({ vote, isDeleting, isUpdating, onDelete, onUpdat
             <div className="flex items-center gap-3 mt-1 text-sm font-medium text-slate-500">
               <span className="text-blue-600">{vote.item?.category?.name || 'Categoría'}</span>
               <span>•</span>
-              <span className="flex items-center gap-1"><Clock size={14} /> {formattedDate}</span>
+              <span className="flex items-center gap-1"><Clock size={14} /> {formatDate(vote.voted_at)}</span>
             </div>
 
             {/* Si es voto, mostrar puntuacin */}
@@ -97,4 +100,3 @@ export const MyVoteItemCard = ({ vote, isDeleting, isUpdating, onDelete, onUpdat
     </>
   );
 };
-

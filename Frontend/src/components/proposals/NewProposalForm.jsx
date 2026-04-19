@@ -4,9 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Type, AlignLeft, Image as ImageIcon, Database, Plus, Trash2 } from 'lucide-react';
 import { useCreateProposal } from '../../hooks/proposals/useProposalMutations';
 import { useNavigate } from 'react-router-dom';
-import { proposalSchema } from '../../lib/schemas/proposalSchema';
-import { formatKeyName } from '../../lib/utils/formatters';
-import { buildProposalPayload } from '../../lib/utils/proposalUtils';
+import { proposalSchema } from '../../lib/schemas';
+import { formatKeyName } from '../../lib/formatters';
+import { buildProposalPayload } from '../../lib/utils';
 
 export const NewProposalForm = ({ category }) => {
   const navigate = useNavigate();

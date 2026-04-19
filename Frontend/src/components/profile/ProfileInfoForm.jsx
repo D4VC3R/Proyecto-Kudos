@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Save, User as UserIcon, MapPin, Calendar, Image as ImageIcon } from 'lucide-react';
 import { useUpdateProfile } from '../../hooks/users/useUserMutations';
 import { useSessionStore } from '../../store/useSessionStore';
-import { profileSchema } from '../../lib/schemas/profileSchema';
+import { profileSchema } from '../../lib/schemas';
 
 export const ProfileInfoForm = ({ profile }) => {
   const user = useSessionStore((state) => state.user);

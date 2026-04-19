@@ -18,12 +18,14 @@ export const buildProposalPayload = (data, categoryId) => {
     const extraDataParsed = {};
     data.extra_fields.forEach(field => {
       let val = field.value;
-      if (!isNaN(val) && val.trim() !== '') {
-        val = Number(val);
-      } else if (val.toLowerCase() === 'true') {
-        val = true;
-      } else if (val.toLowerCase() === 'false') {
-        val = false;
+      if (typeof val === 'string') {
+          if (!isNaN(val) && val.trim() !== '') {
+            val = Number(val);
+          } else if (val.toLowerCase() === 'true') {
+            val = true;
+          } else if (val.toLowerCase() === 'false') {
+            val = false;
+          }
       }
       extraDataParsed[field.key] = val;
     });
