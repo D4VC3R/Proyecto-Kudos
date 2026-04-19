@@ -5,6 +5,7 @@ import { useProfile } from '../../hooks/users/useUserQueries';
 import { ProfileInfoForm } from '../../components/profile/ProfileInfoForm';
 import { MyProposalsPage } from '../proposals/MyProposalsPage';
 import { MyVotesPage } from '../votes/MyVotesPage';
+import { ProfileStatistics } from '../../components/profile/ProfileStatistics';
 
 export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('info');
@@ -79,11 +80,7 @@ export const ProfilePage = () => {
         )}
 
         {activeTab === 'stats' && (
-          <div className="flex flex-col items-center justify-center p-12 text-center bg-white rounded-3xl border border-slate-200 shadow-sm">
-            <BarChart3 size={48} className="text-slate-300 mb-4" />
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Estadísticas</h3>
-            <p className="text-slate-500">Esta sección se construirá en las próximas iteraciones.</p>
-          </div>
+          <ProfileStatistics />
         )}
       </div>
     </div>

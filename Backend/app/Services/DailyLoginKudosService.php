@@ -30,6 +30,9 @@ class DailyLoginKudosService
             $newStreak = $this->computeStreak($lockedUser->login_streak_count, $previousDate, $today);
 
             $lockedUser->login_streak_count = $newStreak;
+            if ($newStreak > $lockedUser->max_login_streak_count) {
+                $lockedUser->max_login_streak_count = $newStreak;
+            }
             $lockedUser->last_login_streak_date = $todayYmd;
             $lockedUser->save();
 
@@ -72,4 +75,3 @@ class DailyLoginKudosService
         return 1;
     }
 }
-

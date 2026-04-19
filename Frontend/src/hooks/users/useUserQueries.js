@@ -5,6 +5,7 @@ export const USER_KEYS = {
   profile: ['profile'],
   minimalProfile: ['profile', 'minimal'],
   ranking: ['users', 'ranking'],
+  statistics: ['profile', 'statistics'],
 };
 
 export const useProfile = () => {
@@ -19,6 +20,14 @@ export const useMinimalProfile = () => {
   return useQuery({
     queryKey: USER_KEYS.minimalProfile,
     queryFn: () => axiosClient.get('/profile/minimal'),
+    select: (response) => response.data,
+  });
+};
+
+export const useProfileStatistics = () => {
+  return useQuery({
+    queryKey: USER_KEYS.statistics,
+    queryFn: () => axiosClient.get('/profile/statistics'),
     select: (response) => response.data,
   });
 };

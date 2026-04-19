@@ -28,6 +28,7 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
 
     Route::prefix('profile')->group(function () {
         Route::get('/minimal', [ProfileController::class, 'minimal']);
+        Route::get('/statistics', [ProfileController::class, 'statistics']);
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
     });

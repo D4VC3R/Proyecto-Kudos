@@ -1,5 +1,4 @@
 import React from 'react';
-import { ThumbsUp } from 'lucide-react';
 import { SectionHeader } from '../common/SectionHeader';
 
 export const MyVotesHeader = ({ meta, currentView, updateParams }) => {

@@ -11,9 +11,6 @@ export const AppLayout = () => {
 
   return (
     <div className="min-h-9 bg-slate-50 text-slate-900 flex flex-col font-sans">
-      {/* El Navbar es global. Si necesita saber si el usuario es admin para
-        mostrar un enlace, consumirá el Zustand store internamente.
-      */}
       <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white shadow-sm">
         <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center px-4 relative justify-between">
 
@@ -44,7 +41,6 @@ export const AppLayout = () => {
         </div>
       </header>
 
-      {/* Contenedor principal donde se inyectan las páginas de las rutas */}
       <main className="mx-auto w-full h-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
         <Outlet />
       </main>

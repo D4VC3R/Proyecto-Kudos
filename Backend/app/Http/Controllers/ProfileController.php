@@ -34,6 +34,14 @@ class ProfileController extends Controller
         return $this->respondData(new MinimalProfileResource($user));
     }
 
+    public function statistics(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $stats = $this->profileService->getUserStatistics($user);
+
+        return $this->respondData($stats);
+    }
+
 	public function update(UpdateProfileRequest $request): JsonResponse
 	{
 		$user = $request->user();

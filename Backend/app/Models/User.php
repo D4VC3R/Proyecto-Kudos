@@ -49,6 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'total_kudos' => 0,
         'creations_accepted' => 0,
         'login_streak_count' => 0,
+        'max_login_streak_count' => 0,
         'is_banned' => false,
     ];
 
@@ -63,6 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'login_streak_count' => 'integer',
+            'max_login_streak_count' => 'integer',
             'last_login_streak_date' => 'date',
             'is_banned' => 'boolean',
             'banned_at' => 'datetime',
