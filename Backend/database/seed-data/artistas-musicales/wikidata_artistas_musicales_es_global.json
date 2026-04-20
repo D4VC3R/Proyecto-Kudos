@@ -1,5 +1,4 @@
 {
-    "source": "wikidata",
     "category_slug": "artistas-musicales",
     "fetched_at": "2026-04-03T18:53:57+00:00",
     "count": 298,
@@ -12,9 +11,7 @@
                 "origin_country": "España",
                 "genre": "música tradicional",
                 "active_since_year": 1943,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q30510"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -26,9 +23,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 1993,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q35633"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -40,9 +35,7 @@
                 "origin_country": "España",
                 "genre": "rock",
                 "active_since_year": 1990,
-                "website": "https://www.shakira.com",
-                "source": "wikidata",
-                "source_id": "Q34424"
+                "website": "https://www.shakira.com"
             },
             "segment": "espana_relevantes"
         },
@@ -54,9 +47,7 @@
                 "origin_country": "España",
                 "genre": "rhythm and blues",
                 "active_since_year": 1995,
-                "website": "https://enriqueiglesias.com",
-                "source": "wikidata",
-                "source_id": "Q47122"
+                "website": "https://enriqueiglesias.com"
             },
             "segment": "espana_relevantes"
         },
@@ -68,9 +59,7 @@
                 "origin_country": "España",
                 "genre": "bolero",
                 "active_since_year": 1954,
-                "website": "http://www.rociodurcal.net",
-                "source": "wikidata",
-                "source_id": "Q56074"
+                "website": "http://www.rociodurcal.net"
             },
             "segment": "espana_relevantes"
         },
@@ -82,9 +71,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.lucreciamusic.com/wp/",
-                "source": "wikidata",
-                "source_id": "Q46036"
+                "website": "http://www.lucreciamusic.com/wp/"
             },
             "segment": "espana_relevantes"
         },
@@ -96,9 +83,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 1974,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q55171"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -110,9 +95,7 @@
                 "origin_country": "España",
                 "genre": "pop latino",
                 "active_since_year": 2000,
-                "website": "http://www.nataliajimenezmusic.com/",
-                "source": "wikidata",
-                "source_id": "Q55436"
+                "website": "http://www.nataliajimenezmusic.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -124,9 +107,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q62263"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -138,9 +119,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 1976,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q59970"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -152,9 +131,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 2001,
-                "website": "http://www.giselaworld.com",
-                "source": "wikidata",
-                "source_id": "Q236085"
+                "website": "http://www.giselaworld.com"
             },
             "segment": "espana_relevantes"
         },
@@ -166,9 +143,7 @@
                 "origin_country": "México",
                 "genre": "pop",
                 "active_since_year": 2000,
-                "website": "https://www.belinda.com",
-                "source": "wikidata",
-                "source_id": "Q232514"
+                "website": "https://www.belinda.com"
             },
             "segment": "espana_relevantes"
         },
@@ -180,9 +155,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 2002,
-                "website": "https://www.luciaperez.es/",
-                "source": "wikidata",
-                "source_id": "Q232208"
+                "website": "https://www.luciaperez.es/"
             },
             "segment": "espana_relevantes"
         },
@@ -194,9 +167,7 @@
                 "origin_country": "España",
                 "genre": "pop rock",
                 "active_since_year": 1990,
-                "website": "https://www.nataliaoreiro.com/",
-                "source": "wikidata",
-                "source_id": "Q232458"
+                "website": "https://www.nataliaoreiro.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -208,9 +179,7 @@
                 "origin_country": "España",
                 "genre": "ópera",
                 "active_since_year": 1945,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q231608"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -222,9 +191,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 1960,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q231266"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -236,9 +203,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 1993,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q235384"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -250,9 +215,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 2004,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q229891"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -264,9 +227,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 1997,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q230123"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -278,9 +239,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 2000,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q232163"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -292,9 +251,7 @@
                 "origin_country": "España",
                 "genre": "música mediterránea",
                 "active_since_year": 1966,
-                "website": "https://mariadelmarbonet.com/",
-                "source": "wikidata",
-                "source_id": "Q237042"
+                "website": "https://mariadelmarbonet.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -306,9 +263,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 2004,
-                "website": "http://www.bebeoficial.com/",
-                "source": "wikidata",
-                "source_id": "Q234037"
+                "website": "http://www.bebeoficial.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -320,9 +275,7 @@
                 "origin_country": "España",
                 "genre": "pop rock",
                 "active_since_year": 1961,
-                "website": "http://www.anabelen.es/",
-                "source": "wikidata",
-                "source_id": "Q235421"
+                "website": "http://www.anabelen.es/"
             },
             "segment": "espana_relevantes"
         },
@@ -334,9 +287,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 1966,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q230544"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -348,9 +299,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 1994,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q234677"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -362,9 +311,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 2005,
-                "website": "https://www.sorayaarnelas.es",
-                "source": "wikidata",
-                "source_id": "Q230340"
+                "website": "https://www.sorayaarnelas.es"
             },
             "segment": "espana_relevantes"
         },
@@ -376,9 +323,7 @@
                 "origin_country": "España",
                 "genre": "música de América Latina",
                 "active_since_year": 1984,
-                "website": "http://rickymartinmusic.com/",
-                "source": "wikidata",
-                "source_id": "Q128799"
+                "website": "http://rickymartinmusic.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -390,9 +335,7 @@
                 "origin_country": "España",
                 "genre": "balada romántica",
                 "active_since_year": 1968,
-                "website": "http://www.julioiglesias.com",
-                "source": "wikidata",
-                "source_id": "Q122003"
+                "website": "http://www.julioiglesias.com"
             },
             "segment": "espana_relevantes"
         },
@@ -404,9 +347,7 @@
                 "origin_country": "España",
                 "genre": "música folclórica",
                 "active_since_year": 1965,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q118424"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -418,9 +359,7 @@
                 "origin_country": "España",
                 "genre": "ópera",
                 "active_since_year": null,
-                "website": "https://www.joaquin-rodrigo.com/",
-                "source": "wikidata",
-                "source_id": "Q151084"
+                "website": "https://www.joaquin-rodrigo.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -432,9 +371,7 @@
                 "origin_country": "Israel",
                 "genre": "música clásica",
                 "active_since_year": 1950,
-                "website": "https://danielbarenboim.com/",
-                "source": "wikidata",
-                "source_id": "Q152768"
+                "website": "https://danielbarenboim.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -446,9 +383,7 @@
                 "origin_country": "Suiza",
                 "genre": null,
                 "active_since_year": 1990,
-                "website": "https://www.carloslealartist.com",
-                "source": "wikidata",
-                "source_id": "Q123628"
+                "website": "https://www.carloslealartist.com"
             },
             "segment": "espana_relevantes"
         },
@@ -460,9 +395,7 @@
                 "origin_country": "España",
                 "genre": "flamenco",
                 "active_since_year": 1963,
-                "website": "http://pacodelucia.org",
-                "source": "wikidata",
-                "source_id": "Q153300"
+                "website": "http://pacodelucia.org"
             },
             "segment": "espana_relevantes"
         },
@@ -474,9 +407,7 @@
                 "origin_country": "Suiza",
                 "genre": null,
                 "active_since_year": null,
-                "website": "https://www.ariannasavall.com",
-                "source": "wikidata",
-                "source_id": "Q124294"
+                "website": "https://www.ariannasavall.com"
             },
             "segment": "espana_relevantes"
         },
@@ -488,9 +419,7 @@
                 "origin_country": "España",
                 "genre": "copla",
                 "active_since_year": 1925,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q127643"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -502,9 +431,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q153390"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -516,9 +443,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 1981,
-                "website": "http://www.anatorroja.info/",
-                "source": "wikidata",
-                "source_id": "Q270873"
+                "website": "http://www.anatorroja.info/"
             },
             "segment": "espana_relevantes"
         },
@@ -530,9 +455,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q270842"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -544,9 +467,7 @@
                 "origin_country": "España",
                 "genre": "jazz",
                 "active_since_year": 2000,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q266042"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -558,9 +479,7 @@
                 "origin_country": "España",
                 "genre": "música vanguardista",
                 "active_since_year": null,
-                "website": "https://fatima-miranda.com/",
-                "source": "wikidata",
-                "source_id": "Q274085"
+                "website": "https://fatima-miranda.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -572,9 +491,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q270812"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -586,9 +503,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q270830"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -600,9 +515,7 @@
                 "origin_country": "España",
                 "genre": "blues",
                 "active_since_year": 1977,
-                "website": "https://luzcasal.es",
-                "source": "wikidata",
-                "source_id": "Q265053"
+                "website": "https://luzcasal.es"
             },
             "segment": "espana_relevantes"
         },
@@ -614,9 +527,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 1994,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q275932"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -628,9 +539,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 2007,
-                "website": "http://www.angyfernandez.es",
-                "source": "wikidata",
-                "source_id": "Q270264"
+                "website": "http://www.angyfernandez.es"
             },
             "segment": "espana_relevantes"
         },
@@ -642,9 +551,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q274108"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -656,9 +563,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q274094"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -670,9 +575,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q275991"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -684,9 +587,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 1944,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q268587"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -698,9 +599,7 @@
                 "origin_country": "España",
                 "genre": "alegría",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q284082"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -712,9 +611,7 @@
                 "origin_country": "España",
                 "genre": "pop latino",
                 "active_since_year": 1989,
-                "website": "http://www.alejandrosanz.co",
-                "source": "wikidata",
-                "source_id": "Q276170"
+                "website": "http://www.alejandrosanz.co"
             },
             "segment": "espana_relevantes"
         },
@@ -726,9 +623,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 2001,
-                "website": "https://www.rosalopezoficial.com/",
-                "source": "wikidata",
-                "source_id": "Q270817"
+                "website": "https://www.rosalopezoficial.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -740,9 +635,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 1986,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q274069"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -754,9 +647,7 @@
                 "origin_country": "España",
                 "genre": "flamenco",
                 "active_since_year": 1995,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q270828"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -768,9 +659,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 1987,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q266626"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -782,9 +671,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q269787"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -796,9 +683,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 2006,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q275902"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -810,9 +695,7 @@
                 "origin_country": "España",
                 "genre": "jazz",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q269335"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -824,9 +707,7 @@
                 "origin_country": "España",
                 "genre": "trip hop",
                 "active_since_year": 1995,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q264867"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -838,9 +719,7 @@
                 "origin_country": "Portugal",
                 "genre": null,
                 "active_since_year": 1960,
-                "website": "https://www.soledadmiranda.com/",
-                "source": "wikidata",
-                "source_id": "Q266319"
+                "website": "https://www.soledadmiranda.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -852,9 +731,7 @@
                 "origin_country": "España",
                 "genre": "rock",
                 "active_since_year": 1973,
-                "website": "http://www.miguelbose.com",
-                "source": "wikidata",
-                "source_id": "Q356762"
+                "website": "http://www.miguelbose.com"
             },
             "segment": "espana_relevantes"
         },
@@ -866,9 +743,7 @@
                 "origin_country": "España",
                 "genre": "hip hop latino",
                 "active_since_year": 1996,
-                "website": "https://malarodriguez.com/",
-                "source": "wikidata",
-                "source_id": "Q257403"
+                "website": "https://malarodriguez.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -880,9 +755,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q204836"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -894,9 +767,7 @@
                 "origin_country": "España",
                 "genre": "flamenco",
                 "active_since_year": 1958,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q259152"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -908,9 +779,7 @@
                 "origin_country": "España",
                 "genre": "pop latino",
                 "active_since_year": 2009,
-                "website": "http://www.abrahammateoofficial.com/",
-                "source": "wikidata",
-                "source_id": "Q330316"
+                "website": "http://www.abrahammateoofficial.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -922,9 +791,7 @@
                 "origin_country": "España",
                 "genre": "ska",
                 "active_since_year": 1980,
-                "website": "http://www.manuchao.net/",
-                "source": "wikidata",
-                "source_id": "Q207898"
+                "website": "http://www.manuchao.net/"
             },
             "segment": "espana_relevantes"
         },
@@ -936,9 +803,7 @@
                 "origin_country": "España",
                 "genre": "canción de protesta",
                 "active_since_year": 1965,
-                "website": "http://www.lluisllach.cat",
-                "source": "wikidata",
-                "source_id": "Q7999"
+                "website": "http://www.lluisllach.cat"
             },
             "segment": "espana_relevantes"
         },
@@ -950,9 +815,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 1968,
-                "website": "http://www.jeanette-rebelde.blogspot.com/",
-                "source": "wikidata",
-                "source_id": "Q297548"
+                "website": "http://www.jeanette-rebelde.blogspot.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -964,9 +827,7 @@
                 "origin_country": "Marruecos",
                 "genre": "hip hop hardcore",
                 "active_since_year": null,
-                "website": "http://www.faridbang.com",
-                "source": "wikidata",
-                "source_id": "Q89832"
+                "website": "http://www.faridbang.com"
             },
             "segment": "espana_relevantes"
         },
@@ -978,9 +839,7 @@
                 "origin_country": "España",
                 "genre": "música clásica",
                 "active_since_year": null,
-                "website": "http://www.sorfernando.com/",
-                "source": "wikidata",
-                "source_id": "Q254110"
+                "website": "http://www.sorfernando.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -992,9 +851,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 2008,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q81403"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -1006,9 +863,7 @@
                 "origin_country": "España",
                 "genre": "ópera",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q333183"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -1020,9 +875,7 @@
                 "origin_country": "Estados Unidos",
                 "genre": "pop",
                 "active_since_year": 1912,
-                "website": "https://www.xaviercugat.org",
-                "source": "wikidata",
-                "source_id": "Q334180"
+                "website": "https://www.xaviercugat.org"
             },
             "segment": "espana_relevantes"
         },
@@ -1034,9 +887,7 @@
                 "origin_country": "España",
                 "genre": "trova",
                 "active_since_year": 1965,
-                "website": "http://www.jmserrat.com",
-                "source": "wikidata",
-                "source_id": "Q312753"
+                "website": "http://www.jmserrat.com"
             },
             "segment": "espana_relevantes"
         },
@@ -1048,9 +899,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://inmaserrano.com/",
-                "source": "wikidata",
-                "source_id": "Q297642"
+                "website": "http://inmaserrano.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -1062,9 +911,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 1998,
-                "website": "http://www.maluweb.com/",
-                "source": "wikidata",
-                "source_id": "Q209409"
+                "website": "http://www.maluweb.com/"
             },
             "segment": "espana_relevantes"
         },
@@ -1076,9 +923,7 @@
                 "origin_country": "España",
                 "genre": null,
                 "active_since_year": 1966,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q206367"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -1090,9 +935,7 @@
                 "origin_country": "España",
                 "genre": "música clásica",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q339070"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -1104,9 +947,7 @@
                 "origin_country": "España",
                 "genre": "música tradicional",
                 "active_since_year": 1997,
-                "website": "http://www.ismaelserrano.com",
-                "source": "wikidata",
-                "source_id": "Q22624"
+                "website": "http://www.ismaelserrano.com"
             },
             "segment": "espana_relevantes"
         },
@@ -1118,9 +959,7 @@
                 "origin_country": "España",
                 "genre": "pop",
                 "active_since_year": 2001,
-                "website": "https://davidbisbal.com",
-                "source": "wikidata",
-                "source_id": "Q298310"
+                "website": "https://davidbisbal.com"
             },
             "segment": "espana_relevantes"
         },
@@ -1132,9 +971,7 @@
                 "origin_country": "España",
                 "genre": "R&B contemporáneo",
                 "active_since_year": 1999,
-                "website": "http://www.beatrizluengo.net/",
-                "source": "wikidata",
-                "source_id": "Q297598"
+                "website": "http://www.beatrizluengo.net/"
             },
             "segment": "espana_relevantes"
         },
@@ -1146,9 +983,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1996,
-                "website": "http://www.pablosciuto.com",
-                "source": "wikidata",
-                "source_id": "Q262505"
+                "website": "http://www.pablosciuto.com"
             },
             "segment": "espana_relevantes"
         },
@@ -1160,9 +995,7 @@
                 "origin_country": "España",
                 "genre": "flamenco",
                 "active_since_year": 1969,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q312093"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -1174,9 +1007,7 @@
                 "origin_country": "Estados Unidos",
                 "genre": null,
                 "active_since_year": 1912,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q291228"
+                "website": null
             },
             "segment": "espana_relevantes"
         },
@@ -1188,9 +1019,7 @@
                 "origin_country": "España",
                 "genre": "copla",
                 "active_since_year": 1956,
-                "website": "http://www.manoloescobar.net/",
-                "source": "wikidata",
-                "source_id": "Q354141"
+                "website": "http://www.manoloescobar.net/"
             },
             "segment": "espana_relevantes"
         },
@@ -1202,9 +1031,7 @@
                 "origin_country": "España",
                 "genre": "flamenco",
                 "active_since_year": 2001,
-                "website": "https://estrella-morente.es/",
-                "source": "wikidata",
-                "source_id": "Q293773"
+                "website": "https://estrella-morente.es/"
             },
             "segment": "espana_relevantes"
         },
@@ -1216,9 +1043,7 @@
                 "origin_country": "Uruguay",
                 "genre": "Circo criollo",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5549272"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1230,9 +1055,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música popular",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1709075"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1244,9 +1067,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q929828"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1258,9 +1079,7 @@
                 "origin_country": "Uruguay",
                 "genre": "jazz",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q579422"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1272,9 +1091,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música tradicional",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2386382"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1286,9 +1103,7 @@
                 "origin_country": "Uruguay",
                 "genre": "synth pop",
                 "active_since_year": 1998,
-                "website": "http://www.cobrastarship.com/",
-                "source": "wikidata",
-                "source_id": "Q983812"
+                "website": "http://www.cobrastarship.com/"
             },
             "segment": "latam_relevantes"
         },
@@ -1300,9 +1115,7 @@
                 "origin_country": "Uruguay",
                 "genre": "trova",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1371122"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1314,9 +1127,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q822943"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1328,9 +1139,7 @@
                 "origin_country": "Uruguay",
                 "genre": "pop",
                 "active_since_year": 1990,
-                "website": "http://www.jorgedrexler.com",
-                "source": "wikidata",
-                "source_id": "Q543506"
+                "website": "http://www.jorgedrexler.com"
             },
             "segment": "latam_relevantes"
         },
@@ -1342,9 +1151,7 @@
                 "origin_country": "Uruguay",
                 "genre": "pop",
                 "active_since_year": null,
-                "website": "http://elli-medeiros.com",
-                "source": "wikidata",
-                "source_id": "Q456596"
+                "website": "http://elli-medeiros.com"
             },
             "segment": "latam_relevantes"
         },
@@ -1356,9 +1163,7 @@
                 "origin_country": "Uruguay",
                 "genre": "zamba",
                 "active_since_year": null,
-                "website": "https://www.zitarrosa.org",
-                "source": "wikidata",
-                "source_id": "Q203413"
+                "website": "https://www.zitarrosa.org"
             },
             "segment": "latam_relevantes"
         },
@@ -1370,9 +1175,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música popular",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q929321"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1384,9 +1187,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1042780"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1398,9 +1199,7 @@
                 "origin_country": "Uruguay",
                 "genre": "rock progresivo",
                 "active_since_year": 1997,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2618412"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1412,9 +1211,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": 1964,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1712411"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1426,9 +1223,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5667498"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1440,9 +1235,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5676131"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1454,9 +1247,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": 1917,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q229613"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1468,9 +1259,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1150645"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1482,9 +1271,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música popular",
                 "active_since_year": null,
-                "website": "http://www.erikabusch.uy/",
-                "source": "wikidata",
-                "source_id": "Q2877032"
+                "website": "http://www.erikabusch.uy/"
             },
             "segment": "latam_relevantes"
         },
@@ -1496,9 +1283,7 @@
                 "origin_country": "Uruguay",
                 "genre": "jazz",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2582612"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1510,9 +1295,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.leomasliah.com/",
-                "source": "wikidata",
-                "source_id": "Q629512"
+                "website": "http://www.leomasliah.com/"
             },
             "segment": "latam_relevantes"
         },
@@ -1524,9 +1307,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5042435"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1538,9 +1319,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1283813"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1552,9 +1331,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1284924"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1566,9 +1343,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1285180"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1580,9 +1355,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música tradicional",
                 "active_since_year": 1963,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1163000"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1594,9 +1367,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1290931"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1608,9 +1379,7 @@
                 "origin_country": "Uruguay",
                 "genre": "rock and roll",
                 "active_since_year": 1980,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q4714484"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1622,9 +1391,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música popular",
                 "active_since_year": null,
-                "website": "https://www.marianaingold.com/",
-                "source": "wikidata",
-                "source_id": "Q1896720"
+                "website": "https://www.marianaingold.com/"
             },
             "segment": "latam_relevantes"
         },
@@ -1636,9 +1403,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2550471"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1650,9 +1415,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.erwinschrott.com/index.php/en-GB/",
-                "source": "wikidata",
-                "source_id": "Q1363457"
+                "website": "http://www.erwinschrott.com/index.php/en-GB/"
             },
             "segment": "latam_relevantes"
         },
@@ -1664,9 +1427,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": 1955,
-                "website": "http://www.negrorada.com/",
-                "source": "wikidata",
-                "source_id": "Q974970"
+                "website": "http://www.negrorada.com/"
             },
             "segment": "latam_relevantes"
         },
@@ -1678,9 +1439,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q512952"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1692,9 +1451,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1977,
-                "website": "http://www.fernandocabrerauruguay.com",
-                "source": "wikidata",
-                "source_id": "Q1406622"
+                "website": "http://www.fernandocabrerauruguay.com"
             },
             "segment": "latam_relevantes"
         },
@@ -1706,9 +1463,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q175829"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1720,9 +1475,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q926658"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1734,9 +1487,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música popular",
                 "active_since_year": null,
-                "website": "http://www.samanthanavarro.com",
-                "source": "wikidata",
-                "source_id": "Q2888348"
+                "website": "http://www.samanthanavarro.com"
             },
             "segment": "latam_relevantes"
         },
@@ -1748,9 +1499,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1634809"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1762,9 +1511,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q399111"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1776,9 +1523,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q551015"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1790,9 +1535,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5391913"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1804,9 +1547,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1729145"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1818,9 +1559,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.ana-solari.com/",
-                "source": "wikidata",
-                "source_id": "Q5674089"
+                "website": "http://www.ana-solari.com/"
             },
             "segment": "latam_relevantes"
         },
@@ -1832,9 +1571,7 @@
                 "origin_country": "Uruguay",
                 "genre": "trova",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1718048"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1846,9 +1583,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5444885"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1860,9 +1595,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música folclórica",
                 "active_since_year": 1960,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q704112"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1874,9 +1607,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q3512725"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1888,9 +1619,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1948,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q3466333"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1902,9 +1631,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1346282"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1916,9 +1643,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5515413"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1930,9 +1655,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2159478"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1944,9 +1667,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q3659940"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1958,9 +1679,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": 1917,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q937502"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1972,9 +1691,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q569650"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -1986,9 +1703,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q251198"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2000,9 +1715,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2221511"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2014,9 +1727,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2877419"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2028,9 +1739,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q452926"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2042,9 +1751,7 @@
                 "origin_country": "Uruguay",
                 "genre": "rock",
                 "active_since_year": 1977,
-                "website": "http://www.jaimeroos.uy/",
-                "source": "wikidata",
-                "source_id": "Q382570"
+                "website": "http://www.jaimeroos.uy/"
             },
             "segment": "latam_relevantes"
         },
@@ -2056,9 +1763,7 @@
                 "origin_country": "Uruguay",
                 "genre": "Música gaúcha brasileña",
                 "active_since_year": 1968,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5552611"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2070,9 +1775,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1983,
-                "website": "http://www.osvaldolaport.com.ar/",
-                "source": "wikidata",
-                "source_id": "Q2620033"
+                "website": "http://www.osvaldolaport.com.ar/"
             },
             "segment": "latam_relevantes"
         },
@@ -2084,9 +1787,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q1406825"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2098,9 +1799,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5663290"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2112,9 +1811,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5663673"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2126,9 +1823,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5663682"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2140,9 +1835,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2879482"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2154,9 +1847,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2880419"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2168,9 +1859,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5675841"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2182,9 +1871,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q260028"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2196,9 +1883,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q465215"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2210,9 +1895,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5710829"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2224,9 +1907,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5733409"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2238,9 +1919,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5738668"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2252,9 +1931,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": 1933,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6109748"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2266,9 +1943,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5750130"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2280,9 +1955,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5750905"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2294,9 +1967,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5759831"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2308,9 +1979,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5796008"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2322,9 +1991,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5797510"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2336,9 +2003,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5798559"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2350,9 +2015,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://imaginandobuenas.com.uy/",
-                "source": "wikidata",
-                "source_id": "Q5889788"
+                "website": "http://imaginandobuenas.com.uy/"
             },
             "segment": "latam_relevantes"
         },
@@ -2364,9 +2027,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5799520"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2378,9 +2039,7 @@
                 "origin_country": "Uruguay",
                 "genre": "Canto popular uruguayo",
                 "active_since_year": 1970,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5997432"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2392,9 +2051,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://daniumpi.bandcamp.com/",
-                "source": "wikidata",
-                "source_id": "Q5216262"
+                "website": "http://daniumpi.bandcamp.com/"
             },
             "segment": "latam_relevantes"
         },
@@ -2406,9 +2063,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5836086"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2420,9 +2075,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5852417"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2434,9 +2087,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5860319"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2448,9 +2099,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5876177"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2462,9 +2111,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5878291"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2476,9 +2123,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5901822"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2490,9 +2135,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5905064"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2504,9 +2147,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5934618"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2518,9 +2159,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5936041"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2532,9 +2171,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5944619"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2546,9 +2183,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://ameijenda.com/ArielAmeijenda",
-                "source": "wikidata",
-                "source_id": "Q5704009"
+                "website": "http://ameijenda.com/ArielAmeijenda"
             },
             "segment": "latam_relevantes"
         },
@@ -2560,9 +2195,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5955281"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2574,9 +2207,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q9012250"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2588,9 +2219,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5972255"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2602,9 +2231,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5982305"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2616,9 +2243,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5983180"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2630,9 +2255,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5992540"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2644,9 +2267,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5992565"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2658,9 +2279,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5998190"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2672,9 +2291,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5998928"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2686,9 +2303,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5749978"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2700,9 +2315,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6002533"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2714,9 +2327,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6002705"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2728,9 +2339,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6007103"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2742,9 +2351,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6014601"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2756,9 +2363,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1995,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q4208489"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2770,9 +2375,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música popular",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5849246"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2784,9 +2387,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.sergiocervetti.com",
-                "source": "wikidata",
-                "source_id": "Q6125380"
+                "website": "http://www.sergiocervetti.com"
             },
             "segment": "latam_relevantes"
         },
@@ -2798,9 +2399,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5791451"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2812,9 +2411,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q9025786"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2826,9 +2423,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música popular",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5906313"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2840,9 +2435,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6166488"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2854,9 +2447,7 @@
                 "origin_country": "Uruguay",
                 "genre": "rock alternativo",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6109886"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2868,9 +2459,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1994,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5371682"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2882,9 +2471,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6096985"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2896,9 +2483,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6109122"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2910,9 +2495,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6109697"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2924,9 +2507,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6109979"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2938,9 +2519,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6113519"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2952,9 +2531,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música tradicional",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5654893"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2966,9 +2543,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6120864"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2980,9 +2555,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6137732"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -2994,9 +2567,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música tradicional",
                 "active_since_year": 1957,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6443593"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3008,9 +2579,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6142649"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3022,9 +2591,7 @@
                 "origin_country": "Uruguay",
                 "genre": "pop rock",
                 "active_since_year": 2001,
-                "website": "http://www.gonzaloyanezmusic.com/",
-                "source": "wikidata",
-                "source_id": "Q5883346"
+                "website": "http://www.gonzaloyanezmusic.com/"
             },
             "segment": "latam_relevantes"
         },
@@ -3036,9 +2603,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6153819"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3050,9 +2615,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6157361"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3064,9 +2627,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6158934"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3078,9 +2639,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1997,
-                "website": "http://www.lucianosupervielle.net/",
-                "source": "wikidata",
-                "source_id": "Q5982137"
+                "website": "http://www.lucianosupervielle.net/"
             },
             "segment": "latam_relevantes"
         },
@@ -3092,9 +2651,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6160485"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3106,9 +2663,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6160729"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3120,9 +2675,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6172893"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3134,9 +2687,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6169720"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3148,9 +2699,7 @@
                 "origin_country": "Uruguay",
                 "genre": "dancehall",
                 "active_since_year": 1996,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2836910"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3162,9 +2711,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5694197"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3176,9 +2723,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5859794"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3190,9 +2735,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1998,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6137735"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3204,9 +2747,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5805905"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3218,9 +2759,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música popular",
                 "active_since_year": null,
-                "website": "http://www.lauracanoura.com.uy/blog/bio/",
-                "source": "wikidata",
-                "source_id": "Q9020828"
+                "website": "http://www.lauracanoura.com.uy/blog/bio/"
             },
             "segment": "latam_relevantes"
         },
@@ -3232,9 +2771,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6165676"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3246,9 +2783,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6278018"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3260,9 +2795,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6499328"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3274,9 +2807,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6292693"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3288,9 +2819,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5340654"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3302,9 +2831,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q7351593"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3316,9 +2843,7 @@
                 "origin_country": "Uruguay",
                 "genre": "folclore",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6166084"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3330,9 +2855,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música tradicional",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5955537"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3344,9 +2867,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música electrónica",
                 "active_since_year": null,
-                "website": "http://www.juancampodonico.com",
-                "source": "wikidata",
-                "source_id": "Q6299140"
+                "website": "http://www.juancampodonico.com"
             },
             "segment": "latam_relevantes"
         },
@@ -3358,9 +2879,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.duoriverodiaz.com",
-                "source": "wikidata",
-                "source_id": "Q6105737"
+                "website": "http://www.duoriverodiaz.com"
             },
             "segment": "latam_relevantes"
         },
@@ -3372,9 +2891,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.luzdelalbarubio.com/",
-                "source": "wikidata",
-                "source_id": "Q5985038"
+                "website": "http://www.luzdelalbarubio.com/"
             },
             "segment": "latam_relevantes"
         },
@@ -3386,9 +2903,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": 1920,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5942542"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3400,9 +2915,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6453718"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3414,9 +2927,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1970,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5995947"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3428,9 +2939,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.gastonrodriguez.com.uy/",
-                "source": "wikidata",
-                "source_id": "Q5876249"
+                "website": "http://www.gastonrodriguez.com.uy/"
             },
             "segment": "latam_relevantes"
         },
@@ -3442,9 +2951,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5576382"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3456,9 +2963,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5577513"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3470,9 +2975,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5704072"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3484,9 +2987,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música popular",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6113325"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3498,9 +2999,7 @@
                 "origin_country": "Uruguay",
                 "genre": "tango",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5601695"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3512,9 +3011,7 @@
                 "origin_country": "Uruguay",
                 "genre": "balada",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5749813"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3526,9 +3023,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2848839"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3540,9 +3035,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5646496"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3554,9 +3047,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q6169697"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3568,9 +3059,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2865964"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3582,9 +3071,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q5699385"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3596,9 +3083,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q23641369"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3610,9 +3095,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q16302685"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3624,9 +3107,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1958,
-                "website": "https://instagram.com/losiracundos.oficial?igshid=MzRlODBiNWFlZA==",
-                "source": "wikidata",
-                "source_id": "Q21614065"
+                "website": "https://instagram.com/losiracundos.oficial?igshid=MzRlODBiNWFlZA=="
             },
             "segment": "latam_relevantes"
         },
@@ -3638,9 +3119,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q18719716"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3652,9 +3131,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": 1995,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q20995262"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3666,9 +3143,7 @@
                 "origin_country": "Uruguay",
                 "genre": "rock",
                 "active_since_year": 1999,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q9057641"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3680,9 +3155,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q16490320"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3694,9 +3167,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q16492175"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3708,9 +3179,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q16492597"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3722,9 +3191,7 @@
                 "origin_country": "Uruguay",
                 "genre": "música tradicional",
                 "active_since_year": null,
-                "website": "http://www.larbanois-carrero.com.uy/",
-                "source": "wikidata",
-                "source_id": "Q6764599"
+                "website": "http://www.larbanois-carrero.com.uy/"
             },
             "segment": "latam_relevantes"
         },
@@ -3736,9 +3203,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q41777028"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3750,9 +3215,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q16532425"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3764,9 +3227,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q16563065"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3778,9 +3239,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q16589666"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3792,9 +3251,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q18960470"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3806,9 +3263,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q9068925"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3820,9 +3275,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.sergiofachelli.net",
-                "source": "wikidata",
-                "source_id": "Q7454247"
+                "website": "http://www.sergiofachelli.net"
             },
             "segment": "latam_relevantes"
         },
@@ -3834,9 +3287,7 @@
                 "origin_country": "Uruguay",
                 "genre": "funk",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q15901419"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3848,9 +3299,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q10856725"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3862,9 +3311,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q21554862"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3876,9 +3323,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q11928938"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3890,9 +3335,7 @@
                 "origin_country": "Uruguay",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q14753246"
+                "website": null
             },
             "segment": "latam_relevantes"
         },
@@ -3904,9 +3347,7 @@
                 "origin_country": "Estados Unidos",
                 "genre": "rhythm and blues",
                 "active_since_year": 1954,
-                "website": "https://elvisthemusic.com",
-                "source": "wikidata",
-                "source_id": "Q303"
+                "website": "https://elvisthemusic.com"
             },
             "segment": "global_relevantes"
         },
@@ -3918,9 +3359,7 @@
                 "origin_country": "Estados Unidos",
                 "genre": "R&B contemporáneo",
                 "active_since_year": 2008,
-                "website": "https://arianagrande.com",
-                "source": "wikidata",
-                "source_id": "Q151892"
+                "website": "https://arianagrande.com"
             },
             "segment": "global_relevantes"
         },
@@ -3932,9 +3371,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q206829"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -3946,9 +3383,7 @@
                 "origin_country": "Reino Unido",
                 "genre": "pop rock",
                 "active_since_year": 1956,
-                "website": "http://www.johnlennon.com/",
-                "source": "wikidata",
-                "source_id": "Q1203"
+                "website": "http://www.johnlennon.com/"
             },
             "segment": "global_relevantes"
         },
@@ -3960,9 +3395,7 @@
                 "origin_country": "Estados Unidos",
                 "genre": "folk rock",
                 "active_since_year": 1962,
-                "website": "https://www.bobdylan.com/",
-                "source": "wikidata",
-                "source_id": "Q392"
+                "website": "https://www.bobdylan.com/"
             },
             "segment": "global_relevantes"
         },
@@ -3974,9 +3407,7 @@
                 "origin_country": "Francia",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q7186"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -3988,9 +3419,7 @@
                 "origin_country": "Estados Unidos",
                 "genre": "pop",
                 "active_since_year": 2003,
-                "website": "https://taylorswift.com",
-                "source": "wikidata",
-                "source_id": "Q26876"
+                "website": "https://taylorswift.com"
             },
             "segment": "global_relevantes"
         },
@@ -4002,9 +3431,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q188628"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4016,9 +3443,7 @@
                 "origin_country": "Antigua Siracusa",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q8739"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4030,9 +3455,7 @@
                 "origin_country": "Estados Unidos",
                 "genre": null,
                 "active_since_year": 1995,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q317521"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4044,9 +3467,7 @@
                 "origin_country": null,
                 "genre": "rock alternativo",
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q37148"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4058,9 +3479,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q17737"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4072,9 +3491,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2779"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4086,9 +3503,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q2965"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4100,9 +3515,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q16938"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4114,9 +3527,7 @@
                 "origin_country": "China Imperial",
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q49701"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4128,9 +3539,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q35369"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4142,9 +3551,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q361"
+                "website": null
             },
             "segment": "global_relevantes"
         },
@@ -4156,9 +3563,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": "http://www.nasa.gov/mission_pages/station/expeditions/expedition34/index.html",
-                "source": "wikidata",
-                "source_id": "Q17236"
+                "website": "http://www.nasa.gov/mission_pages/station/expeditions/expedition34/index.html"
             },
             "segment": "global_relevantes"
         },
@@ -4170,9 +3575,7 @@
                 "origin_country": null,
                 "genre": null,
                 "active_since_year": null,
-                "website": null,
-                "source": "wikidata",
-                "source_id": "Q933"
+                "website": null
             },
             "segment": "global_relevantes"
         }

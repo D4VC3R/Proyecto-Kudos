@@ -1,5 +1,4 @@
 {
-    "source": "itunes-rss",
     "category_slug": "albumes-musicales",
     "countries": [
         "ES",
@@ -25,9 +24,7 @@
                 "genre": "Música",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/lux/1848167516",
-                "source": "itunes-rss",
-                "source_id": "1848167516"
+                "listening_url": "https://music.apple.com/es/album/lux/1848167516"
             }
         },
         {
@@ -46,9 +43,7 @@
                 "genre": "Música latina",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%A1s-cara/1876382588",
-                "source": "itunes-rss",
-                "source_id": "1876382588"
+                "listening_url": "https://music.apple.com/es/album/m%C3%A1s-cara/1876382588"
             }
         },
         {
@@ -67,9 +62,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/arirang/1868862375",
-                "source": "itunes-rss",
-                "source_id": "1868862375"
+                "listening_url": "https://music.apple.com/es/album/arirang/1868862375"
             }
         },
         {
@@ -88,9 +81,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/por-si-ma%C3%B1ana-no-estoy/1877481995",
-                "source": "itunes-rss",
-                "source_id": "1877481995"
+                "listening_url": "https://music.apple.com/es/album/por-si-ma%C3%B1ana-no-estoy/1877481995"
             }
         },
         {
@@ -109,9 +100,7 @@
                 "genre": "Hip-hop/Rap",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/bully/1888707282",
-                "source": "itunes-rss",
-                "source_id": "1888707282"
+                "listening_url": "https://music.apple.com/es/album/bully/1888707282"
             }
         },
         {
@@ -130,9 +119,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/this-music-may-contain-hope/1871085677",
-                "source": "itunes-rss",
-                "source_id": "1871085677"
+                "listening_url": "https://music.apple.com/es/album/this-music-may-contain-hope/1871085677"
             }
         },
         {
@@ -151,9 +138,7 @@
                 "genre": "Música latina",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/deb%C3%AD-tirar-m%C3%A1s-fotos/1787022393",
-                "source": "itunes-rss",
-                "source_id": "1787022393"
+                "listening_url": "https://music.apple.com/es/album/deb%C3%AD-tirar-m%C3%A1s-fotos/1787022393"
             }
         },
         {
@@ -172,9 +157,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-green-print-la-saga-disc-1-feid-vs-ferxxo/1886206566",
-                "source": "itunes-rss",
-                "source_id": "1886206566"
+                "listening_url": "https://music.apple.com/es/album/el-green-print-la-saga-disc-1-feid-vs-ferxxo/1886206566"
             }
         },
         {
@@ -193,9 +176,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-romantic/1866732792",
-                "source": "itunes-rss",
-                "source_id": "1866732792"
+                "listening_url": "https://music.apple.com/es/album/the-romantic/1866732792"
             }
         },
         {
@@ -214,9 +195,7 @@
                 "genre": "Música",
                 "release_year": 2015,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-para-dormir-profundamente-duermes-bien-con-sonidos/996208894",
-                "source": "itunes-rss",
-                "source_id": "996208894"
+                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-para-dormir-profundamente-duermes-bien-con-sonidos/996208894"
             }
         },
         {
@@ -235,9 +214,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/kiss-all-the-time-disco-occasionally/1870984032",
-                "source": "itunes-rss",
-                "source_id": "1870984032"
+                "listening_url": "https://music.apple.com/es/album/kiss-all-the-time-disco-occasionally/1870984032"
             }
         },
         {
@@ -256,9 +233,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/better-late-than-never/1848960616",
-                "source": "itunes-rss",
-                "source_id": "1848960616"
+                "listening_url": "https://music.apple.com/es/album/better-late-than-never/1848960616"
             }
         },
         {
@@ -277,9 +252,7 @@
                 "genre": "Música para niños",
                 "release_year": 2020,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-para-dormir-beb%C3%A9s-sonidos-de-la-naturaleza/1532787631",
-                "source": "itunes-rss",
-                "source_id": "1532787631"
+                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-para-dormir-beb%C3%A9s-sonidos-de-la-naturaleza/1532787631"
             }
         },
         {
@@ -298,9 +271,7 @@
                 "genre": "Música",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/cuarto-azul/1814146266",
-                "source": "itunes-rss",
-                "source_id": "1814146266"
+                "listening_url": "https://music.apple.com/es/album/cuarto-azul/1814146266"
             }
         },
         {
@@ -319,9 +290,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/free-spirits/1885698497",
-                "source": "itunes-rss",
-                "source_id": "1885698497"
+                "listening_url": "https://music.apple.com/es/album/free-spirits/1885698497"
             }
         },
         {
@@ -340,9 +309,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/wor%24t-girl-in-america/1867530577",
-                "source": "itunes-rss",
-                "source_id": "1867530577"
+                "listening_url": "https://music.apple.com/es/album/wor%24t-girl-in-america/1867530577"
             }
         },
         {
@@ -361,9 +328,7 @@
                 "genre": "K-Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/kpop-demon-hunters-soundtrack-from-the-netflix-film/1820264137",
-                "source": "itunes-rss",
-                "source_id": "1820264137"
+                "listening_url": "https://music.apple.com/es/album/kpop-demon-hunters-soundtrack-from-the-netflix-film/1820264137"
             }
         },
         {
@@ -382,9 +347,7 @@
                 "genre": "Alternativa",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/hades/1874455968",
-                "source": "itunes-rss",
-                "source_id": "1874455968"
+                "listening_url": "https://music.apple.com/es/album/hades/1874455968"
             }
         },
         {
@@ -403,9 +366,7 @@
                 "genre": "Música latina",
                 "release_year": 2022,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/un-verano-sin-ti/1622045624",
-                "source": "itunes-rss",
-                "source_id": "1622045624"
+                "listening_url": "https://music.apple.com/es/album/un-verano-sin-ti/1622045624"
             }
         },
         {
@@ -424,9 +385,7 @@
                 "genre": "Hip-hop/Rap",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/hijos-de-la-ruina-vol-4/1863671064",
-                "source": "itunes-rss",
-                "source_id": "1863671064"
+                "listening_url": "https://music.apple.com/es/album/hijos-de-la-ruina-vol-4/1863671064"
             }
         },
         {
@@ -445,9 +404,7 @@
                 "genre": "Música",
                 "release_year": 2023,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/lluvia-para-dormir/1716746078",
-                "source": "itunes-rss",
-                "source_id": "1716746078"
+                "listening_url": "https://music.apple.com/es/album/lluvia-para-dormir/1716746078"
             }
         },
         {
@@ -466,9 +423,7 @@
                 "genre": "Hip-hop/Rap",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/all-roads-lead-home/1876931503",
-                "source": "itunes-rss",
-                "source_id": "1876931503"
+                "listening_url": "https://music.apple.com/es/album/all-roads-lead-home/1876931503"
             }
         },
         {
@@ -487,9 +442,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/d%C3%B3nde-es-el-after/1860998746",
-                "source": "itunes-rss",
-                "source_id": "1860998746"
+                "listening_url": "https://music.apple.com/es/album/d%C3%B3nde-es-el-after/1860998746"
             }
         },
         {
@@ -508,9 +461,7 @@
                 "genre": "Música latina",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-sei66eis/1876290995",
-                "source": "itunes-rss",
-                "source_id": "1876290995"
+                "listening_url": "https://music.apple.com/es/album/el-sei66eis/1876290995"
             }
         },
         {
@@ -529,9 +480,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/sexistential/1852752613",
-                "source": "itunes-rss",
-                "source_id": "1852752613"
+                "listening_url": "https://music.apple.com/es/album/sexistential/1852752613"
             }
         },
         {
@@ -550,9 +499,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/mans-best-friend/1819861154",
-                "source": "itunes-rss",
-                "source_id": "1819861154"
+                "listening_url": "https://music.apple.com/es/album/mans-best-friend/1819861154"
             }
         },
         {
@@ -571,9 +518,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/modo-leyenda/1886443507",
-                "source": "itunes-rss",
-                "source_id": "1886443507"
+                "listening_url": "https://music.apple.com/es/album/modo-leyenda/1886443507"
             }
         },
         {
@@ -592,9 +537,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/yo-canto-2/1871439355",
-                "source": "itunes-rss",
-                "source_id": "1871439355"
+                "listening_url": "https://music.apple.com/es/album/yo-canto-2/1871439355"
             }
         },
         {
@@ -613,9 +556,7 @@
                 "genre": "Música",
                 "release_year": 2022,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/tormenta/1618123203",
-                "source": "itunes-rss",
-                "source_id": "1618123203"
+                "listening_url": "https://music.apple.com/es/album/tormenta/1618123203"
             }
         },
         {
@@ -634,9 +575,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-life-of-a-showgirl/1838810949",
-                "source": "itunes-rss",
-                "source_id": "1838810949"
+                "listening_url": "https://music.apple.com/es/album/the-life-of-a-showgirl/1838810949"
             }
         },
         {
@@ -655,9 +594,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/latin-lover-songs-2-ep/1884700380",
-                "source": "itunes-rss",
-                "source_id": "1884700380"
+                "listening_url": "https://music.apple.com/es/album/latin-lover-songs-2-ep/1884700380"
             }
         },
         {
@@ -676,9 +613,7 @@
                 "genre": "Banda sonora",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/la-reina-del-flow-3-m%C3%BAsica-de-la-serie-de-televisi%C3%B3n-original/1803716279",
-                "source": "itunes-rss",
-                "source_id": "1803716279"
+                "listening_url": "https://music.apple.com/es/album/la-reina-del-flow-3-m%C3%BAsica-de-la-serie-de-televisi%C3%B3n-original/1803716279"
             }
         },
         {
@@ -697,9 +632,7 @@
                 "genre": "Música latina",
                 "release_year": 2023,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/nadie-sabe-lo-que-va-a-pasar-ma%C3%B1ana/1710982865",
-                "source": "itunes-rss",
-                "source_id": "1710982865"
+                "listening_url": "https://music.apple.com/es/album/nadie-sabe-lo-que-va-a-pasar-ma%C3%B1ana/1710982865"
             }
         },
         {
@@ -718,9 +651,7 @@
                 "genre": "Música",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/ta-f%C3%A1cil/1854447776",
-                "source": "itunes-rss",
-                "source_id": "1854447776"
+                "listening_url": "https://music.apple.com/es/album/ta-f%C3%A1cil/1854447776"
             }
         },
         {
@@ -739,9 +670,7 @@
                 "genre": "Música latina",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/superarte/1876634379",
-                "source": "itunes-rss",
-                "source_id": "1876634379"
+                "listening_url": "https://music.apple.com/es/album/superarte/1876634379"
             }
         },
         {
@@ -760,9 +689,7 @@
                 "genre": "Música",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/spanish-leather/1804329771",
-                "source": "itunes-rss",
-                "source_id": "1804329771"
+                "listening_url": "https://music.apple.com/es/album/spanish-leather/1804329771"
             }
         },
         {
@@ -781,9 +708,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/manual-de-belleza/1882706347",
-                "source": "itunes-rss",
-                "source_id": "1882706347"
+                "listening_url": "https://music.apple.com/es/album/manual-de-belleza/1882706347"
             }
         },
         {
@@ -802,9 +727,7 @@
                 "genre": "Música",
                 "release_year": 2024,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/lluvia-con-truenos-2024-remaster/1733352034",
-                "source": "itunes-rss",
-                "source_id": "1733352034"
+                "listening_url": "https://music.apple.com/es/album/lluvia-con-truenos-2024-remaster/1733352034"
             }
         },
         {
@@ -823,9 +746,7 @@
                 "genre": "Alternativa",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-mountain/1837237742",
-                "source": "itunes-rss",
-                "source_id": "1837237742"
+                "listening_url": "https://music.apple.com/es/album/the-mountain/1837237742"
             }
         },
         {
@@ -844,9 +765,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/whatevers-clever/1845189970",
-                "source": "itunes-rss",
-                "source_id": "1845189970"
+                "listening_url": "https://music.apple.com/es/album/whatevers-clever/1845189970"
             }
         },
         {
@@ -865,9 +784,7 @@
                 "genre": "Música",
                 "release_year": 2016,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/50-canciones-de-curaci%C3%B3n-para-la-meditaci%C3%B3n-y-la/1098198307",
-                "source": "itunes-rss",
-                "source_id": "1098198307"
+                "listening_url": "https://music.apple.com/es/album/50-canciones-de-curaci%C3%B3n-para-la-meditaci%C3%B3n-y-la/1098198307"
             }
         },
         {
@@ -886,9 +803,7 @@
                 "genre": "Música latina",
                 "release_year": 2024,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/buenas-noches/1780125571",
-                "source": "itunes-rss",
-                "source_id": "1780125571"
+                "listening_url": "https://music.apple.com/es/album/buenas-noches/1780125571"
             }
         },
         {
@@ -907,9 +822,7 @@
                 "genre": "Música",
                 "release_year": null,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/las-mejores-marchas-de-semana-santa/1498815484",
-                "source": "itunes-rss",
-                "source_id": "1498815484"
+                "listening_url": "https://music.apple.com/es/album/las-mejores-marchas-de-semana-santa/1498815484"
             }
         },
         {
@@ -928,9 +841,7 @@
                 "genre": "Rock",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-monte-de-los-aullidos/1837464663",
-                "source": "itunes-rss",
-                "source_id": "1837464663"
+                "listening_url": "https://music.apple.com/es/album/el-monte-de-los-aullidos/1837464663"
             }
         },
         {
@@ -949,9 +860,7 @@
                 "genre": "Música",
                 "release_year": 2024,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/primera-musa/1760193416",
-                "source": "itunes-rss",
-                "source_id": "1760193416"
+                "listening_url": "https://music.apple.com/es/album/primera-musa/1760193416"
             }
         },
         {
@@ -970,9 +879,7 @@
                 "genre": "Música",
                 "release_year": 2022,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/motomami/1643048319",
-                "source": "itunes-rss",
-                "source_id": "1643048319"
+                "listening_url": "https://music.apple.com/es/album/motomami/1643048319"
             }
         },
         {
@@ -991,9 +898,7 @@
                 "genre": "Música latina",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/tropicoqueta/1819544141",
-                "source": "itunes-rss",
-                "source_id": "1819544141"
+                "listening_url": "https://music.apple.com/es/album/tropicoqueta/1819544141"
             }
         },
         {
@@ -1012,9 +917,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/y-ahora-qu%C3%A9/1847924845",
-                "source": "itunes-rss",
-                "source_id": "1847924845"
+                "listening_url": "https://music.apple.com/es/album/y-ahora-qu%C3%A9/1847924845"
             }
         },
         {
@@ -1033,9 +936,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-vendedor-de-rosas/1882365919",
-                "source": "itunes-rss",
-                "source_id": "1882365919"
+                "listening_url": "https://music.apple.com/es/album/el-vendedor-de-rosas/1882365919"
             }
         },
         {
@@ -1054,9 +955,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-art-of-loving/1817609404",
-                "source": "itunes-rss",
-                "source_id": "1817609404"
+                "listening_url": "https://music.apple.com/es/album/the-art-of-loving/1817609404"
             }
         },
         {
@@ -1075,9 +974,7 @@
                 "genre": "Música",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/hecho-en-tiempos-de-paz/1838731957",
-                "source": "itunes-rss",
-                "source_id": "1838731957"
+                "listening_url": "https://music.apple.com/es/album/hecho-en-tiempos-de-paz/1838731957"
             }
         },
         {
@@ -1096,9 +993,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/wuthering-heights/1852566184",
-                "source": "itunes-rss",
-                "source_id": "1852566184"
+                "listening_url": "https://music.apple.com/es/album/wuthering-heights/1852566184"
             }
         },
         {
@@ -1117,9 +1012,7 @@
                 "genre": "Pop",
                 "release_year": 2024,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-tortured-poets-department-the-anthology/1742057774",
-                "source": "itunes-rss",
-                "source_id": "1742057774"
+                "listening_url": "https://music.apple.com/es/album/the-tortured-poets-department-the-anthology/1742057774"
             }
         },
         {
@@ -1138,9 +1031,7 @@
                 "genre": "Hip-hop/Rap",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/adl/1888322963",
-                "source": "itunes-rss",
-                "source_id": "1888322963"
+                "listening_url": "https://music.apple.com/es/album/adl/1888322963"
             }
         },
         {
@@ -1159,9 +1050,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/gigante/1795987315",
-                "source": "itunes-rss",
-                "source_id": "1795987315"
+                "listening_url": "https://music.apple.com/es/album/gigante/1795987315"
             }
         },
         {
@@ -1180,9 +1069,7 @@
                 "genre": "Música",
                 "release_year": 2022,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-madrile%C3%B1o-la-sobremesa/1610097186",
-                "source": "itunes-rss",
-                "source_id": "1610097186"
+                "listening_url": "https://music.apple.com/es/album/el-madrile%C3%B1o-la-sobremesa/1610097186"
             }
         },
         {
@@ -1201,9 +1088,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/tarac%C3%A1/1879440468",
-                "source": "itunes-rss",
-                "source_id": "1879440468"
+                "listening_url": "https://music.apple.com/es/album/tarac%C3%A1/1879440468"
             }
         },
         {
@@ -1222,9 +1107,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/jane-doe-in-the-dream-house-ep/1867578853",
-                "source": "itunes-rss",
-                "source_id": "1867578853"
+                "listening_url": "https://music.apple.com/es/album/jane-doe-in-the-dream-house-ep/1867578853"
             }
         },
         {
@@ -1243,9 +1126,7 @@
                 "genre": "Música",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/escrito-en-la-m-30/1854173544",
-                "source": "itunes-rss",
-                "source_id": "1854173544"
+                "listening_url": "https://music.apple.com/es/album/escrito-en-la-m-30/1854173544"
             }
         },
         {
@@ -1264,9 +1145,7 @@
                 "genre": "Música",
                 "release_year": 2021,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/may%C3%A9utica/1563963179",
-                "source": "itunes-rss",
-                "source_id": "1563963179"
+                "listening_url": "https://music.apple.com/es/album/may%C3%A9utica/1563963179"
             }
         },
         {
@@ -1285,9 +1164,7 @@
                 "genre": "Música",
                 "release_year": 2008,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/la-ley-innata/290090461",
-                "source": "itunes-rss",
-                "source_id": "290090461"
+                "listening_url": "https://music.apple.com/es/album/la-ley-innata/290090461"
             }
         },
         {
@@ -1306,9 +1183,7 @@
                 "genre": "Alternativa",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/trying-times/1862353780",
-                "source": "itunes-rss",
-                "source_id": "1862353780"
+                "listening_url": "https://music.apple.com/es/album/trying-times/1862353780"
             }
         },
         {
@@ -1327,9 +1202,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/por-si-muero-ma%C3%B1ana/1878121331",
-                "source": "itunes-rss",
-                "source_id": "1878121331"
+                "listening_url": "https://music.apple.com/es/album/por-si-muero-ma%C3%B1ana/1878121331"
             }
         },
         {
@@ -1348,9 +1221,7 @@
                 "genre": "Alternativa",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/honora/1861644307",
-                "source": "itunes-rss",
-                "source_id": "1861644307"
+                "listening_url": "https://music.apple.com/es/album/honora/1861644307"
             }
         },
         {
@@ -1369,9 +1240,7 @@
                 "genre": "Hip-hop/Rap",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/octane/1871258329",
-                "source": "itunes-rss",
-                "source_id": "1871258329"
+                "listening_url": "https://music.apple.com/es/album/octane/1871258329"
             }
         },
         {
@@ -1390,9 +1259,7 @@
                 "genre": "Música",
                 "release_year": 2008,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/mamma-mia-the-movie-soundtrack-feat-the-songs-of/1440767912",
-                "source": "itunes-rss",
-                "source_id": "1440767912"
+                "listening_url": "https://music.apple.com/es/album/mamma-mia-the-movie-soundtrack-feat-the-songs-of/1440767912"
             }
         },
         {
@@ -1411,9 +1278,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-perro-que-fuma/1853534606",
-                "source": "itunes-rss",
-                "source_id": "1853534606"
+                "listening_url": "https://music.apple.com/es/album/el-perro-que-fuma/1853534606"
             }
         },
         {
@@ -1432,9 +1297,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-trap-de-kolombia/1883243447",
-                "source": "itunes-rss",
-                "source_id": "1883243447"
+                "listening_url": "https://music.apple.com/es/album/el-trap-de-kolombia/1883243447"
             }
         },
         {
@@ -1453,9 +1316,7 @@
                 "genre": "Rock",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/easter-lily-ep/1888147400",
-                "source": "itunes-rss",
-                "source_id": "1888147400"
+                "listening_url": "https://music.apple.com/es/album/easter-lily-ep/1888147400"
             }
         },
         {
@@ -1474,9 +1335,7 @@
                 "genre": "Pop",
                 "release_year": 2018,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-mal-querer/1436309944",
-                "source": "itunes-rss",
-                "source_id": "1436309944"
+                "listening_url": "https://music.apple.com/es/album/el-mal-querer/1436309944"
             }
         },
         {
@@ -1495,9 +1354,7 @@
                 "genre": "Pop",
                 "release_year": 2023,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/guts-spilled/1736994915",
-                "source": "itunes-rss",
-                "source_id": "1736994915"
+                "listening_url": "https://music.apple.com/es/album/guts-spilled/1736994915"
             }
         },
         {
@@ -1516,9 +1373,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/wildfire/1869692509",
-                "source": "itunes-rss",
-                "source_id": "1869692509"
+                "listening_url": "https://music.apple.com/es/album/wildfire/1869692509"
             }
         },
         {
@@ -1537,9 +1392,7 @@
                 "genre": "Música",
                 "release_year": 2021,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/sonido-de-lluvia-relajaci%C3%B3n-y-sue%C3%B1o-profundo/1563633344",
-                "source": "itunes-rss",
-                "source_id": "1563633344"
+                "listening_url": "https://music.apple.com/es/album/sonido-de-lluvia-relajaci%C3%B3n-y-sue%C3%B1o-profundo/1563633344"
             }
         },
         {
@@ -1558,9 +1411,7 @@
                 "genre": "Música",
                 "release_year": 2023,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/se-nos-lleva-el-aire/1719850406",
-                "source": "itunes-rss",
-                "source_id": "1719850406"
+                "listening_url": "https://music.apple.com/es/album/se-nos-lleva-el-aire/1719850406"
             }
         },
         {
@@ -1579,9 +1430,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/adios/1887899443",
-                "source": "itunes-rss",
-                "source_id": "1887899443"
+                "listening_url": "https://music.apple.com/es/album/adios/1887899443"
             }
         },
         {
@@ -1600,9 +1449,7 @@
                 "genre": "Alternativa",
                 "release_year": 2024,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/hit-me-hard-and-soft/1739659134",
-                "source": "itunes-rss",
-                "source_id": "1739659134"
+                "listening_url": "https://music.apple.com/es/album/hit-me-hard-and-soft/1739659134"
             }
         },
         {
@@ -1621,9 +1468,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/pelo-de-foca/1796256679",
-                "source": "itunes-rss",
-                "source_id": "1796256679"
+                "listening_url": "https://music.apple.com/es/album/pelo-de-foca/1796256679"
             }
         },
         {
@@ -1642,9 +1487,7 @@
                 "genre": "Hip-hop/Rap",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/p%C3%B3rtate-bien/1815259114",
-                "source": "itunes-rss",
-                "source_id": "1815259114"
+                "listening_url": "https://music.apple.com/es/album/p%C3%B3rtate-bien/1815259114"
             }
         },
         {
@@ -1663,9 +1506,7 @@
                 "genre": "Música",
                 "release_year": 2020,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/yhlqmdlg/1500776322",
-                "source": "itunes-rss",
-                "source_id": "1500776322"
+                "listening_url": "https://music.apple.com/es/album/yhlqmdlg/1500776322"
             }
         },
         {
@@ -1684,9 +1525,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/mayhem/1837310866",
-                "source": "itunes-rss",
-                "source_id": "1837310866"
+                "listening_url": "https://music.apple.com/es/album/mayhem/1837310866"
             }
         },
         {
@@ -1705,9 +1544,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/eternal-sunshine-deluxe-brighter-days-ahead/1800579610",
-                "source": "itunes-rss",
-                "source_id": "1800579610"
+                "listening_url": "https://music.apple.com/es/album/eternal-sunshine-deluxe-brighter-days-ahead/1800579610"
             }
         },
         {
@@ -1726,9 +1563,7 @@
                 "genre": "Pop",
                 "release_year": 2021,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/sour-video-version/1582274783",
-                "source": "itunes-rss",
-                "source_id": "1582274783"
+                "listening_url": "https://music.apple.com/es/album/sour-video-version/1582274783"
             }
         },
         {
@@ -1747,9 +1582,7 @@
                 "genre": "Música",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/la-vida-era-m%C3%A1s-corta/1839970139",
-                "source": "itunes-rss",
-                "source_id": "1839970139"
+                "listening_url": "https://music.apple.com/es/album/la-vida-era-m%C3%A1s-corta/1839970139"
             }
         },
         {
@@ -1768,9 +1601,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/dinast%C3%ADa-deluxe/1879902711",
-                "source": "itunes-rss",
-                "source_id": "1879902711"
+                "listening_url": "https://music.apple.com/es/album/dinast%C3%ADa-deluxe/1879902711"
             }
         },
         {
@@ -1789,9 +1620,7 @@
                 "genre": "Música",
                 "release_year": 2016,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-cl%C3%A1sica-relajante-para-la-relajaci%C3%B3n-dormir/1098277376",
-                "source": "itunes-rss",
-                "source_id": "1098277376"
+                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-cl%C3%A1sica-relajante-para-la-relajaci%C3%B3n-dormir/1098277376"
             }
         },
         {
@@ -1810,9 +1639,7 @@
                 "genre": "Música",
                 "release_year": 2019,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/rain-sounds/1456106159",
-                "source": "itunes-rss",
-                "source_id": "1456106159"
+                "listening_url": "https://music.apple.com/es/album/rain-sounds/1456106159"
             }
         },
         {
@@ -1831,9 +1658,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/daisy/1810078231",
-                "source": "itunes-rss",
-                "source_id": "1810078231"
+                "listening_url": "https://music.apple.com/es/album/daisy/1810078231"
             }
         },
         {
@@ -1852,9 +1677,7 @@
                 "genre": "Música",
                 "release_year": 2017,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-greatest-showman-original-motion-picture/1436091603",
-                "source": "itunes-rss",
-                "source_id": "1436091603"
+                "listening_url": "https://music.apple.com/es/album/the-greatest-showman-original-motion-picture/1436091603"
             }
         },
         {
@@ -1873,9 +1696,7 @@
                 "genre": "Música para niños",
                 "release_year": 2014,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/cantajuego-vol-1/826892114",
-                "source": "itunes-rss",
-                "source_id": "826892114"
+                "listening_url": "https://music.apple.com/es/album/cantajuego-vol-1/826892114"
             }
         },
         {
@@ -1894,9 +1715,7 @@
                 "genre": "Pop",
                 "release_year": 2018,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/pasi%C3%B3n/1357692623",
-                "source": "itunes-rss",
-                "source_id": "1357692623"
+                "listening_url": "https://music.apple.com/es/album/pasi%C3%B3n/1357692623"
             }
         },
         {
@@ -1915,9 +1734,7 @@
                 "genre": "Música",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/se-ha-acabado-el-show/1877073392",
-                "source": "itunes-rss",
-                "source_id": "1877073392"
+                "listening_url": "https://music.apple.com/es/album/se-ha-acabado-el-show/1877073392"
             }
         },
         {
@@ -1936,9 +1753,7 @@
                 "genre": "Música latina",
                 "release_year": 2026,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/no-vuelve-a-suceder-calentamiento-pre-%C3%A1lbum/1862685663",
-                "source": "itunes-rss",
-                "source_id": "1862685663"
+                "listening_url": "https://music.apple.com/es/album/no-vuelve-a-suceder-calentamiento-pre-%C3%A1lbum/1862685663"
             }
         },
         {
@@ -1957,9 +1772,7 @@
                 "genre": "Música",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/borondo/1812536829",
-                "source": "itunes-rss",
-                "source_id": "1812536829"
+                "listening_url": "https://music.apple.com/es/album/borondo/1812536829"
             }
         },
         {
@@ -1978,9 +1791,7 @@
                 "genre": "Banda sonora",
                 "release_year": 2014,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/interstellar-original-motion-picture-soundtrack-expanded/1533983552",
-                "source": "itunes-rss",
-                "source_id": "1533983552"
+                "listening_url": "https://music.apple.com/es/album/interstellar-original-motion-picture-soundtrack-expanded/1533983552"
             }
         },
         {
@@ -1999,9 +1810,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/midnight-sun/1817499239",
-                "source": "itunes-rss",
-                "source_id": "1817499239"
+                "listening_url": "https://music.apple.com/es/album/midnight-sun/1817499239"
             }
         },
         {
@@ -2020,9 +1829,7 @@
                 "genre": "Música",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/la-madrug%C3%A1/1801259880",
-                "source": "itunes-rss",
-                "source_id": "1801259880"
+                "listening_url": "https://music.apple.com/es/album/la-madrug%C3%A1/1801259880"
             }
         },
         {
@@ -2041,9 +1848,7 @@
                 "genre": "Música latina",
                 "release_year": 2025,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/lo-mismo-de-siempre/1811396930",
-                "source": "itunes-rss",
-                "source_id": "1811396930"
+                "listening_url": "https://music.apple.com/es/album/lo-mismo-de-siempre/1811396930"
             }
         },
         {
@@ -2062,9 +1867,7 @@
                 "genre": "Música para niños",
                 "release_year": 2015,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-relajante-y-calmante-con-ruido-blanco-para-el/1015922244",
-                "source": "itunes-rss",
-                "source_id": "1015922244"
+                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-relajante-y-calmante-con-ruido-blanco-para-el/1015922244"
             }
         },
         {
@@ -2083,9 +1886,7 @@
                 "genre": "Banda sonora",
                 "release_year": 2013,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/frozen-el-reino-del-hielo-edici%C3%B3n-deluxe/1440666116",
-                "source": "itunes-rss",
-                "source_id": "1440666116"
+                "listening_url": "https://music.apple.com/es/album/frozen-el-reino-del-hielo-edici%C3%B3n-deluxe/1440666116"
             }
         },
         {
@@ -2104,9 +1905,7 @@
                 "genre": "Música",
                 "release_year": 2018,
                 "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/real-hasta-la-muerte/1453888864",
-                "source": "itunes-rss",
-                "source_id": "1453888864"
+                "listening_url": "https://music.apple.com/es/album/real-hasta-la-muerte/1453888864"
             }
         },
         {
@@ -2125,9 +1924,7 @@
                 "genre": "Country",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/dandelion/1869436835",
-                "source": "itunes-rss",
-                "source_id": "1869436835"
+                "listening_url": "https://music.apple.com/us/album/dandelion/1869436835"
             }
         },
         {
@@ -2146,9 +1943,7 @@
                 "genre": "Country",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-way-i-am/1862634688",
-                "source": "itunes-rss",
-                "source_id": "1862634688"
+                "listening_url": "https://music.apple.com/us/album/the-way-i-am/1862634688"
             }
         },
         {
@@ -2167,9 +1962,7 @@
                 "genre": "Country",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/im-the-problem/1802103958",
-                "source": "itunes-rss",
-                "source_id": "1802103958"
+                "listening_url": "https://music.apple.com/us/album/im-the-problem/1802103958"
             }
         },
         {
@@ -2188,9 +1981,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-fall-off/1875080726",
-                "source": "itunes-rss",
-                "source_id": "1875080726"
+                "listening_url": "https://music.apple.com/us/album/the-fall-off/1875080726"
             }
         },
         {
@@ -2209,9 +2000,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/emotions/1887619269",
-                "source": "itunes-rss",
-                "source_id": "1887619269"
+                "listening_url": "https://music.apple.com/us/album/emotions/1887619269"
             }
         },
         {
@@ -2230,9 +2019,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/slime-cry/1869534167",
-                "source": "itunes-rss",
-                "source_id": "1869534167"
+                "listening_url": "https://music.apple.com/us/album/slime-cry/1869534167"
             }
         },
         {
@@ -2251,9 +2038,7 @@
                 "genre": null,
                 "release_year": 2018,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/brown-noise-loops-for-relaxation-deep-sleep-meditation/1417709876",
-                "source": "itunes-rss",
-                "source_id": "1417709876"
+                "listening_url": "https://music.apple.com/us/album/brown-noise-loops-for-relaxation-deep-sleep-meditation/1417709876"
             }
         },
         {
@@ -2272,9 +2057,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/zavier/1885054146",
-                "source": "itunes-rss",
-                "source_id": "1885054146"
+                "listening_url": "https://music.apple.com/us/album/zavier/1885054146"
             }
         },
         {
@@ -2293,9 +2076,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/skeletor/1882892614",
-                "source": "itunes-rss",
-                "source_id": "1882892614"
+                "listening_url": "https://music.apple.com/us/album/skeletor/1882892614"
             }
         },
         {
@@ -2314,9 +2095,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/ca%24ino/1878399948",
-                "source": "itunes-rss",
-                "source_id": "1878399948"
+                "listening_url": "https://music.apple.com/us/album/ca%24ino/1878399948"
             }
         },
         {
@@ -2335,9 +2114,7 @@
                 "genre": "Children's Music",
                 "release_year": 2015,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/baby-lullaby-relaxing-piano-lullabies-and-natural/1065946325",
-                "source": "itunes-rss",
-                "source_id": "1065946325"
+                "listening_url": "https://music.apple.com/us/album/baby-lullaby-relaxing-piano-lullabies-and-natural/1065946325"
             }
         },
         {
@@ -2356,9 +2133,7 @@
                 "genre": "Country",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/cloud-9/1851296746",
-                "source": "itunes-rss",
-                "source_id": "1851296746"
+                "listening_url": "https://music.apple.com/us/album/cloud-9/1851296746"
             }
         },
         {
@@ -2377,9 +2152,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/lol-slutty-bass/1884747045",
-                "source": "itunes-rss",
-                "source_id": "1884747045"
+                "listening_url": "https://music.apple.com/us/album/lol-slutty-bass/1884747045"
             }
         },
         {
@@ -2398,9 +2171,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/icon-directors-cut/1877179580",
-                "source": "itunes-rss",
-                "source_id": "1877179580"
+                "listening_url": "https://music.apple.com/us/album/icon-directors-cut/1877179580"
             }
         },
         {
@@ -2419,9 +2190,7 @@
                 "genre": "Latin",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/depr-3%24%24ed-mfkz/1876715320",
-                "source": "itunes-rss",
-                "source_id": "1876715320"
+                "listening_url": "https://music.apple.com/us/album/depr-3%24%24ed-mfkz/1876715320"
             }
         },
         {
@@ -2440,9 +2209,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/6wa/1880492397",
-                "source": "itunes-rss",
-                "source_id": "1880492397"
+                "listening_url": "https://music.apple.com/us/album/6wa/1880492397"
             }
         },
         {
@@ -2461,9 +2228,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/do-you-still-love-me/1858754868",
-                "source": "itunes-rss",
-                "source_id": "1858754868"
+                "listening_url": "https://music.apple.com/us/album/do-you-still-love-me/1858754868"
             }
         },
         {
@@ -2482,9 +2247,7 @@
                 "genre": "Soundtrack",
                 "release_year": 2015,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/hamilton-an-american-musical-original-broadway-cast/1025210938",
-                "source": "itunes-rss",
-                "source_id": "1025210938"
+                "listening_url": "https://music.apple.com/us/album/hamilton-an-american-musical-original-broadway-cast/1025210938"
             }
         },
         {
@@ -2503,9 +2266,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/boiling-point/1884435522",
-                "source": "itunes-rss",
-                "source_id": "1884435522"
+                "listening_url": "https://music.apple.com/us/album/boiling-point/1884435522"
             }
         },
         {
@@ -2524,9 +2285,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/%24ome-%24exy-%24ongs-4-u/1796127242",
-                "source": "itunes-rss",
-                "source_id": "1796127242"
+                "listening_url": "https://music.apple.com/us/album/%24ome-%24exy-%24ongs-4-u/1796127242"
             }
         },
         {
@@ -2545,9 +2304,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-leaks/1858158528",
-                "source": "itunes-rss",
-                "source_id": "1858158528"
+                "listening_url": "https://music.apple.com/us/album/the-leaks/1858158528"
             }
         },
         {
@@ -2566,9 +2323,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/roofless-records-for-drop-tops-disc-1/1889878392",
-                "source": "itunes-rss",
-                "source_id": "1889878392"
+                "listening_url": "https://music.apple.com/us/album/roofless-records-for-drop-tops-disc-1/1889878392"
             }
         },
         {
@@ -2587,9 +2342,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/monica/1878823462",
-                "source": "itunes-rss",
-                "source_id": "1878823462"
+                "listening_url": "https://music.apple.com/us/album/monica/1878823462"
             }
         },
         {
@@ -2608,9 +2361,7 @@
                 "genre": null,
                 "release_year": 2020,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/rain-sounds-for-sleep/1542331034",
-                "source": "itunes-rss",
-                "source_id": "1542331034"
+                "listening_url": "https://music.apple.com/us/album/rain-sounds-for-sleep/1542331034"
             }
         },
         {
@@ -2629,9 +2380,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2007,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/graduation/1451901307",
-                "source": "itunes-rss",
-                "source_id": "1451901307"
+                "listening_url": "https://music.apple.com/us/album/graduation/1451901307"
             }
         },
         {
@@ -2650,9 +2399,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/hearts-sold-separately/1824543088",
-                "source": "itunes-rss",
-                "source_id": "1824543088"
+                "listening_url": "https://music.apple.com/us/album/hearts-sold-separately/1824543088"
             }
         },
         {
@@ -2671,9 +2418,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2011,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/take-care-deluxe-version/1440642493",
-                "source": "itunes-rss",
-                "source_id": "1440642493"
+                "listening_url": "https://music.apple.com/us/album/take-care-deluxe-version/1440642493"
             }
         },
         {
@@ -2692,9 +2437,7 @@
                 "genre": "Latin",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/linaje/1884623413",
-                "source": "itunes-rss",
-                "source_id": "1884623413"
+                "listening_url": "https://music.apple.com/us/album/linaje/1884623413"
             }
         },
         {
@@ -2713,9 +2456,7 @@
                 "genre": "Country",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/with-heaven-on-top/1867328456",
-                "source": "itunes-rss",
-                "source_id": "1867328456"
+                "listening_url": "https://music.apple.com/us/album/with-heaven-on-top/1867328456"
             }
         },
         {
@@ -2734,9 +2475,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/am-i-the-drama-album-release-live-edition/1841168343",
-                "source": "itunes-rss",
-                "source_id": "1841168343"
+                "listening_url": "https://music.apple.com/us/album/am-i-the-drama-album-release-live-edition/1841168343"
             }
         },
         {
@@ -2755,9 +2494,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/so-close-to-what-deluxe/1853104433",
-                "source": "itunes-rss",
-                "source_id": "1853104433"
+                "listening_url": "https://music.apple.com/us/album/so-close-to-what-deluxe/1853104433"
             }
         },
         {
@@ -2776,9 +2513,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/world-at-war/1884478993",
-                "source": "itunes-rss",
-                "source_id": "1884478993"
+                "listening_url": "https://music.apple.com/us/album/world-at-war/1884478993"
             }
         },
         {
@@ -2797,9 +2532,7 @@
                 "genre": "Country",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/broken-view/1882826154",
-                "source": "itunes-rss",
-                "source_id": "1882826154"
+                "listening_url": "https://music.apple.com/us/album/broken-view/1882826154"
             }
         },
         {
@@ -2818,9 +2551,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-last-wun/1830597627",
-                "source": "itunes-rss",
-                "source_id": "1830597627"
+                "listening_url": "https://music.apple.com/us/album/the-last-wun/1830597627"
             }
         },
         {
@@ -2839,9 +2570,7 @@
                 "genre": "Alternative",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/prizefighter/1848218113",
-                "source": "itunes-rss",
-                "source_id": "1848218113"
+                "listening_url": "https://music.apple.com/us/album/prizefighter/1848218113"
             }
         },
         {
@@ -2860,9 +2589,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/son-of-spergy/1839352404",
-                "source": "itunes-rss",
-                "source_id": "1839352404"
+                "listening_url": "https://music.apple.com/us/album/son-of-spergy/1839352404"
             }
         },
         {
@@ -2881,9 +2608,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2024,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/gnx/1781270319",
-                "source": "itunes-rss",
-                "source_id": "1781270319"
+                "listening_url": "https://music.apple.com/us/album/gnx/1781270319"
             }
         },
         {
@@ -2902,9 +2627,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/pompeii-utility/1870867411",
-                "source": "itunes-rss",
-                "source_id": "1870867411"
+                "listening_url": "https://music.apple.com/us/album/pompeii-utility/1870867411"
             }
         },
         {
@@ -2923,9 +2646,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2016,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-life-of-pablo/1443063578",
-                "source": "itunes-rss",
-                "source_id": "1443063578"
+                "listening_url": "https://music.apple.com/us/album/the-life-of-pablo/1443063578"
             }
         },
         {
@@ -2944,9 +2665,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/swag-ii/1837867200",
-                "source": "itunes-rss",
-                "source_id": "1837867200"
+                "listening_url": "https://music.apple.com/us/album/swag-ii/1837867200"
             }
         },
         {
@@ -2965,9 +2684,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2023,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/for-all-the-dogs-scary-hours-edition/1716979097",
-                "source": "itunes-rss",
-                "source_id": "1716979097"
+                "listening_url": "https://music.apple.com/us/album/for-all-the-dogs-scary-hours-edition/1716979097"
             }
         },
         {
@@ -2986,9 +2703,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2016,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/views/1440841363",
-                "source": "itunes-rss",
-                "source_id": "1440841363"
+                "listening_url": "https://music.apple.com/us/album/views/1440841363"
             }
         },
         {
@@ -3007,9 +2722,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/free-style-game-remix-edition/1888229325",
-                "source": "itunes-rss",
-                "source_id": "1888229325"
+                "listening_url": "https://music.apple.com/us/album/free-style-game-remix-edition/1888229325"
             }
         },
         {
@@ -3028,9 +2741,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/fully-loaded-ep/1889353517",
-                "source": "itunes-rss",
-                "source_id": "1889353517"
+                "listening_url": "https://music.apple.com/us/album/fully-loaded-ep/1889353517"
             }
         },
         {
@@ -3049,9 +2760,7 @@
                 "genre": "Soundtrack",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/dhurandhar-the-revenge-original-motion-picture/1887523860",
-                "source": "itunes-rss",
-                "source_id": "1887523860"
+                "listening_url": "https://music.apple.com/us/album/dhurandhar-the-revenge-original-motion-picture/1887523860"
             }
         },
         {
@@ -3070,9 +2779,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/thy-will-be-done/1860098913",
-                "source": "itunes-rss",
-                "source_id": "1860098913"
+                "listening_url": "https://music.apple.com/us/album/thy-will-be-done/1860098913"
             }
         },
         {
@@ -3091,9 +2798,7 @@
                 "genre": "Latin",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/111xpantia/1804142476",
-                "source": "itunes-rss",
-                "source_id": "1804142476"
+                "listening_url": "https://music.apple.com/us/album/111xpantia/1804142476"
             }
         },
         {
@@ -3112,9 +2817,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/dont-come-home/1878821052",
-                "source": "itunes-rss",
-                "source_id": "1878821052"
+                "listening_url": "https://music.apple.com/us/album/dont-come-home/1878821052"
             }
         },
         {
@@ -3133,9 +2836,7 @@
                 "genre": "Country",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/heavy-on-the-soul/1867275110",
-                "source": "itunes-rss",
-                "source_id": "1867275110"
+                "listening_url": "https://music.apple.com/us/album/heavy-on-the-soul/1867275110"
             }
         },
         {
@@ -3154,9 +2855,7 @@
                 "genre": "Alternative",
                 "release_year": 2020,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/folklore-deluxe-version/1528112358",
-                "source": "itunes-rss",
-                "source_id": "1528112358"
+                "listening_url": "https://music.apple.com/us/album/folklore-deluxe-version/1528112358"
             }
         },
         {
@@ -3175,9 +2874,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/r3set-ext3nd3d/1887977611",
-                "source": "itunes-rss",
-                "source_id": "1887977611"
+                "listening_url": "https://music.apple.com/us/album/r3set-ext3nd3d/1887977611"
             }
         },
         {
@@ -3196,9 +2893,7 @@
                 "genre": "Pop",
                 "release_year": 2016,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/blonde/1146195596",
-                "source": "itunes-rss",
-                "source_id": "1146195596"
+                "listening_url": "https://music.apple.com/us/album/blonde/1146195596"
             }
         },
         {
@@ -3217,9 +2912,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/masa/1824363644",
-                "source": "itunes-rss",
-                "source_id": "1824363644"
+                "listening_url": "https://music.apple.com/us/album/masa/1824363644"
             }
         },
         {
@@ -3238,9 +2931,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2010,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/my-beautiful-dark-twisted-fantasy-deluxe-edition-explicit/1440621197",
-                "source": "itunes-rss",
-                "source_id": "1440621197"
+                "listening_url": "https://music.apple.com/us/album/my-beautiful-dark-twisted-fantasy-deluxe-edition-explicit/1440621197"
             }
         },
         {
@@ -3259,9 +2950,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/everything-is-a-lot/1849570906",
-                "source": "itunes-rss",
-                "source_id": "1849570906"
+                "listening_url": "https://music.apple.com/us/album/everything-is-a-lot/1849570906"
             }
         },
         {
@@ -3280,9 +2969,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2021,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/certified-lover-boy/1584281467",
-                "source": "itunes-rss",
-                "source_id": "1584281467"
+                "listening_url": "https://music.apple.com/us/album/certified-lover-boy/1584281467"
             }
         },
         {
@@ -3301,9 +2988,7 @@
                 "genre": "Soundtrack",
                 "release_year": 2013,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/frozen-original-motion-picture-soundtrack/1440618177",
-                "source": "itunes-rss",
-                "source_id": "1440618177"
+                "listening_url": "https://music.apple.com/us/album/frozen-original-motion-picture-soundtrack/1440618177"
             }
         },
         {
@@ -3322,9 +3007,7 @@
                 "genre": "Alternative",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/have-u-bn-2-heaven-nite-ep/1886092612",
-                "source": "itunes-rss",
-                "source_id": "1886092612"
+                "listening_url": "https://music.apple.com/us/album/have-u-bn-2-heaven-nite-ep/1886092612"
             }
         },
         {
@@ -3343,9 +3026,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/be-more-grateful/1862402656",
-                "source": "itunes-rss",
-                "source_id": "1862402656"
+                "listening_url": "https://music.apple.com/us/album/be-more-grateful/1862402656"
             }
         },
         {
@@ -3364,9 +3045,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/sounds-for-someone/1860405416",
-                "source": "itunes-rss",
-                "source_id": "1860405416"
+                "listening_url": "https://music.apple.com/us/album/sounds-for-someone/1860405416"
             }
         },
         {
@@ -3385,9 +3064,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/already-legend-gifted-edition/1861018897",
-                "source": "itunes-rss",
-                "source_id": "1861018897"
+                "listening_url": "https://music.apple.com/us/album/already-legend-gifted-edition/1861018897"
             }
         },
         {
@@ -3406,9 +3083,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/am-i-the-drama-the-snow-mix/1852374241",
-                "source": "itunes-rss",
-                "source_id": "1852374241"
+                "listening_url": "https://music.apple.com/us/album/am-i-the-drama-the-snow-mix/1852374241"
             }
         },
         {
@@ -3427,9 +3102,7 @@
                 "genre": "Dance",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/ctrl-escape/1874015470",
-                "source": "itunes-rss",
-                "source_id": "1874015470"
+                "listening_url": "https://music.apple.com/us/album/ctrl-escape/1874015470"
             }
         },
         {
@@ -3448,9 +3121,7 @@
                 "genre": "Soundtrack",
                 "release_year": 2016,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/moana-original-motion-picture-soundtrack/1440634928",
-                "source": "itunes-rss",
-                "source_id": "1440634928"
+                "listening_url": "https://music.apple.com/us/album/moana-original-motion-picture-soundtrack/1440634928"
             }
         },
         {
@@ -3469,9 +3140,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2013,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/nothing-was-the-same-deluxe/1440829462",
-                "source": "itunes-rss",
-                "source_id": "1440829462"
+                "listening_url": "https://music.apple.com/us/album/nothing-was-the-same-deluxe/1440829462"
             }
         },
         {
@@ -3490,9 +3159,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2010,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/thank-me-later/1440762388",
-                "source": "itunes-rss",
-                "source_id": "1440762388"
+                "listening_url": "https://music.apple.com/us/album/thank-me-later/1440762388"
             }
         },
         {
@@ -3511,9 +3178,7 @@
                 "genre": "Pop",
                 "release_year": 2024,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/short-n-sweet-deluxe/1795512297",
-                "source": "itunes-rss",
-                "source_id": "1795512297"
+                "listening_url": "https://music.apple.com/us/album/short-n-sweet-deluxe/1795512297"
             }
         },
         {
@@ -3532,9 +3197,7 @@
                 "genre": "Latin",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/todo-%C3%B8-nada/1883176465",
-                "source": "itunes-rss",
-                "source_id": "1883176465"
+                "listening_url": "https://music.apple.com/us/album/todo-%C3%B8-nada/1883176465"
             }
         },
         {
@@ -3553,9 +3216,7 @@
                 "genre": "Country",
                 "release_year": 2021,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/dangerous-the-double-album/1818409982",
-                "source": "itunes-rss",
-                "source_id": "1818409982"
+                "listening_url": "https://music.apple.com/us/album/dangerous-the-double-album/1818409982"
             }
         },
         {
@@ -3574,9 +3235,7 @@
                 "genre": "Christian",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/so-be-it-live/1870678481",
-                "source": "itunes-rss",
-                "source_id": "1870678481"
+                "listening_url": "https://music.apple.com/us/album/so-be-it-live/1870678481"
             }
         },
         {
@@ -3595,9 +3254,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2022,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/her-loss/1652998965",
-                "source": "itunes-rss",
-                "source_id": "1652998965"
+                "listening_url": "https://music.apple.com/us/album/her-loss/1652998965"
             }
         },
         {
@@ -3616,9 +3273,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/da-realest/1860991661",
-                "source": "itunes-rss",
-                "source_id": "1860991661"
+                "listening_url": "https://music.apple.com/us/album/da-realest/1860991661"
             }
         },
         {
@@ -3637,9 +3292,7 @@
                 "genre": "R&B/Soul",
                 "release_year": 2025,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/finally-over-it-the-afterparty/1853929060",
-                "source": "itunes-rss",
-                "source_id": "1853929060"
+                "listening_url": "https://music.apple.com/us/album/finally-over-it-the-afterparty/1853929060"
             }
         },
         {
@@ -3658,9 +3311,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2026,
                 "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/before-artistry-ep/1876602581",
-                "source": "itunes-rss",
-                "source_id": "1876602581"
+                "listening_url": "https://music.apple.com/us/album/before-artistry-ep/1876602581"
             }
         },
         {
@@ -3679,9 +3330,7 @@
                 "genre": "Worldwide",
                 "release_year": 2022,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/to-fall-asleep-to/1831729178",
-                "source": "itunes-rss",
-                "source_id": "1831729178"
+                "listening_url": "https://music.apple.com/gb/album/to-fall-asleep-to/1831729178"
             }
         },
         {
@@ -3700,9 +3349,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-weight-of-the-woods/1867616617",
-                "source": "itunes-rss",
-                "source_id": "1867616617"
+                "listening_url": "https://music.apple.com/gb/album/the-weight-of-the-woods/1867616617"
             }
         },
         {
@@ -3721,9 +3368,7 @@
                 "genre": "Alternative",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/full-circle/1868437787",
-                "source": "itunes-rss",
-                "source_id": "1868437787"
+                "listening_url": "https://music.apple.com/gb/album/full-circle/1868437787"
             }
         },
         {
@@ -3742,9 +3387,7 @@
                 "genre": null,
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/clarity-of-mind/1880890112",
-                "source": "itunes-rss",
-                "source_id": "1880890112"
+                "listening_url": "https://music.apple.com/gb/album/clarity-of-mind/1880890112"
             }
         },
         {
@@ -3763,9 +3406,7 @@
                 "genre": "Rock",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/nightmare-tripping/1870746243",
-                "source": "itunes-rss",
-                "source_id": "1870746243"
+                "listening_url": "https://music.apple.com/gb/album/nightmare-tripping/1870746243"
             }
         },
         {
@@ -3784,9 +3425,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/west-end-girl/1846342052",
-                "source": "itunes-rss",
-                "source_id": "1846342052"
+                "listening_url": "https://music.apple.com/gb/album/west-end-girl/1846342052"
             }
         },
         {
@@ -3805,9 +3444,7 @@
                 "genre": "Children’s Music",
                 "release_year": null,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/my-favourite-nursery-rhymes/1441072765",
-                "source": "itunes-rss",
-                "source_id": "1441072765"
+                "listening_url": "https://music.apple.com/gb/album/my-favourite-nursery-rhymes/1441072765"
             }
         },
         {
@@ -3826,9 +3463,7 @@
                 "genre": "Soundtrack",
                 "release_year": 2018,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/six-the-musical-studio-cast-recording/1465183308",
-                "source": "itunes-rss",
-                "source_id": "1465183308"
+                "listening_url": "https://music.apple.com/gb/album/six-the-musical-studio-cast-recording/1465183308"
             }
         },
         {
@@ -3847,9 +3482,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-boy-who-played-the-harp/1847992481",
-                "source": "itunes-rss",
-                "source_id": "1847992481"
+                "listening_url": "https://music.apple.com/gb/album/the-boy-who-played-the-harp/1847992481"
             }
         },
         {
@@ -3868,9 +3501,7 @@
                 "genre": "Rock",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/richard-ashcroft-live-vol-1/1886712037",
-                "source": "itunes-rss",
-                "source_id": "1886712037"
+                "listening_url": "https://music.apple.com/gb/album/richard-ashcroft-live-vol-1/1886712037"
             }
         },
         {
@@ -3889,9 +3520,7 @@
                 "genre": "Soundtrack",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/dhurandhar-original-motion-picture-soundtrack/1858961207",
-                "source": "itunes-rss",
-                "source_id": "1858961207"
+                "listening_url": "https://music.apple.com/gb/album/dhurandhar-original-motion-picture-soundtrack/1858961207"
             }
         },
         {
@@ -3910,9 +3539,7 @@
                 "genre": "Rock",
                 "release_year": 1977,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/rumours/594061854",
-                "source": "itunes-rss",
-                "source_id": "594061854"
+                "listening_url": "https://music.apple.com/gb/album/rumours/594061854"
             }
         },
         {
@@ -3931,9 +3558,7 @@
                 "genre": "Alternative",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/people-watching-deluxe-edition/1845916617",
-                "source": "itunes-rss",
-                "source_id": "1845916617"
+                "listening_url": "https://music.apple.com/gb/album/people-watching-deluxe-edition/1845916617"
             }
         },
         {
@@ -3952,9 +3577,7 @@
                 "genre": "Rock",
                 "release_year": 1973,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-dark-side-of-the-moon-50th-anniversary-remastered/1665303755",
-                "source": "itunes-rss",
-                "source_id": "1665303755"
+                "listening_url": "https://music.apple.com/gb/album/the-dark-side-of-the-moon-50th-anniversary-remastered/1665303755"
             }
         },
         {
@@ -3973,9 +3596,7 @@
                 "genre": "Alternative",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/getting-killed/1818548779",
-                "source": "itunes-rss",
-                "source_id": "1818548779"
+                "listening_url": "https://music.apple.com/gb/album/getting-killed/1818548779"
             }
         },
         {
@@ -3994,9 +3615,7 @@
                 "genre": "Dance",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/lost-found-forgotten/1880361449",
-                "source": "itunes-rss",
-                "source_id": "1880361449"
+                "listening_url": "https://music.apple.com/gb/album/lost-found-forgotten/1880361449"
             }
         },
         {
@@ -4015,9 +3634,7 @@
                 "genre": "Alternative",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-clearing/1812904249",
-                "source": "itunes-rss",
-                "source_id": "1812904249"
+                "listening_url": "https://music.apple.com/gb/album/the-clearing/1812904249"
             }
         },
         {
@@ -4036,9 +3653,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/everyones-a-star-fully-evolved/1850324993",
-                "source": "itunes-rss",
-                "source_id": "1850324993"
+                "listening_url": "https://music.apple.com/gb/album/everyones-a-star-fully-evolved/1850324993"
             }
         },
         {
@@ -4057,9 +3672,7 @@
                 "genre": "Children’s Music",
                 "release_year": 2012,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/sleep-baby-white-pink-noise/534263991",
-                "source": "itunes-rss",
-                "source_id": "534263991"
+                "listening_url": "https://music.apple.com/gb/album/sleep-baby-white-pink-noise/534263991"
             }
         },
         {
@@ -4078,9 +3691,7 @@
                 "genre": "Rock",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/vol-ii/1876355936",
-                "source": "itunes-rss",
-                "source_id": "1876355936"
+                "listening_url": "https://music.apple.com/gb/album/vol-ii/1876355936"
             }
         },
         {
@@ -4099,9 +3710,7 @@
                 "genre": "Pop",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/youll-be-alright-kid/1817735146",
-                "source": "itunes-rss",
-                "source_id": "1817735146"
+                "listening_url": "https://music.apple.com/gb/album/youll-be-alright-kid/1817735146"
             }
         },
         {
@@ -4120,9 +3729,7 @@
                 "genre": "Rock",
                 "release_year": 2024,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/vol-1/1750092185",
-                "source": "itunes-rss",
-                "source_id": "1750092185"
+                "listening_url": "https://music.apple.com/gb/album/vol-1/1750092185"
             }
         },
         {
@@ -4141,9 +3748,7 @@
                 "genre": "Rock",
                 "release_year": 1989,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-stone-roses-20th-anniversary-collectors-edition/325817925",
-                "source": "itunes-rss",
-                "source_id": "325817925"
+                "listening_url": "https://music.apple.com/gb/album/the-stone-roses-20th-anniversary-collectors-edition/325817925"
             }
         },
         {
@@ -4162,9 +3767,7 @@
                 "genre": "Pop",
                 "release_year": 1992,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/abba-gold-greatest-hits-40th-anniversary-edition/1440816833",
-                "source": "itunes-rss",
-                "source_id": "1440816833"
+                "listening_url": "https://music.apple.com/gb/album/abba-gold-greatest-hits-40th-anniversary-edition/1440816833"
             }
         },
         {
@@ -4183,9 +3786,7 @@
                 "genre": "Alternative",
                 "release_year": 2024,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/romance-deluxe-edition/1803604510",
-                "source": "itunes-rss",
-                "source_id": "1803604510"
+                "listening_url": "https://music.apple.com/gb/album/romance-deluxe-edition/1803604510"
             }
         },
         {
@@ -4204,9 +3805,7 @@
                 "genre": "Alternative",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/i-barely-know-her/1832087626",
-                "source": "itunes-rss",
-                "source_id": "1832087626"
+                "listening_url": "https://music.apple.com/gb/album/i-barely-know-her/1832087626"
             }
         },
         {
@@ -4225,9 +3824,7 @@
                 "genre": "Rock",
                 "release_year": 2000,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/hybrid-theory-deluxe-edition/590431776",
-                "source": "itunes-rss",
-                "source_id": "590431776"
+                "listening_url": "https://music.apple.com/gb/album/hybrid-theory-deluxe-edition/590431776"
             }
         },
         {
@@ -4246,9 +3843,7 @@
                 "genre": "Dance",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/%C3%B6/1861895134",
-                "source": "itunes-rss",
-                "source_id": "1861895134"
+                "listening_url": "https://music.apple.com/gb/album/%C3%B6/1861895134"
             }
         },
         {
@@ -4267,9 +3862,7 @@
                 "genre": "Alternative",
                 "release_year": 2024,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/stick-season-forever/1728501020",
-                "source": "itunes-rss",
-                "source_id": "1728501020"
+                "listening_url": "https://music.apple.com/gb/album/stick-season-forever/1728501020"
             }
         },
         {
@@ -4288,9 +3881,7 @@
                 "genre": "Pop",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/these-are-the-good-days/1846213855",
-                "source": "itunes-rss",
-                "source_id": "1846213855"
+                "listening_url": "https://music.apple.com/gb/album/these-are-the-good-days/1846213855"
             }
         },
         {
@@ -4309,9 +3900,7 @@
                 "genre": "Pop",
                 "release_year": 2022,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/midnights-the-til-dawn-edition/1689131527",
-                "source": "itunes-rss",
-                "source_id": "1689131527"
+                "listening_url": "https://music.apple.com/gb/album/midnights-the-til-dawn-edition/1689131527"
             }
         },
         {
@@ -4330,9 +3919,7 @@
                 "genre": null,
                 "release_year": 2019,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/ocean-sounds/1455864111",
-                "source": "itunes-rss",
-                "source_id": "1455864111"
+                "listening_url": "https://music.apple.com/gb/album/ocean-sounds/1455864111"
             }
         },
         {
@@ -4351,9 +3938,7 @@
                 "genre": "Singer/Songwriter",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/creature-of-habit/1859898141",
-                "source": "itunes-rss",
-                "source_id": "1859898141"
+                "listening_url": "https://music.apple.com/gb/album/creature-of-habit/1859898141"
             }
         },
         {
@@ -4372,9 +3957,7 @@
                 "genre": "Alternative",
                 "release_year": 2025,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/deadbeat/1836226516",
-                "source": "itunes-rss",
-                "source_id": "1836226516"
+                "listening_url": "https://music.apple.com/gb/album/deadbeat/1836226516"
             }
         },
         {
@@ -4393,9 +3976,7 @@
                 "genre": "Soundtrack",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/wicked-for-good-the-soundtrack-commentary/1880545988",
-                "source": "itunes-rss",
-                "source_id": "1880545988"
+                "listening_url": "https://music.apple.com/gb/album/wicked-for-good-the-soundtrack-commentary/1880545988"
             }
         },
         {
@@ -4414,9 +3995,7 @@
                 "genre": "Soundtrack",
                 "release_year": 2024,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/wicked-the-soundtrack/1772364192",
-                "source": "itunes-rss",
-                "source_id": "1772364192"
+                "listening_url": "https://music.apple.com/gb/album/wicked-the-soundtrack/1772364192"
             }
         },
         {
@@ -4435,9 +4014,7 @@
                 "genre": "Reggae",
                 "release_year": 1984,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/legend-the-best-of-bob-marley-the-wailers/1469575763",
-                "source": "itunes-rss",
-                "source_id": "1469575763"
+                "listening_url": "https://music.apple.com/gb/album/legend-the-best-of-bob-marley-the-wailers/1469575763"
             }
         },
         {
@@ -4456,9 +4033,7 @@
                 "genre": "Alternative",
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/ambiguous-desire/1862570378",
-                "source": "itunes-rss",
-                "source_id": "1862570378"
+                "listening_url": "https://music.apple.com/gb/album/ambiguous-desire/1862570378"
             }
         },
         {
@@ -4477,9 +4052,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2003,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/get-rich-or-die-tryin-bonus-track-version/1440841450",
-                "source": "itunes-rss",
-                "source_id": "1440841450"
+                "listening_url": "https://music.apple.com/gb/album/get-rich-or-die-tryin-bonus-track-version/1440841450"
             }
         },
         {
@@ -4498,9 +4071,7 @@
                 "genre": "Hip-Hop/Rap",
                 "release_year": 2004,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-college-dropout/1412872568",
-                "source": "itunes-rss",
-                "source_id": "1412872568"
+                "listening_url": "https://music.apple.com/gb/album/the-college-dropout/1412872568"
             }
         },
         {
@@ -4519,9 +4090,7 @@
                 "genre": null,
                 "release_year": 2026,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/real-vol-1-ep/1867908237",
-                "source": "itunes-rss",
-                "source_id": "1867908237"
+                "listening_url": "https://music.apple.com/gb/album/real-vol-1-ep/1867908237"
             }
         },
         {
@@ -4540,9 +4109,7 @@
                 "genre": "Children’s Music",
                 "release_year": 2014,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/disney-lullabies-classic-renditions-of-disney-favorites/892858217",
-                "source": "itunes-rss",
-                "source_id": "892858217"
+                "listening_url": "https://music.apple.com/gb/album/disney-lullabies-classic-renditions-of-disney-favorites/892858217"
             }
         },
         {
@@ -4561,9 +4128,7 @@
                 "genre": "Alternative",
                 "release_year": 2024,
                 "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/from-zero-deluxe-edition/1801842323",
-                "source": "itunes-rss",
-                "source_id": "1801842323"
+                "listening_url": "https://music.apple.com/gb/album/from-zero-deluxe-edition/1801842323"
             }
         }
     ]

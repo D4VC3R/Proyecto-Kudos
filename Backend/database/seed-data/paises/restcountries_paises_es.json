@@ -1,5 +1,4 @@
 {
-    "source": "restcountries",
     "category_slug": "paises",
     "language": "es",
     "fetched_at": "2026-04-03T17:50:27+00:00",
@@ -23,9 +22,7 @@
                 "interesting_cities": [
                     "Avarua"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CK"
+                "main_religion": null
             }
         },
         {
@@ -46,9 +43,7 @@
                 "interesting_cities": [
                     "Conakry"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GN"
+                "main_religion": null
             }
         },
         {
@@ -69,9 +64,7 @@
                 "interesting_cities": [
                     "Flying Fish Cove"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CX"
+                "main_religion": null
             }
         },
         {
@@ -92,9 +85,7 @@
                 "interesting_cities": [
                     "Lomé"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TG"
+                "main_religion": null
             }
         },
         {
@@ -115,9 +106,7 @@
                 "interesting_cities": [
                     "Taipei"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TW"
+                "main_religion": null
             }
         },
         {
@@ -138,9 +127,7 @@
                 "interesting_cities": [
                     "Bishkek"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KG"
+                "main_religion": null
             }
         },
         {
@@ -161,9 +148,7 @@
                 "interesting_cities": [
                     "Paramaribo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SR"
+                "main_religion": null
             }
         },
         {
@@ -184,9 +169,7 @@
                 "interesting_cities": [
                     "Santo Domingo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "DO"
+                "main_religion": null
             }
         },
         {
@@ -207,9 +190,7 @@
                 "interesting_cities": [
                     "Guatemala City"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GT"
+                "main_religion": null
             }
         },
         {
@@ -230,9 +211,7 @@
                 "interesting_cities": [
                     "Algiers"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "DZ"
+                "main_religion": null
             }
         },
         {
@@ -253,9 +232,7 @@
                 "interesting_cities": [
                     "Kyiv"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "UA"
+                "main_religion": null
             }
         },
         {
@@ -276,9 +253,7 @@
                 "interesting_cities": [
                     "Basseterre"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KN"
+                "main_religion": null
             }
         },
         {
@@ -299,9 +274,7 @@
                 "interesting_cities": [
                     "Zagreb"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "HR"
+                "main_religion": null
             }
         },
         {
@@ -322,9 +295,7 @@
                 "interesting_cities": [
                     "Ciudad de la Paz"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GQ"
+                "main_religion": null
             }
         },
         {
@@ -345,9 +316,7 @@
                 "interesting_cities": [
                     "Panama City"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PA"
+                "main_religion": null
             }
         },
         {
@@ -368,9 +337,7 @@
                 "interesting_cities": [
                     "Brussels"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BE"
+                "main_religion": null
             }
         },
         {
@@ -391,9 +358,7 @@
                 "interesting_cities": [
                     "Kigali"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "RW"
+                "main_religion": null
             }
         },
         {
@@ -414,9 +379,7 @@
                 "interesting_cities": [
                     "Praia"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CV"
+                "main_religion": null
             }
         },
         {
@@ -437,9 +400,7 @@
                 "interesting_cities": [
                     "Seoul"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KR"
+                "main_religion": null
             }
         },
         {
@@ -460,9 +421,7 @@
                 "interesting_cities": [
                     "Hagåtña"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GU"
+                "main_religion": null
             }
         },
         {
@@ -483,9 +442,7 @@
                 "interesting_cities": [
                     "Andorra la Vella"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AD"
+                "main_religion": null
             }
         },
         {
@@ -506,9 +463,7 @@
                 "interesting_cities": [
                     "Dakar"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SN"
+                "main_religion": null
             }
         },
         {
@@ -529,9 +484,7 @@
                 "interesting_cities": [
                     "Montevideo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "UY"
+                "main_religion": null
             }
         },
         {
@@ -552,9 +505,7 @@
                 "interesting_cities": [
                     "Brazzaville"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CG"
+                "main_religion": null
             }
         },
         {
@@ -575,9 +526,7 @@
                 "interesting_cities": [
                     "Windhoek"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NA"
+                "main_religion": null
             }
         },
         {
@@ -598,9 +547,7 @@
                 "interesting_cities": [
                     "Singapore"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SG"
+                "main_religion": null
             }
         },
         {
@@ -621,9 +568,7 @@
                 "interesting_cities": [
                     "Helsinki"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "FI"
+                "main_religion": null
             }
         },
         {
@@ -644,9 +589,7 @@
                 "interesting_cities": [
                     "Cairo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "EG"
+                "main_religion": null
             }
         },
         {
@@ -667,9 +610,7 @@
                 "interesting_cities": [
                     "Ngerulmud"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PW"
+                "main_religion": null
             }
         },
         {
@@ -690,9 +631,7 @@
                 "interesting_cities": [
                     "Pago Pago"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AS"
+                "main_religion": null
             }
         },
         {
@@ -713,9 +652,7 @@
                 "interesting_cities": [
                     "Saint John's"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AG"
+                "main_religion": null
             }
         },
         {
@@ -736,9 +673,7 @@
                 "interesting_cities": [
                     "Victoria"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SC"
+                "main_religion": null
             }
         },
         {
@@ -759,9 +694,7 @@
                 "interesting_cities": [
                     "Kuwait City"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KW"
+                "main_religion": null
             }
         },
         {
@@ -782,9 +715,7 @@
                 "interesting_cities": [
                     "Athens"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GR"
+                "main_religion": null
             }
         },
         {
@@ -805,9 +736,7 @@
                 "interesting_cities": [
                     "South Tarawa"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KI"
+                "main_religion": null
             }
         },
         {
@@ -828,9 +757,7 @@
                 "interesting_cities": [
                     "Nicosia"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CY"
+                "main_religion": null
             }
         },
         {
@@ -851,9 +778,7 @@
                 "interesting_cities": [
                     "Bamako"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ML"
+                "main_religion": null
             }
         },
         {
@@ -874,9 +799,7 @@
                 "interesting_cities": [
                     "Hamilton"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BM"
+                "main_religion": null
             }
         },
         {
@@ -897,9 +820,7 @@
                 "interesting_cities": [
                     "Nuuk"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GL"
+                "main_religion": null
             }
         },
         {
@@ -920,9 +841,7 @@
                 "interesting_cities": [
                     "Asmara"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ER"
+                "main_religion": null
             }
         },
         {
@@ -943,9 +862,7 @@
                 "interesting_cities": [
                     "Dodoma"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TZ"
+                "main_religion": null
             }
         },
         {
@@ -966,9 +883,7 @@
                 "interesting_cities": [
                     "Hanoi"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "VN"
+                "main_religion": null
             }
         },
         {
@@ -989,9 +904,7 @@
                 "interesting_cities": [
                     "N'Djamena"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TD"
+                "main_religion": null
             }
         },
         {
@@ -1012,9 +925,7 @@
                 "interesting_cities": [
                     "Yamoussoukro"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CI"
+                "main_religion": null
             }
         },
         {
@@ -1035,9 +946,7 @@
                 "interesting_cities": [
                     "Tbilisi"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GE"
+                "main_religion": null
             }
         },
         {
@@ -1058,9 +967,7 @@
                 "interesting_cities": [
                     "Douglas"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "IM"
+                "main_religion": null
             }
         },
         {
@@ -1081,9 +988,7 @@
                 "interesting_cities": [
                     "Sucre"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BO"
+                "main_religion": null
             }
         },
         {
@@ -1104,9 +1009,7 @@
                 "interesting_cities": [
                     "Washington DC"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "UM"
+                "main_religion": null
             }
         },
         {
@@ -1127,9 +1030,7 @@
                 "interesting_cities": [
                     "Copenhagen"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "DK"
+                "main_religion": null
             }
         },
         {
@@ -1150,9 +1051,7 @@
                 "interesting_cities": [
                     "Ashgabat"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TM"
+                "main_religion": null
             }
         },
         {
@@ -1173,9 +1072,7 @@
                 "interesting_cities": [
                     "Niamey"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NE"
+                "main_religion": null
             }
         },
         {
@@ -1196,9 +1093,7 @@
                 "interesting_cities": [
                     "Palikir"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "FM"
+                "main_religion": null
             }
         },
         {
@@ -1219,9 +1114,7 @@
                 "interesting_cities": [
                     "Saint Helier"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "JE"
+                "main_religion": null
             }
         },
         {
@@ -1242,9 +1135,7 @@
                 "interesting_cities": [
                     "George Town"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KY"
+                "main_religion": null
             }
         },
         {
@@ -1265,9 +1156,7 @@
                 "interesting_cities": [
                     "Vaduz"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LI"
+                "main_religion": null
             }
         },
         {
@@ -1288,9 +1177,7 @@
                 "interesting_cities": [
                     "Sarajevo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BA"
+                "main_religion": null
             }
         },
         {
@@ -1311,9 +1198,7 @@
                 "interesting_cities": [
                     "Paris"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "FR"
+                "main_religion": null
             }
         },
         {
@@ -1334,9 +1219,7 @@
                 "interesting_cities": [
                     "Papeetē"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PF"
+                "main_religion": null
             }
         },
         {
@@ -1357,9 +1240,7 @@
                 "interesting_cities": [
                     "Astana"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KZ"
+                "main_religion": null
             }
         },
         {
@@ -1380,9 +1261,7 @@
                 "interesting_cities": [
                     "Luanda"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AO"
+                "main_religion": null
             }
         },
         {
@@ -1403,9 +1282,7 @@
                 "interesting_cities": [
                     "Wellington"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NZ"
+                "main_religion": null
             }
         },
         {
@@ -1426,9 +1303,7 @@
                 "interesting_cities": [
                     "San Juan"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PR"
+                "main_religion": null
             }
         },
         {
@@ -1449,9 +1324,7 @@
                 "interesting_cities": [
                     "Riyadh"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SA"
+                "main_religion": null
             }
         },
         {
@@ -1472,9 +1345,7 @@
                 "interesting_cities": [
                     "Podgorica"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ME"
+                "main_religion": null
             }
         },
         {
@@ -1497,9 +1368,7 @@
                     "Bloemfontein",
                     "Cape Town"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ZA"
+                "main_religion": null
             }
         },
         {
@@ -1520,9 +1389,7 @@
                 "interesting_cities": [
                     "Islamabad"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PK"
+                "main_religion": null
             }
         },
         {
@@ -1543,9 +1410,7 @@
                 "interesting_cities": [
                     "Sri Jayawardenepura Kotte"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LK"
+                "main_religion": null
             }
         },
         {
@@ -1566,9 +1431,7 @@
                 "interesting_cities": [
                     "Yaoundé"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CM"
+                "main_religion": null
             }
         },
         {
@@ -1589,9 +1452,7 @@
                 "interesting_cities": [
                     "St. Peter Port"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GG"
+                "main_religion": null
             }
         },
         {
@@ -1612,9 +1473,7 @@
                 "interesting_cities": [
                     "Monrovia"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LR"
+                "main_religion": null
             }
         },
         {
@@ -1635,9 +1494,7 @@
                 "interesting_cities": [
                     "Abu Dhabi"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AE"
+                "main_religion": null
             }
         },
         {
@@ -1658,9 +1515,7 @@
                 "interesting_cities": [
                     "Bern"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CH"
+                "main_religion": null
             }
         },
         {
@@ -1681,9 +1536,7 @@
                 "interesting_cities": [
                     "Budapest"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "HU"
+                "main_religion": null
             }
         },
         {
@@ -1704,9 +1557,7 @@
                 "interesting_cities": [
                     "Tripoli"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LY"
+                "main_religion": null
             }
         },
         {
@@ -1727,9 +1578,7 @@
                 "interesting_cities": [
                     "Port Vila"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "VU"
+                "main_religion": null
             }
         },
         {
@@ -1750,9 +1599,7 @@
                 "interesting_cities": [
                     "Mata-Utu"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "WF"
+                "main_religion": null
             }
         },
         {
@@ -1773,9 +1620,7 @@
                 "interesting_cities": [
                     "Castries"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LC"
+                "main_religion": null
             }
         },
         {
@@ -1796,9 +1641,7 @@
                 "interesting_cities": [
                     "Bangui"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CF"
+                "main_religion": null
             }
         },
         {
@@ -1819,9 +1662,7 @@
                 "interesting_cities": [
                     "Dushanbe"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TJ"
+                "main_religion": null
             }
         },
         {
@@ -1842,9 +1683,7 @@
                 "interesting_cities": [
                     "Dublin"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "IE"
+                "main_religion": null
             }
         },
         {
@@ -1865,9 +1704,7 @@
                 "interesting_cities": [
                     "Nouméa"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NC"
+                "main_religion": null
             }
         },
         {
@@ -1888,9 +1725,7 @@
                 "interesting_cities": [
                     "Sana'a"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "YE"
+                "main_religion": null
             }
         },
         {
@@ -1911,9 +1746,7 @@
                 "interesting_cities": [
                     "Tórshavn"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "FO"
+                "main_religion": null
             }
         },
         {
@@ -1934,9 +1767,7 @@
                 "interesting_cities": [
                     "Havana"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CU"
+                "main_religion": null
             }
         },
         {
@@ -1957,9 +1788,7 @@
                 "interesting_cities": [
                     "Baku"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AZ"
+                "main_religion": null
             }
         },
         {
@@ -1980,9 +1809,7 @@
                 "interesting_cities": [
                     "Honiara"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SB"
+                "main_religion": null
             }
         },
         {
@@ -2003,9 +1830,7 @@
                 "interesting_cities": [
                     "Kingston"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "JM"
+                "main_religion": null
             }
         },
         {
@@ -2026,9 +1851,7 @@
                 "interesting_cities": [
                     "Rabat"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MA"
+                "main_religion": null
             }
         },
         {
@@ -2049,9 +1872,7 @@
                 "interesting_cities": [
                     "Port of Spain"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TT"
+                "main_religion": null
             }
         },
         {
@@ -2072,9 +1893,7 @@
                 "interesting_cities": [
                     "Mamoudzou"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "YT"
+                "main_religion": null
             }
         },
         {
@@ -2095,9 +1914,7 @@
                 "interesting_cities": [
                     "Alofi"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NU"
+                "main_religion": null
             }
         },
         {
@@ -2118,9 +1935,7 @@
                 "interesting_cities": [
                     "Belmopan"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BZ"
+                "main_religion": null
             }
         },
         {
@@ -2141,9 +1956,7 @@
                 "interesting_cities": [
                     "Beijing"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CN"
+                "main_religion": null
             }
         },
         {
@@ -2164,9 +1977,7 @@
                 "interesting_cities": [
                     "Apia"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "WS"
+                "main_religion": null
             }
         },
         {
@@ -2187,9 +1998,7 @@
                 "interesting_cities": [
                     "Road Town"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "VG"
+                "main_religion": null
             }
         },
         {
@@ -2210,9 +2019,7 @@
                 "interesting_cities": [
                     "Khartoum"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SD"
+                "main_religion": null
             }
         },
         {
@@ -2233,9 +2040,7 @@
                 "interesting_cities": [
                     "Kingston"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NF"
+                "main_religion": null
             }
         },
         {
@@ -2256,9 +2061,7 @@
                 "interesting_cities": [
                     "Bratislava"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SK"
+                "main_religion": null
             }
         },
         {
@@ -2279,9 +2082,7 @@
                 "interesting_cities": [
                     "Gitega"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BI"
+                "main_religion": null
             }
         },
         {
@@ -2302,9 +2103,7 @@
                 "interesting_cities": [
                     "Majuro"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MH"
+                "main_religion": null
             }
         },
         {
@@ -2325,9 +2124,7 @@
                 "interesting_cities": [
                     "Vienna"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AT"
+                "main_religion": null
             }
         },
         {
@@ -2348,9 +2145,7 @@
                 "interesting_cities": [
                     "Maputo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MZ"
+                "main_religion": null
             }
         },
         {
@@ -2371,9 +2166,7 @@
                 "interesting_cities": [
                     "Kingstown"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "VC"
+                "main_religion": null
             }
         },
         {
@@ -2394,9 +2187,7 @@
                 "interesting_cities": [
                     "Port Moresby"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PG"
+                "main_religion": null
             }
         },
         {
@@ -2417,9 +2208,7 @@
                 "interesting_cities": [
                     "Ankara"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TR"
+                "main_religion": null
             }
         },
         {
@@ -2440,9 +2229,7 @@
                 "interesting_cities": [
                     "Pristina"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "XK"
+                "main_religion": null
             }
         },
         {
@@ -2463,9 +2250,7 @@
                 "interesting_cities": [
                     "St. George's"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GD"
+                "main_religion": null
             }
         },
         {
@@ -2486,9 +2271,7 @@
                 "interesting_cities": [
                     "Phnom Penh"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KH"
+                "main_religion": null
             }
         },
         {
@@ -2509,9 +2292,7 @@
                 "interesting_cities": [
                     "Lisbon"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PT"
+                "main_religion": null
             }
         },
         {
@@ -2532,9 +2313,7 @@
                 "interesting_cities": [
                     "London"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GB"
+                "main_religion": null
             }
         },
         {
@@ -2555,9 +2334,7 @@
                 "interesting_cities": [
                     "Abuja"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NG"
+                "main_religion": null
             }
         },
         {
@@ -2578,9 +2355,7 @@
                 "interesting_cities": [
                     "The Valley"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AI"
+                "main_religion": null
             }
         },
         {
@@ -2601,9 +2376,7 @@
                 "interesting_cities": [
                     "Saipan"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MP"
+                "main_religion": null
             }
         },
         {
@@ -2624,9 +2397,7 @@
                 "interesting_cities": [
                     "Jerusalem"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "IL"
+                "main_religion": null
             }
         },
         {
@@ -2647,9 +2418,7 @@
                 "interesting_cities": [
                     "Cayenne"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GF"
+                "main_religion": null
             }
         },
         {
@@ -2670,9 +2439,7 @@
                 "interesting_cities": [
                     "Beirut"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LB"
+                "main_religion": null
             }
         },
         {
@@ -2693,9 +2460,7 @@
                 "interesting_cities": [
                     "Tokyo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "JP"
+                "main_religion": null
             }
         },
         {
@@ -2716,9 +2481,7 @@
                 "interesting_cities": [
                     "Banjul"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GM"
+                "main_religion": null
             }
         },
         {
@@ -2739,9 +2502,7 @@
                 "interesting_cities": [
                     "Marigot"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MF"
+                "main_religion": null
             }
         },
         {
@@ -2762,9 +2523,7 @@
                 "interesting_cities": [
                     "Bissau"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GW"
+                "main_religion": null
             }
         },
         {
@@ -2785,9 +2544,7 @@
                 "interesting_cities": [
                     "Vientiane"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LA"
+                "main_religion": null
             }
         },
         {
@@ -2808,9 +2565,7 @@
                 "interesting_cities": [
                     "Skopje"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MK"
+                "main_religion": null
             }
         },
         {
@@ -2831,9 +2586,7 @@
                 "interesting_cities": [
                     "Doha"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "QA"
+                "main_religion": null
             }
         },
         {
@@ -2854,9 +2607,7 @@
                 "interesting_cities": [
                     "Lusaka"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ZM"
+                "main_religion": null
             }
         },
         {
@@ -2877,9 +2628,7 @@
                 "interesting_cities": [
                     "Bridgetown"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BB"
+                "main_religion": null
             }
         },
         {
@@ -2900,9 +2649,7 @@
                 "interesting_cities": [
                     "Vatican City"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "VA"
+                "main_religion": null
             }
         },
         {
@@ -2923,9 +2670,7 @@
                 "interesting_cities": [
                     "Rome"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "IT"
+                "main_religion": null
             }
         },
         {
@@ -2946,9 +2691,7 @@
                 "interesting_cities": [
                     "Moroni"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KM"
+                "main_religion": null
             }
         },
         {
@@ -2969,9 +2712,7 @@
                 "interesting_cities": [
                     "Tirana"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AL"
+                "main_religion": null
             }
         },
         {
@@ -2992,9 +2733,7 @@
                 "interesting_cities": [
                     "Gibraltar"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GI"
+                "main_religion": null
             }
         },
         {
@@ -3015,9 +2754,7 @@
                 "interesting_cities": [
                     "Ulan Bator"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MN"
+                "main_religion": null
             }
         },
         {
@@ -3038,9 +2775,7 @@
                 "interesting_cities": [
                     "Nuku'alofa"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TO"
+                "main_religion": null
             }
         },
         {
@@ -3061,9 +2796,7 @@
                 "interesting_cities": [
                     "Antananarivo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MG"
+                "main_religion": null
             }
         },
         {
@@ -3084,9 +2817,7 @@
                 "interesting_cities": [
                     "Saint-Pierre"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PM"
+                "main_religion": null
             }
         },
         {
@@ -3107,9 +2838,7 @@
                 "interesting_cities": [
                     "Jamestown"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SH"
+                "main_religion": null
             }
         },
         {
@@ -3130,9 +2859,7 @@
                 "interesting_cities": [
                     "Monaco"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MC"
+                "main_religion": null
             }
         },
         {
@@ -3153,9 +2880,7 @@
                 "interesting_cities": [
                     "Brasília"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BR"
+                "main_religion": null
             }
         },
         {
@@ -3176,9 +2901,7 @@
                 "interesting_cities": [
                     "Canberra"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AU"
+                "main_religion": null
             }
         },
         {
@@ -3199,9 +2922,7 @@
                 "interesting_cities": [
                     "Georgetown"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GY"
+                "main_religion": null
             }
         },
         {
@@ -3222,9 +2943,7 @@
                 "interesting_cities": [
                     "Ljubljana"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SI"
+                "main_religion": null
             }
         },
         {
@@ -3245,9 +2964,7 @@
                 "interesting_cities": [
                     "City of San Marino"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SM"
+                "main_religion": null
             }
         },
         {
@@ -3268,9 +2985,7 @@
                 "interesting_cities": [
                     "Fakaofo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TK"
+                "main_religion": null
             }
         },
         {
@@ -3292,9 +3007,7 @@
                     "Ramallah",
                     "Jerusalem"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PS"
+                "main_religion": null
             }
         },
         {
@@ -3315,9 +3028,7 @@
                 "interesting_cities": [
                     "Thimphu"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BT"
+                "main_religion": null
             }
         },
         {
@@ -3338,9 +3049,7 @@
                 "interesting_cities": [
                     "Philipsburg"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SX"
+                "main_religion": null
             }
         },
         {
@@ -3361,9 +3070,7 @@
                 "interesting_cities": [
                     "Manila"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PH"
+                "main_religion": null
             }
         },
         {
@@ -3384,9 +3091,7 @@
                 "interesting_cities": [
                     "Santiago"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CL"
+                "main_religion": null
             }
         },
         {
@@ -3407,9 +3112,7 @@
                 "interesting_cities": [
                     "Fort-de-France"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MQ"
+                "main_religion": null
             }
         },
         {
@@ -3430,9 +3133,7 @@
                 "interesting_cities": [
                     "Port-au-Prince"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "HT"
+                "main_religion": null
             }
         },
         {
@@ -3453,9 +3154,7 @@
                 "interesting_cities": [
                     "São Tomé"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ST"
+                "main_religion": null
             }
         },
         {
@@ -3474,9 +3173,7 @@
                 "population": 685900,
                 "language": "Portuguese, Chinese",
                 "interesting_cities": [],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MO"
+                "main_religion": null
             }
         },
         {
@@ -3497,9 +3194,7 @@
                 "interesting_cities": [
                     "Port Louis"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MU"
+                "main_religion": null
             }
         },
         {
@@ -3520,9 +3215,7 @@
                 "interesting_cities": [
                     "Manama"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BH"
+                "main_religion": null
             }
         },
         {
@@ -3543,9 +3236,7 @@
                 "interesting_cities": [
                     "Mexico City"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MX"
+                "main_religion": null
             }
         },
         {
@@ -3566,9 +3257,7 @@
                 "interesting_cities": [
                     "Adamstown"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PN"
+                "main_religion": null
             }
         },
         {
@@ -3589,9 +3278,7 @@
                 "interesting_cities": [
                     "Buenos Aires"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AR"
+                "main_religion": null
             }
         },
         {
@@ -3612,9 +3299,7 @@
                 "interesting_cities": [
                     "Kathmandu"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NP"
+                "main_religion": null
             }
         },
         {
@@ -3635,9 +3320,7 @@
                 "interesting_cities": [
                     "Stockholm"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SE"
+                "main_religion": null
             }
         },
         {
@@ -3658,9 +3341,7 @@
                 "interesting_cities": [
                     "Freetown"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SL"
+                "main_religion": null
             }
         },
         {
@@ -3681,9 +3362,7 @@
                 "interesting_cities": [
                     "Mbabane"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SZ"
+                "main_religion": null
             }
         },
         {
@@ -3704,9 +3383,7 @@
                 "interesting_cities": [
                     "Madrid"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ES"
+                "main_religion": null
             }
         },
         {
@@ -3727,9 +3404,7 @@
                 "interesting_cities": [
                     "Bogotá"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CO"
+                "main_religion": null
             }
         },
         {
@@ -3750,9 +3425,7 @@
                 "interesting_cities": [
                     "Cockburn Town"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TC"
+                "main_religion": null
             }
         },
         {
@@ -3773,9 +3446,7 @@
                 "interesting_cities": [
                     "Djibouti"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "DJ"
+                "main_religion": null
             }
         },
         {
@@ -3796,9 +3467,7 @@
                 "interesting_cities": [
                     "Yaren"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NR"
+                "main_religion": null
             }
         },
         {
@@ -3819,9 +3488,7 @@
                 "interesting_cities": [
                     "San Salvador"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SV"
+                "main_religion": null
             }
         },
         {
@@ -3842,9 +3509,7 @@
                 "interesting_cities": [
                     "Mariehamn"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AX"
+                "main_religion": null
             }
         },
         {
@@ -3865,9 +3530,7 @@
                 "interesting_cities": [
                     "Basse-Terre"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GP"
+                "main_religion": null
             }
         },
         {
@@ -3888,9 +3551,7 @@
                 "interesting_cities": [
                     "Tegucigalpa"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "HN"
+                "main_religion": null
             }
         },
         {
@@ -3911,9 +3572,7 @@
                 "interesting_cities": [
                     "Nairobi"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KE"
+                "main_religion": null
             }
         },
         {
@@ -3934,9 +3593,7 @@
                 "interesting_cities": [
                     "Valletta"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MT"
+                "main_religion": null
             }
         },
         {
@@ -3957,9 +3614,7 @@
                 "interesting_cities": [
                     "Riga"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LV"
+                "main_religion": null
             }
         },
         {
@@ -3980,9 +3635,7 @@
                 "interesting_cities": [
                     "Libreville"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GA"
+                "main_religion": null
             }
         },
         {
@@ -4003,9 +3656,7 @@
                 "interesting_cities": [
                     "City of Victoria"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "HK"
+                "main_religion": null
             }
         },
         {
@@ -4026,9 +3677,7 @@
                 "interesting_cities": [
                     "Longyearbyen"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SJ"
+                "main_religion": null
             }
         },
         {
@@ -4049,9 +3698,7 @@
                 "interesting_cities": [
                     "Funafuti"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TV"
+                "main_religion": null
             }
         },
         {
@@ -4072,9 +3719,7 @@
                 "interesting_cities": [
                     "Dili"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TL"
+                "main_religion": null
             }
         },
         {
@@ -4095,9 +3740,7 @@
                 "interesting_cities": [
                     "El Aaiún"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "EH"
+                "main_religion": null
             }
         },
         {
@@ -4118,9 +3761,7 @@
                 "interesting_cities": [
                     "Maseru"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LS"
+                "main_religion": null
             }
         },
         {
@@ -4141,9 +3782,7 @@
                 "interesting_cities": [
                     "Washington, D.C."
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "US"
+                "main_religion": null
             }
         },
         {
@@ -4164,9 +3803,7 @@
                 "interesting_cities": [
                     "Bangkok"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TH"
+                "main_religion": null
             }
         },
         {
@@ -4187,9 +3824,7 @@
                 "interesting_cities": [
                     "Diego Garcia"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "IO"
+                "main_religion": null
             }
         },
         {
@@ -4210,9 +3845,7 @@
                 "interesting_cities": [
                     "New Delhi"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "IN"
+                "main_religion": null
             }
         },
         {
@@ -4233,9 +3866,7 @@
                 "interesting_cities": [
                     "Vilnius"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LT"
+                "main_religion": null
             }
         },
         {
@@ -4256,9 +3887,7 @@
                 "interesting_cities": [
                     "Plymouth"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MS"
+                "main_religion": null
             }
         },
         {
@@ -4279,9 +3908,7 @@
                 "interesting_cities": [
                     "Harare"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ZW"
+                "main_religion": null
             }
         },
         {
@@ -4302,9 +3929,7 @@
                 "interesting_cities": [
                     "Stanley"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "FK"
+                "main_religion": null
             }
         },
         {
@@ -4325,9 +3950,7 @@
                 "interesting_cities": [
                     "Malé"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MV"
+                "main_religion": null
             }
         },
         {
@@ -4348,9 +3971,7 @@
                 "interesting_cities": [
                     "Tunis"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "TN"
+                "main_religion": null
             }
         },
         {
@@ -4371,9 +3992,7 @@
                 "interesting_cities": [
                     "Tallinn"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "EE"
+                "main_religion": null
             }
         },
         {
@@ -4394,9 +4013,7 @@
                 "interesting_cities": [
                     "Dhaka"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BD"
+                "main_religion": null
             }
         },
         {
@@ -4417,9 +4034,7 @@
                 "interesting_cities": [
                     "Tashkent"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "UZ"
+                "main_religion": null
             }
         },
         {
@@ -4440,9 +4055,7 @@
                 "interesting_cities": [
                     "Accra"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "GH"
+                "main_religion": null
             }
         },
         {
@@ -4463,9 +4076,7 @@
                 "interesting_cities": [
                     "Oslo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NO"
+                "main_religion": null
             }
         },
         {
@@ -4486,9 +4097,7 @@
                 "interesting_cities": [
                     "Mogadishu"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SO"
+                "main_religion": null
             }
         },
         {
@@ -4509,9 +4118,7 @@
                 "interesting_cities": [
                     "Nassau"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BS"
+                "main_religion": null
             }
         },
         {
@@ -4532,9 +4139,7 @@
                 "interesting_cities": [
                     "Muscat"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "OM"
+                "main_religion": null
             }
         },
         {
@@ -4555,9 +4160,7 @@
                 "interesting_cities": [
                     "Luxembourg"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "LU"
+                "main_religion": null
             }
         },
         {
@@ -4578,9 +4181,7 @@
                 "interesting_cities": [
                     "Baghdad"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "IQ"
+                "main_religion": null
             }
         },
         {
@@ -4601,9 +4202,7 @@
                 "interesting_cities": [
                     "Charlotte Amalie"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "VI"
+                "main_religion": null
             }
         },
         {
@@ -4624,9 +4223,7 @@
                 "interesting_cities": [
                     "Nouakchott"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MR"
+                "main_religion": null
             }
         },
         {
@@ -4647,9 +4244,7 @@
                 "interesting_cities": [
                     "Ottawa"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CA"
+                "main_religion": null
             }
         },
         {
@@ -4670,9 +4265,7 @@
                 "interesting_cities": [
                     "Naypyidaw"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MM"
+                "main_religion": null
             }
         },
         {
@@ -4693,9 +4286,7 @@
                 "interesting_cities": [
                     "Kuala Lumpur"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MY"
+                "main_religion": null
             }
         },
         {
@@ -4716,9 +4307,7 @@
                 "interesting_cities": [
                     "West Island"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CC"
+                "main_religion": null
             }
         },
         {
@@ -4739,9 +4328,7 @@
                 "interesting_cities": [
                     "Kralendijk"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BQ"
+                "main_religion": null
             }
         },
         {
@@ -4762,9 +4349,7 @@
                 "interesting_cities": [
                     "Kampala"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "UG"
+                "main_religion": null
             }
         },
         {
@@ -4785,9 +4370,7 @@
                 "interesting_cities": [
                     "Tehran"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "IR"
+                "main_religion": null
             }
         },
         {
@@ -4808,9 +4391,7 @@
                 "interesting_cities": [
                     "Willemstad"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CW"
+                "main_religion": null
             }
         },
         {
@@ -4831,9 +4412,7 @@
                 "interesting_cities": [
                     "Bucharest"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "RO"
+                "main_religion": null
             }
         },
         {
@@ -4854,9 +4433,7 @@
                 "interesting_cities": [
                     "Damascus"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SY"
+                "main_religion": null
             }
         },
         {
@@ -4877,9 +4454,7 @@
                 "interesting_cities": [
                     "Suva"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "FJ"
+                "main_religion": null
             }
         },
         {
@@ -4900,9 +4475,7 @@
                 "interesting_cities": [
                     "Oranjestad"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AW"
+                "main_religion": null
             }
         },
         {
@@ -4923,9 +4496,7 @@
                 "interesting_cities": [
                     "Amsterdam"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NL"
+                "main_religion": null
             }
         },
         {
@@ -4946,9 +4517,7 @@
                 "interesting_cities": [
                     "Lima"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PE"
+                "main_religion": null
             }
         },
         {
@@ -4969,9 +4538,7 @@
                 "interesting_cities": [
                     "Saint-Denis"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "RE"
+                "main_religion": null
             }
         },
         {
@@ -4992,9 +4559,7 @@
                 "interesting_cities": [
                     "Gaborone"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BW"
+                "main_religion": null
             }
         },
         {
@@ -5015,9 +4580,7 @@
                 "interesting_cities": [
                     "Kabul"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AF"
+                "main_religion": null
             }
         },
         {
@@ -5038,9 +4601,7 @@
                 "interesting_cities": [
                     "Belgrade"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "RS"
+                "main_religion": null
             }
         },
         {
@@ -5061,9 +4622,7 @@
                 "interesting_cities": [
                     "Prague"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CZ"
+                "main_religion": null
             }
         },
         {
@@ -5084,9 +4643,7 @@
                 "interesting_cities": [
                     "Roseau"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "DM"
+                "main_religion": null
             }
         },
         {
@@ -5107,9 +4664,7 @@
                 "interesting_cities": [
                     "Warsaw"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PL"
+                "main_religion": null
             }
         },
         {
@@ -5130,9 +4685,7 @@
                 "interesting_cities": [
                     "Porto-Novo"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BJ"
+                "main_religion": null
             }
         },
         {
@@ -5153,9 +4706,7 @@
                 "interesting_cities": [
                     "Chișinău"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MD"
+                "main_religion": null
             }
         },
         {
@@ -5176,9 +4727,7 @@
                 "interesting_cities": [
                     "Moscow"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "RU"
+                "main_religion": null
             }
         },
         {
@@ -5199,9 +4748,7 @@
                 "interesting_cities": [
                     "Gustavia"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BL"
+                "main_religion": null
             }
         },
         {
@@ -5222,9 +4769,7 @@
                 "interesting_cities": [
                     "Jakarta"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ID"
+                "main_religion": null
             }
         },
         {
@@ -5245,9 +4790,7 @@
                 "interesting_cities": [
                     "Managua"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "NI"
+                "main_religion": null
             }
         },
         {
@@ -5268,9 +4811,7 @@
                 "interesting_cities": [
                     "Yerevan"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "AM"
+                "main_religion": null
             }
         },
         {
@@ -5291,9 +4832,7 @@
                 "interesting_cities": [
                     "Minsk"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BY"
+                "main_religion": null
             }
         },
         {
@@ -5314,9 +4853,7 @@
                 "interesting_cities": [
                     "Addis Ababa"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "ET"
+                "main_religion": null
             }
         },
         {
@@ -5337,9 +4874,7 @@
                 "interesting_cities": [
                     "San José"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CR"
+                "main_religion": null
             }
         },
         {
@@ -5360,9 +4895,7 @@
                 "interesting_cities": [
                     "Amman"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "JO"
+                "main_religion": null
             }
         },
         {
@@ -5383,9 +4916,7 @@
                 "interesting_cities": [
                     "Berlin"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "DE"
+                "main_religion": null
             }
         },
         {
@@ -5406,9 +4937,7 @@
                 "interesting_cities": [
                     "Quito"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "EC"
+                "main_religion": null
             }
         },
         {
@@ -5429,9 +4958,7 @@
                 "interesting_cities": [
                     "Pyongyang"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "KP"
+                "main_religion": null
             }
         },
         {
@@ -5452,9 +4979,7 @@
                 "interesting_cities": [
                     "Reykjavik"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "IS"
+                "main_religion": null
             }
         },
         {
@@ -5475,9 +5000,7 @@
                 "interesting_cities": [
                     "Juba"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "SS"
+                "main_religion": null
             }
         },
         {
@@ -5498,9 +5021,7 @@
                 "interesting_cities": [
                     "Lilongwe"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "MW"
+                "main_religion": null
             }
         },
         {
@@ -5521,9 +5042,7 @@
                 "interesting_cities": [
                     "Ouagadougou"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BF"
+                "main_religion": null
             }
         },
         {
@@ -5544,9 +5063,7 @@
                 "interesting_cities": [
                     "Kinshasa"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "CD"
+                "main_religion": null
             }
         },
         {
@@ -5567,9 +5084,7 @@
                 "interesting_cities": [
                     "Caracas"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "VE"
+                "main_religion": null
             }
         },
         {
@@ -5590,9 +5105,7 @@
                 "interesting_cities": [
                     "Bandar Seri Begawan"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BN"
+                "main_religion": null
             }
         },
         {
@@ -5613,9 +5126,7 @@
                 "interesting_cities": [
                     "Asunción"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "PY"
+                "main_religion": null
             }
         },
         {
@@ -5636,9 +5147,7 @@
                 "interesting_cities": [
                     "Sofia"
                 ],
-                "main_religion": null,
-                "source": "restcountries",
-                "source_id": "BG"
+                "main_religion": null
             }
         }
     ]
