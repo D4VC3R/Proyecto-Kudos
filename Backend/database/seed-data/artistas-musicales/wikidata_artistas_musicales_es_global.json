@@ -11,8 +11,7 @@
                 "genre": "música tradicional",
                 "active_since_year": 1943,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Itziar Ituño",
@@ -23,8 +22,7 @@
                 "genre": null,
                 "active_since_year": 1993,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Shakira",
@@ -35,8 +33,7 @@
                 "genre": "rock",
                 "active_since_year": 1990,
                 "website": "https://www.shakira.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Enrique Iglesias",
@@ -47,8 +44,7 @@
                 "genre": "rhythm and blues",
                 "active_since_year": 1995,
                 "website": "https://enriqueiglesias.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Rocío Dúrcal",
@@ -59,8 +55,7 @@
                 "genre": "bolero",
                 "active_since_year": 1954,
                 "website": "http://www.rociodurcal.net"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Lucrecia",
@@ -71,8 +66,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.lucreciamusic.com/wp/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Pedro Almodóvar",
@@ -83,8 +77,7 @@
                 "genre": null,
                 "active_since_year": 1974,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Natalia Jiménez",
@@ -95,8 +88,7 @@
                 "genre": "pop latino",
                 "active_since_year": 2000,
                 "website": "http://www.nataliajimenezmusic.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Luis Fernando de Baviera",
@@ -107,8 +99,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Fabio McNamara",
@@ -119,8 +110,7 @@
                 "genre": null,
                 "active_since_year": 1976,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Gisela",
@@ -131,8 +121,7 @@
                 "genre": "pop",
                 "active_since_year": 2001,
                 "website": "http://www.giselaworld.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Belinda",
@@ -143,8 +132,7 @@
                 "genre": "pop",
                 "active_since_year": 2000,
                 "website": "https://www.belinda.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Lucía Pérez",
@@ -155,8 +143,7 @@
                 "genre": "pop",
                 "active_since_year": 2002,
                 "website": "https://www.luciaperez.es/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Natalia Oreiro",
@@ -167,8 +154,7 @@
                 "genre": "pop rock",
                 "active_since_year": 1990,
                 "website": "https://www.nataliaoreiro.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Victoria de los Ángeles",
@@ -179,8 +165,7 @@
                 "genre": "ópera",
                 "active_since_year": 1945,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Salomé",
@@ -191,8 +176,7 @@
                 "genre": "pop",
                 "active_since_year": 1960,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Leonor Watling",
@@ -203,8 +187,7 @@
                 "genre": "pop",
                 "active_since_year": 1993,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "María Isabel López",
@@ -215,8 +198,7 @@
                 "genre": "pop",
                 "active_since_year": 2004,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Elsa Pataky",
@@ -227,8 +209,7 @@
                 "genre": null,
                 "active_since_year": 1997,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Natalia Tena",
@@ -239,8 +220,7 @@
                 "genre": null,
                 "active_since_year": 2000,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Maria del Mar Bonet",
@@ -251,8 +231,7 @@
                 "genre": "música mediterránea",
                 "active_since_year": 1966,
                 "website": "https://mariadelmarbonet.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Bebe",
@@ -263,8 +242,7 @@
                 "genre": "pop",
                 "active_since_year": 2004,
                 "website": "http://www.bebeoficial.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Ana Belén",
@@ -275,8 +253,7 @@
                 "genre": "pop rock",
                 "active_since_year": 1961,
                 "website": "http://www.anabelen.es/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Massiel",
@@ -287,8 +264,7 @@
                 "genre": "pop",
                 "active_since_year": 1966,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Pastora Soler",
@@ -299,8 +275,7 @@
                 "genre": "pop",
                 "active_since_year": 1994,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Soraya Arnelas",
@@ -311,8 +286,7 @@
                 "genre": "pop",
                 "active_since_year": 2005,
                 "website": "https://www.sorayaarnelas.es"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Ricky Martin",
@@ -323,8 +297,7 @@
                 "genre": "música de América Latina",
                 "active_since_year": 1984,
                 "website": "http://rickymartinmusic.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Julio Iglesias",
@@ -335,8 +308,7 @@
                 "genre": "balada romántica",
                 "active_since_year": 1968,
                 "website": "http://www.julioiglesias.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "María Ostiz",
@@ -347,8 +319,7 @@
                 "genre": "música folclórica",
                 "active_since_year": 1965,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Joaquín Rodrigo",
@@ -359,8 +330,7 @@
                 "genre": "ópera",
                 "active_since_year": null,
                 "website": "https://www.joaquin-rodrigo.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Daniel Barenboim",
@@ -371,8 +341,7 @@
                 "genre": "música clásica",
                 "active_since_year": 1950,
                 "website": "https://danielbarenboim.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Carlos Leal",
@@ -383,8 +352,7 @@
                 "genre": null,
                 "active_since_year": 1990,
                 "website": "https://www.carloslealartist.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Paco de Lucía",
@@ -395,8 +363,7 @@
                 "genre": "flamenco",
                 "active_since_year": 1963,
                 "website": "http://pacodelucia.org"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Arianna Savall",
@@ -407,8 +374,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "https://www.ariannasavall.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Estrellita Castro",
@@ -419,8 +385,7 @@
                 "genre": "copla",
                 "active_since_year": 1925,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Perlita de Huelva",
@@ -431,8 +396,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Ana Torroja",
@@ -443,8 +407,7 @@
                 "genre": "pop",
                 "active_since_year": 1981,
                 "website": "http://www.anatorroja.info/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Mari Trini",
@@ -455,8 +418,7 @@
                 "genre": "pop",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Concha Buika",
@@ -467,8 +429,7 @@
                 "genre": "jazz",
                 "active_since_year": 2000,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Fátima Miranda",
@@ -479,8 +440,7 @@
                 "genre": "música vanguardista",
                 "active_since_year": null,
                 "website": "https://fatima-miranda.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Concha Velasco",
@@ -491,8 +451,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Concha Piquer",
@@ -503,8 +462,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Luz Casal",
@@ -515,8 +473,7 @@
                 "genre": "blues",
                 "active_since_year": 1977,
                 "website": "https://luzcasal.es"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Carmen Machi",
@@ -527,8 +484,7 @@
                 "genre": null,
                 "active_since_year": 1994,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Angy Fernández",
@@ -539,8 +495,7 @@
                 "genre": null,
                 "active_since_year": 2007,
                 "website": "http://www.angyfernandez.es"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Gala Évora",
@@ -551,8 +506,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Marta Botía",
@@ -563,8 +517,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "La Bella Otero",
@@ -575,8 +528,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Sara Montiel",
@@ -587,8 +539,7 @@
                 "genre": null,
                 "active_since_year": 1944,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Enrique Jiménez Fernández",
@@ -599,8 +550,7 @@
                 "genre": "alegría",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Alejandro Sanz",
@@ -611,8 +561,7 @@
                 "genre": "pop latino",
                 "active_since_year": 1989,
                 "website": "http://www.alejandrosanz.co"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Rosa López",
@@ -623,8 +572,7 @@
                 "genre": "pop",
                 "active_since_year": 2001,
                 "website": "https://www.rosalopezoficial.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Cristina del Valle",
@@ -635,8 +583,7 @@
                 "genre": "pop",
                 "active_since_year": 1986,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Niña Pastori",
@@ -647,8 +594,7 @@
                 "genre": "flamenco",
                 "active_since_year": 1995,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Rossy de Palma",
@@ -659,8 +605,7 @@
                 "genre": null,
                 "active_since_year": 1987,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Conchita Bautista",
@@ -671,8 +616,7 @@
                 "genre": "pop",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Jennifer Serrano",
@@ -683,8 +627,7 @@
                 "genre": "pop",
                 "active_since_year": 2006,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Carles Benavent",
@@ -695,8 +638,7 @@
                 "genre": "jazz",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Najwa Nimri",
@@ -707,8 +649,7 @@
                 "genre": "trip hop",
                 "active_since_year": 1995,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Soledad Miranda",
@@ -719,8 +660,7 @@
                 "genre": null,
                 "active_since_year": 1960,
                 "website": "https://www.soledadmiranda.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Miguel Bosé",
@@ -731,8 +671,7 @@
                 "genre": "rock",
                 "active_since_year": 1973,
                 "website": "http://www.miguelbose.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Mala Rodríguez",
@@ -743,8 +682,7 @@
                 "genre": "hip hop latino",
                 "active_since_year": 1996,
                 "website": "https://malarodriguez.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "José Antonio Ramos",
@@ -755,8 +693,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Rocío Jurado",
@@ -767,8 +704,7 @@
                 "genre": "flamenco",
                 "active_since_year": 1958,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Abraham Maffeo",
@@ -779,8 +715,7 @@
                 "genre": "pop latino",
                 "active_since_year": 2009,
                 "website": "http://www.abrahammateoofficial.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Manu Chao",
@@ -791,8 +726,7 @@
                 "genre": "ska",
                 "active_since_year": 1980,
                 "website": "http://www.manuchao.net/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Lluís Llach",
@@ -803,8 +737,7 @@
                 "genre": "canción de protesta",
                 "active_since_year": 1965,
                 "website": "http://www.lluisllach.cat"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Jeanette",
@@ -815,8 +748,7 @@
                 "genre": "pop",
                 "active_since_year": 1968,
                 "website": "http://www.jeanette-rebelde.blogspot.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Farid Bang",
@@ -827,8 +759,7 @@
                 "genre": "hip hop hardcore",
                 "active_since_year": null,
                 "website": "http://www.faridbang.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Fernando Sor",
@@ -839,8 +770,7 @@
                 "genre": "música clásica",
                 "active_since_year": null,
                 "website": "http://www.sorfernando.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Pablo Espinosa",
@@ -851,8 +781,7 @@
                 "genre": "pop",
                 "active_since_year": 2008,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Manuel García",
@@ -863,8 +792,7 @@
                 "genre": "ópera",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Xavier Cugat",
@@ -875,8 +803,7 @@
                 "genre": "pop",
                 "active_since_year": 1912,
                 "website": "https://www.xaviercugat.org"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Joan Manuel Serrat",
@@ -887,8 +814,7 @@
                 "genre": "trova",
                 "active_since_year": 1965,
                 "website": "http://www.jmserrat.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Inma Serrano",
@@ -899,8 +825,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://inmaserrano.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Malú",
@@ -911,8 +836,7 @@
                 "genre": null,
                 "active_since_year": 1998,
                 "website": "http://www.maluweb.com/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Silvia Tortosa",
@@ -923,8 +847,7 @@
                 "genre": null,
                 "active_since_year": 1966,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Pepito Arriola",
@@ -935,8 +858,7 @@
                 "genre": "música clásica",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Ismael Serrano",
@@ -947,8 +869,7 @@
                 "genre": "música tradicional",
                 "active_since_year": 1997,
                 "website": "http://www.ismaelserrano.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "David Bisbal",
@@ -959,8 +880,7 @@
                 "genre": "pop",
                 "active_since_year": 2001,
                 "website": "https://davidbisbal.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Beatriz Luengo",
@@ -971,8 +891,7 @@
                 "genre": "R&B contemporáneo",
                 "active_since_year": 1999,
                 "website": "http://www.beatrizluengo.net/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Pablo Sciuto",
@@ -983,8 +902,7 @@
                 "genre": null,
                 "active_since_year": 1996,
                 "website": "http://www.pablosciuto.com"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Camarón de la Isla",
@@ -995,8 +913,7 @@
                 "genre": "flamenco",
                 "active_since_year": 1969,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Antonio Moreno",
@@ -1007,8 +924,7 @@
                 "genre": null,
                 "active_since_year": 1912,
                 "website": null
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Manolo Escobar",
@@ -1019,8 +935,7 @@
                 "genre": "copla",
                 "active_since_year": 1956,
                 "website": "http://www.manoloescobar.net/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Estrella Morente",
@@ -1031,8 +946,7 @@
                 "genre": "flamenco",
                 "active_since_year": 2001,
                 "website": "https://estrella-morente.es/"
-            },
-            "segment": "espana_relevantes"
+            }
         },
         {
             "name": "Pablo Podestá",
@@ -1043,8 +957,7 @@
                 "genre": "Circo criollo",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "José Carbajal",
@@ -1055,8 +968,7 @@
                 "genre": "música popular",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "José Razzano",
@@ -1067,8 +979,7 @@
                 "genre": "tango",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Beto Satragni",
@@ -1079,8 +990,7 @@
                 "genre": "jazz",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Tabaré Etcheverry",
@@ -1091,8 +1001,7 @@
                 "genre": "música tradicional",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gabe Saporta",
@@ -1103,8 +1012,7 @@
                 "genre": "synth pop",
                 "active_since_year": 1998,
                 "website": "http://www.cobrastarship.com/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Ethel Afamado",
@@ -1115,8 +1023,7 @@
                 "genre": "trova",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Bernardo Aguerre",
@@ -1127,8 +1034,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Jorge Drexler",
@@ -1139,8 +1045,7 @@
                 "genre": "pop",
                 "active_since_year": 1990,
                 "website": "http://www.jorgedrexler.com"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Elli Medeiros",
@@ -1151,8 +1056,7 @@
                 "genre": "pop",
                 "active_since_year": null,
                 "website": "http://elli-medeiros.com"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Alfredo Zitarrosa",
@@ -1163,8 +1067,7 @@
                 "genre": "zamba",
                 "active_since_year": null,
                 "website": "https://www.zitarrosa.org"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Luis Trochón",
@@ -1175,8 +1078,7 @@
                 "genre": "música popular",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlos Canzani",
@@ -1187,8 +1089,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Martín Méndez",
@@ -1199,8 +1100,7 @@
                 "genre": "rock progresivo",
                 "active_since_year": 1997,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Julio Sosa",
@@ -1211,8 +1111,7 @@
                 "genre": "tango",
                 "active_since_year": 1964,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Alfredo Alonso",
@@ -1223,8 +1122,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Andrés Stagnaro",
@@ -1235,8 +1133,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlos Gardel",
@@ -1247,8 +1144,7 @@
                 "genre": "tango",
                 "active_since_year": 1917,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "César Amaro",
@@ -1259,8 +1155,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Erika Büsch",
@@ -1271,8 +1166,7 @@
                 "genre": "música popular",
                 "active_since_year": null,
                 "website": "http://www.erikabusch.uy/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Wilson de Oliveira",
@@ -1283,8 +1177,7 @@
                 "genre": "jazz",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Leo Maslíah",
@@ -1295,8 +1188,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.leomasliah.com/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlos Nilson",
@@ -1307,8 +1199,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Osvaldo Fattoruso",
@@ -1319,8 +1210,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "José Luis Guerra",
@@ -1331,8 +1221,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Francisco Fattoruso",
@@ -1343,8 +1232,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Daniel Viglietti",
@@ -1355,8 +1243,7 @@
                 "genre": "música tradicional",
                 "active_since_year": 1963,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Eduardo Fernández",
@@ -1367,8 +1254,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Alejandro Balbis",
@@ -1379,8 +1265,7 @@
                 "genre": "rock and roll",
                 "active_since_year": 1980,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Mariana Ingold",
@@ -1391,8 +1276,7 @@
                 "genre": "música popular",
                 "active_since_year": null,
                 "website": "https://www.marianaingold.com/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Washington Luna",
@@ -1403,8 +1287,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Erwin Schrott",
@@ -1415,8 +1298,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.erwinschrott.com/index.php/en-GB/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Rubén Rada",
@@ -1427,8 +1309,7 @@
                 "genre": "tango",
                 "active_since_year": 1955,
                 "website": "http://www.negrorada.com/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Nina Miranda",
@@ -1439,8 +1320,7 @@
                 "genre": "tango",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Fernando Cabrera",
@@ -1451,8 +1331,7 @@
                 "genre": null,
                 "active_since_year": 1977,
                 "website": "http://www.fernandocabrerauruguay.com"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Lauro Ayestarán",
@@ -1463,8 +1342,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Eduardo Darnauchans",
@@ -1475,8 +1353,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Samantha Navarro",
@@ -1487,8 +1364,7 @@
                 "genre": "música popular",
                 "active_since_year": null,
                 "website": "http://www.samanthanavarro.com"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Hugo Balzo",
@@ -1499,8 +1375,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Agustín Carlevaro",
@@ -1511,8 +1386,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Washington Benavides",
@@ -1523,8 +1397,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Cacho Labandera",
@@ -1535,8 +1408,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Romeo Gavioli",
@@ -1547,8 +1419,7 @@
                 "genre": "tango",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Ana Solari",
@@ -1559,8 +1430,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.ana-solari.com/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Walter Bordoni",
@@ -1571,8 +1441,7 @@
                 "genre": "trova",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Fernando Quijano",
@@ -1583,8 +1452,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Eduardo Mateo",
@@ -1595,8 +1463,7 @@
                 "genre": "música folclórica",
                 "active_since_year": 1960,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Tabaré Rivero",
@@ -1607,8 +1474,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Juan Carlos Mareco",
@@ -1619,8 +1485,7 @@
                 "genre": null,
                 "active_since_year": 1948,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Pablo Estramín",
@@ -1631,8 +1496,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gabino Sosa Benítez",
@@ -1643,8 +1507,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Roberto Darvin",
@@ -1655,8 +1518,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlo Ventre",
@@ -1667,8 +1529,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gerardo Matos Rodríguez",
@@ -1679,8 +1540,7 @@
                 "genre": "tango",
                 "active_since_year": 1917,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Anselmo Grau",
@@ -1691,8 +1551,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Álvaro Pierri",
@@ -1703,8 +1562,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gustavo Núñez",
@@ -1715,8 +1573,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Alberto Moreno",
@@ -1727,8 +1584,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Amalia de la Vega",
@@ -1739,8 +1595,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Jaime Roos",
@@ -1751,8 +1606,7 @@
                 "genre": "rock",
                 "active_since_year": 1977,
                 "website": "http://www.jaimeroos.uy/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gaúcho da Fronteira",
@@ -1763,8 +1617,7 @@
                 "genre": "Música gaúcha brasileña",
                 "active_since_year": 1968,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Osvaldo Laport",
@@ -1775,8 +1628,7 @@
                 "genre": null,
                 "active_since_year": 1983,
                 "website": "http://www.osvaldolaport.com.ar/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Fernando Santullo",
@@ -1787,8 +1639,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Alberto Mastra",
@@ -1799,8 +1650,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Alberto Wolf",
@@ -1811,8 +1661,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Alberto Zapicán",
@@ -1823,8 +1672,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Daniel Rucks",
@@ -1835,8 +1683,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlos Julio Eizmendi",
@@ -1847,8 +1694,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Andrés Ibarburu",
@@ -1859,8 +1705,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Ramiro Guzmán",
@@ -1871,8 +1716,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Jorge Lazaroff",
@@ -1883,8 +1727,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Atilio Rapat",
@@ -1895,8 +1738,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Braulio López",
@@ -1907,8 +1749,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Cacho de la Cruz",
@@ -1919,8 +1760,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Roberto Fugazot",
@@ -1931,8 +1771,7 @@
                 "genre": "tango",
                 "active_since_year": 1933,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlos Darakjian",
@@ -1943,8 +1782,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlos María Fossati",
@@ -1955,8 +1793,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Cecilia Prato",
@@ -1967,8 +1804,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Cédar Viglietti",
@@ -1979,8 +1815,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Dahd Sfeir",
@@ -1991,8 +1826,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Daniel Morgade",
@@ -2003,8 +1837,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gustavo Pena",
@@ -2015,8 +1848,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://imaginandobuenas.com.uy/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Darío Iglesias",
@@ -2027,8 +1859,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Mariana García Vigil",
@@ -2039,8 +1870,7 @@
                 "genre": "Canto popular uruguayo",
                 "active_since_year": 1970,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Dani Umpi",
@@ -2051,8 +1881,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://daniumpi.bandcamp.com/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Julio Gallego",
@@ -2063,8 +1892,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Eustaquio Sosa",
@@ -2075,8 +1903,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Fernando Torrado",
@@ -2087,8 +1914,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gastón Ciarlo",
@@ -2099,8 +1925,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gerardo Grasso",
@@ -2111,8 +1936,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Horacio Buscaglia",
@@ -2123,8 +1947,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Humberto de Vargas",
@@ -2135,8 +1958,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Jorge Bonaldi",
@@ -2147,8 +1969,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Jorge Schellemberg",
@@ -2159,8 +1980,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "José Pierri Sapere",
@@ -2171,8 +1991,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Ariel Ameijenda",
@@ -2183,8 +2002,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://ameijenda.com/ArielAmeijenda"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Julio Frade",
@@ -2195,8 +2013,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Joaquín Lencina",
@@ -2207,8 +2024,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Leandro Marziotte",
@@ -2219,8 +2035,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Lucio Muniz",
@@ -2231,8 +2046,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Luis Di Matteo",
@@ -2243,8 +2057,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Manuel Campoamor",
@@ -2255,8 +2068,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Manuel Capella",
@@ -2267,8 +2079,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Mariela Celentano",
@@ -2279,8 +2090,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Mario Núñez Iordi",
@@ -2291,8 +2101,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlos Casacuberta",
@@ -2303,8 +2112,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Martín Buscaglia",
@@ -2315,8 +2123,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Martín Ibarburu",
@@ -2327,8 +2134,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Mauricio Ubal",
@@ -2339,8 +2145,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Miguel Livichich",
@@ -2351,8 +2156,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Sebastián Teysera",
@@ -2363,8 +2167,7 @@
                 "genre": null,
                 "active_since_year": 1995,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Estela Magnone",
@@ -2375,8 +2178,7 @@
                 "genre": "música popular",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Sergio Cervetti",
@@ -2387,8 +2189,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.sergiocervetti.com"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Cristina Fernández",
@@ -2399,8 +2200,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Lágrima Ríos",
@@ -2411,8 +2211,7 @@
                 "genre": "tango",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Héctor Numa Moraes",
@@ -2423,8 +2222,7 @@
                 "genre": "música popular",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Washington Carrasco",
@@ -2435,8 +2233,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Roberto Musso",
@@ -2447,8 +2244,7 @@
                 "genre": "rock alternativo",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Emiliano Brancciari",
@@ -2459,8 +2255,7 @@
                 "genre": null,
                 "active_since_year": 1994,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Rafael Antognazza",
@@ -2471,8 +2266,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Rita Contino",
@@ -2483,8 +2277,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Roberto Diringuer",
@@ -2495,8 +2288,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Roberto Rodríguez Luna",
@@ -2507,8 +2299,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Rufino Mario García",
@@ -2519,8 +2310,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Abel García",
@@ -2531,8 +2321,7 @@
                 "genre": "música tradicional",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Santiago Chalar",
@@ -2543,8 +2332,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Tabaré Arapí",
@@ -2555,8 +2343,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Hilario Pérez",
@@ -2567,8 +2354,7 @@
                 "genre": "música tradicional",
                 "active_since_year": 1957,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Teresita Minetti",
@@ -2579,8 +2365,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gonzalo Yáñez",
@@ -2591,8 +2376,7 @@
                 "genre": "pop rock",
                 "active_since_year": 2001,
                 "website": "http://www.gonzaloyanezmusic.com/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Tunda Prada",
@@ -2603,8 +2387,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Urbano Moraes",
@@ -2615,8 +2398,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Valeria Lima",
@@ -2627,8 +2409,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Luciano Supervielle",
@@ -2639,8 +2420,7 @@
                 "genre": null,
                 "active_since_year": 1997,
                 "website": "http://www.lucianosupervielle.net/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Vera Sienra",
@@ -2651,8 +2431,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Verónica Loza",
@@ -2663,8 +2442,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Álvaro Pintos",
@@ -2675,8 +2453,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Yamandú Palacios",
@@ -2687,8 +2464,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Alika",
@@ -2699,8 +2475,7 @@
                 "genre": "dancehall",
                 "active_since_year": 1996,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Ana Prada",
@@ -2711,8 +2486,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Fernando Núñez",
@@ -2723,8 +2497,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Tabaré Cardozo",
@@ -2735,8 +2508,7 @@
                 "genre": null,
                 "active_since_year": 1998,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Diego Azar",
@@ -2747,8 +2519,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Laura Canoura",
@@ -2759,8 +2530,7 @@
                 "genre": "música popular",
                 "active_since_year": null,
                 "website": "http://www.lauracanoura.com.uy/blog/bio/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Víctor Ocampo",
@@ -2771,8 +2541,7 @@
                 "genre": "tango",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Jorge Galemire",
@@ -2783,8 +2552,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Laura Prieto",
@@ -2795,8 +2563,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "José Liard",
@@ -2807,8 +2574,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Eduardo Larbanois",
@@ -2819,8 +2585,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Roberto Barry",
@@ -2831,8 +2596,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Waldemar Sasía",
@@ -2843,8 +2607,7 @@
                 "genre": "folclore",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Julio Mora",
@@ -2855,8 +2618,7 @@
                 "genre": "música tradicional",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Juan Campodónico",
@@ -2867,8 +2629,7 @@
                 "genre": "música electrónica",
                 "active_since_year": null,
                 "website": "http://www.juancampodonico.com"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "René Marino Rivero",
@@ -2879,8 +2640,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.duoriverodiaz.com"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Luz del Alba Rubio",
@@ -2891,8 +2651,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.luzdelalbarubio.com/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "José María Aguilar Porras",
@@ -2903,8 +2662,7 @@
                 "genre": "tango",
                 "active_since_year": 1920,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Jorge Nasser",
@@ -2915,8 +2673,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Marcelo Silvera",
@@ -2927,8 +2684,7 @@
                 "genre": null,
                 "active_since_year": 1970,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gastón Rodríguez",
@@ -2939,8 +2695,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.gastonrodriguez.com.uy/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Héctor Bingert",
@@ -2951,8 +2706,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Yábor",
@@ -2963,8 +2717,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Ariel Martínez",
@@ -2975,8 +2728,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Rubén Olivera",
@@ -2987,8 +2739,7 @@
                 "genre": "música popular",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Enrique Campos",
@@ -2999,8 +2750,7 @@
                 "genre": "tango",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlos Benavides",
@@ -3011,8 +2761,7 @@
                 "genre": "balada",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "André de Badet",
@@ -3023,8 +2772,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Abel Soria",
@@ -3035,8 +2783,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Yalta",
@@ -3047,8 +2794,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Arturo de Nava",
@@ -3059,8 +2805,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Antonio Podestá",
@@ -3071,8 +2816,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Mariana Vázquez",
@@ -3083,8 +2827,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Hugo Trova",
@@ -3095,8 +2838,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Leonardo Franco (músico)",
@@ -3107,8 +2849,7 @@
                 "genre": null,
                 "active_since_year": 1958,
                 "website": "https://instagram.com/losiracundos.oficial?igshid=MzRlODBiNWFlZA=="
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Gustavo Espinosa",
@@ -3119,8 +2860,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Laura Gutman",
@@ -3131,8 +2871,7 @@
                 "genre": null,
                 "active_since_year": 1995,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Pedro Restuccia",
@@ -3143,8 +2882,7 @@
                 "genre": "rock",
                 "active_since_year": 1999,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Carlos Warren",
@@ -3155,8 +2893,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Eduardo Franco",
@@ -3167,8 +2904,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Emil Montgomery",
@@ -3179,8 +2915,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Mario Carrero",
@@ -3191,8 +2926,7 @@
                 "genre": "música tradicional",
                 "active_since_year": null,
                 "website": "http://www.larbanois-carrero.com.uy/"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Aldo Mazzucchelli",
@@ -3203,8 +2937,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Ariel Britos",
@@ -3215,8 +2948,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Ernesto Negrín",
@@ -3227,8 +2959,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Laura Chinelli",
@@ -3239,8 +2970,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Oscar Nelson",
@@ -3251,8 +2981,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Ricardo Martínez",
@@ -3263,8 +2992,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Sergio Fachelli",
@@ -3275,8 +3003,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.sergiofachelli.net"
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Jorginho Gularte",
@@ -3287,8 +3014,7 @@
                 "genre": "funk",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Aquilino Pío",
@@ -3299,8 +3025,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Adriana Ducret",
@@ -3311,8 +3036,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Josep Soler Dosaigües",
@@ -3323,8 +3047,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Rossana Taddei",
@@ -3335,8 +3058,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "latam_relevantes"
+            }
         },
         {
             "name": "Elvis Presley",
@@ -3347,8 +3069,7 @@
                 "genre": "rhythm and blues",
                 "active_since_year": 1954,
                 "website": "https://elvisthemusic.com"
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Ariana Grande",
@@ -3359,8 +3080,7 @@
                 "genre": "R&B contemporáneo",
                 "active_since_year": 2008,
                 "website": "https://arianagrande.com"
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "reduccionismo",
@@ -3371,8 +3091,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "John Lennon",
@@ -3383,8 +3102,7 @@
                 "genre": "pop rock",
                 "active_since_year": 1956,
                 "website": "http://www.johnlennon.com/"
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Bob Dylan",
@@ -3395,8 +3113,7 @@
                 "genre": "folk rock",
                 "active_since_year": 1962,
                 "website": "https://www.bobdylan.com/"
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Marie Curie",
@@ -3407,8 +3124,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Taylor Swift",
@@ -3419,8 +3135,7 @@
                 "genre": "pop",
                 "active_since_year": 2003,
                 "website": "https://taylorswift.com"
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "consejo de administración",
@@ -3431,8 +3146,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Arquímedes",
@@ -3443,8 +3157,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Elon Musk",
@@ -3455,8 +3168,7 @@
                 "genre": null,
                 "active_since_year": 1995,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Born to Die",
@@ -3467,8 +3179,7 @@
                 "genre": "rock alternativo",
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "teoría",
@@ -3479,8 +3190,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "10 de agosto",
@@ -3491,8 +3201,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "línea B",
@@ -3503,8 +3212,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "San Dorligo della Valle",
@@ -3515,8 +3223,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Emperor Shao of Liu Song",
@@ -3527,8 +3234,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Block DM-2 11S861",
@@ -3539,8 +3245,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Primera Guerra Mundial",
@@ -3551,8 +3256,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Expedición 34",
@@ -3563,8 +3267,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": "http://www.nasa.gov/mission_pages/station/expeditions/expedition34/index.html"
-            },
-            "segment": "global_relevantes"
+            }
         },
         {
             "name": "Polo Sur",
@@ -3575,8 +3278,7 @@
                 "genre": null,
                 "active_since_year": null,
                 "website": null
-            },
-            "segment": "global_relevantes"
+            }
         }
     ]
 }
