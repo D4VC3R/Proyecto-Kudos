@@ -1,5 +1,5 @@
 import React from 'react';
-import Ranking from '../common/Ranking';
+import Ranking from './Ranking.jsx';
 import { Pagination } from '../common/Pagination';
 
 export const UserRankingTable = ({ items, page, setPage, meta, itemsPerPage = 10 }) => {

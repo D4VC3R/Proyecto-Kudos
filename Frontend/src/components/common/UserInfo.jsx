@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { UserCircle, Trophy, Medal } from 'lucide-react';
-import { useSessionStore } from '../../store/useSessionStore';
-import { useMinimalProfile } from '../../hooks/users/useUserQueries';
-import { KudosCounter } from '../ui/KudosCounter';
+import { useSessionStore } from '../../store/useSessionStore.js';
+import { useMinimalProfile } from '../../hooks/users/useUserQueries.js';
+import { KudosCounter } from './KudosCounter.jsx';
 
 export const UserInfo = () => {
   const user = useSessionStore((state) => state.user);

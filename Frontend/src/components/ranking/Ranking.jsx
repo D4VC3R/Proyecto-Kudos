@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Loader2 } from 'lucide-react';
-import { staggereContainerVariants } from '../../lib/animations';
-import { PodiumItem } from './PodiumItem';
+import { staggereContainerVariants } from '../../lib/animations.js';
+import { PodiumItem } from '../common/PodiumItem.jsx';
 
 const Ranking = ({
   title,

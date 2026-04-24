@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
-import { useLogin } from '../../hooks/auth/useAuthMutations';
+import { useLogin } from '../../hooks/auth/useAuthMutations.js';
 
 export const HeaderLogin = () => {
   const { mutate: login, isPending } = useLogin();

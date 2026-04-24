@@ -1,8 +1,8 @@
 import { Outlet, Link } from 'react-router-dom';
 import { useSessionStore } from '../../store/useSessionStore';
-import { HeaderLogin } from '../../components/layout/HeaderLogin';
-import { UserInfo } from '../../components/layout/UserInfo';
-import { NavBar } from '../../components/layout/NavBar';
+import { HeaderLogin } from '../../components/common/HeaderLogin.jsx';
+import { UserInfo } from '../../components/common/UserInfo.jsx';
+import { NavBar } from '../../components/common/NavBar.jsx';
 import { LogoutButton } from '../../components/auth/LogoutButton';
 import { Gamepad2 } from 'lucide-react';
 

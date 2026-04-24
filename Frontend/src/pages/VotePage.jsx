@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { useNextCategoryItem } from '../hooks/categories/useCategoryQueries';
 import { useCreateVote } from '../hooks/votes/useVoteMutations';
-import { VoteStars } from '../components/vote/VoteStars';
+import { VoteStars } from '../components/votes/VoteStars.jsx';
 import { CommentBox } from '../components/comments/CommentBox';
 import { ItemDetail } from '../components/items/ItemDetail';
-import { VoteActions } from '../components/vote/VoteActions';
-import {EmptyVoteState} from "../components/vote/EmptyVoteState.jsx";
+import { VoteActions } from '../components/votes/VoteActions.jsx';
+import {EmptyVoteState} from "../components/votes/EmptyVoteState.jsx";
 
 export const VotePage = () => {
   const { categorySlug } = useParams();

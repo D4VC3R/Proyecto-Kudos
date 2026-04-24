@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { PlayCircle, PlusCircle, Loader2 } from 'lucide-react';
 import { useCategoryDetail, useInfiniteCategoryRanking } from '../hooks/categories/useCategoryQueries';
 import ActionButton  from '../components/common/ActionButton';
-import Ranking from '../components/common/Ranking';
+import Ranking from '../components/ranking/Ranking.jsx';
 import InfiniteSlider  from '../components/common/InfiniteSlider';
 
 const CategoryDetail = () => {
