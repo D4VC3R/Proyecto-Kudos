@@ -3,17 +3,15 @@ import { AppLayout } from './layouts/AppLayout.jsx';
 import { RequireAuth } from './guards/RequireAuth.jsx';
 import { RequireVerified } from './guards/RequireVerified.jsx';
 import { RequireAdmin } from './guards/RequireAdmin.jsx';
-
 import HomePage from '../pages/HomePage.jsx';
 import ProfilePage from "../pages/profile/ProfilePage.jsx";
-import {LoginPage} from "../pages/LoginPage.jsx";
-import {RegisterPage} from "../pages/RegisterPage.jsx";
-import {VerifyEmailPage} from "../pages/auth/VerifyEmailPage.jsx";
+import VerifyEmailPage from "../pages/auth/VerifyEmailPage.jsx";
 import VotePage from "../pages/VotePage.jsx";
 import CategoryDetail from "../pages/CategoryDetail.jsx";
 import RankingPage from "../pages/RankingPage.jsx";
 import NewProposalPage from "../pages/proposals/NewProposalPage.jsx";
 import MyProposalsPage from "../pages/proposals/MyProposalsPage.jsx";
+import AuthPage from "../pages/auth/AuthPage.jsx";
 
 
 export const AppRoutes = () => {
@@ -23,8 +21,8 @@ export const AppRoutes = () => {
 
         <Route path="/" element={<HomePage />} />
         <Route path="/ranking" element={<RankingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<AuthPage />} />
+        <Route path="/register" element={<AuthPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/:categorySlug" element={<CategoryDetail />} />
         <Route path="/forbidden" element={<div>Acceso Denegado</div>} />

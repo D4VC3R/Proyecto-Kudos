@@ -8,6 +8,8 @@ import { CommentBox } from '../components/comments/CommentBox';
 import { ItemDetail } from '../components/items/ItemDetail';
 import { VoteActions } from '../components/votes/VoteActions.jsx';
 import {EmptyVoteState} from "../components/votes/EmptyVoteState.jsx";
+import {AnimatePresence} from "framer-motion";
+import {AnimatedItem} from "../components/items/AnimatedItem.jsx";
 
 export const VotePage = () => {
   const { categorySlug } = useParams();
@@ -53,8 +55,12 @@ export const VotePage = () => {
         </div>
 
         <div className="w-full h-full bg-white rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between">
-          <div className="shrink-0 mb-6">
-            <ItemDetail item={item} />
+          <div className="shrink-0 mb-6 min-h-[350px] md:min-h-[380px] xl:min-h-[450px] flex justify-center">
+            <AnimatePresence mode="wait">
+              <AnimatedItem key={item.id} itemKey={item.id}>
+                <ItemDetail item={item} />
+              </AnimatedItem>
+            </AnimatePresence>
           </div>
 
           <div className="shrink-0 mb-8">

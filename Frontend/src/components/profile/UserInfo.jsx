@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserCircle, Trophy, Medal } from 'lucide-react';
 import { useSessionStore } from '../../store/useSessionStore.js';
 import { useMinimalProfile } from '../../hooks/users/useUserQueries.js';
-import { KudosCounter } from './KudosCounter.jsx';
+import { KudosCounter } from '../common/KudosCounter.jsx';
 
 export const UserInfo = () => {
   const user = useSessionStore((state) => state.user);
@@ -12,9 +12,9 @@ export const UserInfo = () => {
 
   const profile = minimalProfile;
   const position = profile?.ranking_position;
-  const totalKudos = profile?.total_kudos ?? user?.total_kudos ?? 0;
-  const displayName = profile?.name ?? user?.name;
-  const displayAvatar = profile?.avatar ?? user?.avatar;
+  const totalKudos = user?.total_kudos ?? 0;
+  const displayName = user?.name;
+  const displayAvatar = profile?.avatar;
 
   return (
     <Link 

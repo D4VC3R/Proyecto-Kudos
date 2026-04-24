@@ -1,6 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import {staggereContainerVariants} from "../lib/animations.js";
+import { StaggeredGrid } from '../components/animations/StaggeredGrid';
 import { CategoryCard } from '../components/category/CategoryCard';
 import { useCategories } from '../hooks/categories/useCategoryQueries';
 import { Loader2 } from 'lucide-react';
@@ -26,7 +25,6 @@ const HomePage = () => {
 
     return (
         <div className={`mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-300 ${isFetching ? 'opacity-60' : 'opacity-100'}`}>
-            {/* Encabezado Gamificado */}
             <div className="mb-12 text-center md:text-left">
                 <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
                     Elige tu <span className="text-blue-600 drop-shadow-sm">Temática</span>
@@ -36,17 +34,11 @@ const HomePage = () => {
                 </p>
             </div>
 
-            {/* Grilla Mobile First: 1 col -> 2 cols (tablet) -> 3 cols (desktop) */}
-            <motion.div
-                variants={staggereContainerVariants} // <-- Lo usamos aquí
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10"
-            >
+            <StaggeredGrid className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
                 {Array.isArray(categories) && categories.map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
-            </motion.div>
+            </StaggeredGrid>
         </div>
     );
 };

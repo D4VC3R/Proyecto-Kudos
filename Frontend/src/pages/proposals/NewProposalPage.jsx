@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { NewProposalForm } from '../../components/proposals/NewProposalForm';
 import { NewProposalHeader } from '../../components/proposals/NewProposalHeader';
 import { NewProposalInfoBanner } from '../../components/proposals/NewProposalInfoBanner';
 import { useCategoryDetail } from '../../hooks/categories/useCategoryQueries';
+import {FadeUp} from "../../components/animations/FadeUp.jsx";
 
 export const NewProposalPage = () => {
   const { categorySlug } = useParams();
@@ -25,12 +25,7 @@ export const NewProposalPage = () => {
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full rounded-3xl bg-white p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200"
-      >
+      <FadeUp className="w-full rounded-3xl bg-white p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
         <NewProposalHeader categoryName={category.name} />
 
         <div className="w-full">
@@ -38,7 +33,7 @@ export const NewProposalPage = () => {
         </div>
 
         <NewProposalInfoBanner />
-      </motion.div>
+      </FadeUp>
     </div>
   );
 };

@@ -17,7 +17,7 @@ class ProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            'avatar' => fake()->imageUrl(200, 200, 'people'),
+            'avatar' => null,
             'biography' => fake()->paragraph(3),
             'social_links' => [
                 'twitter' => fake()->optional()->url(),

@@ -1,11 +1,11 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { useMyProposals } from '../../hooks/proposals/useProposalQueries';
 import { useDeleteProposal } from '../../hooks/proposals/useProposalMutations';
 import { MyProposalsHeader } from '../../components/proposals/MyProposalsHeader';
 import { MyProposalsEmpty } from '../../components/proposals/MyProposalsEmpty';
 import { MyProposalItemCard } from '../../components/proposals/MyProposalItemCard';
+import {FadeUp} from "../../components/animations/FadeUp.jsx";
 
 export const MyProposalsPage = () => {
   const { data: response, isLoading, isFetching } = useMyProposals();
@@ -24,12 +24,7 @@ export const MyProposalsPage = () => {
 
   return (
     <div className={`flex w-full flex-col transition-opacity duration-300 ${isFetching ? 'opacity-60' : 'opacity-100'}`}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="flex flex-col gap-6"
-      >
+      <FadeUp className="flex flex-col gap-6">
         <MyProposalsHeader meta={meta} />
 
         {proposals.length === 0 ? (
@@ -46,7 +41,7 @@ export const MyProposalsPage = () => {
             ))}
           </div>
         )}
-      </motion.div>
+      </FadeUp>
     </div>
   );
 };

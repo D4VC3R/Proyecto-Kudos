@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { FeedbackState } from '../../components/common/FeedbackState';
 import { Loader2, MailCheck, Mail, AlertCircle } from 'lucide-react';
-export const VerifyEmailPage = () => {
+
+const VerifyEmailPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();

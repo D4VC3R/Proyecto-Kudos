@@ -1,7 +1,7 @@
 import { Outlet, Link } from 'react-router-dom';
 import { useSessionStore } from '../../store/useSessionStore';
 import { HeaderLogin } from '../../components/common/HeaderLogin.jsx';
-import { UserInfo } from '../../components/common/UserInfo.jsx';
+import { UserInfo } from '../../components/profile/UserInfo.jsx';
 import { NavBar } from '../../components/common/NavBar.jsx';
 import { LogoutButton } from '../../components/auth/LogoutButton';
 import { Gamepad2 } from 'lucide-react';
