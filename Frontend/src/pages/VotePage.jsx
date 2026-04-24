@@ -7,9 +7,9 @@ import { VoteStars } from '../components/votes/VoteStars.jsx';
 import { CommentBox } from '../components/comments/CommentBox';
 import { ItemDetail } from '../components/items/ItemDetail';
 import { VoteActions } from '../components/votes/VoteActions.jsx';
-import {EmptyVoteState} from "../components/votes/EmptyVoteState.jsx";
-import {AnimatePresence} from "framer-motion";
-import {AnimatedItem} from "../components/items/AnimatedItem.jsx";
+import { EmptyVoteState } from "../components/votes/EmptyVoteState.jsx";
+import { AnimatePresence } from "framer-motion";
+import { AnimatedItem } from "../components/animations/AnimatedItem.jsx";
 
 export const VotePage = () => {
   const { categorySlug } = useParams();
@@ -18,22 +18,12 @@ export const VotePage = () => {
   const { data, isLoading, isFetching } = useNextCategoryItem(categorySlug);
   const voteMutation = useCreateVote();
 
-
   useEffect(() => {
     setShowComments(false);
   }, [data?.data?.id]);
 
-  if (isLoading) {
-    return (
-      <div className="flex h-[70vh] items-center justify-center">
-        <Loader2 className="animate-spin text-blue-500" size={48} />
-      </div>
-    );
-  }
-
   const item = data?.data;
   const remaining = data?.meta?.remaining || 0;
-
 
   const handleVote = (score) => {
     voteMutation.mutate({ item_id: item.id, type: 'vote', score, categorySlug });
@@ -43,49 +33,62 @@ export const VotePage = () => {
     voteMutation.mutate({ item_id: item.id, type: 'skip', categorySlug });
   };
 
+  // Manejo del estado vacío cuando no hay carga activa
+  if (!isLoading && !item) {
+    return <EmptyVoteState category={categorySlug} />;
+  }
+
   return (
-    <> {item
-      ?
-      <div className={`mx-auto flex w-full max-w-3xl flex-col items-center py-8 min-h-screen transition-opacity duration-300 ${isFetching ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
-        <div className="w-full flex items-center justify-between mb-6 px-4 shrink-0">
-          <h1 className="text-2xl font-black text-slate-900">Votación en Curso</h1>
+    <div className={`mx-auto flex w-full max-w-3xl flex-col items-center py-8 min-h-screen transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
+
+      <div className="w-full flex items-center justify-between mb-6 px-4 shrink-0 h-10">
+        <h1 className="text-2xl font-black text-slate-900">Votación en Curso</h1>
+        {!isLoading && (
           <div className="bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full text-sm font-bold shadow-sm">
             {remaining} {remaining === 1 ? 'restante' : 'restantes'}
           </div>
-        </div>
-
-        <div className="w-full h-full bg-white rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between">
-          <div className="shrink-0 mb-6 min-h-[350px] md:min-h-[380px] xl:min-h-[450px] flex justify-center">
-            <AnimatePresence mode="wait">
-              <AnimatedItem key={item.id} itemKey={item.id}>
-                <ItemDetail item={item} />
-              </AnimatedItem>
-            </AnimatePresence>
-          </div>
-
-          <div className="shrink-0 mb-8">
-            <VoteStars onVote={handleVote} isPending={voteMutation.isPending} />
-          </div>
-
-          <VoteActions
-            onSkip={handleSkip}
-            isPending={voteMutation.isPending}
-            showComments={showComments}
-            onToggleComments={() => setShowComments(!showComments)}
-          />
-
-          {showComments && (
-            <div className="mt-2 pt-2 border-t border-slate-100">
-              <CommentBox itemId={item.id} />
-            </div>
-          )}
-        </div>
+        )}
       </div>
-      :
-      <EmptyVoteState category={categorySlug} />}
-    </>
 
-);
+      <div className="w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between relative min-h-[600px] md:min-h-[700px]">
+
+        {isLoading ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl z-10">
+            <Loader2 className="animate-spin text-blue-500 mb-4" size={48} />
+            <p className="text-slate-500 font-medium animate-pulse">Buscando el siguiente candidato...</p>
+          </div>
+        ) : (
+
+          <>
+            <div className="shrink-0 mb-6 min-h-[350px] md:min-h-[380px] xl:min-h-[450px] flex justify-center">
+              <AnimatePresence mode="wait">
+                <AnimatedItem key={item.id} itemKey={item.id}>
+                  <ItemDetail item={item} />
+                </AnimatedItem>
+              </AnimatePresence>
+            </div>
+
+            <div className="shrink-0 mb-8 z-10 relative">
+              <VoteStars onVote={handleVote} isPending={voteMutation.isPending} />
+            </div>
+
+            <VoteActions
+              onSkip={handleSkip}
+              isPending={voteMutation.isPending}
+              showComments={showComments}
+              onToggleComments={() => setShowComments(!showComments)}
+            />
+
+            {showComments && (
+              <div className="mt-2 pt-2 border-t border-slate-100">
+                <CommentBox itemId={item.id} />
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default VotePage;

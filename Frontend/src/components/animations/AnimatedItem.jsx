@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { depthTransitionVariants } from './../../lib/animations.js';
+import { depthTransitionVariants } from '../../lib/animations.js';
 
 export const AnimatedItem = ({ children, itemKey }) => {
     return (
