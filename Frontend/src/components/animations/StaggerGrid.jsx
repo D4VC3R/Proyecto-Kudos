@@ -1,8 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { staggereContainerVariants } from '../../lib/animations';
+import {motion} from 'framer-motion';
+import {staggereContainerVariants} from '../../lib/animations';
 
-export const StaggeredGrid = ({ children, className = '' }) => {
+export const StaggerGrid = ({children, className = ''}) => {
     return (
         <motion.div
             variants={staggereContainerVariants}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StaggeredGrid } from '../components/animations/StaggeredGrid';
+import { StaggerGrid } from '../components/animations/StaggerGrid.jsx';
 import { CategoryCard } from '../components/category/CategoryCard';
 import { useCategories } from '../hooks/categories/useCategoryQueries';
 import { Loader2 } from 'lucide-react';
@@ -34,11 +34,11 @@ const HomePage = () => {
                 </p>
             </div>
 
-            <StaggeredGrid className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+            <StaggerGrid className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
                 {Array.isArray(categories) && categories.map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
-            </StaggeredGrid>
+            </StaggerGrid>
         </div>
     );
 };

@@ -1,8 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
-import { bouncyCardVariants } from '../../lib/animations';
+import {BouncyCard} from "../animations/BouncyCard.jsx";
 
 const ActionButton = ({ title, description, icon: Icon, to, color = 'blue' }) => {
   const colorStyles = {
@@ -12,10 +11,7 @@ const ActionButton = ({ title, description, icon: Icon, to, color = 'blue' }) =>
 
   return (
     <Link to={to} className="block w-full">
-      <motion.div
-        variants={bouncyCardVariants}
-        whileHover="hover"
-        whileTap="tap"
+      <BouncyCard
         className={clsx(
           'relative flex items-center overflow-hidden rounded-3xl p-6 text-white shadow-xl ring-1 transition-shadow hover:shadow-2xl',
           colorStyles[color]
@@ -32,7 +28,7 @@ const ActionButton = ({ title, description, icon: Icon, to, color = 'blue' }) =>
         <div className="relative z-10 ml-4 rounded-2xl bg-white/20 p-4 backdrop-blur-sm">
           <Icon size={32} className="text-white drop-shadow-sm" />
         </div>
-      </motion.div>
+      </BouncyCard>
     </Link>
   );
 };

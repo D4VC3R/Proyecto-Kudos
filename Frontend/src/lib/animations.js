@@ -7,6 +7,14 @@ export const staggereContainerVariants = {
         }
     }
 };
+export const staggerItemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.4, ease: "easeOut" }
+    }
+};
 
 export const bouncyCardVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -21,7 +29,7 @@ export const bouncyCardVariants = {
         transition: { type: 'spring', stiffness: 400, damping: 10 }
     },
     tap: {
-        scale: 0.95, // Pequeño efecto de hundimiento al hacer clic (muy de videojuegos)
+        scale: 0.95,
     }
 };
 
@@ -58,7 +66,6 @@ export const fadeUpVariants = {
     }
 };
 
-// Para el botón de "Volver arriba"
 export const popInVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: { opacity: 1, scale: 1 },
@@ -81,11 +88,21 @@ export const slideTransitionVariants = {
         transition: { duration: 0.2 }
     })
 };
+
 export const hoverFadeTextVariants = {
     initial: { y: 10, opacity: 0.9 },
     hover: {
         y: 0,
         opacity: 1,
         transition: { duration: 0.2 }
+    }
+};
+
+export const scaleFadeVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: { duration: 0.1, ease: "easeOut" }
     }
 };
