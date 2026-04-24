@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\EnsureUserIsNotBanned;
 use Illuminate\Auth\AuthenticationException;
@@ -20,19 +21,12 @@ return Application::configure(basePath: dirname(__DIR__))
 		health: '/up',
 	)
 	->withMiddleware(function (Middleware $middleware): void {
-//        $middleware->api(prepend: [
-//            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-//        ]);
-//
 		$middleware->alias([
-			'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+			'verified' => EnsureEmailIsVerified::class,
 			'admin' => EnsureUserIsAdmin::class,
       'not_banned' => EnsureUserIsNotBanned::class,
 		]);
 
-		// $middleware->statefulApi();
-
-		//
 	})
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (AuthenticationException $e, $request) {
