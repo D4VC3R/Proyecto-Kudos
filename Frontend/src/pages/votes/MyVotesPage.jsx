@@ -6,10 +6,11 @@ import { useDeleteVote, useUpdateVote } from '../../hooks/votes/useVoteMutations
 import { MyVotesHeader } from '../../components/votes/MyVotesHeader';
 import { MyVotesEmpty } from '../../components/votes/MyVotesEmpty';
 import { MyVoteItemCard } from '../../components/votes/MyVoteItemCard';
+import { MyVoteItemCardSkeleton } from '../../components/votes/MyVoteItemCardSkeleton'; // <-- Importamos skeleton
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 import { mergeFilters } from '../../lib/filters';
-import {FadeUp} from "../../components/animations/FadeUp.jsx";
-import {PopButton} from "../../components/animations/PopButton.jsx";
+import { FadeUp } from "../../components/animations/FadeUp.jsx";
+import { PopButton } from "../../components/animations/PopButton.jsx";
 
 export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined }, setFilters }) => {
   const currentView = filters.type || 'all';
@@ -27,12 +28,12 @@ export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined 
   };
 
   const {
-    data: response, 
-    isLoading, 
+    data: response,
+    isLoading,
     isFetching,
     isFetchingNextPage,
-    hasNextPage, 
-    fetchNextPage 
+    hasNextPage,
+    fetchNextPage
   } = useInfiniteMyVotes(finalFilters, 15);
 
   const { mutate: deleteVote, isPending: isDeleting } = useDeleteVote();
@@ -44,33 +45,38 @@ export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined 
     fetchNextPage
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center py-20 min-h-[50vh]">
-        <Loader2 className="animate-spin text-blue-500" size={48} />
-      </div>
-    );
-  }
   const pages = response?.pages || [];
   const allVotes = pages.flatMap(page => page.data);
-  const meta = pages[0]?.meta || {}; // Uses meta of first page for total count
-  
+  const meta = pages[0]?.meta || {};
+
   const showScrollTop = pages.length > 1;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const isBackgroundUpdating = isFetching && !isFetchingNextPage;
+  // Aseguramos que la opacidad solo cambie cuando está actualizando por detrás, no en la carga inicial
+  const isBackgroundUpdating = isFetching && !isFetchingNextPage && !isLoading;
 
   return (
     <div className="flex w-full flex-col relative">
       <FadeUp className={`flex flex-col gap-6 relative transition-opacity duration-200 ${isBackgroundUpdating ? 'opacity-60' : 'opacity-100'}`}>
+
+        {/* El Header SIEMPRE se renderiza */}
         <MyVotesHeader meta={meta} currentView={currentView} currentCategory={currentCategory} updateParams={updateParams} />
 
-        {allVotes.length === 0 && !isBackgroundUpdating ? (
+        {isLoading ? (
+          // Estado Skeleton
+          <div className="grid gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <MyVoteItemCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : allVotes.length === 0 && !isBackgroundUpdating ? (
+          // Estado Vacío
           <MyVotesEmpty />
         ) : (
+          // Estado con Datos
           <>
             <div className="grid gap-4">
               {allVotes.map((vote) => (
@@ -84,6 +90,7 @@ export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined 
                 />
               ))}
             </div>
+            {/* Scroll Infinito */}
             <div ref={lastElementRef} className="flex h-12 w-full items-center justify-center py-4">
               {isFetchingNextPage && <Loader2 className="animate-spin text-blue-500" size={24} />}
             </div>

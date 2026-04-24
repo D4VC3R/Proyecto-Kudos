@@ -1,33 +1,32 @@
 import React from 'react';
-import { Loader2 } from 'lucide-react';
 import { useMyProposals } from '../../hooks/proposals/useProposalQueries';
 import { useDeleteProposal } from '../../hooks/proposals/useProposalMutations';
 import { MyProposalsHeader } from '../../components/proposals/MyProposalsHeader';
 import { MyProposalsEmpty } from '../../components/proposals/MyProposalsEmpty';
 import { MyProposalItemCard } from '../../components/proposals/MyProposalItemCard';
-import {FadeUp} from "../../components/animations/FadeUp.jsx";
+import { MyProposalItemCardSkeleton } from '../../components/proposals/MyProposalItemCardSkeleton'; // <-- Importamos skeleton
+import { FadeUp } from "../../components/animations/FadeUp.jsx";
 
 export const MyProposalsPage = () => {
   const { data: response, isLoading, isFetching } = useMyProposals();
   const { mutate: deleteProposal, isPending: isDeleting } = useDeleteProposal();
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center py-20 min-h-[50vh]">
-        <Loader2 className="animate-spin text-blue-500" size={48} />
-      </div>
-    );
-  }
-
   const proposals = response?.data || [];
+
   const meta = response?.meta || {};
 
   return (
-    <div className={`flex w-full flex-col transition-opacity duration-300 ${isFetching ? 'opacity-60' : 'opacity-100'}`}>
+    <div className={`flex w-full flex-col transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-60' : 'opacity-100'}`}>
       <FadeUp className="flex flex-col gap-6">
         <MyProposalsHeader meta={meta} />
 
-        {proposals.length === 0 ? (
+        {isLoading ? (
+          <div className="grid gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <MyProposalItemCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : proposals.length === 0 ? (
           <MyProposalsEmpty />
         ) : (
           <div className="grid gap-4">
