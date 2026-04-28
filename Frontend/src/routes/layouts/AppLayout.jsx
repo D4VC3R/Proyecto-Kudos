@@ -6,6 +6,7 @@ import { NavBar } from '../../components/common/NavBar.jsx';
 import { LogoutButton } from '../../components/auth/LogoutButton';
 import { Gamepad2 } from 'lucide-react';
 
+// Esqueleto del sitio web: cabecera fija, se renderiza el contenido de cada página dentro del <Outlet />
 export const AppLayout = () => {
   const isAuthenticated = useSessionStore((state) => !!state.token);
 

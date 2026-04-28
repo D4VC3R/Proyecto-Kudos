@@ -10,7 +10,7 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use((config) => {
-  // Obtenemos el estado actual directamente de Zustand sin hooks
+  // Obtenemos el estado actual directamente de Zustand
   const state = useSessionStore.getState();
   const token = state.token;
 

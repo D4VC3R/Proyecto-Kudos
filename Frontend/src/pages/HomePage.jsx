@@ -4,13 +4,15 @@ import { CategoryCard } from '../components/category/CategoryCard';
 import { CategoryCardSkeleton } from '../components/category/CategoryCardSkeleton';
 import { useCategories } from '../hooks/categories/useCategoryQueries';
 
+// Página principal que muestra las categorías disponibles, utiliza el hook useCategories() para obtener los datos necesarios y renderiza un grid de CategoryCard.
+// Si los datos están cargando, muestra skeletons de carga. Si hay un error, muestra un mensaje de error centrado.
 const HomePage = () => {
   const { data: categories, isLoading, isFetching, isError } = useCategories();
 
   if (isError) {
     return (
       <div className="flex justify-center items-center py-20 min-h-[50vh]">
-        <p className="text-red-500 font-medium">Hubo un error cargando las categorías.</p>
+        <p className="text-red-500 font-medium">Hubo un error recuperando la información del servidor. Prueba de nuevo en unos instantes.</p>
       </div>
     );
   }

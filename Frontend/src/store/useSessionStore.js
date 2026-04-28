@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 const STORAGE_KEY = 'kudos_session';
 
-// Comprobación segur
+// Comprobación segura del rol de usuario
 export const selectHasRoleAdmin = (state) => {
   const role = state.user?.role;
   return role === 'admin' || Boolean(state.user?.is_admin);
@@ -30,7 +30,7 @@ export const useSessionStore = create(
         set({ token: null, user: null });
       },
     }),
-    {
+    { // Sesión persistente en localStorage con la clave 'kudos_session'.
       name: STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ token: state.token, user: state.user }),

@@ -7,6 +7,8 @@ import Ranking from '../components/ranking/Ranking.jsx';
 import InfiniteSlider from '../components/common/InfiniteSlider';
 import { Skeleton } from '../components/common/Skeleton';
 
+// Página detalle de la categoría con información básica, ranking, slider infinito de items aleatorios y botones de acción.
+// Muestra esqueletos de cada componente mientras se cargan los datos.
 const CategoryDetail = () => {
   const { categorySlug } = useParams();
   const itemsPerPage = 10;

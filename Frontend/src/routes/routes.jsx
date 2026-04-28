@@ -13,7 +13,7 @@ import NewProposalPage from "../pages/proposals/NewProposalPage.jsx";
 import MyProposalsPage from "../pages/proposals/MyProposalsPage.jsx";
 import AuthPage from "../pages/auth/AuthPage.jsx";
 
-
+// Rutas de la aplicación junto con el elemento de página que cargan.
 export const AppRoutes = () => {
   return (
     <Routes>
