@@ -10,12 +10,10 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (credentials) => axiosClient.post('/login', credentials),
     onSuccess: (response) => {
-      // Según tu AuthenticatedSessionController, la data viene estructurada así:
       const { access_token, user } = response.data;
 
       setSession({ token: access_token, user });
 
-      // Limpiamos cualquier caché previa de React Query por seguridad
       queryClient.clear();
       toast.success('Sesión iniciada correctamente');
     },
@@ -32,7 +30,6 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: () => axiosClient.post('/logout'),
     onSettled: () => {
-      // Se ejecuta sin importar si hubo error o éxito en el servidor
       clearSession();
       queryClient.clear();
       toast.success('Sesión cerrada');
@@ -50,7 +47,6 @@ export const useRegister = () => {
       toast.success('Cuenta creada. Revisa tu email para confirmar y empezar a jugar.');
     },
     onError: (error) => {
-      // Check if we get a specific error message, otherwise use generic
       const details = error.response?.data?.error?.details;
       if (details) {
         Object.values(details).forEach(err => toast.error(err[0]));

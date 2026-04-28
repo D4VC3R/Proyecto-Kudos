@@ -6,7 +6,7 @@ import { useDeleteVote, useUpdateVote } from '../../hooks/votes/useVoteMutations
 import { MyVotesHeader } from '../../components/votes/MyVotesHeader';
 import { MyVotesEmpty } from '../../components/votes/MyVotesEmpty';
 import { MyVoteItemCard } from '../../components/votes/MyVoteItemCard';
-import { MyVoteItemCardSkeleton } from '../../components/votes/MyVoteItemCardSkeleton'; // <-- Importamos skeleton
+import { MyVoteItemCardSkeleton } from '../../components/votes/MyVoteItemCardSkeleton';
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 import { mergeFilters } from '../../lib/filters';
 import { FadeUp } from "../../components/animations/FadeUp.jsx";
@@ -55,28 +55,24 @@ export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Aseguramos que la opacidad solo cambie cuando está actualizando por detrás, no en la carga inicial
-  const isBackgroundUpdating = isFetching && !isFetchingNextPage && !isLoading;
+  const showSkeletons = isLoading || (isFetching && allVotes.length === 0);
+  const isBackgroundUpdating = isFetching && !isFetchingNextPage && !showSkeletons;
 
   return (
     <div className="flex w-full flex-col relative">
       <FadeUp className={`flex flex-col gap-6 relative transition-opacity duration-200 ${isBackgroundUpdating ? 'opacity-60' : 'opacity-100'}`}>
 
-        {/* El Header SIEMPRE se renderiza */}
         <MyVotesHeader meta={meta} currentView={currentView} currentCategory={currentCategory} updateParams={updateParams} />
 
-        {isLoading ? (
-          // Estado Skeleton
+        {showSkeletons ? (
           <div className="grid gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <MyVoteItemCardSkeleton key={i} />
             ))}
           </div>
-        ) : allVotes.length === 0 && !isBackgroundUpdating ? (
-          // Estado Vacío
+        ) : allVotes.length === 0 ? (
           <MyVotesEmpty />
         ) : (
-          // Estado con Datos
           <>
             <div className="grid gap-4">
               {allVotes.map((vote) => (
@@ -90,7 +86,6 @@ export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined 
                 />
               ))}
             </div>
-            {/* Scroll Infinito */}
             <div ref={lastElementRef} className="flex h-12 w-full items-center justify-center py-4">
               {isFetchingNextPage && <Loader2 className="animate-spin text-blue-500" size={24} />}
             </div>
@@ -102,6 +97,7 @@ export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined 
           </>
         )}
       </FadeUp>
+
       <AnimatePresence>
         {showScrollTop && (
           <PopButton

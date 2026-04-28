@@ -13,8 +13,8 @@ export const useCreateVote = () => {
   return useMutation({
     mutationFn: (voteData) => axiosClient.post('/votes', voteData),
     onSuccess: (response) => {
-      // 1. Sincronizar Kudos en Zustand (si el backend nos los manda en los metadatos)
-      const tk = response.data?.meta?.total_kudos ?? response.meta?.total_kudos;
+      // 1. Sincronizar Kudos en Zustand
+      const tk =  response.meta?.total_kudos;
       if (tk !== undefined) {
         const { token, user, setSession } = useSessionStore.getState();
         if (user) {
@@ -33,19 +33,17 @@ export const useCreateVote = () => {
         });
       }
 
-      // 2. Invalidar cachés relacionadas para que la UI se repinte sola
-      // Invalidamos mis votos
+      // Invalidar cachés relacionadas para que la UI se repinte sola
       queryClient.invalidateQueries({ queryKey: VOTE_KEYS.myVotesList() });
 
       // Invalidamos la cola del "next-item" para que pase al siguiente inmediatamente
-      // (Usa la clave global de categorías para limpiar cualquier next-item guardado)
       queryClient.invalidateQueries({ queryKey: ['categories'] });
 
       // Invalidamos ítems (por si estamos viendo el detalle o el listado de este ítem)
       queryClient.invalidateQueries({ queryKey: ITEM_KEYS.all });
 
       // Opcional: Mostrar toast solo si no fue un "skip" o si realmente ganó puntos
-      if (!response.meta?.idempotent_hit) {
+      if (response.meta?.vote_type === 'vote') {
         toast.success(response.message);
       }
     },

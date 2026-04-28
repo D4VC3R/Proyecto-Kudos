@@ -31,15 +31,15 @@ export const ProfileStatistics = () => {
         delay={0.1}
       />
       <StatCard 
-        title="Racha Actual" 
-        value={`${stats.current_login_streak} días`} 
+        title="Racha Actual"
+        value={stats.current_login_streak > 1 ? `${stats.current_login_streak} días` : `${stats.current_login_streak} día`}
         icon={Flame} 
         colorClass="bg-orange-100 text-orange-500" 
         delay={0.2}
       />
       <StatCard 
-        title="Mayor Racha" 
-        value={`${stats.max_login_streak} días`} 
+        title="Mayor Racha"
+        value={stats.max_login_streak > 1 ? `${stats.max_login_streak} días` : `${stats.max_login_streak} día`}
         icon={Flame} 
         colorClass="bg-red-100 text-red-500" 
         delay={0.3}

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { popInVariants } from '../../lib/animations';
 
+// Componente que envuelve cualquier botón para aplicar una animación de entrada tipo "pop-in".
 export const PopButton = ({ children, onClick, className = '', ariaLabel = '' }) => {
     return (
         <motion.button

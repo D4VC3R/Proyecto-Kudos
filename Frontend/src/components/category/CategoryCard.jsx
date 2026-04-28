@@ -19,7 +19,7 @@ export const CategoryCard = ({ category }) => {
 
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 transition-transform duration-700 ease-out group-hover:translate-x-full" />
 
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
+                <div className="absolute inset-0 flex flex-col justify-end p-6 hover:border-4 border-blue-600 rounded-3xl">
                     <div className="absolute right-4 top-4">
                         <div className="flex items-center gap-1.5 rounded-full bg-yellow-400 px-3 py-1.5 font-bold text-yellow-950 shadow-md">
                             <Gamepad2 size={16} className="fill-yellow-600 stroke-yellow-700" />

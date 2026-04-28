@@ -8,9 +8,9 @@ import { loginSchema } from '../../lib/schemas';
 import { InputField } from '../common/InputField';
 
 export const LoginForm = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { mutate: login, isPending } = useLogin();
+  const navigate = useNavigate(); // Para redirigir al usuario después del inicio de sesión.
+  const location = useLocation(); // Para obtener la ubicación actual y redirigir al usuario a la página que intentaba acceder antes de iniciar sesión.
+  const { mutate: login, isPending } = useLogin(); //
   
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema)

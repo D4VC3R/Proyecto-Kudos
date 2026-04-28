@@ -11,7 +11,7 @@ const CategoryDetail = () => {
   const { categorySlug } = useParams();
   const itemsPerPage = 10;
 
-  const { data: category, isLoading: isLoadingCategory } = useCategoryDetail(categorySlug);
+  const { data: category, isLoading: isLoadingCategory, isFetching: isFetchingCategory } = useCategoryDetail(categorySlug);
   const {
     data: rankingData,
     isLoading: isLoadingRanking,
@@ -41,9 +41,8 @@ const CategoryDetail = () => {
   return (
     <div className={`mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-300 ${(isFetchingRanking && !isFetchingNextPage && !isLoadingRanking) ? 'opacity-60' : 'opacity-100'}`}>
 
-      {/* 1. Header con Skeletons para el texto parpadeante */}
       <div className="text-center md:text-left h-[100px]">
-        {isLoadingCategory ? (
+        {isLoadingCategory || isFetchingCategory ? (
           <div className="flex flex-col gap-4">
             <Skeleton className="h-12 w-2/3 md:w-1/2" />
             <Skeleton className="h-6 w-full md:w-1/3" />
@@ -97,7 +96,6 @@ const CategoryDetail = () => {
         </div>
       </div>
 
-      {/* Slider con esqueleto si es necesario */}
       {isLoadingCategory ? (
         <Skeleton className="mt-8 h-64 w-full rounded-3xl" />
       ) : category?.items && category.items.length > 0 && (
