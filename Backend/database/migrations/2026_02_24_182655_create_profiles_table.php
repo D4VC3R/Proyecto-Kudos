@@ -18,7 +18,7 @@ public function up(): void
 
         $table->string('avatar')->nullable();
         $table->text('biography')->nullable();
-        $table->json('social_links')->nullable(); // Para Twitter, Insta, etc.
+        $table->jsonb('social_links')->nullable(); // Para Twitter, Insta, etc.
         $table->string('city')->nullable();
         $table->date('birthdate')->nullable();
 

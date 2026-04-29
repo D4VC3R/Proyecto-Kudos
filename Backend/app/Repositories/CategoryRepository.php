@@ -9,10 +9,12 @@ use Illuminate\Support\Collection;
 class CategoryRepository
 {
 
-	public function getAllOrdered(): Collection
-	{
-		return Category::orderBy('name')->get();
-	}
+    public function getAllOrdered(): Collection
+    {
+        return Category::withItemCount()
+            ->orderBy('name')
+            ->get();
+    }
 
 	public function create(array $data): Category
 	{
@@ -42,15 +44,19 @@ class CategoryRepository
 
 	public function loadAcceptedItems(Category $category): Category
 	{
-		return $category->load([
-			'fieldDefinitions',
-			'items' => function ($query) {
-				$query->where('status', Item::STATUS_ACTIVE)
-					->with(['creator:id,name'])
-					->inRandomOrder()
-					->take(30);
-			}
-		]);
+        $category->loadCount(['items as items_count' => function ($query) {
+            $query->where('status', Item::STATUS_ACTIVE);
+        }]);
+
+        return $category->load([
+            'fieldDefinitions',
+            'items' => function ($query) {
+                $query->where('status', Item::STATUS_ACTIVE)
+                    ->with(['creator:id,name'])
+                    ->inRandomOrder()
+                    ->take(30);
+            }
+        ]);
 	}
 
 	public function getItemsRanking(Category $category, int $perPage = 10)

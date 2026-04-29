@@ -63,6 +63,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'total_kudos' => 'integer',
+            'creations_accepted' => 'integer',
             'login_streak_count' => 'integer',
             'max_login_streak_count' => 'integer',
             'last_login_streak_date' => 'date',

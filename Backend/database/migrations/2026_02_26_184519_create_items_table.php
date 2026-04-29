@@ -15,8 +15,8 @@ return new class extends Migration
 		    $table->uuid('id')->primary();
 		    $table->string('name');
 		    $table->text('description');
-		    $table->json('images')->nullable();
-		    $table->json('extra_data')->nullable();
+		    $table->jsonb('images')->nullable();
+		    $table->jsonb('extra_data')->nullable();
 		    $table->enum('status', ['active', 'inactive'])->default('active');
 
 		    $table->float('vote_avg')->default(0.0);

@@ -28,12 +28,6 @@ class Category extends Model
         'updated_at' => 'datetime',
     ];
 
-
-    protected $appends = ['items_count'];
-
-    // Relations
-    // 1 to many Items
-
     public function items(): HasMany
     {
         return $this->hasMany(Item::class);
@@ -57,24 +51,14 @@ class Category extends Model
             ->orderBy('sort_order');
     }
 
-    // ✅ Accessor para items_count
+    // Accessor para items_count
     protected function itemsCount(): Attribute
     {
         return Attribute::make(
-            get: function () {
-                // Si ya está cargado con withCount, usar ese valor
-                if (isset($this->attributes['items_count'])) {
-                    return $this->attributes['items_count'];
-                }
-
-                // Si la relación items ya está cargada, contar desde ahí
-                if ($this->relationLoaded('items')) {
-                    return $this->items->where('status', Item::STATUS_ACTIVE)->count();
-                }
-
-                // Caso contrario, hacer query (solo cuando sea necesario)
-                return $this->activeItems()->count();
-            }
+            get: fn () => $this->attributes['items_count']
+                ?? ($this->relationLoaded('items')
+                    ? $this->items->where('status', Item::STATUS_ACTIVE)->count()
+                    : $this->activeItems()->count())
         );
     }
 

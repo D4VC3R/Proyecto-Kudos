@@ -24,7 +24,7 @@ class Vote extends Model
     ];
 
     protected $casts = [
-        'score' => 'integer',
+        'score' => 'float',
     ];
 
     protected $hidden = [

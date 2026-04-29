@@ -19,6 +19,7 @@ Route::prefix('categories')->group(function () {
 });
 
 Route::get('/items', [ItemController::class, 'index']);
+Route::get('/{item}', [ItemController::class, 'show']);
 Route::get('/items/{item}/comments', [ItemCommentController::class, 'index']);
 Route::get('/users/ranking', [UserRankingController::class, 'index']);
 
@@ -45,7 +46,6 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
     // Items accesibles a usuario autenticado
     Route::prefix('items')->group(function () {
         Route::get('/my-items', [ItemController::class, 'myItems']);
-        Route::get('/{item}', [ItemController::class, 'show']);
         Route::post('/{item}/comments', [ItemCommentController::class, 'store']);
     });
 

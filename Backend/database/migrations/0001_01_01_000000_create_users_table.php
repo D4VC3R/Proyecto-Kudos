@@ -17,18 +17,34 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('total_kudos')->default(0);
+
+            // Atributos de gamificación
+            $table->integer('total_kudos')->default(0)->index(); // [!] Indexado para Leaderboard
             $table->integer('creations_accepted')->default(0);
+
+            // Racha de logins
             $table->unsignedInteger('login_streak_count')->default(0);
             $table->unsignedInteger('max_login_streak_count')->default(0);
             $table->date('last_login_streak_date')->nullable();
-            $table->boolean('is_banned')->default(false);
+
+            // Sistema de baneos
+            $table->boolean('is_banned')->default(false)->index(); // [!] Indexado para filtros de Middleware/Admin
             $table->timestamp('banned_at')->nullable();
             $table->timestamp('banned_until')->nullable();
             $table->text('ban_reason')->nullable();
+
+            // FK para evitar inconsistencias si el admin es eliminado
             $table->uuid('banned_by')->nullable()->index();
+
             $table->rememberToken();
             $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('banned_by')
+                ->references('id')
+                ->on('users')
+                ->nullOnDelete();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
