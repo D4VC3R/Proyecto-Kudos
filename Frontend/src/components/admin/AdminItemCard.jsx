@@ -17,7 +17,7 @@ export const AdminItemCard = ({ item, onModerate, onDelete }) => {
 
       <div className="flex flex-col gap-1 mt-2 text-xs font-medium text-slate-500">
         <div>Puntuación: <span className="font-bold text-yellow-600">{item.vote_avg} ({item.vote_count} votos)</span></div>
-        <div>Cat: <span className="font-bold text-slate-700">{item.category?.name}</span></div>
+        <div>Categoría: <span className="font-bold text-slate-700">{item.category?.name}</span></div>
       </div>
 
       <div className="flex gap-2 mt-auto pt-4 border-t border-slate-100">

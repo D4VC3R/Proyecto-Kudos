@@ -5,7 +5,7 @@ export const AdminUserBanBody = ({userName, banParams, setBanParams}) => {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-slate-600">
-        Estás por suspender a <span className="font-bold">{userName}</span>.
+        ¿Bloquear el acceso a <span className="font-bold">{userName}?</span>.
       </p>
 
       <InputField
@@ -30,7 +30,7 @@ export const AdminUserBanBody = ({userName, banParams, setBanParams}) => {
           label="Días de suspensión"
           type="number"
           min="1"
-          placeholder="Días..."
+          placeholder="No te cortes..."
           value={banParams.days || ''}
           onChange={(e) => setBanParams({ ...banParams, days: e.target.value })}
         />

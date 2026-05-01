@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { cardTransitionVariants } from '../../lib/animations';
 
-export const AnimatedCard = ({ children, className = '' }) => {
+export const AnimatedCard = ({ children, className = '', ...props }) => {
   return (
     <motion.div
       layout
@@ -11,6 +11,7 @@ export const AnimatedCard = ({ children, className = '' }) => {
       animate="animate"
       exit="exit"
       className={className}
+      {...props}
     >
       {children}
     </motion.div>

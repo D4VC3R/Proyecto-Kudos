@@ -20,6 +20,7 @@ class AdminUserListResource extends AdminUserBaseResource
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            'is_verified' => $user->hasVerifiedEmail(),
             'role' => $this->resolveUserRole($user),
             'is_banned' => (bool) $user->is_banned,
             'ban_state' => $banState,

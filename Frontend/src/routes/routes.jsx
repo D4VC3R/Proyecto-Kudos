@@ -17,6 +17,7 @@ import AdminUsers from "../pages/admin/AdminUsers.jsx";
 import AdminCategories from "../pages/admin/AdminCategories.jsx";
 import AdminItems from "../pages/admin/AdminItems.jsx";
 import AdminProposals from "../pages/admin/AdminProposals.jsx";
+import AdminUserDetail from "../pages/admin/AdminUserDetail.jsx";
 
 // Rutas de la aplicación junto con el elemento de página que cargan.
 export const AppRoutes = () => {
@@ -46,6 +47,7 @@ export const AppRoutes = () => {
             <Route element={<RequireAdmin />}>
               <Route path="/admin" element={<AdminLayout />}>
                 <Route path="users" element={<AdminUsers />} />
+                <Route path="users/:userId" element={<AdminUserDetail />} />
                 <Route path="categories" element={<AdminCategories />} />
                 <Route path="items" element={<AdminItems />} />
                 <Route path="proposals" element={<AdminProposals />} />
