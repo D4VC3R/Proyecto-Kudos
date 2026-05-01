@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import {keepPreviousData, useQuery} from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
 
 export const ADMIN_USER_KEYS = {
@@ -10,9 +10,14 @@ export const ADMIN_USER_KEYS = {
 };
 
 export const useAdminUsers = (filters = {}) => {
+  const cleanFilters = Object.fromEntries(
+    Object.entries(filters).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
+  );
+
   return useQuery({
-    queryKey: ADMIN_USER_KEYS.list(filters),
-    queryFn: () => axiosClient.get('/admin/users', { params: filters }),
+    queryKey: ADMIN_USER_KEYS.list(cleanFilters),
+    queryFn: () => axiosClient.get('/admin/users', { params: cleanFilters }),
+    placeholderData: keepPreviousData,
   });
 };
 

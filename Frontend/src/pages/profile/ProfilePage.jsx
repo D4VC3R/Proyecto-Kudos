@@ -6,7 +6,7 @@ import { ProfileInfoForm } from '../../components/profile/ProfileInfoForm';
 import { MyProposalsPage } from '../proposals/MyProposalsPage';
 import { MyVotesPage } from '../votes/MyVotesPage';
 import { ProfileStatistics } from '../../components/profile/ProfileStatistics';
-import { ProfileInfoFormSkeleton } from '../../components/profile/ProfileInfoFormSkeleton'; // <-- Importamos skeleton
+import { ProfileInfoFormSkeleton } from '../../components/profile/ProfileInfoFormSkeleton';
 
 export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('info');

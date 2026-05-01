@@ -1,0 +1,30 @@
+import React from 'react';
+
+export const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, setAdminNotes}) => {
+  return (
+    <>
+      <p className="text-slate-600">
+        Estás a punto de <span className="font-bold">{actionType === 'accepted' ? 'Aceptar' : 'Rechazar'}</span> la propuesta
+        <span className="font-bold text-slate-900"> {proposalName}</span>.
+      </p>
+
+      <div className="flex flex-col gap-2 mt-2">
+        <label className="text-sm font-bold text-slate-700">
+          Notas de revisión (Opcional/Requerido para rechazo)
+        </label>
+        <textarea
+          className="w-full rounded-2xl border-slate-200 bg-slate-50 p-4 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all font-medium resize-none min-h-[100px]"
+          placeholder="Escribe el motivo del rechazo o notas para el usuario..."
+          value={adminNotes}
+          onChange={(e) => setAdminNotes(e.target.value)}
+        />
+      </div>
+
+      {actionType === 'accepted' && (
+        <div className="p-3 mt-2 bg-blue-50 rounded-xl text-sm text-blue-700 font-medium">
+          Al aceptar la propuesta, se creará un ítem público en la categoría correspondiente y el creador recibirá Kudos.
+        </div>
+      )}
+    </>
+  );
+};

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Grid, Trophy, Menu, X } from 'lucide-react';
+import { Grid, Trophy, Menu, X, ShieldPlus } from 'lucide-react';
 import clsx from 'clsx';
 
 export const NavBar = () => {
@@ -9,6 +9,7 @@ export const NavBar = () => {
   const navItems = [
     { name: 'Categorías', path: '/', icon: Grid },
     { name: 'Ranking', path: '/ranking', icon: Trophy },
+    { name: 'Administración', path: 'admin', icon: ShieldPlus }
   ];
 
   return (

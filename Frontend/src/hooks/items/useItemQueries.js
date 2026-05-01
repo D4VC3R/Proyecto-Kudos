@@ -9,8 +9,6 @@ export const ITEM_KEYS = {
   details: () => [...ITEM_KEYS.all, 'detail'],
   detail: (id) => [...ITEM_KEYS.details(), id],
   myItems: () => [...ITEM_KEYS.all, 'my-items'],
-  adminLists: () => [...ITEM_KEYS.all, 'admin-list'],
-  adminList: (filters) => [...ITEM_KEYS.adminLists(), { filters }],
 };
 
 export const useItems = (filters = {}) => {
@@ -46,10 +44,3 @@ export const useMyItems = () => {
   });
 };
 
-// --- Consultas de Administrador ---
-export const useAdminItems = (filters = {}) => {
-  return useQuery({
-    queryKey: ITEM_KEYS.adminList(filters),
-    queryFn: () => axiosClient.get('/admin/items', { params: filters }),
-  });
-};

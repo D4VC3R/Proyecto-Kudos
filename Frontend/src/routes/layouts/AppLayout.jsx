@@ -9,6 +9,7 @@ import { Gamepad2 } from 'lucide-react';
 // Esqueleto del sitio web: cabecera fija, se renderiza el contenido de cada página dentro del <Outlet />
 export const AppLayout = () => {
   const isAuthenticated = useSessionStore((state) => !!state.token);
+  const isAdmin = useSessionStore((state) => !!state.token);
 
   return (
     <div className="min-h-9 bg-slate-50 text-slate-900 flex flex-col font-sans">

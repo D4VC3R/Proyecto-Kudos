@@ -46,29 +46,4 @@ export const useDeleteComment = () => {
   });
 };
 
-// --- Mutaciones de Administrador ---
-export const useAdminHideComment = () => {
-  const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: ({ id, reason }) => axiosClient.patch(`/admin/comments/${id}/hide`, { reason }),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: COMMENT_KEYS.all });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
-  });
-};
-
-export const useAdminUnhideComment = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (id) => axiosClient.patch(`/admin/comments/${id}/unhide`),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: COMMENT_KEYS.all });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
-  });
-};

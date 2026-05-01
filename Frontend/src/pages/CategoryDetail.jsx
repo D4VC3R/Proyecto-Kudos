@@ -44,7 +44,7 @@ const CategoryDetail = () => {
     <div className={`mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-300 ${(isFetchingRanking && !isFetchingNextPage && !isLoadingRanking) ? 'opacity-60' : 'opacity-100'}`}>
 
       <div className="text-center md:text-left h-[100px]">
-        {isLoadingCategory || isFetchingCategory ? (
+        {isLoadingCategory ? (
           <div className="flex flex-col gap-4">
             <Skeleton className="h-12 w-2/3 md:w-1/2" />
             <Skeleton className="h-6 w-full md:w-1/3" />
