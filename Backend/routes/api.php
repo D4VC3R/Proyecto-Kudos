@@ -19,7 +19,7 @@ Route::prefix('categories')->group(function () {
 });
 
 Route::get('/items', [ItemController::class, 'index']);
-Route::get('/{item}', [ItemController::class, 'show']);
+Route::get('/items/{item}', [ItemController::class, 'show']);
 Route::get('/items/{item}/comments', [ItemCommentController::class, 'index']);
 Route::get('/users/ranking', [UserRankingController::class, 'index']);
 

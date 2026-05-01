@@ -43,7 +43,7 @@ export const AppLayout = () => {
         </div>
       </header>
 
-      <main className="mx-auto w-full h-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full h-fit min-h-lvh max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
         <Outlet />
       </main>
     </div>

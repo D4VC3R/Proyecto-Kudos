@@ -48,7 +48,8 @@ const AdminUsers = () => {
       banUser({
         userId: selectedUser.id,
         reason: banParams.reason,
-        banned_until: banParams.is_permanent ? null : new Date(Date.now() + banParams.days * 24 * 60 * 60 * 1000).toISOString()
+        days: banParams.days,
+        is_permanent: banParams.is_permanent
       }, { onSuccess: handleCloseModal });
     } else if (modalType === 'revoke') {
       revokeTokens(selectedUser.id, { onSuccess: handleCloseModal });

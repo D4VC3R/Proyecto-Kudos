@@ -1,4 +1,15 @@
-import { Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import {
+  Clock,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  Building2,
+  Landmark,
+  Disc,
+  Mic2,
+  Globe2,
+  Clapperboard, Tv, Gamepad2, Book, Earth, Plane
+} from 'lucide-react';
 
 export const FIELD_LABELS = {
   'seasons': 'Temporadas',
@@ -44,5 +55,17 @@ export const statusColors = {
   changes_requested: 'bg-orange-100 text-orange-700',
   active: 'bg-green-100 text-green-700',
   inactive: 'bg-slate-100 text-slate-700'
+};
+
+export const categoryIcons = {
+  'ciudades': Building2,
+  'politicos': Landmark,
+  'albumes musicales': Disc,
+  'artistas musicales': Mic2,
+  'paises': Plane,
+  'peliculas': Clapperboard,
+  'series': Tv,
+  'videojuegos': Gamepad2,
+  'libros': Book,
 };
 

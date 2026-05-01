@@ -7,8 +7,8 @@ export const useBanUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, reason, banned_until }) =>
-      axiosClient.patch(`/admin/users/${userId}/ban`, { reason, banned_until }),
+    mutationFn: ({ userId, reason, days, is_permanent }) =>
+      axiosClient.patch(`/admin/users/${userId}/ban`, { reason, days, is_permanent }),
     onSuccess: (response, variables) => {
       queryClient.invalidateQueries({ queryKey: ADMIN_USER_KEYS.detail(variables.userId) });
       queryClient.invalidateQueries({ queryKey: ADMIN_USER_KEYS.lists() });
