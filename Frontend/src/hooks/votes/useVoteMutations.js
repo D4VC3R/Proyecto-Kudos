@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
 import toast from 'react-hot-toast';
 import { VOTE_KEYS } from './useVoteQueries';
@@ -6,15 +6,17 @@ import { ITEM_KEYS } from '../items/useItemQueries';
 import { USER_KEYS } from '../users/useUserQueries';
 // Necesitamos actualizar los puntos del usuario en vivo
 import { useSessionStore } from '../../store/useSessionStore';
+import { useBaseMutation } from '../common/useBaseMutation';
 
 export const useCreateVote = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useBaseMutation({
     mutationFn: (voteData) => axiosClient.post('/votes', voteData),
-    onSuccess: (response) => {
+    invalidateKeys: [VOTE_KEYS.myVotesList(), ['categories'], ITEM_KEYS.all],
+    onSuccessExtra: (response) => {
       // 1. Sincronizar Kudos en Zustand
-      const tk =  response.meta?.total_kudos;
+      const tk = response.meta?.total_kudos;
       if (tk !== undefined) {
         const { token, user, setSession } = useSessionStore.getState();
         if (user) {
@@ -33,50 +35,26 @@ export const useCreateVote = () => {
         });
       }
 
-      // Invalidar cachés relacionadas para que la UI se repinte sola
-      queryClient.invalidateQueries({ queryKey: VOTE_KEYS.myVotesList() });
-
-      // Invalidamos la cola del "next-item" para que pase al siguiente inmediatamente
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
-
-      // Invalidamos ítems (por si estamos viendo el detalle o el listado de este ítem)
-      queryClient.invalidateQueries({ queryKey: ITEM_KEYS.all });
-
-      // Opcional: Mostrar toast solo si no fue un "skip" o si realmente ganó puntos
-      if (response.meta?.vote_type === 'vote') {
+      // Opcional: Mostrar toast solo si no fue un "skip" o si realmente gan puntos
+      if (response.meta?.vote_type === 'vote' && response.message) {
         toast.success(response.message);
       }
-    },
-    onError: (error) => toast.error(error.message),
+    }
   });
 };
 
 export const useUpdateVote = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  return useBaseMutation({
     mutationFn: ({ id, data }) => axiosClient.put(`/votes/${id}`, data),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: VOTE_KEYS.myVotesList() });
-      queryClient.invalidateQueries({ queryKey: ITEM_KEYS.all }); // Refrescar promedios
-      queryClient.invalidateQueries({ queryKey: ['categories'] }); // Refrescar rankings
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    invalidateKeys: [VOTE_KEYS.myVotesList(), ITEM_KEYS.all, ['categories']],
+    successMessage: 'Voto actualizado',
   });
 };
 
 export const useDeleteVote = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  return useBaseMutation({
     mutationFn: (id) => axiosClient.delete(`/votes/${id}`),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: VOTE_KEYS.myVotesList() });
-      queryClient.invalidateQueries({ queryKey: ITEM_KEYS.all });
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    invalidateKeys: [VOTE_KEYS.myVotesList(), ITEM_KEYS.all, ['categories']],
+    successMessage: 'Voto eliminado',
   });
 };

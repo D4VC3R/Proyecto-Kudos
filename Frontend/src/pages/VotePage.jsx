@@ -10,6 +10,7 @@ import { VoteActions } from '../components/votes/VoteActions.jsx';
 import { EmptyVoteState } from "../components/votes/EmptyVoteState.jsx";
 import { AnimatePresence } from "framer-motion";
 import { AnimatedItem } from "../components/animations/AnimatedItem.jsx";
+import {SectionHeader} from "../components/common/SectionHeader.jsx";
 
 export const VotePage = () => {
   const { categorySlug } = useParams();
@@ -23,7 +24,6 @@ export const VotePage = () => {
   }, [data?.data?.id]);
 
   const item = data?.data;
-  const remaining = data?.meta?.remaining || 0;
 
   const handleVote = (score) => {
     voteMutation.mutate({ item_id: item.id, type: 'vote', score, categorySlug });
@@ -41,13 +41,11 @@ export const VotePage = () => {
   return (
     <div className={`mx-auto flex w-full max-w-3xl flex-col items-center py-8 min-h-screen transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
 
-      <div className="w-full flex items-center justify-between mb-6 px-4 shrink-0 h-10">
-        <h1 className="text-2xl font-black text-slate-900">Votación en Curso</h1>
-        {!isLoading && (
-          <div className="bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full text-sm font-bold shadow-sm">
-            {remaining} {remaining === 1 ? 'restante' : 'restantes'}
-          </div>
-        )}
+      <div className="w-full mb-6">
+        <SectionHeader
+          title="Votación en"
+          highlight="Curso"
+        />
       </div>
 
       <div className="w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between relative min-h-[600px] md:min-h-[700px]">

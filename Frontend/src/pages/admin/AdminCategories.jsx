@@ -10,24 +10,24 @@ import {AdminCategoryCard} from "../../components/admin/AdminCategoryCard.jsx";
 import {ModalButtons} from "../../components/common/ModalButtons.jsx";
 import {AdminCategoryFormBody} from "../../components/admin/AdminCategoryFormBody.jsx";
 import {AdminCategoryDeleteBody} from "../../components/admin/AdminCategoryDeleteBody.jsx";
+import { useModal } from '../../hooks/useModal';
 
 const AdminCategories = () => {
   const { data: categories, isLoading, isError } = useCategories();
   const { mutate: createCat, isPending: isCreating } = useCreateCategory();
   const { mutate: updateCat, isPending: isUpdating } = useUpdateCategory();
   const { mutate: deleteCat, isPending: isDeleting } = useDeleteCategory();
-  const [modalType, setModalType] = useState(null); // 'create', 'edit', 'delete'
-  const [selectedCat, setSelectedCat] = useState(null);
+  
+  const { isOpen, modalType, modalData: selectedCat, openModal, closeModal } = useModal();
   const [formData, setFormData] = useState({ name: '', description: '' });
+
   const handleOpenAction = (cat, type) => {
-    setSelectedCat(cat);
-    setModalType(type);
+    openModal(type, cat);
     if (type === 'edit') setFormData({ name: cat.name, description: cat.description });
     if (type === 'create') setFormData({ name: '', description: '' });
   };
   const handleCloseModal = () => {
-    setModalType(null);
-    setSelectedCat(null);
+    closeModal();
     setFormData({ name: '', description: '' });
   };
   const executeAction = () => {
@@ -71,7 +71,7 @@ const AdminCategories = () => {
       )}
       {/* Action Modal */}
       <Modal
-        isOpen={!!modalType}
+        isOpen={isOpen}
         onClose={handleCloseModal}
         title={modalType === 'create' ? 'Nueva Categoría' : modalType === 'edit' ? 'Editar Categoría' : 'Eliminar Categoría'}
         footer={<ModalButtons onClose={handleCloseModal} onConfirm={executeAction} isPending={isCreating || isUpdating || isDeleting} actionStyle={modalType === 'delete' ? 'danger' : 'primary'} />}

@@ -13,17 +13,14 @@ import {ModalButtons} from "../../components/common/ModalButtons.jsx";
 import {AdminProposalReviewBody} from "../../components/admin/AdminProposalReviewBody.jsx";
 import {SearchFilter} from "../../components/common/SearchFilter.jsx";
 import {SelectFilter} from "../../components/common/SelectFilter.jsx";
-
-
+import { useModal } from '../../hooks/useModal';
 
 const AdminProposals = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('pending'); // default
   const [filterCategory, setFilterCategory] = useState('');
-
-  const [selectedProposal, setSelectedProposal] = useState(null);
-  const [actionType, setActionType] = useState(null); // 'accepted', 'rejected'
+  const { isOpen, modalType: actionType, modalData: selectedProposal, openModal, closeModal } = useModal();
   const [adminNotes, setAdminNotes] = useState('');
 
   const { data: categoriesData } = useCategories();
@@ -41,24 +38,13 @@ const AdminProposals = () => {
     setPage(1);
   };
 
-  const handleOpenAction = (proposal, type) => {
-    setSelectedProposal(proposal);
-    setActionType(type);
-    setAdminNotes('');
-  };
-
-  const handleCloseModal = () => {
-    setSelectedProposal(null);
-    setActionType(null);
-  };
-
   const executeAction = () => {
     if (!selectedProposal) return;
     reviewProposal({
       id: selectedProposal.id,
       status: actionType,
       admin_notes: adminNotes
-    }, { onSuccess: handleCloseModal });
+    }, { onSuccess: closeModal });
   };
 
   return (
@@ -104,8 +90,8 @@ const AdminProposals = () => {
                 <AdminProposalCard
                   key={prop.id}
                   proposal={prop}
-                  onAccept={() => handleOpenAction(prop, 'accepted')}
-                  onReject={() => handleOpenAction(prop, 'rejected')}
+                  onAccept={() => { openModal('accepted', prop); setAdminNotes(''); }}
+                  onReject={() => { openModal('rejected', prop); setAdminNotes(''); }}
                 />
               ))}
             </AnimatePresence>
@@ -115,10 +101,10 @@ const AdminProposals = () => {
       )}
       {/* Action Modal */}
       <Modal
-        isOpen={!!actionType}
-        onClose={handleCloseModal}
+        isOpen={isOpen}
+        onClose={closeModal}
         title={actionType === 'accepted' ? 'Aprobar Propuesta' : 'Rechazar Propuesta'}
-        footer={<ModalButtons onClose={handleCloseModal} onConfirm={executeAction} isPending={isPending} actionStyle={actionType === 'accepted' ? 'success' : 'danger'} />}
+        footer={<ModalButtons onClose={closeModal} onConfirm={executeAction} isPending={isPending} actionStyle={actionType === 'accepted' ? 'success' : 'danger'} />}
       >
         <div className="flex flex-col gap-4">
           <AdminProposalReviewBody

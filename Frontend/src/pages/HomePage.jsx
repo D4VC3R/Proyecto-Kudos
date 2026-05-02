@@ -3,6 +3,7 @@ import { StaggerGrid } from '../components/animations/StaggerGrid.jsx';
 import { CategoryCard } from '../components/category/CategoryCard';
 import { CategoryCardSkeleton } from '../components/category/CategoryCardSkeleton';
 import { useCategories } from '../hooks/categories/useCategoryQueries';
+import {SectionHeader} from "../components/common/SectionHeader.jsx";
 
 // Página principal que muestra las categorías disponibles, utiliza el hook useCategories() para obtener los datos necesarios y renderiza un grid de CategoryCard.
 // Si los datos están cargando, muestra skeletons de carga. Si hay un error, muestra un mensaje de error centrado.
@@ -18,14 +19,15 @@ const HomePage = () => {
   }
 
   return (
-    <div className={`mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-300 ${isFetching && !isLoading ? 'opacity-60' : 'opacity-100'}`}>
-      <div className="mb-12 text-center md:text-left">
-        <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
-          Elige tu <span className="text-blue-600 drop-shadow-sm">Temática</span>
-        </h1>
-        <p className="mt-4 text-lg font-medium text-slate-500 max-w-2xl">
-          Explora las diferentes categorías, vota por los mejores ítems y gana Kudos para subir en el ranking mundial.
-        </p>
+    <div className={`flex w-full flex-col transition-opacity duration-300 ${isFetching && !isLoading ? 'opacity-60' : 'opacity-100'}`}>
+
+      <div className="mb-8 shrink-0">
+        <SectionHeader
+          size="large"
+          title="Elige tu"
+          highlight="Temática"
+          subtitle="Explora las diferentes categorías, vota por los mejores ítems y gana Kudos para subir en el ranking mundial."
+        />
       </div>
 
       <StaggerGrid className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">

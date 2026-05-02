@@ -1,21 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
-import toast from 'react-hot-toast';
 import { ITEM_KEYS } from './useItemQueries';
-
-
-
+import { useBaseMutation } from '../common/useBaseMutation';
 
 export const useCreateItemComment = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useBaseMutation({
     mutationFn: ({ itemId, content }) => axiosClient.post(`/items/${itemId}/comments`, { content }),
-    onSuccess: (response, variables) => {
+    successMessage: 'Comentario publicado',
+    onSuccessExtra: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: [...ITEM_KEYS.detail(variables.itemId), 'comments'] });
-      toast.success(response.message || 'Comentario publicado');
-    },
-    onError: (error) => toast.error(error.response?.data?.message || error.message || 'Error al publicar'),
+    }
   });
 };
-

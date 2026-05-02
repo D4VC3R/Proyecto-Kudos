@@ -14,15 +14,15 @@ import {AdminItemModerateBody} from "../../components/admin/AdminItemModerateBod
 import {AdminItemDeleteBody} from "../../components/admin/AdminItemDeleteBody.jsx";
 import {SearchFilter} from "../../components/common/SearchFilter.jsx";
 import {SelectFilter} from "../../components/common/SelectFilter.jsx";
-
+import { useModal } from '../../hooks/useModal';
 
 const AdminItems = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [actionType, setActionType] = useState(null); // 'moderate', 'delete'
+
+  const { isOpen, modalType: actionType, modalData: selectedItem, openModal, closeModal } = useModal();
   const [modStatus, setModStatus] = useState('active');
   const [modReason, setModReason] = useState('');
 
@@ -42,23 +42,19 @@ const AdminItems = () => {
     setPage(1);
   };
   const handleOpenAction = (item, type) => {
-    setSelectedItem(item);
-    setActionType(type);
+    openModal(type, item);
     if (type === 'moderate') {
       setModStatus(item.status);
       setModReason('');
     }
   };
-  const handleCloseModal = () => {
-    setSelectedItem(null);
-    setActionType(null);
-  };
+
   const executeAction = () => {
     if (!selectedItem) return;
     if (actionType === 'moderate') {
-      moderateItem({ id: selectedItem.id, status: modStatus, reason: modReason }, { onSuccess: handleCloseModal });
+      moderateItem({ id: selectedItem.id, status: modStatus, reason: modReason }, { onSuccess: closeModal });
     } else if (actionType === 'delete') {
-      deleteItem(selectedItem.id, { onSuccess: handleCloseModal });
+      deleteItem(selectedItem.id, { onSuccess: closeModal });
     }
   };
 
@@ -114,10 +110,10 @@ const AdminItems = () => {
       )}
       {/* Action Modal */}
       <Modal
-        isOpen={!!actionType}
-        onClose={handleCloseModal}
+        isOpen={isOpen}
+        onClose={closeModal}
         title={actionType === 'moderate' ? 'Moderar item' : 'Eliminar item'}
-        footer={<ModalButtons onClose={handleCloseModal} onConfirm={executeAction} isPending={isModerating || isDeleting} confirmText="Confirmar Acción" actionStyle={actionType === 'delete' ? 'danger' : 'info'} />}
+        footer={<ModalButtons onClose={closeModal} onConfirm={executeAction} isPending={isModerating || isDeleting} confirmText="Confirmar Acción" actionStyle={actionType === 'delete' ? 'danger' : 'info'} />}
       >
         <div className="flex flex-col gap-4">
           {actionType === 'delete' ? (

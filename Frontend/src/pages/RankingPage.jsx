@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useUserRanking } from '../hooks/users/useUserQueries';
-import { UserRankingHeader } from '../components/ranking/UserRankingHeader';
 import { UserRankingMyPositionCard } from '../components/ranking/UserRankingMyPositionCard';
 import { UserRankingTable } from '../components/ranking/UserRankingTable';
 import { Skeleton } from '../components/common/Skeleton';
+import {SectionHeader} from "../components/common/SectionHeader.jsx";
 
 export const RankingPage = () => {
   const [page, setPage] = useState(1);
@@ -15,26 +15,36 @@ export const RankingPage = () => {
   const ITEMS_PER_PAGE = 10;
 
   return (
-    <div className={`mx-auto flex w-full max-w-4xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-300 ${isFetching && !isLoading ? 'opacity-60 pointer-events-none' : 'opacity-100'}`}>
-      <UserRankingHeader />
+    <div className={`flex w-full flex-col transition-opacity duration-300 ${isFetching && !isLoading ? 'opacity-60 pointer-events-none' : 'opacity-100'}`}>
 
-      {isLoading ? (
-        <div className="flex flex-col gap-10 w-full">
-          <Skeleton className="h-32 w-full rounded-3xl" />
-          <Skeleton className="h-[500px] w-full rounded-3xl" />
-        </div>
-      ) : (
-        <>
-          <UserRankingMyPositionCard position={myPosition} />
-          <UserRankingTable
-            items={topPageData}
-            page={page}
-            setPage={setPage}
-            meta={meta}
-            itemsPerPage={ITEMS_PER_PAGE}
-          />
-        </>
-      )}
+      <div className="mb-8 shrink-0">
+        <SectionHeader
+          size="large"
+          title="Ranking"
+          highlight="Global"
+          subtitle="Descubre a los mejores valoradores de la plataforma. Acumula Kudos para escalar en la tabla."
+        />
+      </div>
+
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-10">
+        {isLoading ? (
+          <>
+            <Skeleton className="h-32 w-full rounded-3xl" />
+            <Skeleton className="h-[500px] w-full rounded-3xl" />
+          </>
+        ) : (
+          <>
+            <UserRankingMyPositionCard position={myPosition} />
+            <UserRankingTable
+              items={topPageData}
+              page={page}
+              setPage={setPage}
+              meta={meta}
+              itemsPerPage={ITEMS_PER_PAGE}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 };

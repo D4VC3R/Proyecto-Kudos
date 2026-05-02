@@ -12,23 +12,18 @@ import { ArrowLeft, UserSquare, ShieldAlert } from 'lucide-react';
 import { AdminUserIdCard } from '../../components/admin/AdminUserIdCard';
 import { AdminUserStatsPanel } from '../../components/admin/AdminUserStatsPanel';
 import { AdminUserAdvancedDetails } from '../../components/admin/AdminUserAdvancedDetails';
+import { useModal } from '../../hooks/useModal';
 
 const AdminUserDetail = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const { data: user, isLoading, isError } = useAdminUserDetail(userId);
-  const [modalType, setModalType] = useState(null);
+  const { isOpen, modalType, openModal, closeModal } = useModal();
   const [banParams, setBanParams] = useState({ reason: '', days: 0, is_permanent: false });
   const { mutate: banUser, isPending: isBanning } = useBanUser();
   const { mutate: unbanUser, isPending: isUnbanning } = useUnbanUser();
   const { mutate: revokeTokens, isPending: isRevoking } = useRevokeUserSessions();
-  const handleOpenAction = (type) => {
-    setModalType(type);
-    if (type === 'ban') setBanParams({ reason: '', days: 0, is_permanent: false });
-  };
-  const handleCloseModal = () => {
-    setModalType(null);
-  };
+
   const executeAction = () => {
     if (modalType === 'ban') {
       banUser({
@@ -36,16 +31,17 @@ const AdminUserDetail = () => {
         reason: banParams.reason,
         days: banParams.is_permanent ? null : banParams.days,
         is_permanent: banParams.is_permanent
-      }, { onSuccess: handleCloseModal });
+      }, { onSuccess: closeModal });
     } else if (modalType === 'revoke') {
-      revokeTokens(user.id, { onSuccess: handleCloseModal });
+      revokeTokens(user.id, { onSuccess: closeModal });
     }
   };
   const handleToggleBan = () => {
     if (user?.is_banned) {
       unbanUser(user.id);
     } else {
-      handleOpenAction('ban');
+      openModal('ban');
+      setBanParams({ reason: '', days: 0, is_permanent: false });
     }
   };
   if (isLoading) return <FeedbackState icon={UserSquare} isLoading title="Cargando perfil de usuario..." />;
@@ -67,7 +63,7 @@ const AdminUserDetail = () => {
           isUnbanning={isUnbanning}
           isRevoking={isRevoking}
           onToggleBan={handleToggleBan}
-          onRevokeSessions={() => handleOpenAction('revoke')}
+          onRevokeSessions={() => openModal('revoke')}
         />
         <div className="lg:col-span-2 flex flex-col gap-6">
           <AdminUserStatsPanel user={user} />
@@ -75,12 +71,12 @@ const AdminUserDetail = () => {
         </div>
       </div>
       <Modal
-        isOpen={!!modalType}
-        onClose={handleCloseModal}
+        isOpen={isOpen}
+        onClose={closeModal}
         title={modalType === 'ban' ? 'Suspender Usuario' : 'Revocar Sesiones'}
         footer={
           <ModalButtons
-            onClose={handleCloseModal}
+            onClose={closeModal}
             onConfirm={executeAction}
             isPending={isBanning || isRevoking}
             confirmText="Confirmar Acción"

@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { Star, Trash2, ShieldQuestion, Clock, CheckCircle2, XCircle } from 'lucide-react';
+import React from 'react';
+import { Star, Trash2,  Clock,  XCircle } from 'lucide-react';
 import { Modal } from '../common/Modal';
 import { formatDate } from '../../lib/formatters';
+import { useModal } from '../../hooks/useModal';
 
 export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const { isOpen, openModal, closeModal } = useModal();
   const isSkip = vote.type === 'skip';
 
   const handleDeleteConfirm = () => {
     onDelete(vote.id);
-    setIsDeleteModalOpen(false);
+    closeModal();
   };
 
   const item = vote.item;
@@ -19,7 +20,7 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
         <div className="flex items-start gap-4 flex-1">
-          {/* Icono de Estado o Imagen */}
+
           <div className={`mt-1 flex h-16 w-14 shrink-0 items-center justify-center rounded-xl overflow-hidden shadow-inner ${
             !imageUrl ? (isSkip ? 'bg-slate-100 text-slate-400' : 'bg-yellow-50 text-yellow-500') : 'bg-slate-100'
           }`}>
@@ -46,7 +47,6 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
               <span className="flex items-center gap-1"><Clock size={14} /> {formatDate(vote.voted_at)}</span>
             </div>
 
-            {/* Si es voto, mostrar puntuacin */}
             {!isSkip && (
               <div className="mt-3 flex items-center gap-1 bg-slate-50 rounded-xl px-3 py-2 w-fit border border-slate-100">
                 <span className="text-slate-500 text-sm font-bold mr-1">Puntuación:</span>
@@ -61,7 +61,7 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
         <div className="flex items-center gap-2 self-end sm:self-center">
           <button
             title="Eliminar registro"
-            onClick={() => setIsDeleteModalOpen(true)}
+            onClick={() => openModal()}
             disabled={isDeleting}
             className="flex items-center justify-center h-10 w-10 rounded-xl bg-slate-50 text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors disabled:opacity-50"
           >
@@ -71,13 +71,13 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
       </div>
 
       <Modal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
+        isOpen={isOpen}
+        onClose={closeModal}
         title="Eliminar registro"
         footer={
           <>
             <button
-              onClick={() => setIsDeleteModalOpen(false)}
+              onClick={closeModal}
               className="rounded-xl px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-200 transition-colors"
             >
               Cancelar

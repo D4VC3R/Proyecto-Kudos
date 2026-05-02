@@ -1,56 +1,43 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
-import toast from 'react-hot-toast';
 import { ADMIN_ITEM_KEYS } from './useAdminItemQueries.js';
 import { ITEM_KEYS } from '../items/useItemQueries.js';
+import { useBaseMutation } from '../common/useBaseMutation';
+
 export const useAdminCreateItem = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
+  return useBaseMutation({
     mutationFn: (newItem) => axiosClient.post('/items', newItem),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ITEM_KEYS.lists() });
-      queryClient.invalidateQueries({ queryKey: ADMIN_ITEM_KEYS.lists() });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    invalidateKeys: [ITEM_KEYS.lists(), ADMIN_ITEM_KEYS.lists()],
+    successMessage: 'Ítem creado con éxito',
   });
 };
 export const useAdminUpdateItem = () => {
   const queryClient = useQueryClient();
-  return useMutation({
+  return useBaseMutation({
     mutationFn: ({ id, data }) => axiosClient.put(`/admin/items/${id}`, data),
-    onSuccess: (response, variables) => {
+    invalidateKeys: [ITEM_KEYS.lists(), ADMIN_ITEM_KEYS.lists()],
+    successMessage: 'Ítem actualizado con éxito',
+    onSuccessExtra: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ITEM_KEYS.detail(variables.id) });
-      queryClient.invalidateQueries({ queryKey: ITEM_KEYS.lists() });
-      queryClient.invalidateQueries({ queryKey: ADMIN_ITEM_KEYS.lists() });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    }
   });
 };
 export const useAdminModerateItem =  () => {
   const queryClient = useQueryClient();
-  return useMutation({
+  return useBaseMutation({
     mutationFn: ({ id, status, reason }) =>
       axiosClient.patch(`/admin/items/${id}/moderate`, { status, reason }),
-    onSuccess: (response, variables) => {
+    invalidateKeys: [ITEM_KEYS.lists(), ADMIN_ITEM_KEYS.lists()],
+    successMessage: 'Ítem moderado con éxito',
+    onSuccessExtra: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ITEM_KEYS.detail(variables.id) });
-      queryClient.invalidateQueries({ queryKey: ADMIN_ITEM_KEYS.lists() });
-      queryClient.invalidateQueries({ queryKey: ITEM_KEYS.lists() });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    }
   });
 };
 export const useAdminDeleteItem = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
+  return useBaseMutation({
     mutationFn: (id) => axiosClient.delete(`/items/${id}`),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ITEM_KEYS.all });
-      queryClient.invalidateQueries({ queryKey: ADMIN_ITEM_KEYS.all });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    invalidateKeys: [ITEM_KEYS.all, ADMIN_ITEM_KEYS.all],
+    successMessage: 'Ítem eliminado con éxito',
   });
 };

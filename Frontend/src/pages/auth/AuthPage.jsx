@@ -20,9 +20,9 @@ const AuthPage = () => {
 
           <div className="relative z-10 flex flex-col items-center text-center">
             <Gamepad2 size={80} className="mb-6 text-white drop-shadow-md" />
-            <h2 className="text-4xl font-black mb-4">Únete a la Arena</h2>
+            <h2 className="text-4xl font-black mb-4">Únete a la comunidad</h2>
             <p className="text-blue-100 text-lg">
-              Valora candidatos, descubre joyas ocultas y acumula Kudos para subir en los Rankings de tus categorías favoritas.
+              Valora candidatos, descubre joyas ocultas y acumula Kudos para subir en el ránking global de usuarios.
             </p>
           </div>
         </div>

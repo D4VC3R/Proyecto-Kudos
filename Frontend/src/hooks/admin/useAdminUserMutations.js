@@ -1,43 +1,36 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
-import toast from 'react-hot-toast';
 import { ADMIN_USER_KEYS } from './useAdminUserQueries';
+import { useBaseMutation } from '../common/useBaseMutation';
 
 export const useBanUser = () => {
   const queryClient = useQueryClient();
-
-  return useMutation({
+  return useBaseMutation({
     mutationFn: ({ userId, reason, days, is_permanent }) =>
       axiosClient.patch(`/admin/users/${userId}/ban`, { reason, days, is_permanent }),
-    onSuccess: (response, variables) => {
+    invalidateKeys: [ADMIN_USER_KEYS.lists()],
+    successMessage: 'Usuario suspendido con éxito',
+    onSuccessExtra: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ADMIN_USER_KEYS.detail(variables.userId) });
-      queryClient.invalidateQueries({ queryKey: ADMIN_USER_KEYS.lists() });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    }
   });
 };
 
 export const useUnbanUser = () => {
   const queryClient = useQueryClient();
-
-  return useMutation({
+  return useBaseMutation({
     mutationFn: (userId) => axiosClient.patch(`/admin/users/${userId}/unban`),
-    onSuccess: (response, variables) => {
+    invalidateKeys: [ADMIN_USER_KEYS.lists()],
+    successMessage: 'Usuario restaurado con éxito',
+    onSuccessExtra: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ADMIN_USER_KEYS.detail(variables) });
-      queryClient.invalidateQueries({ queryKey: ADMIN_USER_KEYS.lists() });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    }
   });
 };
 
 export const useRevokeUserSessions = () => {
-  return useMutation({
+  return useBaseMutation({
     mutationFn: (userId) => axiosClient.post(`/admin/users/${userId}/sessions/revoke`),
-    onSuccess: (response) => {
-      toast.success(response.message || 'Sesiones revocadas correctamente');
-    },
-    onError: (error) => toast.error(error.message),
+    successMessage: 'Sesiones revocadas correctamente',
   });
 };

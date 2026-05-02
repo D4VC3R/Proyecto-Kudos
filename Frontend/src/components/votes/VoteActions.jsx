@@ -11,7 +11,7 @@ export const VoteActions = ({ onSkip, isPending, showComments, onToggleComments 
         className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-slate-500 bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-colors disabled:opacity-50"
       >
         <SkipForward size={20} />
-        <span>Saltar (Skip)</span>
+        <span>No me interesa</span>
       </button>
       
       <button
@@ -24,7 +24,7 @@ export const VoteActions = ({ onSkip, isPending, showComments, onToggleComments 
         )}
       >
         <MessageSquare size={20} />
-        <span>{showComments ? 'Ocultar comentarios' : 'Comentar antes'}</span>
+        <span>{showComments ? 'Ocultar comentarios' : 'Comentar'}</span>
       </button>
     </div>
   );

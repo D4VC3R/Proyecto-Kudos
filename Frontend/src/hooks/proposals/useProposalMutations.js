@@ -1,45 +1,33 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
-import toast from 'react-hot-toast';
 import { PROPOSAL_KEYS } from './useProposalQueries';
+import { useBaseMutation } from '../common/useBaseMutation';
 
 export const useCreateProposal = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  return useBaseMutation({
     mutationFn: (data) => axiosClient.post('/proposals', data),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: PROPOSAL_KEYS.myProposals() });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    invalidateKeys: [PROPOSAL_KEYS.myProposals()],
+    successMessage: 'Propuesta creada',
   });
 };
 
 export const useUpdateProposal = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useBaseMutation({
     mutationFn: ({ id, data }) => axiosClient.put(`/proposals/${id}`, data),
-    onSuccess: (response, variables) => {
+    invalidateKeys: [PROPOSAL_KEYS.myProposals()],
+    successMessage: 'Propuesta actualizada',
+    onSuccessExtra: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: PROPOSAL_KEYS.detail(variables.id) });
-      queryClient.invalidateQueries({ queryKey: PROPOSAL_KEYS.myProposals() });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    }
   });
 };
 
 export const useDeleteProposal = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  return useBaseMutation({
     mutationFn: (id) => axiosClient.delete(`/proposals/${id}`),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: PROPOSAL_KEYS.myProposals() });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    invalidateKeys: [PROPOSAL_KEYS.myProposals()],
+    successMessage: 'Propuesta eliminada',
   });
 };
-

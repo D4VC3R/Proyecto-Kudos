@@ -1,49 +1,34 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
-import toast from 'react-hot-toast';
 import { COMMENT_KEYS } from './useCommentQueries';
+import { useBaseMutation } from '../common/useBaseMutation';
 
 export const useCreateComment = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useBaseMutation({
     mutationFn: ({ itemId, data }) => axiosClient.post(`/items/${itemId}/comments`, data),
-    onSuccess: (response, variables) => {
-      // Invalidamos solo los comentarios del ítem afectado
+    successMessage: 'Comentario creado',
+    onSuccessExtra: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['comments', 'item', variables.itemId]
       });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    }
   });
 };
 
 export const useUpdateComment = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  return useBaseMutation({
     mutationFn: ({ id, data }) => axiosClient.put(`/comments/${id}`, data),
-    onSuccess: (response) => {
-      // Invalidamos toda la rama de comentarios de forma segura
-      queryClient.invalidateQueries({ queryKey: COMMENT_KEYS.all });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    invalidateKeys: [COMMENT_KEYS.all],
+    successMessage: 'Comentario actualizado',
   });
 };
 
 export const useDeleteComment = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  return useBaseMutation({
     mutationFn: (id) => axiosClient.delete(`/comments/${id}`),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: COMMENT_KEYS.all });
-      toast.success(response.message);
-    },
-    onError: (error) => toast.error(error.message),
+    invalidateKeys: [COMMENT_KEYS.all],
+    successMessage: 'Comentario eliminado',
   });
 };
-
-

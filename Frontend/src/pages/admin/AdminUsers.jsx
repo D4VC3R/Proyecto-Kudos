@@ -13,13 +13,13 @@ import {AdminUserBanBody} from "../../components/admin/AdminUserBanBody.jsx";
 import {AdminUserRevokeBody} from "../../components/admin/AdminUserRevokeBody.jsx";
 import {SearchFilter} from "../../components/common/SearchFilter.jsx";
 import {SelectFilter} from "../../components/common/SelectFilter.jsx";
+import { useModal } from '../../hooks/useModal';
 
 const AdminUsers = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [isBanned, setIsBanned] = useState('');
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [modalType, setModalType] = useState(null);
+  const { isOpen, modalType, modalData: selectedUser, openModal, closeModal } = useModal();
   const [banParams, setBanParams] = useState({ reason: '', days: 0, is_permanent: false });
 
   const filters = { page, search, per_page: 24 };
@@ -34,14 +34,10 @@ const AdminUsers = () => {
     setPage(1);
   };
   const handleOpenAction = (user, type) => {
-    setSelectedUser(user);
-    setModalType(type);
+    openModal(type, user);
     if (type === 'ban') setBanParams({ reason: '', days: 0, is_permanent: false });
   };
-  const handleCloseModal = () => {
-    setSelectedUser(null);
-    setModalType(null);
-  };
+
   const executeAction = () => {
     if (!selectedUser) return;
     if (modalType === 'ban') {
@@ -50,9 +46,9 @@ const AdminUsers = () => {
         reason: banParams.reason,
         days: banParams.is_permanent ? null : banParams.days,
         is_permanent: banParams.is_permanent
-      }, { onSuccess: handleCloseModal });
+      }, { onSuccess: closeModal });
     } else if (modalType === 'revoke') {
-      revokeTokens(selectedUser.id, { onSuccess: handleCloseModal });
+      revokeTokens(selectedUser.id, { onSuccess: closeModal });
     }
   };
   const handleToggleBan = (user) => {
@@ -112,10 +108,10 @@ const AdminUsers = () => {
       )}
       {/* Modal Actions */}
       <Modal
-        isOpen={!!modalType}
-        onClose={handleCloseModal}
+        isOpen={isOpen}
+        onClose={closeModal}
         title={modalType === 'ban' ? 'Suspender Usuario' : 'Revocar Sesiones'}
-        footer={<ModalButtons onClose={handleCloseModal} onConfirm={executeAction} isPending={isBanning || isRevoking} confirmText="Confirmar Acción" actionStyle={modalType === 'ban' ? 'danger' : 'warning'} />}
+        footer={<ModalButtons onClose={closeModal} onConfirm={executeAction} isPending={isBanning || isRevoking} confirmText="Confirmar Acción" actionStyle={modalType === 'ban' ? 'danger' : 'warning'} />}
       >
         {modalType === 'ban' ? (
           <AdminUserBanBody

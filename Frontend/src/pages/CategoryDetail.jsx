@@ -6,6 +6,7 @@ import ActionButton from '../components/common/ActionButton';
 import Ranking from '../components/ranking/Ranking.jsx';
 import InfiniteSlider from '../components/common/InfiniteSlider';
 import {Skeleton} from '../components/common/Skeleton';
+import {SectionHeader} from "../components/common/SectionHeader.jsx";
 
 // Página detalle de la categoría con información básica, ranking, slider infinito de items aleatorios y botones de acción.
 // Muestra esqueletos de cada componente mientras se cargan los datos.
@@ -16,7 +17,6 @@ const CategoryDetail = () => {
   const {
     data: category,
     isLoading: isLoadingCategory,
-    isFetching: isFetchingCategory
   } = useCategoryDetail(categorySlug);
   const {
     data: rankingData,
@@ -45,28 +45,26 @@ const CategoryDetail = () => {
   }
 
   return (
-    <div
-      className={`mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-300 ${(isFetchingRanking && !isFetchingNextPage && !isLoadingRanking) ? 'opacity-60' : 'opacity-100'}`}>
+    <div className={`flex w-full flex-col transition-opacity duration-300 ${(isFetchingRanking && !isFetchingNextPage && !isLoadingRanking) ? 'opacity-60' : 'opacity-100'}`}>
 
-      <div className="text-center md:text-left h-[100px]">
+      <div className="mb-8 shrink-0">
         {isLoadingCategory ? (
-          <div className="flex flex-col gap-4">
-            <Skeleton className="h-12 w-2/3 md:w-1/2"/>
-            <Skeleton className="h-6 w-full md:w-1/3"/>
+          <div className="flex flex-col gap-4 border-b border-slate-200 pb-4">
+            <Skeleton className="h-8 w-2/3 md:w-1/3"/>
+            <Skeleton className="h-4 w-full md:w-1/2"/>
           </div>
         ) : (
-          <>
-            <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
-              Bienvenido a <span className="text-blue-600 drop-shadow-sm">{category?.name}</span>
-            </h1>
-            <p className="mt-2 text-lg font-medium text-slate-500">{category?.description}</p>
-          </>
+          <SectionHeader
+            size="large"
+            title="Bienvenido a"
+            highlight={category?.name}
+            subtitle={category?.description}
+          />
         )}
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
 
-        {/* CAMBIO 2: Quitar justify-center para que los botones no se desplacen verticalmente al crecer el ranking */}
         <div className="flex flex-col gap-6 lg:col-span-5 items-center">
           <div className="w-full flex flex-col gap-6 rounded-3xl bg-white p-8 shadow-xl ring-1 ring-slate-200">
             <ActionButton

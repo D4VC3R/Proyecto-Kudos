@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FileText, Trash2, Edit3, Clock } from 'lucide-react';
 import { Modal } from '../common/Modal';
 import { PROPOSAL_STATUS_CONFIG } from '../../lib/constants';
+import { useModal } from '../../hooks/useModal';
 
 export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const deleteModal = useModal();
+  const editModal = useModal();
 
   const StateIcon = PROPOSAL_STATUS_CONFIG[proposal.status]?.icon || Clock;
   const stateColor = PROPOSAL_STATUS_CONFIG[proposal.status]?.color || 'bg-slate-100 text-slate-800';
@@ -13,7 +14,7 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
 
   const handleDeleteConfirm = () => {
     onDelete(proposal.id);
-    setIsDeleteModalOpen(false);
+    deleteModal.closeModal();
   };
 
   return (
@@ -67,7 +68,7 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
           {(proposal.status === 'changes_requested' || proposal.status === 'pending') && (
              <button
                title="Editar Propuesta"
-               onClick={() => setIsEditModalOpen(true)}
+               onClick={() => editModal.openModal()}
                className="flex items-center justify-center h-10 w-10 rounded-xl bg-slate-50 text-slate-500 hover:bg-blue-50 hover:text-blue-600 transition-colors"
              >
                <Edit3 size={18} />
@@ -77,7 +78,7 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
           {(proposal.status === 'pending' || proposal.status === 'rejected') && (
              <button
                title="Eliminar Propuesta"
-               onClick={() => setIsDeleteModalOpen(true)}
+               onClick={() => deleteModal.openModal()}
                disabled={isDeleting}
                className="flex items-center justify-center h-10 w-10 rounded-xl bg-slate-50 text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors disabled:opacity-50"
              >
@@ -88,13 +89,13 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
       </div>
 
       <Modal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
+        isOpen={deleteModal.isOpen}
+        onClose={deleteModal.closeModal}
         title="Eliminar Propuesta"
         footer={
           <>
             <button
-              onClick={() => setIsDeleteModalOpen(false)}
+              onClick={deleteModal.closeModal}
               className="rounded-xl px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-200 transition-colors"
             >
               Cancelar
@@ -114,12 +115,12 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
       </Modal>
 
       <Modal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
+        isOpen={editModal.isOpen}
+        onClose={editModal.closeModal}
         title="Editar Propuesta"
         footer={
           <button
-            onClick={() => setIsEditModalOpen(false)}
+            onClick={editModal.closeModal}
             className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700 transition-colors shadow-md"
           >
             Entendido

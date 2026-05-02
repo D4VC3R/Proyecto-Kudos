@@ -7,8 +7,8 @@ import {
   Landmark,
   Disc,
   Mic2,
-  Globe2,
-  Clapperboard, Tv, Gamepad2, Book, Earth, Plane
+  Clapperboard, Tv, Gamepad2, Book, Plane, Users, FileText, LayoutGrid, Target, User as UserIcon, List, ThumbsUp,
+  BarChart3
 } from 'lucide-react';
 
 export const FIELD_LABELS = {
@@ -68,4 +68,18 @@ export const categoryIcons = {
   'videojuegos': Gamepad2,
   'libros': Book,
 };
+
+export const adminTabs = [
+  { name: 'Usuarios', to: '/admin/users', icon: Users },
+  { name: 'Propuestas', to: '/admin/proposals', icon: FileText },
+  { name: 'Categorías', to: '/admin/categories', icon: LayoutGrid },
+  { name: 'Items', to: '/admin/items', icon: Target },
+];
+
+export const profileTabs = [
+  { id: 'info', name: 'Información', icon: UserIcon },
+  { id: 'proposals', name: 'Mis Propuestas', icon: List },
+  { id: 'votes', name: 'Historial de Votos', icon: ThumbsUp },
+  { id: 'stats', name: 'Estadísticas', icon: BarChart3 },
+];
 
