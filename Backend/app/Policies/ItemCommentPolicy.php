@@ -8,38 +8,40 @@ use App\Models\User;
 
 class ItemCommentPolicy
 {
-    public function viewAny(?User $user, Item $item): bool
-    {
-        if ($item->status === Item::STATUS_ACTIVE) {
-            return true;
-        }
+	public function viewAny(?User $user, Item $item): bool
+	{
+		if ($item->status === Item::STATUS_ACTIVE) {
+			return true;
+		}
+		return $user?->hasRole('admin') ?? false;
+	}
 
-        return $user?->hasRole('admin') ?? false;
-    }
+	public function create(User $user, Item $item): bool
+	{
+		return $item->status === Item::STATUS_ACTIVE;
+	}
 
-    public function create(User $user, Item $item): bool
-    {
-        return $item->status === Item::STATUS_ACTIVE;
-    }
+	public function update(User $user, ItemComment $comment): bool
+	{
+		if ($user->hasRole('admin')) return true;
 
-    public function update(User $user, ItemComment $comment): bool
-    {
-        return $user->hasRole('admin') || $user->id === $comment->user_id;
-    }
+		return $user->id === $comment->user_id && !$comment->is_hidden;
+	}
 
-    public function delete(User $user, ItemComment $comment): bool
-    {
-        return $user->hasRole('admin') || $user->id === $comment->user_id;
-    }
+	public function delete(User $user, ItemComment $comment): bool
+	{
+		if ($user->hasRole('admin')) return true;
 
-    public function hide(User $user, ItemComment $comment): bool
-    {
-        return $user->hasRole('admin');
-    }
+		return $user->id === $comment->user_id && !$comment->is_hidden;
+	}
 
-    public function unhide(User $user, ItemComment $comment): bool
-    {
-        return $user->hasRole('admin');
-    }
+	public function hide(User $user, ItemComment $comment): bool
+	{
+		return $user->hasRole('admin');
+	}
+
+	public function unhide(User $user, ItemComment $comment): bool
+	{
+		return $user->hasRole('admin');
+	}
 }
-

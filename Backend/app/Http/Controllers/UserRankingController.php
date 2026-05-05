@@ -5,37 +5,77 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ListUserRankingRequest;
 use App\Http\Resources\UserRankingDataResource;
 use App\Models\User;
-use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class UserRankingController extends Controller
 {
-    public function __construct(protected UserService $userService)
-    {
-    }
+	public function index(ListUserRankingRequest $request): JsonResponse
+	{
+		$authenticatedUser = Auth::guard('sanctum')->user();
+		if ($authenticatedUser && !$authenticatedUser instanceof User) {
+			$authenticatedUser = null;
+		}
 
-    public function index(ListUserRankingRequest $request): JsonResponse
-    {
-        $authenticatedUser = Auth::guard('sanctum')->user();
-        if ($authenticatedUser && !$authenticatedUser instanceof User) {
-            $authenticatedUser = null;
-        }
+		$page = max(1, (int) ($request->validated()['page'] ?? 1));
+		$perPage = 10;
 
-        $page = (int) ($request->validated()['page'] ?? 1);
-        $result = $this->userService->getPublicKudosRanking($authenticatedUser, $page);
+		// Obtener la página Top (Global)
+		$topPaginator = User::getRankingPaginator($perPage, $page);
 
-        return $this->respondList(
-            data: new UserRankingDataResource($result),
-            meta: [
-                'top_pagination' => $result['top_pagination'],
-                'my_position' => $result['my_position'],
-                'my_page_pagination' => $result['my_page_pagination'],
-            ],
-            links: [
-                'top_page' => $result['top_links'],
-                'my_page' => $result['my_page_links'],
-            ],
-        );
-    }
+		// Preparar los datos del usuario autenticado (si existe)
+		$myRank = null;
+		$myPage = null;
+		$myPagePaginator = null;
+
+		if ($authenticatedUser) {
+			$myRank = $authenticatedUser->getKudosRank();
+			$myPage = (int) ceil($myRank / $perPage);
+			$myPagePaginator = User::getRankingPaginator($perPage, $myPage);
+		}
+
+		return $this->respondList(
+			data: new UserRankingDataResource([
+				'top_paginator' => $topPaginator,
+				'my_page_paginator' => $myPagePaginator,
+			]),
+
+			meta: [
+				'top_pagination' => [
+					'current_page' => $topPaginator->currentPage(),
+					'last_page' => $topPaginator->lastPage(),
+					'per_page' => $topPaginator->perPage(),
+					'total' => $topPaginator->total(),
+				],
+				'my_position' => $authenticatedUser ? [
+					'user_id' => $authenticatedUser->id,
+					'rank' => $myRank,
+					'page' => $myPage,
+					'total_kudos' => $authenticatedUser->total_kudos,
+				] : null,
+				'my_page_pagination' => $myPagePaginator ? [
+					'current_page' => $myPagePaginator->currentPage(),
+					'last_page' => $myPagePaginator->lastPage(),
+					'per_page' => $myPagePaginator->perPage(),
+					'total' => $myPagePaginator->total(),
+				] : null,
+			],
+
+			// Enlaces extraídos en línea
+			links: [
+				'top_page' => [
+					'first' => $topPaginator->url(1),
+					'last' => $topPaginator->url($topPaginator->lastPage()),
+					'prev' => $topPaginator->previousPageUrl(),
+					'next' => $topPaginator->nextPageUrl(),
+				],
+				'my_page' => $myPagePaginator ? [
+					'first' => $myPagePaginator->url(1),
+					'last' => $myPagePaginator->url($myPagePaginator->lastPage()),
+					'prev' => $myPagePaginator->previousPageUrl(),
+					'next' => $myPagePaginator->nextPageUrl(),
+				] : null,
+			],
+		);
+	}
 }

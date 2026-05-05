@@ -144,6 +144,74 @@ class User extends Authenticatable implements MustVerifyEmail
 		];
 	}
 
+	public function getProfileStatistics(): array
+	{
+		// Estadísticas de votos
+		$totalVotes = $this->votes()->where('type', 'vote')->count();
+		$totalSkips = $this->votes()->where('type', 'skip')->count();
+		$averageScore = $this->votes()->where('type', 'vote')->avg('score');
+
+		// Categoría favorita (la más votada positivamente)[cite: 62]
+		$favoriteCategoryId = $this->votes()
+			->where('type', 'vote')
+			->join('items', 'votes.item_id', '=', 'items.id')
+			->groupBy('items.category_id')
+			->orderByRaw('COUNT(*) DESC')
+			->value('items.category_id');
+
+		$favoriteCategoryName = $favoriteCategoryId
+			? \App\Models\Category::find($favoriteCategoryId)?->name
+			: null;
+
+		return [
+			'total_votes' => $totalVotes,
+			'total_skips' => $totalSkips,
+			'average_score' => $averageScore ? round((float) $averageScore, 1) : null,
+			'favorite_category' => $favoriteCategoryName,
+			'accepted_proposals' => $this->proposals()->accepted()->count(),
+			'total_comments' => $this->comments()->count(),
+			'current_login_streak' => $this->login_streak_count,
+			'max_login_streak' => $this->max_login_streak_count,
+			'total_kudos' => $this->total_kudos,
+		];
+	}
+	/**
+	 * Devuelve el paginador del ranking de Kudos global.
+	 */
+	public static function getRankingPaginator(int $perPage = 10, int $page = 1)
+	{
+		return self::query()
+			->select(['id', 'name', 'total_kudos', 'created_at'])
+			->orderByDesc('total_kudos')
+			->orderBy('created_at')
+			->orderBy('id')
+			->paginate($perPage, ['*'], 'page', $page);
+	}
+
+	/**
+	 * Calcula la posición (ranking) absoluta de este usuario.
+	 */
+	public function getKudosRank(): int
+	{
+		$usersAhead = self::query()
+			->where(function ($query) {
+				$query->where('total_kudos', '>', $this->total_kudos)
+					->orWhere(function ($tieBreaker) {
+						$tieBreaker->where('total_kudos', $this->total_kudos)
+							->where(function ($sameKudos) {
+								$sameKudos->where('created_at', '<', $this->created_at)
+									->orWhere(function ($sameTimestamp) {
+										$sameTimestamp->where('created_at', $this->created_at)
+											->where('id', '<', $this->id);
+									});
+							});
+					});
+			})
+			->count();
+
+		return $usersAhead + 1;
+	}
+
 	public function loadAdminDetails(): self
 	{
 		return $this->load(['roles:uuid,name', 'profile'])

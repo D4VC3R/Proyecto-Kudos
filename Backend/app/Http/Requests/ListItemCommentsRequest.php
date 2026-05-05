@@ -2,24 +2,20 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Item;
 use App\Models\ItemComment;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class ListItemCommentsRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        /** @var Item|null $item */
-        $item = $this->route('item');
-        if (!$item) {
-            return false;
-        }
+	    $item = $this->route('item');
+	    if (!$item) {
+		    return false;
+	    }
 
-        $user = $this->user();
-
-        return $user?->can('viewAny', [ItemComment::class, $item])
-            ?? ($item->status === Item::STATUS_ACTIVE);
+	    return Gate::allows('viewAny', [ItemComment::class, $item]);
     }
 
     public function rules(): array

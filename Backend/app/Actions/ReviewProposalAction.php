@@ -20,7 +20,6 @@ class ReviewProposalAction
 	{
 		return DB::transaction(function () use ($proposal, $admin, $status, $adminNotes) {
 
-			// Solo bloqueamos para actualización concurrente. El estado ya fue validado en el Request.
 			$lockedProposal = Proposal::lockForUpdate()->find($proposal->id);
 
 			// Actualizar Propuesta

@@ -11,95 +11,101 @@ use App\Http\Requests\UpdateItemCommentRequest;
 use App\Http\Resources\ItemCommentResource;
 use App\Models\Item;
 use App\Models\ItemComment;
-use App\Services\ItemCommentService;
 use Illuminate\Http\JsonResponse;
 
 class ItemCommentController extends Controller
 {
-    public function __construct(protected ItemCommentService $itemCommentService)
-    {
-    }
+	public function index(ListItemCommentsRequest $request, Item $item): JsonResponse
+	{
+		$validated = $request->validated();
+		$perPage = min(max((int) ($validated['per_page'] ?? 15), 1), 100);
 
-    public function index(ListItemCommentsRequest $request, Item $item): JsonResponse
-    {
-        $validated = $request->validated();
-        $comments = $this->itemCommentService->listForItem(
-            item: $item,
-            viewer: $request->user(),
-            perPage: (int) ($validated['per_page'] ?? 15),
-        );
+		$user = $request->user();
+		$includeHidden = $user?->hasRole('admin') ?? false;
 
-        return $this->respondList(
-            data: ItemCommentResource::collection($comments),
-            meta: [
-                'current_page' => $comments->currentPage(),
-                'last_page' => $comments->lastPage(),
-                'per_page' => $comments->perPage(),
-                'total' => $comments->total(),
-            ],
-            links: [
-                'first' => $comments->url(1),
-                'last' => $comments->url($comments->lastPage()),
-                'prev' => $comments->previousPageUrl(),
-                'next' => $comments->nextPageUrl(),
-            ],
-        );
-    }
+		$comments = ItemComment::query()
+			->where('item_id', $item->id)
+			->with(['user:id,name'])
+			->when(!$includeHidden, fn($q) => $q->where('is_hidden', false))
+			->latest()
+			->paginate($perPage);
 
-    public function store(StoreItemCommentRequest $request, Item $item): JsonResponse
-    {
-        $comment = $this->itemCommentService->create(
-            user: $request->user(),
-            item: $item,
-            payload: $request->validated(),
-        );
+		return $this->respondList(
+			data: ItemCommentResource::collection($comments),
+			meta: [
+				'current_page' => $comments->currentPage(),
+				'last_page' => $comments->lastPage(),
+				'per_page' => $comments->perPage(),
+				'total' => $comments->total(),
+			],
+			links: [
+				'first' => $comments->url(1),
+				'last' => $comments->url($comments->lastPage()),
+				'prev' => $comments->previousPageUrl(),
+				'next' => $comments->nextPageUrl(),
+			],
+		);
+	}
 
-        return $this->respondMutation(
-            message: 'Comentario registrado correctamente.',
-            data: new ItemCommentResource($comment),
-            status: 201,
-        );
-    }
+	public function store(StoreItemCommentRequest $request, Item $item): JsonResponse
+	{
+		$payload = $request->validated();
 
-    public function update(UpdateItemCommentRequest $request, ItemComment $comment): JsonResponse
-    {
-        $updated = $this->itemCommentService->update($comment, $request->validated());
+		$comment = ItemComment::create([
+			'item_id' => $item->id,
+			'user_id' => $request->user()->id,
+			'content' => $payload['content'],
+		])->load(['user:id,name']);
 
-        return $this->respondMutation(
-            message: 'Comentario actualizado correctamente.',
-            data: new ItemCommentResource($updated),
-        );
-    }
+		return $this->respondMutation(
+			message: 'Comentario registrado correctamente.',
+			data: new ItemCommentResource($comment),
+			status: 201,
+		);
+	}
 
-    public function destroy(DeleteItemCommentRequest $request, ItemComment $comment): JsonResponse
-    {
-        $this->itemCommentService->delete($comment);
+	public function update(UpdateItemCommentRequest $request, ItemComment $comment): JsonResponse
+	{
+		$comment->update($request->validated());
 
-        return $this->respondMutation('Comentario eliminado correctamente.');
-    }
+		return $this->respondMutation(
+			message: 'Comentario actualizado correctamente.',
+			data: new ItemCommentResource($comment->fresh(['user:id,name'])),
+		);
+	}
 
-    public function hide(HideItemCommentRequest $request, ItemComment $comment): JsonResponse
-    {
-        $hidden = $this->itemCommentService->hide(
-            comment: $comment,
-            admin: $request->user(),
-            reason: $request->validated()['reason'] ?? null,
-        );
+	public function destroy(DeleteItemCommentRequest $request, ItemComment $comment): JsonResponse
+	{
+		$comment->delete();
 
-        return $this->respondMutation(
-            message: 'Comentario ocultado correctamente.',
-            data: new ItemCommentResource($hidden),
-        );
-    }
+		return $this->respondMutation('Comentario eliminado correctamente.');
+	}
 
-    public function unhide(UnhideItemCommentRequest $request, ItemComment $comment): JsonResponse
-    {
-        $visible = $this->itemCommentService->unhide($comment);
+	public function hide(HideItemCommentRequest $request, ItemComment $comment): JsonResponse
+	{
+		$comment->update([
+			'is_hidden' => true,
+			'hidden_reason' => $request->validated()['reason'] ?? null,
+			'hidden_by' => $request->user()->id,
+		]);
 
-        return $this->respondMutation(
-            message: 'Comentario restaurado correctamente.',
-            data: new ItemCommentResource($visible),
-        );
-    }
+		return $this->respondMutation(
+			message: 'Comentario ocultado correctamente.',
+			data: new ItemCommentResource($comment->fresh(['user:id,name'])),
+		);
+	}
+
+	public function unhide(UnhideItemCommentRequest $request, ItemComment $comment): JsonResponse
+	{
+		$comment->update([
+			'is_hidden' => false,
+			'hidden_reason' => null,
+			'hidden_by' => null,
+		]);
+
+		return $this->respondMutation(
+			message: 'Comentario restaurado correctamente.',
+			data: new ItemCommentResource($comment->fresh(['user:id,name'])),
+		);
+	}
 }
-

@@ -12,6 +12,10 @@ class ItemComment extends Model
 {
 	use HasFactory, HasUuids, SoftDeletes;
 
+	protected $attributes = [
+		'is_hidden' => false,
+	];
+
 	protected $fillable = [
 		'item_id',
 		'user_id',
