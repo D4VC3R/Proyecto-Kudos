@@ -21,7 +21,7 @@ export const NewProposalForm = ({ category }) => {
       ...data,
       category_id: category.id
     }, {
-      onSuccess: () => navigate('/my-proposals')
+      onSuccess: () => navigate('/my-proposals'),
     });
   };
 
@@ -40,7 +40,7 @@ export const NewProposalForm = ({ category }) => {
         label="Descripción detallada"
         icon={AlignLeft}
         rows={6}
-        placeholder="Explica por qué merece estar en el juego y qué lo hace especial. Mínimo 20 caracteres."
+        placeholder="Mínimo 20 caracteres."
         registration={register('description')}
         error={errors.description}
         disabled={isPending}
@@ -49,7 +49,7 @@ export const NewProposalForm = ({ category }) => {
       <InputField
         label="Ruta de Imagen (Opcional)"
         icon={ImageIcon}
-        placeholder="Ej: zelda-cover.jpg (solo si está en disco publico)"
+        placeholder="Ej: zelda-cover.jpg"
         registration={register('image_path')}
         error={errors.image_path}
         disabled={isPending}

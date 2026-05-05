@@ -32,6 +32,18 @@ class Vote extends Model
         'updated_at',
     ];
 
+	public function scopeApplyFilters($query, array $filters)
+	{
+		return $query
+			->when(!empty($filters['type']), fn($q) => $q->where('type', $filters['type']))
+			->when(!empty($filters['category_slug']), function ($q) use ($filters) {
+				$q->whereHas('item.category', fn($catQuery) => $catQuery->where('slug', $filters['category_slug']));
+			})
+			->when(!empty($filters['search']), function ($q) use ($filters) {
+				$q->whereHas('item', fn($itemQuery) => $itemQuery->where('name', 'ilike', "%{$filters['search']}%"));
+			});
+	}
+
     public function kudosTransactions(): MorphMany
     {
         return $this->morphMany(KudosTransaction::class, 'reference');

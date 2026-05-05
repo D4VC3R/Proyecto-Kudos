@@ -10,98 +10,105 @@ use App\Http\Requests\Admin\UnbanUserRequest;
 use App\Http\Resources\Admin\AdminUserDetailResource;
 use App\Http\Resources\Admin\AdminUserListResource;
 use App\Models\User;
-use App\Services\AdminService;
+use App\Services\ModerationAuditLogger;
 use Illuminate\Http\JsonResponse;
 
 class AdminUserController extends Controller
 {
-    public function __construct(
-        protected AdminService $adminService,
-    ) {
-    }
+	public function __construct(
+		protected ModerationAuditLogger $moderationAuditLogger,
+	) {}
 
-    public function index(ListAdminUsersRequest $request): JsonResponse
-    {
-        $validated = $request->validated();
+	public function index(ListAdminUsersRequest $request): JsonResponse
+	{
+		$validated = $request->validated();
+		$perPage = (int) ($validated['per_page'] ?? 20);
 
-        $filters = [
-            'search' => $validated['search'] ?? null,
-            'is_banned' => $validated['is_banned'] ?? null,
-            'ban_state' => $validated['ban_state'] ?? null,
-            'role' => $validated['role'] ?? null,
-            'sort_by' => $validated['sort_by'] ?? null,
-            'sort_direction' => $validated['sort_direction'] ?? null,
-        ];
+		// Uso directo del modelo con los scopes limpios
+		$users = User::query()
+			->with('roles:uuid,name')
+			->adminApplyFilters($validated)
+			->adminApplySorting($validated)
+			->paginate(min(max($perPage, 1), 100));
 
-        $result = $this->adminService->listUsers(
-            filters: $filters,
-            perPage: (int) ($validated['per_page'] ?? 20),
-        );
+		return $this->respondList(
+			data: AdminUserListResource::collection($users),
+			meta: [
+				'current_page' => $users->currentPage(),
+				'last_page' => $users->lastPage(),
+				'per_page' => $users->perPage(),
+				'total' => $users->total(),
+				'summary' => User::getAdminSummary(),
+			],
+		);
+	}
 
-        $users = $result['users'];
+	public function show(ShowAdminUserRequest $request, User $user): JsonResponse
+	{
+		// Eloquent Route Model Binding ya nos garantiza que el usuario existe
+		$user->loadAdminDetails();
 
-        return $this->respondList(
-            data: AdminUserListResource::collection($users),
-            meta: [
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage(),
-                'per_page' => $users->perPage(),
-                'total' => $users->total(),
-                'summary' => $result['summary'],
-            ],
-        );
-    }
+		return $this->respondData(new AdminUserDetailResource($user));
+	}
 
-    public function show(ShowAdminUserRequest $request, User $user): JsonResponse
-    {
-        $detail = $this->adminService->getUserDetail($user);
+	public function ban(BanUserRequest $request, User $user): JsonResponse
+	{
+		$admin = $request->user();
+		$isPermanent = (bool) $request->boolean('is_permanent');
+		$days = $request->integer('days');
+		$reason = (string) $request->input('reason');
 
-        if (!$detail instanceof User) {
-            return $this->respondError(
-                code: 'not_found',
-                message: 'Usuario no encontrado.',
-                status: 404,
-            );
-        }
+		// Lógica movida desde AdminService directamente al controlador
+		$user->update([
+			'is_banned' => true,
+			'banned_at' => now(),
+			'banned_until' => $isPermanent ? null : now()->addDays($days),
+			'ban_reason' => $reason,
+			'banned_by' => $admin->id,
+		]);
 
-        return $this->respondData(new AdminUserDetailResource($detail));
-    }
+		$user->tokens()->delete();
 
-    public function ban(BanUserRequest $request, User $user): JsonResponse
-    {
-        $admin = $request->user();
+		$this->moderationAuditLogger->logUserBanChange($user, $admin, 'ban', [
+			'is_permanent' => $isPermanent,
+			'days' => $isPermanent ? null : $days,
+			'reason' => $reason,
+		]);
 
-        $updatedUser = $this->adminService->banUser(
-            admin: $admin,
-            targetUser: $user,
-            isPermanent: (bool) $request->boolean('is_permanent'),
-            days: $request->integer('days'),
-            reason: (string) $request->input('reason'),
-        );
+		return $this->respondMutation('Usuario baneado correctamente.', new AdminUserListResource($user->fresh()));
+	}
 
-        return $this->respondMutation('Usuario baneado correctamente.', new AdminUserListResource($updatedUser));
-    }
+	public function unban(UnbanUserRequest $request, User $user): JsonResponse
+	{
+		$admin = $request->user();
 
-    public function unban(UnbanUserRequest $request, User $user): JsonResponse
-    {
-        $admin = $request->user();
+		$user->update([
+			'is_banned' => false,
+			'banned_at' => null,
+			'banned_until' => null,
+			'ban_reason' => null,
+			'banned_by' => null,
+		]);
 
-        $updatedUser = $this->adminService->unbanUser($admin, $user);
+		$this->moderationAuditLogger->logUserBanChange($user, $admin, 'unban');
 
-        return $this->respondMutation('Usuario desbaneado correctamente.', new AdminUserListResource($updatedUser));
-    }
+		return $this->respondMutation('Usuario desbaneado correctamente.', new AdminUserListResource($user->fresh()));
+	}
 
-    public function revokeTokens(RevokeUserTokensRequest $request, User $user): JsonResponse
-    {
-        $admin = $request->user();
+	public function revokeTokens(RevokeUserTokensRequest $request, User $user): JsonResponse
+	{
+		$admin = $request->user();
 
-        $revoked = $this->adminService->revokeUserTokens($admin, $user);
+		$revoked = $user->tokens()->count();
+		$user->tokens()->delete();
 
-        return $this->respondMutation(
-            'Sesiones del usuario revocadas correctamente.',
-            meta: [
-                'revoked_tokens' => $revoked,
-            ],
-        );
-    }
+		$this->moderationAuditLogger->logUserBanChange($user, $admin, 'revoke_tokens', [
+			'revoked_tokens' => $revoked,
+		]);
+
+		return $this->respondMutation(
+			'Sesiones del usuario eliminadas correctamente.',
+			meta: ['revoked_tokens' => $revoked]
+		);
+	}
 }

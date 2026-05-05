@@ -28,37 +28,42 @@ class UpdateProposalRequest extends FormRequest
         ];
     }
 
-    public function withValidator($validator): void
-    {
-        $validator->after(function ($validator) {
-            /** @var Proposal|null $proposal */
-            $proposal = $this->route('proposal');
-            $categoryId = $this->input('category_id', $proposal?->category_id);
+	public function withValidator($validator): void
+	{
+		$validator->after(function ($validator) {
 
-            if (!is_string($categoryId) || $categoryId === '') {
-                return;
-            }
+			$proposal = $this->route('proposal');
 
-            $extraDataInput = $this->input('extra_data');
-            if ($extraDataInput !== null && !is_array($extraDataInput)) {
-                $validator->errors()->add('extra_data', 'extra_data debe ser un objeto JSON.');
-                return;
-            }
+			if ($proposal) {
+				if ($proposal->trashed()) {
+					$validator->errors()->add('proposal', 'No se puede editar una propuesta eliminada.');
+				}
 
-            $existingExtraData = is_array($proposal?->extra_data) ? $proposal->extra_data : [];
+				if (!in_array($proposal->status, [Proposal::STATUS_CHANGES_REQUESTED, Proposal::STATUS_PENDING], true)) {
+					$validator->errors()->add('proposal', 'Solo se pueden editar o reenviar propuestas en estado pending o changes_requested.');
+				}
+			}
 
-            $errors = app(CategoryExtraDataValidator::class)->validate(
-                categoryId: $categoryId,
-                inputExtraData: $extraDataInput,
-                existingExtraData: $existingExtraData,
-                requireRequiredFields: true,
-            );
+			$categoryId = $this->input('category_id', $proposal?->category_id);
+			if (!is_string($categoryId) || $categoryId === '') return;
 
-            foreach ($errors as $field => $messages) {
-                foreach ($messages as $message) {
-                    $validator->errors()->add($field, $message);
-                }
-            }
-        });
-    }
+			$extraDataInput = $this->input('extra_data');
+			if ($extraDataInput !== null && !is_array($extraDataInput)) {
+				$validator->errors()->add('extra_data', 'extra_data debe ser un objeto JSON.');
+				return;
+			}
+
+			$existingExtraData = is_array($proposal?->extra_data) ? $proposal->extra_data : [];
+			$errors = app(CategoryExtraDataValidator::class)->validate(
+				categoryId: $categoryId, inputExtraData: $extraDataInput,
+				existingExtraData: $existingExtraData, requireRequiredFields: true,
+			);
+
+			foreach ($errors as $field => $messages) {
+				foreach ($messages as $message) {
+					$validator->errors()->add($field, $message);
+				}
+			}
+		});
+	}
 }

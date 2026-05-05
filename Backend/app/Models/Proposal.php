@@ -17,6 +17,9 @@ class Proposal extends Model
     public const STATUS_REJECTED = 'rejected';
     public const STATUS_CHANGES_REQUESTED = 'changes_requested';
 
+	protected $attributes = [
+		'status' => self::STATUS_PENDING,
+	];
     protected $fillable = [
         'name',
         'description',
@@ -38,6 +41,19 @@ class Proposal extends Model
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
+
+	public function scopeAdminApplyFilters($query, array $filters)
+	{
+		return $query
+			->when(!empty($filters['status']), fn($q) => $q->where('status', $filters['status']))
+			->when(!empty($filters['creator_id']), fn($q) => $q->where('creator_id', $filters['creator_id']))
+			->when(!empty($filters['reviewed_by']), fn($q) => $q->where('reviewed_by', $filters['reviewed_by']))
+			->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
+			->when(!empty($filters['search']), function ($q) use ($filters) {
+				$q->where(fn($sub) => $sub->where('name', 'ilike', "%{$filters['search']}%")
+					->orWhere('description', 'ilike', "%{$filters['search']}%"));
+			});
+	}
 
     public function creator(): BelongsTo
     {

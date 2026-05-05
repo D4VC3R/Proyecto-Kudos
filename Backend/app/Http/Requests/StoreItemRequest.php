@@ -9,73 +9,74 @@ use Illuminate\Support\Facades\Auth;
 
 class StoreItemRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return Auth::user()->can('create', Item::class);
-    }
+	/**
+	 * Determine if the user is authorized to make this request.
+	 */
+	public function authorize(): bool
+	{
+		return $this->user()?->can('create', Item::class) ?? false;
+	}
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-		public function rules(): array
-		{
-			return [
-				'name' => ['required', 'string', 'max:255'],
-				'description' => ['required', 'string', 'min:20', 'max:2000'],
-				'images' => ['nullable', 'array', 'max:10'],
-                'images.*.path' => ['required', 'string', 'max:500'],
-                'images.*.disk' => ['required', 'string', 'in:public'],
-                'images.*.alt' => ['nullable', 'string', 'max:255'],
-                'images.*.order' => ['nullable', 'integer', 'min:0'],
-				'extra_data' => ['nullable', 'array'],
-				'category_id' => ['required', 'uuid', 'exists:categories,id'],
-			];
-		}
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+	 */
+	public function rules(): array
+	{
+		return [
+			'name' => ['required', 'string', 'max:255'],
+			'description' => ['required', 'string', 'min:20', 'max:2000'],
+			'images' => ['nullable', 'array', 'max:10'],
+			'images.*.path' => ['required', 'string', 'max:500'],
+			'images.*.disk' => ['required', 'string', 'in:public'],
+			'images.*.alt' => ['nullable', 'string', 'max:255'],
+			'images.*.order' => ['nullable', 'integer', 'min:0'],
+			'extra_data' => ['nullable', 'array'],
+			'category_id' => ['required', 'uuid', 'exists:categories,id'],
+		];
+	}
 
-							public function withValidator($validator): void
-							{
-								$validator->after(function ($validator) {
-									$categoryId = $this->input('category_id');
-									if (!is_string($categoryId) || $categoryId === '') {
-										return;
-									}
+	public function withValidator($validator): void
+	{
+		$validator->after(function ($validator) {
+			$categoryId = $this->input('category_id');
+			if (!is_string($categoryId) || $categoryId === '') {
+				return;
+			}
 
-									$extraData = $this->input('extra_data');
-									if ($extraData !== null && !is_array($extraData)) {
-										$validator->errors()->add('extra_data', 'extra_data debe ser un objeto JSON.');
-										return;
-									}
+			$extraData = $this->input('extra_data');
+			if ($extraData !== null && !is_array($extraData)) {
+				$validator->errors()->add('extra_data', 'extra_data debe ser un objeto JSON.');
+				return;
+			}
 
-									$errors = app(CategoryExtraDataValidator::class)->validate(
-										categoryId: $categoryId,
-										inputExtraData: $extraData,
-										existingExtraData: [],
-										requireRequiredFields: true,
-									);
+			$errors = app(CategoryExtraDataValidator::class)->validate(
+				categoryId: $categoryId,
+				inputExtraData: $extraData,
+				existingExtraData: [],
+				requireRequiredFields: true,
+			);
 
-									foreach ($errors as $field => $messages) {
-										foreach ($messages as $message) {
-											$validator->errors()->add($field, $message);
-										}
-									}
-								});
-							}
-		public function messages(): array
-		{
-			return [
-				'name.required' => 'El nombre del item es obligatorio.',
-				'name.max' => 'El nombre no puede exceder 255 caracteres.',
-				'description.required' => 'La descripción es obligatoria.',
-				'description.min' => 'La descripción debe tener al menos 20 caracteres.',
-				'description.max' => 'La descripción no puede exceder 2000 caracteres.',
-                'images.*.path.required' => 'La imagen es obligatoria.',
-				'category_id.required' => 'Debes seleccionar una categoría.',
-				'category_id.exists' => 'La categoría seleccionada no existe.',
-			];
-		}
+			foreach ($errors as $field => $messages) {
+				foreach ($messages as $message) {
+					$validator->errors()->add($field, $message);
+				}
+			}
+		});
+	}
+
+	public function messages(): array
+	{
+		return [
+			'name.required' => 'El nombre del item es obligatorio.',
+			'name.max' => 'El nombre no puede exceder 255 caracteres.',
+			'description.required' => 'La descripción es obligatoria.',
+			'description.min' => 'La descripción debe tener al menos 20 caracteres.',
+			'description.max' => 'La descripción no puede exceder 2000 caracteres.',
+			'images.*.path.required' => 'La imagen es obligatoria.',
+			'category_id.required' => 'Debes seleccionar una categoría.',
+			'category_id.exists' => 'La categoría seleccionada no existe.',
+		];
+	}
 }

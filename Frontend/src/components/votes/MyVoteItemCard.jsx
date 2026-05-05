@@ -1,6 +1,7 @@
 import React from 'react';
 import { Star, Trash2,  Clock,  XCircle } from 'lucide-react';
 import { Modal } from '../common/Modal';
+import { ModalButtons } from '../common/ModalButtons';
 import { formatDate } from '../../lib/formatters';
 import { useModal } from '../../hooks/useModal';
 
@@ -75,24 +76,17 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
         onClose={closeModal}
         title="Eliminar registro"
         footer={
-          <>
-            <button
-              onClick={closeModal}
-              className="rounded-xl px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-200 transition-colors"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleDeleteConfirm}
-              className="rounded-xl bg-red-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-red-700 transition-colors shadow-md border border-red-700"
-            >
-              Sí, Eliminar
-            </button>
-          </>
+          <ModalButtons
+            onClose={closeModal}
+            onConfirm={handleDeleteConfirm}
+            isPending={isDeleting}
+            confirmText="Sí, Eliminar"
+            actionStyle="danger"
+          />
         }
       >
         <p className="text-slate-600 font-medium">
-          ¿Estás seguro de que deseas eliminar este registro de voto para <strong>{vote.item?.name}</strong>? Podrás volver a votarlo o pasarlo si te aparece nuevamente en el carrusel.
+          ¿Estás seguro de que deseas eliminar este registro de voto para <strong>{vote.item?.name}</strong>?
         </p>
       </Modal>
     </>

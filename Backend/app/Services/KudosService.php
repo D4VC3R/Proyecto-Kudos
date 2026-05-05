@@ -92,7 +92,7 @@ class KudosService
      * MÉTODOS INTERNOS (Abstracción de reglas y utilidades)
      * ----------------------------------------------------------------- */
 
-    protected function awardIfFirst(User $user, int $amount, string $reason, string $actionKey, string $referenceType, string $referenceId): bool
+    private function awardIfFirst(User $user, int $amount, string $reason, string $actionKey, string $referenceType, string $referenceId): bool
     {
         return DB::transaction(function () use ($user, $amount, $reason, $actionKey, $referenceType, $referenceId) {
             $inserted = $this->kudosRepository->insertIfNotExists($user->id, $amount, $reason, $actionKey, $referenceType, $referenceId);

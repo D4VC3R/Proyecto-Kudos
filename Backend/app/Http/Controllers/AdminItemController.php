@@ -8,69 +8,74 @@ use App\Http\Requests\Admin\ModerateItemRequest;
 use App\Http\Resources\ItemDetailResource;
 use App\Http\Resources\ItemListResource;
 use App\Models\Item;
-use App\Services\AdminService;
+use App\Services\ModerationAuditLogger; // <-- Inyectamos el logger directamente
 use Illuminate\Http\JsonResponse;
 
 class AdminItemController extends Controller
 {
-    public function __construct(
-        protected AdminService $adminService,
-    ) {
-    }
+	public function __construct(
+		protected ModerationAuditLogger $moderationAuditLogger,
+	) {}
 
-    // Devuelve todos los items y acepta los filtros de estado, categoría, creador, busqueda, orden y tipo de orden.
-    public function index(ListAdminItemsRequest $request): JsonResponse
-    {
+	public function index(ListAdminItemsRequest $request): JsonResponse
+	{
+		$validated = $request->validated();
+		$perPage = (int) ($validated['per_page'] ?? 20);
 
-        $validated = $request->validated();// Validar la petición
+		// Uso directo de Eloquent, aprovechando los scopes.
+		$items = Item::query()
+			->with(['category:id,name,slug', 'creator:id,name,email'])
+			->adminApplyFilters($validated)
+			->adminApplySorting($validated['sort_by'] ?? 'created_at', $validated['sort_direction'] ?? 'desc')
+			->paginate(min(max($perPage, 1), 100)); // Lógica de protección que estaba en el repo
 
-        $filters = [ // Comprobar si vienen filtros en la petición.
-            'status' => $validated['status'] ?? null,
-            'category_id' => $validated['category_id'] ?? null,
-            'creator_id' => $validated['creator_id'] ?? null,
-            'search' => $validated['search'] ?? null,
-            'sort_by' => $validated['sort_by'] ?? 'created_at',
-            'sort_direction' => $validated['sort_direction'] ?? 'desc',
-        ];
+		return $this->respondList(
+			data: ItemListResource::collection($items),
+			meta: [
+				'current_page' => $items->currentPage(),
+				'last_page' => $items->lastPage(),
+				'per_page' => $items->perPage(),
+				'total' => $items->total(),
+			],
+		);
+	}
 
-        $items = $this->adminService->listItems( // Recuperar los items
-            filters: $filters,
-            perPage: (int) ($validated['per_page'] ?? 20), // Si no recibimos el parametro de paginacion, devolvemos 20 por seguridad.
-        );
+	public function update(AdminUpdateItemRequest $request, Item $item): JsonResponse
+	{
+		$admin = $request->user();
+		$payload = $request->validated();
+		$reason = $payload['moderation_reason'] ?? null;
+		unset($payload['moderation_reason']);
 
-        return $this->respondList( // Responder con el resultado utilizando el resource de ItemList.
-            data: ItemListResource::collection($items),
-            meta: [
-                'current_page' => $items->currentPage(),
-                'last_page' => $items->lastPage(),
-                'per_page' => $items->perPage(),
-                'total' => $items->total(),
-            ],
-        );
-    }
+		// Guardar estado previo para la auditoría
+		$before = $item->only(['name', 'description', 'images', 'status', 'category_id']);
 
-    public function update(AdminUpdateItemRequest $request, Item $item): JsonResponse
-    {
-        $admin = $request->user();
+		// Actualizar directamente usando Eloquent
+		$item->update($payload);
 
-        $payload = $request->validated();
-        $reason = $payload['moderation_reason'] ?? null;
-        unset($payload['moderation_reason']);
+		// Guardar estado posterior
+		$after = $item->only(['name', 'description', 'images', 'status', 'category_id']);
+		$this->moderationAuditLogger->logItemModeration(
+			$item, $admin, 'admin_update_item', ['before' => $before, 'after' => $after], $reason
+		);
 
-        $updated = $this->adminService->updateAdminItem($admin, $item, $payload, $reason);
+		return $this->respondMutation('Item actualizado por administración.', new ItemDetailResource($item->fresh()));
+	}
 
-        return $this->respondMutation('Item actualizado por administración.', new ItemDetailResource($updated));
-    }
+	public function moderate(ModerateItemRequest $request, Item $item): JsonResponse
+	{
+		$admin = $request->user();
+		$status = $request->validated()['status'];
+		$reason = $request->validated()['reason'] ?? null;
 
-    public function moderate(ModerateItemRequest $request, Item $item): JsonResponse
-    {
-        $admin = $request->user();
+		$previousStatus = $item->status;
 
-        $status = $request->validated()['status'];
-        $reason = $request->validated()['reason'] ?? null;
+		$item->update(['status' => $status]);
 
-        $updated = $this->adminService->moderateItemStatus($admin, $item, $status, $reason);
+		$this->moderationAuditLogger->logItemModeration(
+			$item, $admin, 'admin_moderate_item_status', ['from' => $previousStatus, 'to' => $status], $reason
+		);
 
-        return $this->respondMutation('Estado del item actualizado por administración.', new ItemDetailResource($updated));
-    }
+		return $this->respondMutation('Estado del item actualizado por administración.', new ItemDetailResource($item->fresh()));
+	}
 }

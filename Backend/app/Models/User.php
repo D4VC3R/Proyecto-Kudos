@@ -83,6 +83,73 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->banned_until === null || $this->banned_until->isFuture();
     }
 
+	public function scopeAdminApplyFilters($query, array $filters)
+	{
+		$now = now();
+
+		return $query
+			->when(!empty($filters['search']), function ($q) use ($filters) {
+				$q->where(fn($sub) => $sub->where('name', 'ilike', "%{$filters['search']}%")
+					->orWhere('email', 'ilike', "%{$filters['search']}%"));
+			})
+			->when(isset($filters['is_banned']), fn($q) => $q->where('is_banned', filter_var($filters['is_banned'], FILTER_VALIDATE_BOOLEAN)))
+			->when(!empty($filters['ban_state']), function ($q) use ($filters, $now) {
+				match ($filters['ban_state']) {
+					'temporary' => $q->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '>', $now),
+					'permanent' => $q->where('is_banned', true)->whereNull('banned_until'),
+					'expired'   => $q->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now),
+					'active'    => $q->where(fn($inner) => $inner->where('is_banned', false)
+						->orWhere(fn($expired) => $expired->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now))),
+					default => null,
+				};
+			})
+			->when(!empty($filters['role']), fn($q) => $q->role($filters['role']));
+	}
+
+	public function scopeAdminApplySorting($query, array $filters)
+	{
+		$sortBy = in_array($filters['sort_by'] ?? null, ['name', 'email', 'role', 'status', 'created_at'], true) ? $filters['sort_by'] : 'name';
+		$sortDirection = ($filters['sort_direction'] ?? 'desc') === 'asc' ? 'asc' : 'desc';
+
+		match ($sortBy) {
+			'email' => $query->orderByRaw("lower(users.email) {$sortDirection}"),
+			'status' => $query->orderByRaw(
+				"CASE 
+                    WHEN is_banned = false THEN 'activo' 
+                    WHEN banned_until IS NULL THEN 'baneado_permanente' 
+                    ELSE 'baneado_temporal' 
+                END {$sortDirection}"
+			),
+			'role' => $query->orderByRaw(
+				"(SELECT MIN(r.name) FROM model_has_roles AS mhr INNER JOIN roles AS r ON r.uuid = mhr.role_id WHERE mhr.model_id = users.id AND mhr.model_type = ?) {$sortDirection}",
+				[self::class]
+			),
+			'created_at' => $query->orderBy('created_at', $sortDirection),
+			default => $query->orderBy('name', $sortDirection),
+		};
+
+		if ($sortBy !== 'created_at') $query->orderByDesc('created_at');
+
+		return $query->orderBy('id');
+	}
+
+	public static function getAdminSummary(): array
+	{
+		$now = now();
+		return [
+			'total_users' => self::count(),
+			'banned_temporary' => self::where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '>', $now)->count(),
+			'banned_permanent' => self::where('is_banned', true)->whereNull('banned_until')->count(),
+			'banned_expired' => self::where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now)->count(),
+		];
+	}
+
+	public function loadAdminDetails(): self
+	{
+		return $this->load(['roles:uuid,name', 'profile'])
+			->loadCount(['proposals', 'votes', 'comments', 'items', 'reviewedProposals']);
+	}
+
 		// Relaciones
     public function profile(): HasOne
     {

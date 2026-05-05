@@ -3,6 +3,7 @@ import { FileText, Trash2, Edit3, Clock } from 'lucide-react';
 import { Modal } from '../common/Modal';
 import { PROPOSAL_STATUS_CONFIG } from '../../lib/constants';
 import { useModal } from '../../hooks/useModal';
+import {ModalButtons} from "../common/ModalButtons.jsx";
 
 export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
   const deleteModal = useModal();
@@ -93,42 +94,17 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
         onClose={deleteModal.closeModal}
         title="Eliminar Propuesta"
         footer={
-          <>
-            <button
-              onClick={deleteModal.closeModal}
-              className="rounded-xl px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-200 transition-colors"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleDeleteConfirm}
-              className="rounded-xl bg-red-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-red-700 transition-colors shadow-md border border-red-700"
-            >
-              Sí, Eliminar
-            </button>
-          </>
+          <ModalButtons
+            onClose={deleteModal.closeModal}
+            onConfirm={handleDeleteConfirm}
+            isPending={isDeleting}
+            confirmText="Sí, Eliminar"
+            actionStyle="danger"
+          />
         }
       >
         <p className="text-slate-600 font-medium">
           ¿Estás seguro de que deseas eliminar la propuesta <strong>{proposal.name}</strong>? Esta acción no se puede deshacer.
-        </p>
-      </Modal>
-
-      <Modal
-        isOpen={editModal.isOpen}
-        onClose={editModal.closeModal}
-        title="Editar Propuesta"
-        footer={
-          <button
-            onClick={editModal.closeModal}
-            className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700 transition-colors shadow-md"
-          >
-            Entendido
-          </button>
-        }
-      >
-        <p className="text-slate-600 font-medium">
-          La función de edición completa está en desarrollo. ¡Pronto podrás realizar cambios a tu propuesta sin necesidad de cancelarla!
         </p>
       </Modal>
     </>
