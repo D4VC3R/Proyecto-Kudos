@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProposalResource;
-use App\Http\Requests\DeleteProposalRequest;
-use App\Http\Requests\ListAdminProposalsRequest;
+use App\Http\Requests\Admin\ListAdminProposalsRequest;
+use App\Http\Requests\Admin\ReviewProposalRequest;
+use App\Http\Requests\Admin\StoreProposalRequest;
 use App\Http\Requests\ListPendingProposalsRequest;
-use App\Http\Requests\ReviewProposalRequest;
-use App\Http\Requests\ShowProposalRequest;
-use App\Http\Requests\StoreProposalRequest;
-use App\Http\Requests\UpdateProposalRequest;
+use App\Http\Requests\Proposals\DeleteProposalRequest;
+use App\Http\Requests\Proposals\ShowProposalRequest;
+use App\Http\Requests\Proposals\UpdateProposalRequest;
+use App\Http\Resources\ProposalResource;
 use App\Models\Proposal;
 use App\Services\AdminService;
 use App\Services\ProposalService;

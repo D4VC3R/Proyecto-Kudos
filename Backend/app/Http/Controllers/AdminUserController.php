@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\BanUserRequest;
+use App\Http\Requests\Admin\ListAdminUsersRequest;
+use App\Http\Requests\Admin\RevokeUserTokensRequest;
+use App\Http\Requests\Admin\ShowAdminUserRequest;
+use App\Http\Requests\Admin\UnbanUserRequest;
 use App\Http\Resources\Admin\AdminUserDetailResource;
 use App\Http\Resources\Admin\AdminUserListResource;
-use App\Http\Requests\BanUserRequest;
-use App\Http\Requests\ListAdminUsersRequest;
-use App\Http\Requests\RevokeUserTokensRequest;
-use App\Http\Requests\ShowAdminUserRequest;
-use App\Http\Requests\UnbanUserRequest;
 use App\Models\User;
 use App\Services\AdminService;
 use Illuminate\Http\JsonResponse;

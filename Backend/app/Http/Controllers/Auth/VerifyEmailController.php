@@ -11,7 +11,7 @@ use App\Models\User;
 class VerifyEmailController extends Controller
 {
     /**
-     * Mark the authenticated user's email address as verified.
+     * Marcar el mail como verificado.
      */
     public function __invoke(Request $request, $id, $hash): JsonResponse
     {

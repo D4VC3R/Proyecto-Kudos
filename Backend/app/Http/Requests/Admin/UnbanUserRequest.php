@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShowProposalRequest extends FormRequest
+class UnbanUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('view', $this->route('proposal')) ?? false;
+        return $this->user()?->hasRole('admin') ?? false;
     }
 
     public function rules(): array

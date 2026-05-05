@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
-use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ListAdminItemsRequest extends FormRequest
+class ListAdminUsersRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,12 +15,12 @@ class ListAdminItemsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['sometimes', Rule::in([Item::STATUS_ACTIVE, Item::STATUS_INACTIVE])],
-            'category_id' => ['sometimes', 'uuid', 'exists:categories,id'],
-            'creator_id' => ['sometimes', 'uuid', 'exists:users,id'],
             'search' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'is_banned' => ['sometimes', 'boolean'],
+            'ban_state' => ['sometimes', Rule::in(['temporary', 'permanent', 'expired', 'active'])],
+            'role' => ['sometimes', 'string', 'max:100'],
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
-            'sort_by' => ['sometimes', Rule::in(['name', 'status', 'created_at'])],
+            'sort_by' => ['sometimes', Rule::in(['name', 'email', 'role', 'status', 'created_at'])],
             'sort_direction' => ['sometimes', Rule::in(['asc', 'desc'])],
         ];
     }

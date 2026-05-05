@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
-use App\Models\Proposal;
+use App\Models\Item;
 use App\Services\CategoryExtraDataValidator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProposalRequest extends FormRequest
+class AdminUpdateItemRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->route('proposal'));
+        return $this->user()?->can('update', $this->route('item')) ?? false;
     }
 
     public function rules(): array
@@ -25,15 +25,17 @@ class UpdateProposalRequest extends FormRequest
             'images.*.order' => ['sometimes', 'nullable', 'integer', 'min:0'],
             'extra_data' => ['sometimes', 'nullable', 'array'],
             'category_id' => ['sometimes', 'required', 'uuid', 'exists:categories,id'],
+            'status' => ['sometimes', 'string', 'in:' . Item::STATUS_ACTIVE . ',' . Item::STATUS_INACTIVE],
+            'moderation_reason' => ['sometimes', 'nullable', 'string', 'max:1000'],
         ];
     }
 
     public function withValidator($validator): void
     {
         $validator->after(function ($validator) {
-            /** @var Proposal|null $proposal */
-            $proposal = $this->route('proposal');
-            $categoryId = $this->input('category_id', $proposal?->category_id);
+            /** @var Item|null $item */
+            $item = $this->route('item');
+            $categoryId = $this->input('category_id', $item?->category_id);
 
             if (!is_string($categoryId) || $categoryId === '') {
                 return;
@@ -45,7 +47,7 @@ class UpdateProposalRequest extends FormRequest
                 return;
             }
 
-            $existingExtraData = is_array($proposal?->extra_data) ? $proposal->extra_data : [];
+            $existingExtraData = is_array($item?->extra_data) ? $item->extra_data : [];
 
             $errors = app(CategoryExtraDataValidator::class)->validate(
                 categoryId: $categoryId,
@@ -62,3 +64,4 @@ class UpdateProposalRequest extends FormRequest
         });
     }
 }
+

@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 class EmailVerificationNotificationController extends Controller
 {
     /**
-     * Send a new email verification notification.
+     * Mandar notificacion de email verificado.
      */
     public function store(Request $request): JsonResponse
     {
+        // Si ya estaba verificado
         if ($request->user()->hasVerifiedEmail()) {
             return $this->respondMutation('El email ya estaba verificado.', [
                 'status' => 'already-verified',

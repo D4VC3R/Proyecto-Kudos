@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
-use App\Services\DailyLoginKudosService;
+use App\Services\KudosService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +13,13 @@ use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
-	public function __construct(protected DailyLoginKudosService $dailyLoginKudosService)
+	public function __construct(protected KudosService $dailyLoginKudosService)
 	{
 	}
 
 	/**
 	 * Handle an incoming authentication request.
-	 * La función es nativa de Breeze pero se ha adaptado para usar Bearer Tokens..
+	 * La función es nativa de Breeze pero se ha adaptado para usar Bearer Tokens y recompensa por login
 	 */
 	public function store(LoginRequest $request): JsonResponse
 	{
@@ -63,7 +63,7 @@ class AuthenticatedSessionController extends Controller
 			);
 		}
 
-		$dailyLoginResult = $this->dailyLoginKudosService->handleSuccessfulLogin($user);
+		$dailyLoginResult = $this->dailyLoginKudosService->processDailyLogin($user);
 		$user->refresh();
 		$role = $user->hasRole('admin') ? 'admin' : 'user';
 		$token = $user->createToken('auth_token')->plainTextToken;

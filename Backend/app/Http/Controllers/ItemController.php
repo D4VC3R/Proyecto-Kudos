@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DeleteItemRequest;
+use App\Http\Requests\Admin\DeleteItemRequest;
+use App\Http\Requests\Admin\UpdateItemRequest;
 use App\Http\Requests\ListItemsRequest;
 use App\Http\Requests\ShowItemRequest;
 use App\Http\Requests\StoreItemRequest;
-use App\Http\Requests\UpdateItemRequest;
 use App\Http\Resources\ItemDetailResource;
 use App\Http\Resources\ItemListResource;
 use App\Models\Item;

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Category extends Model
 {
@@ -16,16 +17,11 @@ class Category extends Model
 
     protected $table = 'categories';
 
-
     protected $fillable = [
         'name',
         'description',
         'slug',
         'image'
-    ];
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
     ];
 
     public function items(): HasMany
@@ -67,6 +63,32 @@ class Category extends Model
         return $query->withCount(['items as items_count' => function ($query) {
             $query->where('status', Item::STATUS_ACTIVE);
         }]);
+    }
+    public function loadAcceptedItemsWithDetails(): static
+    {
+        return $this->load([
+            'fieldDefinitions',
+            'items' => function ($query) {
+                $query->where('status', Item::STATUS_ACTIVE)
+                    ->with(['creator:id,name'])
+                    ->inRandomOrder()
+                    ->take(30);
+            }
+        ]);
+    }
+
+    /**
+     * Obtiene el ranking paginado de los ítems de esta categoría.
+     */
+    public function getRankingPaginator(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->items()
+            ->where('status', Item::STATUS_ACTIVE)
+            ->with('creator:id,name')
+            ->orderByDesc('vote_avg')
+            ->orderByDesc('vote_count')
+            ->orderBy('name')
+            ->paginate($perPage);
     }
 
     public function getRouteKeyName(): string

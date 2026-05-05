@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Proposals;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShowAdminUserRequest extends FormRequest
+class DeleteProposalRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->hasRole('admin') ?? false;
+        return $this->user()?->can('delete', $this->route('proposal')) ?? false;
     }
 
     public function rules(): array

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AdminUpdateItemRequest;
-use App\Http\Requests\ListAdminItemsRequest;
-use App\Http\Requests\ModerateItemRequest;
+use App\Http\Requests\Admin\AdminUpdateItemRequest;
+use App\Http\Requests\Admin\ListAdminItemsRequest;
+use App\Http\Requests\Admin\ModerateItemRequest;
 use App\Http\Resources\ItemDetailResource;
 use App\Http\Resources\ItemListResource;
 use App\Models\Item;
@@ -18,11 +18,13 @@ class AdminItemController extends Controller
     ) {
     }
 
+    // Devuelve todos los items y acepta los filtros de estado, categoría, creador, busqueda, orden y tipo de orden.
     public function index(ListAdminItemsRequest $request): JsonResponse
     {
-        $validated = $request->validated();
 
-        $filters = [
+        $validated = $request->validated();// Validar la petición
+
+        $filters = [ // Comprobar si vienen filtros en la petición.
             'status' => $validated['status'] ?? null,
             'category_id' => $validated['category_id'] ?? null,
             'creator_id' => $validated['creator_id'] ?? null,
@@ -31,12 +33,12 @@ class AdminItemController extends Controller
             'sort_direction' => $validated['sort_direction'] ?? 'desc',
         ];
 
-        $items = $this->adminService->listItems(
+        $items = $this->adminService->listItems( // Recuperar los items
             filters: $filters,
-            perPage: (int) ($validated['per_page'] ?? 20),
+            perPage: (int) ($validated['per_page'] ?? 20), // Si no recibimos el parametro de paginacion, devolvemos 20 por seguridad.
         );
 
-        return $this->respondList(
+        return $this->respondList( // Responder con el resultado utilizando el resource de ItemList.
             data: ItemListResource::collection($items),
             meta: [
                 'current_page' => $items->currentPage(),

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteProposalRequest extends FormRequest
+class DeleteItemRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('delete', $this->route('proposal')) ?? false;
+        return $this->user()?->can('delete', $this->route('item')) ?? false;
     }
 
     public function rules(): array
