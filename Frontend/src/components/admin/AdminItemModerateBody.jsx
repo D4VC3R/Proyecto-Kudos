@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextAreaField } from '../common/TextAreaField';
 
 export const AdminItemModerateBody = ({itemName, modStatus, setModStatus, modReason, setModReason}) => {
   return (
@@ -17,12 +18,9 @@ export const AdminItemModerateBody = ({itemName, modStatus, setModStatus, modRea
           <option value="inactive">Inactivo (No recibe votos nuevos)</option>
         </select>
       </div>
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold text-slate-700">
-          Razón {modStatus === 'inactive' && '(Obligatoria al desactivar)'}
-        </label>
-        <textarea
-          className="w-full rounded-2xl border-slate-200 bg-slate-50 p-4 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all font-medium resize-none min-h-[100px]"
+      <div className="mt-2">
+        <TextAreaField
+          label={`Razón ${modStatus === 'inactive' ? '(Obligatoria al desactivar)' : ''}`}
           placeholder="Motivo de la moderación para el historial..."
           value={modReason}
           onChange={(e) => setModReason(e.target.value)}

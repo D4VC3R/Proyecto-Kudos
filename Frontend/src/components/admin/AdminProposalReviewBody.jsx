@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextAreaField } from '../common/TextAreaField';
 
 export const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, setAdminNotes}) => {
   return (
@@ -8,12 +9,9 @@ export const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, s
         <span className="font-bold text-slate-900"> {proposalName}</span>.
       </p>
 
-      <div className="flex flex-col gap-2 mt-2">
-        <label className="text-sm font-bold text-slate-700">
-          Notas de revisión (Opcional/Requerido para rechazo)
-        </label>
-        <textarea
-          className="w-full rounded-2xl border-slate-200 bg-slate-50 p-4 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all font-medium resize-none min-h-[100px]"
+      <div className="mt-2">
+        <TextAreaField
+          label="Notas de revisión (Opcional/Requerido para rechazo)"
           placeholder="Escribe el motivo del rechazo o notas para el usuario..."
           value={adminNotes}
           onChange={(e) => setAdminNotes(e.target.value)}
