@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
 import { COMMENT_KEYS } from './useCommentQueries';
+import { ITEM_KEYS } from '../items/useItemQueries';
 import { useBaseMutation } from '../common/useBaseMutation';
 
 export const useCreateComment = () => {
@@ -11,7 +12,7 @@ export const useCreateComment = () => {
     successMessage: 'Comentario creado',
     onSuccessExtra: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ['comments', 'item', variables.itemId]
+        queryKey: [...ITEM_KEYS.detail(variables.itemId), 'comments']
       });
     }
   });
@@ -19,8 +20,8 @@ export const useCreateComment = () => {
 
 export const useUpdateComment = () => {
   return useBaseMutation({
-    mutationFn: ({ id, data }) => axiosClient.put(`/comments/${id}`, data),
-    invalidateKeys: [COMMENT_KEYS.all],
+    mutationFn: ({ id, content }) => axiosClient.put(`/comments/${id}`, { content }),
+    invalidateKeys: [ITEM_KEYS.all, COMMENT_KEYS.all],
     successMessage: 'Comentario actualizado',
   });
 };
@@ -28,7 +29,7 @@ export const useUpdateComment = () => {
 export const useDeleteComment = () => {
   return useBaseMutation({
     mutationFn: (id) => axiosClient.delete(`/comments/${id}`),
-    invalidateKeys: [COMMENT_KEYS.all],
+    invalidateKeys: [ITEM_KEYS.all, COMMENT_KEYS.all],
     successMessage: 'Comentario eliminado',
   });
 };

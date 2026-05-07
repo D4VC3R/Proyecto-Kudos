@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
-	public function __construct(protected KudosService $dailyLoginKudosService)
+	public function __construct(protected KudosService $kudos)
 	{
 	}
 
@@ -63,7 +63,7 @@ class AuthenticatedSessionController extends Controller
 			);
 		}
 
-		$dailyLoginResult = $this->dailyLoginKudosService->processDailyLogin($user);
+		$dailyLoginResult = $this->kudos->processDailyLogin($user);
 		$user->refresh();
 		$role = $user->hasRole('admin') ? 'admin' : 'user';
 		$token = $user->createToken('auth_token')->plainTextToken;

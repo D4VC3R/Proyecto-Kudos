@@ -20,7 +20,7 @@ class ItemController extends Controller
 	public function index(ListItemsRequest $request): JsonResponse
 	{
 		$validated = $request->validated();
-		$user = $this->resolveAuthenticatedUser($request);
+		$user = $request->user('sanctum');
 
 		$filters = [
 			'category_id' => $validated['category_id'] ?? null,
@@ -55,11 +55,7 @@ class ItemController extends Controller
 
 	public function store(StoreItemRequest $request): JsonResponse
 	{
-		$user = $this->resolveAuthenticatedUser($request);
-
-		if (!$user) {
-			return $this->respondError('UNAUTHORIZED', 'No se pudo obtener el usuario autenticado.', status: 401);
-		}
+		$user = $request->user();
 
 		$data = array_merge($request->validated(), ['creator_id' => $user->id]);
 
@@ -72,7 +68,7 @@ class ItemController extends Controller
 	{
 		$item->load(['category', 'creator']);
 
-		if ($user = $this->resolveAuthenticatedUser($request)) {
+		if ($user = $request->user('sanctum')) {
 			$item->load(['userVote' => fn ($q) => $q->where('user_id', $user->id)]);
 		}
 
@@ -95,11 +91,7 @@ class ItemController extends Controller
 
 	public function myItems(Request $request): JsonResponse
 	{
-		$user = $this->resolveAuthenticatedUser($request);
-
-		if (!$user) {
-			return $this->respondError('UNAUTHORIZED', 'No se pudo obtener el usuario autenticado.', status: 401);
-		}
+		$user = $request->user();
 
 		$items = Item::query()
 			->where('creator_id', $user->id)
@@ -118,13 +110,5 @@ class ItemController extends Controller
 			],
 		);
 	}
-
-	private function resolveAuthenticatedUser(Request $request): ?User
-	{
-		$requestUser = $request->user();
-		if ($requestUser instanceof User) return $requestUser;
-
-		$sanctumUser = Auth::guard('sanctum')->user();
-		return $sanctumUser instanceof User ? $sanctumUser : null;
-	}
 }
+

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { UserCircle, EyeOff, Eye, Trash2 } from 'lucide-react';
+import { UserCircle, EyeOff, Eye, Trash2, Edit2, Check, X } from 'lucide-react';
 import { formatDate } from '../../lib/formatters';
 import { useSessionStore } from '../../store/useSessionStore';
 import { useAdminHideComment, useAdminUnhideComment } from '../../hooks/admin/useAdminCommentMutations';
 import { Modal } from '../common/Modal';
-import { useDeleteComment } from '../../hooks/comments/useCommentMutations';
+import { useDeleteComment, useUpdateComment } from '../../hooks/comments/useCommentMutations';
 import { useModal } from '../../hooks/useModal';
 import {CommentHideBody} from "./CommentHideBody.jsx";
 import {CommentDeleteBody} from "./CommentDeleteBody.jsx";
@@ -14,13 +14,17 @@ export const Comment = ({ comment }) => {
   const { user } = useSessionStore();
   const isAdmin = user?.role === 'admin';
   const isOwner = user?.id === comment.user?.id;
+  const isEdited = comment.updated_at && comment.updated_at !== comment.created_at;
 
   const { mutate: hideComment, isPending: isHiding } = useAdminHideComment();
   const { mutate: unhideComment, isPending: isUnhiding } = useAdminUnhideComment();
   const { mutate: deleteComment, isPending: isDeleting } = useDeleteComment();
+  const { mutate: updateComment, isPending: isUpdating } = useUpdateComment();
 
   const { isOpen, modalType, openModal, closeModal } = useModal();
   const [hideReason, setHideReason] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(comment.content);
 
   const executeAction = () => {
     if (modalType === 'hide') {
@@ -30,9 +34,17 @@ export const Comment = ({ comment }) => {
     }
   };
 
+  const handleUpdate = () => {
+    if (editContent.trim() && editContent !== comment.content) {
+      updateComment({ id: comment.id, content: editContent }, { onSuccess: () => setIsEditing(false) });
+    } else {
+      setIsEditing(false);
+    }
+  };
+
   return (
     <>
-      <div className={`p-4 rounded-xl border flex gap-3 ${comment.is_hidden ? 'bg-orange-50 border-orange-100 opacity-80' : 'bg-slate-50 border-slate-100'}`}>
+      <div className={`p-4 rounded-xl border flex gap-3 ${comment.is_hidden ? 'bg-slate-100 border-slate-200 opacity-60' : 'bg-slate-50 border-slate-100'}`}>
         <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-slate-200 text-slate-500 overflow-hidden">
           {comment.user?.avatar ? (
             <img src={comment.user.avatar} alt={comment.user.name} className="w-full h-full object-cover" />
@@ -42,10 +54,18 @@ export const Comment = ({ comment }) => {
         </div>
         <div className="flex-1">
           <div className="flex justify-between items-start mb-1">
-            <span className="font-bold text-sm text-slate-800">{comment.user?.name || 'Usuario'}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-sm text-slate-800">{comment.user?.name || 'Usuario'}</span>
+              {isEdited && <span className="text-[10px] text-slate-400 italic">(editado)</span>}
+            </div>
             <div className="flex items-center gap-3">
               <span className="text-xs text-slate-400">{formatDate(comment.created_at)}</span>
               <div className="flex items-center gap-2">
+                {isOwner && !comment.is_hidden && (
+                  <button onClick={() => { setIsEditing(true); setEditContent(comment.content); }} className="text-slate-400 hover:text-blue-500 transition" title="Editar">
+                    <Edit2 size={16} />
+                  </button>
+                )}
                 {isAdmin && !comment.is_hidden && (
                   <button onClick={() => openModal('hide')} className="text-orange-500 hover:text-orange-700 transition" title="Ocultar (Moderación)">
                     <EyeOff size={16} />
@@ -56,7 +76,7 @@ export const Comment = ({ comment }) => {
                     <Eye size={16} />
                   </button>
                 )}
-                {(isAdmin || isOwner) && (
+                {isAdmin && (
                   <button onClick={() => openModal('delete')} className="text-slate-400 hover:text-red-500 transition" title="Eliminar">
                     <Trash2 size={16} />
                   </button>
@@ -64,12 +84,37 @@ export const Comment = ({ comment }) => {
               </div>
             </div>
           </div>
-          {comment.is_hidden ? (
-            <div className="text-sm mt-1 text-orange-700 italic font-medium">
+          {comment.is_hidden && (!isAdmin && !isOwner) ? (
+            <div className="text-sm mt-1 text-orange-700 italic">
               [Comentario oculto por moderación: {comment.hidden_reason || 'Sin motivo especificado'}]
             </div>
+          ) : isEditing ? (
+            <div className="mt-2">
+              <textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+                className="w-full text-sm p-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+                rows={3}
+                disabled={isUpdating}
+              />
+              <div className="flex gap-2 justify-end mt-2">
+                <button onClick={() => setIsEditing(false)} disabled={isUpdating} className="text-slate-500 hover:text-slate-700">
+                  <X size={16} />
+                </button>
+                <button onClick={handleUpdate} disabled={isUpdating || !editContent.trim()} className="text-blue-500 hover:text-blue-700">
+                  <Check size={16} />
+                </button>
+              </div>
+            </div>
           ) : (
-            <p className="text-sm text-slate-700 mt-1">{comment.content}</p>
+            <>
+              <p className="text-sm text-slate-700 mt-1">{comment.content}</p>
+              {comment.is_hidden && (
+                <div className="text-xs mt-2 text-orange-600 italic">
+                  [Oculto: {comment.hidden_reason || 'Sin motivo'}]
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

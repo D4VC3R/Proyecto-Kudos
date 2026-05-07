@@ -11,32 +11,32 @@ use App\Http\Requests\Proposals\ShowProposalRequest;
 use App\Http\Requests\Proposals\UpdateProposalRequest;
 use App\Http\Resources\ProposalResource;
 use App\Models\Proposal;
-use App\Services\AdminService;
-use App\Services\ProposalService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Actions\ReviewProposalAction;
 
 class ProposalController extends Controller
 {
     public function __construct(
-        protected AdminService $adminService,
-        protected ProposalService $proposalService,
     ) {
     }
 
     public function store(StoreProposalRequest $request): JsonResponse
     {
-        $proposal = $this->proposalService->createProposal(
-            $request->validated(),
-            $request->user()
-        );
+        $proposal = Proposal::create(array_merge($request->validated(), [
+            'creator_id' => $request->user()->id,
+            'status' => Proposal::STATUS_PENDING,
+        ]));
 
         return $this->respondMutation('Propuesta creada correctamente.', new ProposalResource($proposal), status: 201);
     }
 
     public function myProposals(Request $request): JsonResponse
     {
-        $proposals = $this->proposalService->getByUser($request->user());
+        $proposals = Proposal::with(['category:id,name,slug', 'reviewer:id,name'])
+            ->where('creator_id', $request->user()->id)
+            ->latest()
+            ->get();
 
         return $this->respondList(
             data: ProposalResource::collection($proposals),
@@ -59,14 +59,16 @@ class ProposalController extends Controller
 
     public function update(UpdateProposalRequest $request, Proposal $proposal): JsonResponse
     {
-        $updated = $this->proposalService->updateAndResubmit($proposal, $request->validated());
+        $proposal->update(array_merge($request->validated(), [
+            'status' => Proposal::STATUS_PENDING,
+        ]));
 
-        return $this->respondMutation('Propuesta actualizada y reenviada a revisión.', new ProposalResource($updated));
+        return $this->respondMutation('Propuesta actualizada y reenviada a revisión.', new ProposalResource($proposal->fresh()));
     }
 
     public function destroy(DeleteProposalRequest $request, Proposal $proposal): JsonResponse
     {
-        $this->proposalService->deleteProposal($proposal);
+        $proposal->delete();
 
         return $this->respondMutation('Propuesta eliminada correctamente.');
     }
@@ -75,7 +77,11 @@ class ProposalController extends Controller
     {
         $validated = $request->validated();
         $perPage = (int) ($validated['per_page'] ?? 15);
-        $pending = $this->proposalService->getPending($perPage);
+        
+        $pending = Proposal::with(['creator:id,name', 'category:id,name,slug'])
+            ->where('status', Proposal::STATUS_PENDING)
+            ->latest()
+            ->paginate($perPage);
 
         return $this->respondList(
             data: ProposalResource::collection($pending),
@@ -101,7 +107,10 @@ class ProposalController extends Controller
         ];
 
         $perPage = (int) ($validated['per_page'] ?? 15);
-        $proposals = $this->adminService->listProposals($filters, $perPage);
+        $proposals = Proposal::with(['creator:id,name', 'category:id,name,slug', 'reviewer:id,name'])
+            ->adminApplyFilters($filters)
+            ->latest()
+            ->paginate(min(max($perPage, 1), 100));
 
         return $this->respondList(
             data: ProposalResource::collection($proposals),
@@ -114,17 +123,16 @@ class ProposalController extends Controller
         );
     }
 
-    public function review(ReviewProposalRequest $request, Proposal $proposal): JsonResponse
+    public function review(ReviewProposalRequest $request, Proposal $proposal, ReviewProposalAction $action): JsonResponse
     {
         $admin = $request->user();
-
         $validated = $request->validated();
 
-        $updated = $this->adminService->reviewProposal(
-            proposal: $proposal,
-            admin: $admin,
-            status: $validated['status'],
-            adminNotes: $validated['admin_notes'] ?? null,
+        $updated = $action->execute(
+            $proposal,
+            $admin,
+            $validated['status'],
+            $validated['admin_notes'] ?? null
         );
 
         return $this->respondMutation('Propuesta revisada correctamente.', new ProposalResource($updated));

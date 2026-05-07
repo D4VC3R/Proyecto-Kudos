@@ -14,7 +14,7 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->can('update', Category::class) ?? false;
+        return $this->user()?->can('update', $this->route('category')) ?? false;
     }
 
     /**

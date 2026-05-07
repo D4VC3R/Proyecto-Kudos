@@ -32,6 +32,5 @@ export const proposalSchema = z.object({
     required: z.boolean().optional(),
     readonlyKey: z.boolean().optional(),
     label: z.string().optional()
-  })).max(10, 'Máximo 10 campos extra')
+  })).max(10, 'Máximo 10 campos extra').optional().default([])
 });
-

@@ -30,9 +30,7 @@ class ItemCommentPolicy
 
 	public function delete(User $user, ItemComment $comment): bool
 	{
-		if ($user->hasRole('admin')) return true;
-
-		return $user->id === $comment->user_id && !$comment->is_hidden;
+		return $user->hasRole('admin');
 	}
 
 	public function hide(User $user, ItemComment $comment): bool
