@@ -11,7 +11,7 @@ export const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, s
 
       <div className="mt-2">
         <TextAreaField
-          label="Notas de revisión (Opcional/Requerido para rechazo)"
+          label="Notas de revisión"
           placeholder="Escribe el motivo del rechazo o notas para el usuario..."
           value={adminNotes}
           onChange={(e) => setAdminNotes(e.target.value)}

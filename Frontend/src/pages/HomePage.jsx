@@ -4,6 +4,7 @@ import { CategoryCard } from '../components/category/CategoryCard';
 import { CategoryCardSkeleton } from '../components/category/CategoryCardSkeleton';
 import { useCategories } from '../hooks/categories/useCategoryQueries';
 import {SectionHeader} from "../components/common/SectionHeader.jsx";
+import {StaggerItem} from "../components/animations/StaggerItem.jsx";
 
 // Página principal que muestra las categorías disponibles, utiliza el hook useCategories() para obtener los datos necesarios y renderiza un grid de CategoryCard.
 // Si los datos están cargando, muestra skeletons de carga. Si hay un error, muestra un mensaje de error centrado.
@@ -35,7 +36,9 @@ const HomePage = () => {
           Array.from({ length: 9 }).map((_, i) => <CategoryCardSkeleton key={i} />)
         ) : (
           Array.isArray(categories) && categories.map((category) => (
-            <CategoryCard key={category.id} category={category} />
+            <StaggerItem key={category.id}>
+              <CategoryCard category={category} />
+            </StaggerItem>
           ))
         )}
       </StaggerGrid>

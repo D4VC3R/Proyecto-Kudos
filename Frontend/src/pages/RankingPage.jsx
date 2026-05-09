@@ -22,7 +22,7 @@ export const RankingPage = () => {
           size="large"
           title="Ranking"
           highlight="Global"
-          subtitle="Descubre a los mejores valoradores de la plataforma. Acumula Kudos para escalar en la tabla."
+          subtitle="Conéctate todos los días, mándanos propuestas y vota en tus categorías favoritas para escalar en el ranking Kudos"
         />
       </div>
 

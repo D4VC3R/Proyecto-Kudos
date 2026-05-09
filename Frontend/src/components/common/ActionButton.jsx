@@ -7,6 +7,9 @@ const ActionButton = ({ title, description, icon: Icon, to, color = 'blue' }) =>
   const colorStyles = {
     blue: 'bg-gradient-to-br from-blue-500 to-blue-700 shadow-blue-500/30 ring-blue-400',
     red: 'bg-gradient-to-br from-red-500 to-red-700 shadow-red-500/30 ring-red-400',
+    green: 'bg-gradient-to-br from-green-500 to-green-700 shadow-green-500/30 ring-green-400',
+    yellow: 'bg-gradient-to-br from-yellow-500 to-yellow-700 shadow-yellow-500/30 ring-yellow-400',
+    purple: 'bg-gradient-to-br from-purple-500 to-purple-700 shadow-purple-500/30 ring-purple-400',
   };
 
   return (

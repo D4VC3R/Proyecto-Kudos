@@ -14,8 +14,8 @@ export const AdminItemModerateBody = ({itemName, modStatus, setModStatus, modRea
           value={modStatus}
           onChange={(e) => setModStatus(e.target.value)}
         >
-          <option value="active">Activo (Visible y se puede votar)</option>
-          <option value="inactive">Inactivo (No recibe votos nuevos)</option>
+          <option value="active">Activo</option>
+          <option value="inactive">Inactivo</option>
         </select>
       </div>
       <div className="mt-2">

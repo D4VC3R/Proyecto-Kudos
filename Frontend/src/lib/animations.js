@@ -15,6 +15,17 @@ export const staggerItemVariants = {
         transition: { duration: 0.4, ease: "easeOut" }
     }
 };
+export const alternateStaggerItemVariants = {
+    hidden: (index) => ({
+        opacity: 0,
+        x: index % 2 === 0 ? -50 : 50,
+    }),
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: { type: 'spring', damping: 20, stiffness: 100 }
+    }
+};
 
 export const bouncyCardVariants = {
     hidden: { opacity: 0, y: 50 },

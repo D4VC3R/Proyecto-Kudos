@@ -11,20 +11,6 @@ import {
   BarChart3
 } from 'lucide-react';
 
-export const FIELD_LABELS = {
-  'seasons': 'Temporadas',
-  'release_year': 'Año de Lanzamiento',
-  'genre': 'Género',
-  'developer': 'Desarrollador',
-  'director': 'Director',
-  'platform': 'Plataforma',
-  'author': 'Autor',
-  'pages': 'Páginas',
-  'episodes': 'Episodios',
-  'studio': 'Estudio de Animación',
-  'party': 'Partido'
-};
-
 export const PROPOSAL_STATUS_CONFIG = {
   pending: {
     color: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -57,7 +43,7 @@ export const statusColors = {
   inactive: 'bg-slate-100 text-slate-700'
 };
 
-export const categoryIcons = {
+const categoryIcons = {
   'ciudades': Building2,
   'politicos': Landmark,
   'albumes musicales': Disc,
@@ -68,6 +54,15 @@ export const categoryIcons = {
   'series': Tv,
   'videojuegos': Gamepad2,
   'libros': Book,
+};
+
+export const getCategoryIcon = (categoryName) => {
+  const normalizedName = categoryName
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  return categoryIcons[normalizedName] || LayoutGrid;
 };
 
 export const adminTabs = [

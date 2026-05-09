@@ -1,10 +1,17 @@
-import { AppProviders } from './app/AppProviders.jsx';
-import { AppRoutes } from './routes/routes.jsx';
+import {AppProviders} from './app/AppProviders.jsx';
+import {AppRoutes} from './routes/routes.jsx';
+import {MainHeader} from "./components/common/MainHeader.jsx";
 
 const App = () => {
+
   return (
     <AppProviders>
-      <AppRoutes />
+      <div className="min-h-9 bg-slate-50 text-slate-900 flex flex-col font-sans">
+        <MainHeader />
+        <main className="mx-auto w-full h-fit min-h-lvh max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+          <AppRoutes />
+        </main>
+      </div>
     </AppProviders>
   );
 };

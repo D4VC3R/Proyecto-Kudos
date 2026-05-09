@@ -22,8 +22,6 @@ export const Button = ({
   const sizeStyles = SIZES[size] || SIZES.md;
   const radiusStyles = RADII[radius] || RADII.xl;
   const widthStyles = isFullWidth ? 'w-full' : '';
-
-  // Determina si debe estar deshabilitado
   const isDisabled = disabled || isLoading;
 
   return (

@@ -2,19 +2,9 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {BouncyCard} from '../animations/BouncyCard';
 import {HoverFadeText} from '../animations/HoverFadeText';
-import {categoryIcons} from "../../lib/constants.js";
-import {LayoutGrid} from "lucide-react";
+import {getCategoryIcon} from "../../lib/constants.js";
 
 export const CategoryCard = ({category}) => {
-  
-  const getCategoryIcon = (categoryName) => {
-    const normalizedName = categoryName
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-    return categoryIcons[normalizedName] || LayoutGrid;
-  };
 
   const Icon = getCategoryIcon(category.name);
 

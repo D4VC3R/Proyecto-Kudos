@@ -1,5 +1,4 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { AppLayout } from './layouts/AppLayout.jsx';
 import { RequireAuth } from './guards/RequireAuth.jsx';
 import { RequireVerified } from './guards/RequireVerified.jsx';
 import { RequireAdmin } from './guards/RequireAdmin.jsx';
@@ -18,12 +17,12 @@ import AdminCategories from "../pages/admin/AdminCategories.jsx";
 import AdminItems from "../pages/admin/AdminItems.jsx";
 import AdminProposals from "../pages/admin/AdminProposals.jsx";
 import AdminUserDetail from "../pages/admin/AdminUserDetail.jsx";
+import ExplorePage from "../pages/ExplorePage.jsx";
 
 // Rutas de la aplicación junto con el elemento de página que cargan.
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route element={<AppLayout />}>
 
         <Route path="/" element={<HomePage />} />
         <Route path="/ranking" element={<RankingPage />} />
@@ -31,6 +30,7 @@ export const AppRoutes = () => {
         <Route path="/register" element={<AuthPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/:categorySlug" element={<CategoryDetail />} />
+        <Route path="/:categorySlug/explore" element={<ExplorePage />} />
         <Route path="/forbidden" element={<div>Acceso Denegado</div>} />
 
         {/* RUTAS PROTEGIDAS: Requieren Sesión */}
@@ -58,7 +58,6 @@ export const AppRoutes = () => {
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Route>
     </Routes>
   );
 };

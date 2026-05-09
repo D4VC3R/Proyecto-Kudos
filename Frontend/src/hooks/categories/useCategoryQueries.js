@@ -21,6 +21,7 @@ export const useCategories = () => {
     queryKey: CATEGORIES_KEYS.all,
     queryFn: () => axiosClient.get('/categories'),
     select: (response) => response.data, // De la respuesta nos quedamos con data, que es el array de categorías.
+    placeholderData: keepPreviousData,
   });
 };
 
