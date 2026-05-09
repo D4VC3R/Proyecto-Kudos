@@ -1,11 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, Mail, Lock, User } from 'lucide-react';
+import {  Mail, Lock, User } from 'lucide-react';
 import { useRegister } from '../../hooks/auth/useAuthMutations';
 import { useNavigate } from 'react-router-dom';
 import { registerSchema } from '../../lib/schemas';
 import { InputField } from '../common/InputField';
+import { Button } from '../common/Button';
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
@@ -65,13 +66,15 @@ export const RegisterForm = () => {
         disabled={isPending}
       />
 
-      <button
+      <Button
         type="submit"
-        disabled={isPending}
-        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 font-bold text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+        isLoading={isPending}
+        isFullWidth
+        variant="solid"
+        color="primary"
       >
-        {isPending ? <Loader2 size={20} className="animate-spin" /> : 'Registrarse y jugar'}
-      </button>
+        Registrarse y jugar
+      </Button>
     </form>
   );
 };

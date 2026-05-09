@@ -6,8 +6,8 @@ import {categoryIcons} from "../../lib/constants.js";
 import {LayoutGrid} from "lucide-react";
 
 export const CategoryCard = ({category}) => {
+  
   const getCategoryIcon = (categoryName) => {
-
     const normalizedName = categoryName
       .toLowerCase()
       .normalize("NFD")

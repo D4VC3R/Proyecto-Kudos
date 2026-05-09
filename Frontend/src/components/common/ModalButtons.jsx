@@ -1,40 +1,39 @@
 import React from 'react';
-import {clsx} from 'clsx';
+import { Button } from './Button';
 
 export const ModalButtons = ({onClose, onConfirm, isPending, confirmText = 'Confirmar', cancelText = 'Cancelar', actionStyle = 'primary' }) => {
-  const getActionColors = () => {
+  const getActionStyleProps = () => {
     switch (actionStyle) {
       case 'danger':
-        return 'bg-red-500 hover:bg-red-600';
+        return { color: 'danger' };
       case 'warning':
-        return 'bg-orange-500 hover:bg-orange-600';
+        return { color: 'warning' };
       case 'success':
-        return 'bg-green-500 hover:bg-green-600';
+        return { color: 'success' };
       case 'primary':
       default:
-        return 'bg-blue-600 hover:bg-blue-700';
+        return { color: 'primary' };
     }
   };
 
   return (
     <>
-      <button
+      <Button
         onClick={onClose}
         disabled={isPending}
-        className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-bold transition-colors disabled:opacity-50"
+        variant="ghost"
+        color="neutral"
       >
         {cancelText}
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={onConfirm}
-        disabled={isPending}
-        className={clsx(
-          "px-4 py-2 rounded-xl font-bold text-white transition-colors shadow-sm disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed",
-          getActionColors()
-        )}
+        isLoading={isPending}
+        variant={actionStyle === 'warning' || actionStyle === 'success' ? 'solid' : 'solid'}
+        color={getActionStyleProps().color}
       >
-        {isPending ? 'Procesando...' : confirmText}
-      </button>
+        {confirmText}
+      </Button>
     </>
   );
 };

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
 import { useLogin } from '../../hooks/auth/useAuthMutations.js';
+import { Button } from './Button.jsx';
 
 export const HeaderLogin = () => {
   const { mutate: login, isPending } = useLogin();
@@ -32,13 +32,16 @@ export const HeaderLogin = () => {
           disabled={isPending}
           className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
         />
-        <button
+        <Button
           type="submit"
-          disabled={isPending}
-          className="flex items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-50"
+          isLoading={isPending}
+          variant="solid"
+          color="primary"
+          size="sm"
+          radius="lg"
         >
-          {isPending ? <Loader2 size={16} className="animate-spin" /> : 'Entrar'}
-        </button>
+          Entrar
+        </Button>
       </form>
       <div className="flex items-center gap-2 text-sm font-medium">
         <Link to="/login" className="md:hidden text-slate-700 hover:text-slate-900 font-bold whitespace-nowrap px-3">

@@ -4,6 +4,7 @@ import { Modal } from '../common/Modal';
 import { PROPOSAL_STATUS_CONFIG } from '../../lib/constants';
 import { useModal } from '../../hooks/useModal';
 import {ModalButtons} from "../common/ModalButtons.jsx";
+import { Button } from '../common/Button';
 
 export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
   const deleteModal = useModal();
@@ -67,24 +68,26 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
 
         <div className="flex items-center gap-2 self-end sm:self-center">
           {(proposal.status === 'changes_requested' || proposal.status === 'pending') && (
-             <button
+             <Button
                title="Editar Propuesta"
                onClick={() => editModal.openModal()}
-               className="flex items-center justify-center h-10 w-10 rounded-xl bg-slate-50 text-slate-500 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-             >
-               <Edit3 size={18} />
-             </button>
+               variant="ghost"
+               color="primary"
+               size="iconLg"
+               icon={Edit3}
+             />
           )}
 
           {(proposal.status === 'pending' || proposal.status === 'rejected') && (
-             <button
+             <Button
                title="Eliminar Propuesta"
                onClick={() => deleteModal.openModal()}
-               disabled={isDeleting}
-               className="flex items-center justify-center h-10 w-10 rounded-xl bg-slate-50 text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors disabled:opacity-50"
-             >
-               <Trash2 size={18} />
-             </button>
+               isLoading={isDeleting}
+               variant="ghost"
+               color="danger"
+               size="iconLg"
+               icon={Trash2}
+             />
           )}
         </div>
       </div>

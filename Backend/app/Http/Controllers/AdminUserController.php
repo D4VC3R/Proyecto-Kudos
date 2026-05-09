@@ -59,20 +59,14 @@ class AdminUserController extends Controller
 		$reason = (string) $request->input('reason');
 
 		// Lógica movida desde AdminService directamente al controlador
-		$user->update([
-			'is_banned' => true,
-			'banned_at' => now(),
-			'banned_until' => $isPermanent ? null : now()->addDays($days),
-			'ban_reason' => $reason,
-			'banned_by' => $admin->id,
-		]);
+		$user->ban($isPermanent, $days, $reason, $admin->id);
 
 		$user->tokens()->delete();
 
 		$this->moderationAuditLogger->logUserBanChange($user, $admin, 'ban', [
-			'is_permanent' => $isPermanent,
-			'days' => $isPermanent ? null : $days,
-			'reason' => $reason,
+				'is_permanent' => $isPermanent,
+				'days' => $isPermanent ? null : $days,
+				'reason' => $reason,
 		]);
 
 		return $this->respondMutation('Usuario baneado correctamente.', new AdminUserListResource($user->fresh()));
@@ -82,13 +76,7 @@ class AdminUserController extends Controller
 	{
 		$admin = $request->user();
 
-		$user->update([
-			'is_banned' => false,
-			'banned_at' => null,
-			'banned_until' => null,
-			'ban_reason' => null,
-			'banned_by' => null,
-		]);
+		$user->unban();
 
 		$this->moderationAuditLogger->logUserBanChange($user, $admin, 'unban');
 

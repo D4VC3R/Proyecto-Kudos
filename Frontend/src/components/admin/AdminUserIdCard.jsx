@@ -3,8 +3,7 @@ import { UserSquare, Ban, Unlock, Key } from 'lucide-react';
 import { AnimatedCard } from '../animations/AnimatedCard';
 import { BanInfoAlert } from './BanInfoAlert';
 import clsx from 'clsx';
-import {RevokeSessionsButton} from "./RevokeSessionsButton.jsx";
-import {ToggleBanButton} from "./ToggleBanButton.jsx";
+import { Button } from '../common/Button';
 
 export const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan, onRevokeSessions }) => {
   return (
@@ -43,19 +42,27 @@ export const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onTo
       )}
 
       <div className="flex flex-col gap-2 mt-auto pt-4">
-        <ToggleBanButton
-          isBanned={user.is_banned}
-          isDisabled={isBanning || isUnbanning}
+        <Button
           onClick={onToggleBan}
-          fullWidth={true}
-        />
-        <RevokeSessionsButton
-          isDisabled={isRevoking}
+          disabled={isBanning || isUnbanning}
+          variant="solid"
+          color={user.is_banned ? 'success' : 'danger'}
+          isFullWidth
+          icon={user.is_banned ? Unlock : Ban}
+        >
+          {user.is_banned ? "Desbanear Usuario" : "Suspender Usuario"}
+        </Button>
+        <Button
           onClick={onRevokeSessions}
-          fullWidth={true}
-        />
+          disabled={isRevoking}
+          variant="solid"
+          color="warning"
+          isFullWidth
+          icon={Key}
+        >
+          Revocar Sesiones
+        </Button>
       </div>
     </AnimatedCard>
   );
 };
-

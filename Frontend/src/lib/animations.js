@@ -111,3 +111,28 @@ export const cardTransitionVariants = {
     animate: { opacity: 1, scale: 1 },
     exit: { opacity: 0, scale: 0.95 }
 };
+export const infiniteScrollVariants = {
+    animate: (duration) => ({
+        x: ['0%', '-50%'],
+        transition: {
+            ease: 'linear',
+            duration: duration,
+            repeat: Infinity,
+        }
+    })
+};
+export const fadeVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 }
+};
+export const modalPanelVariants = {
+    hidden: { opacity: 0, scale: 0.95, y: 10 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: { type: 'spring', damping: 25, stiffness: 300 }
+    },
+    exit: { opacity: 0, scale: 0.95, y: 10 }
+};

@@ -1,8 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Trophy, Loader2 } from 'lucide-react';
-import { staggereContainerVariants } from '../../lib/animations.js';
 import { PodiumItem } from '../common/PodiumItem.jsx';
+import { StaggerGrid } from '../animations/StaggerGrid.jsx';
 
 const Ranking = ({
   title,
@@ -40,8 +39,7 @@ const Ranking = ({
     };
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-  // Adjust height to be automatic if scroll is disabled, else fixed 600px
-  const containerHeightClass = disableScroll ? 'h-auto min-h-[600px]' : 'h-[600px]';
+  const containerHeightClass = disableScroll ? 'h-auto min-h-[760px]' : 'h-[800px]';
   const overflowClass = disableScroll ? 'overflow-visible' : 'overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200';
 
   return (
@@ -51,10 +49,7 @@ const Ranking = ({
         <Trophy className="text-yellow-400" size={32} />
       </div>
 
-      <motion.div
-        variants={staggereContainerVariants}
-        initial="hidden"
-        animate="visible"
+      <StaggerGrid
         className={`flex flex-col gap-1.5 pr-2 pb-2 ${overflowClass}`}
       >
         {items.map((item, index) => {
@@ -69,7 +64,7 @@ const Ranking = ({
             {isFetchingNextPage && <Loader2 className="animate-spin text-blue-500" size={24} />}
           </div>
         )}
-      </motion.div>
+      </StaggerGrid>
     </div>
   );
 };

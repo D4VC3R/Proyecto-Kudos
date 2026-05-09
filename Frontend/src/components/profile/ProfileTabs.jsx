@@ -1,23 +1,20 @@
 import React from 'react';
-import clsx from 'clsx';
+import { Button } from '../common/Button';
 
 export const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => {
   return (
     <div className="w-full flex overflow-x-auto border-b border-slate-200 scrollbar-hide mb-6 gap-2 md:gap-8 min-w-0">
       {tabs.map((tab) => (
-        <button
+        <Button
           key={tab.id}
           onClick={() => setActiveTab(tab.id)}
-          className={clsx(
-            "flex whitespace-nowrap items-center gap-2 py-4 px-1 md:px-2 border-b-2 font-bold transition-all text-sm md:text-base",
-            activeTab === tab.id
-              ? "border-blue-600 text-blue-600"
-              : "border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300"
-          )}
+          variant="tab"
+          color={activeTab === tab.id ? 'active' : 'inactive'}
+          className="whitespace-nowrap px-1 md:px-2 py-4"
+          icon={tab.icon}
         >
-          <tab.icon size={18} />
-          <span>{tab.name}</span>
-        </button>
+          {tab.name}
+        </Button>
       ))}
     </div>
   );

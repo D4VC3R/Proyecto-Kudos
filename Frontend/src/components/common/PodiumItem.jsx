@@ -1,7 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Trophy, Medal, UserCircle } from 'lucide-react';
 import clsx from 'clsx';
+import { StaggerItem } from '../animations/StaggerItem.jsx';
 
 export const PodiumItem = ({ data, rank, type = "item" }) => {
   const isFirst = rank === 1;
@@ -32,11 +32,7 @@ export const PodiumItem = ({ data, rank, type = "item" }) => {
   }
 
   return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0 },
-      }}
+    <StaggerItem
       className={clsx(
         'flex items-center gap-3 rounded-2xl transition-all',
         getRankStyles()
@@ -65,6 +61,6 @@ export const PodiumItem = ({ data, rank, type = "item" }) => {
       <div className={clsx("flex shrink-0 items-center gap-1 rounded-full font-bold text-white shadow-md", scoreBgClass, isFirst ? "px-3 py-1.5 text-base" : "px-2.5 py-1 text-xs")}>
         {scoreValue} {type === "user" && "K"}
       </div>
-    </motion.div>
+    </StaggerItem>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import {StaggerGrid} from '../animations/StaggerGrid';
 import {StaggerItem} from "../animations/StaggerItem.jsx";
+import { Button } from './Button';
 
 export const FeedbackState = ({
                                   icon: Icon,
@@ -10,14 +11,12 @@ export const FeedbackState = ({
                                   description,
                                   actionText,
                                   onAction,
-                                  actionColorClass = 'bg-slate-100 text-slate-700 hover:bg-slate-200',
                                   isLoading = false,
                                   customLayoutClass = '',
                                   children
                               }) => {
     return (
         <StaggerGrid className={clsx("flex flex-col items-center text-center", customLayoutClass)}>
-            {/* Icono */}
             <StaggerItem>
                 {isLoading ? (
                     <Icon className="h-16 w-16 animate-spin text-blue-500 mb-6"/>
@@ -29,32 +28,30 @@ export const FeedbackState = ({
                 )}
             </StaggerItem>
 
-            {/* Título */}
             {title && (
                 <StaggerItem>
                     <h1 className="text-2xl font-black text-slate-900 mb-2">{title}</h1>
                 </StaggerItem>
             )}
 
-            {/* Descripción */}
             {description && (
                 <StaggerItem>
                     <p className="text-slate-500 mb-6 font-medium max-w-sm text-center">{description}</p>
                 </StaggerItem>
             )}
 
-            {/* Children (Botones personalizados como el de MyVotesEmpty) */}
             {children && <StaggerItem className="w-full flex justify-center">{children}</StaggerItem>}
 
-            {/* Botón de acción por defecto */}
             {actionText && onAction && (
                 <StaggerItem className="w-full">
-                    <button
+                    <Button
                         onClick={onAction}
-                        className={clsx("w-full rounded-xl py-3 font-bold transition-colors", actionColorClass)}
+                        isFullWidth
+                        variant="solid"
+                        color="neutral"
                     >
                         {actionText}
-                    </button>
+                    </Button>
                 </StaggerItem>
             )}
         </StaggerGrid>

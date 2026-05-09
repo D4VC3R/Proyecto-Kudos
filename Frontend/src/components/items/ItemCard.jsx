@@ -1,16 +1,12 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
-import { bouncyCardVariants } from '../../lib/animations.js';
+import { BouncyCard } from '../animations/BouncyCard';
 
 export const ItemCard = ({ item }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
 
   return (
-    <motion.article
-      variants={bouncyCardVariants}
-      whileHover="hover"
-      whileTap="tap"
+    <BouncyCard
       className="group relative h-64 w-48 shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-slate-200 transition-shadow hover:shadow-xl"
     >
       <div className="absolute inset-0">
@@ -34,6 +30,6 @@ export const ItemCard = ({ item }) => {
           {item.name}
         </h3>
       </div>
-    </motion.article>
+    </BouncyCard>
   );
 };

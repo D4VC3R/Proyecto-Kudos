@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Grid, Trophy, Menu, X, ShieldPlus } from 'lucide-react';
 import clsx from 'clsx';
+import { Button } from './Button';
 
 export const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,13 +36,15 @@ export const NavBar = () => {
 
       {/* Botón Menú Mobile */}
       <div className="flex md:hidden items-center">
-        <button 
+        <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900 rounded-lg transition-colors border border-slate-200 shadow-sm"
+          variant="outline"
+          color="neutral"
+          size="iconSm"
+          className="rounded-lg bg-white"
           aria-label="Menu"
-        >
-          {isOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+          icon={isOpen ? X : Menu}
+        />
       </div>
 
       {/* Dropdown Mobile */}

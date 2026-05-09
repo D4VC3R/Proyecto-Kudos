@@ -62,6 +62,7 @@ export const categoryIcons = {
   'politicos': Landmark,
   'albumes musicales': Disc,
   'artistas musicales': Mic2,
+  'cantantes': Mic2,
   'paises': Plane,
   'peliculas': Clapperboard,
   'series': Tv,

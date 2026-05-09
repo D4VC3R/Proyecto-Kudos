@@ -1,12 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, Type, AlignLeft, Image as ImageIcon } from 'lucide-react';
+import { Type, AlignLeft, Image as ImageIcon } from 'lucide-react';
 import { useCreateProposal } from '../../hooks/proposals/useProposalMutations';
 import { useNavigate } from 'react-router-dom';
 import { proposalSchema } from '../../lib/schemas';
 import { InputField } from '../common/InputField';
 import { TextAreaField } from '../common/TextAreaField';
+import { Button } from '../common/Button';
 
 export const NewProposalForm = ({ category }) => {
   const navigate = useNavigate();
@@ -55,13 +56,15 @@ export const NewProposalForm = ({ category }) => {
         disabled={isPending}
       />
 
-      <button
+      <Button
         type="submit"
-        disabled={isPending}
-        className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3.5 font-bold text-white shadow-md transition-colors hover:bg-blue-700 disabled:opacity-50"
+        isLoading={isPending}
+        isFullWidth
+        variant="solid"
+        color="primary"
       >
-        {isPending ? <Loader2 size={20} className="animate-spin" /> : 'Enviar a Revisión'}
-      </button>
+        Enviar a Revisión
+      </Button>
     </form>
   );
 };

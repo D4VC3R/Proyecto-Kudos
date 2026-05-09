@@ -13,6 +13,7 @@ import { AdminUserIdCard } from '../../components/admin/AdminUserIdCard';
 import { AdminUserStatsPanel } from '../../components/admin/AdminUserStatsPanel';
 import { AdminUserAdvancedDetails } from '../../components/admin/AdminUserAdvancedDetails';
 import { useModal } from '../../hooks/useModal';
+import { Button } from '../../components/common/Button';
 
 const AdminUserDetail = () => {
   const { userId } = useParams();
@@ -49,12 +50,15 @@ const AdminUserDetail = () => {
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
       <SectionHeader title="Detalles del" highlight="Usuario" icon={UserSquare}>
-        <button
+        <Button
           onClick={() => navigate('/admin/users')}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-colors font-bold text-sm"
+          variant="ghost"
+          color="primary"
+          size="sm"
+          icon={ArrowLeft}
         >
-          <ArrowLeft size={16} /> Volver a usuarios
-        </button>
+          Volver a usuarios
+        </Button>
       </SectionHeader>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <AdminUserIdCard

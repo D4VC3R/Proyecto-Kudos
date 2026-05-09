@@ -3,6 +3,7 @@ import { Trash2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { AnimatedCard } from '../animations/AnimatedCard.jsx';
 import {statusColors} from "../../lib/constants.js";
+import { Button } from '../common/Button';
 
 export const AdminItemCard = ({ item, onModerate, onDelete }) => {
   return (
@@ -21,19 +22,22 @@ export const AdminItemCard = ({ item, onModerate, onDelete }) => {
       </div>
 
       <div className="flex gap-2 mt-auto pt-4 border-t border-slate-100">
-        <button
+        <Button
           onClick={() => onModerate(item)}
-          className="flex-1 flex justify-center items-center gap-1 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white py-2 rounded-xl text-sm font-bold transition-colors"
+          variant="ghost"
+          color="primary"
+          isFullWidth={true}
         >
           Moderar
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => onDelete(item)}
-          className="flex justify-center items-center bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-600 p-2 rounded-xl transition-colors"
+          variant="ghost"
+          color="danger"
+          size="iconMd"
           title="Eliminar"
-        >
-          <Trash2 size={18} />
-        </button>
+          icon={Trash2}
+        />
       </div>
     </AnimatedCard>
   );

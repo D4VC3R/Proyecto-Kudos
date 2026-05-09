@@ -4,6 +4,7 @@ import { Modal } from '../common/Modal';
 import { ModalButtons } from '../common/ModalButtons';
 import { formatDate } from '../../lib/formatters';
 import { useModal } from '../../hooks/useModal';
+import { Button } from '../common/Button';
 
 export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -60,14 +61,15 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
         </div>
 
         <div className="flex items-center gap-2 self-end sm:self-center">
-          <button
+          <Button
             title="Eliminar registro"
             onClick={() => openModal()}
-            disabled={isDeleting}
-            className="flex items-center justify-center h-10 w-10 rounded-xl bg-slate-50 text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors disabled:opacity-50"
-          >
-            <Trash2 size={18} />
-          </button>
+            isLoading={isDeleting}
+            variant="ghost"
+            color="danger"
+            size="iconLg"
+            icon={Trash2}
+          />
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Edit2, Trash2 } from 'lucide-react';
 import { AnimatedCard } from '../animations/AnimatedCard.jsx';
+import { Button } from '../common/Button';
 
 export const AdminCategoryCard = ({ category, onEdit, onDelete }) => {
   return (
@@ -14,19 +15,23 @@ export const AdminCategoryCard = ({ category, onEdit, onDelete }) => {
       </p>
 
       <div className="flex gap-2 mt-4 pt-4 border-t border-slate-100">
-        <button
+        <Button
           onClick={() => onEdit(category)}
-          className="flex-1 flex justify-center items-center gap-2 bg-slate-50 text-slate-600 hover:bg-blue-50 hover:text-blue-600 py-2.5 rounded-xl text-sm font-bold transition-colors"
+          variant="ghost"
+          color="primary"
+          icon={Edit2}
+          isFullWidth={true}
         >
-          <Edit2 size={16} /> Editar
-        </button>
-        <button
+          Editar
+        </Button>
+        <Button
           onClick={() => onDelete(category)}
-          className="flex justify-center items-center bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-600 p-2.5 rounded-xl transition-colors"
+          variant="ghost"
+          color="danger"
+          size="iconMd"
           title="Eliminar"
-        >
-          <Trash2 size={18} />
-        </button>
+          icon={Trash2}
+        />
       </div>
     </AnimatedCard>
   );

@@ -1,11 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, Save, MapPin, Calendar, Image as ImageIcon } from 'lucide-react';
+import { Save, MapPin, Calendar, Image as ImageIcon } from 'lucide-react';
 import { useUpdateProfile } from '../../hooks/users/useUserMutations';
 import { profileSchema } from '../../lib/schemas';
 import { InputField } from '../common/InputField';
 import { TextAreaField } from '../common/TextAreaField';
+import { Button } from '../common/Button';
 
 export const ProfileEditForm = ({ profile }) => {
   const { mutate: updateProfile, isPending } = useUpdateProfile();
@@ -79,14 +80,15 @@ export const ProfileEditForm = ({ profile }) => {
         </div>
 
         <div className="flex justify-end mt-4 pt-4 border-t border-slate-100">
-          <button
+          <Button
             type="submit"
-            disabled={isPending}
-            className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-6 py-2.5 font-bold text-white transition-colors hover:bg-slate-800 disabled:opacity-50 shadow-md"
+            isLoading={isPending}
+            variant="solid"
+            color="primary"
+            icon={Save}
           >
-            {isPending ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
             Guardar Cambios
-          </button>
+          </Button>
         </div>
       </form>
     </div>

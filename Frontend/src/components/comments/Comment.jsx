@@ -9,6 +9,7 @@ import { useModal } from '../../hooks/useModal';
 import {CommentHideBody} from "./CommentHideBody.jsx";
 import {CommentDeleteBody} from "./CommentDeleteBody.jsx";
 import {ModalButtons} from "../common/ModalButtons.jsx";
+import { Button } from '../common/Button';
 
 export const Comment = ({ comment }) => {
   const { user } = useSessionStore();
@@ -62,24 +63,16 @@ export const Comment = ({ comment }) => {
               <span className="text-xs text-slate-400">{formatDate(comment.created_at)}</span>
               <div className="flex items-center gap-2">
                 {isOwner && !comment.is_hidden && (
-                  <button onClick={() => { setIsEditing(true); setEditContent(comment.content); }} className="text-slate-400 hover:text-blue-500 transition" title="Editar">
-                    <Edit2 size={16} />
-                  </button>
+                  <Button onClick={() => { setIsEditing(true); setEditContent(comment.content); }} variant="ghost" color="primary" size="iconSm" title="Editar" icon={Edit2} />
                 )}
                 {isAdmin && !comment.is_hidden && (
-                  <button onClick={() => openModal('hide')} className="text-orange-500 hover:text-orange-700 transition" title="Ocultar (Moderación)">
-                    <EyeOff size={16} />
-                  </button>
+                  <Button onClick={() => openModal('hide')} variant="ghost" color="warning" size="iconSm" title="Ocultar (Moderación)" icon={EyeOff} />
                 )}
                 {isAdmin && comment.is_hidden && (
-                  <button onClick={() => unhideComment(comment.id)} disabled={isUnhiding} className="text-green-500 hover:text-green-700 transition" title="Restaurar">
-                    <Eye size={16} />
-                  </button>
+                  <Button onClick={() => unhideComment(comment.id)} disabled={isUnhiding} variant="ghost" color="success" size="iconSm" title="Restaurar" icon={Eye} />
                 )}
                 {isAdmin && (
-                  <button onClick={() => openModal('delete')} className="text-slate-400 hover:text-red-500 transition" title="Eliminar">
-                    <Trash2 size={16} />
-                  </button>
+                  <Button onClick={() => openModal('delete')} variant="ghost" color="danger" size="iconSm" title="Eliminar" icon={Trash2} />
                 )}
               </div>
             </div>
@@ -98,12 +91,8 @@ export const Comment = ({ comment }) => {
                 disabled={isUpdating}
               />
               <div className="flex gap-2 justify-end mt-2">
-                <button onClick={() => setIsEditing(false)} disabled={isUpdating} className="text-slate-500 hover:text-slate-700">
-                  <X size={16} />
-                </button>
-                <button onClick={handleUpdate} disabled={isUpdating || !editContent.trim()} className="text-blue-500 hover:text-blue-700">
-                  <Check size={16} />
-                </button>
+                <Button onClick={() => setIsEditing(false)} disabled={isUpdating} variant="ghost" color="neutral" size="iconSm" icon={X} />
+                <Button onClick={handleUpdate} disabled={isUpdating || !editContent.trim()} variant="ghost" color="primary" size="iconSm" icon={Check} />
               </div>
             </div>
           ) : (

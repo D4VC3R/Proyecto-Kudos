@@ -73,14 +73,41 @@ class User extends Authenticatable implements MustVerifyEmail
             'banned_until' => 'datetime',
         ];
     }
-
-    public function isCurrentlyBanned(): bool
+public function isCurrentlyBanned(): bool
     {
         if (!$this->is_banned) {
             return false;
         }
 
         return $this->banned_until === null || $this->banned_until->isFuture();
+    }
+
+    /**
+     * Aplica la suspensión al usuario manejando su propio estado interno.
+     */
+    public function ban(bool $isPermanent, ?int $days, string $reason, string $adminId): void
+    {
+        $this->is_banned = true;
+        $this->banned_at = now();
+        $this->banned_until = $isPermanent ? null : now()->addDays($days);
+        $this->ban_reason = $reason;
+        $this->banned_by = $adminId;
+
+        $this->save();
+    }
+
+    /**
+     * Revoca la suspensión del usuario.
+     */
+    public function unban(): void
+    {
+        $this->is_banned = false;
+        $this->banned_at = null;
+        $this->banned_until = null;
+        $this->ban_reason = null;
+        $this->banned_by = null;
+
+        $this->save();
     }
 
 	public function scopeAdminApplyFilters($query, array $filters)

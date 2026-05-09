@@ -3,6 +3,7 @@ import { CheckCircle, XCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { AnimatedCard } from '../animations/AnimatedCard.jsx';
 import {statusColors} from '../../lib/constants.js';
+import { Button } from '../common/Button';
 
 
 export const AdminProposalCard = ({ proposal, onAccept, onReject }) => {
@@ -23,18 +24,24 @@ export const AdminProposalCard = ({ proposal, onAccept, onReject }) => {
 
       {proposal.status === 'pending' && (
         <div className="flex gap-2 mt-auto pt-4 border-t border-slate-100">
-          <button
+          <Button
             onClick={() => onAccept(proposal)}
-            className="flex-1 flex justify-center items-center gap-1 bg-green-50 text-green-600 hover:bg-green-600 hover:text-white py-2 rounded-xl text-sm font-bold transition-colors"
+            variant="ghost"
+            color="success"
+            icon={CheckCircle}
+            isFullWidth={true}
           >
-            <CheckCircle size={16} /> Aceptar
-          </button>
-          <button
+            Aceptar
+          </Button>
+          <Button
             onClick={() => onReject(proposal)}
-            className="flex-1 flex justify-center items-center gap-1 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white py-2 rounded-xl text-sm font-bold transition-colors"
+            variant="ghost"
+            color="danger"
+            icon={XCircle}
+            isFullWidth={true}
           >
-            <XCircle size={16} /> Rechazar
-          </button>
+            Rechazar
+          </Button>
         </div>
       )}
     </AnimatedCard>

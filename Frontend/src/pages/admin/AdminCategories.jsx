@@ -11,6 +11,7 @@ import {ModalButtons} from "../../components/common/ModalButtons.jsx";
 import {AdminCategoryFormBody} from "../../components/admin/AdminCategoryFormBody.jsx";
 import {AdminCategoryDeleteBody} from "../../components/admin/AdminCategoryDeleteBody.jsx";
 import { useModal } from '../../hooks/useModal';
+import { Button } from '../../components/common/Button';
 
 const AdminCategories = () => {
   const { data: categories, isLoading, isError } = useCategories();
@@ -42,12 +43,14 @@ const AdminCategories = () => {
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
       <SectionHeader title="Gestión de" highlight="Categorías" icon={LayoutGrid}>
-        <button
+        <Button
           onClick={() => handleOpenAction(null, 'create')}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-2xl font-bold transition-all shadow-sm shadow-blue-500/30 ring-2 ring-transparent hover:ring-blue-600 hover:ring-offset-2 hover:ring-offset-slate-50"
+          variant="ring"
+          color="primary"
+          icon={Plus}
         >
-          <Plus size={18} /> Nueva
-        </button>
+          Nueva
+        </Button>
       </SectionHeader>
       {isLoading ? (
         <FeedbackState icon={LayoutGrid} isLoading title="Cargando categorías..." />
@@ -69,7 +72,7 @@ const AdminCategories = () => {
           </AnimatePresence>
         </div>
       )}
-      {/* Action Modal */}
+
       <Modal
         isOpen={isOpen}
         onClose={handleCloseModal}

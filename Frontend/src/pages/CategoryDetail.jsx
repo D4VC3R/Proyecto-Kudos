@@ -4,7 +4,7 @@ import {PlayCircle, PlusCircle} from 'lucide-react';
 import {useCategoryDetail, useInfiniteCategoryRanking} from '../hooks/categories/useCategoryQueries';
 import ActionButton from '../components/common/ActionButton';
 import Ranking from '../components/ranking/Ranking.jsx';
-import InfiniteSlider from '../components/common/InfiniteSlider';
+import InfiniteItemSlider from '../components/items/InfiniteItemSlider.jsx';
 import {Skeleton} from '../components/common/Skeleton';
 import {SectionHeader} from "../components/common/SectionHeader.jsx";
 
@@ -112,7 +112,7 @@ const CategoryDetail = () => {
           <div className="mb-6 px-8 border-b border-slate-100 pb-4">
             <h3 className="text-2xl font-black text-slate-900">Candidatos Destacados</h3>
           </div>
-          <InfiniteSlider items={category.items}/>
+          <InfiniteItemSlider items={category.items}/>
         </div>
       )}
     </div>

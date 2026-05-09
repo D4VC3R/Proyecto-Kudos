@@ -3,8 +3,7 @@ import { Ban, Key, Unlock } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { AnimatedCard } from '../animations/AnimatedCard';
-import {RevokeSessionsButton} from "./RevokeSessionsButton.jsx";
-import {ToggleBanButton} from "./ToggleBanButton.jsx";
+import { Button } from '../common/Button';
 
 export const AdminUserCard = ({ user, onToggleBan, onRevoke, isBanning, isUnbanning, isRevoking }) => {
   const navigate = useNavigate();
@@ -35,14 +34,23 @@ export const AdminUserCard = ({ user, onToggleBan, onRevoke, isBanning, isUnbann
       </div>
 
       <div className="flex justify-end gap-2 mt-auto pt-3 border-t border-slate-100">
-        <ToggleBanButton
-          isBanned={user.is_banned}
-          isDisabled={isUnbanning || isBanning}
+        <Button
           onClick={(e) => { e.stopPropagation(); onToggleBan(user); }}
+          disabled={isUnbanning || isBanning}
+          title={user.is_banned ? "Desbanear" : "Banear"}
+          variant="ghost"
+          color={user.is_banned ? 'success' : 'danger'}
+          size="iconMd"
+          icon={user.is_banned ? Unlock : Ban}
         />
-        <RevokeSessionsButton
-          isDisabled={isRevoking}
+        <Button
           onClick={(e) => { e.stopPropagation(); onRevoke(user); }}
+          disabled={isRevoking}
+          title="Revocar sesiones"
+          variant="ghost"
+          color="warning"
+          size="iconMd"
+          icon={Key}
         />
       </div>
     </AnimatedCard>

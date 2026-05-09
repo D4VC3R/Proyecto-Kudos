@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Star } from 'lucide-react';
+import { Button } from '../common/Button';
 
 export const EmptyVoteState = () => {
   const navigate = useNavigate();
@@ -12,13 +13,14 @@ export const EmptyVoteState = () => {
       </div>
       <h2 className="text-3xl font-black text-slate-900 mb-2">¡Todo al día!</h2>
       <p className="text-lg text-slate-500 mb-8">No hay más ítems pendientes de votar en esta categoría, has ganado muchos Kudos.</p>
-      <button
+      <Button
         onClick={() => navigate(`/`)}
-        className="px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors"
+        variant="solid"
+        color="primary"
+        className="px-6 py-3 bg-slate-900 hover:bg-slate-800"
       >
         Seleccionar nueva categoría
-      </button>
+      </Button>
     </div>
   );
 };
-

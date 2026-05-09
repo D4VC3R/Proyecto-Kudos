@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useItemComments } from '../../hooks/items/useItemQueries';
 import { useCreateItemComment } from '../../hooks/items/useItemMutations';
 import { Comment } from './Comment';
+import { Button } from '../common/Button';
 
 export const CommentBox = ({ itemId }) => {
   const { data: comments, isLoading } = useItemComments(itemId);
@@ -46,15 +47,16 @@ export const CommentBox = ({ itemId }) => {
           className="flex-1 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           autoComplete="off"
         />
-        <button
+        <Button
           type="submit"
-          disabled={createCommentMutation.isPending}
-          className="flex shrink-0 items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50 transition-colors"
-        >
-          {createCommentMutation.isPending ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
-        </button>
+          isLoading={createCommentMutation.isPending}
+          variant="solid"
+          color="primary"
+          radius="lg"
+          size="iconMd"
+          icon={Send}
+        />
       </form>
     </div>
   );
 };
-
