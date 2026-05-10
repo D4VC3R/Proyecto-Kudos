@@ -30,7 +30,7 @@ export const useInfiniteItems = (filters = {}, options = {}) => {
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       if (!lastPage.meta) return undefined;
-      return lastPage.meta.current_page < lastPage.meta.last_page
+      return lastPage.meta.has_more
         ? lastPage.meta.current_page + 1
         : undefined;
     },

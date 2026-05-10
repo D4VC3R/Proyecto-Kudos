@@ -9,35 +9,36 @@
 
 # Proyecto Kudos - Backend
 
-Backend API de Kudos construido con Laravel, autenticación por token (Sanctum), verificación de email, votación y creación de ítems, sistema de puntos (kudos) y panel de administración con moderación y baneos.
+Backend API de Kudos construido con Laravel 12, autenticación por token (Sanctum), autorización por roles (Spatie), verificación de email, votación y creación de ítems, sistema de puntos (kudos) y panel de administración con moderación y baneos.
 
 ## Objetivo de arquitectura
 
-Este backend sigue una arquitectura orientada a casos de uso para mantener responsabilidades claras:
+Este backend sigue una arquitectura adaptada orientada a aislar la lógica de dominio y mantener los controladores limpios, basada en Patrón MVC potenciado con Actions y Services:
 
-- `Controller` -> entrada/salida HTTP (auth, validación, respuesta)
-- `Action/Query` -> caso de uso concreto (escritura/lectura)
-- `Service` -> reglas de negocio y orquestación
-- `Repository` -> acceso a datos (Eloquent/DB)
+- `Controller` -> Mismo propósito que en MVC estándar (entrada/salida HTTP, validación inicial mediante Form Requests, retorno de respuestas/recursos).
+- `Action` -> Caso de uso concreto (ej. EmitirVoto, RevisarPropuesta), encapsulando la lógica de una sola acción transaccional de escritura.
+- `Service` -> Lógica de negocio reutilizable, orquestación, reglas complejas o centralización (ej. KudosService, ModerationAuditLogger).
+- `Model` -> Entidades Eloquent (acceso a base de datos, relaciones y scopes).
 
-Esto permite evitar controladores grandes, reducir duplicación y aislar la lógica de dominio.
+Esto permite evitar controladores grandes, reducir la carga cognitiva al leer el flujo de una petición y centralizar mejor las reglas de la aplicación.
+No se utilizan Repositorios ni Query objects; Eloquent y los Models se usan de forma directa en las Actions y Services.
 
 ## Estructura principal
 
 ```text
 app/
+  Actions/               # operaciones transaccionales únicas (ej: EmitVoteAction)
   Http/
     Controllers/         # capa HTTP
     Requests/            # validación de entrada
     Middleware/          # políticas transversales (admin, verified, not_banned)
-    Items/
-    Votes/
-    Categories/
-  Services/              # dominio/orquestación
-  Repositories/          # persistencia
+    Resources/           # serialización y formato de respuestas JSON
   Models/                # entidades Eloquent
+  Policies/              # autorización detallada por modelo
+  Providers/             # configuración de servicios de Laravel
+  Services/              # dominio/orquestación y reglas de negocio reutilizables
 routes/
-  api.php                # rutas públicas, autenticadas y admin
+  api.php                # rutas de la api (públicas, autenticadas y admin)
   auth.php               # login/register/logout/verificación
 ```
 
@@ -125,6 +126,51 @@ Piezas clave:
 - `app/Http/Controllers/AdminItemController.php`
 - `app/Http/Controllers/ProposalController.php` (bloque admin)
 
+## Estándares de Arquitectura y Patrones Implementados
+
+### 1. Form Requests (Validación)
+Toda validación de datos de entrada debe realizarse mediante **Form Requests** (`app/Http/Requests`).
+- Los Controladores no deben contener reglas de validación en los métodos directamente.
+- Los Request capturan datos, validan y pueden aplicar conversiones antes de inyectarse al método.
+- Si la validación falla, se retorna automáticamente un estándar de error `422 Unprocessable Entity`.
+
+### 2. API Resources (Serialización)
+Nunca se deben retornar Modelos Eloquent o arrays de datos en crudo desde el Controller. Todo debe transformarse usando **API Resources** (`app/Http/Resources`).
+- Mutan la data subyacente para no revelar ids internos irrelevantes, fechas en formatos incorrectos o campos sensibles.
+- Manejan el "lazy loading" y carga de relaciones anidadas condicionalmente (`whenLoaded`).
+- Permiten extender de manera nativa objetos de respuesta con la llave `meta`.
+
+### 3. Autorización (Roles y Policies)
+La seguridad a nivel de métodos y accesos combina dos tecnologías:
+- **Spatie Laravel Permission:** Estandariza la autorización a alto nivel a través de roles (`admin`, `user`). Aplicado principalmente en grupos de Middleware (ej: un perfil sin verificar no accede o `admin` para administración general).
+- **Laravel Policies (`app/Policies`):** Reglas pormenorizadas por recurso. Operaciones sobre un `Item`, `Proposal` o un `Vote` pasan por métodos como `$this->authorize('update', $proposal)` dentro del controlador. Aportan una capa extra de seguridad para asegurar de que un creador solo puede editar lo suyo, mientras que un admin tiene poder global.
+
+### 4. Logging Transaccional y Auditoría
+Cualquier manipulación de estado clave se registra internamente.
+- **ModerationAuditLogger**: Toda aprobación o rechazo en ítems y comentarios, así como subidas de propuestas pasa a un track controlable para trazar las responsabilidades si existe vandalismo.
+- Acciones como transacciones de **Kudos** mantienen un registro en modo libro mayor ("ledger") donde un identificador unívoco previene dar puntos doblemente a un usuario.
+
+### 5. Estándar de Respuestas API (Contract)
+Nuestra API responde bajo un formato JSON estrictamente predecible (Documentado internamente en detalle en `docs/api-contract.md`).  
+Por norma general las respuestas de mutación o éxito simple estructuran:
+```json
+{
+  "message": "Texto descriptivo de éxito",
+  "data": { ...recurso... },
+  "meta": { ...informacion extra... }
+}
+```
+En caso de respuestas con error, el contrato engloba bajo una propiedad estandarizada:
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "La solicitud contiene errores.",
+    "details": { "campo": ["Mensaje de error"] }
+  }
+}
+```
+
 ## Middleware y seguridad
 
 Middlewares relevantes:
@@ -139,25 +185,10 @@ Grupos de rutas:
 - Autenticadas (`profile`, `votes`, `proposals` de usuario, `my-items`)
 - Admin (`admin/users`, `admin/items`, `admin/proposals`, categorías admin)
 
-## Persistencia y consistencia
+## Consistencia de Kudos y Seeders
 
-- `users.total_kudos` funciona como cache agregada.
-- `kudos_transactions` es fuente de verdad del historial de puntos.
-- Reconciliación disponible por comando de auditoría.
-
-## Comandos útiles
-
-### Auditoría de kudos
-
-```bash
-php artisan kudos:audit-consistency
-```
-
-### Reconciliación automática de kudos
-
-```bash
-php artisan kudos:audit-consistency --fix
-```
+- `users.total_kudos` es un caché acumulado.
+- `kudos_transactions` funciona como ledger (fuente de la verdad).
 
 ### Seed de items desde snapshots locales
 
@@ -184,13 +215,14 @@ php artisan route:list
 
 ## Convención de desarrollo del proyecto
 
-Para nuevas features:
+Para el desarrollo de nuevas funcionalidades:
 
-1. Crear `Request` para validación.
-2. Crear `Action` (escritura) o `Query` (lectura).
-3. Reutilizar/mover reglas de negocio a `Service`.
-4. Reutilizar/mover acceso a datos a `Repository`.
-5. Dejar el controlador solo para gestionar respuestas HTTP.
+1. **Rutas:** Registrar en `api.php` o `auth.php`.
+2. **Validación:** Crear un `Request` (`make:request`) específico.
+3. **Controlador:** Crear un `Controller` (`make:controller`). Su trabajo debe limitarse a delegar datos extraídos y retornar un `Resource`.
+4. **Lógica de Ejecución Transaccional:** Crear un `Action` si la petición requiere manejar transacciones complejas o varias mutaciones en base de datos.
+5. **Lógica de Dominio Reutilizable:** Centralizar las validaciones o herramientas comunes de modelo de datos en un `Service`.
+6. **Respuesta:** Crear y retornar siempre un `Resource` (`make:resource`) o `ResourceCollection`. No devuelvas arrays fijos manualmente si representa un Modelo que puedes escalar.
 
 ## Documentación de contrato API
 
@@ -198,4 +230,3 @@ Para nuevas features:
 - Referencia completa de endpoints y flujos: `docs/api-reference.md`
 - Convención de autorización: `docs/authorization-conventions.md`
 - Colección Postman: `docs/postman/Proyecto-Kudos.postman_collection.json`
-

@@ -31,6 +31,7 @@ return new class extends Migration
 		    $table->index(['status', 'vote_avg', 'vote_count']);
 		    $table->index(['category_id', 'status']);
 	    });
+	    DB::statement('CREATE INDEX items_name_trgm_idx ON items USING GIN (name gin_trgm_ops);');
     }
 
     /**

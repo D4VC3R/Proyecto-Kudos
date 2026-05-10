@@ -34,19 +34,17 @@ class ItemController extends Controller
 			->when($user, fn($q) => $q->with(['userVote' => fn($vQ) => $vQ->where('user_id', $user->id)]))
 			->applyFilters($filters)
 			->applySorting($validated['sort_by'] ?? 'vote_avg', $validated['sort_order'] ?? 'desc')
-			->paginate((int) ($validated['per_page'] ?? 15));
+			->simplePaginate((int) ($validated['per_page'] ?? 15));
 
 		return $this->respondList(
 			data: ItemListResource::collection($items),
 			meta: [
 				'current_page' => $items->currentPage(),
-				'last_page' => $items->lastPage(),
 				'per_page' => $items->perPage(),
-				'total' => $items->total(),
+				'has_more' => $items->hasMorePages(),
 			],
 			links: [
 				'first' => $items->url(1),
-				'last' => $items->url($items->lastPage()),
 				'prev' => $items->previousPageUrl(),
 				'next' => $items->nextPageUrl(),
 			],

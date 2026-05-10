@@ -10,7 +10,7 @@ export const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => {
           onClick={() => setActiveTab(tab.id)}
           variant="tab"
           color={activeTab === tab.id ? 'active' : 'inactive'}
-          className="whitespace-nowrap px-1 md:px-2 py-4"
+          className="whitespace-nowrap md:px-2 py-4 ml-2"
           icon={tab.icon}
         >
           {tab.name}

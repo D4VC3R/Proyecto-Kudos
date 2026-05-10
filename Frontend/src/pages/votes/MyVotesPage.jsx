@@ -1,6 +1,5 @@
 import React from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { Loader2, ArrowUp } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useInfiniteMyVotes } from '../../hooks/votes/useVoteQueries';
 import { useDeleteVote, useUpdateVote } from '../../hooks/votes/useVoteMutations';
 import { MyVotesHeader } from '../../components/votes/MyVotesHeader';
@@ -10,7 +9,6 @@ import { MyVoteItemCardSkeleton } from '../../components/votes/MyVoteItemCardSke
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 import { mergeFilters } from '../../lib/filters';
 import { FadeUp } from "../../components/animations/FadeUp.jsx";
-import { PopButton } from "../../components/animations/PopButton.jsx";
 
 export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined }, setFilters }) => {
   const currentView = filters.type || 'all';
@@ -49,12 +47,6 @@ export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined 
   const allVotes = pages.flatMap(page => page.data);
   const meta = pages[0]?.meta || {};
 
-  const showScrollTop = pages.length > 1;
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const showSkeletons = isLoading || (isFetching && allVotes.length === 0);
   const isBackgroundUpdating = isFetching && !isFetchingNextPage && !showSkeletons;
 
@@ -86,9 +78,11 @@ export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined 
                 />
               ))}
             </div>
+
             <div ref={lastElementRef} className="flex h-12 w-full items-center justify-center py-4">
               {isFetchingNextPage && <Loader2 className="animate-spin text-blue-500" size={24} />}
             </div>
+
             {!hasNextPage && allVotes.length > 0 && (
               <div className="text-center py-4 text-slate-400 font-medium text-sm">
                 Has llegado al final de tu historial.
@@ -97,18 +91,6 @@ export const MyVotesPage = ({ filters = { type: 'all', category_slug: undefined 
           </>
         )}
       </FadeUp>
-
-      <AnimatePresence>
-        {showScrollTop && (
-          <PopButton
-            onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg hover:bg-slate-800 hover:-translate-y-1 transition-all"
-            aria-label="Volver arriba"
-          >
-            <ArrowUp size={24} />
-          </PopButton>
-        )}
-      </AnimatePresence>
     </div>
   );
 };

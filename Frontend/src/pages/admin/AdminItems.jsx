@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAdminItems } from '../../hooks/admin/useAdminItemQueries';
 import { useAdminModerateItem, useAdminDeleteItem } from '../../hooks/admin/useAdminItemMutations';
 import { SectionHeader } from '../../components/common/SectionHeader';
@@ -8,17 +8,21 @@ import { Pagination } from '../../components/common/Pagination';
 import { Target, ShieldAlert, LayoutGrid } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { useCategories } from '../../hooks/categories/useCategoryQueries';
-import {AdminItemCard} from "../../components/admin/AdminItemCard.jsx";
-import {ModalButtons} from "../../components/common/ModalButtons.jsx";
-import {AdminItemModerateBody} from "../../components/admin/AdminItemModerateBody.jsx";
-import {AdminItemDeleteBody} from "../../components/admin/AdminItemDeleteBody.jsx";
-import {SearchFilter} from "../../components/common/SearchFilter.jsx";
-import {SelectFilter} from "../../components/common/SelectFilter.jsx";
+import { AdminItemCard } from "../../components/admin/AdminItemCard.jsx";
+import { ModalButtons } from "../../components/common/ModalButtons.jsx";
+import { AdminItemModerateBody } from "../../components/admin/AdminItemModerateBody.jsx";
+import { AdminItemDeleteBody } from "../../components/admin/AdminItemDeleteBody.jsx";
+import { SearchFilter } from "../../components/common/SearchFilter.jsx";
+import { SelectFilter } from "../../components/common/SelectFilter.jsx";
 import { useModal } from '../../hooks/useModal';
 
 const AdminItems = () => {
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState('');
+
+  // 1. Separamos el input visual del valor que dispara la petición (Debounce)
+  const [searchInput, setSearchInput] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+
   const [filterStatus, setFilterStatus] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
 
@@ -27,9 +31,21 @@ const AdminItems = () => {
   const [modReason, setModReason] = useState('');
 
   const { data: categoriesData } = useCategories();
+
+  // 2. Efecto para el Debounce: Espera 400ms antes de actualizar el estado de búsqueda
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchInput);
+      setPage(1); // Reseteamos la página a 1 cuando la búsqueda finaliza
+    }, 400);
+
+    return () => clearTimeout(timer); // Cleanup si el usuario sigue tecleando
+  }, [searchInput]);
+
+  // 3. El hook consume el valor debounced, no el input directo
   const { data: itemsResponse, isLoading, isError } = useAdminItems({
     page,
-    search,
+    search: debouncedSearch,
     status: filterStatus,
     category_id: filterCategory,
     per_page: 9
@@ -37,10 +53,12 @@ const AdminItems = () => {
 
   const { mutate: moderateItem, isPending: isModerating } = useAdminModerateItem();
   const { mutate: deleteItem, isPending: isDeleting } = useAdminDeleteItem();
+
+  // 4. El handler ahora solo actualiza el input visual
   const handleSearch = (e) => {
-    setSearch(e.target.value);
-    setPage(1);
+    setSearchInput(e.target.value);
   };
+
   const handleOpenAction = (item, type) => {
     openModal(type, item);
     if (type === 'moderate') {
@@ -79,18 +97,18 @@ const AdminItems = () => {
             ]}
           />
           <SearchFilter
-            value={search}
+            value={searchInput}
             onChange={handleSearch}
             placeholder="Buscar ítem..."
           />
         </div>
       </SectionHeader>
       {isLoading ? (
-        <FeedbackState icon={Target} isLoading title="Cargando tems..." />
+        <FeedbackState icon={Target} isLoading title="Cargando ítems..." />
       ) : isError ? (
-        <FeedbackState icon={ShieldAlert} title="Error" description="No se pudieron cargar los tems." iconColorClass="bg-red-100 text-red-500" />
+        <FeedbackState icon={ShieldAlert} title="Error" description="No se pudieron cargar los ítems." iconColorClass="bg-red-100 text-red-500" />
       ) : !itemsResponse?.data?.length ? (
-        <FeedbackState icon={Target} title="Sin resultados" description="No se encontraron tems con estáos filtros." />
+        <FeedbackState icon={Target} title="Sin resultados" description="No se encontraron ítems con estos filtros." />
       ) : (
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -108,11 +126,11 @@ const AdminItems = () => {
           <Pagination meta={itemsResponse.meta} onPageChange={setPage} />
         </div>
       )}
-      {/* Action Modal */}
+
       <Modal
         isOpen={isOpen}
         onClose={closeModal}
-        title={actionType === 'moderate' ? 'Moderar item' : 'Eliminar item'}
+        title={actionType === 'moderate' ? 'Moderar ítem' : 'Eliminar ítem'}
         footer={<ModalButtons onClose={closeModal} onConfirm={executeAction} isPending={isModerating || isDeleting} confirmText="Confirmar Acción" actionStyle={actionType === 'delete' ? 'danger' : 'info'} />}
       >
         <div className="flex flex-col gap-4">
@@ -132,4 +150,5 @@ const AdminItems = () => {
     </div>
   );
 };
+
 export default AdminItems;

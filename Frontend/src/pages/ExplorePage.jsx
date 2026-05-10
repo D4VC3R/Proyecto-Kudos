@@ -66,7 +66,7 @@ const ExplorePage = () => {
   const handleSortChange = (e) => setSortValue(e.target.value);
   const handleItemClick = (item) => console.log('Item clicked:', item.name);
 
-  // 3. Memoización: Solo aplanamos el array cuando la data de React Query muta, no en cada render
+  //  Solo aplanamos el array cuando la data de React Query muta, no en cada render
   const flattenedItems = useMemo(() => {
     return data?.pages.flatMap((page) => page.data) || [];
   }, [data]);
@@ -116,9 +116,10 @@ const ExplorePage = () => {
           <div className="overflow-x-hidden w-full py-4">
             <StaggerGrid className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-center">
               {flattenedItems.map((item, index) => (
-                <StaggerItem key={item.id} alternate index={index} onClick={() => handleItemClick(item)}>
+                <StaggerItem key={item.id} alternate index={index}>
                   <ItemCard
                     key={item.id}
+                    onClick={() => handleItemClick(item)}
                     item={item}
                   />
                 </StaggerItem>

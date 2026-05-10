@@ -178,7 +178,6 @@ public function isCurrentlyBanned(): bool
 		$totalSkips = $this->votes()->where('type', 'skip')->count();
 		$averageScore = $this->votes()->where('type', 'vote')->avg('score');
 
-		// Categoría favorita (la más votada positivamente)[cite: 62]
 		$favoriteCategoryId = $this->votes()
 			->where('type', 'vote')
 			->join('items', 'votes.item_id', '=', 'items.id')

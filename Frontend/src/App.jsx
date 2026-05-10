@@ -1,6 +1,7 @@
 import {AppProviders} from './app/AppProviders.jsx';
 import {AppRoutes} from './routes/routes.jsx';
 import {MainHeader} from "./components/common/MainHeader.jsx";
+import {ScrollToTop} from "./components/common/ScrollToTop.jsx";
 
 const App = () => {
 
@@ -11,6 +12,7 @@ const App = () => {
         <main className="mx-auto w-full h-fit min-h-lvh max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
           <AppRoutes />
         </main>
+        <ScrollToTop />
       </div>
     </AppProviders>
   );
