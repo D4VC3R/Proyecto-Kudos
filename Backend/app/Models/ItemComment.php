@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ItemComment extends Model
 {
-	use HasFactory, HasUuids, SoftDeletes;
+	use  HasUuids, SoftDeletes;
 
 	protected $attributes = [
 		'is_hidden' => false,
