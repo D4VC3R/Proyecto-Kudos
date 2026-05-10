@@ -23,14 +23,14 @@ export const HeaderLogin = () => {
           {...register('email', { required: true })}
           placeholder="Email"
           disabled={isPending}
-          className="rounded-lg border border-slate-200 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded-lg border border-slate-200 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
         />
         <input
           type="password"
           {...register('password', { required: true })}
           placeholder="Contraseña"
           disabled={isPending}
-          className="rounded-lg border border-slate-200 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded-lg border border-slate-200 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
         />
         <Button
           type="submit"

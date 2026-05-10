@@ -5,16 +5,20 @@ import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
 import { Button } from './Button';
 import { VARIANTS } from "../../lib/buttonStyles.js";
-import {NavBarMobile} from "./NavBarMobile.jsx";
+import { NavBarMobile } from "./NavBarMobile.jsx";
+import { selectIsAdmin, useSessionStore } from "../../store/useSessionStore.js";
 
 export const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const isAdmin = useSessionStore(selectIsAdmin);
 
   const navItems = [
     { name: 'Categorías', path: '/', icon: Grid },
     { name: 'Ranking', path: '/ranking', icon: Trophy },
-    { name: 'Administración', path: '/admin', icon: ShieldPlus }
+    { name: 'Administración', path: '/admin', icon: ShieldPlus, requiresAdmin: true }
   ];
+
+  const visibleNavItems = navItems.filter((item) => !item.requiresAdmin || isAdmin);
 
   const desktopBaseStyles = "flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-all";
 
@@ -22,7 +26,7 @@ export const NavBar = () => {
   return (
     <>
       <nav className="hidden md:flex flex-1 items-center justify-center gap-2 lg:gap-6 mx-4">
-        {navItems.map((item) => {
+        {visibleNavItems.map((item) => {
           const Icon = item.icon;
           return (
             <NavLink
@@ -58,7 +62,7 @@ export const NavBar = () => {
       <NavBarMobile
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        navItems={navItems}
+        navItems={visibleNavItems}
       />
     </>
   );
