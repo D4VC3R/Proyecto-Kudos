@@ -3,10 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use Database\Seeders\Concerns\DownloadsSeedImages;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
 {
+    use DownloadsSeedImages;
+
     public function run(): void
     {
         $rows = [
@@ -67,12 +70,14 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($rows as $row) {
+            $storedImage = $this->downloadAndStoreImage($row['image'], $row['slug'], 'categories');
+
             Category::query()->updateOrCreate(
                 ['slug' => $row['slug']],
                 [
                     'name' => $row['name'],
                     'description' => $row['description'],
-                    'image' => $row['image'],
+                    'image' => $storedImage ?? $row['image'],
                 ]
             );
         }

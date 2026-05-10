@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
 	{
 		$this->call([
 			CategorySeeder::class,  // Primero las categorías
-			CategoryFieldDefinitionSeeder::class,
 			PermissionSeeder::class,
 			RoleSeeder::class,
 			UserSeeder::class,      // Luego los usuarios

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Proposals;
 
 use App\Models\Proposal;
-use App\Services\CategoryExtraDataValidator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProposalRequest extends FormRequest
@@ -23,7 +22,6 @@ class UpdateProposalRequest extends FormRequest
             'images.*.disk' => ['sometimes', 'required_with:images', 'string', 'in:public'],
             'images.*.alt' => ['sometimes', 'nullable', 'string', 'max:255'],
             'images.*.order' => ['sometimes', 'nullable', 'integer', 'min:0'],
-            'extra_data' => ['sometimes', 'nullable', 'array'],
             'category_id' => ['sometimes', 'required', 'uuid', 'exists:categories,id'],
         ];
     }
@@ -47,23 +45,6 @@ class UpdateProposalRequest extends FormRequest
 			$categoryId = $this->input('category_id', $proposal?->category_id);
 			if (!is_string($categoryId) || $categoryId === '') return;
 
-			$extraDataInput = $this->input('extra_data');
-			if ($extraDataInput !== null && !is_array($extraDataInput)) {
-				$validator->errors()->add('extra_data', 'extra_data debe ser un objeto JSON.');
-				return;
-			}
-
-			$existingExtraData = is_array($proposal?->extra_data) ? $proposal->extra_data : [];
-			$errors = app(CategoryExtraDataValidator::class)->validate(
-				categoryId: $categoryId, inputExtraData: $extraDataInput,
-				existingExtraData: $existingExtraData, requireRequiredFields: true,
-			);
-
-			foreach ($errors as $field => $messages) {
-				foreach ($messages as $message) {
-					$validator->errors()->add($field, $message);
-				}
-			}
 		});
 	}
 }

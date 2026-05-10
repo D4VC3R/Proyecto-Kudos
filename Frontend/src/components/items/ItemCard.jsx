@@ -4,6 +4,9 @@ import { BouncyCard } from '../animations/BouncyCard';
 
 export const ItemCard = ({ item, onClick }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
+  const STORAGE_URL = "http://localhost:8095/storage/";
+  console.log(item);
+
 
   return (
     <BouncyCard
@@ -12,7 +15,7 @@ export const ItemCard = ({ item, onClick }) => {
     >
       <div className="absolute inset-0">
         <img
-          src={item.images[0]?.path}
+          src={item.images[0]?.variants?.thumb && `${STORAGE_URL}${item.images[0].variants.thumb}`}
           alt={item.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />

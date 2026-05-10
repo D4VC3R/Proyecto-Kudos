@@ -6,6 +6,9 @@ import {getCategoryIcon} from "../../lib/constants.js";
 
 export const CategoryCard = ({category}) => {
 
+  const STORAGE_URL="http://localhost:8095/storage/";
+  console.log(category);
+
   const Icon = getCategoryIcon(category.name);
 
   return (
@@ -14,7 +17,7 @@ export const CategoryCard = ({category}) => {
         className="group relative h-80 w-full cursor-pointer overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-slate-200 transition-shadow hover:shadow-2xl hover:shadow-blue-500/20">
         <div className="absolute inset-0">
           <img
-            src={category.image || 'https://via.placeholder.com/400x300?text=Kudos+Arena'}
+            src={category?.image && `${STORAGE_URL}${category.image}`}
             alt={category.name}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />

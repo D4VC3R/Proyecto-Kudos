@@ -19,18 +19,7 @@ class ProposalFactory extends Factory
         return [
             'name' => fake()->sentence(3),
             'description' => fake()->paragraph(3),
-            'images' => [
-                [
-                    'path' => fake()->imageUrl(640, 480),
-                    'disk' => 'public',
-                    'alt' => null,
-                    'order' => 0,
-                ],
-            ],
-            'extra_data' => [
-                'source' => 'proposal_factory',
-                'notes' => fake()->sentence(),
-            ],
+            'images' => [],
             'status' => Proposal::STATUS_PENDING,
             'creator_id' => User::inRandomOrder()->first()?->id,
             'category_id' => Category::inRandomOrder()->first()?->id,
@@ -76,4 +65,3 @@ class ProposalFactory extends Factory
         });
     }
 }
-

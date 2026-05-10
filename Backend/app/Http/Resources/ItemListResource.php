@@ -17,15 +17,22 @@ class ItemListResource extends JsonResource
         $user = $this->resolveViewer($request);
         $isAdmin = $user instanceof User && $user->hasRole('admin');
 
-        return [
-            'id' => $item->id,
-            'name' => $item->name,
-            'description' => $item->description,
-            'images' => $item->images ?? [],
-            'extra_data' => $item->extra_data ?? [],
-            'status' => $item->status,
-            'vote_avg' => (float) $item->vote_avg,
-            'vote_count' => (int) $item->vote_count,
+	    return [
+		    'id' => $item->id,
+		    'name' => $item->name,
+		    'description' => $item->description,
+		    // OPTIMIZACIÓN: Solo enviamos 1 imagen, y solo la miniatura (thumb)
+		    'images' => collect($item->images ?? [])
+			    ->take(1)
+			    ->map(fn ($img) => [
+				    'variants' => [
+					    'thumb' => $img['variants']['thumb'] ?? null,
+				    ],
+				    'alt' => $img['alt'] ?? null,
+			    ])->toArray(),
+		    'status' => $item->status,
+		    'vote_avg' => (float) $item->vote_avg,
+		    'vote_count' => (int) $item->vote_count,
             'user_vote' => $this->when(
                 $user && $item->relationLoaded('userVote') && $item->userVote,
                 fn () => [

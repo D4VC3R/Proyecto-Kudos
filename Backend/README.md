@@ -46,14 +46,9 @@ routes/
 
 ### 0) Metadatos por categoria y comentarios
 
-- `Item` y `Proposal` soportan `extra_data` (JSON) para atributos variables por categoria.
-- Validacion dinamica opcional por `category_field_definitions` (si no hay esquema activo, `extra_data` permanece flexible).
-- `CategoryFieldDefinitionSeeder` carga un set inicial de definiciones para todas las categorias base y deja el sistema listo para validar `extra_data` desde el primer `db:seed`.
 - Comentarios de usuarios en items con moderacion admin (`hide` / `unhide`).
 
 Piezas clave:
-- `app/Services/CategoryExtraDataValidator.php`
-- `app/Models/CategoryFieldDefinition.php`
 - `app/Models/ItemComment.php`
 - `app/Http/Controllers/ItemCommentController.php`
 

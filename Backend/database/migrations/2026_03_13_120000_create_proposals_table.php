@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->jsonb('images')->nullable();
-            $table->jsonb('extra_data')->nullable();
-
             $table->enum('status', ['pending', 'accepted', 'rejected', 'changes_requested'])->default('pending');
 
             $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();

@@ -28,7 +28,6 @@ class Item extends Model
 		'name',
 		'description',
 		'images',
-		'extra_data',
 		'status',
 		'vote_avg',
 		'vote_count',
@@ -38,7 +37,6 @@ class Item extends Model
 
 	protected $casts = [
 		'images' => 'array',
-		'extra_data' => 'array',
 		'vote_avg' => 'float',
 		'vote_count' => 'integer',
 		'created_at' => 'datetime',

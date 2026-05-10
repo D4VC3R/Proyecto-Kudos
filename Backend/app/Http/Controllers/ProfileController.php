@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Resources\ProfileResource;
 use App\Http\Resources\MinimalProfileResource;
+use App\Jobs\ProcessUserAvatarJob;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -38,8 +40,27 @@ class ProfileController extends Controller
 	public function update(UpdateProfileRequest $request): JsonResponse
 	{
 		$profile = $request->user()->profile;
+		$validated = $request->validated();
+		$avatarInput = null;
 
-		$profile->update($request->validated());
+		if (is_string($validated['avatar'] ?? null) && $validated['avatar'] !== '') {
+			$avatarInput = $validated['avatar'];
+		}
+
+		if ($request->hasFile('avatar')) {
+			$path = Storage::disk('local')->putFile('temp_uploads', $request->file('avatar'));
+			if (is_string($path) && $path !== '') {
+				$avatarInput = $path;
+			}
+		}
+
+		unset($validated['avatar']);
+
+		$profile->update($validated);
+
+		if (is_string($avatarInput) && $avatarInput !== '') {
+			ProcessUserAvatarJob::dispatch($request->user(), $avatarInput);
+		}
 
 		return $this->respondMutation(
 			'Perfil actualizado correctamente.',
@@ -47,3 +68,4 @@ class ProfileController extends Controller
 		);
 	}
 }
+

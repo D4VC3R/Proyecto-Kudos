@@ -24,7 +24,6 @@ class Proposal extends Model
         'name',
         'description',
         'images',
-        'extra_data',
         'status',
         'creator_id',
         'category_id',
@@ -35,7 +34,6 @@ class Proposal extends Model
 
     protected $casts = [
         'images' => 'array',
-        'extra_data' => 'array',
         'reviewed_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

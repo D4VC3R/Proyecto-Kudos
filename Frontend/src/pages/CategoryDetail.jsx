@@ -15,7 +15,7 @@ import {StaggerGrid} from "../components/animations/StaggerGrid.jsx";
 // Muestra esqueletos de cada componente mientras se cargan los datos.
 const CategoryDetail = () => {
   const {categorySlug} = useParams();
-  const itemsPerPage = 10;
+  const itemsPerPage = 16;
 
   const {
     data: categories,
@@ -43,6 +43,7 @@ const CategoryDetail = () => {
     fetchNextPage,
     isError: isErrorRanking,
     error: rankingError
+
   } = useInfiniteCategoryRanking(categorySlug, itemsPerPage);
 
   const rankingItems = useMemo(() => {
@@ -146,6 +147,7 @@ const CategoryDetail = () => {
             <Ranking
               title="Top Ranking Global"
               items={rankingItems}
+              itemsPerPage={12}
               fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage}
               isFetchingNextPage={isFetchingNextPage}

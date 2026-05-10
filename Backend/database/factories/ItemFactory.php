@@ -94,15 +94,7 @@ class ItemFactory extends Factory
 		return [
 			'name' => $item['name'],
 			'description' => $item['description'],
-			'images' => [
-				[
-				'path' => fake()->imageUrl(640, 480),
-				'disk' => 'public',
-				'alt' => null,
-				'order' => 0,
-					],
-			],
-			'extra_data' => $this->buildExtraDataForCategory($categorySlug),
+			'images' => [],
 			'status' => Item::STATUS_ACTIVE,
 			'vote_avg' => 0,
 			'vote_count' => 0,
@@ -153,45 +145,9 @@ class ItemFactory extends Factory
 			return [
 				'name' => $item['name'],
 				'description' => $item['description'],
-				'extra_data' => $this->buildExtraDataForCategory($categorySlug),
 				'category_id' => $category->id,
 			];
 		});
 	}
 
-	private function buildExtraDataForCategory(string $categorySlug): array
-	{
-		return match ($categorySlug) {
-			'videojuegos' => [
-				'developer' => fake()->company(),
-				'publisher' => fake()->company(),
-				'platforms' => fake()->randomElements(['PC', 'PS5', 'Xbox Series', 'Switch'], fake()->numberBetween(1, 3)),
-				'metacritic_score' => fake()->numberBetween(60, 98),
-			],
-			'peliculas', 'series' => [
-				'director' => fake()->name(),
-				'release_year' => fake()->numberBetween(1980, 2026),
-				'actors' => [fake()->name(), fake()->name(), fake()->name()],
-			],
-			'ciudades' => [
-				'country' => fake()->country(),
-				'population' => fake()->numberBetween(100000, 20000000),
-				'language' => fake()->languageCode(),
-			],
-			'paises' => [
-				'continent' => fake()->randomElement(['Europa', 'Asia', 'America', 'Africa', 'Oceania']),
-				'population' => fake()->numberBetween(500000, 1500000000),
-				'religion' => fake()->randomElement(['Cristianismo', 'Islam', 'Hinduismo', 'Budismo', 'Otra']),
-			],
-			'politicos' => [
-				'party' => fake()->company(),
-				'age' => fake()->numberBetween(30, 85),
-				'position' => fake()->randomElement(['Presidente', 'Ministro', 'Diputado', 'Senador', 'Alcalde']),
-			],
-			default => [
-				'source' => 'factory',
-				'notes' => fake()->sentence(),
-			],
-		};
-	}
 }

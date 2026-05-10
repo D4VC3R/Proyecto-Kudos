@@ -10,7 +10,6 @@ import { VoteActions } from '../components/votes/VoteActions.jsx';
 import { EmptyVoteState } from "../components/votes/EmptyVoteState.jsx";
 import { AnimatePresence } from "framer-motion";
 import { AnimatedItem } from "../components/animations/AnimatedItem.jsx";
-import {SectionHeader} from "../components/common/SectionHeader.jsx";
 
 export const VotePage = () => {
   const { categorySlug } = useParams();
@@ -40,14 +39,6 @@ export const VotePage = () => {
 
   return (
     <div className={`mx-auto flex w-full max-w-3xl flex-col items-center py-8 min-h-screen transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
-
-      <div className="w-full mb-6">
-        <SectionHeader
-          title="Votación en"
-          highlight="Curso"
-        />
-      </div>
-
       <div className="w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between relative min-h-[600px] md:min-h-[700px]">
 
         {isLoading ? (
@@ -66,7 +57,7 @@ export const VotePage = () => {
               </AnimatePresence>
             </div>
 
-            <div className="shrink-0 mb-8 z-10 relative">
+            <div className="shrink-0 mb-1 z-10 relative">
               <VoteStars onVote={handleVote} isPending={voteMutation.isPending} />
             </div>
 

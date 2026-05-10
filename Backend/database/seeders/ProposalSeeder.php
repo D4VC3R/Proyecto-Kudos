@@ -6,11 +6,14 @@ use App\Actions\ReviewProposalAction; // <-- Importamos la nueva Action
 use App\Models\Category;
 use App\Models\Proposal;
 use App\Models\User;
+use Database\Seeders\Concerns\DownloadsSeedImages;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
 class ProposalSeeder extends Seeder
 {
+	use DownloadsSeedImages;
+
 	private const TOTAL_PROPOSALS = 30;
 
 	public function run(): void
@@ -49,9 +52,15 @@ class ProposalSeeder extends Seeder
 					'category_id' => $category->id,
 				]);
 
+				$images = $this->normalizeSeedImages(
+					Arr::wrap($draft->images ?? []),
+					$category->slug,
+					'proposals'
+				);
+
 				$proposal = Proposal::create([
-					...Arr::only($draft->toArray(), ['name', 'description', 'images', 'category_id']),
-					'extra_data' => $this->buildExtraDataForCategory($category->slug),
+					...Arr::only($draft->toArray(), ['name', 'description', 'category_id']),
+					'images' => $images,
 					'creator_id' => $creator->id,
 				]);
 

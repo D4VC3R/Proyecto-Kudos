@@ -11,6 +11,7 @@ import {StaggerItem} from "../components/animations/StaggerItem.jsx";
 const HomePage = () => {
   const { data: categories, isLoading, isFetching, isError } = useCategories();
 
+
   if (isError) {
     return (
       <div className="flex justify-center items-center py-20 min-h-[50vh]">

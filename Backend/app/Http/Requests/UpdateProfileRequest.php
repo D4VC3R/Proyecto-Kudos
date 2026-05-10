@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\FileOrUrlRule;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -22,7 +23,7 @@ class UpdateProfileRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'avatar' => ['nullable', 'string', 'url', 'max:255'],
+			'avatar' => ['sometimes', 'nullable', new FileOrUrlRule()],
 			'biography' => ['nullable', 'string', 'max:500'],
 			'social_links' => ['nullable', 'array', 'max:5'],
 			'social_links.*' => ['required_with:social_links', 'url', 'max:255'],
