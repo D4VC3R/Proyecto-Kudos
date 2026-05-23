@@ -36,7 +36,7 @@ class CategoryController extends Controller
 
     public function show(Category $category): JsonResponse
     {
-        $category->loadAcceptedItemsWithDetails();
+        $category->loadCount('items');
         return $this->respondData(new CategoryWithItemsResource($category));
     }
 

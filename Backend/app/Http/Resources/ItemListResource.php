@@ -21,13 +21,13 @@ class ItemListResource extends JsonResource
 		    'id' => $item->id,
 		    'name' => $item->name,
 		    'description' => $item->description,
-		    // OPTIMIZACIÓN: Solo enviamos 1 imagen, y solo la miniatura (thumb)
 		    'images' => collect($item->images ?? [])
 			    ->take(1)
 			    ->map(fn ($img) => [
 				    'variants' => [
 					    'thumb' => $img['variants']['thumb'] ?? null,
 				    ],
+				    'meta' => $img['meta'] ?? null,
 				    'alt' => $img['alt'] ?? null,
 			    ])->toArray(),
 		    'status' => $item->status,

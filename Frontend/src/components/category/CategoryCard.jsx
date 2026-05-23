@@ -7,7 +7,6 @@ import {getCategoryIcon} from "../../lib/constants.js";
 export const CategoryCard = ({category}) => {
 
   const STORAGE_URL="http://localhost:8095/storage/";
-  console.log(category);
 
   const Icon = getCategoryIcon(category.name);
 

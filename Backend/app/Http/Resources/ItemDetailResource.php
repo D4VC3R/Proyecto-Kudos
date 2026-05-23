@@ -27,6 +27,7 @@ class ItemDetailResource extends JsonResource
 						'thumb' => $img['variants']['thumb'] ?? null,
 						'banner' => $img['variants']['banner'] ?? null,
 					],
+					'meta' => $img['meta'] ?? null,
 					'alt' => $img['alt'] ?? null,
 					'order' => $img['order'] ?? 0,
 				])->toArray(),

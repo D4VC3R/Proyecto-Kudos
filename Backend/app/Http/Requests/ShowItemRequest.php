@@ -8,7 +8,7 @@ class ShowItemRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('view', $this->route('item')) ?? false;
+        return $this->user()?->can('view', $this->route('item')) ?? true;
     }
 
     public function rules(): array

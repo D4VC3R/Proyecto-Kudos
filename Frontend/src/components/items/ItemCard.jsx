@@ -5,7 +5,6 @@ import { BouncyCard } from '../animations/BouncyCard';
 export const ItemCard = ({ item, onClick }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
   const STORAGE_URL = "http://localhost:8095/storage/";
-  console.log(item);
 
 
   return (

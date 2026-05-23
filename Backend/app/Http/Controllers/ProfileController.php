@@ -59,7 +59,7 @@ class ProfileController extends Controller
 		$profile->update($validated);
 
 		if (is_string($avatarInput) && $avatarInput !== '') {
-			ProcessUserAvatarJob::dispatch($request->user(), $avatarInput);
+			ProcessUserAvatarJob::dispatchSync($request->user(), $avatarInput);
 		}
 
 		return $this->respondMutation(

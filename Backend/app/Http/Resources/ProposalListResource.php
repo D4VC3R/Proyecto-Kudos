@@ -26,6 +26,7 @@ class ProposalListResource extends JsonResource
 					'variants' => [
 						'thumb' => $img['variants']['thumb'] ?? null,
 					],
+					'meta' => $img['meta'] ?? null,
 					'alt' => $img['alt'] ?? null,
 				])->toArray(),
 			'status' => $proposal->status,

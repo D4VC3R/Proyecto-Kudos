@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {Compass, Telescope, Flame} from 'lucide-react';
 import {StaggerGrid} from "../components/animations/StaggerGrid.jsx";
 import {StaggerItem} from "../components/animations/StaggerItem.jsx";
@@ -17,23 +17,20 @@ import {useInfiniteScroll} from '../hooks/useInfiniteScroll';
 const ExplorePage = () => {
   const {categorySlug} = useParams();
 
-  //  Separamos el estado visual de la entrada del usuario del estado de la API
   const [searchInput, setSearchInput] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [sortValue, setSortValue] = useState('');
-
+  const navigate = useNavigate();
   const {data: category, isLoading: isCategoryLoading} = useCategoryDetail(categorySlug);
 
-  // Efecto para el Debounce: Espera 400ms antes de mutar el estado que dispara la petición HTTP
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchInput);
     }, 400);
 
-    return () => clearTimeout(timer); // Cancela el timer si el usuario sigue tecleando
+    return () => clearTimeout(timer);
   }, [searchInput]);
 
-  // Si no hay sortValue (opción por defecto), asignamos los valores base de la API
   const [sortBy, sortOrder] = sortValue ? sortValue.split('|') : ['vote_avg', 'desc'];
 
   const {
@@ -64,9 +61,8 @@ const ExplorePage = () => {
 
   const handleSearch = (e) => setSearchInput(e.target.value);
   const handleSortChange = (e) => setSortValue(e.target.value);
-  const handleItemClick = (item) => console.log('Item clicked:', item.name);
+  const handleItemClick = (item) => {navigate(`/${categorySlug}/item/${item.id}`);};
 
-  //  Solo aplanamos el array cuando la data de React Query muta, no en cada render
   const flattenedItems = useMemo(() => {
     return data?.pages.flatMap((page) => page.data) || [];
   }, [data]);
@@ -81,7 +77,6 @@ const ExplorePage = () => {
             onChange={handleSortChange}
             defaultOption="Mejor valorados"
             options={[
-
               {value: 'recent|desc', label: 'Más recientes'},
               {value: 'recent|asc', label: 'Más antiguos'},
               {value: 'vote_avg|asc', label: 'Peor valorados'}

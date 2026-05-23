@@ -70,14 +70,14 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($rows as $row) {
-            $storedImage = $this->downloadAndStoreImage($row['image'], $row['slug'], 'categories');
-
+					$storedData = $this->downloadAndStoreImage($row['image'], $row['slug'], 'categories');
+					$imagePath = is_array($storedData) ? ($storedData['path'] ?? $row['image']) : ($storedData ?? $row['image']);
             Category::query()->updateOrCreate(
                 ['slug' => $row['slug']],
                 [
                     'name' => $row['name'],
                     'description' => $row['description'],
-                    'image' => $storedImage ?? $row['image'],
+                    'image' => $imagePath,
                 ]
             );
         }

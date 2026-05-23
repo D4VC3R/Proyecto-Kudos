@@ -15,50 +15,53 @@ trait DownloadsSeedImages
 	private const PUBLIC_DISK = 'public';
 
 	protected function normalizeSeedImages(array $images, string $categorySlug, string $bucket): array
-	{
-		$normalized = [];
-		$downloader = app(RemoteImageDownloader::class);
+  	{
+  		$normalized = [];
+  		$downloader = app(RemoteImageDownloader::class);
 
-		foreach ($images as $image) {
-			if (!is_array($image)) continue;
+  		foreach ($images as $image) {
+  			if (!is_array($image)) continue;
 
-			$path = $image['path'] ?? null;
-			if (!is_string($path) || $path === '') continue;
+  			$path = $image['path'] ?? null;
+  			if (!is_string($path) || $path === '') continue;
 
-			$alt = $image['alt'] ?? null;
-			$order = $image['order'] ?? 0;
+  			$alt = $image['alt'] ?? null;
+  			$order = $image['order'] ?? 0;
 
-			if ($downloader->isRemoteUrl($path)) {
-				$storedData = $this->downloadAndStoreImage($path, $categorySlug, $bucket);
-				if ($storedData !== null) {
-					$item = ['disk' => self::PUBLIC_DISK, 'alt' => $alt, 'order' => $order];
+  			if ($downloader->isRemoteUrl($path)) {
+  				$storedData = $this->downloadAndStoreImage($path, $categorySlug, $bucket);
+  				if ($storedData !== null) {
+  					$item = ['disk' => self::PUBLIC_DISK, 'alt' => $alt, 'order' => $order];
 
-					if (is_array($storedData)) {
-						$item['variants'] = $storedData;
-					} else {
-						$item['path'] = $storedData; // Por si cambias de idea y las categorias van en el JSON
-					}
-					$normalized[] = $item;
-				}
-				continue;
-			}
+  					if (is_array($storedData) && isset($storedData['variants'])) {
+  						$item['variants'] = $storedData['variants'];
+                          $item['meta'] = $storedData['meta'] ?? [];
+  					} elseif (is_array($storedData) && isset($storedData['path'])) {
+  						$item['path'] = $storedData['path'];
+                          $item['meta'] = $storedData['meta'] ?? [];
+  					} else {
+                          $item['path'] = $storedData;
+                      }
 
-			// Fallback manual
-			$normalized[] = ['path' => $path, 'disk' => $image['disk'] ?? self::PUBLIC_DISK, 'alt' => $alt, 'order' => $order];
-		}
+  					$normalized[] = $item;
+  				}
+  				continue;
+  			}
 
-		return $normalized;
-	}
+  			$normalized[] = ['path' => $path, 'disk' => $image['disk'] ?? self::PUBLIC_DISK, 'alt' => $alt, 'order' => $order];
+  		}
+
+  		return $normalized;
+  	}
 
 	/**
 	 * @return string|array<string, string>|null
 	 */
-	protected function downloadAndStoreImage(string $url, string $categorySlug, string $bucket): string|array|null
+protected function downloadAndStoreImage(string $url, string $categorySlug, string $bucket): string|array|null
 	{
 		$hash = md5($url);
 		$baseDir = $bucket . '/' . $categorySlug . '/seed';
 
-		// Comprobar Caché Determinista
 		if ($bucket === 'categories') {
 			$expectedPath = "$baseDir/cover-{$hash}.webp";
 			if (Storage::disk(self::PUBLIC_DISK)->exists($expectedPath)) return $expectedPath;
@@ -66,7 +69,7 @@ trait DownloadsSeedImages
 			$expectedThumb = "$baseDir/{$hash}-thumb.webp";
 			$expectedBanner = "$baseDir/{$hash}-banner.webp";
 			if (Storage::disk(self::PUBLIC_DISK)->exists($expectedThumb) && Storage::disk(self::PUBLIC_DISK)->exists($expectedBanner)) {
-				return ['thumb' => $expectedThumb, 'banner' => $expectedBanner];
+				return ['variants' => ['thumb' => $expectedThumb, 'banner' => $expectedBanner], 'meta' => []];
 			}
 		}
 

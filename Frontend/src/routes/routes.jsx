@@ -18,6 +18,7 @@ import AdminItems from "../pages/admin/AdminItems.jsx";
 import AdminProposals from "../pages/admin/AdminProposals.jsx";
 import AdminUserDetail from "../pages/admin/AdminUserDetail.jsx";
 import ExplorePage from "../pages/ExplorePage.jsx";
+import ItemDetailPage from "../pages/ItemDetailPage.jsx";
 
 // Rutas de la aplicación junto con el elemento de página que cargan.
 export const AppRoutes = () => {
@@ -31,19 +32,17 @@ export const AppRoutes = () => {
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/:categorySlug" element={<CategoryDetail />} />
         <Route path="/:categorySlug/explore" element={<ExplorePage />} />
+        <Route path="/:categorySlug/item/:itemId" element={<ItemDetailPage />} />
         <Route path="/forbidden" element={<div>Acceso Denegado</div>} />
 
-        {/* RUTAS PROTEGIDAS: Requieren Sesión */}
         <Route element={<RequireAuth />}>
           <Route path="/profile" element={<ProfilePage />} />
 
-          {/* RUTAS PROTEGIDAS + VERIFICADAS: Sesión + Email Verificado + No Baneado */}
           <Route element={<RequireVerified />}>
             <Route path="/my-proposals" element={<MyProposalsPage />} />
             <Route path="/:categorySlug/proposals/new" element={<NewProposalPage />} />
             <Route path="/:categorySlug/vote" element={<VotePage />} />
 
-            {/* RUTAS DE ADMINISTRACIÓN: Sesión + Verificado + Rol Admin */}
             <Route element={<RequireAdmin />}>
               <Route path="/admin" element={<AdminLayout />}>
                 <Route path="users" element={<AdminUsers />} />
@@ -53,7 +52,6 @@ export const AppRoutes = () => {
                 <Route path="proposals" element={<AdminProposals />} />
               </Route>
             </Route>
-
           </Route>
         </Route>
 

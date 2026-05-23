@@ -15,49 +15,48 @@ use Illuminate\Support\Facades\Storage;
 
 class ProcessUserAvatarJob implements ShouldQueue
 {
-	use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-	private const MAX_BYTES = 5_242_880;
-	private const TEMP_DISK = 'local';
-	private const TEMP_DIR = 'temp_uploads';
+    private const MAX_BYTES = 5_242_880;
+    private const TEMP_DISK = 'local';
+    private const TEMP_DIR = 'temp_uploads';
 
-	public function __construct(
-		public User $user,
-		public string $avatarInput,
-	) {}
+    public function __construct(
+        public User $user,
+        public string $avatarInput,
+    ) {}
 
-	public function handle(
-		RemoteImageDownloader $downloader,
-		MediaManager $mediaManager,
-		MediaStorageInterface $storage,
-	): void {
-		$user = $this->user->fresh(['profile']);
+   public function handle(
+   		RemoteImageDownloader $downloader,
+   		MediaManager $mediaManager,
+   		MediaStorageInterface $storage,
+   	): void {
+   		$user = $this->user->fresh(['profile']);
 
-		if (!$user) {
-			return;
-		}
+   		if (!$user) {
+   			return;
+   		}
 
-		$input = trim($this->avatarInput);
-		if ($input === '') {
-			return;
-		}
+   		$input = trim($this->avatarInput);
+   		if ($input === '') {
+   			return;
+   		}
 
-		$tempPath = $downloader->isRemoteUrl($input)
-			? $downloader->downloadToTemp($input, self::MAX_BYTES, self::TEMP_DISK, self::TEMP_DIR)
-			: $input;
+   		$tempPath = $downloader->isRemoteUrl($input)
+   			? $downloader->downloadToTemp($input, self::MAX_BYTES, self::TEMP_DISK, self::TEMP_DIR)
+   			: $input;
 
-		$absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);
+   		$absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);
+   		$avatarData = $mediaManager->processAvatar($absoluteTempPath, 'avatars/' . $user->id);
+   		$storedPath = $avatarData['path'];
 
-		// Delegamos en el manager
-		$storedPath = $mediaManager->processAvatar($absoluteTempPath, 'avatars/' . $user->id);
+   		$storage->delete(self::TEMP_DISK, $tempPath);
 
-		$storage->delete(self::TEMP_DISK, $tempPath);
+   		if ($user->profile) {
+   			$user->profile->update(['avatar' => $storedPath]);
+   			return;
+   		}
 
-		if ($user->profile) {
-			$user->profile->update(['avatar' => $storedPath]);
-			return;
-		}
-
-		$user->profile()->create(['avatar' => $storedPath]);
-	}
+   		$user->profile()->create(['avatar' => $storedPath]);
+   	}
 }

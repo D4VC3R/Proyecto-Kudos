@@ -5,7 +5,7 @@ import { useNextCategoryItem } from '../hooks/categories/useCategoryQueries';
 import { useCreateVote } from '../hooks/votes/useVoteMutations';
 import { VoteStars } from '../components/votes/VoteStars.jsx';
 import { CommentBox } from '../components/comments/CommentBox';
-import { ItemDetail } from '../components/items/ItemDetail';
+import { ItemImage } from '../components/items/ItemImage.jsx';
 import { VoteActions } from '../components/votes/VoteActions.jsx';
 import { EmptyVoteState } from "../components/votes/EmptyVoteState.jsx";
 import { AnimatePresence } from "framer-motion";
@@ -32,7 +32,6 @@ export const VotePage = () => {
     voteMutation.mutate({ item_id: item.id, type: 'skip', categorySlug });
   };
 
-  // Manejo del estado vacío cuando no hay carga activa
   if (!isLoading && !item) {
     return <EmptyVoteState category={categorySlug} />;
   }
@@ -52,7 +51,7 @@ export const VotePage = () => {
             <div className="shrink-0 mb-6 min-h-[350px] md:min-h-[380px] xl:min-h-[450px] flex justify-center">
               <AnimatePresence mode="wait">
                 <AnimatedItem key={item.id} itemKey={item.id}>
-                  <ItemDetail item={item} />
+                  <ItemImage item={item} />
                 </AnimatedItem>
               </AnimatePresence>
             </div>

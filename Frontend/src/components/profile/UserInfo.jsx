@@ -14,7 +14,8 @@ export const UserInfo = () => {
   const position = profile?.ranking_position;
   const totalKudos = user?.total_kudos ?? 0;
   const displayName = user?.name;
-  const displayAvatar = profile?.avatar;
+  const STORAGE_URL = "http://localhost:8095/storage/";
+  const displayAvatar = profile?.avatar ? `${STORAGE_URL}${profile.avatar}` : null;
 
   return (
     <Link 

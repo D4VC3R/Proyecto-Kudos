@@ -20,13 +20,13 @@ class ProposalDetailResource extends JsonResource
 			'id' => $proposal->id,
 			'name' => $proposal->name,
 			'description' => $proposal->description,
-			// OPTIMIZACIÓN: Enviamos todas las imágenes y variantes limpiando campos irrelevantes
 			'images' => collect($proposal->images ?? [])
 				->map(fn ($img) => [
 					'variants' => [
 						'thumb' => $img['variants']['thumb'] ?? null,
 						'banner' => $img['variants']['banner'] ?? null,
 					],
+					'meta' => $img['meta'] ?? null,
 					'alt' => $img['alt'] ?? null,
 					'order' => $img['order'] ?? 0,
 				])->toArray(),
