@@ -14,7 +14,7 @@ export const ProfileEditForm = ({ profile }) => {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      avatar: profile?.avatar || '',
+      avatar: '',
       biography: profile?.biography || '',
       city: profile?.city || '',
       birthdate: profile?.birthdate || '',

@@ -17,7 +17,7 @@ class CategorySeeder extends Seeder
                 'name' => 'Videojuegos',
                 'slug' => 'videojuegos',
                 'description' => 'La batalla definitiva por alzarse con el titulo de mejor videojuego de la historia ha comenzado, ¿Qué juego se alzará con la victoria?',
-                'image' => 'https://300mind.studio/blog/wp-content/uploads/2024/09/best-selling-games-of-all-times-1024x563.webp',
+                'image' => 'https://sm.ign.com/t/ign_pk/screenshot/default/top-10-heroes-without-title-image_snt9.1280.png',
             ],
             [
                 'name' => 'Álbumes Musicales',
@@ -53,7 +53,7 @@ class CategorySeeder extends Seeder
                 'name' => 'Ciudades',
                 'slug' => 'ciudades',
                 'description' => '¿Quieres descubrir grandes ciudades del mundo? ¿O prefieres valorar en las que has estado? Entra y vota por la ciudad más bonita, acogedora o simplemente, por la que más te guste.',
-                'image' => 'https://media.timeout.com/images/105905061/750/562/image.jpg',
+                'image' => 'https://cdn.prod.website-files.com/68b6fc9d9aa4ba6c211c5ada/693a9e6507a551b4d347b62d_68fb7e0a793ab75abbac156a_shutterstock_2468750491%2520(1).jpeg',
             ],
             [
                 'name' => 'Políticos',
