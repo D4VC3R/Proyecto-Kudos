@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
-import { NewProposalForm } from '../../components/proposals/NewProposalForm';
-import { NewProposalHeader } from '../../components/proposals/NewProposalHeader';
-import { NewProposalInfoBanner } from '../../components/proposals/NewProposalInfoBanner';
-import { useCategoryDetail } from '../../hooks/categories/useCategoryQueries';
-import {FadeUp} from "../../components/animations/FadeUp.jsx";
+import { NewProposalForm } from '../components/proposals/NewProposalForm.jsx';
+import { NewProposalHeader } from '../components/proposals/NewProposalHeader.jsx';
+import { NewProposalInfoBanner } from '../components/proposals/NewProposalInfoBanner.jsx';
+import { useCategoryDetail } from '../hooks/categories/useCategoryQueries.js';
+import {FadeUp} from "../components/animations/FadeUp.jsx";
 
 export const NewProposalPage = () => {
   const { categorySlug } = useParams();

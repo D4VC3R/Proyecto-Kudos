@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import {User as UserIcon} from 'lucide-react';
-import {useProfile} from '../../hooks/users/useUserQueries';
-import {ProfileOverview} from '../../components/profile/ProfileOverview.jsx';
-import {MyProposalsPage} from '../proposals/MyProposalsPage';
-import {MyVotesPage} from '../votes/MyVotesPage';
-import {ProfileStatistics} from '../../components/profile/ProfileStatistics';
-import {ProfileInfoFormSkeleton} from '../../components/profile/ProfileInfoFormSkeleton';
-import {SectionHeader} from "../../components/common/SectionHeader.jsx";
-import {ProfileTabs} from "../../components/profile/ProfileTabs.jsx";
-import {profileTabs} from "../../lib/constants.js";
-import {FeedbackState} from '../../components/common/FeedbackState';
+import {useProfile} from '../hooks/users/useUserQueries.js';
+import {ProfileOverview} from '../components/profile/ProfileOverview.jsx';
+import {MyProposalsPage} from './MyProposalsPage.jsx';
+import {MyVotesPage} from './MyVotesPage.jsx';
+import {ProfileStatistics} from '../components/profile/ProfileStatistics.jsx';
+import {ProfileInfoFormSkeleton} from '../components/profile/ProfileInfoFormSkeleton.jsx';
+import {SectionHeader} from "../components/common/SectionHeader.jsx";
+import {ProfileTabs} from "../components/profile/ProfileTabs.jsx";
+import {profileTabs} from "../lib/constants.js";
+import {FeedbackState} from '../components/common/FeedbackState.jsx';
 
 export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('info');

@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
-import { useInfiniteMyVotes } from '../../hooks/votes/useVoteQueries';
-import { useDeleteVote, useUpdateVote } from '../../hooks/votes/useVoteMutations';
-import { MyVotesHeader } from '../../components/votes/MyVotesHeader';
-import { MyVotesEmpty } from '../../components/votes/MyVotesEmpty';
-import { MyVoteItemCard } from '../../components/votes/MyVoteItemCard';
-import { MyVoteItemCardSkeleton } from '../../components/votes/MyVoteItemCardSkeleton';
-import { useInfiniteScroll } from '../../hooks/common/useInfiniteScroll.js';
-import { FadeUp } from "../../components/animations/FadeUp.jsx";
-import { useFilters } from '../../hooks/common/useFilters';
+import { useInfiniteMyVotes } from '../hooks/votes/useVoteQueries.js';
+import { useDeleteVote, useUpdateVote } from '../hooks/votes/useVoteMutations.js';
+import { MyVotesHeader } from '../components/votes/MyVotesHeader.jsx';
+import { MyVotesEmpty } from '../components/votes/MyVotesEmpty.jsx';
+import { MyVoteItemCard } from '../components/votes/MyVoteItemCard.jsx';
+import { MyVoteItemCardSkeleton } from '../components/votes/MyVoteItemCardSkeleton.jsx';
+import { useInfiniteScroll } from '../hooks/common/useInfiniteScroll.js';
+import { FadeUp } from "../components/animations/FadeUp.jsx";
+import { useFilters } from '../hooks/common/useFilters.js';
 
 export const MyVotesPage = () => {
 

@@ -9,7 +9,7 @@ import ActionMenu from "../components/common/ActionMenu.jsx";
 import {FeedbackState} from "../components/common/FeedbackState.jsx";
 import {Telescope} from 'lucide-react';
 
-const CategoryDetail = () => {
+const CategoryPage = () => {
   const {categorySlug} = useParams();
   const itemsPerPage = 16;
   const navigate = useNavigate();
@@ -112,4 +112,4 @@ const CategoryDetail = () => {
   );
 };
 
-export default CategoryDetail;
+export default CategoryPage;

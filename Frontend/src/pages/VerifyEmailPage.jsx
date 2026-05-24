@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Loader2, MailCheck, Mail, AlertCircle } from 'lucide-react';
-import { FeedbackState } from '../../components/common/FeedbackState';
-import { ScaleFadeIn } from "../../components/animations/ScaleFadeIn";
-import { useVerifyEmail } from '../../hooks/auth/useAuthQueries';
+import { FeedbackState } from '../components/common/FeedbackState.jsx';
+import { ScaleFadeIn } from "../components/animations/ScaleFadeIn.jsx";
+import { useVerifyEmail } from '../hooks/auth/useAuthQueries.js';
 
 const VerifyEmailPage = () => {
   const [searchParams] = useSearchParams();

@@ -3,14 +3,14 @@ import { RequireAuth } from './guards/RequireAuth.jsx';
 import { RequireVerified } from './guards/RequireVerified.jsx';
 import { RequireAdmin } from './guards/RequireAdmin.jsx';
 import HomePage from '../pages/HomePage.jsx';
-import ProfilePage from "../pages/profile/ProfilePage.jsx";
-import VerifyEmailPage from "../pages/auth/VerifyEmailPage.jsx";
+import ProfilePage from "../pages/ProfilePage.jsx";
+import VerifyEmailPage from "../pages/VerifyEmailPage.jsx";
 import VotePage from "../pages/VotePage.jsx";
-import CategoryDetail from "../pages/CategoryDetail.jsx";
+import CategoryPage from "../pages/CategoryPage.jsx";
 import RankingPage from "../pages/RankingPage.jsx";
-import NewProposalPage from "../pages/proposals/NewProposalPage.jsx";
-import MyProposalsPage from "../pages/proposals/MyProposalsPage.jsx";
-import AuthPage from "../pages/auth/AuthPage.jsx";
+import NewProposalPage from "../pages/NewProposalPage.jsx";
+import MyProposalsPage from "../pages/MyProposalsPage.jsx";
+import AuthPage from "../pages/AuthPage.jsx";
 import AdminLayout  from "../pages/admin/AdminLayout.jsx";
 import AdminUsers from "../pages/admin/AdminUsers.jsx";
 import AdminCategories from "../pages/admin/AdminCategories.jsx";
@@ -30,7 +30,7 @@ export const AppRoutes = () => {
         <Route path="/login" element={<AuthPage />} />
         <Route path="/register" element={<AuthPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
-        <Route path="/:categorySlug" element={<CategoryDetail />} />
+        <Route path="/:categorySlug" element={<CategoryPage />} />
         <Route path="/:categorySlug/explore" element={<ExplorePage />} />
         <Route path="/:categorySlug/item/:itemId" element={<ItemDetailPage />} />
         <Route path="/forbidden" element={<div>Acceso Denegado</div>} />

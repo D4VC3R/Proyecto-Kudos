@@ -42,13 +42,15 @@ export const Comment = ({ comment }) => {
       setIsEditing(false);
     }
   };
+  const STORAGE_URL = "http://localhost:8095/storage/";
+  const avatarUrl = user?.avatar ? `${STORAGE_URL}${user.avatar}` : null;
 
   return (
     <>
       <div className={`p-4 rounded-xl border flex gap-3 ${comment.is_hidden ? 'bg-slate-100 border-slate-200 opacity-60' : 'bg-slate-50 border-slate-100'}`}>
         <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-slate-200 text-slate-500 overflow-hidden">
-          {comment.user?.avatar ? (
-            <img src={comment.user.avatar} alt={comment.user.name} className="w-full h-full object-cover" />
+          {user?.avatar ? (
+            <img src={avatarUrl} alt={user.name} className="w-full h-full object-cover" />
           ) : (
             <UserCircle size={24} />
           )}

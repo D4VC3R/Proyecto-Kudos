@@ -1,11 +1,11 @@
 import React from 'react';
-import { useMyProposals } from '../../hooks/proposals/useProposalQueries';
-import { useDeleteProposal } from '../../hooks/proposals/useProposalMutations';
-import { MyProposalsHeader } from '../../components/proposals/MyProposalsHeader';
-import { MyProposalsEmpty } from '../../components/proposals/MyProposalsEmpty';
-import { MyProposalItemCard } from '../../components/proposals/MyProposalItemCard';
-import { MyProposalItemCardSkeleton } from '../../components/proposals/MyProposalItemCardSkeleton'; // <-- Importamos skeleton
-import { FadeUp } from "../../components/animations/FadeUp.jsx";
+import { useMyProposals } from '../hooks/proposals/useProposalQueries.js';
+import { useDeleteProposal } from '../hooks/proposals/useProposalMutations.js';
+import { MyProposalsHeader } from '../components/proposals/MyProposalsHeader.jsx';
+import { MyProposalsEmpty } from '../components/proposals/MyProposalsEmpty.jsx';
+import { MyProposalItemCard } from '../components/proposals/MyProposalItemCard.jsx';
+import { MyProposalItemCardSkeleton } from '../components/proposals/MyProposalItemCardSkeleton.jsx'; // <-- Importamos skeleton
+import { FadeUp } from "../components/animations/FadeUp.jsx";
 
 export const MyProposalsPage = () => {
   const { data: response, isLoading, isFetching } = useMyProposals();
