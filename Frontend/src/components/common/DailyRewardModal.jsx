@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { AnimatePresence, animate } from 'framer-motion';
 import { Modal } from './Modal';
 import { Button } from './Button';
-import { MysteryBox } from '../animations/MysteryBox.jsx';
-import { RewardReveal } from '/../animations/RewardReveal';
+import { MysteryBox } from './../animations/MysteryBox.jsx';
+import { RewardReveal } from './../animations/RewardReveal';
 
 export const DailyRewardModal = ({ isOpen, onClose, data }) => {
   const [isRevealed, setIsRevealed] = useState(false);

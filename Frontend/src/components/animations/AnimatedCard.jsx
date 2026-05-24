@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { cardTransitionVariants } from '../../lib/animations';
+import { scaleFadeVariants } from '../../lib/animations';
 
 export const AnimatedCard = ({ children, className = '', ...props }) => {
   return (
     <motion.div
       layout
-      variants={cardTransitionVariants}
+      variants={scaleFadeVariants}
       initial="initial"
       animate="animate"
       exit="exit"
