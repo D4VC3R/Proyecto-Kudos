@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
-use App\Services\KudosService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +12,9 @@ use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
-	public function __construct(protected KudosService $kudos)
-	{
-	}
-
 	/**
 	 * Handle an incoming authentication request.
-	 * La función es nativa de Breeze pero se ha adaptado para usar Bearer Tokens y recompensa por login
+	 * La función es nativa de Breeze pero se ha adaptado para usar Bearer Tokens
 	 */
 	public function store(LoginRequest $request): JsonResponse
 	{
@@ -63,7 +58,6 @@ class AuthenticatedSessionController extends Controller
 			);
 		}
 
-		$dailyLoginResult = $this->kudos->processDailyLogin($user);
 		$user->refresh();
 		$role = $user->hasRole('admin') ? 'admin' : 'user';
 		$token = $user->createToken('auth_token')->plainTextToken;
@@ -85,13 +79,7 @@ class AuthenticatedSessionController extends Controller
 					'role' => $role,
 					'is_admin' => $role === 'admin',
 				],
-			],
-			meta: [
-				'daily_login_awarded' => $dailyLoginResult['awarded'],
-				'daily_login_streak' => $dailyLoginResult['streak'],
-				'daily_login_kudos_awarded' => $dailyLoginResult['kudos_awarded'],
-				'daily_login_date' => $dailyLoginResult['date'],
-			],
+			]
 		);
 	}
 

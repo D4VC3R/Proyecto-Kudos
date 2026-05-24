@@ -54,6 +54,7 @@ class VoteController extends Controller
 
 		$isSkip = ($validated['type'] ?? Vote::TYPE_VOTE) === Vote::TYPE_SKIP;
 		$wasExisting = (bool) ($vote->getAttribute('was_existing') ?? false);
+		$kudosAwarded = (int) ($vote->getAttribute('kudos_awarded') ?? 0); 
 
 		return $this->respondMutation(
 			message: $wasExisting
@@ -62,6 +63,7 @@ class VoteController extends Controller
 			data: new VoteResource($vote),
 			meta: [
 				'total_kudos' => $user->total_kudos,
+				'kudos_awarded' => $kudosAwarded,
 				'vote_type' => $vote->type,
 				'was_existing' => $wasExisting,
 				'idempotent_hit' => $wasExisting,

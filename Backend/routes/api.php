@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemCommentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DailyRewardController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\UserRankingController;
 use App\Http\Controllers\VoteController;
@@ -41,6 +42,7 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
         Route::get('/statistics', [ProfileController::class, 'statistics']);
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
+        Route::post('/daily-claim', [DailyRewardController::class, 'claim']);
     });
 
     // Proposals de usuario

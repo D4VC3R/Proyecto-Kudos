@@ -18,6 +18,7 @@ class EmitVoteAction
 		$existingVote = Vote::where('user_id', $user->id)->where('item_id', $voteData['item_id'])->first();
 		if ($existingVote) {
 			$existingVote->setAttribute('was_existing', true);
+			$existingVote->setAttribute('kudos_awarded', 0); // No hay recompensa si ya existía
 			return $existingVote;
 		}
 
@@ -32,18 +33,23 @@ class EmitVoteAction
 				$raceVote = Vote::where('user_id', $user->id)->where('item_id', $voteData['item_id'])->first();
 				if ($raceVote) {
 					$raceVote->setAttribute('was_existing', true);
+					$raceVote->setAttribute('kudos_awarded', 0);
 					return $raceVote;
 				}
 				throw $e;
 			}
 
+			$kudosAwarded = 0;
+
 			if ($voteData['type'] === Vote::TYPE_VOTE) {
-				$this->kudosService->processFirstTimeVote($user, $voteData['item_id']);
+				$kudosAwarded = $this->kudosService->processFirstTimeVote($user, $voteData['item_id']);
 
 				$this->updateItemAverages($voteData['item_id'], (int) $voteData['score']);
 			}
 
 			$vote->setAttribute('was_existing', false);
+			$vote->setAttribute('kudos_awarded', $kudosAwarded);
+
 			return $vote;
 		});
 	}

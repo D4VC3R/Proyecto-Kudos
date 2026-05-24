@@ -8,6 +8,7 @@ use App\Models\Proposal;
 use App\Models\KudosTransaction;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class KudosService
 {
@@ -29,38 +30,61 @@ class KudosService
 			$newStreak = $this->computeStreak($lockedUser->login_streak_count, $previousDate, $today);
 
 			$lockedUser->login_streak_count = $newStreak;
+
+			$isNewRecord = false;
 			if ($newStreak > $lockedUser->max_login_streak_count) {
 				$lockedUser->max_login_streak_count = $newStreak;
+				$isNewRecord = true;
 			}
+
 			$lockedUser->last_login_streak_date = $todayYmd;
 			$lockedUser->save();
 
-			$kudosAmount = $this->getDailyLoginReward($newStreak);
+			$rewardData = $this->getDailyLoginReward($newStreak);
+			$kudosAmount = $rewardData['amount'];
+
 			$reason = config('kudos.reasons.daily_login_streak');
 			$actionKey = $this->buildActionKey($reason, $lockedUser->id, $todayYmd);
 
 			$awarded = $this->awardIfFirst(
-				user: $lockedUser, amount: $kudosAmount, reason: $reason,
-				actionKey: $actionKey, referenceType: User::class, referenceId: $lockedUser->id
+				user: $lockedUser,
+				amount: $kudosAmount,
+				reason: $reason,
+				actionKey: $actionKey,
+				referenceType: User::class,
+				referenceId: $lockedUser->id
 			);
 
 			return [
-				'awarded' => $awarded, 'streak' => $newStreak,
-				'kudos_awarded' => $awarded ? $kudosAmount : 0, 'date' => $todayYmd,
+				'awarded'       => $awarded,
+				'streak'        => $newStreak,
+				'kudos_awarded' => $awarded ? $kudosAmount : 0,
+				'base_kudos'    => $rewardData['base'],
+				'multiplier'    => $rewardData['multiplier'],
+				'server_date'   => $todayYmd,
+				'is_new_record' => $isNewRecord,
+				'is_critical'   => $rewardData['is_critical'],
 			];
 		});
 	}
 
 	/**
 	 * Recompensa cuando un usuario vota por primera vez un ítem.
+	 * Incorpora Anti-Farming: Rendimientos decrecientes y Hard Cap.
 	 */
-	public function processFirstTimeVote(User $user, string $itemId): bool
+	public function processFirstTimeVote(User $user, string $itemId): int
 	{
+		$amount = $this->calculateVoteReward($user);
+
+		if ($amount <= 0) {
+			return 0; // Límite alcanzado
+		}
 		$reason = config('kudos.reasons.vote_first_time_item');
-		$amount = config('kudos.rewards.vote_first_time_item');
 		$actionKey = $this->buildActionKey($reason, $user->id, $itemId);
 
-		return $this->awardIfFirst($user, $amount, $reason, $actionKey, Item::class, $itemId);
+		$awarded = $this->awardIfFirst($user, $amount, $reason, $actionKey, Item::class, $itemId);
+
+		return $awarded ? $amount : 0;
 	}
 
 	/**
@@ -82,7 +106,6 @@ class KudosService
 	private function awardIfFirst(User $user, int $amount, string $reason, string $actionKey, string $referenceType, string $referenceId): bool
 	{
 		return DB::transaction(function () use ($user, $amount, $reason, $actionKey, $referenceType, $referenceId) {
-			// Uso de la lógica centralizada en el modelo (eliminando repositorio)
 			$inserted = KudosTransaction::insertIfNotExists(
 				$user->id, $amount, $reason, $actionKey, $referenceType, $referenceId
 			);
@@ -105,12 +128,57 @@ class KudosService
 		return 1;
 	}
 
-	private function getDailyLoginReward(int $streakCount): int
+	/**
+	 * Calcula la recompensa de Kudos por inicio de sesión diario basándose en la racha actual.
+	 * Incorpora un sistema de bonificación aleatoria (Critical Hit) para hacer la experiencia más emocionante.
+	 */
+	private function getDailyLoginReward(int $streak): array
 	{
-		$cap = (int)config('kudos.rules.daily_login_streak_cap', 5);
-		$boundedStreak = max(1, min($streakCount, $cap));
-		$matrix = (array)config('kudos.rewards.daily_login_streak', []);
-		return (int)($matrix[$boundedStreak] ?? 0);
+		$cap = config('kudos.rules.daily_login_streak_cap', 5);
+		$effectiveStreak = min($streak, $cap);
+		$config = config("kudos.rewards.daily_login_streak.{$effectiveStreak}");
+		$base = $config['base'];
+		$reward = $base;
+		$multiplier = 1;
+		$isCritical = false;
+
+		if (random_int(1, 100) <= $config['bonus_chance']) {
+			$multiplier = $config['bonus_multiplier'];
+			$reward = $base * $multiplier;
+			$isCritical = true;
+		}
+
+		return [
+			'amount' => $reward,
+			'base' => $base,
+			'multiplier' => $multiplier,
+			'is_critical' => $isCritical
+		];
+	}
+
+	/**
+	 * Calcula la cantidad de Kudos por voto basándose en el historial de actividad diaria (Redis).
+	 */
+	private function calculateVoteReward(User $user): int
+	{
+		$cacheKey = "user:{$user->id}:votes_today";
+		$votesToday = Cache::increment($cacheKey);
+
+		if ($votesToday === 1) {
+			Cache::expireAt($cacheKey, now()->endOfDay());
+		}
+
+		$config = config('kudos.voting');
+
+		if ($votesToday > $config['daily_cap']) {
+			return 0; // Limite
+		}
+
+		if ($votesToday > $config['diminishing_returns']['threshold']) {
+			return $config['diminishing_returns']['new_reward']; // Rendimiento Decreciente
+		}
+
+		return $config['reward']; // Recompensa base normal
 	}
 
 	private function buildActionKey(string ...$identifiers): string

@@ -148,3 +148,48 @@ export const modalPanelVariants = {
     },
     exit: { opacity: 0, scale: 0.95, y: 10 }
 };
+export const gamifiedEntryVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: { type: 'spring', stiffness: 300, damping: 20 }
+    },
+    exit: {
+        opacity: 0,
+        scale: 0,
+        rotate: -15,
+        transition: { duration: 0.2 }
+    }
+};
+
+export const floatingLoopVariants = {
+    animate: {
+        y: [0, -10, 0],
+        transition: { repeat: Infinity, duration: 2, ease: 'easeInOut' }
+    }
+};
+
+export const pulseLoopVariants = {
+    animate: {
+        scale: [1, 1.2, 1],
+        opacity: [0.5, 1, 0.5],
+        transition: { repeat: Infinity, duration: 1.5 }
+    }
+};
+
+export const rewardRevealVariants = {
+    hidden: { opacity: 0, scale: 0.5, y: 20 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 400,
+            damping: 15,
+            delayChildren: 0.1,
+            staggerChildren: 0.15
+        }
+    }
+};
