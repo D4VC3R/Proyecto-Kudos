@@ -3,13 +3,15 @@
 namespace App\Services\Media;
 
 use App\Contracts\Media\ImageProcessorInterface;
+use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use RuntimeException;
+use Throwable;
 
 class InterventionImageProcessor implements ImageProcessorInterface
 {
 	public function __construct(
-		private readonly ImageManager $imageManager = new ImageManager(new \Intervention\Image\Drivers\Gd\Driver())
+		private readonly ImageManager $imageManager = new ImageManager(new Driver())
 	) {}
 
 	public function convertToWebp(string $sourcePath, int $quality = 80, ?int $width = null, ?int $height = null, bool $cropToSquare = false): array
@@ -52,7 +54,7 @@ class InterventionImageProcessor implements ImageProcessorInterface
 			}
 
 			$image->toWebp($quality)->save($targetPath);
-		} catch (\Throwable $exception) {
+		} catch (Throwable $exception) {
 			throw new RuntimeException('Fallo la conversion de imagen a WebP.', 0, $exception);
 		}
 

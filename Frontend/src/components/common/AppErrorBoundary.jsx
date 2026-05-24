@@ -11,7 +11,7 @@ export class AppErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error) {
-    // Error boundary de ultimo recurso para evitar pantalla en blanco total.
+    // Para debug. TODO: Eliminar en despliegue.
     console.error('AppErrorBoundary capturo un error:', error);
   }
 

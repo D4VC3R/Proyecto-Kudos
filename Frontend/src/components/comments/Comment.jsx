@@ -5,7 +5,7 @@ import { useSessionStore } from '../../store/useSessionStore';
 import { useAdminHideComment, useAdminUnhideComment } from '../../hooks/admin/useAdminCommentMutations';
 import { Modal } from '../common/Modal';
 import { useDeleteComment, useUpdateComment } from '../../hooks/comments/useCommentMutations';
-import { useModal } from '../../hooks/useModal';
+import { useModal } from '../../hooks/common/useModal.js';
 import {CommentHideBody} from "./CommentHideBody.jsx";
 import {CommentDeleteBody} from "./CommentDeleteBody.jsx";
 import {ModalButtons} from "../common/ModalButtons.jsx";

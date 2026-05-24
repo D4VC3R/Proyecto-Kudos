@@ -3,7 +3,7 @@ import { Star, Trash2,  Clock,  XCircle } from 'lucide-react';
 import { Modal } from '../common/Modal';
 import { ModalButtons } from '../common/ModalButtons';
 import { formatDate } from '../../lib/formatters';
-import { useModal } from '../../hooks/useModal';
+import { useModal } from '../../hooks/common/useModal.js';
 import { Button } from '../common/Button';
 
 export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {

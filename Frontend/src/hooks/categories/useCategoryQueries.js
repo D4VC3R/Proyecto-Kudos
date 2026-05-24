@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
+import {useQuery, useInfiniteQuery, keepPreviousData} from '@tanstack/react-query';
 import axiosClient from '../../lib/axiosClient';
 /*
 * Hook personalizado para consumir los datos relativos a las categorías.
@@ -25,12 +25,12 @@ export const useCategories = () => {
   });
 };
 
-// Hook para recuperar los datos del ranking de 10 en 10, pasándo automaticamente a la siguiente página mientras queden registros.
+// Hook para recuperar los datos del ranking de 10 en 10, pasándo automáticamente a la siguiente página mientras queden registros.
 export const useInfiniteCategoryRanking = (categorySlug, perPage = 10) => {
   return useInfiniteQuery({
     queryKey: CATEGORIES_KEYS.infiniteRanking(categorySlug),
-    queryFn: ({ pageParam }) =>
-      axiosClient.get(`/categories/${categorySlug}/ranking`, { params: { page: pageParam, per_page: perPage } }),
+    queryFn: ({pageParam}) =>
+      axiosClient.get(`/categories/${categorySlug}/ranking`, {params: {page: pageParam, per_page: perPage}}),
     initialPageParam: 1, // Empezando por la 1, va recuperando las siguientes páginas automáticamente con getNextPageParam.
     getNextPageParam: (lastPage) => {
       if (!lastPage.meta) return undefined;
@@ -48,7 +48,7 @@ export const useNextCategoryItem = (categorySlug) => {
   return useQuery({
     queryKey: CATEGORIES_KEYS.nextItem(categorySlug),
     queryFn: () => axiosClient.get(`/categories/${categorySlug}/next-item`),
-    select: (response) => response ? { data: response.data, meta: response.meta } : null,
+    select: (response) => response ? {data: response.data, meta: response.meta} : null,
     enabled: !!categorySlug,
   });
 };

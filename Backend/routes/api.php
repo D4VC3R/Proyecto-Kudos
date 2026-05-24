@@ -11,7 +11,11 @@ use App\Http\Controllers\UserRankingController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
-// Públicas
+/**
+ * ----------------
+ * RUTAS PÚBLICAS
+ * ----------------
+ */
 Route::prefix('categories')->group(function () {
     Route::get('/', [CategoryController::class, 'index']);
     Route::get('/{category}', [CategoryController::class, 'show']);
@@ -23,7 +27,12 @@ Route::get('/items/{item}', [ItemController::class, 'show']);
 Route::get('/items/{item}/comments', [ItemCommentController::class, 'index']);
 Route::get('/users/ranking', [UserRankingController::class, 'index']);
 
-// Autenticadas
+/**
+ * -------------------------------------------
+ * RUTAS AUTENTICADAS (Usuarios verificados)
+ * -------------------------------------------
+ * Requieren token válido, email confirmado y que el usuario no esté baneado.
+ */
 Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function () {
     Route::get('/categories/{category}/next-item', [CategoryController::class, 'nextItem']);
 
@@ -60,7 +69,12 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
     });
 });
 
-// Admin
+/**
+ * -----------------------------------------------
+ * RUTAS DE ADMINISTRACIÓN (Panel de Control)
+ * -----------------------------------------------
+ * Protegidas por el middleware 'admin' que verifica el rol del usuario.
+ */
 Route::middleware(['auth:sanctum', 'verified', 'not_banned', 'admin'])->group(function () {
     Route::prefix('categories')->group(function () {
         Route::post('/', [CategoryController::class, 'store']);

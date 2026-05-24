@@ -48,6 +48,7 @@ class Item extends Model
 	{
 		return $query
 			->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
+			->when(!empty($filters['category_slug']), fn($q) => $q->whereHas('category', fn($qCat) => $qCat->where('slug', $filters['category_slug'])))
 			->when(!empty($filters['search']), fn($q) => $q->where('name', 'ilike', "%{$filters['search']}%"))
 			->when(!empty($filters['exclude_voted_by']), fn($q) => $q->whereDoesntHave('votes', fn($v) => $v->where('user_id', $filters['exclude_voted_by'])));
 	}
@@ -55,10 +56,10 @@ class Item extends Model
 	public function scopeApplySorting($query, string $sortBy = 'vote_avg', string $sortOrder = 'desc')
 	{
 		return match ($sortBy) {
-			'recent' => $query->orderBy('created_at', $sortOrder),
-			'name' => $query->orderBy('name', $sortOrder),
+			'recent' => $query->orderBy('created_at', $sortOrder)->orderBy('id', 'desc'),
+			'name' => $query->orderBy('name', $sortOrder)->orderBy('id', 'asc'),
 			'random' => $query->inRandomOrder(),
-			default => $query->orderBy('vote_avg', $sortOrder)->orderBy('vote_count', $sortOrder),
+			default => $query->orderBy('vote_avg', $sortOrder)->orderBy('vote_count', $sortOrder)->orderBy('id', 'desc'),
 		};
 	}
 

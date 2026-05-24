@@ -11,7 +11,7 @@ import RankingPage from "../pages/RankingPage.jsx";
 import NewProposalPage from "../pages/proposals/NewProposalPage.jsx";
 import MyProposalsPage from "../pages/proposals/MyProposalsPage.jsx";
 import AuthPage from "../pages/auth/AuthPage.jsx";
-import { AdminLayout } from "../pages/admin/AdminLayout.jsx";
+import AdminLayout  from "../pages/admin/AdminLayout.jsx";
 import AdminUsers from "../pages/admin/AdminUsers.jsx";
 import AdminCategories from "../pages/admin/AdminCategories.jsx";
 import AdminItems from "../pages/admin/AdminItems.jsx";

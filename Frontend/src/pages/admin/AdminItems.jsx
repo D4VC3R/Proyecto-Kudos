@@ -1,80 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useAdminItems } from '../../hooks/admin/useAdminItemQueries';
-import { useAdminModerateItem, useAdminDeleteItem } from '../../hooks/admin/useAdminItemMutations';
+import { useCategories } from '../../hooks/categories/useCategoryQueries';
+import { useFilters } from '../../hooks/common/useFilters';
+import { useAdminItemActions } from '../../hooks/admin/useAdminItemActions';
 import { SectionHeader } from '../../components/common/SectionHeader';
 import { FeedbackState } from '../../components/common/FeedbackState';
 import { Modal } from '../../components/common/Modal';
 import { Pagination } from '../../components/common/Pagination';
-import { Target, ShieldAlert, LayoutGrid } from 'lucide-react';
-import { AnimatePresence } from 'framer-motion';
-import { useCategories } from '../../hooks/categories/useCategoryQueries';
 import { AdminItemCard } from "../../components/admin/AdminItemCard.jsx";
 import { ModalButtons } from "../../components/common/ModalButtons.jsx";
 import { AdminItemModerateBody } from "../../components/admin/AdminItemModerateBody.jsx";
 import { AdminItemDeleteBody } from "../../components/admin/AdminItemDeleteBody.jsx";
 import { SearchFilter } from "../../components/common/SearchFilter.jsx";
 import { SelectFilter } from "../../components/common/SelectFilter.jsx";
-import { useModal } from '../../hooks/useModal';
+import { Target, ShieldAlert, LayoutGrid } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 
 const AdminItems = () => {
-  const [page, setPage] = useState(1);
-
-  // 1. Separamos el input visual del valor que dispara la petición (Debounce)
-  const [searchInput, setSearchInput] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-
-  const [filterStatus, setFilterStatus] = useState('');
-  const [filterCategory, setFilterCategory] = useState('');
-
-  const { isOpen, modalType: actionType, modalData: selectedItem, openModal, closeModal } = useModal();
-  const [modStatus, setModStatus] = useState('active');
-  const [modReason, setModReason] = useState('');
+  const { page, setPage, searchInput, debouncedSearch, handleSearchChange, filters, handleFilterChange } =
+    useFilters({ initialFilters: { status: '', category_id: '' } });
 
   const { data: categoriesData } = useCategories();
-
-  // 2. Efecto para el Debounce: Espera 400ms antes de actualizar el estado de búsqueda
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchInput);
-      setPage(1); // Reseteamos la página a 1 cuando la búsqueda finaliza
-    }, 400);
-
-    return () => clearTimeout(timer); // Cleanup si el usuario sigue tecleando
-  }, [searchInput]);
-
-  // 3. El hook consume el valor debounced, no el input directo
   const { data: itemsResponse, isLoading, isError } = useAdminItems({
     page,
     search: debouncedSearch,
-    status: filterStatus,
-    category_id: filterCategory,
+    status: filters.status,
+    category_id: filters.category_id,
     per_page: 9
   });
 
-  const { mutate: moderateItem, isPending: isModerating } = useAdminModerateItem();
-  const { mutate: deleteItem, isPending: isDeleting } = useAdminDeleteItem();
-
-  // 4. El handler ahora solo actualiza el input visual
-  const handleSearch = (e) => {
-    setSearchInput(e.target.value);
-  };
-
-  const handleOpenAction = (item, type) => {
-    openModal(type, item);
-    if (type === 'moderate') {
-      setModStatus(item.status);
-      setModReason('');
-    }
-  };
-
-  const executeAction = () => {
-    if (!selectedItem) return;
-    if (actionType === 'moderate') {
-      moderateItem({ id: selectedItem.id, status: modStatus, reason: modReason }, { onSuccess: closeModal });
-    } else if (actionType === 'delete') {
-      deleteItem(selectedItem.id, { onSuccess: closeModal });
-    }
-  };
+  const {
+    isOpen, actionType, selectedItem, closeModal, handleOpenAction, executeAction, isPending,
+    modStatus, setModStatus, modReason, setModReason
+  } = useAdminItemActions();
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
@@ -82,27 +40,24 @@ const AdminItems = () => {
         <div className="flex gap-2 flex-wrap">
           <SelectFilter
             icon={LayoutGrid}
-            value={filterCategory}
-            onChange={(e) => { setFilterCategory(e.target.value); setPage(1); }}
+            value={filters.category_id}
+            onChange={(e) => handleFilterChange('category_id', e.target.value)}
             defaultOption="Todas las Categorías"
             options={categoriesData?.map(cat => ({ value: cat.id, label: cat.name })) || []}
           />
           <SelectFilter
-            value={filterStatus}
-            onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}
+            value={filters.status}
+            onChange={(e) => handleFilterChange('status', e.target.value)}
             defaultOption="Todos los Estados"
             options={[
               { value: 'active', label: 'Activos' },
               { value: 'inactive', label: 'Inactivos' }
             ]}
           />
-          <SearchFilter
-            value={searchInput}
-            onChange={handleSearch}
-            placeholder="Buscar ítem..."
-          />
+          <SearchFilter value={searchInput} onChange={handleSearchChange} placeholder="Buscar ítem..." />
         </div>
       </SectionHeader>
+
       {isLoading ? (
         <FeedbackState icon={Target} isLoading title="Cargando ítems..." />
       ) : isError ? (
@@ -131,7 +86,15 @@ const AdminItems = () => {
         isOpen={isOpen}
         onClose={closeModal}
         title={actionType === 'moderate' ? 'Moderar ítem' : 'Eliminar ítem'}
-        footer={<ModalButtons onClose={closeModal} onConfirm={executeAction} isPending={isModerating || isDeleting} confirmText="Confirmar Acción" actionStyle={actionType === 'delete' ? 'danger' : 'info'} />}
+        footer={
+          <ModalButtons
+            onClose={closeModal}
+            onConfirm={executeAction}
+            isPending={isPending}
+            confirmText="Confirmar Acción"
+            actionStyle={actionType === 'delete' ? 'danger' : 'info'}
+          />
+        }
       >
         <div className="flex flex-col gap-4">
           {actionType === 'delete' ? (

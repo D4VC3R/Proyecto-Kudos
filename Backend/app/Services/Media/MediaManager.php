@@ -13,7 +13,7 @@ class MediaManager
 	) {}
 
 	/**
-	 * Procesa imagenes de Items/Propuestas (Genera Thumb y Banner)
+	 * Procesa imágenes de Items/Propuestas (Genera Thumb y Banner)
 	 * @return array<string, mixed> ['variants' => ['thumb' => '...', 'banner' => '...'], 'meta' => [...]]
 	 */
 	public function processItemVariants(string $absoluteTempPath, string $targetDirectory, ?string $filename = null): array
@@ -43,7 +43,7 @@ class MediaManager
 	}
 
 	/**
-	 * Procesa imagenes de Avatares (Un solo tamaño, cuadrado)
+	 * Procesa imágenes de Avatares (Un solo tamaño, cuadrado)
 	 * @return array<string, mixed> ['path' => '...', 'meta' => [...]]
 	 */
 	public function processAvatar(string $absoluteTempPath, string $targetDirectory, ?string $filename = null): array

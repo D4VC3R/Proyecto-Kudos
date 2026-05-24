@@ -1,8 +1,8 @@
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { SectionHeader } from '../../components/common/SectionHeader.jsx';
-import { AdminNav } from '../../components/admin/AdminNav.jsx'; // <-- Nuevo import
+import { AdminNav } from '../../components/admin/AdminNav.jsx';
 
-export const AdminLayout = () => {
+const AdminLayout = () => {
   const location = useLocation();
 
   if (location.pathname === '/admin' || location.pathname === '/admin/') {
@@ -31,3 +31,5 @@ export const AdminLayout = () => {
     </div>
   );
 };
+
+export default AdminLayout;

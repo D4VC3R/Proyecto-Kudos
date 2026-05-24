@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
 			if ($status === 429) {
 				return $this->respondError(
 					code: 'too_many_requests',
-					message: 'Demasiados intentos de inicio de sesion. Intentalo nuevamente en unos segundos.',
+					message: 'Demasiados intentos de inicio de sesión. Intentalo nuevamente en unos segundos.',
 					status: 429,
 				);
 			}
@@ -54,7 +54,7 @@ class AuthenticatedSessionController extends Controller
 		if ($user->isCurrentlyBanned()) {
 			return $this->respondError(
 				code: 'forbidden',
-				message: 'Tu cuenta esta suspendida y no puede iniciar sesion.',
+				message: 'Tu cuenta esta suspendida y no puede iniciar sesión.',
 				details: [
 					'banned_until' => $user->banned_until?->toIso8601String(),
 					'ban_reason' => $user->ban_reason,

@@ -16,14 +16,21 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * Controlador para gestionar categorías.
+ * Proporciona endpoints para listar, crear, mostrar detalles, actualizar y eliminar categorías,
+ * así como obtener el ranking de ítems por categoría y el siguiente ítem a votar.
+ */
 class CategoryController extends Controller
 {
+
     public function __construct(
         protected NextCategoryItemService $nextCategoryItemService,
     ) {}
 
     public function index(): JsonResponse
     {
+    // Usamos withItemCount() a nivel de BD para evitar el problema N+1 al iterar sobre las categorías.
         $categories = Category::withItemCount()->orderBy('name')->get();
         return $this->respondData(CategoryResource::collection($categories));
     }
@@ -36,6 +43,7 @@ class CategoryController extends Controller
 
     public function show(Category $category): JsonResponse
     {
+
         $category->loadCount('items');
         return $this->respondData(new CategoryWithItemsResource($category));
     }
@@ -62,6 +70,7 @@ class CategoryController extends Controller
         return $this->respondMutation("Categoría '{$categoryName}' eliminada correctamente.");
     }
 
+		// El ranking se obtiene a través de una consulta optimizada en el modelo Category, que calcula el puntaje total de cada ítem y los ordena.
     public function ranking(Request $request, Category $category): JsonResponse
     {
         $perPage = (int) $request->query('per_page', 10);
@@ -78,6 +87,7 @@ class CategoryController extends Controller
         ]);
     }
 
+		// El siguiente ítem se obtiene a través de un servicio que selecciona el ítem más adecuado para el usuario, teniendo en cuenta su historial de votos y el estado de los ítems en la categoría.
     public function nextItem(GetNextCategoryItemRequest $request, Category $category): JsonResponse|Response
     {
         $result = $this->nextCategoryItemService->getNextItem($request->user(), $category);

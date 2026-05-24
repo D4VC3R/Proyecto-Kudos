@@ -59,7 +59,7 @@ class RemoteImageDownloader
             if ($bytes > $maxBytes) {
                 fclose($handle);
                 @unlink($absolutePath);
-                throw new RuntimeException('La imagen remota supera el maximo permitido.');
+                throw new RuntimeException('La imagen remota supera el máximo permitido.');
             }
 
             fwrite($handle, $chunk);
@@ -91,7 +91,7 @@ class RemoteImageDownloader
 
         $contentLength = (int) ($headers['Content-Length'][0] ?? 0);
         if ($contentLength > 0 && $contentLength > $maxBytes) {
-            throw new RuntimeException('El recurso remoto supera el maximo permitido.');
+            throw new RuntimeException('El recurso remoto supera el máximo permitido.');
         }
     }
 

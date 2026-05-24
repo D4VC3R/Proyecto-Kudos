@@ -33,7 +33,7 @@ class LaravelMediaStorage implements MediaStorageInterface
         ?string $visibility = null,
     ): string {
         if (!is_file($sourcePath)) {
-            throw new RuntimeException('No se encontro el archivo fuente para almacenamiento.');
+            throw new RuntimeException('No se encontró el archivo fuente para almacenamiento.');
         }
 
         $directory = trim((string) dirname($path), '.');
@@ -64,7 +64,7 @@ class LaravelMediaStorage implements MediaStorageInterface
         }
 
         if (!Storage::disk($fromDisk)->exists($fromPath)) {
-            throw new RuntimeException('No se encontro el archivo fuente para mover.');
+            throw new RuntimeException('No se encontró el archivo fuente para mover.');
         }
 
         $stream = Storage::disk($fromDisk)->readStream($fromPath);

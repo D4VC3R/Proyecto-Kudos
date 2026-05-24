@@ -30,7 +30,7 @@ class ProposalSeeder extends Seeder
 		}
 
 		if ($users->isEmpty() || $categories->isEmpty()) {
-			$this->command?->error('No hay usuarios o categorias suficientes para crear propuestas.');
+			$this->command?->error('No hay usuarios o categorías suficientes para crear propuestas.');
 			return;
 		}
 
@@ -83,8 +83,8 @@ class ProposalSeeder extends Seeder
 	private function adminNotesForStatus(string $status): ?string
 	{
 		return match ($status) {
-			Proposal::STATUS_REJECTED => 'La propuesta no cumple los criterios de moderacion.',
-			Proposal::STATUS_CHANGES_REQUESTED => 'Ajusta la descripcion y mejora la calidad de las imagenes.',
+			Proposal::STATUS_REJECTED => 'La propuesta no cumple los criterios de moderación.',
+			Proposal::STATUS_CHANGES_REQUESTED => 'Ajusta la descripción y mejora la calidad de las imágenes.',
 			default => null,
 		};
 	}

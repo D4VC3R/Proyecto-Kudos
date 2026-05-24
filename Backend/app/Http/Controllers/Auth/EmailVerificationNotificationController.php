@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class EmailVerificationNotificationController extends Controller
 {
     /**
-     * Mandar notificacion de email verificado.
+     * Mandar notificación de email verificado.
      */
     public function store(Request $request): JsonResponse
     {

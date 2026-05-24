@@ -17,7 +17,7 @@ class NewPasswordController extends Controller
     /**
      * Petición de nueva contraseña.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
     {

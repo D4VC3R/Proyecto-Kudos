@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Proposal>
+ * @extends Factory<Proposal>
  */
 class ProposalFactory extends Factory
 {
@@ -60,7 +60,7 @@ class ProposalFactory extends Factory
                 'status' => Proposal::STATUS_CHANGES_REQUESTED,
                 'reviewed_by' => $admin?->id,
                 'reviewed_at' => now(),
-                'admin_notes' => 'Necesita mas detalle y una descripcion mas completa.',
+                'admin_notes' => 'Necesita más detalle y una descripción más completa.',
             ];
         });
     }

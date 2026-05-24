@@ -6,6 +6,7 @@ use App\Services\Media\MediaManager;
 use App\Services\Media\RemoteImageDownloader;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 trait DownloadsSeedImages
 {
@@ -88,7 +89,7 @@ protected function downloadAndStoreImage(string $url, string $categorySlug, stri
 			Storage::disk(self::TEMP_DISK)->delete($tempPath);
 
 			return $storedData;
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			Log::warning("Error en seeder: No se pudo descargar o procesar la imagen {$url}. Error: {$e->getMessage()}");
 			if (app()->runningInConsole()) dump("Aviso: Falló la descarga de {$url}");
 			return null;

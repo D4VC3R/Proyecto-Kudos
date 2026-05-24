@@ -44,15 +44,12 @@ const ItemDetailPage = () => {
   return (
     <div className="flex flex-col gap-8 w-full max-w-4xl mx-auto animate-fade-in relative">
 
-
       <div className="w-full">
         <BackButton />
       </div>
 
-
       <div className="w-full bg-white rounded-3xl shadow-xl ring-1 ring-slate-200 overflow-hidden">
         <ItemImage item={item} showTitle={false} />
-
 
         <div className="p-6 md:p-10 flex flex-col gap-6">
           <div className="flex flex-col gap-2">
@@ -94,7 +91,6 @@ const ItemDetailPage = () => {
       <div className="w-full bg-white rounded-3xl p-6 md:p-10 shadow-xl ring-1 ring-slate-200">
         <CommentBox itemId={item.id} />
       </div>
-
     </div>
   );
 }

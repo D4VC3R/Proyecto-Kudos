@@ -32,7 +32,7 @@ class FileOrUrlRule implements ValidationRule
         }
 
         if ($file->getSize() > self::MAX_BYTES) {
-            $fail('La imagen supera el tamano maximo permitido.');
+            $fail('La imagen supera el tamaño máximo permitido.');
             return;
         }
 

@@ -9,6 +9,7 @@ use Database\Seeders\Concerns\DownloadsSeedImages;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
+use RuntimeException;
 
 class ItemSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class ItemSeeder extends Seeder
 			?? User::query()->orderBy('created_at')->first();
 
 		if (!$creator instanceof User) {
-			throw new \RuntimeException('No hay usuarios disponibles para creator_id.');
+			throw new RuntimeException('No hay usuarios disponibles para creator_id.');
 		}
 
 		$this->seedCategoryFromSnapshot('videojuegos', base_path('database/seed-data/videojuegos/rawg_videojuegos_es.json'), $creator, 'videojuegos');
@@ -37,24 +38,24 @@ class ItemSeeder extends Seeder
 	private function seedCategoryFromSnapshot(string $categorySlug, string $snapshotPath, User $creator, string $label): void
 	{
 		if (!is_file($snapshotPath)) {
-			throw new \RuntimeException(
+			throw new RuntimeException(
 				'No existe snapshot local de ' . $label . ' para seeding: ' . $snapshotPath
 			);
 		}
 
 		$category = Category::query()->where('slug', $categorySlug)->first();
 		if (!$category instanceof Category) {
-			throw new \RuntimeException('No existe la categoria ' . $categorySlug . ' en la base de datos.');
+			throw new RuntimeException('No existe la categoria ' . $categorySlug . ' en la base de datos.');
 		}
 
 		$payload = json_decode((string)File::get($snapshotPath), true);
 		if (!is_array($payload)) {
-			throw new \RuntimeException('El snapshot no contiene un JSON valido: ' . $snapshotPath);
+			throw new RuntimeException('El snapshot no contiene un JSON valido: ' . $snapshotPath);
 		}
 
 		$rows = $payload['items'] ?? [];
 		if (!is_array($rows)) {
-			throw new \RuntimeException('El snapshot no contiene un array en items: ' . $snapshotPath);
+			throw new RuntimeException('El snapshot no contiene un array en items: ' . $snapshotPath);
 		}
 
 		$created = 0;

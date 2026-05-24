@@ -24,6 +24,7 @@ class ItemController extends Controller
 
 		$filters = [
 			'category_id' => $validated['category_id'] ?? null,
+			'category_slug' => $validated['category_slug'] ?? null,
 			'search' => $validated['search'] ?? null,
 			'exclude_voted_by' => (($validated['sort_by'] ?? '') === 'random' && $user) ? $user->id : null,
 		];

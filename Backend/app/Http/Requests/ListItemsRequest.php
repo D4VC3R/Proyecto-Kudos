@@ -14,7 +14,8 @@ class ListItemsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => ['nullable', 'string', 'exists:categories,id'], // Si usas UUIDs. Si usas enteros, cambia 'string' por 'integer'
+            'category_id' => ['nullable', 'string', 'exists:categories,id'],
+	          'category_slug' => ['nullable', 'string', 'exists:categories,slug'],
             'search' => ['nullable', 'string', 'max:255'],
             'sort_by' => ['nullable', 'string', 'in:vote_avg,recent,name,random'],
             'sort_order' => ['nullable', 'string', 'in:asc,desc'],

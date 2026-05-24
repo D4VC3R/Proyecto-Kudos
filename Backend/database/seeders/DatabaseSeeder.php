@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
 			RoleSeeder::class,
 			UserSeeder::class,      // Luego los usuarios
 			ItemSeeder::class,      // Items base del sistema
-			ProposalSeeder::class,  // Simulacion de moderacion de propuestas
+			ProposalSeeder::class,  // Simulación de moderación de propuestas
 			VoteSeeder::class,      // Finalmente los votos
 		]);
 

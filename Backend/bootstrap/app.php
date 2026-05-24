@@ -127,7 +127,7 @@ return Application::configure(basePath: dirname(__DIR__))
                         'code' => 'validation_error',
                         'message' => $e->getMessage() !== ''
                             ? $e->getMessage()
-                            : 'La solicitud contiene errores de validacion.',
+                            : 'La solicitud contiene errores de validación.',
                     ],
                 ], 422);
             }
@@ -147,7 +147,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->json([
                     'error' => [
                         'code' => 'forbidden',
-                        'message' => 'No tienes permisos para realizar esta accion.',
+                        'message' => 'No tienes permisos para realizar esta acción.',
                     ],
                 ], 403);
             }

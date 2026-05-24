@@ -46,7 +46,7 @@ routes/
 
 ### 0) Metadatos por categoria y comentarios
 
-- Comentarios de usuarios en items con moderacion admin (`hide` / `unhide`).
+- Comentarios de usuarios en items con moderación admin (`hide` / `unhide`).
 
 Piezas clave:
 - `app/Models/ItemComment.php`
@@ -151,8 +151,8 @@ Por norma general las respuestas de mutación o éxito simple estructuran:
 ```json
 {
   "message": "Texto descriptivo de éxito",
-  "data": { ...recurso... },
-  "meta": { ...informacion extra... }
+  "data": { },
+  "meta": { }
 }
 ```
 En caso de respuestas con error, el contrato engloba bajo una propiedad estandarizada:
@@ -189,15 +189,15 @@ Grupos de rutas:
 
 `ItemSeeder` carga directamente JSONs en `database/seed-data/`.
 
-Categorias cubiertas por snapshots locales:
+Categorías cubiertas por snapshots locales:
 
 - videojuegos
-- peliculas
+- películas
 - series
-- paises
+- países
 - ciudades
 - politicos
-- albumes musicales
+- álbumes musicales
 - artistas musicales
 - libros
 

@@ -186,7 +186,7 @@ public function isCurrentlyBanned(): bool
 			->value('items.category_id');
 
 		$favoriteCategoryName = $favoriteCategoryId
-			? \App\Models\Category::find($favoriteCategoryId)?->name
+			? Category::find($favoriteCategoryId)?->name
 			: null;
 
 		return [

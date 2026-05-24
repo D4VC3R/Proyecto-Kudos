@@ -2,7 +2,7 @@ import React from 'react';
 import { FileText, Trash2, Edit3, Clock } from 'lucide-react';
 import { Modal } from '../common/Modal';
 import { PROPOSAL_STATUS_CONFIG } from '../../lib/constants';
-import { useModal } from '../../hooks/useModal';
+import { useModal } from '../../hooks/common/useModal.js';
 import {ModalButtons} from "../common/ModalButtons.jsx";
 import { Button } from '../common/Button';
 

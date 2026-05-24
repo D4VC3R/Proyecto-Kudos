@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class ProcessProposalImagesJob implements ShouldQueue
 {
@@ -53,7 +54,7 @@ class ProcessProposalImagesJob implements ShouldQueue
                         'order' => count($images),
                     ];
                 }
-            } catch (\Throwable $exception) {
+            } catch (Throwable $exception) {
                 Log::warning('No se pudo procesar imagen de propuesta.', [
                     'proposal_id' => $proposal->id,
                     'error' => $exception->getMessage(),
