@@ -1,60 +1,19 @@
 <?php
 
 return [
+	'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Cross-Origin Resource Sharing (CORS) Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    |
-    */
+	'allowed_methods' => ['*'],
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+	'allowed_origins' => explode(',', env('FRONTEND_URL', 'http://localhost:5174')),
 
-    'allowed_methods' => ['*'],
+	'allowed_origins_patterns' => [],
 
-    'allowed_origins' => [
-        env('FRONTEND_URL'),
-        'http://localhost:5174',
-        'http://127.0.0.1:5174',
-        'http://192.168.0.12:5174'
-    ],
+	'allowed_headers' => ['*'],
 
-    'allowed_origins_patterns' => [],
+	'exposed_headers' => [],
 
-    'allowed_headers' => ['*'],
+	'max_age' => 86400,
 
-    'exposed_headers' => [],
-
-    'max_age' => 0,
-
-    'supports_credentials' => true,
-
+	'supports_credentials' => true,
 ];
-
-//return [
-//	'paths' => ['api/*', 'sanctum/csrf-cookie'],
-//
-//	'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-//
-//
-//	'allowed_origins' => env('CORS_ALLOWED_ORIGINS')
-//		? explode(',', env('CORS_ALLOWED_ORIGINS'))
-//		: ['*'],
-//
-//	'allowed_origins_patterns' => [],
-//
-//	'allowed_headers' => ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
-//
-//	'exposed_headers' => ['X-RateLimit-Limit', 'X-RateLimit-Remaining'],
-//
-//	'max_age' => 86400, // 24 horas
-//
-//	'supports_credentials' => true,
-//];

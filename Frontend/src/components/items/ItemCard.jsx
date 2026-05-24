@@ -1,10 +1,11 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 import { BouncyCard } from '../animations/BouncyCard';
+import StorageImage from "../common/StorageImage.jsx";
 
 export const ItemCard = ({ item, onClick }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
-  const STORAGE_URL = "http://localhost:8095/storage/";
+  const imagePath = item.images?.[0]?.variants?.thumb;
 
 
   return (
@@ -13,8 +14,8 @@ export const ItemCard = ({ item, onClick }) => {
       className="group relative h-64 w-48 shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-slate-200 transition-shadow hover:shadow-xl"
     >
       <div className="absolute inset-0">
-        <img
-          src={item.images[0]?.variants?.thumb && `${STORAGE_URL}${item.images[0].variants.thumb}`}
+        <StorageImage
+          src={imagePath}
           alt={item.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />

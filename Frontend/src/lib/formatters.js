@@ -7,4 +7,26 @@ export const formatDate = (dateString) => {
   });
 };
 
+/**
+ * Convierte una ruta relativa de la base de datos en una URL absoluta del Storage.
+ * @param {string} path - La ruta de la imagen (ej: 'avatars/1.jpg')
+ * @returns {string|null} - La URL completa o null si no hay ruta.
+ */
+export const getStorageUrl = (path) => {
+  if (!path) return null;
+
+  // Si por algún motivo la ruta ya es una URL completa (ej: una imagen externa), la respetamos
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+
+  const baseUrl = import.meta.env.VITE_STORAGE_URL;
+
+  // Limpiamos barras extra por si el baseUrl termina en '/' y el path empieza por '/'
+  const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+
+  return `${cleanBaseUrl}${cleanPath}`;
+};
+
 

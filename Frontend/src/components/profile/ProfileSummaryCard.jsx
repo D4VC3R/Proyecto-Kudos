@@ -3,8 +3,8 @@ import { User as UserIcon } from 'lucide-react';
 
 export const ProfileSummaryCard = ({ user, profile }) => {
 
-  const STORAGE_URL = "http://localhost:8095/storage/";
-  const avatarUrl = profile?.avatar ? `${STORAGE_URL}${profile.avatar}` : null;
+  const storageUrl = import.meta.env.VITE_STORAGE_URL;
+  const avatarUrl = profile?.avatar ? `${storageUrl}${profile.avatar}` : null;
 
   return (
     <div className="flex flex-col items-center p-6 bg-slate-50 rounded-3xl border border-slate-200 w-full">
