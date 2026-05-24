@@ -193,3 +193,22 @@ export const rewardRevealVariants = {
         }
     }
 };
+export const springPopVariants = {
+    hidden: {
+        scale: 0,
+        opacity: 0,
+        y: 20
+    },
+    visible: {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        transition: { type: "spring", stiffness: 300, damping: 15 }
+    },
+    exit: {
+        scale: 0,
+        opacity: 0,
+        y: 20,
+        transition: { duration: 0.2, ease: "easeIn" }
+    }
+};
