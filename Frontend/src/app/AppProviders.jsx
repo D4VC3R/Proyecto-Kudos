@@ -18,7 +18,7 @@ export const AppProviders = ({ children }) => {
     <AppErrorBoundary>
       <QueryClientProvider client={queryClient}>
         {children}
-        <Toaster position="center" toastOptions={{ duration: 3000 }} />
+        <Toaster position="bottom-center" toastOptions={{ duration: 3000 }} />
       </QueryClientProvider>
     </AppErrorBoundary>
   );

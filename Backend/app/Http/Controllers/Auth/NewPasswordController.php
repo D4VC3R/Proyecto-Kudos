@@ -12,6 +12,9 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Controlador nativo de Laravel Breeze para manejar las peticiones de nueva contraseña.
+ */
 class NewPasswordController extends Controller
 {
     /**

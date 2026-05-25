@@ -9,16 +9,27 @@ use App\Services\KudosService;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Acción para emitir un voto, manejar 'race conditions' y otorgar kudos por votos.
+ */
 class EmitVoteAction
 {
 	public function __construct(protected KudosService $kudosService) {}
 
+	/**
+	 * Emite un voto para un ítem, manejando condiciones de carrera y otorgando kudos si es el primer voto del usuario para ese ítem.
+	 *
+	 * @param User $user El usuario que emite el voto
+	 * @param array $voteData Los datos del voto (debe incluir 'item_id' y opcionalmente 'score' y 'type')
+	 * @return Vote La instancia del voto emitido o existente
+	 * @throws \Throwable
+	 */
 	public function execute(User $user, array $voteData): Vote
 	{
 		$existingVote = Vote::where('user_id', $user->id)->where('item_id', $voteData['item_id'])->first();
 		if ($existingVote) {
 			$existingVote->setAttribute('was_existing', true);
-			$existingVote->setAttribute('kudos_awarded', 0); // No hay recompensa si ya existía
+			$existingVote->setAttribute('kudos_awarded', 0);
 			return $existingVote;
 		}
 
@@ -53,6 +64,12 @@ class EmitVoteAction
 			return $vote;
 		});
 	}
+	/**
+	 * Actualiza el conteo de votos y la puntuación media.
+	 *
+	 * @param string $itemId El ID del ítem a actualizar
+	 * @param int $newScore La nueva puntuación a incluir en el cálculo del promedio
+	 */
 
 	private function updateItemAverages(string $itemId, int $newScore): void
 	{

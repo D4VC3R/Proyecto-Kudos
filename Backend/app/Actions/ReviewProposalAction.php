@@ -11,6 +11,9 @@ use App\Services\ModerationAuditLogger;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+/**
+ * Acción para revisar una propuesta de creación.
+ */
 class ReviewProposalAction
 {
     public function __construct(
@@ -19,6 +22,16 @@ class ReviewProposalAction
         protected MediaStorageInterface $mediaStorage,
     ) {}
 
+	/**
+	 * Revisa una propuesta, actualizando su estado y tomando las acciones correspondientes.
+	 *
+	 * @param Proposal $proposal La propuesta a revisar.
+	 * @param User $admin El administrador que realiza la revisión.
+	 * @param string $status El nuevo estado de la propuesta (aceptada, rechazada, etc.).
+	 * @param string|null $adminNotes Notas adicionales del administrador.
+	 * @return Proposal La propuesta actualizada con sus relaciones cargadas.
+	 * @throws \Throwable
+	 */
     public function execute(Proposal $proposal, User $admin, string $status, ?string $adminNotes): Proposal
     {
         return DB::transaction(function () use ($proposal, $admin, $status, $adminNotes) {
@@ -45,6 +58,12 @@ class ReviewProposalAction
         });
     }
 
+		/**
+		 * Maneja las acciones necesarias cuando una propuesta es aceptada, (mover imágenes y crear el ítem).
+		 *
+		 * @param Proposal $proposal La propuesta que ha sido aceptada.
+		 * @return void
+		 */
     private function handleAcceptedProposal(Proposal $proposal): void
     {
         $categorySlug = $proposal->category()->value('slug') ?? 'general';

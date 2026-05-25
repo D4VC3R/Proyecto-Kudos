@@ -257,7 +257,7 @@ export const springPopVariants = {
     }
 };
 
-/* --- Animaciones en bucle (Loops) --- */
+/* --- Animaciones en bucle  --- */
 
 export const floatingLoopVariants = {
     animate: {

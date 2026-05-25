@@ -13,6 +13,11 @@ use App\Models\User;
 use App\Services\ModerationAuditLogger;
 use Illuminate\Http\JsonResponse;
 
+/*
+ * Controlador para manejar las peticiones de administración de usuarios.
+ * Se encarga de listar usuarios, mostrar detalles, banear/desbanear y revocar tokens.
+ * En el modelo de User se han implementado scopes específicos para filtrar y ordenar usuarios.
+ */
 class AdminUserController extends Controller
 {
 	public function __construct(

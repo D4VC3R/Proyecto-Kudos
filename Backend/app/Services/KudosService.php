@@ -27,6 +27,7 @@ class KudosService
 				? CarbonImmutable::parse($lockedUser->last_login_streak_date)->startOfDay()
 				: null;
 
+
 			$newStreak = $this->computeStreak($lockedUser->login_streak_count, $previousDate, $today);
 
 			$lockedUser->login_streak_count = $newStreak;
@@ -122,7 +123,7 @@ class KudosService
 	private function computeStreak(int $currentStreak, ?CarbonImmutable $lastDate, CarbonImmutable $today): int
 	{
 		if (!$lastDate) return 1;
-		$diffDays = $lastDate->diffInDays($today, false);
+		$diffDays = (int) $lastDate->diffInDays($today, false);
 		if ($diffDays === 0) return max(1, $currentStreak);
 		if ($diffDays === 1) return max(1, $currentStreak + 1);
 		return 1;
@@ -162,10 +163,11 @@ class KudosService
 	private function calculateVoteReward(User $user): int
 	{
 		$cacheKey = "user:{$user->id}:votes_today";
-		$votesToday = Cache::increment($cacheKey);
 
-		if ($votesToday === 1) {
-			Cache::expireAt($cacheKey, now()->endOfDay());
+		if (Cache::add($cacheKey, 1, now()->endOfDay())) {
+			$votesToday = 1;
+		} else {
+			$votesToday = Cache::increment($cacheKey);
 		}
 
 		$config = config('kudos.voting');
@@ -175,10 +177,10 @@ class KudosService
 		}
 
 		if ($votesToday > $config['diminishing_returns']['threshold']) {
-			return $config['diminishing_returns']['new_reward']; // Rendimiento Decreciente
+			return $config['diminishing_returns']['new_reward'];
 		}
 
-		return $config['reward']; // Recompensa base normal
+		return $config['reward'];
 	}
 
 	private function buildActionKey(string ...$identifiers): string

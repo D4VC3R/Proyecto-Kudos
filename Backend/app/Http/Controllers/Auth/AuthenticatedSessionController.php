@@ -10,11 +10,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Controlador para manejar las sesiones autenticadas usando Bearer Tokens.
+ * Este controlador se ha adaptado de la implementación nativa de Laravel Breeze.
+ */
 class AuthenticatedSessionController extends Controller
 {
 	/**
-	 * Handle an incoming authentication request.
-	 * La función es nativa de Breeze pero se ha adaptado para usar Bearer Tokens
+	 * Función para autenticar al usuario y crear un token de acceso. Responde con los detalles del usuario y el token generado.
+	 * @param LoginRequest $request - La solicitud de inicio de sesión que contiene las credenciales del usuario.
+	 * @return JsonResponse - Respuesta JSON con el resultado de la petición.
 	 */
 	public function store(LoginRequest $request): JsonResponse
 	{
@@ -29,7 +34,7 @@ class AuthenticatedSessionController extends Controller
 			if ($status === 429) {
 				return $this->respondError(
 					code: 'too_many_requests',
-					message: 'Demasiados intentos de inicio de sesión. Intentalo nuevamente en unos segundos.',
+					message: 'Demasiados intentos de inicio de sesión. Intentalo de nuevo en un rato.',
 					status: 429,
 				);
 			}
@@ -43,7 +48,7 @@ class AuthenticatedSessionController extends Controller
 
 		$user = Auth::user();
 		if (!$user instanceof User) {
-			return $this->respondMutation('No se pudo obtener el usuario autenticado.', status: 500);
+			return $this->respondMutation('No se pudo obtener al usuario autenticado.', status: 500);
 		}
 
 		if ($user->isCurrentlyBanned()) {
@@ -84,7 +89,7 @@ class AuthenticatedSessionController extends Controller
 	}
 
 	/**
-	 * Destroy an authenticated session.
+	 * Cerrar sesión eliminando el token de acceso actual.
 	 */
 	public function destroy(Request $request): JsonResponse
 	{
@@ -96,6 +101,9 @@ class AuthenticatedSessionController extends Controller
 		return $this->respondMutation('Sesión cerrada con éxito.');
 	}
 
+	/*
+	 * Eliminar todos los tokens de un usuario.
+	 * */
 	public function destroyAll(Request $request): JsonResponse
 	{
 		// Eliminar TODOS los tokens del usuario

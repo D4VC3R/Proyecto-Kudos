@@ -8,6 +8,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 
+/*
+ * Controlador nativo de Laravel Breeze para manejar las peticiones de verificación de email.
+ */
 class VerifyEmailController extends Controller
 {
     /**

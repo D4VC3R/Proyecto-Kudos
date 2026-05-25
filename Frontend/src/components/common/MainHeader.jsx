@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {Gamepad2} from "lucide-react";
+import {Trophy} from "lucide-react";
 import {NavBar} from "./NavBar.jsx";
 import {UserInfo} from "../profile/UserInfo.jsx";
 import {LogoutButton} from "../auth/LogoutButton.jsx";
@@ -16,10 +16,10 @@ export const MainHeader = () => {
 
         <Link to="/" className="flex shrink-0 items-center justify-start gap-2 transition-transform hover:scale-105">
           <div className="flex h-9 w-9 md:h-10 md:w-10 flex-shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md">
-            <Gamepad2 size={20} className="md:h-6 md:w-6" />
+            <Trophy size={20} className="md:h-6 md:w-6" />
           </div>
           <div className="font-black text-xl md:text-2xl text-slate-900 tracking-tight whitespace-nowrap">
-            Kudos<span className="text-blue-600">App</span>
+            Proyecto <span className="text-blue-600">Kudos</span>
           </div>
         </Link>
 

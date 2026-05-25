@@ -6,6 +6,9 @@ use App\Models\Item;
 use App\Models\Vote;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Acción para cambiar la puntuación de un voto existente y actualizar la puntuación media del ítem asociado.
+ */
 class ChangeVoteAction
 {
 	/**
@@ -15,7 +18,6 @@ class ChangeVoteAction
 	 * @param array $payload Los datos de la nueva puntuación.
 	 * @return Vote Instancia del voto actualizado.
 	 */
-	
 	public function execute(Vote $vote, array $payload): Vote
 	{
 		return DB::transaction(function () use ($vote, $payload) {

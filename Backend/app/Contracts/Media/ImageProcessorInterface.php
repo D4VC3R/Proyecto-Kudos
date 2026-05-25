@@ -5,7 +5,7 @@ namespace App\Contracts\Media;
 interface ImageProcessorInterface
 {
     /**
-     * Convierte una imagen a WebP y devuelve la ruta del archivo generado.
+     * Interfaz que sirve de molde al servicio de procesamiento de imágenes.
      */
     public function convertToWebp(string $sourcePath, int $quality, int $width, int $height, bool $cropToSquare = false): array;
 }

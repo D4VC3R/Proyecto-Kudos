@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 
+/*
+ * Controlador nativo de Laravel Breeze para manejar las peticiones de reseteo de contraseña.
+ */
 class PasswordResetLinkController extends Controller
 {
     /**

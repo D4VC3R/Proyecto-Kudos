@@ -61,7 +61,13 @@ class ItemDetailResource extends JsonResource
 		if (!$user || $item->status !== Item::STATUS_ACTIVE) {
 			return false;
 		}
-		return $item->relationLoaded('userVote') && $item->userVote === null;
+
+		if ($item->relationLoaded('userVote')) {
+			return $item->userVote === null;
+		}
+		$hasVoted = $item->votes()->where('user_id', $user->id)->exists();
+
+		return !$hasVoted;
 	}
 
 	protected function resolveViewer(Request $request): ?User

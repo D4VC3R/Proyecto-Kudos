@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Controlador para manejar las peticiones de registro de usuarios. Adaptado de Breeze.
+ */
 class RegisteredUserController extends Controller
 {
     /**

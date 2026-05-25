@@ -4,7 +4,6 @@ import toast from 'react-hot-toast';
 import { VOTE_KEYS } from './useVoteQueries';
 import { ITEM_KEYS } from '../items/useItemQueries';
 import { USER_KEYS } from '../users/useUserQueries';
-// Necesitamos actualizar los puntos del usuario en vivo
 import { useSessionStore } from '../../store/useSessionStore';
 import { useBaseMutation } from '../common/useBaseMutation';
 

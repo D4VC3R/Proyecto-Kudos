@@ -11,6 +11,12 @@ use App\Models\Item;
 use App\Services\ModerationAuditLogger; // <-- Inyectamos el logger directamente
 use Illuminate\Http\JsonResponse;
 
+/*
+ * Controlador para la gestión de items desde el panel de administración.
+ * Aquí se manejan las operaciones CRUD y de moderación específicas para los items.
+ * Se ha simplificado el código eliminando el repositorio y utilizando Eloquent directamente,
+ * aprovechando los scopes para mantener la lógica de filtrado y ordenación limpia.
+ */
 class AdminItemController extends Controller
 {
 	public function __construct(

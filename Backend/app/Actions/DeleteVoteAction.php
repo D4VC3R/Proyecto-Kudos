@@ -6,8 +6,17 @@ use App\Models\Item;
 use App\Models\Vote;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Acción para eliminar un voto y actualizar la puntuación media del ítem asociado.
+ */
 class DeleteVoteAction
 {
+	/**
+	 * Elimina un voto y actualiza la puntuación media del ítem asociado.
+	 *
+	 * @param Vote $vote El voto a eliminar
+	 * @return bool Resultado de la transacción
+	 */
 	public function execute(Vote $vote): bool
 	{
 		return DB::transaction(function () use ($vote) {
