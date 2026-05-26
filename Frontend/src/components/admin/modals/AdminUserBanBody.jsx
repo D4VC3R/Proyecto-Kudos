@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputField } from '../common/InputField';
+import { InputField } from '../../common/InputField.jsx';
 
 export const AdminUserBanBody = ({userName, banParams, setBanParams}) => {
   return (

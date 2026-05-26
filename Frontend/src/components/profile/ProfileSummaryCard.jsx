@@ -1,19 +1,17 @@
 import React from 'react';
 import { User as UserIcon } from 'lucide-react';
+import StorageImage from "../common/StorageImage.jsx";
 
 export const ProfileSummaryCard = ({ user, profile }) => {
-
-  const storageUrl = import.meta.env.VITE_STORAGE_URL;
-  const avatarUrl = profile?.avatar ? `${storageUrl}${profile.avatar}` : null;
-
   return (
     <div className="flex flex-col items-center p-6 bg-slate-50 rounded-3xl border border-slate-200 w-full">
       <div className="w-32 h-32 rounded-full overflow-hidden bg-blue-100 text-blue-600 flex items-center justify-center mb-4 ring-4 ring-white shadow-lg">
-        {avatarUrl ? (
-          <img src={avatarUrl} alt={user?.name} className="w-full h-full object-cover" />
-        ) : (
-          <UserIcon size={64} />
-        )}
+        <StorageImage
+          src={profile?.avatar}
+          alt={user?.name || 'Avatar del usuario'}
+          className="w-full h-full"
+          fallbackIcon={UserIcon}
+        />
       </div>
 
       <h2 className="text-2xl font-black text-slate-900 text-center">{user?.name}</h2>

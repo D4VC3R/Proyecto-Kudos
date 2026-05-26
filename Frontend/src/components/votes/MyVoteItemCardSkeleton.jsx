@@ -19,7 +19,6 @@ export const MyVoteItemCardSkeleton = () => {
       </div>
 
       <div className="flex items-center gap-2 self-end sm:self-center">
-        {/* Botón de acción (Eliminar) */}
         <Skeleton className="h-10 w-10 rounded-xl" />
       </div>
     </div>

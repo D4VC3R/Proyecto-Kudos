@@ -32,10 +32,6 @@ export const VotePage = () => {
     voteMutation.mutate({ item_id: item.id, type: 'skip', categorySlug });
   };
 
-  if (!isLoading && !item) {
-    return <EmptyVoteState category={categorySlug} />;
-  }
-
   return (
     <div className={`mx-auto flex w-full max-w-3xl flex-col items-center py-8 min-h-screen transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
       <div className="w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between relative min-h-[600px] md:min-h-[700px]">
@@ -45,8 +41,8 @@ export const VotePage = () => {
             <Loader2 className="animate-spin text-blue-500 mb-4" size={48} />
             <p className="text-slate-500 font-medium animate-pulse">Buscando el siguiente candidato...</p>
           </div>
-        ) : (
-
+        ) : !isLoading && !item ? <EmptyVoteState category={categorySlug} /> :
+          (
           <>
             <div className="shrink-0 mb-6 min-h-[350px] md:min-h-[380px] xl:min-h-[450px] flex justify-center">
               <AnimatePresence mode="wait">
@@ -62,7 +58,6 @@ export const VotePage = () => {
 
             <VoteActions
               onSkip={handleSkip}
-              isPending={voteMutation.isPending}
               showComments={showComments}
               onToggleComments={() => setShowComments(!showComments)}
             />

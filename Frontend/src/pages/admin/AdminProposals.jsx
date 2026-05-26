@@ -1,5 +1,5 @@
 import React from 'react';
-import {useAdminProposals} from '../../hooks/admin/useAdminProposalQueries';
+import { useAdminProposals } from '../../hooks/admin/useAdminQueries';
 import {SectionHeader} from '../../components/common/SectionHeader';
 import {FeedbackState} from '../../components/common/FeedbackState';
 import {Modal} from '../../components/common/Modal';
@@ -9,11 +9,11 @@ import {AnimatePresence} from 'framer-motion';
 import {useCategories} from '../../hooks/categories/useCategoryQueries';
 import {AdminProposalCard} from "../../components/admin/AdminProposalCard.jsx";
 import {ModalButtons} from "../../components/common/ModalButtons.jsx";
-import {AdminProposalReviewBody} from "../../components/admin/AdminProposalReviewBody.jsx";
+import {AdminProposalReviewBody} from "../../components/admin/modals/AdminProposalReviewBody.jsx";
 import {SearchFilter} from "../../components/common/SearchFilter.jsx";
 import {SelectFilter} from "../../components/common/SelectFilter.jsx";
 import {useFilters} from '../../hooks/common/useFilters';
-import {useAdminProposalActions} from '../../hooks/admin/useAdminProposalActions';
+import { useAdminProposalActions } from '../../hooks/admin/useAdminActions';
 
 const AdminProposals = () => {
   const {

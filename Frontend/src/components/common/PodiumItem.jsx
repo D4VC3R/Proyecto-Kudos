@@ -2,6 +2,7 @@ import React from 'react';
 import { Trophy, Medal, UserCircle } from 'lucide-react';
 import clsx from 'clsx';
 import { StaggerItem } from '../animations/StaggerItem.jsx';
+import StorageImage from '../common/StorageImage.jsx';
 
 export const PodiumItem = ({ data, rank, type = "item" }) => {
   const isFirst = rank === 1;
@@ -9,9 +10,9 @@ export const PodiumItem = ({ data, rank, type = "item" }) => {
   const isThird = rank === 3;
 
   const getRankStyles = () => {
-    if (isFirst) return 'bg-gradient-to-r from-yellow-50 to-white border-yellow-400 shadow-[0_0_25px_rgba(250,204,21,0.8)] scale-[1.03] z-30 border-2 py-3 px-4';
-    if (isSecond) return 'bg-gradient-to-r from-slate-50 to-white border-slate-400 shadow-[0_0_20px_rgba(148,163,184,0.7)] z-20 border-2 py-2 px-3';
-    if (isThird) return 'bg-gradient-to-r from-orange-50 to-white border-orange-400 shadow-[0_0_20px_rgba(217,119,6,0.7)] z-10 border-2 py-2 px-3';
+    if (isFirst) return 'bg-gradient-to-r from-yellow-200 to-white border-yellow-400 shadow-[20px_0_25px_rgba(250,204,21,0.5)] z-30 border-2 py-5 px-5';
+    if (isSecond) return 'bg-gradient-to-r from-slate-300 to-white border-slate-500 shadow-[20px_0_20px_rgba(148,163,184,0.5)] z-20 border-2 py-4 px-4';
+    if (isThird) return 'bg-gradient-to-r from-orange-200 to-white border-orange-400 shadow-[20px_0_20px_rgba(217,119,6,0.5)] z-10 border-2 py-3 px-3';
     return 'bg-white border-slate-300 hover:border-blue-400 border py-1.5 px-3 shadow-md transition-colors';
   };
 
@@ -23,7 +24,7 @@ export const PodiumItem = ({ data, rank, type = "item" }) => {
   };
 
   const scoreValue = type === "user" ? data.total_kudos : (data.score || data.vote_avg || 0);
-  
+
   let scoreBgClass = "bg-blue-600";
   if (type === "item") {
     scoreBgClass = "bg-red-600";
@@ -44,16 +45,17 @@ export const PodiumItem = ({ data, rank, type = "item" }) => {
 
       {type === "user" && (
         <div className="shrink-0 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-200 text-slate-500 overflow-hidden border border-slate-300">
-          {data.avatar ? (
-            <img src={data.avatar} alt={data.name} className="w-full h-full object-cover" />
-          ) : (
-            <UserCircle size={24} />
-          )}
+          <StorageImage
+            src={data.avatar}
+            alt={data.name || 'Avatar'}
+            className="w-full h-full"
+            fallbackIcon={UserCircle}
+          />
         </div>
       )}
 
       <div className="flex-1 truncate">
-        <h4 className={clsx("truncate font-bold text-slate-900", isFirst ? "text-xl" : isSecond || isThird ? "text-base" : "text-sm")}>
+        <h4 className={clsx("truncate font-bold text-slate-900", isFirst ? "text-xl" : isSecond || isThird ? "text-lg" : "text-sm")}>
           {data.name}
         </h4>
       </div>

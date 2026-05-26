@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextAreaField } from '../common/TextAreaField';
+import { TextAreaField } from '../../common/TextAreaField.jsx';
 
 export const AdminItemModerateBody = ({itemName, modStatus, setModStatus, modReason, setModReason}) => {
   return (

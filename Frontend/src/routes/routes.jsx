@@ -9,7 +9,6 @@ import VotePage from "../pages/VotePage.jsx";
 import CategoryPage from "../pages/CategoryPage.jsx";
 import RankingPage from "../pages/RankingPage.jsx";
 import NewProposalPage from "../pages/NewProposalPage.jsx";
-import MyProposalsPage from "../pages/MyProposalsPage.jsx";
 import AuthPage from "../pages/AuthPage.jsx";
 import AdminLayout  from "../pages/admin/AdminLayout.jsx";
 import AdminUsers from "../pages/admin/AdminUsers.jsx";
@@ -43,10 +42,9 @@ export const AppRoutes = () => {
         <Route path="/forbidden" element={<div>Acceso Denegado</div>} />
 
         <Route element={<RequireAuth />}>
-          <Route path="/profile" element={<ProfilePage />} />
-
           <Route element={<RequireVerified />}>
-            <Route path="/my-proposals" element={<MyProposalsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/my-proposals" element={<ProfilePage tab={'proposals'} />} />
             <Route path="/:categorySlug/proposals/new" element={<NewProposalPage />} />
             <Route path="/:categorySlug/vote" element={<VotePage />} />
 

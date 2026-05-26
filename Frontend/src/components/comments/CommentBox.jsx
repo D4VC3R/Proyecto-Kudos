@@ -2,13 +2,13 @@ import React from 'react';
 import { Loader2, MessageSquare, Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useItemComments } from '../../hooks/items/useItemQueries';
-import { useCreateItemComment } from '../../hooks/items/useItemMutations';
+import { useCreateComment } from '../../hooks/items/useItemMutations';
 import { Comment } from './Comment';
 import { Button } from '../common/Button';
 
 export const CommentBox = ({ itemId }) => {
   const { data: comments, isLoading } = useItemComments(itemId);
-  const createCommentMutation = useCreateItemComment();
+  const createCommentMutation = useCreateComment();
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {

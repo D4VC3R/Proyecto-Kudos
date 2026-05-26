@@ -22,6 +22,7 @@ class UserRankingController extends Controller
 
 		// Obtener la página Top (Global)
 		$topPaginator = User::getRankingPaginator($perPage, $page);
+		$topPaginator->getCollection()->load('profile:id,user_id,avatar');
 
 		// Preparar los datos del usuario autenticado (si existe)
 		$myRank = null;

@@ -3,8 +3,9 @@ import { FileText, Trash2, Edit3, Clock } from 'lucide-react';
 import { Modal } from '../common/Modal';
 import { PROPOSAL_STATUS_CONFIG } from '../../lib/constants';
 import { useModal } from '../../hooks/common/useModal.js';
-import {ModalButtons} from "../common/ModalButtons.jsx";
+import { ModalButtons } from "../common/ModalButtons.jsx";
 import { Button } from '../common/Button';
+import StorageImage from '../common/StorageImage';
 
 export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
   const deleteModal = useModal();
@@ -23,21 +24,14 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
         <div className="flex items-start gap-4">
-          <div className={`mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-100`}>
-            {proposal.images && proposal.images.length > 0 ? (
-              <img
-                src={`${import.meta.env.VITE_API_URL?.replace('/api', '')}/storage/${proposal.images[0].path}`}
-                alt={proposal.name}
-                className="h-full w-full rounded-xl object-cover"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-            ) : null}
-            <div className="flex h-full w-full items-center justify-center text-slate-400" style={{ display: proposal.images?.length > 0 ? 'none' : 'flex' }}>
-              <FileText size={24} />
-            </div>
+
+          <div className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl overflow-hidden bg-slate-100">
+            <StorageImage
+              src={proposal.images?.[0]?.path}
+              alt={proposal.name || 'Propuesta'}
+              className="h-full w-full"
+              fallbackIcon={FileText}
+            />
           </div>
 
           <div className="flex flex-col">
@@ -68,26 +62,26 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
 
         <div className="flex items-center gap-2 self-end sm:self-center">
           {(proposal.status === 'changes_requested' || proposal.status === 'pending') && (
-             <Button
-               title="Editar Propuesta"
-               onClick={() => editModal.openModal()}
-               variant="ghost"
-               color="primary"
-               size="iconLg"
-               icon={Edit3}
-             />
+            <Button
+              title="Editar Propuesta"
+              onClick={editModal.openModal}
+              variant="ghost"
+              color="primary"
+              size="iconLg"
+              icon={Edit3}
+            />
           )}
 
           {(proposal.status === 'pending' || proposal.status === 'rejected') && (
-             <Button
-               title="Eliminar Propuesta"
-               onClick={() => deleteModal.openModal()}
-               isLoading={isDeleting}
-               variant="ghost"
-               color="danger"
-               size="iconLg"
-               icon={Trash2}
-             />
+            <Button
+              title="Eliminar Propuesta"
+              onClick={deleteModal.openModal}
+              isLoading={isDeleting}
+              variant="ghost"
+              color="danger"
+              size="iconLg"
+              icon={Trash2}
+            />
           )}
         </div>
       </div>

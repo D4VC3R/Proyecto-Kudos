@@ -13,6 +13,7 @@ export const useProfile = () => {
     queryKey: USER_KEYS.profile,
     queryFn: () => axiosClient.get('/profile'),
     select: (response) => response.data,
+    staleTime: 1000 * 60 * 15,
   });
 };
 
@@ -21,6 +22,7 @@ export const useMinimalProfile = () => {
     queryKey: USER_KEYS.minimalProfile,
     queryFn: () => axiosClient.get('/profile/minimal'),
     select: (response) => response.data,
+    staleTime: 1000 * 60 * 5, // 5 minutos, ya que esta info cambia menos frecuentemente
   });
 };
 
@@ -29,6 +31,7 @@ export const useProfileStatistics = () => {
     queryKey: USER_KEYS.statistics,
     queryFn: () => axiosClient.get('/profile/statistics'),
     select: (response) => response.data,
+    staleTime: 1000 * 60 * 5,
   });
 };
 

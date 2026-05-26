@@ -1,18 +1,18 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAdminUserDetail } from '../../hooks/admin/useAdminUserQueries';
+import { useAdminUserDetail } from '../../hooks/admin/useAdminQueries';
 import { SectionHeader } from '../../components/common/SectionHeader';
 import { FeedbackState } from '../../components/common/FeedbackState';
 import { Modal } from '../../components/common/Modal';
-import { AdminUserBanBody } from '../../components/admin/AdminUserBanBody';
-import { AdminUserRevokeBody } from '../../components/admin/AdminUserRevokeBody';
+import { AdminUserBanBody } from '../../components/admin/modals/AdminUserBanBody.jsx';
+import { AdminUserRevokeBody } from '../../components/admin/modals/AdminUserRevokeBody.jsx';
 import { ModalButtons } from '../../components/common/ModalButtons';
 import { ArrowLeft, UserSquare, ShieldAlert } from 'lucide-react';
 import { AdminUserIdCard } from '../../components/admin/AdminUserIdCard';
 import { AdminUserStatsPanel } from '../../components/admin/AdminUserStatsPanel';
 import { AdminUserAdvancedDetails } from '../../components/admin/AdminUserAdvancedDetails';
 import { Button } from '../../components/common/Button';
-import { useAdminUserActions } from '../../hooks/admin/useAdminUserActions';
+import { useAdminUserActions } from '../../hooks/admin/useAdminActions';
 
 const AdminUserDetail = () => {
   const { userId } = useParams();

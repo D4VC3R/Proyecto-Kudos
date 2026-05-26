@@ -19,3 +19,33 @@ export const useUpdateProfile = () => {
     }
   });
 };
+
+export const useClaimDailyReward = () => {
+  const setSession = useSessionStore((state) => state.setSession);
+  const token = useSessionStore((state) => state.token);
+
+  return useBaseMutation({
+    mutationFn: () => axiosClient.post('/profile/daily-claim'),
+    onSuccessExtra: (response) => {
+      const data = response.data;
+      const meta = response.meta;
+      const currentUser = useSessionStore.getState().user;
+
+      if (data?.status === 'claimed') {
+        const newUser = {
+          ...currentUser,
+          total_kudos: data.kudos,
+          login_streak_count: data.streak,
+          last_login_streak_date: meta.server_date,
+        };
+        setSession({ token, user: newUser });
+      } else if (data?.status === 'already_claimed') {
+        const newUser = {
+          ...currentUser,
+          last_login_streak_date: meta.server_date,
+        };
+        setSession({ token, user: newUser });
+      }
+    }
+  });
+};

@@ -18,7 +18,6 @@ export const MyVotesEmpty = () => {
               to="/"
               className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-6 py-3 font-bold text-white shadow-lg transition-transform hover:-translate-y-1 active:translate-y-0"
           >
-            <ThumbsUp size={18} />
             Comenzar a votar
           </Link>
         </FeedbackState>

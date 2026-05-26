@@ -11,8 +11,8 @@ import {ProfileTabs} from "../components/profile/ProfileTabs.jsx";
 import {profileTabs} from "../lib/constants.js";
 import {FeedbackState} from '../components/common/FeedbackState.jsx';
 
-export const ProfilePage = () => {
-  const [activeTab, setActiveTab] = useState('info');
+export const ProfilePage = ({tab = 'info'}) => {
+  const [activeTab, setActiveTab] = useState(tab);
   const {data: profile, isLoading, isError} = useProfile();
 
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { SectionHeader } from '../common/SectionHeader';
-import { AnimatedCard } from '../animations/AnimatedCard';
 import { Calendar } from 'lucide-react';
 import { formatDate } from '../../lib/formatters.js';
 
@@ -8,7 +7,7 @@ export const AdminUserAdvancedDetails = ({ user }) => {
   return (
     <>
       <SectionHeader title="Detalles" highlight="Avanzados" icon={Calendar} />
-      <AnimatedCard className="bg-white border border-slate-100 shadow-sm rounded-3xl p-6">
+      <div className="bg-white border border-slate-100 shadow-sm rounded-3xl p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
           <div className="flex flex-col">
             <span className="text-xs font-bold text-slate-500 uppercase">ID Usuario</span>
@@ -34,7 +33,7 @@ export const AdminUserAdvancedDetails = ({ user }) => {
             </span>
           </div>
         </div>
-      </AnimatedCard>
+      </div>
     </>
   );
 };

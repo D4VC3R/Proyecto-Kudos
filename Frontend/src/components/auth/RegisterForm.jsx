@@ -30,7 +30,7 @@ export const RegisterForm = () => {
         label="Nombre de Usuario"
         type="text"
         icon={User}
-        placeholder="Tu nombre ninja"
+        placeholder=""
         registration={register('name')}
         error={errors.name}
         disabled={isPending}
@@ -73,7 +73,7 @@ export const RegisterForm = () => {
         variant="solid"
         color="primary"
       >
-        Registrarse y jugar
+        Registrarse
       </Button>
     </form>
   );

@@ -8,11 +8,11 @@ import { LayoutGrid, Plus, ShieldAlert } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { AdminCategoryCard } from "../../components/admin/AdminCategoryCard.jsx";
 import { ModalButtons } from "../../components/common/ModalButtons.jsx";
-import { AdminCategoryFormBody } from "../../components/admin/AdminCategoryFormBody.jsx";
-import { AdminCategoryDeleteBody } from "../../components/admin/AdminCategoryDeleteBody.jsx";
+import { AdminCategoryFormBody } from "../../components/admin/modals/AdminCategoryFormBody.jsx";
+import { AdminCategoryDeleteBody } from "../../components/admin/modals/AdminCategoryDeleteBody.jsx";
 import { Button } from '../../components/common/Button';
 import { useFilters } from '../../hooks/common/useFilters';
-import { useAdminCategoryActions } from '../../hooks/admin/useAdminCategoryActions';
+import { useAdminCategoryActions } from '../../hooks/admin/useAdminActions';
 
 const AdminCategories = () => {
   const { searchInput, debouncedSearch, handleSearchChange } = useFilters();

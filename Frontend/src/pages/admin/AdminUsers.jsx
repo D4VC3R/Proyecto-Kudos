@@ -1,5 +1,5 @@
 import React from 'react';
-import {useAdminUsers} from '../../hooks/admin/useAdminUserQueries';
+import { useAdminUsers } from '../../hooks/admin/useAdminQueries';
 import {SectionHeader} from '../../components/common/SectionHeader';
 import {FeedbackState} from '../../components/common/FeedbackState';
 import {Modal} from '../../components/common/Modal';
@@ -8,12 +8,12 @@ import {Users, ShieldAlert, Filter} from 'lucide-react';
 import {AnimatePresence} from 'framer-motion';
 import {AdminUserCard} from "../../components/admin/AdminUserCard.jsx";
 import {ModalButtons} from "../../components/common/ModalButtons.jsx";
-import {AdminUserBanBody} from "../../components/admin/AdminUserBanBody.jsx";
-import {AdminUserRevokeBody} from "../../components/admin/AdminUserRevokeBody.jsx";
+import {AdminUserBanBody} from "../../components/admin/modals/AdminUserBanBody.jsx";
+import {AdminUserRevokeBody} from "../../components/admin/modals/AdminUserRevokeBody.jsx";
 import {SearchFilter} from "../../components/common/SearchFilter.jsx";
 import {SelectFilter} from "../../components/common/SelectFilter.jsx";
 import {useFilters} from '../../hooks/common/useFilters';
-import {useAdminUserActions} from '../../hooks/admin/useAdminUserActions';
+import { useAdminUserActions } from '../../hooks/admin/useAdminActions';
 
 const AdminUsers = () => {
   const {

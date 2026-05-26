@@ -1,10 +1,11 @@
 import React from 'react';
-import { Star, Trash2,  Clock,  XCircle } from 'lucide-react';
+import { Star, Trash2,  Clock } from 'lucide-react';
 import { Modal } from '../common/Modal';
 import { ModalButtons } from '../common/ModalButtons';
 import { formatDate } from '../../lib/formatters';
 import { useModal } from '../../hooks/common/useModal.js';
 import { Button } from '../common/Button';
+import StorageImage from "../common/StorageImage.jsx";
 
 export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -16,21 +17,19 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
   };
 
   const item = vote.item;
-  const imageUrl = item?.images?.[0]?.path;
+  const imageUrl = item.images?.[0]?.variants?.thumb;
 
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
         <div className="flex items-start gap-4 flex-1">
 
-          <div className={`mt-1 flex h-16 w-14 shrink-0 items-center justify-center rounded-xl overflow-hidden shadow-inner ${
-            !imageUrl ? (isSkip ? 'bg-slate-100 text-slate-400' : 'bg-yellow-50 text-yellow-500') : 'bg-slate-100'
-          }`}>
-            {imageUrl ? (
-              <img src={imageUrl} alt={item?.name || 'Ítem'} className="h-full w-full object-cover" />
-            ) : (
-              isSkip ? <XCircle size={24} /> : <Star size={24} fill="currentColor" />
-            )}
+          <div className="mt-1 flex h-16 w-14 shrink-0 items-center justify-center rounded-xl overflow-hidden shadow-inner bg-slate-100">
+            <StorageImage
+              src={imageUrl}
+              alt={item?.name || 'Ítem'}
+              className="h-full w-full"
+            />
           </div>
 
           <div className="flex flex-col w-full">

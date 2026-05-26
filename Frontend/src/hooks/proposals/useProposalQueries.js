@@ -11,6 +11,7 @@ export const useMyProposals = () => {
     queryKey: PROPOSAL_KEYS.myProposals(),
     queryFn: () => axiosClient.get('/proposals/my-proposals'),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 60 * 5,
   });
 };
 export const useProposal = (id) => {

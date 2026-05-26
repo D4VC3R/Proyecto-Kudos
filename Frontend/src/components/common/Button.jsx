@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loader2 } from 'lucide-react'; // Asumo que usas lucide-react por tus iconos
+import { Loader2 } from 'lucide-react';
 import {VARIANTS, SIZES, RADII} from './../../lib/buttonStyles.js';
 
 export const Button = ({

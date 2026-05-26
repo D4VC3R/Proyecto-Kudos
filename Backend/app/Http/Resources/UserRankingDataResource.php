@@ -37,6 +37,7 @@ class UserRankingDataResource extends JsonResource
 					'id' => $user->id,
 					'name' => $user->name,
 					'total_kudos' => $user->total_kudos,
+					'avatar' => $user->profile?->avatar,
 					'created_at' => $user->created_at?->toIso8601String(),
 				];
 			})

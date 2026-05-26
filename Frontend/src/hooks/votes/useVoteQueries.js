@@ -29,5 +29,6 @@ export const useInfiniteMyVotes = (filters = {}, perPage = 15) => {
         : undefined;
     },
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 60 * 5,
   });
 };
