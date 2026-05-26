@@ -25,9 +25,9 @@ export const useLogout = () => {
   return useBaseMutation({
     mutationFn: () => axiosClient.post('/logout'),
     successMessage: 'Sesión cerrada',
-    onSuccessExtra: () => {
-        clearSession();
-        queryClient.clear();
+    onSettledExtra: () => {
+      clearSession();
+      queryClient.clear();
     }
   });
 };
@@ -41,5 +41,26 @@ export const useRegister = () => {
     onSuccessExtra: () => {
       queryClient.clear();
     }
+  });
+};
+
+export const useForgotPassword = () => {
+  return useBaseMutation({
+    mutationFn: (data) => axiosClient.post('/forgot-password', data),
+    successMessage: 'Si el correo existe, te hemos enviado un enlace.',
+  });
+};
+
+export const useResetPassword = () => {
+  return useBaseMutation({
+    mutationFn: (data) => axiosClient.post('/reset-password', data),
+    successMessage: 'Contraseña actualizada correctamente.',
+  });
+};
+
+export const useResendVerificationEmail = () => {
+  return useBaseMutation({
+    mutationFn: () => axiosClient.post('/email/verification-notification'),
+    successMessage: 'Se ha reenviado el enlace de verificación a tu correo.',
   });
 };

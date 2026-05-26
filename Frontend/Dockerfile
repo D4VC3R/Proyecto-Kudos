@@ -22,6 +22,7 @@ RUN pnpm install --frozen-lockfile
 COPY --chown=node:node . .
 
 EXPOSE 5174
+EXPOSE 4174
 
 # Ejecución limpia
 CMD ["pnpm", "run", "dev"]

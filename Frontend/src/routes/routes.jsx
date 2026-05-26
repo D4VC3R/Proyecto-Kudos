@@ -19,6 +19,8 @@ import AdminProposals from "../pages/admin/AdminProposals.jsx";
 import AdminUserDetail from "../pages/admin/AdminUserDetail.jsx";
 import ExplorePage from "../pages/ExplorePage.jsx";
 import ItemDetailPage from "../pages/ItemDetailPage.jsx";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage.jsx";
+import ResetPasswordPage from "../pages/ResetPasswordPage.jsx";
 
 // Rutas de la aplicación junto con el elemento de página que cargan.
 export const AppRoutes = () => {
@@ -26,13 +28,18 @@ export const AppRoutes = () => {
     <Routes>
 
         <Route path="/" element={<HomePage />} />
-        <Route path="/ranking" element={<RankingPage />} />
+
         <Route path="/login" element={<AuthPage />} />
         <Route path="/register" element={<AuthPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/password-reset/:token" element={<ResetPasswordPage />} />
+
+        <Route path="/ranking" element={<RankingPage />} />
         <Route path="/:categorySlug" element={<CategoryPage />} />
         <Route path="/:categorySlug/explore" element={<ExplorePage />} />
         <Route path="/:categorySlug/item/:itemId" element={<ItemDetailPage />} />
+
         <Route path="/forbidden" element={<div>Acceso Denegado</div>} />
 
         <Route element={<RequireAuth />}>

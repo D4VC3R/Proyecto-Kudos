@@ -2,29 +2,24 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Gestiona y valida las peticiones de inicio de sesión de la API.
+ */
 class LoginRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -34,7 +29,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
+     * Autentica de forma "Stateless" validando el hash directamente.
      *
      * @throws ValidationException
      */
@@ -42,8 +37,11 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-	    if (! Auth::guard('web')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-		    RateLimiter::hit($this->throttleKey());
+        $user = User::where('email', $this->email)->first();
+
+        // Evitamos crear sesiones web (Auth::attempt) porque es una API con Bearer Tokens.
+        if (! $user || ! Hash::check($this->password, $user->password)) {
+            RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
@@ -54,9 +52,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Ensure the login request is not rate limited.
-     *
-     * @throws ValidationException
+     * Lanza una excepción HTTP 429 limpia si se supera el límite de intentos.
      */
     public function ensureIsNotRateLimited(): void
     {
@@ -65,20 +61,11 @@ class LoginRequest extends FormRequest
         }
 
         event(new Lockout($this));
-
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
-        throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
-        ]);
+        abort(429, "Demasiados intentos de inicio de sesión. Inténtalo de nuevo en {$seconds} segundos.");
     }
 
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());

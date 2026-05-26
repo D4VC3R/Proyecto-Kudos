@@ -35,7 +35,7 @@ services:
       POSTGRES_USER: '${DB_USERNAME:-sail}'
       POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
     volumes:
-      - 'sail-pgsql:/var/lib/postgresql/data' # Ruta de persistencia correcta
+      - 'sail-pgsql:/var/lib/postgresql/data'
     networks:
       - sail
     healthcheck:
@@ -43,7 +43,6 @@ services:
       retries: 3
       timeout: 5s
 
-  # --- NUEVO: Servicio para Rankings en tiempo real ---
   redis:
     image: 'redis:alpine'
     ports:

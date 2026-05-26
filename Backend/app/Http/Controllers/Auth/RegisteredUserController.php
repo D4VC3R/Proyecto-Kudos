@@ -3,52 +3,51 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\Validation\ValidationException;
 
 /**
- * Controlador para manejar las peticiones de registro de usuarios. Adaptado de Breeze.
+ * Orquesta el alta de nuevos usuarios en el sistema.
  */
 class RegisteredUserController extends Controller
 {
     /**
-     * Petición de registro.
-     *
-     * @throws ValidationException
+     * Crea un usuario, le asigna el rol base y genera su perfil asociado de forma atómica.
      */
-    public function store(Request $request): JsonResponse
+    public function store(RegisterRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        // Envolvemos en transacción para evitar "Usuarios Fantasma" si falla la creación del perfil.
+        $user = DB::transaction(function () use ($request) {
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->string('password')),
-        ]);
+            $newUser = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        Role::query()->firstOrCreate([
-            'name' => 'user',
-            'guard_name' => 'web',
-        ]);
+            // Nos aseguramos de que el rol 'user' exista
+            Role::query()->firstOrCreate([
+                'name' => 'user',
+                'guard_name' => 'web',
+            ]);
 
-        $user->syncRoles(['user']);
+            $newUser->syncRoles(['user']);
 
-        $user->profile()->create();
+            // Si esto falla, se hace rollback automático de la creación del usuario.
+            $newUser->profile()->create();
+
+            return $newUser;
+        });
 
         event(new Registered($user));
 
         return $this->respondMutation(
-            message: 'Usuario creado correctamente',
+            message: 'Usuario creado correctamente.',
             data: [
                 'user' => [
                     'id' => $user->id,

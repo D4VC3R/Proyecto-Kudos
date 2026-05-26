@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Controlador nativo de Laravel Breeze para manejar las peticiones de nueva contraseña.
+ * Controlador API para manejar el establecimiento de una nueva contraseña.
  */
 class NewPasswordController extends Controller
 {
     /**
-     * Petición de nueva contraseña.
+     * Procesa la solicitud para guardar una nueva contraseña verificando el token.
      *
      * @throws ValidationException
      */
@@ -30,15 +30,15 @@ class NewPasswordController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Se intenta resetear la contraseña, si va bien, se actualiza en la base de datos,
-        // y si no se devuelve el error.
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
+            function (User $user) use ($request) {
                 $user->forceFill([
                     'password' => Hash::make($request->string('password')),
-                    'remember_token' => Str::random(60),
                 ])->save();
+
+                // Si la cuenta fue comprometida, expulsamos al atacante de todos sus dispositivos.
+                $user->tokens()->delete();
 
                 event(new PasswordReset($user));
             }
@@ -50,7 +50,7 @@ class NewPasswordController extends Controller
             ]);
         }
 
-        return $this->respondMutation('Contraseña restablecida correctamente.', [
+        return $this->respondMutation('Contraseña restablecida correctamente. Por favor, inicia sesión con tus nuevas credenciales.', [
             'status' => __($status),
         ]);
     }

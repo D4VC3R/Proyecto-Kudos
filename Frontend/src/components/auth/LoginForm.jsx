@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {  Mail, Lock } from 'lucide-react';
 import { useLogin } from '../../hooks/auth/useAuthMutations';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { loginSchema } from '../../lib/schemas';
 import { InputField } from '../common/InputField';
 import { Button } from '../common/Button';
@@ -47,7 +47,9 @@ export const LoginForm = () => {
         error={errors.password}
         disabled={isPending}
         labelEnd={
-          <a href="#" className="text-xs font-bold text-blue-600 hover:text-blue-700">¿Olvidaste tu contraseña?</a>
+            <Link to="/forgot-password" className="text-xs font-bold text-blue-600 hover:text-blue-700">
+                ¿Olvidaste tu contraseña?
+            </Link>
         }
       />
 

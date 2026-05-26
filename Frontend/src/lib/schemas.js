@@ -27,3 +27,15 @@ export const proposalSchema = z.object({
   description: z.string().min(20, 'La descripción debe ser detallada (mínimo 20 caracteres)').max(2000, 'La descripción es muy larga'),
   image_path: z.string().optional(),
 });
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().min(1, 'El email es obligatorio').email('Formato de email inválido'),
+});
+
+export const resetPasswordSchema = z.object({
+  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
+  password_confirmation: z.string().min(1, 'Debes confirmar la contraseña'),
+}).refine((data) => data.password === data.password_confirmation, {
+  message: "Las contraseñas no coinciden",
+  path: ["password_confirmation"],
+});

@@ -2,13 +2,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 export const useBaseMutation = ({
-  mutationFn,
-  invalidateKeys = [],
-  successMessage,
-  errorMessage = 'Ha ocurrido un error inesperado',
-  onSuccessExtra,
-  onErrorExtra,
-}) => {
+                                  mutationFn,
+                                  invalidateKeys = [],
+                                  successMessage,
+                                  errorMessage = 'Ha ocurrido un error inesperado',
+                                  onSuccessExtra,
+                                  onErrorExtra,
+                                  onSettledExtra, // Para acciones que deben ocurrir sí o sí
+                                }) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -27,6 +28,9 @@ export const useBaseMutation = ({
       toast.error(message);
       if (onErrorExtra) onErrorExtra(error, variables, context);
     },
+
+    onSettled: (data, error, variables, context) => {
+      if (onSettledExtra) onSettledExtra(data, error, variables, context);
+    }
   });
 };
-

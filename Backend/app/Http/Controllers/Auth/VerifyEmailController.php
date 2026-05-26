@@ -8,20 +8,22 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-/*
- * Controlador nativo de Laravel Breeze para manejar las peticiones de verificación de email.
+/**
+ * Controlador API para procesar la verificación criptográfica del correo electrónico.
  */
 class VerifyEmailController extends Controller
 {
     /**
-     * Marcar el mail como verificado.
+     * Valida el hash firmado y marca el correo del usuario como verificado.
+     * La validación de caducidad y firma del enlace recae sobre el middleware 'signed'.
      */
-    public function __invoke(Request $request, $id, $hash): JsonResponse
+    public function __invoke(Request $request, string $id, string $hash): JsonResponse
     {
         $user = User::findOrFail($id);
 
+        // Doble validación de seguridad: Asegura de que el hash pertenece realmente al email del usuario.
         if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
-            return $this->respondError('invalid-hash', 'El enlace de verificación o hash es inválido.', [], 403);
+            return $this->respondError('invalid-hash', 'El enlace de verificación está corrupto o es inválido.', [], 403);
         }
 
         if ($user->hasVerifiedEmail()) {
@@ -34,7 +36,7 @@ class VerifyEmailController extends Controller
             event(new Verified($user));
         }
 
-        return $this->respondMutation('Email verificado correctamente.', [
+        return $this->respondMutation('Tu cuenta ha sido verificada correctamente.', [
             'status' => 'verified',
         ]);
     }
