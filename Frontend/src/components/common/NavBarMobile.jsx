@@ -10,7 +10,7 @@ export const NavBarMobile = ({ isOpen, setIsOpen, navItems }) => {
   const mobileBaseStyles = "flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all";
 
   return (
-    <div className="absolute top-[72px] left-0 w-full bg-white border-b border-slate-200 shadow-xl md:hidden py-4 px-4 flex flex-col gap-2 z-40">
+    <div className="absolute top-[72px] left-0 w-full bg-surface border-b border-border shadow-xl md:hidden py-4 px-4 flex flex-col gap-2 z-40">
       {navItems.map((item) => {
         const Icon = item.icon;
         return (

@@ -48,7 +48,7 @@ const CategoryPage = () => {
         <div className="flex min-h-[60vh] w-full items-center justify-center px-4">
           <FeedbackState
               icon={Telescope}
-              iconColorClass="bg-slate-100 text-slate-500"
+              iconColorClass="bg-slate-100 text-text-normal"
               title="Categoría no encontrada"
               description="Parece que la categoría que buscas no existe o ha sido eliminada."
               actionText="Volver al inicio"
@@ -62,7 +62,7 @@ const CategoryPage = () => {
       <div className={`flex w-full flex-col transition-opacity duration-300 ${(isFetchingRanking && !isFetchingNextPage && !isLoadingRanking) ? 'opacity-60' : 'opacity-100'}`}>
         <div className="mb-8 shrink-0">
           {isLoadingRanking ? (
-              <div className="flex flex-col gap-4 border-b border-slate-200 pb-4">
+              <div className="flex flex-col gap-4 border-b border-border pb-4">
                 <Skeleton className="h-8 w-2/3 md:w-1/3"/>
                 <Skeleton className="h-4 w-full md:w-1/2"/>
               </div>
@@ -82,8 +82,8 @@ const CategoryPage = () => {
             {(isLoadingRanking || (isFetchingRanking && !hasRankingData)) ? (
                 <Skeleton className="h-[750px] w-full rounded-3xl shadow-2xl ring-2 ring-slate-200"/>
             ) : isErrorRanking && !hasRankingData ? (
-                <div className="flex min-h-[420px] items-center justify-center rounded-3xl bg-white p-6 text-center shadow-2xl ring-2 ring-slate-200">
-                  <p className="text-slate-600">Error: {rankingError?.message}</p>
+                <div className="flex min-h-[420px] items-center justify-center rounded-3xl bg-surface p-6 text-center shadow-2xl ring-2 ring-slate-200">
+                  <p className="text-nav-item">Error: {rankingError?.message}</p>
                 </div>
             ) : (
                 <Ranking
@@ -101,9 +101,9 @@ const CategoryPage = () => {
         {isLoadingRanking ? (
             <Skeleton className="mt-8 h-64 w-full rounded-3xl"/>
         ) : sliderItems.length > 0 && (
-            <div className="mt-8 rounded-3xl bg-white py-8 shadow-xl ring-1 ring-slate-200">
+            <div className="mt-8 rounded-3xl bg-surface py-8 shadow-xl ring-1 ring-slate-200">
               <div className="mb-6 px-8 border-b border-slate-100 pb-4">
-                <h3 className="text-2xl font-black text-slate-900">Candidatos Destacados</h3>
+                <h3 className="text-2xl font-black text-text-highlight">Candidatos Destacados</h3>
               </div>
               <InfiniteItemSlider items={sliderItems}/>
             </div>

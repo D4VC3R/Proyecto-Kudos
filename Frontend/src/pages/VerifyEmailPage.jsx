@@ -56,7 +56,7 @@ const VerifyEmailPage = () => {
       description: "Tu email ha sido validado correctamente. Ya puedes acceder a todas las funciones.",
       actionText: "Iniciar Sesión",
       onAction: () => navigate('/login'),
-      actionColorClass: "bg-blue-600 text-white hover:bg-blue-700"
+      actionColorClass: "bg-primary text-text-btn hover:bg-blue-700"
     },
     error: {
       icon: AlertCircle,
@@ -65,13 +65,13 @@ const VerifyEmailPage = () => {
       description: "El enlace es inválido o ha expirado por seguridad. Inicia sesión en tu cuenta para solicitar un nuevo enlace de verificación.",
       actionText: "Ir al Login",
       onAction: () => navigate('/login'),
-      actionColorClass: "bg-slate-800 text-white hover:bg-slate-900"
+      actionColorClass: "bg-slate-800 text-text-btn hover:bg-slate-900"
     }
   };
 
   return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center p-4">
-        <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-white p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
+        <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
           <FeedbackState {...STATE_CONFIG[viewState]} />
         </ScaleFadeIn>
       </div>

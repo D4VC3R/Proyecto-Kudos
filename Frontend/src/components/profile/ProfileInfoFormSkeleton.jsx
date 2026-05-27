@@ -4,7 +4,7 @@ import { Skeleton } from './../common/Skeleton'; // Tu componente genérico de e
 export const ProfileInfoFormSkeleton = () => {
   return (
     <div className="flex flex-col gap-8 md:flex-row max-w-4xl mx-auto w-full">
-      <div className="flex flex-col items-center p-6 bg-slate-50 rounded-3xl border border-slate-200 md:w-1/3 h-fit">
+      <div className="flex flex-col items-center p-6 bg-background rounded-3xl border border-border md:w-1/3 h-fit">
         <Skeleton className="w-32 h-32 rounded-full mb-4 ring-4 ring-white shadow-lg" />
         <Skeleton className="h-8 w-3/4 mb-2" />
         <Skeleton className="h-4 w-full mb-6" />
@@ -14,7 +14,7 @@ export const ProfileInfoFormSkeleton = () => {
         </div>
       </div>
 
-      <div className="flex-1 bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200">
+      <div className="flex-1 bg-surface rounded-3xl p-6 md:p-8 shadow-sm border border-border">
         <Skeleton className="h-7 w-1/3 mb-6 border-b border-slate-100 pb-4" />
 
         <div className="flex flex-col gap-5">

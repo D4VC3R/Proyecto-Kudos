@@ -8,7 +8,7 @@ import {BookOpenCheckIcon, PlayCircle, PlusCircle, SquareSplitHorizontalIcon, Te
 const ActionMenu = ({categorySlug, name}) => {
     return (
         <div className="flex flex-col gap-6 lg:col-span-5 items-center">
-            <StaggerGrid className="w-full flex flex-col gap-6 rounded-3xl bg-white p-8 shadow-xl ring-1 ring-slate-200">
+            <StaggerGrid className="w-full flex flex-col gap-6 rounded-3xl bg-surface p-8 shadow-xl ring-1 ring-slate-200">
                 <StaggerItem>
                     <ActionButton
                         title="Votar"

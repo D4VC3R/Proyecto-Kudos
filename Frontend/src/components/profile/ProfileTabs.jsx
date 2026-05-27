@@ -3,7 +3,7 @@ import { Button } from '../common/Button';
 
 export const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => {
   return (
-    <div className="w-full flex overflow-x-auto border-b border-slate-200 scrollbar-hide mb-6 gap-2 md:gap-8 min-w-0">
+    <div className="w-full flex overflow-x-auto border-b border-border scrollbar-hide mb-6 gap-2 md:gap-8 min-w-0">
       {tabs.map((tab) => (
         <Button
           key={tab.id}

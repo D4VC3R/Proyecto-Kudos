@@ -33,7 +33,7 @@ export const ScrollToTop = ({ threshold = 800 }) => {
       {isVisible && (
         <PopButton
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg hover:bg-yellow-500 hover:-translate-y-1 transition-all"
+          className="fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-text-btn shadow-lg hover:bg-yellow-500 hover:-translate-y-1 transition-all"
           aria-label="Volver arriba"
         >
           <ArrowUp size={24} />

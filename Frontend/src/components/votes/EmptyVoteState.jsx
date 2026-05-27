@@ -10,11 +10,11 @@ export const EmptyVoteState = () => {
   return (
     <AnimatedItem>
     <div className="mx-auto mt-20 max-w-2xl text-center flex flex-col items-center">
-      <div className="w-24 h-24 bg-yellow-100 text-yellow-400 rounded-full flex items-center justify-center mb-6">
+      <div className="w-24 h-24 bg-yellow-100 text-accent rounded-full flex items-center justify-center mb-6">
         <Star size={48} />
       </div>
-      <h2 className="text-3xl font-black text-slate-900 mb-2">¡Todo al día!</h2>
-      <p className="text-lg text-slate-500 mb-8">No tenemos nada más que ofrecerte aquí, ¿Por qué no exploras otra categoría?.</p>
+      <h2 className="text-3xl font-black text-text-highlight mb-2">¡Todo al día!</h2>
+      <p className="text-lg text-text-normal mb-8">No tenemos nada más que ofrecerte aquí, ¿Por qué no exploras otra categoría?.</p>
       <Button
         onClick={() => navigate(`/`)}
         variant="solid"

@@ -31,7 +31,7 @@ export const VoteStars = ({ onVote, isPending }) => {
   return (
     <div className="flex flex-col items-center mb-6">
       <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">
-        Tu puntuación: <span className={clsx("ml-2 text-xl font-black", hoverScore > 0 ? "text-blue-600" : "text-slate-300")}>{hoverScore > 0 ? hoverScore.toFixed(1) : '-.-'}</span>
+        Tu puntuación: <span className={clsx("ml-2 text-xl font-black", hoverScore > 0 ? "text-primary" : "text-slate-300")}>{hoverScore > 0 ? hoverScore.toFixed(1) : '-.-'}</span>
       </h4>
       
       <div 
@@ -58,8 +58,8 @@ export const VoteStars = ({ onVote, isPending }) => {
 
               <Star 
                 size={40} 
-                className="text-yellow-400 drop-shadow-sm transition-transform hover:scale-110" 
-                strokeWidth={1.5} 
+                className="text-accent drop-shadow-sm transition-transform hover:scale-110"
+                strokeWidth={1.5}
                 fill="white"
               />
 
@@ -69,8 +69,8 @@ export const VoteStars = ({ onVote, isPending }) => {
               >
                 <Star 
                   size={40} 
-                  className="text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]" 
-                  strokeWidth={1.5} 
+                  className="text-accent fill-accent drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]"
+                  strokeWidth={1.5}
                 />
               </div>
             </div>
@@ -82,4 +82,3 @@ export const VoteStars = ({ onVote, isPending }) => {
     </div>
   );
 };
-

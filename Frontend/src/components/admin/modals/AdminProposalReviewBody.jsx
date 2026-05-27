@@ -4,9 +4,9 @@ import { TextAreaField } from '../../common/TextAreaField.jsx';
 export const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, setAdminNotes}) => {
   return (
     <>
-      <p className="text-slate-600">
+      <p className="text-nav-item">
         Estás a punto de <span className="font-bold">{actionType === 'accepted' ? 'Aceptar' : 'Rechazar'}</span> la propuesta
-        <span className="font-bold text-slate-900"> {proposalName}</span>.
+        <span className="font-bold text-text-highlight"> {proposalName}</span>.
       </p>
 
       <div className="mt-2">

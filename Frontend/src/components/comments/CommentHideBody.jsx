@@ -3,7 +3,7 @@ import { InputField } from '../common/InputField';
 
 export const CommentHideBody = ({ hideReason, setHideReason }) => (
   <div className="flex flex-col gap-4">
-    <p className="text-slate-600">
+    <p className="text-nav-item">
       El comentario se ocultará públicamente pero se mantendrá en el sistema. Los administradores podrán restaurarlo.
     </p>
     <InputField

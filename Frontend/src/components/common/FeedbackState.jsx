@@ -30,13 +30,13 @@ export const FeedbackState = ({
 
             {title && (
                 <StaggerItem>
-                    <h1 className="text-2xl font-black text-slate-900 mb-2">{title}</h1>
+                    <h1 className="text-2xl font-black text-text-highlight mb-2">{title}</h1>
                 </StaggerItem>
             )}
 
             {description && (
                 <StaggerItem>
-                    <p className="text-slate-500 mb-6 font-medium max-w-sm text-center">{description}</p>
+                    <p className="text-text-normal mb-6 font-medium max-w-sm text-center">{description}</p>
                 </StaggerItem>
             )}
 

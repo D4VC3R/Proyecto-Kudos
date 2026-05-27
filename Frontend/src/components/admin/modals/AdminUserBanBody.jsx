@@ -4,7 +4,7 @@ import { InputField } from '../../common/InputField.jsx';
 export const AdminUserBanBody = ({userName, banParams, setBanParams}) => {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-slate-600">
+      <p className="text-nav-item">
         ¿Bloquear el acceso a <span className="font-bold">{userName}?</span>.
       </p>
 
@@ -20,7 +20,7 @@ export const AdminUserBanBody = ({userName, banParams, setBanParams}) => {
           type="checkbox"
           checked={banParams.is_permanent}
           onChange={(e) => setBanParams({ ...banParams, is_permanent: e.target.checked })}
-          className="rounded text-blue-600 focus:ring-blue-500 w-4 h-4 cursor-pointer"
+          className="rounded text-primary focus:ring-blue-500 w-4 h-4 cursor-pointer"
         />
         Baneo permanente
       </label>

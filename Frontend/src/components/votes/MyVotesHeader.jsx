@@ -27,7 +27,7 @@ export const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams
           onClick={() => setView('all')}
           variant="solid"
           color={currentView === 'all' ? 'primary' : 'neutral'}
-          className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${currentView === 'all' ? 'shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+          className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${currentView === 'all' ? 'shadow-md' : 'bg-slate-100 text-nav-item hover:bg-slate-200'}`}
         >
           Todos
         </Button>
@@ -35,7 +35,7 @@ export const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams
           onClick={() => setView('vote')}
           variant="solid"
           color={currentView === 'vote' ? 'primary' : 'neutral'}
-          className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${currentView === 'vote' ? 'shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+          className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${currentView === 'vote' ? 'shadow-md' : 'bg-slate-100 text-nav-item hover:bg-slate-200'}`}
         >
           Votados
         </Button>
@@ -43,7 +43,7 @@ export const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams
           onClick={() => setView('skip')}
           variant="solid"
           color={currentView === 'skip' ? 'primary' : 'neutral'}
-          className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${currentView === 'skip' ? 'shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+          className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${currentView === 'skip' ? 'shadow-md' : 'bg-slate-100 text-nav-item hover:bg-slate-200'}`}
         >
           Pasados
         </Button>
@@ -53,7 +53,7 @@ export const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams
         <select
           value={currentCategory || ''}
           onChange={handleCategoryChange}
-          className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="rounded-xl border border-border bg-surface px-3 py-2 text-sm font-bold text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           <option value="">Todas las Categorías</option>
           {Array.isArray(categories) && categories.map((cat) => (
@@ -63,8 +63,8 @@ export const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams
           ))}
         </select>
 
-        <div className="flex flex-col items-center justify-center p-2 bg-slate-50 rounded-xl min-w-[70px] ml-2">
-          <span className="text-xl text-slate-900 font-black">{meta.total || 0}</span>
+        <div className="flex flex-col items-center justify-center p-2 bg-background rounded-xl min-w-[70px] ml-2">
+          <span className="text-xl text-text-highlight font-black">{meta.total || 0}</span>
           <span className="text-[10px] uppercase text-slate-400 font-bold">Total</span>
         </div>
       </div>

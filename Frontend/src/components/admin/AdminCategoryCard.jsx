@@ -5,12 +5,12 @@ import { Button } from '../common/Button';
 
 export const AdminCategoryCard = ({ category, onEdit, onDelete }) => {
   return (
-    <AnimatedCard className="bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow rounded-3xl p-6 flex flex-col gap-3 group relative overflow-hidden">
+    <AnimatedCard className="bg-surface border border-slate-100 shadow-sm hover:shadow-md transition-shadow rounded-3xl p-6 flex flex-col gap-3 group relative overflow-hidden">
       <div className="flex flex-col gap-1">
         <h3 className="font-black text-xl text-slate-800 line-clamp-1">{category.name}</h3>
         <span className="text-xs font-bold text-slate-400">/{category.slug}</span>
       </div>
-      <p className="text-sm text-slate-500 line-clamp-2 mt-1 min-h-[40px]">
+      <p className="text-sm text-text-normal line-clamp-2 mt-1 min-h-[40px]">
         {category.description || "Sin descripción."}
       </p>
 

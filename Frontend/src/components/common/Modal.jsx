@@ -20,10 +20,10 @@ export const Modal = ({isOpen, onClose, title, children, footer}) => {
 
           <RemoveScroll className="relative w-full max-w-lg">
             <ModalTransition
-              className="flex flex-col rounded-3xl bg-white shadow-2xl ring-1 ring-slate-200 overflow-hidden"
+              className="flex flex-col rounded-3xl bg-surface shadow-2xl ring-1 ring-slate-200 overflow-hidden"
             >
               <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-                <h3 className="text-xl font-bold text-slate-900">{title}</h3>
+                <h3 className="text-xl font-bold text-text-highlight">{title}</h3>
                 <Button
                   onClick={onClose}
                   variant="ghost"
@@ -39,7 +39,7 @@ export const Modal = ({isOpen, onClose, title, children, footer}) => {
               </div>
 
               {footer && (
-                <div className="bg-slate-50 px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-100">
+                <div className="bg-background px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-100">
                   {footer}
                 </div>
               )}

@@ -4,8 +4,8 @@ import StorageImage from "../common/StorageImage.jsx";
 
 export const ProfileSummaryCard = ({ user, profile }) => {
   return (
-    <div className="flex flex-col items-center p-6 bg-slate-50 rounded-3xl border border-slate-200 w-full">
-      <div className="w-32 h-32 rounded-full overflow-hidden bg-blue-100 text-blue-600 flex items-center justify-center mb-4 ring-4 ring-white shadow-lg">
+    <div className="flex flex-col items-center p-6 bg-background rounded-3xl border border-border w-full">
+      <div className="w-32 h-32 rounded-full overflow-hidden bg-blue-100 text-primary flex items-center justify-center mb-4 ring-4 ring-white shadow-lg">
         <StorageImage
           src={profile?.avatar}
           alt={user?.name || 'Avatar del usuario'}
@@ -14,8 +14,8 @@ export const ProfileSummaryCard = ({ user, profile }) => {
         />
       </div>
 
-      <h2 className="text-2xl font-black text-slate-900 text-center">{user?.name}</h2>
-      <p className="text-slate-500 font-medium mb-4">{user?.email}</p>
+      <h2 className="text-2xl font-black text-text-highlight text-center">{user?.name}</h2>
+      <p className="text-text-normal font-medium mb-4">{user?.email}</p>
 
       <div className="flex flex-wrap justify-center gap-2">
         <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">

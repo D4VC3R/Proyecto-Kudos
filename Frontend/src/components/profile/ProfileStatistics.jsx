@@ -14,10 +14,10 @@ export const ProfileStatistics = () => {
   }
   if (isError || !stats) {
     return (
-      <div className="flex h-64 flex-col items-center justify-center text-center bg-white rounded-3xl border border-red-200 p-8">
+      <div className="flex h-64 flex-col items-center justify-center text-center bg-surface rounded-3xl border border-red-200 p-8">
         <AlertCircle size={48} className="text-red-400 mb-4" />
         <h3 className="text-xl font-bold text-slate-800 mb-2">No se pudieron cargar las estadísticas</h3>
-        <p className="text-slate-500 max-w-sm">Hubo un problema al obtener tu información. Inténtalo más tarde.</p>
+        <p className="text-text-normal max-w-sm">Hubo un problema al obtener tu información. Inténtalo más tarde.</p>
       </div>
     );
   }
@@ -55,7 +55,7 @@ export const ProfileStatistics = () => {
         title="Skips Realizados" 
         value={stats.total_skips} 
         icon={SkipForward} 
-        colorClass="bg-slate-100 text-slate-500" 
+        colorClass="bg-slate-100 text-text-normal"
         delay={0.5}
       />
       <StatCard 

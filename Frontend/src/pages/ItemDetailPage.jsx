@@ -48,47 +48,47 @@ const ItemDetailPage = () => {
         <BackButton />
       </div>
 
-      <div className="w-full bg-white rounded-3xl shadow-xl ring-1 ring-slate-200 overflow-hidden">
+      <div className="w-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 overflow-hidden">
         <ItemImage item={item} showTitle={false} />
 
         <div className="p-6 md:p-10 flex flex-col gap-6">
           <div className="flex flex-col gap-2">
 
-            <h1 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight">
+            <h1 className="text-3xl md:text-5xl font-black text-text-highlight leading-tight">
               {item.name}
             </h1>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-center gap-3 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200">
+              <div className="flex items-center gap-3 rounded-2xl bg-background px-4 py-3 ring-1 ring-slate-200">
                 <Star size={18} className="text-yellow-500" />
                 <div>
-                  <p className="text-xs font-semibold text-slate-500">Valoración media</p>
-                  <p className="text-lg font-black text-slate-900">{item.vote_avg?.toFixed(1) || '0.0'}</p>
+                  <p className="text-xs font-semibold text-text-normal">Valoración media</p>
+                  <p className="text-lg font-black text-text-highlight">{item.vote_avg?.toFixed(1) || '0.0'}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200">
-                <Star size={18} className="text-blue-600" />
+              <div className="flex items-center gap-3 rounded-2xl bg-background px-4 py-3 ring-1 ring-slate-200">
+                <Star size={18} className="text-primary" />
                 <div>
-                  <p className="text-xs font-semibold text-slate-500">Votos</p>
-                  <p className="text-lg font-black text-slate-900">{item.vote_count ?? 0}</p>
+                  <p className="text-xs font-semibold text-text-normal">Votos</p>
+                  <p className="text-lg font-black text-text-highlight">{item.vote_count ?? 0}</p>
                 </div>
               </div>
             </div>
             {item.creator && (
-              <p className="text-slate-500 flex items-center gap-2">
+              <p className="text-text-normal flex items-center gap-2">
                 <Info size={16} />
                 Aportado por <span className="font-bold text-slate-700">{item.creator.name}</span>
               </p>
             )}
           </div>
 
-          <div className="prose prose-slate max-w-none prose-p:leading-relaxed prose-p:text-slate-600">
+          <div className="prose prose-slate max-w-none prose-p:leading-relaxed prose-p:text-nav-item">
             <p className="whitespace-pre-line text-lg font-medium">{item.description}</p>
           </div>
         </div>
       </div>
 
-      <div className="w-full bg-white rounded-3xl p-6 md:p-10 shadow-xl ring-1 ring-slate-200">
+      <div className="w-full bg-surface rounded-3xl p-6 md:p-10 shadow-xl ring-1 ring-slate-200">
         <CommentBox itemId={item.id} />
       </div>
     </div>

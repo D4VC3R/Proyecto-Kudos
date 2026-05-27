@@ -25,7 +25,7 @@ export const NewProposalPage = () => {
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
-      <FadeUp className="w-full rounded-3xl bg-white p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
+      <FadeUp className="w-full rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
         <NewProposalHeader categoryName={category.name} />
 
         <div className="w-full">

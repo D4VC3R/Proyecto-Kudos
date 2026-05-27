@@ -22,7 +22,7 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
         <div className="flex items-start gap-4">
 
           <div className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl overflow-hidden bg-slate-100">
@@ -36,13 +36,13 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
 
           <div className="flex flex-col">
             <div className="flex items-center gap-3">
-              <h4 className="text-lg font-bold text-slate-900">{proposal.name}</h4>
+              <h4 className="text-lg font-bold text-text-highlight">{proposal.name}</h4>
               <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold border ${stateColor}`}>
                 <StateIcon size={12} strokeWidth={3} />
                 {stateLabel}
               </span>
             </div>
-            <p className="text-sm font-medium text-blue-600 mt-0.5">{proposal.category?.name || 'Categoría'}</p>
+            <p className="text-sm font-medium text-primary mt-0.5">{proposal.category?.name || 'Categoría'}</p>
 
             {proposal.status === 'rejected' && proposal.admin_notes && (
               <div className="mt-3 rounded-xl bg-red-50 p-3 text-sm text-red-800 border border-red-100">
@@ -100,7 +100,7 @@ export const MyProposalItemCard = ({ proposal, isDeleting, onDelete }) => {
           />
         }
       >
-        <p className="text-slate-600 font-medium">
+        <p className="text-nav-item font-medium">
           ¿Estás seguro de que deseas eliminar la propuesta <strong>{proposal.name}</strong>? Esta acción no se puede deshacer.
         </p>
       </Modal>

@@ -7,20 +7,20 @@ import { Button } from '../common/Button';
 
 export const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan, onRevokeSessions }) => {
   return (
-    <AnimatedCard className="bg-white border text-sm border-slate-100 shadow-sm rounded-3xl p-6 flex flex-col gap-6 lg:col-span-1">
+    <AnimatedCard className="bg-surface border text-sm border-slate-100 shadow-sm rounded-3xl p-6 flex flex-col gap-6 lg:col-span-1">
       <div className="flex flex-col items-center text-center gap-3">
-        <div className="w-24 h-24 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
+        <div className="w-24 h-24 bg-blue-100 text-primary rounded-full flex items-center justify-center">
           <UserSquare size={48} />
         </div>
         <div>
           <h2 className="text-xl font-black text-slate-800">{user.name}</h2>
-          <p className="text-slate-500 text-sm font-medium">{user.email}</p>
+          <p className="text-text-normal text-sm font-medium">{user.email}</p>
         </div>
 
         <div className="flex flex-wrap gap-2 justify-center mt-2">
           <span className={clsx("px-3 py-1 rounded-xl text-xs font-bold",
             user.role === 'admin' ? "bg-purple-100 text-purple-700" :
-            user.is_verified ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600"
+            user.is_verified ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-nav-item"
           )}>
             Rol: {user.role === 'admin' ? 'ADMIN' : (user.is_verified ? 'VERIFIED' : 'GUEST')}
           </span>

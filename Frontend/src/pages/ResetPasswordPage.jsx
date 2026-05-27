@@ -36,7 +36,7 @@ const ResetPasswordPage = () => {
     if (!token || !email) {
         return (
             <div className="flex min-h-[70vh] flex-col items-center justify-center p-4">
-                <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-white p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
+                <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
                     <FeedbackState
                         icon={Lock}
                         iconColorClass="bg-red-100 text-red-500"
@@ -52,7 +52,7 @@ const ResetPasswordPage = () => {
 
     return (
         <div className="flex min-h-[70vh] flex-col items-center justify-center p-4">
-            <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-white p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
+            <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
 
                 {isSuccess ? (
                     <FeedbackState
@@ -61,17 +61,17 @@ const ResetPasswordPage = () => {
                         title="¡Contraseña actualizada!"
                         description="Tu contraseña se ha cambiado correctamente. Todas tus sesiones anteriores han sido cerradas por seguridad."
                         actionText="Iniciar Sesión"
-                        actionColorClass="bg-blue-600 text-white"
+                        actionColorClass="bg-primary text-text-btn"
                         onAction={() => navigate('/login')}
                     />
                 ) : (
                     <>
                         <div className="mb-8 text-center flex flex-col items-center">
-                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-primary">
                                 <Lock size={32} />
                             </div>
-                            <h1 className="text-2xl font-black text-slate-900">Nueva contraseña</h1>
-                            <p className="mt-2 text-sm text-slate-500">
+                            <h1 className="text-2xl font-black text-text-highlight">Nueva contraseña</h1>
+                            <p className="mt-2 text-sm text-text-normal">
                                 Elige una contraseña segura para la cuenta asociada a <span className="font-bold">{email}</span>.
                             </p>
                         </div>

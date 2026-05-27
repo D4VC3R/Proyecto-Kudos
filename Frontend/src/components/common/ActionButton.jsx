@@ -8,7 +8,7 @@ const ActionButton = ({ title, description, icon: Icon, to, color = 'blue' }) =>
     blue: 'bg-gradient-to-br from-blue-500 to-blue-700 shadow-blue-500/30 ring-blue-400',
     red: 'bg-gradient-to-br from-red-500 to-red-700 shadow-red-500/30 ring-red-400',
     green: 'bg-gradient-to-br from-green-500 to-green-700 shadow-green-500/30 ring-green-400',
-    yellow: 'bg-gradient-to-br from-yellow-500 to-yellow-700 shadow-yellow-500/30 ring-yellow-400',
+    yellow: 'bg-gradient-to-br from-yellow-500 to-yellow-700 shadow-yellow-500/30 ring-accent',
     purple: 'bg-gradient-to-br from-purple-500 to-purple-700 shadow-purple-500/30 ring-purple-400',
   };
 
@@ -16,7 +16,7 @@ const ActionButton = ({ title, description, icon: Icon, to, color = 'blue' }) =>
     <Link to={to} className="block w-full">
       <BouncyCard
         className={clsx(
-          'relative flex items-center overflow-hidden rounded-3xl p-6 text-white shadow-xl ring-1 transition-shadow hover:shadow-2xl',
+          'relative flex items-center overflow-hidden rounded-3xl p-6 text-text-btn shadow-xl ring-1 transition-shadow hover:shadow-2xl',
           colorStyles[color]
         )}
       >
@@ -25,11 +25,11 @@ const ActionButton = ({ title, description, icon: Icon, to, color = 'blue' }) =>
 
         <div className="relative z-10 flex flex-1 flex-col">
           <h3 className="text-2xl font-black tracking-tight drop-shadow-md">{title}</h3>
-          <p className="mt-1 text-sm font-medium text-white/80">{description}</p>
+          <p className="mt-1 text-sm font-medium text-text-btn/80">{description}</p>
         </div>
 
         <div className="relative z-10 ml-4 rounded-2xl bg-white/20 p-4 backdrop-blur-sm">
-          <Icon size={32} className="text-white drop-shadow-sm" />
+          <Icon size={32} className="text-text-btn drop-shadow-sm" />
         </div>
       </BouncyCard>
     </Link>

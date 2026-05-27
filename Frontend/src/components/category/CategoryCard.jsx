@@ -25,17 +25,17 @@ export const CategoryCard = ({ category }) => {
         <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-700 ease-out group-hover:translate-x-full" />
         <div className="absolute inset-0 flex flex-col justify-end p-6 rounded-3xl transition-all duration-300 group-hover:ring-4 group-hover:ring-inset group-hover:ring-blue-500">
           <div className="absolute right-4 top-4">
-            <div className="flex items-center gap-1.5 rounded-full bg-yellow-400 px-3 py-1.5 font-bold text-yellow-950 shadow-md">
+            <div className="flex items-center gap-1.5 rounded-full bg-accent px-3 py-1.5 font-bold text-yellow-950 shadow-md">
               <Icon size={16} className="fill-yellow-600 stroke-yellow-700" />
               <span className="text-sm">{category.items_count || 0}</span>
             </div>
           </div>
 
           <HoverFadeText className="transform transition-all">
-            <h2 className="mb-2 font-black text-3xl text-white tracking-tight drop-shadow-md">
+            <h2 className="mb-2 font-black text-3xl text-text-btn tracking-tight drop-shadow-md">
               {category.name}
             </h2>
-            <p className="line-clamp-2 text-sm text-slate-200 font-medium leading-relaxed">
+            <p className="line-clamp-2 text-sm text-text-subtitle font-medium leading-relaxed">
               {category.description}
             </p>
           </HoverFadeText>

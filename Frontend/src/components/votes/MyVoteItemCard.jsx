@@ -21,7 +21,7 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
         <div className="flex items-start gap-4 flex-1">
 
           <div className="mt-1 flex h-16 w-14 shrink-0 items-center justify-center rounded-xl overflow-hidden shadow-inner bg-slate-100">
@@ -34,26 +34,26 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
 
           <div className="flex flex-col w-full">
             <div className="flex items-center gap-3 flex-wrap">
-              <h4 className="text-lg font-bold text-slate-900 line-clamp-1">{vote.item?.name || 'Ítem desconocido'}</h4>
+              <h4 className="text-lg font-bold text-text-highlight line-clamp-1">{vote.item?.name || 'Ítem desconocido'}</h4>
               <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold border ${
-                isSkip ? 'bg-slate-50 text-slate-600 border-slate-200' : 'bg-yellow-50 text-yellow-700 border-yellow-200'
+                isSkip ? 'bg-background text-nav-item border-border' : 'bg-yellow-50 text-yellow-700 border-yellow-200'
               }`}>
                 {isSkip ? 'Pasado' : 'Votado'}
               </span>
             </div>
 
-            <div className="flex items-center gap-3 mt-1 text-sm font-medium text-slate-500">
-              <span className="text-blue-600">{vote.item?.category?.name || 'Categoría'}</span>
+            <div className="flex items-center gap-3 mt-1 text-sm font-medium text-text-normal">
+              <span className="text-primary">{vote.item?.category?.name || 'Categoría'}</span>
               <span>•</span>
               <span className="flex items-center gap-1"><Clock size={14} /> {formatDate(vote.voted_at)}</span>
             </div>
 
             {!isSkip && (
-              <div className="mt-3 flex items-center gap-1 bg-slate-50 rounded-xl px-3 py-2 w-fit border border-slate-100">
-                <span className="text-slate-500 text-sm font-bold mr-1">Puntuación:</span>
+              <div className="mt-3 flex items-center gap-1 bg-background rounded-xl px-3 py-2 w-fit border border-slate-100">
+                <span className="text-text-normal text-sm font-bold mr-1">Puntuación:</span>
                 <span className="text-lg font-black text-slate-800">{vote.score}</span>
                 <span className="text-slate-400 text-sm">/ 10</span>
-                <Star size={16} className="text-yellow-400 ml-1" fill="currentColor" />
+                <Star size={16} className="text-accent ml-1" fill="currentColor" />
               </div>
             )}
           </div>
@@ -86,7 +86,7 @@ export const MyVoteItemCard = ({ vote, isDeleting, onDelete }) => {
           />
         }
       >
-        <p className="text-slate-600 font-medium">
+        <p className="text-nav-item font-medium">
           ¿Estás seguro de que deseas eliminar este registro de voto para <strong>{vote.item?.name}</strong>?
         </p>
       </Modal>

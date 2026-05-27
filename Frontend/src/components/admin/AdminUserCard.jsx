@@ -11,16 +11,16 @@ export const AdminUserCard = ({ user, onToggleBan, onRevoke, isBanning, isUnbann
   return (
     <AnimatedCard
       onClick={() => navigate(`/admin/users/${user.id}`)}
-      className="bg-white border cursor-pointer text-sm border-slate-100 shadow-sm hover:shadow-md transition-shadow rounded-3xl p-5 flex flex-col gap-3 relative overflow-hidden ring-1 ring-slate-900/5 group"
+      className="bg-surface border cursor-pointer text-sm border-slate-100 shadow-sm hover:shadow-md transition-shadow rounded-3xl p-5 flex flex-col gap-3 relative overflow-hidden ring-1 ring-slate-900/5 group"
     >
       <div className="flex justify-between items-start">
         <div className="flex flex-col">
           <span className="font-bold text-slate-800 text-base">{user.name}</span>
-          <span className="text-slate-500 text-xs">{user.email}</span>
+          <span className="text-text-normal text-xs">{user.email}</span>
           <div className="mt-2 flex gap-2">
             <span className={clsx("px-2.5 py-1 rounded-lg text-xs font-bold w-fit",
               user.role === 'admin' ? "bg-purple-100 text-purple-700" :
-                user.is_verified ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600"
+                user.is_verified ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-nav-item"
             )}>
               {user.role === 'admin' ? 'ADMIN' : (user.is_verified ? 'VERIFIED' : 'GUEST')}
             </span>

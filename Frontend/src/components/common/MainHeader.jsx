@@ -11,15 +11,15 @@ export const MainHeader = () => {
   const isAuthenticated = useSessionStore((state) => !!state.token);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-surface shadow-sm">
       <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center px-4 relative justify-between">
 
         <Link to="/" className="flex shrink-0 items-center justify-start gap-2 transition-transform hover:scale-105">
-          <div className="flex h-9 w-9 md:h-10 md:w-10 flex-shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md">
+          <div className="flex h-9 w-9 md:h-10 md:w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary text-text-btn shadow-md">
             <Trophy size={20} className="md:h-6 md:w-6" />
           </div>
-          <div className="font-black text-xl md:text-2xl text-slate-900 tracking-tight whitespace-nowrap">
-            Proyecto <span className="text-blue-600">Kudos</span>
+          <div className="font-black text-xl md:text-2xl text-text-highlight tracking-tight whitespace-nowrap">
+            Proyecto <span className="text-primary">Kudos</span>
           </div>
         </Link>
 
@@ -42,9 +42,3 @@ export const MainHeader = () => {
     </header>
   );
 }
-
-
-
-
-
-

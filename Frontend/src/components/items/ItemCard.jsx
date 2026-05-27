@@ -11,7 +11,7 @@ export const ItemCard = ({ item, onClick }) => {
   return (
     <BouncyCard
       onClick={onClick}
-      className="group relative h-64 w-48 shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-slate-200 transition-shadow hover:shadow-xl"
+      className="group relative h-64 w-48 shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-surface shadow-lg ring-1 ring-slate-200 transition-shadow hover:shadow-xl"
     >
       <div className="absolute inset-0">
         <StorageImage
@@ -23,14 +23,14 @@ export const ItemCard = ({ item, onClick }) => {
       </div>
       
       <div className="absolute right-3 top-3">
-        <div className="flex items-center gap-1 rounded-full bg-yellow-400 px-2 py-1 font-bold text-yellow-950 shadow-md ring-2 ring-yellow-300">
+        <div className="flex items-center gap-1 rounded-full bg-accent px-2 py-1 font-bold text-yellow-950 shadow-md ring-2 ring-yellow-300">
           <Star size={14} className="fill-yellow-600 stroke-yellow-700" />
           <span className="text-xs">{displayScore}</span>
         </div>
       </div>
 
       <div className="absolute inset-x-0 bottom-0 p-4">
-        <h3 className="line-clamp-2 text-lg font-black tracking-tight text-white drop-shadow-md">
+        <h3 className="line-clamp-2 text-lg font-black tracking-tight text-text-btn drop-shadow-md">
           {item.name}
         </h3>
       </div>

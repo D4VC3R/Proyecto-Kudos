@@ -2,8 +2,8 @@ import React from 'react';
 
 export const AdminCategoryDeleteBody = ({ categoryName }) => {
   return (
-    <p className="text-slate-600">
-      ¿Estás seguro de que deseas eliminar la categoría <span className="font-bold text-slate-900">{categoryName}</span>?
+    <p className="text-nav-item">
+      ¿Estás seguro de que deseas eliminar la categoría <span className="font-bold text-text-highlight">{categoryName}</span>?
       <br/><br/>
       <span className="text-red-500 font-medium">Atención: Esta acción también eliminará todos los ítems y propuestas asociadas de forma permantente.</span>
     </p>

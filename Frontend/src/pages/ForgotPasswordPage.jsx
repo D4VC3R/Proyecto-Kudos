@@ -27,7 +27,7 @@ const ForgotPasswordPage = () => {
 
     return (
         <div className="flex min-h-[70vh] flex-col items-center justify-center p-4">
-            <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-white p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
+            <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
 
                 {isSubmitted ? (
                     <FeedbackState
@@ -41,11 +41,11 @@ const ForgotPasswordPage = () => {
                 ) : (
                     <>
                         <div className="mb-8 text-center flex flex-col items-center">
-                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-primary">
                                 <KeyRound size={32} />
                             </div>
-                            <h1 className="text-2xl font-black text-slate-900">Recuperar contraseña</h1>
-                            <p className="mt-2 text-sm text-slate-500">
+                            <h1 className="text-2xl font-black text-text-highlight">Recuperar contraseña</h1>
+                            <p className="mt-2 text-sm text-text-normal">
                                 Introduce tu correo electrónico y te enviaremos instrucciones para crear una nueva contraseña.
                             </p>
                         </div>
@@ -73,7 +73,7 @@ const ForgotPasswordPage = () => {
                         </form>
 
                         <div className="mt-8 text-center">
-                            <Link to="/login" className="inline-flex items-center text-sm font-bold text-slate-500 hover:text-slate-800 transition-colors">
+                            <Link to="/login" className="inline-flex items-center text-sm font-bold text-text-normal hover:text-slate-800 transition-colors">
                                 <ArrowLeft size={16} className="mr-2" />
                                 Volver al inicio de sesión
                             </Link>

@@ -18,7 +18,7 @@ export const InputField = ({ label, labelEnd, icon: Icon, type = 'text', placeho
           placeholder={placeholder}
           {...(registration || {})}
           {...props}
-          className={`w-full rounded-xl border border-slate-200 bg-slate-50 py-3 ${Icon ? 'pl-10' : 'pl-4'} pr-4 text-slate-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50`}
+          className={`w-full rounded-xl border border-border bg-background py-3 ${Icon ? 'pl-10' : 'pl-4'} pr-4 text-text-highlight transition-colors focus:border-blue-500 focus:bg-surface focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50`}
         />
       </div>
       {error && <span className="mt-1 text-xs text-red-500">{error.message || error}</span>}

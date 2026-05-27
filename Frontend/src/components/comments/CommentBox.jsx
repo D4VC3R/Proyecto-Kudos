@@ -26,8 +26,8 @@ export const CommentBox = ({ itemId }) => {
   }
 
   return (
-    <div className="mt-6 border-t border-slate-200 pt-6 w-full text-left">
-      <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+    <div className="mt-6 border-t border-border pt-6 w-full text-left">
+      <h3 className="text-lg font-bold text-text-highlight mb-4 flex items-center gap-2">
         <MessageSquare size={20} /> Comentarios ({comments?.length || 0})
       </h3>
 
@@ -36,7 +36,7 @@ export const CommentBox = ({ itemId }) => {
           <Comment key={comment.id} comment={comment} />
         ))}
         {comments?.length === 0 && (
-          <p className="text-sm text-slate-500 text-center py-4">Sé el primero en comentar.</p>
+          <p className="text-sm text-text-normal text-center py-4">Sé el primero en comentar.</p>
         )}
       </div>
 

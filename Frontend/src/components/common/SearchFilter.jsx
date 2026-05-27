@@ -10,7 +10,7 @@ export const SearchFilter = ({value, onChange, placeholder = "Buscar...", maxWid
         placeholder={placeholder}
         onChange={onChange}
         value={value}
-        className={`w-full ${maxWidth} rounded-2xl border-slate-200 bg-slate-50 pl-10 py-2.5 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 font-medium`}
+        className={`w-full ${maxWidth} rounded-2xl border-border bg-background pl-10 py-2.5 text-sm focus:bg-surface focus:ring-2 focus:ring-blue-500 font-medium`}
       />
     </div>
   );

@@ -24,7 +24,7 @@ const AdminLayout = () => {
       <div className="flex flex-col gap-6">
         <AdminNav />
 
-        <div className="bg-white rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-4 sm:p-6 md:p-8 min-h-[50vh]">
+        <div className="bg-surface rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-4 sm:p-6 md:p-8 min-h-[50vh]">
           <Outlet />
         </div>
       </div>

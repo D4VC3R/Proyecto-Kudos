@@ -13,14 +13,14 @@ export const ItemImage = ({ item, showTitle = true, variant = 'banner' }) => {
 
       {showTitle && (
         <div className="w-full max-w-xl shrink-0 mb-3 md:mb-4 px-2">
-          <h2 className="text-xl md:text-2xl xl:text-3xl font-black text-slate-900 ">
+          <h2 className="text-xl md:text-2xl xl:text-3xl font-black text-text-highlight ">
             {item.name}
           </h2>
         </div>
       )}
 
       <div
-        className="relative w-full max-w-2xl aspect-video shrink-0 rounded-3xl shadow-sm overflow-hidden border border-slate-200/60 bg-slate-100"
+        className="relative w-full max-w-2xl aspect-video shrink-0 rounded-3xl shadow-sm overflow-hidden border border-border/60 bg-background"
         style={{ backgroundColor: dominantColor }}
       >
         <StorageImage

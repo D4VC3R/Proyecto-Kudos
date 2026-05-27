@@ -48,8 +48,8 @@ export const Comment = ({ comment }) => {
 
   return (
     <>
-      <div className={`p-4 rounded-xl border flex gap-3 ${comment.is_hidden ? 'bg-slate-100 border-slate-200 opacity-60' : 'bg-slate-50 border-slate-100'}`}>
-        <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-slate-200 text-slate-500 overflow-hidden">
+      <div className={`p-4 rounded-xl border flex gap-3 ${comment.is_hidden ? 'bg-background border-border opacity-60' : 'bg-background border-slate-100'}`}>
+        <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-slate-200 text-text-normal overflow-hidden">
           <StorageImage
             src={author?.avatar || author?.profile?.avatar}
             alt={author?.name || 'Usuario'}

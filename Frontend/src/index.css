@@ -2,10 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-}
+@layer base {
+  :root {
+    --color-background: #f8fafc;        /* bg-slate-50 */
+    --color-surface: #ffffff;           /* bg-white */
+    --color-border: #e2e8f0;            /* border-slate-200 */
 
+    --color-text-highlight: #0f172a;    /* slate-900 */
+    --color-text-normal: #64748b;       /* text-slate-500 */
+    --color-text-btn: #ffffff;          /* white */
+    --color-text-subtitle: #e2e8f0;     /* slate-200 */
+
+    --color-nav-item: #475569;          /* text-slate-600 */
+    --color-nav-hover-bg: #f1f5f9;      /* hover:bg-nav-hover-bg */
+    --color-nav-hover-text: #0f172a;    /* hover:text-nav-hover-text */
+  }
+
+  .dark {
+    --color-background: #0f172a;        /* bg-slate-900 */
+    --color-surface: #1e293b;           /* bg-slate-800 */
+    --color-border: #334155;            /* border-slate-700 */
+
+    --color-text-highlight: #f8fafc;    /* slate-50 */
+    --color-text-normal: #94a3b8;       /* text-slate-400 */
+    --color-text-btn: #ffffff;          /* Se mantiene blanco sobre el fondo primario */
+    --color-text-subtitle: #475569;     /* slate-600 (oscurecido para contrastar en tarjeta oscura) */
+
+    --color-nav-item: #94a3b8;          /* text-slate-400 */
+    --color-nav-hover-bg: #334155;      /* hover:bg-slate-700 */
+    --color-nav-hover-text: #f8fafc;    /* hover:text-slate-50 */
+  }
+}
 * {
   box-sizing: border-box;
 }

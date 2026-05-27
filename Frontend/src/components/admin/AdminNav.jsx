@@ -9,7 +9,7 @@ export const AdminNav = () => {
   const baseNavStyles = "flex items-center gap-2 px-5 py-3 rounded-2xl font-bold transition-all whitespace-nowrap";
 
   return (
-    <nav className="flex space-x-2 bg-white/60 backdrop-blur-md p-2 rounded-3xl overflow-x-auto shadow-sm ring-1 ring-slate-900/5">
+    <nav className="flex space-x-2 bg-surface/60 backdrop-blur-md p-2 rounded-3xl overflow-x-auto shadow-sm ring-1 ring-slate-900/5">
       {adminTabs.map((tab) => {
         const Icon = tab.icon;
         return (

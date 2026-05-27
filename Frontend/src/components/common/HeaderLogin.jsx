@@ -23,14 +23,14 @@ export const HeaderLogin = () => {
           {...register('email', { required: true })}
           placeholder="Email"
           disabled={isPending}
-          className="rounded-lg border border-slate-200 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded-lg border border-border px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
         />
         <input
           type="password"
           {...register('password', { required: true })}
           placeholder="Contraseña"
           disabled={isPending}
-          className="rounded-lg border border-slate-200 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded-lg border border-border px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
         />
         <Button
           type="submit"
@@ -44,11 +44,11 @@ export const HeaderLogin = () => {
         </Button>
       </form>
       <div className="flex items-center gap-2 text-sm font-medium">
-        <Link to="/login" className="md:hidden text-slate-700 hover:text-slate-900 font-bold whitespace-nowrap px-3">
+        <Link to="/login" className="md:hidden text-slate-700 hover:text-nav-hover-text font-bold whitespace-nowrap px-3">
           Entrar
         </Link>
         <span className="hidden md:block text-slate-400">o</span>
-        <Link to="/register" className="text-blue-600 hover:text-blue-700 font-bold whitespace-nowrap">
+        <Link to="/register" className="text-primary hover:text-blue-700 font-bold whitespace-nowrap">
           Regístrate
         </Link>
       </div>

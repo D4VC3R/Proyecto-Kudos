@@ -53,7 +53,7 @@ export const NavBar = () => {
           color="neutral"
           size="iconSm"
           radius="lg"
-          className="bg-white"
+          className="bg-surface"
           aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
           icon={isOpen ? X : Menu}
         />

@@ -6,7 +6,7 @@ import {rewardRevealVariants, popInVariants, fadeUpVariants, springPopVariants} 
 export const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
   const isUpgraded = data.isCritical && isMultiplierActive;
   const iconBg = isUpgraded ? 'bg-purple-100 text-purple-600 shadow-purple-200' : 'bg-amber-100 text-amber-500 shadow-amber-200';
-  const textColor = isUpgraded ? 'text-purple-600' : 'text-blue-600';
+  const textColor = isUpgraded ? 'text-purple-600' : 'text-primary';
 
   return (
     <motion.div
@@ -27,11 +27,11 @@ export const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
       </motion.h2>
 
       <motion.div variants={fadeUpVariants} className="mt-3 flex flex-col items-center">
-        <p className="text-base sm:text-lg text-slate-600">Has ganado</p>
+        <p className="text-base sm:text-lg text-nav-item">Has ganado</p>
         <span className={`font-black text-4xl sm:text-5xl transition-colors duration-700 ${textColor}`}>
           +{displayedKudos}
         </span>
-        <p className="text-sm text-slate-500 font-semibold mt-1">Kudos</p>
+        <p className="text-sm text-text-normal font-semibold mt-1">Kudos</p>
       </motion.div>
 
       <AnimatePresence>

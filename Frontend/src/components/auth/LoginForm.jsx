@@ -47,7 +47,7 @@ export const LoginForm = () => {
         error={errors.password}
         disabled={isPending}
         labelEnd={
-            <Link to="/forgot-password" className="text-xs font-bold text-blue-600 hover:text-blue-700">
+            <Link to="/forgot-password" className="text-xs font-bold text-primary hover:text-blue-700">
                 ¿Olvidaste tu contraseña?
             </Link>
         }

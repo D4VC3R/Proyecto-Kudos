@@ -34,12 +34,12 @@ export const VotePage = () => {
 
   return (
     <div className={`mx-auto flex w-full max-w-3xl flex-col items-center py-8 min-h-screen transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
-      <div className="w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between relative min-h-[600px] md:min-h-[700px]">
+      <div className="w-full bg-surface rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between relative min-h-[600px] md:min-h-[700px]">
 
         {isLoading ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl z-10">
             <Loader2 className="animate-spin text-blue-500 mb-4" size={48} />
-            <p className="text-slate-500 font-medium animate-pulse">Buscando el siguiente candidato...</p>
+            <p className="text-text-normal font-medium animate-pulse">Buscando el siguiente candidato...</p>
           </div>
         ) : !isLoading && !item ? <EmptyVoteState category={categorySlug} /> :
           (

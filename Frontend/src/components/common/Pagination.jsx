@@ -21,12 +21,12 @@ export const Pagination = ({ meta, onPageChange }) => {
   };
 
   return (
-    <div className="flex items-center justify-between border-t border-slate-200 bg-white px-4 py-3 sm:px-6 mt-4 rounded-xl shadow-sm">
+    <div className="flex items-center justify-between border-t border-border bg-surface px-4 py-3 sm:px-6 mt-4 rounded-xl shadow-sm">
 
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-slate-500">
-            Mostrando un total de <span className="font-medium text-slate-900">{total}</span> resultados
+          <p className="text-sm text-text-normal">
+            Mostrando un total de <span className="font-medium text-text-highlight">{total}</span> resultados
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export const Pagination = ({ meta, onPageChange }) => {
               &larr; Ant
             </Button>
 
-            <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-900 ring-1 ring-inset ring-slate-300 bg-white">
+            <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-text-highlight ring-1 ring-inset ring-slate-300 bg-surface">
               Página {current_page} de {last_page}
             </span>
 
@@ -58,7 +58,7 @@ export const Pagination = ({ meta, onPageChange }) => {
               variant="outline"
               color="neutral"
               radius="md"
-              className="rounded-r-md rounded-l-none relative inline-flex items-center px-2 py-2 bg-white"
+              className="rounded-r-md rounded-l-none relative inline-flex items-center px-2 py-2 bg-surface"
             >
               <span className="sr-only">Siguiente</span>
               Sig &rarr;

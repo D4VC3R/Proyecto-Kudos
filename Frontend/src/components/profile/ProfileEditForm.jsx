@@ -33,8 +33,8 @@ export const ProfileEditForm = ({ profile }) => {
   };
 
   return (
-    <div className="flex-1 bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200">
-      <h3 className="text-xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4">
+    <div className="flex-1 bg-surface rounded-3xl p-6 md:p-8 shadow-sm border border-border">
+      <h3 className="text-xl font-black text-text-highlight mb-6 border-b border-slate-100 pb-4">
         Editar Perfil
       </h3>
 

@@ -3,16 +3,16 @@ import {SectionHeader} from "../common/SectionHeader.jsx";
 
 export const MyProposalsHeader = ({ meta }) => {
   return (
-    <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-4">
+    <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-border pb-4">
       <SectionHeader
         title="Mis"
         highlight="Propuestas"
         subtitle="Sigue el estado de los ítems que has sugerido para Kudos."
       >
 
-      <div className="mt-4 md:mt-0 flex gap-3 text-sm font-bold text-slate-600">
-        <div className="flex flex-col items-center p-2 bg-slate-50 rounded-xl min-w-[70px]">
-          <span className="text-xl text-slate-900">{meta.total || 0}</span>
+      <div className="mt-4 md:mt-0 flex gap-3 text-sm font-bold text-nav-item">
+        <div className="flex flex-col items-center p-2 bg-background rounded-xl min-w-[70px]">
+          <span className="text-xl text-text-highlight">{meta.total || 0}</span>
           <span className="text-[10px] uppercase text-slate-400">Total</span>
         </div>
         <div className="flex flex-col items-center p-2 bg-green-50 rounded-xl min-w-[70px] border border-green-100">
