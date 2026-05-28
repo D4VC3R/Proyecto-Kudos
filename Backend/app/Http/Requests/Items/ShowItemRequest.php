@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Items;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteItemCommentRequest extends FormRequest
+class ShowItemRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('delete', $this->route('comment')) ?? false;
+        return $this->user()?->can('view', $this->route('item')) ?? true;
     }
 
     public function rules(): array
@@ -16,4 +16,5 @@ class DeleteItemCommentRequest extends FormRequest
         return [];
     }
 }
+
 

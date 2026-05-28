@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Category;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\DeleteCategoryRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
-use App\Http\Requests\GetNextCategoryItemRequest;
+use App\Http\Requests\Votes\GetNextCategoryItemRequest;
 use App\Http\Resources\CategoryRankingResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryWithItemsResource;

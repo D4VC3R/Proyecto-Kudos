@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminUpdateItemRequest;
 use App\Http\Requests\Admin\ListAdminItemsRequest;
 use App\Http\Requests\Admin\ModerateItemRequest;
 use App\Http\Resources\ItemDetailResource;
 use App\Http\Resources\ItemListResource;
 use App\Models\Item;
-use App\Services\ModerationAuditLogger; // <-- Inyectamos el logger directamente
+use App\Services\ModerationAuditLogger;
 use Illuminate\Http\JsonResponse;
+
+// <-- Inyectamos el logger directamente
 
 /*
  * Controlador para la gestión de items desde el panel de administración.

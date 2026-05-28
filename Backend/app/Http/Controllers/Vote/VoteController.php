@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vote;
 
 use App\Actions\ChangeVoteAction;
 use App\Actions\DeleteVoteAction;
 use App\Actions\EmitVoteAction;
-use App\Http\Requests\DeleteVoteRequest;
-use App\Http\Requests\ListMyVotesRequest;
-use App\Http\Requests\StoreVoteRequest;
-use App\Http\Requests\UpdateVoteRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Votes\DeleteVoteRequest;
+use App\Http\Requests\Votes\ListMyVotesRequest;
+use App\Http\Requests\Votes\StoreVoteRequest;
+use App\Http\Requests\Votes\UpdateVoteRequest;
 use App\Http\Resources\VoteResource;
 use App\Models\Vote;
 use Illuminate\Http\JsonResponse;

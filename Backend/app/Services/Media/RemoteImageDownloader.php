@@ -34,12 +34,12 @@ class RemoteImageDownloader
             ->get($url);
 
         if (!$response->successful()) {
-            throw new RuntimeException('No se pudo descargar la imagen remota.');
+            throw new RuntimeException('No se pudo descargar la imagen.');
         }
 
         $contentType = strtolower((string) $response->header('Content-Type'));
         if ($contentType === '' || !str_starts_with($contentType, 'image/')) {
-            throw new RuntimeException('El contenido remoto no es una imagen valida.');
+            throw new RuntimeException('No es una imagen valida.');
         }
 
         $body = $response->getBody();
@@ -59,7 +59,7 @@ class RemoteImageDownloader
             if ($bytes > $maxBytes) {
                 fclose($handle);
                 @unlink($absolutePath);
-                throw new RuntimeException('La imagen remota supera el máximo permitido.');
+                throw new RuntimeException('La imagen supera el máximo permitido.');
             }
 
             fwrite($handle, $chunk);
@@ -68,7 +68,7 @@ class RemoteImageDownloader
         fclose($handle);
 
         if (!is_file($absolutePath)) {
-            throw new RuntimeException('No se genero el archivo temporal descargado.');
+            throw new RuntimeException('No se generó el archivo temporal.');
         }
 
         return $tempPath;

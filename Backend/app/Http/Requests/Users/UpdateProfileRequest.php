@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Users;
 
+use App\Rules\FileOrUrlRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\FileOrUrlRule;
 
 class UpdateProfileRequest extends FormRequest
 {

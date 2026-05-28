@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Votes;
 
 use App\Models\Vote;
 use Illuminate\Foundation\Http\FormRequest;

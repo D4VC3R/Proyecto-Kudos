@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Items;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShowItemRequest extends FormRequest
+class UnhideItemCommentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('view', $this->route('item')) ?? true;
+        return $this->user()?->can('unhide', $this->route('comment')) ?? false;
     }
 
     public function rules(): array
@@ -16,5 +16,4 @@ class ShowItemRequest extends FormRequest
         return [];
     }
 }
-
 

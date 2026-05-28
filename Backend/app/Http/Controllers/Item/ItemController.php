@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Item;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DeleteItemRequest;
 use App\Http\Requests\Admin\UpdateItemRequest;
-use App\Http\Requests\ListItemsRequest;
-use App\Http\Requests\ShowItemRequest;
-use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\Items\ListItemsRequest;
+use App\Http\Requests\Items\ShowItemRequest;
+use App\Http\Requests\Items\StoreItemRequest;
 use App\Http\Resources\ItemDetailResource;
 use App\Http\Resources\ItemListResource;
 use App\Models\Item;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {

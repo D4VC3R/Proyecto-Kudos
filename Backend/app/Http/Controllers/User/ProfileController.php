@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Http\Requests\UpdateProfileRequest;
-use App\Http\Resources\ProfileResource;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Http\Resources\MinimalProfileResource;
+use App\Http\Resources\ProfileResource;
 use App\Jobs\ProcessUserAvatarJob;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

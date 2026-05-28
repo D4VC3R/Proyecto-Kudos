@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Item;
 
-use App\Http\Requests\DeleteItemCommentRequest;
-use App\Http\Requests\HideItemCommentRequest;
-use App\Http\Requests\ListItemCommentsRequest;
-use App\Http\Requests\StoreItemCommentRequest;
-use App\Http\Requests\UnhideItemCommentRequest;
-use App\Http\Requests\UpdateItemCommentRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Items\DeleteItemCommentRequest;
+use App\Http\Requests\Items\HideItemCommentRequest;
+use App\Http\Requests\Items\ListItemCommentsRequest;
+use App\Http\Requests\Items\StoreItemCommentRequest;
+use App\Http\Requests\Items\UnhideItemCommentRequest;
+use App\Http\Requests\Items\UpdateItemCommentRequest;
 use App\Http\Resources\ItemCommentResource;
 use App\Models\Item;
 use App\Models\ItemComment;

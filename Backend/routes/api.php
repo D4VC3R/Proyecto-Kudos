@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\AdminItemController;
-use App\Http\Controllers\AdminUserController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\ItemCommentController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DailyRewardController;
-use App\Http\Controllers\ProposalController;
-use App\Http\Controllers\UserRankingController;
-use App\Http\Controllers\VoteController;
+use App\Http\Controllers\Admin\AdminItemController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Item\ItemCommentController;
+use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\Proposal\ProposalController;
+use App\Http\Controllers\User\DailyRewardController;
+use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\UserRankingController;
+use App\Http\Controllers\Vote\VoteController;
 use Illuminate\Support\Facades\Route;
 
 /**

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Proposal;
 
 use App\Actions\ReviewProposalAction;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ListAdminProposalsRequest;
 use App\Http\Requests\Admin\ReviewProposalRequest;
-use App\Http\Requests\ListPendingProposalsRequest;
 use App\Http\Requests\Proposals\DeleteProposalRequest;
+use App\Http\Requests\Proposals\ListPendingProposalsRequest;
 use App\Http\Requests\Proposals\ShowProposalRequest;
 use App\Http\Requests\Proposals\StoreProposalRequest;
 use App\Http\Requests\Proposals\UpdateProposalRequest;

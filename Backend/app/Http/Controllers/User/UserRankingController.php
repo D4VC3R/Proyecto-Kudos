@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Http\Requests\ListUserRankingRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\ListUserRankingRequest;
 use App\Http\Resources\UserRankingDataResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
