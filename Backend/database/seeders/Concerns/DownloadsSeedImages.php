@@ -6,6 +6,8 @@ use App\Services\Media\MediaManager;
 use App\Services\Media\RemoteImageDownloader;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Throwable;
 
 trait DownloadsSeedImages
@@ -56,7 +58,7 @@ trait DownloadsSeedImages
   	}
 
 	/**
-	 * @return string|array<string, string>|null
+	 * @return string|array<string, mixed>|null
 	 */
 protected function downloadAndStoreImage(string $url, string $categorySlug, string $bucket): string|array|null
 	{
@@ -65,12 +67,16 @@ protected function downloadAndStoreImage(string $url, string $categorySlug, stri
 
 		if ($bucket === 'categories') {
 			$expectedPath = "$baseDir/cover-{$hash}.webp";
-			if (Storage::disk(self::PUBLIC_DISK)->exists($expectedPath)) return $expectedPath;
+			if (Storage::disk(self::PUBLIC_DISK)->exists($expectedPath)) {
+                $meta = $this->extractMetaFromExisting(Storage::disk(self::PUBLIC_DISK)->path($expectedPath));
+                return ['path' => $expectedPath, 'meta' => $meta];
+            }
 		} else {
 			$expectedThumb = "$baseDir/{$hash}-thumb.webp";
 			$expectedBanner = "$baseDir/{$hash}-banner.webp";
 			if (Storage::disk(self::PUBLIC_DISK)->exists($expectedThumb) && Storage::disk(self::PUBLIC_DISK)->exists($expectedBanner)) {
-				return ['variants' => ['thumb' => $expectedThumb, 'banner' => $expectedBanner], 'meta' => []];
+                $meta = $this->extractMetaFromExisting(Storage::disk(self::PUBLIC_DISK)->path($expectedBanner));
+				return ['variants' => ['thumb' => $expectedThumb, 'banner' => $expectedBanner], 'meta' => $meta];
 			}
 		}
 
@@ -100,4 +106,36 @@ protected function downloadAndStoreImage(string $url, string $categorySlug, stri
 	{
 		return app(RemoteImageDownloader::class)->downloadToTemp($url, self::SEED_MAX_BYTES, self::TEMP_DISK, self::TEMP_DIR);
 	}
+
+    /**
+     * Extrae el meta de una imagen que ya existe en disco para no perder estos datos.
+     */
+    private function extractMetaFromExisting(string $absolutePath): array
+    {
+        try {
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($absolutePath);
+
+            $width = $image->width();
+            $height = $image->height();
+
+            if ($width > $height) $orientation = 'landscape';
+            elseif ($width < $height) $orientation = 'portrait';
+            else $orientation = 'square';
+
+            $aspectRatio = $height > 0 ? round($width / $height, 4) : 1;
+
+            $dominantColor = $image->resize(1, 1)->pickColor(0, 0)->toHex();
+
+            return [
+                'width' => $width,
+                'height' => $height,
+                'orientation' => $orientation,
+                'aspect_ratio' => $aspectRatio,
+                'color' => $dominantColor,
+            ];
+        } catch (Throwable) {
+            return [];
+        }
+    }
 }

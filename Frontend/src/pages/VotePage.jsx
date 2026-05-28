@@ -10,7 +10,7 @@ import { VoteActions } from '../components/votes/VoteActions.jsx';
 import { EmptyVoteState } from "../components/votes/EmptyVoteState.jsx";
 import { AnimatePresence } from "framer-motion";
 import { AnimatedItem } from "../components/animations/AnimatedItem.jsx";
-import {BackButton} from "../components/common/BackButton.jsx";
+import { BackButton } from "../components/common/BackButton.jsx";
 
 export const VotePage = () => {
   const { categorySlug } = useParams();
@@ -34,22 +34,26 @@ export const VotePage = () => {
   };
 
   return (
-    <>
-      <BackButton />
-      <div className={`mx-auto flex w-full max-w-3xl flex-col items-center py-8 min-h-screen transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
-        <div className="w-full bg-surface rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between relative min-h-[600px] md:min-h-[700px]">
+    <div className="flex flex-col w-full max-w-3xl mx-auto pb-6 lg:pb-0 lg:h-page-content">
+      <div className="shrink-0 mb-4 px-2">
+        <BackButton />
+      </div>
+
+      <div className={`flex flex-col flex-1 min-h-0 transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
+
+        <div className="w-full h-full bg-surface rounded-3xl p-4 md:p-6 shadow-xl ring-1 ring-slate-200 flex flex-col relative overflow-hidden">
 
           {isLoading ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl z-10">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-surface rounded-3xl z-10">
               <Loader2 className="animate-spin text-blue-500 mb-4" size={48} />
               <p className="text-text-normal font-medium animate-pulse">Buscando el siguiente candidato...</p>
             </div>
           ) : !isLoading && !item ? <EmptyVoteState category={categorySlug} /> :
             (
               <>
-                <div className="shrink-0 mb-6 min-h-[350px] md:min-h-[380px] xl:min-h-[450px] flex justify-center">
+                <div className="flex-1 min-h-0 mb-6 flex justify-center items-center w-full">
                   <AnimatePresence mode="wait">
-                    <AnimatedItem key={item.id} itemKey={item.id}>
+                    <AnimatedItem key={item.id} itemKey={item.id} className="w-full h-full flex justify-center items-center">
                       <ItemImage item={item} />
                     </AnimatedItem>
                   </AnimatePresence>
@@ -59,23 +63,24 @@ export const VotePage = () => {
                   <VoteStars onVote={handleVote} isPending={voteMutation.isPending} />
                 </div>
 
-                <VoteActions
-                  onSkip={handleSkip}
-                  showComments={showComments}
-                  onToggleComments={() => setShowComments(!showComments)}
-                />
+                <div className="shrink-0">
+                  <VoteActions
+                    onSkip={handleSkip}
+                    showComments={showComments}
+                    onToggleComments={() => setShowComments(!showComments)}
+                  />
+                </div>
 
                 {showComments && (
-                  <div className="mt-4 pt-4 border-t border-slate-100 flex-1 min-h-0 flex flex-col">
-                    <CommentBox itemId={item.id} className="max-h-[250px] sm:max-h-[350px] h-full" />
+                  <div className="mt-4 pt-4 border-t border-slate-100 shrink-0 flex flex-col max-h-[35vh]">
+                    <CommentBox itemId={item.id} className="h-full" />
                   </div>
                 )}
               </>
             )}
         </div>
       </div>
-    </>
-
+    </div>
   );
 };
 
