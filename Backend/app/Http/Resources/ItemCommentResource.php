@@ -6,6 +6,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Resource para representar un comentario de ítem.
+ * Incluye información del comentario, su estado de oculto, razón de ocultación (si el usuario es admin o dueño), y datos del usuario que lo hizo.
+ * Se utiliza para mostrar los comentarios de un ítem, con detalles específicos según el rol del usuario que hace la solicitud.
+ */
 class ItemCommentResource extends JsonResource
 {
     public function toArray(Request $request): array

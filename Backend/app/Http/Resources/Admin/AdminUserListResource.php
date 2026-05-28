@@ -5,6 +5,10 @@ namespace App\Http\Resources\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+/**
+ * Recurso para devolver la información básica del usuario al listarlos en el panel admin o tras realizar un baneo.
+ * Extiende el recurso base AdminUserBaseResource para incluir información adicional específica del detalle del usuario.
+ */
 class AdminUserListResource extends AdminUserBaseResource
 {
     /**

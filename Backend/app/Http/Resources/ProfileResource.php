@@ -5,6 +5,11 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Resource para representar el perfil completo de un usuario.
+ * Incluye información detallada del perfil, como avatar, biografía, enlaces sociales, ciudad, fecha de nacimiento,
+ * Se utiliza en la vista de perfil para mostrar toda la información relevante del usuario en una sola respuesta.
+ */
 class ProfileResource extends JsonResource
 {
     public function toArray(Request $request): array

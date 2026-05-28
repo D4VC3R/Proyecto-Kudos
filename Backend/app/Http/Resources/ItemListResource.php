@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Resource para representar un ítem en listados.
+ * Incluye información básica del ítem, su categoría, estado de votación del usuario, y permisos de edición/eliminación.
+ * Se utiliza para mostrar ítems en vistas de listado, proporcionando la información esencial y acciones disponibles según el rol del usuario.
+ */
 class ItemListResource extends JsonResource
 {
     public function toArray(Request $request): array

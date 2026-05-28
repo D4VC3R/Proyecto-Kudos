@@ -7,10 +7,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Middleware para verificar que el usuario autenticado haya verificado su correo electrónico antes de permitir el acceso a ciertas rutas o acciones.
+ */
 class EnsureEmailIsVerified
 {
     /**
-     * Handle an incoming request.
+     * Maneja una solicitud entrante y verifica si el usuario ha verificado su correo electrónico.
      *
      * @param Closure(Request): (Response) $next
      */

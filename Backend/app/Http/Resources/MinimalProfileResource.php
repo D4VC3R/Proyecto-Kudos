@@ -7,6 +7,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
+/**
+ * Resource para representar la tarjeta de perfil en el header de la aplicación.
+ * Incluye el ID, nombre, avatar, total de kudos y posición en el ranking.
+ *
+ */
 class MinimalProfileResource extends JsonResource
 {
     public function toArray(Request $request): array

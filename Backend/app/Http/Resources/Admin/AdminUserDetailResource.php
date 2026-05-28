@@ -5,6 +5,10 @@ namespace App\Http\Resources\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+/**
+ * Recurso para representar la información detallada de un usuario en el panel de administración.
+ * Extiende el recurso base AdminUserBaseResource para incluir información adicional específica del detalle del usuario.
+ */
 class AdminUserDetailResource extends AdminUserBaseResource
 {
     /**

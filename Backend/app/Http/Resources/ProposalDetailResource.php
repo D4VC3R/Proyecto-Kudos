@@ -6,6 +6,11 @@ use App\Models\Proposal;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Resource para representar los detalles de una propuesta.
+ * Incluye toda la información relevante de la propuesta, como su estado, creador, categoría y revisores.
+ * Se utilizará en la vista de detalle de propuesta para mostrar toda la información en una sola respuesta.
+ */
 class ProposalDetailResource extends JsonResource
 {
 	/**

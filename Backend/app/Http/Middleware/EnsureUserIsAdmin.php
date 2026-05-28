@@ -6,10 +6,13 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Middleware para verificar que el usuario autenticado tenga el rol de administrador antes de permitir el acceso a ciertas rutas o acciones.
+ */
 class EnsureUserIsAdmin
 {
     /**
-     * Handle an incoming request.
+     * Maneja una solicitud entrante y verifica si el usuario es un administrador.
      *
      * @param Closure(Request): (Response) $next
      */

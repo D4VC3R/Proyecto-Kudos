@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Resource para representar el detalle de un ítem.
+ * Incluye información completa del ítem, su categoría, creador, estado de votación del usuario, y permisos de edición/eliminación.
+ * Se utiliza para mostrar la vista detallada de un ítem, proporcionando toda la información relevante y acciones disponibles según el rol del usuario.
+ */
 class ItemDetailResource extends JsonResource
 {
 	public function toArray(Request $request): array

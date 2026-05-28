@@ -6,6 +6,11 @@ use App\Models\Proposal;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Resource para representar el listado de propuestas.
+ * Incluye toda la información relevante de la propuesta, como su estado, creador, categoría y revisores.
+ * Se utiliza en la vista de detalle de propuesta para mostrar toda la información en una sola respuesta.
+ */
 class ProposalListResource extends JsonResource
 {
 	/**
@@ -20,15 +25,6 @@ class ProposalListResource extends JsonResource
 			'id' => $proposal->id,
 			'name' => $proposal->name,
 			'description' => $proposal->description,
-			'images' => collect($proposal->images ?? [])
-				->take(1)
-				->map(fn ($img) => [
-					'variants' => [
-						'thumb' => $img['variants']['thumb'] ?? null,
-					],
-					'meta' => $img['meta'] ?? null,
-					'alt' => $img['alt'] ?? null,
-				])->toArray(),
 			'status' => $proposal->status,
 			'creator_id' => $proposal->creator_id,
 			'category_id' => $proposal->category_id,
