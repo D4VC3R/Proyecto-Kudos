@@ -1,8 +1,8 @@
 import React from 'react';
 import { ItemCard } from './ItemCard.jsx';
-import { InfiniteScroll } from '../animations/InfiniteScroll.jsx'; // Ajusta la ruta
+import { InfiniteSlider } from '../animations/InfiniteSlider.jsx'; // Ajusta la ruta
 
-const InfiniteItemSlider = ({ items = [] }) => {
+const InfiniteItemSlider = ({ items = [], onItemClick }) => {
   if (!items || items.length === 0) return null;
 
   const duplicatedItems = [...items, ...items];
@@ -13,11 +13,13 @@ const InfiniteItemSlider = ({ items = [] }) => {
       <div className="absolute left-0 top-0 z-10 h-full w-12 bg-gradient-to-r from-slate-50 to-transparent sm:w-24" />
       <div className="absolute right-0 top-0 z-10 h-full w-12 bg-gradient-to-l from-slate-50 to-transparent sm:w-24" />
 
-      <InfiniteScroll className="flex gap-6 px-6" duration={scrollDuration}>
+      <InfiniteSlider className="flex gap-6 px-6" duration={scrollDuration}>
         {duplicatedItems.map((item, index) => (
-          <ItemCard key={`${item.id}-${index}`} item={item} />
+          <div key={`${item.id}-${index}`} className="w-40 shrink-0 sm:w-48">
+            <ItemCard item={item} onClick={() => onItemClick && onItemClick(item)} />
+          </div>
         ))}
-      </InfiniteScroll>
+      </InfiniteSlider>
     </div>
   );
 };

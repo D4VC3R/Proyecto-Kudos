@@ -3,8 +3,9 @@ import { Trophy, Medal, UserCircle } from 'lucide-react';
 import clsx from 'clsx';
 import { StaggerItem } from '../animations/StaggerItem.jsx';
 import StorageImage from '../common/StorageImage.jsx';
+import { ChevronRight } from 'lucide-react';
 
-export const PodiumItem = ({ data, rank, type = "item" }) => {
+export const PodiumItem = ({ data, rank, type = "item", onClick }) => {
   const isFirst = rank === 1;
   const isSecond = rank === 2;
   const isThird = rank === 3;
@@ -35,9 +36,11 @@ export const PodiumItem = ({ data, rank, type = "item" }) => {
   return (
     <StaggerItem
       className={clsx(
-        'flex items-center gap-3 rounded-2xl transition-all',
+        'flex items-center gap-3 rounded-2xl transition-all group',
+        onClick ? 'cursor-pointer hover:scale-[1.01]' : '',
         getRankStyles()
       )}
+      onClick={onClick}
     >
       <div className={clsx("flex shrink-0 items-center justify-center rounded-full bg-surface shadow-sm", isFirst ? "h-12 w-12" : isSecond || isThird ? "h-10 w-10" : "h-8 w-8")}>
         {getRankIcon()}
@@ -63,6 +66,12 @@ export const PodiumItem = ({ data, rank, type = "item" }) => {
       <div className={clsx("flex shrink-0 items-center gap-1 rounded-full font-bold text-text-btn shadow-md", scoreBgClass, isFirst ? "px-3 py-1.5 text-base" : "px-2.5 py-1 text-xs")}>
         {scoreValue} {type === "user" && "K"}
       </div>
+
+      {onClick && (
+          <div className="flex shrink-0 items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
+            <ChevronRight size={20} />
+          </div>
+      )}
     </StaggerItem>
   );
 };

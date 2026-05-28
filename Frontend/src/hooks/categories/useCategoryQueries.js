@@ -41,6 +41,7 @@ export const useInfiniteCategoryRanking = (categorySlug, perPage = 10) => {
     },
     enabled: !!categorySlug, // Sirve para evitar que la consulta se ejecute si no tenemos un slug de categoría válido, previniendo errores.
     placeholderData: keepPreviousData, // Útil para mantener los datos anteriores mientras se cargan los nuevos, evitando parpadeos en la UI.
+    staleTime: 1000 * 60 * 5, // 5 minutos de caché, ya que el ranking puede cambiar con cierta frecuencia pero no es necesario recargarlo constantemente.
   });
 };
 

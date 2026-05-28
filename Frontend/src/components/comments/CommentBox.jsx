@@ -26,21 +26,13 @@ export const CommentBox = ({ itemId }) => {
   }
 
   return (
-    <div className="mt-6 border-t border-border pt-6 w-full text-left">
-      <h3 className="text-lg font-bold text-text-highlight mb-4 flex items-center gap-2">
+    <div className="flex flex-col h-full w-full text-left">
+
+      <h3 className="shrink-0 text-lg font-bold text-text-highlight mb-2 flex items-center gap-2">
         <MessageSquare size={20} /> Comentarios ({comments?.length || 0})
       </h3>
 
-      <div className="flex flex-col gap-4 max-h-60 overflow-y-auto mb-4 pr-2 scrollbar-thin scrollbar-thumb-slate-200">
-        {comments?.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
-        {comments?.length === 0 && (
-          <p className="text-sm text-text-normal text-center py-4">Sé el primero en comentar.</p>
-        )}
-      </div>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="shrink-0 flex gap-2 pt-4 border-t border-slate-100 mb-2">
         <input
           {...register('content')}
           placeholder="Escribe un comentario..."
@@ -57,6 +49,17 @@ export const CommentBox = ({ itemId }) => {
           icon={Send}
         />
       </form>
+
+      <div className="flex-1 min-h-0 flex flex-col gap-4 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200">
+        {comments?.map((comment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
+        {comments?.length === 0 && (
+          <p className="text-sm text-text-normal text-center py-4 m-auto">Sé el primero en comentar.</p>
+        )}
+      </div>
+
+
     </div>
   );
 };

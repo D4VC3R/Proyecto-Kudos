@@ -13,11 +13,10 @@ export const BackButton = ({ to = -1, label = 'Volver', className = '' }) => {
       color="neutral"
       radius="full"
       icon={ArrowLeft}
-      className={className}
+      className={`w-fit self-start ${className}`}
       onClick={() => navigate(to)}
     >
       {label}
     </Button>
   );
 };
-

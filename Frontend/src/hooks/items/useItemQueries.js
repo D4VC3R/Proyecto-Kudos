@@ -35,6 +35,7 @@ export const useInfiniteItems = (filters = {}, options = {}) => {
         : undefined;
     },
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 60 * 60, // 1 hora de caché
     ...options,
   });
 };

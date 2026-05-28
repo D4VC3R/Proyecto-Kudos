@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import { Trophy, Loader2 } from 'lucide-react';
-import { PodiumItem } from '../common/PodiumItem.jsx';
+import { Trophy} from 'lucide-react';
+import { PodiumItem } from './PodiumItem.jsx';
 import { StaggerGrid } from '../animations/StaggerGrid.jsx';
 
 const Ranking = ({
@@ -12,7 +12,8 @@ const Ranking = ({
   fetchNextPage,
   hasNextPage,
   isFetchingNextPage,
-  disableScroll = false
+  disableScroll = false,
+  onItemClick
 }) => {
   const observerTarget = useRef(null);
 
@@ -55,13 +56,12 @@ const Ranking = ({
         {items.map((item, index) => {
           const rank = disableScroll ? ((page - 1) * itemsPerPage) + index + 1 : index + 1;
           return (
-            <PodiumItem key={`${item.id}-${index}`} data={item} rank={rank} type={type} />
+            <PodiumItem key={`${item.id}-${index}`} data={item} rank={rank} type={type} onClick={() => onItemClick && onItemClick(item)} />
           );
         })}
 
         {fetchNextPage && (
           <div ref={observerTarget} className="flex h-12 items-center justify-center py-4">
-            {isFetchingNextPage && <Loader2 className="animate-spin text-blue-500" size={24} />}
           </div>
         )}
       </StaggerGrid>

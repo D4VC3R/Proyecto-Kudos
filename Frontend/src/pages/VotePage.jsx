@@ -10,6 +10,7 @@ import { VoteActions } from '../components/votes/VoteActions.jsx';
 import { EmptyVoteState } from "../components/votes/EmptyVoteState.jsx";
 import { AnimatePresence } from "framer-motion";
 import { AnimatedItem } from "../components/animations/AnimatedItem.jsx";
+import {BackButton} from "../components/common/BackButton.jsx";
 
 export const VotePage = () => {
   const { categorySlug } = useParams();
@@ -33,44 +34,48 @@ export const VotePage = () => {
   };
 
   return (
-    <div className={`mx-auto flex w-full max-w-3xl flex-col items-center py-8 min-h-screen transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
-      <div className="w-full bg-surface rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between relative min-h-[600px] md:min-h-[700px]">
+    <>
+      <BackButton />
+      <div className={`mx-auto flex w-full max-w-3xl flex-col items-center py-8 min-h-screen transition-opacity duration-300 ${(isFetching && !isLoading) ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
+        <div className="w-full bg-surface rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200 flex flex-col justify-between relative min-h-[600px] md:min-h-[700px]">
 
-        {isLoading ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl z-10">
-            <Loader2 className="animate-spin text-blue-500 mb-4" size={48} />
-            <p className="text-text-normal font-medium animate-pulse">Buscando el siguiente candidato...</p>
-          </div>
-        ) : !isLoading && !item ? <EmptyVoteState category={categorySlug} /> :
-          (
-          <>
-            <div className="shrink-0 mb-6 min-h-[350px] md:min-h-[380px] xl:min-h-[450px] flex justify-center">
-              <AnimatePresence mode="wait">
-                <AnimatedItem key={item.id} itemKey={item.id}>
-                  <ItemImage item={item} />
-                </AnimatedItem>
-              </AnimatePresence>
+          {isLoading ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl z-10">
+              <Loader2 className="animate-spin text-blue-500 mb-4" size={48} />
+              <p className="text-text-normal font-medium animate-pulse">Buscando el siguiente candidato...</p>
             </div>
+          ) : !isLoading && !item ? <EmptyVoteState category={categorySlug} /> :
+            (
+              <>
+                <div className="shrink-0 mb-6 min-h-[350px] md:min-h-[380px] xl:min-h-[450px] flex justify-center">
+                  <AnimatePresence mode="wait">
+                    <AnimatedItem key={item.id} itemKey={item.id}>
+                      <ItemImage item={item} />
+                    </AnimatedItem>
+                  </AnimatePresence>
+                </div>
 
-            <div className="shrink-0 mb-1 z-10 relative">
-              <VoteStars onVote={handleVote} isPending={voteMutation.isPending} />
-            </div>
+                <div className="shrink-0 mb-1 z-10 relative">
+                  <VoteStars onVote={handleVote} isPending={voteMutation.isPending} />
+                </div>
 
-            <VoteActions
-              onSkip={handleSkip}
-              showComments={showComments}
-              onToggleComments={() => setShowComments(!showComments)}
-            />
+                <VoteActions
+                  onSkip={handleSkip}
+                  showComments={showComments}
+                  onToggleComments={() => setShowComments(!showComments)}
+                />
 
-            {showComments && (
-              <div className="mt-2 pt-2 border-t border-slate-100">
-                <CommentBox itemId={item.id} />
-              </div>
+                {showComments && (
+                  <div className="mt-4 pt-4 border-t border-slate-100 flex-1 min-h-0 flex flex-col">
+                    <CommentBox itemId={item.id} className="max-h-[250px] sm:max-h-[350px] h-full" />
+                  </div>
+                )}
+              </>
             )}
-          </>
-        )}
+        </div>
       </div>
-    </div>
+    </>
+
   );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useProfileStatistics } from '../../hooks/users/useUserQueries';
 import { Loader2, AlertCircle, BarChart3, Star, Award, MessageSquare, ThumbsUp, SkipForward, Flame } from 'lucide-react';
-import { StatCard } from '../common/StatCard';
+import { StatCard } from './StatCard.jsx';
 
 export const ProfileStatistics = () => {
   const { data: stats, isLoading, isError } = useProfileStatistics();

@@ -9,8 +9,7 @@ export const ItemImage = ({ item, showTitle = true, variant = 'banner' }) => {
   const dominantColor = image?.meta?.color || '#f1f5f9';
 
   return (
-    <div className="flex flex-col items-center text-center w-full mt-8">
-
+    <div className="flex flex-col items-center text-center w-full">
       {showTitle && (
         <div className="w-full max-w-xl shrink-0 mb-3 md:mb-4 px-2">
           <h2 className="text-xl md:text-2xl xl:text-3xl font-black text-text-highlight ">

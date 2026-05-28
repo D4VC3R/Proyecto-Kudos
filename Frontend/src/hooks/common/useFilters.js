@@ -32,8 +32,9 @@ export const useFilters = ({ initialSort = '', initialFilters = {}, debounceDela
     const [sortBy, sortOrder] = sortValue ? sortValue.split('|') : [undefined, undefined];
 
     return {
+        debouncedSearch: debouncedSearch || undefined,
         page, setPage,
-        searchInput, debouncedSearch, handleSearchChange,
+        searchInput, handleSearchChange,
         sortValue, handleSortChange, sortBy, sortOrder,
         filters, handleFilterChange, setFilters
     };

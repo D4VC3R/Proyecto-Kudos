@@ -194,7 +194,7 @@ export const modalPanelVariants = {
     }
 };
 
-export const infiniteScrollVariants = {
+export const infiniteSliderVariants = {
     animate: (duration) => ({
         x: ['0%', '-50%'],
         transition: { ease: 'linear', duration: duration, repeat: Infinity }

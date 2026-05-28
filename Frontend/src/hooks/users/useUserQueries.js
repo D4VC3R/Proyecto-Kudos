@@ -40,5 +40,6 @@ export const useUserRanking = (page = 1) => {
     queryKey: [...USER_KEYS.ranking, page],
     queryFn: () => axiosClient.get('/users/ranking', { params: { page } }),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 60 * 5,
   });
 };

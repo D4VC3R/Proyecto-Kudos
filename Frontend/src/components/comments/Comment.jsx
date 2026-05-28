@@ -49,60 +49,65 @@ export const Comment = ({ comment }) => {
   return (
     <>
       <div className={`p-4 rounded-xl border flex gap-3 ${comment.is_hidden ? 'bg-background border-border opacity-60' : 'bg-background border-slate-100'}`}>
+
         <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-slate-200 text-text-normal overflow-hidden">
           <StorageImage
             src={author?.avatar || author?.profile?.avatar}
             alt={author?.name || 'Usuario'}
-            className="w-full h-full"
+            className="w-full h-full object-cover"
             fallbackIcon={UserCircle}
           />
         </div>
 
-        <div className="flex-1">
-          <div className="flex justify-between items-start mb-1">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-sm text-slate-800">{author?.name || 'Usuario'}</span>
-              {isEdited && <span className="text-[10px] text-slate-400 italic">(editado)</span>}
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-slate-400">{formatDate(comment.created_at)}</span>
-              <div className="flex items-center gap-2">
-                {isOwner && !comment.is_hidden && (
-                  <Button onClick={() => { setIsEditing(true); setEditContent(comment.content); }} variant="ghost" color="primary" size="iconSm" title="Editar" icon={Edit2} />
-                )}
-                {isAdmin && !comment.is_hidden && (
-                  <Button onClick={() => openModal('hide')} variant="ghost" color="warning" size="iconSm" title="Ocultar (Moderación)" icon={EyeOff} />
-                )}
-                {isAdmin && comment.is_hidden && (
-                  <Button onClick={() => unhideComment(comment.id)} disabled={isUnhiding} variant="ghost" color="success" size="iconSm" title="Restaurar" icon={Eye} />
-                )}
-                {isAdmin && (
-                  <Button onClick={() => openModal('delete')} variant="ghost" color="danger" size="iconSm" title="Eliminar" icon={Trash2} />
-                )}
+        <div className="flex-1 min-w-0">
+
+          <div className="flex flex-wrap justify-between items-start gap-2 mb-2">
+
+            <div className="flex flex-col min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="font-bold text-sm text-slate-800 truncate">{author?.name || 'Usuario'}</span>
+                {isEdited && <span className="text-[10px] text-slate-400 italic shrink-0">(editado)</span>}
               </div>
+              <span className="text-xs text-slate-400">{formatDate(comment.created_at)}</span>
+            </div>
+
+            <div className="flex items-center gap-1 shrink-0">
+              {isOwner && !comment.is_hidden && (
+                <Button onClick={() => { setIsEditing(true); setEditContent(comment.content); }} variant="ghost" color="primary" size="iconSm" title="Editar" icon={Edit2} />
+              )}
+              {isAdmin && !comment.is_hidden && (
+                <Button onClick={() => openModal('hide')} variant="ghost" color="warning" size="iconSm" title="Ocultar (Moderación)" icon={EyeOff} />
+              )}
+              {isAdmin && comment.is_hidden && (
+                <Button onClick={() => unhideComment(comment.id)} disabled={isUnhiding} variant="ghost" color="success" size="iconSm" title="Restaurar" icon={Eye} />
+              )}
+              {isAdmin && (
+                <Button onClick={() => openModal('delete')} variant="ghost" color="danger" size="iconSm" title="Eliminar" icon={Trash2} />
+              )}
             </div>
           </div>
+
           {comment.is_hidden && (!isAdmin && !isOwner) ? (
             <div className="text-sm mt-1 text-orange-700 italic">
               [Comentario oculto por moderación: {comment.hidden_reason || 'Sin motivo especificado'}]
             </div>
           ) : isEditing ? (
-            <div className="mt-2">
+            <div className="mt-2 flex flex-col gap-2">
               <textarea
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
-                className="w-full text-sm p-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full text-sm p-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none"
                 rows={3}
                 disabled={isUpdating}
               />
-              <div className="flex gap-2 justify-end mt-2">
+              <div className="flex gap-2 justify-end">
                 <Button onClick={() => setIsEditing(false)} disabled={isUpdating} variant="ghost" color="neutral" size="iconSm" icon={X} />
                 <Button onClick={handleUpdate} disabled={isUpdating || !editContent.trim()} variant="ghost" color="primary" size="iconSm" icon={Check} />
               </div>
             </div>
           ) : (
             <>
-              <p className="text-sm text-slate-700 mt-1">{comment.content}</p>
+              <p className="text-sm text-slate-700 mt-1 break-words">{comment.content}</p>
               {comment.is_hidden && (
                 <div className="text-xs mt-2 text-orange-600 italic">
                   [Oculto: {comment.hidden_reason || 'Sin motivo'}]

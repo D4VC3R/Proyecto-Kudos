@@ -7,7 +7,8 @@ export const StaggerItem = ({
                                 children,
                                 className = '',
                                 alternate = false,
-                                index = 0
+                                index = 0,
+                                onClick
                             }) => {
 
     const selectedVariants = alternate ? alternateStaggerItemVariants : staggerItemVariants;
@@ -17,6 +18,7 @@ export const StaggerItem = ({
         variants={selectedVariants}
         custom={index}
         className={className}
+        onClick={onClick}
       >
           {children}
       </motion.div>

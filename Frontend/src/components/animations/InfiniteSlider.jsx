@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { infiniteScrollVariants } from './../../lib/animations.js';
+import { infiniteSliderVariants } from './../../lib/animations.js';
 
-export const InfiniteScroll = ({ children, duration, className = '' }) => {
+export const InfiniteSlider = ({ children, duration, className = '' }) => {
   return (
     <motion.div
       className={className}
-      variants={infiniteScrollVariants}
+      variants={infiniteSliderVariants}
       animate="animate"
       custom={duration}
     >

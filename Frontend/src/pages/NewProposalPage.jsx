@@ -6,6 +6,7 @@ import { NewProposalHeader } from '../components/proposals/NewProposalHeader.jsx
 import { NewProposalInfoBanner } from '../components/proposals/NewProposalInfoBanner.jsx';
 import { useCategoryDetail } from '../hooks/categories/useCategoryQueries.js';
 import {FadeUp} from "../components/animations/FadeUp.jsx";
+import {BackButton} from "../components/common/BackButton.jsx";
 
 export const NewProposalPage = () => {
   const { categorySlug } = useParams();
@@ -24,17 +25,20 @@ export const NewProposalPage = () => {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
-      <FadeUp className="w-full rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
-        <NewProposalHeader categoryName={category.name} />
+    <>
+      <BackButton />
+      <div className="mx-auto flex w-full max-w-3xl flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+        <FadeUp className="w-full rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
+          <NewProposalHeader categoryName={category.name} />
 
-        <div className="w-full">
-          <NewProposalForm category={category} />
-        </div>
+          <div className="w-full">
+            <NewProposalForm category={category} />
+          </div>
 
-        <NewProposalInfoBanner />
-      </FadeUp>
-    </div>
+          <NewProposalInfoBanner />
+        </FadeUp>
+      </div>
+    </>
   );
 };
 
