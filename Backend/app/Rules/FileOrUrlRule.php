@@ -6,6 +6,10 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Http\UploadedFile;
 
+/**
+ * Regla de validación personalizada que acepta tanto archivos subidos como URLs.
+ * Valida que el valor sea una URL válida o un archivo subido que cumpla con los requisitos de tamaño y tipo.
+ */
 class FileOrUrlRule implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void

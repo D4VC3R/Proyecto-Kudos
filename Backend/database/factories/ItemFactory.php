@@ -8,10 +8,12 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
+ * Factory para generar datos de prueba de items.
  * @extends Factory<Item>
  */
 class ItemFactory extends Factory
 {
+    // Datos estáticos
 	private static array $usedItemsPerCategory = [];
 	private static array $itemsByCategory = [
 		'videojuegos' => [
@@ -72,11 +74,14 @@ class ItemFactory extends Factory
 		],
 	];
 
-	/**
-	 * Define the model's default state.
-	 *
-	 * @return array<string, mixed>
-	 */
+
+    /**
+     * Define el estado predeterminado para el item, seleccionando un nombre y descripción relacionados con la categoría.
+     * Si se proporciona una categoría específica en el contexto, se utiliza esa categoría; de lo contrario, se selecciona una al azar.
+     * Se asegura de que los items generados sean variados y relacionados con su categoría correspondiente.
+     *
+     * @return array Los atributos predeterminados para un item.
+     */
 	public function definition(): array
 	{
 		$category = isset($this->context['category_id'])
@@ -103,34 +108,44 @@ class ItemFactory extends Factory
 		];
 	}
 
+    /**
+     * Obtiene un item único para una categoría específica, asegurando que no se repitan hasta que se hayan utilizado todos los items disponibles para esa categoría.
+     * Si ya se han utilizado todos los items, se reinicia el ciclo para permitir su reutilización.
+     * @param string $categorySlug El slug de la categoría para la que se desea obtener un item.
+     * @param array $items La lista de items disponibles para esa categoría.
+     * @return array Un item único para la categoría especificada.
+     */
+
 	private function getUniqueItemForCategory(string $categorySlug, array $items): array
 	{
-		// Inicializar el tracking si no existe
 		if (!isset(self::$usedItemsPerCategory[$categorySlug])) {
 			self::$usedItemsPerCategory[$categorySlug] = [];
 		}
 
-		// Obtener items disponibles (no usados)
 		$availableItems = array_filter($items, function ($item) use ($categorySlug) {
 			return !in_array($item['name'], self::$usedItemsPerCategory[$categorySlug]);
 		});
 
-		// Si no quedan items disponibles, resetear y usar todos
 		if (empty($availableItems)) {
 			self::$usedItemsPerCategory[$categorySlug] = [];
 			$availableItems = $items;
 		}
 
-		// Seleccionar un item disponible
 		$item = fake()->randomElement($availableItems);
 
-		// Marcar como usado
 		self::$usedItemsPerCategory[$categorySlug][] = $item['name'];
 
 		return $item;
 	}
 
 
+    /**
+     * Define un estado para generar un item específico para una categoría dada, utilizando la función de obtención de items únicos.
+     * Esto asegura que los items generados para esa categoría sean variados y relacionados con ella, evitando repeticiones hasta que se hayan utilizado todos los items disponibles.
+     *
+     * @param Category $category La categoría para la cual se desea generar un item.
+     * @return static La instancia del factory con el estado definido para la categoría especificada.
+     */
 	public function forCategory(Category $category): static
 	{
 		return $this->state(function () use ($category) {

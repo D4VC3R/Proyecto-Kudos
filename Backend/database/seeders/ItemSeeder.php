@@ -5,16 +5,28 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\User;
-use Database\Seeders\Concerns\DownloadsSeedImages;
+use Database\Seeders\Trait\DownloadsSeedImages;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use RuntimeException;
 
+/**
+ * Seeder para cargar items de ejemplo en la base de datos a partir de snapshots locales.
+ */
 class ItemSeeder extends Seeder
 {
 	use DownloadsSeedImages;
 
+    /**
+     * Ejecuta el seeding de items para varias categorías utilizando snapshots locales.
+     * Busca un usuario admin o el primer usuario disponible para asignar como creador de los items.
+     * Para cada categoría, carga los datos desde el snapshot correspondiente y crea o actualiza los items en la base de datos.
+     * Al finalizar, muestra un resumen de los items creados, actualizados y omitidos para cada categoría.
+     *
+     * @return void
+     * @throws RuntimeException Si no hay usuarios disponibles para asignar como creador o si los snapshots no son válidos.
+     */
 	public function run(): void
 	{
 		$creator = User::query()->where('email', 'admin@kudos.com')->first()
@@ -35,6 +47,19 @@ class ItemSeeder extends Seeder
 		$this->seedCategoryFromSnapshot('libros', base_path('database/seed-data/libros/google_books_libros_es.json'), $creator, 'libros');
 	}
 
+    /**
+     * Carga items en la base de datos a partir de un snapshot local para una categoría específica.
+     * Verifica que el snapshot exista y contenga un JSON válido, luego procesa cada fila para crear o actualizar items en la base de datos.
+     * Si un item con el mismo nombre ya existe en la categoría, se actualiza su descripción, imágenes y estado. Si no existe, se crea uno nuevo.
+     * Al finalizar, muestra un resumen de los items creados, actualizados y omitidos.
+     *
+     * @param string $categorySlug El slug de la categoría a la que pertenecen los items.
+     * @param string $snapshotPath La ruta al archivo JSON del snapshot local.
+     * @param User $creator El usuario que se asignará como creador de los items.
+     * @param string $label Una etiqueta descriptiva para mostrar en los mensajes de resumen.
+     * @return void
+     * @throws RuntimeException Si el snapshot no existe, no es válido o si la categoría no se encuentra en la base de datos.
+     */
 	private function seedCategoryFromSnapshot(string $categorySlug, string $snapshotPath, User $creator, string $label): void
 	{
 		if (!is_file($snapshotPath)) {
@@ -119,6 +144,14 @@ class ItemSeeder extends Seeder
 	}
 
 
+    /**
+     * Busca un item existente en la base de datos por su nombre dentro de una categoría específica.
+     * Retorna el item encontrado o null si no existe.
+     *
+     * @param string $categoryId El ID de la categoría a la que pertenece el item.
+     * @param string $name El nombre del item a buscar.
+     * @return Item|null El item encontrado o null si no existe.
+     */
 	private function findExistingItem(string $categoryId, string $name): ?Item
 	{
 		return Item::query()

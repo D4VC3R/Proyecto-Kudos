@@ -3,13 +3,22 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use Database\Seeders\Concerns\DownloadsSeedImages;
+use Database\Seeders\Trait\DownloadsSeedImages;
 use Illuminate\Database\Seeder;
 
+/**
+ * Seeder para la tabla de categorías.
+ * Crea (o actualiza) categorías con datos predefinidos, incluyendo nombre, slug, descripción e imagen.
+ * Utiliza el trait DownloadsSeedImages para descargar y almacenar imágenes localmente.
+ */
 class CategorySeeder extends Seeder
 {
     use DownloadsSeedImages;
 
+    /**
+     * Ejecuta el seeder para crear o actualizar las categorías en la base de datos.
+     * Para cada categoría definida, se descarga la imagen asociada y se almacena localmente, actualizando la ruta de la imagen en la base de datos.
+     */
     public function run(): void
     {
         $rows = [

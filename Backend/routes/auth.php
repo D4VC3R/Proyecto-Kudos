@@ -8,6 +8,10 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Rutas relacionadas con el login
+ */
+
 Route::post('/register', [RegisteredUserController::class, 'store'])
 	->middleware('guest')
 	->name('register');

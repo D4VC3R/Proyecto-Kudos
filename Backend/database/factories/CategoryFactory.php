@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
+ * Factory para la creación de categorías con datos predefinidos.
  * @extends Factory<Category>
  */
+
 class CategoryFactory extends Factory
 {
+    /**
+     * @var array[] Lista de categorías predefinidas con su descripción y palabra clave para generar imágenes relacionadas.
+     */
     private static $categories = [
         'videojuegos' => [
             'description' => 'Descubre y vota por los mejores videojuegos de todos los tiempos',
@@ -46,11 +51,11 @@ class CategoryFactory extends Factory
         ],
     ];
 
-    private static $usedCategories = [];
+    private static $usedCategories = []; // Categorías ya creadas se guardan aquí.
+
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * Define el estado predeterminado para la categoría, asegurando que se utilicen categorías únicas hasta que se agoten.
+     * Una vez que todas las categorías hayan sido utilizadas, se reinicia el ciclo para permitir su reutilización.
      */
     public function definition(): array
     {

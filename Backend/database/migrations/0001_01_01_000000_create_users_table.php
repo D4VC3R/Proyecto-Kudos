@@ -19,8 +19,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            // Atributos de gamificación
-            $table->integer('total_kudos')->default(0)->index(); // [!] Indexado para Leaderboard
+            // Atributos adicionales
+            $table->integer('total_kudos')->default(0)->index();
             $table->integer('creations_accepted')->default(0);
 
             // Racha de logins
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->date('last_login_streak_date')->nullable();
 
             // Sistema de baneos
-            $table->boolean('is_banned')->default(false)->index(); // [!] Indexado para filtros de Middleware/Admin
+            $table->boolean('is_banned')->default(false)->index();
             $table->timestamp('banned_at')->nullable();
             $table->timestamp('banned_until')->nullable();
             $table->text('ban_reason')->nullable();

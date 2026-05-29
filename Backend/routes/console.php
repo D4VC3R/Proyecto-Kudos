@@ -8,6 +8,10 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
+/**
+ * Comando de Artisan para auditar la consistencia entre el campo users.total_kudos y el total calculado a partir de kudos_transactions.
+ * Permite detectar desajustes y opcionalmente reconciliar los datos con la opción --fix.
+ */
 Artisan::command('kudos:audit-consistency {--fix : Reconciliar users.total_kudos con el total del ledger}', function () {
     $rows = DB::table('users')
         ->leftJoin('kudos_transactions as kt', 'users.id', '=', 'kt.user_id')
@@ -22,7 +26,7 @@ Artisan::command('kudos:audit-consistency {--fix : Reconciliar users.total_kudos
     $this->line('Desajustes detectados: ' . $mismatches->count());
 
     if ($mismatches->isEmpty()) {
-        $this->info('No se detectaron inconsistencias entre total_kudos y el ledger.');
+        $this->info('¡Todo en orden! No se detectaron inconsistencias.');
         return;
     }
 
@@ -36,7 +40,7 @@ Artisan::command('kudos:audit-consistency {--fix : Reconciliar users.total_kudos
     $this->table(['email', 'cached_total', 'ledger_total', 'delta'], $tableRows);
 
     if (!$this->option('fix')) {
-        $this->warn('Ejecuta el comando con --fix para reconciliar automaticamente los desajustes.');
+        $this->warn('Ejecuta el comando con --fix para ajustar los Kudos del usuario.');
         return;
     }
 
@@ -48,6 +52,6 @@ Artisan::command('kudos:audit-consistency {--fix : Reconciliar users.total_kudos
         }
     });
 
-    $this->info('Reconciliacion aplicada correctamente.');
-})->purpose('Audita y opcionalmente reconcilia users.total_kudos con kudos_transactions');
+    $this->info('Kudos restaurados correctamente.');
+})->purpose('Audita y reconcilia users.total_kudos con kudos_transactions');
 

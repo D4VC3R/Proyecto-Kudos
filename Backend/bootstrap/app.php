@@ -15,6 +15,12 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Configura y crea la aplicación Laravel.
+ *
+ * @return Application La instancia de la aplicación configurada.
+ */
+
 return Application::configure(basePath: dirname(__DIR__))
 	->withRouting(
 		api: __DIR__ . '/../routes/api.php',

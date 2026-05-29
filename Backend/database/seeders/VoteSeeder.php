@@ -14,7 +14,6 @@ class VoteSeeder extends Seeder
 {
 	public function run(): void
 	{
-		// Solo necesitamos los IDs, ahorramos muchísima memoria
 		$itemIds = Item::where('status', Item::STATUS_ACTIVE)->pluck('id');
 
 		if ($itemIds->isEmpty()) {
@@ -34,7 +33,6 @@ class VoteSeeder extends Seeder
 		$kudosRows = [];
 		$kudosByUser = [];
 
-		// Obtenemos los valores desde la configuración centralizada[cite: 50]
 		$reward = (int) config('kudos.rewards.vote_first_time_item');
 		$reason = (string) config('kudos.reasons.vote_first_time_item');
 
@@ -72,9 +70,7 @@ class VoteSeeder extends Seeder
 			}
 		}
 
-		// INSERCIÓN MASIVA (Rendimiento extremo en una sola transacción)
 		DB::transaction(function () use ($voteRows, $kudosRows, $kudosByUser) {
-			// Insertamos en lotes de 1000 para no saturar la memoria de la base de datos
 			foreach (array_chunk($voteRows, 1000) as $chunk) {
 				Vote::insert($chunk);
 			}

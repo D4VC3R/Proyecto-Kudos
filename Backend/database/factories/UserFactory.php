@@ -9,15 +9,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
+ * Factory para generar datos de prueba para el modelo User.
  * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
 
     /**
-     * Define the model's default state.
+     * Define el estado por defecto de los atributos del usuario.
+     * Genera datos aleatorios para el nombre, correo electrónico, verificación de correo, contraseña y token de recuerdo.
      *
-     * @return array<string, mixed>
+     * @return array Los atributos del usuario con datos generados.
      */
     public function definition(): array
     {
@@ -30,6 +32,12 @@ class UserFactory extends Factory
         ];
     }
 
+    /**
+     * Configura la fábrica para crear un perfil asociado cada vez que se crea un usuario.
+     * Utiliza la función afterCreating para generar un perfil con el user_id del usuario recién creado.
+     *
+     * @return $this La instancia de la fábrica configurada para crear perfiles automáticamente.
+     */
     public function configure()
     {
         return $this->afterCreating(function (User $user) {
@@ -38,7 +46,9 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Define un estado para un usuario no verificado, estableciendo el campo email_verified_at como null.
+     *
+     * @return static La instancia de la fábrica con el estado actualizado a no verificado.
      */
     public function unverified(): static
     {
@@ -47,6 +57,11 @@ class UserFactory extends Factory
         ]);
     }
 
+    /**
+     * Define un estado para un usuario administrador, estableciendo un nombre, correo electrónico y contraseña específicos, y marcando el correo como verificado.
+     *
+     * @return static La instancia de la fábrica con el estado actualizado a administrador.
+     */
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => [

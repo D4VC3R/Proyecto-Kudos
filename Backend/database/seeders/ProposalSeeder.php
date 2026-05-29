@@ -6,7 +6,7 @@ use App\Actions\ReviewProposalAction; // <-- Importamos la nueva Action
 use App\Models\Category;
 use App\Models\Proposal;
 use App\Models\User;
-use Database\Seeders\Concerns\DownloadsSeedImages;
+use Database\Seeders\Trait\DownloadsSeedImages;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 

@@ -20,19 +20,20 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Proveedor de servicios de la aplicación.
+ */
 class AppServiceProvider extends ServiceProvider
 {
-	/**
-	 * Register any application services.
-	 */
+
 	public function register(): void
 	{
 		//
 	}
 
-	/**
-	 * Bootstrap any application services.
-	 */
+    /**
+     * Configura las URL de los correos de restablecimiento de contraseña y verificación de email, y registra las políticas de autorización.
+     */
 	public function boot(): void
 	{
 		ResetPassword::createUrlUsing(function (object $notifiable, string $token) {

@@ -5,10 +5,18 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Permission;
 
+/**
+ * Seeder para poblar la tabla de permisos con los permisos necesarios para la aplicación.
+ * Crea permisos relacionados con categorías, items, usuarios, propuestas y votos.
+ */
 class PermissionSeeder extends Seeder
 {
+
     /**
-     * Run the database seeds.
+     * Ejecuta el seeder para crear los permisos en la base de datos (Spatie).
+     * Crea permisos para leer, insertar, actualizar y eliminar categorías, items, usuarios, propuestas y votos.
+     *
+     * @return void
      */
     public function run(): void
     {
