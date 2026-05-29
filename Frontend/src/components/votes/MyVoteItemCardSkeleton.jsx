@@ -1,7 +1,7 @@
 import React from 'react';
-import { Skeleton } from './../common/Skeleton';
+import Skeleton from '../ui/Skeleton.jsx';
 
-export const MyVoteItemCardSkeleton = () => {
+const MyVoteItemCardSkeleton = () => {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-slate-200">
       <div className="flex items-start gap-4 flex-1 w-full">
@@ -24,3 +24,5 @@ export const MyVoteItemCardSkeleton = () => {
     </div>
   );
 };
+
+export default MyVoteItemCardSkeleton;

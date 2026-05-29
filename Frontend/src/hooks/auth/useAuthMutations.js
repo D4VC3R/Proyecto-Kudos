@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import axiosClient from '../../lib/axiosClient';
+import axiosClient from '../../core/axiosClient.js';
 import { useSessionStore } from '../../store/useSessionStore';
 import { useBaseMutation } from '../common/useBaseMutation';
 

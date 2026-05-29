@@ -1,9 +1,9 @@
 import React from 'react';
-import { SectionHeader } from '../common/SectionHeader';
+import  SectionHeader  from '../ui/SectionHeader.jsx';
 import { Calendar } from 'lucide-react';
 import { formatDate } from '../../lib/formatters.js';
 
-export const AdminUserAdvancedDetails = ({ user }) => {
+const AdminUserAdvancedDetails = ({ user }) => {
   return (
     <>
       <SectionHeader title="Detalles" highlight="Avanzados" icon={Calendar} />
@@ -37,3 +37,5 @@ export const AdminUserAdvancedDetails = ({ user }) => {
     </>
   );
 };
+
+export default AdminUserAdvancedDetails;

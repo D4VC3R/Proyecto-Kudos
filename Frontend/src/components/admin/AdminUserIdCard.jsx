@@ -1,11 +1,11 @@
 import React from 'react';
 import { UserSquare, Ban, Unlock, Key } from 'lucide-react';
-import { AnimatedCard } from '../animations/AnimatedCard';
-import { BanInfoAlert } from './BanInfoAlert';
+import AnimatedCard from '../animations/AnimatedCard';
+import BanInfoAlert from './BanInfoAlert';
 import clsx from 'clsx';
-import { Button } from '../common/Button';
+import Button from '../ui/Button.jsx';
 
-export const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan, onRevokeSessions }) => {
+const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan, onRevokeSessions }) => {
   return (
     <AnimatedCard className="bg-surface border text-sm border-slate-100 shadow-sm rounded-3xl p-6 flex flex-col gap-6 lg:col-span-1">
       <div className="flex flex-col items-center text-center gap-3">
@@ -66,3 +66,5 @@ export const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onTo
     </AnimatedCard>
   );
 };
+
+export default AdminUserIdCard;

@@ -3,11 +3,11 @@ import { Compass, Telescope, Flame } from 'lucide-react';
 // Componentes
 import StaggerGrid from "../components/animations/StaggerGrid.jsx";
 import StaggerItem from "../components/animations/StaggerItem.jsx";
-import SectionHeader from '../components/common/SectionHeader';
-import BackButton from "../components/common/Buttons/BackButton.jsx";
-import SearchFilter from '../components/common/SearchFilter';
-import SelectFilter from '../components/common/SelectFilter';
-import FeedbackState from '../components/common/FeedbackState';
+import SectionHeader from '../components/ui/SectionHeader.jsx';
+import BackButton from "../components/ui/BackButton.jsx";
+import SearchFilter from '../components/ui/SearchFilter.jsx';
+import SelectFilter from '../components/ui/SelectFilter.jsx';
+import FeedbackState from '../components/ui/FeedbackState.jsx';
 import ItemCard from '../components/items/ItemCard';
 // Hooks
 import { useExplorePage } from '../hooks/pages/useExplorePage.js';

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Sparkles, Zap } from 'lucide-react';
 import {rewardRevealVariants, popInVariants, fadeUpVariants, springPopVariants} from './../../lib/animations';
 
-export const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
+const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
   const isUpgraded = data.isCritical && isMultiplierActive;
   const iconBg = isUpgraded ? 'bg-purple-100 text-purple-600 shadow-purple-200' : 'bg-amber-100 text-amber-500 shadow-amber-200';
   const textColor = isUpgraded ? 'text-purple-600' : 'text-primary';
@@ -58,3 +58,5 @@ export const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
     </motion.div>
   );
 };
+
+export default RewardReveal;

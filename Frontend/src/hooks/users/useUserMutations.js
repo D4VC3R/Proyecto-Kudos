@@ -1,4 +1,4 @@
-import axiosClient from './../../lib/axiosClient';
+import axiosClient from '../../core/axiosClient.js';
 import { USER_KEYS } from './useUserQueries';
 import { useSessionStore } from './../../store/useSessionStore';
 import { useBaseMutation } from '../common/useBaseMutation';

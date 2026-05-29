@@ -1,8 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
-import { FadeUp } from '../animations/FadeUp.jsx';
+import FadeUp from '../animations/FadeUp.jsx';
 
-export const StatCard = ({ title, value, icon: Icon, colorClass }) => {
+const StatCard = ({ title, value, icon: Icon, colorClass }) => {
   return (
     <FadeUp
       className="bg-surface rounded-3xl p-6 border border-border shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow"
@@ -17,3 +17,5 @@ export const StatCard = ({ title, value, icon: Icon, colorClass }) => {
     </FadeUp>
   );
 };
+
+export default StatCard;

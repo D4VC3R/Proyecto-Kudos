@@ -1,5 +1,5 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import axiosClient from '../../lib/axiosClient';
+import axiosClient from '../../core/axiosClient.js';
 
 // --- ITEMS ---
 export const ADMIN_ITEM_KEYS = {

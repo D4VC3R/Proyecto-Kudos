@@ -1,14 +1,16 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {  Mail, Lock } from 'lucide-react';
-import { useLogin } from '../../hooks/auth/useAuthMutations';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { loginSchema } from '../../lib/schemas';
-import { InputField } from '../common/InputField';
-import { Button } from '../common/Button';
+import {  Mail, Lock } from 'lucide-react';
 
-export const LoginForm = () => {
+import InputField from '../ui/InputField.jsx';
+import Button from '../ui/Button.jsx';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useLogin } from '../../hooks/auth/useAuthMutations';
+
+const LoginForm = () => {
   const navigate = useNavigate(); // Para redirigir al usuario después del inicio de sesión.
   const location = useLocation(); // Para obtener la ubicación actual y redirigir al usuario a la página que intentaba acceder antes de iniciar sesión.
   const { mutate: login, isPending } = useLogin(); //
@@ -65,3 +67,5 @@ export const LoginForm = () => {
     </form>
   );
 };
+
+export default LoginForm;

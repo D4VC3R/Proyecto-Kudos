@@ -1,8 +1,8 @@
 import React from 'react';
 import { Star, Info } from 'lucide-react';
-import { ItemImage } from './ItemImage.jsx';
+import ItemImage from './ItemImage.jsx';
 
-export const ItemDetailColumn = ({ item }) => {
+const ItemDetailColumn = ({ item }) => {
   return (
     <div className="flex flex-col h-full w-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 p-6 md:p-8 lg:overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
 
@@ -41,3 +41,5 @@ export const ItemDetailColumn = ({ item }) => {
     </div>
   );
 };
+
+export default ItemDetailColumn;

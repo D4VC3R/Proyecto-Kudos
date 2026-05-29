@@ -1,7 +1,7 @@
 import React from 'react';
-import { TextAreaField } from '../../common/TextAreaField.jsx';
+import TextAreaField from '../../ui/TextAreaField.jsx';
 
-export const AdminItemModerateBody = ({itemName, modStatus, setModStatus, modReason, setModReason}) => {
+const AdminItemModerateBody = ({itemName, modStatus, setModStatus, modReason, setModReason}) => {
   return (
     <>
       <p className="text-nav-item text-sm">
@@ -30,3 +30,5 @@ export const AdminItemModerateBody = ({itemName, modStatus, setModStatus, modRea
     </>
   );
 };
+
+export default AdminItemModerateBody;

@@ -3,10 +3,10 @@ import { Telescope } from 'lucide-react';
 // Componentes
 import Ranking from '../components/ranking/Ranking.jsx';
 import InfiniteItemSlider from '../components/items/InfiniteItemSlider.jsx';
-import Skeleton from '../components/common/Skeleton';
-import SectionHeader from "../components/common/SectionHeader.jsx";
-import ActionMenu from "../components/common/ActionMenu.jsx";
-import FeedbackState from "../components/common/FeedbackState.jsx";
+import Skeleton from '../components/ui/Skeleton.jsx';
+import SectionHeader from "../components/ui/SectionHeader.jsx";
+import ActionMenu from "../components/ui/ActionMenu.jsx";
+import FeedbackState from "../components/ui/FeedbackState.jsx";
 // Hooks
 import { useCategoryPage } from '../hooks/pages/useCategoryPage.js';
 

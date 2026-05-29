@@ -1,11 +1,11 @@
 import React from 'react';
 import { Trash2 } from 'lucide-react';
-import { clsx } from 'clsx';
-import { AnimatedCard } from '../animations/AnimatedCard.jsx';
 import {statusColors} from "../../lib/constants.js";
-import { Button } from '../common/Button';
+import { clsx } from 'clsx';
+import AnimatedCard from '../animations/AnimatedCard.jsx';
+import Button from '../ui/Button.jsx';
 
-export const AdminItemCard = ({ item, onModerate, onDelete }) => {
+const AdminItemCard = ({ item, onModerate, onDelete }) => {
   return (
     <AnimatedCard className="bg-surface border border-slate-100 shadow-sm hover:shadow-md transition-shadow rounded-3xl p-5 flex flex-col gap-3 group relative overflow-hidden">
       <div className="flex justify-between items-start gap-2">
@@ -42,3 +42,5 @@ export const AdminItemCard = ({ item, onModerate, onDelete }) => {
     </AnimatedCard>
   );
 };
+
+export default AdminItemCard;

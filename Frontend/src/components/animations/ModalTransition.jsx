@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { modalPanelVariants } from '../../lib/animations';
-
-export const ModalTransition = ({ children, className = '' }) => {
+ const ModalTransition = ({ children, className = '' }) => {
   return (
     <motion.div
       className={className}
@@ -15,3 +14,5 @@ export const ModalTransition = ({ children, className = '' }) => {
     </motion.div>
   );
 };
+
+ export default ModalTransition;

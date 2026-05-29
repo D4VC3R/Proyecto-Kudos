@@ -1,7 +1,7 @@
 import React from 'react';
-import { TextAreaField } from '../../common/TextAreaField.jsx';
+import  TextAreaField from '../../ui/TextAreaField.jsx';
 
-export const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, setAdminNotes}) => {
+const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, setAdminNotes}) => {
   return (
     <>
       <p className="text-nav-item">
@@ -26,3 +26,5 @@ export const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, s
     </>
   );
 };
+
+export default AdminProposalReviewBody;

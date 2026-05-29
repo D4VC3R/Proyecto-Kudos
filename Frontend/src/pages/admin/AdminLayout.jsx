@@ -1,5 +1,5 @@
 import {Outlet, Navigate, useLocation} from 'react-router-dom';
-import SectionHeader from '../../components/common/SectionHeader.jsx';
+import SectionHeader from '../../components/ui/SectionHeader.jsx';
 import AdminNav from '../../components/admin/AdminNav.jsx';
 
 const AdminLayout = () => {

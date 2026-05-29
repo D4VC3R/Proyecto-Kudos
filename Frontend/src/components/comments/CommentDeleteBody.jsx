@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CommentDeleteBody = () => (
+const CommentDeleteBody = () => (
   <div className="flex flex-col gap-2">
     <p className="text-nav-item">
       ¿Estás seguro de que deseas eliminar este comentario permanentemente?
@@ -10,3 +10,5 @@ export const CommentDeleteBody = () => (
     </p>
   </div>
 );
+
+export default CommentDeleteBody;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { LogOut } from 'lucide-react';
 import { useLogout } from '../../hooks/auth/useAuthMutations';
-import { Button } from '../common/Button';
+import  Button  from '../ui/Button.jsx';
 
-export const LogoutButton = () => {
+const LogoutButton = () => {
   const logoutMutation = useLogout();
 
   const handleLogout = () => {
@@ -24,3 +24,5 @@ export const LogoutButton = () => {
     />
   );
 };
+
+export default LogoutButton;

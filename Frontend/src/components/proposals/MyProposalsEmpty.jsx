@@ -1,7 +1,7 @@
 import React from 'react';
 import { FileText } from 'lucide-react';
 
-export const MyProposalsEmpty = () => {
+const MyProposalsEmpty = () => {
   return (
     <div className="flex flex-col items-center justify-center rounded-3xl bg-surface p-12 text-center shadow-lg ring-1 ring-slate-200 min-h-[300px]">
       <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-background text-slate-300">
@@ -14,3 +14,5 @@ export const MyProposalsEmpty = () => {
     </div>
   );
 };
+
+export default MyProposalsEmpty;

@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Loader2, MessageSquare, Send } from 'lucide-react';
+// Componentes
+import Modal  from '../ui/Modal.jsx';
+import CommentHideBody from "./CommentHideBody.jsx";
+import CommentDeleteBody from "./CommentDeleteBody.jsx";
+import ModalButtons from "../ui/ModalButtons.jsx";
+import Comment from './Comment';
+import Button from '../ui/Button.jsx';
+// Hooks
 import { useForm } from 'react-hook-form';
 import { useItemComments } from '../../hooks/items/useItemQueries';
 import { useCreateComment, useDeleteComment } from '../../hooks/items/useItemMutations';
 import { useAdminHideComment } from '../../hooks/admin/useAdminMutations';
 import { useModal } from '../../hooks/common/useModal.js';
-import { Modal } from '../common/Modal';
-import { CommentHideBody } from "./CommentHideBody.jsx";
-import { CommentDeleteBody } from "./CommentDeleteBody.jsx";
-import { ModalButtons } from "../common/ModalButtons.jsx";
-import { Comment } from './Comment';
-import { Button } from '../common/Button';
 
-export const CommentBox = ({ itemId, className = "" }) => {
+const CommentBox = ({ itemId, className = "" }) => {
   const { data: comments, isLoading } = useItemComments(itemId);
   const createCommentMutation = useCreateComment();
   const { mutate: hideComment, isPending: isHiding } = useAdminHideComment();
@@ -110,3 +112,5 @@ export const CommentBox = ({ itemId, className = "" }) => {
     </div>
   );
 };
+
+export default CommentBox;

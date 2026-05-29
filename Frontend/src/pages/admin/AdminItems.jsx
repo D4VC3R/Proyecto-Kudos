@@ -2,16 +2,16 @@ import React from 'react';
 import { Target, ShieldAlert, LayoutGrid } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 // Componentes
-import SectionHeader from '../../components/common/SectionHeader';
-import FeedbackState from '../../components/common/FeedbackState';
-import Modal from '../../components/common/Modal';
-import Pagination from '../../components/common/Buttons/Pagination.jsx';
+import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import FeedbackState from '../../components/ui/FeedbackState.jsx';
+import Modal from '../../components/ui/Modal.jsx';
+import Pagination from '../../components/ui/Pagination.jsx';
 import AdminItemCard from "../../components/admin/AdminItemCard.jsx";
-import ModalButtons from "../../components/common/Buttons/ModalButtons.jsx";
+import ModalButtons from "../../components/ui/ModalButtons.jsx";
 import AdminItemModerateBody from "../../components/admin/modals/AdminItemModerateBody.jsx";
 import AdminItemDeleteBody from "../../components/admin/modals/AdminItemDeleteBody.jsx";
-import SearchFilter from "../../components/common/SearchFilter.jsx";
-import SelectFilter from "../../components/common/SelectFilter.jsx";
+import SearchFilter from "../../components/ui/SearchFilter.jsx";
+import SelectFilter from "../../components/ui/SelectFilter.jsx";
 // Hooks
 import { useAdminItemsPage } from '../../hooks/pages/useAdminItemsPage.js';
 

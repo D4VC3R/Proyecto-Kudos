@@ -1,7 +1,7 @@
 import React from 'react';
-import { InputField } from '../common/InputField';
+import InputField from '../ui/InputField.jsx';
 
-export const CommentHideBody = ({ hideReason, setHideReason }) => (
+const CommentHideBody = ({ hideReason, setHideReason }) => (
   <div className="flex flex-col gap-4">
     <p className="text-nav-item">
       El comentario se ocultará públicamente pero se mantendrá en el sistema. Los administradores podrán restaurarlo.
@@ -15,3 +15,5 @@ export const CommentHideBody = ({ hideReason, setHideReason }) => (
     />
   </div>
 );
+
+export default CommentHideBody;

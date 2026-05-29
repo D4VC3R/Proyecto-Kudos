@@ -1,25 +1,27 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {  Mail, Lock, User } from 'lucide-react';
-import { useRegister } from '../../hooks/auth/useAuthMutations';
-import { useNavigate } from 'react-router-dom';
-import { registerSchema } from '../../lib/schemas';
-import { InputField } from '../common/InputField';
-import { Button } from '../common/Button';
+import {useNavigate} from 'react-router-dom';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {Mail, Lock, User} from 'lucide-react';
+import {registerSchema} from '../../lib/schemas';
 
-export const RegisterForm = () => {
+import InputField from '../ui/InputField.jsx';
+import Button from '../ui/Button.jsx';
+
+import {useForm} from 'react-hook-form';
+import {useRegister} from '../../hooks/auth/useAuthMutations';
+
+const RegisterForm = () => {
   const navigate = useNavigate();
-  const { mutate: registerUser, isPending } = useRegister();
-  
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {mutate: registerUser, isPending} = useRegister();
+
+  const {register, handleSubmit, formState: {errors}} = useForm({
     resolver: zodResolver(registerSchema)
   });
 
   const onSubmit = (data) => {
     registerUser(data, {
       onSuccess: () => {
-        navigate('/verify-email', { replace: true, state: { registered: true } });
+        navigate('/verify-email', {replace: true, state: {registered: true}});
       }
     });
   };
@@ -78,3 +80,5 @@ export const RegisterForm = () => {
     </form>
   );
 };
+
+export default RegisterForm;

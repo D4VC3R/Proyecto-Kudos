@@ -3,12 +3,12 @@ import { SearchX } from 'lucide-react';
 // Componentes
 import MyProposalsHeader from '../../components/proposals/MyProposalsHeader.jsx';
 import MyProposalsEmpty from '../../components/proposals/MyProposalsEmpty.jsx';
-import FeedbackState from "../../components/common/FeedbackState.jsx";
+import FeedbackState from "../../components/ui/FeedbackState.jsx";
 import MyProposalItemCard from '../../components/proposals/MyProposalItemCard.jsx';
 import MyProposalItemCardSkeleton from '../../components/proposals/MyProposalItemCardSkeleton.jsx';
 import FadeUp from "../../components/animations/FadeUp.jsx";
-import Modal from '../../components/common/Modal.jsx';
-import ModalButtons from "../../components/common/Buttons/ModalButtons.jsx";
+import Modal from '../../components/ui/Modal.jsx';
+import ModalButtons from "../../components/ui/ModalButtons.jsx";
 // Hooks
 import { useMyProposalsPage } from '../../hooks/pages/useMyProposalsPage.js';
 

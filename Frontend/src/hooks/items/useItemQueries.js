@@ -1,5 +1,5 @@
 import {useQuery, useInfiniteQuery, keepPreviousData} from '@tanstack/react-query';
-import axiosClient from '../../lib/axiosClient';
+import axiosClient from '../../core/axiosClient.js';
 
 // Query Key Factory: Única fuente de la verdad para las cachés de items
 export const ITEM_KEYS = {

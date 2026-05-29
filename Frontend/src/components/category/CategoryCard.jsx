@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getCategoryIcon } from "../../lib/constants.js";
 import BouncyCard from '../animations/BouncyCard';
 import HoverFadeText from '../animations/HoverFadeText';
-import StorageImage from "../common/StorageImage.jsx";
+import StorageImage from "../ui/StorageImage.jsx";
 
 const CategoryCard = ({ category }) => {
   const Icon = getCategoryIcon(category.name);

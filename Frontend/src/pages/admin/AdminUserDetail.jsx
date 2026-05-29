@@ -1,11 +1,11 @@
 import React from 'react';
 import { ArrowLeft, UserSquare, ShieldAlert } from 'lucide-react';
 // Componentes
-import SectionHeader from '../../components/common/SectionHeader';
-import FeedbackState from '../../components/common/FeedbackState';
-import Modal from '../../components/common/Modal';
-import ModalButtons from '../../components/common/Buttons/ModalButtons.jsx';
-import Button from '../../components/common/Buttons/Button.jsx';
+import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import FeedbackState from '../../components/ui/FeedbackState.jsx';
+import Modal from '../../components/ui/Modal.jsx';
+import ModalButtons from '../../components/ui/ModalButtons.jsx';
+import Button from '../../components/ui/Button.jsx';
 import AdminUserBanBody from '../../components/admin/modals/AdminUserBanBody.jsx';
 import AdminUserRevokeBody from '../../components/admin/modals/AdminUserRevokeBody.jsx';
 import AdminUserIdCard from '../../components/admin/AdminUserIdCard';

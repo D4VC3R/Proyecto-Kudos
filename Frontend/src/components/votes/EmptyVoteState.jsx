@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Star } from 'lucide-react';
-import { Button } from '../common/Button';
-import {AnimatedItem} from "../animations/AnimatedItem.jsx";
+import  Button from '../ui/Button.jsx';
+import AnimatedItem from "../animations/AnimatedItem.jsx";
 
-export const EmptyVoteState = () => {
+const EmptyVoteState = () => {
   const navigate = useNavigate();
 
   return (
@@ -27,3 +27,5 @@ export const EmptyVoteState = () => {
     </AnimatedItem>
   );
 };
+
+export default EmptyVoteState;

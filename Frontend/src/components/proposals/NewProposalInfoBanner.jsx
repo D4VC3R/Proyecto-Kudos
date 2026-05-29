@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const NewProposalInfoBanner = () => {
+const NewProposalInfoBanner = () => {
   return (
     <div className="mt-10 rounded-2xl bg-yellow-50 border border-yellow-200 p-5">
       <h4 className="text-yellow-800 font-bold mb-1">¡Gana Puntos Extra!</h4>
@@ -10,4 +10,6 @@ export const NewProposalInfoBanner = () => {
     </div>
   );
 };
+
+export default NewProposalInfoBanner;
 

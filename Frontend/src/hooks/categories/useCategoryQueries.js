@@ -1,5 +1,5 @@
 import {useQuery, useInfiniteQuery, keepPreviousData} from '@tanstack/react-query';
-import axiosClient from '../../lib/axiosClient';
+import axiosClient from '../../core/axiosClient.js';
 /*
 * Hook personalizado para consumir los datos relativos a las categorías.
 * Utiliza una instancia del cliente axios ya configurada para las peticiones y react-query para el manejo de datos y caché.

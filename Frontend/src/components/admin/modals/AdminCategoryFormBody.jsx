@@ -1,8 +1,8 @@
 import React from 'react';
-import { InputField } from '../../common/InputField.jsx';
-import { TextAreaField } from '../../common/TextAreaField.jsx';
+import InputField from '../../ui/InputField.jsx';
+import TextAreaField  from '../../ui/TextAreaField.jsx';
 
-export const AdminCategoryFormBody = ({ formData, setFormData }) => {
+const AdminCategoryFormBody = ({ formData, setFormData }) => {
   return (
     <>
       <InputField
@@ -23,3 +23,5 @@ export const AdminCategoryFormBody = ({ formData, setFormData }) => {
     </>
   );
 };
+
+export default AdminCategoryFormBody;

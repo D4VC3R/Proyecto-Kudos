@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { fadeVariants } from '../../lib/animations';
-
-export const Fade = ({ children, className = '', onClick }) => {
+const Fade = ({ children, className = '', onClick }) => {
   return (
     <motion.div
       className={className}
@@ -17,3 +16,5 @@ export const Fade = ({ children, className = '', onClick }) => {
     </motion.div>
   );
 };
+
+export default Fade;

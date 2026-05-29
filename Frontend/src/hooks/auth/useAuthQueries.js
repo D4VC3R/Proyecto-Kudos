@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import axiosClient from '../../lib/axiosClient';
+import axiosClient from '../../core/axiosClient.js';
 
 export const useVerifyEmail = (verifyUrl) => {
     return useQuery({

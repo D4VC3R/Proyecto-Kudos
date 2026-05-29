@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Trophy} from 'lucide-react';
-import { PodiumItem } from './PodiumItem.jsx';
-import { StaggerGrid } from '../animations/StaggerGrid.jsx';
+import PodiumItem from './PodiumItem.jsx';
+import StaggerGrid from '../animations/StaggerGrid.jsx';
 
 const Ranking = ({
   title,

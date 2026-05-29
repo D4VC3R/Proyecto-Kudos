@@ -1,9 +1,9 @@
 import React from 'react';
 import { Star } from 'lucide-react';
-import { BouncyCard } from '../animations/BouncyCard';
-import StorageImage from "../common/StorageImage.jsx";
+import  BouncyCard  from '../animations/BouncyCard';
+import StorageImage from "../ui/StorageImage.jsx";
 
-export const ItemCard = ({ item, onClick }) => {
+const ItemCard = ({ item, onClick }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
   const imagePath = item.images?.[0]?.variants?.thumb;
 
@@ -36,3 +36,5 @@ export const ItemCard = ({ item, onClick }) => {
     </BouncyCard>
   );
 };
+
+export default ItemCard;

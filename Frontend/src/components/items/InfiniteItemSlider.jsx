@@ -1,6 +1,6 @@
 import React from 'react';
-import { ItemCard } from './ItemCard.jsx';
-import { InfiniteSlider } from '../animations/InfiniteSlider.jsx'; // Ajusta la ruta
+import ItemCard from './ItemCard.jsx';
+import InfiniteSlider from '../animations/InfiniteSlider.jsx';
 
 const InfiniteItemSlider = ({ items = [], onItemClick }) => {
   if (!items || items.length === 0) return null;

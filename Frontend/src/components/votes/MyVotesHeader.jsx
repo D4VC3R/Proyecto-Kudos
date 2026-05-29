@@ -1,9 +1,15 @@
-import React from 'react';
-import { useCategories } from '../../hooks/categories/useCategoryQueries';
-import { SectionHeader } from '../common/SectionHeader';
-import { Button } from '../common/Button';
+import React, { useMemo } from 'react';
+import { Filter } from 'lucide-react';
 
-export const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams }) => {
+// Componentes
+import SectionHeader from '../ui/SectionHeader.jsx';
+import Button from '../ui/Button.jsx';
+import SelectFilter from '../ui/SelectFilter.jsx';
+
+// Hooks
+import { useCategories } from '../../hooks/categories/useCategoryQueries.js';
+
+const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams }) => {
   const { data: categories } = useCategories();
 
   const setView = (type) => {
@@ -15,11 +21,18 @@ export const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams
     updateParams({ category_slug: value || null, page: 1 });
   };
 
+  const categoryOptions = useMemo(() => {
+    if (!Array.isArray(categories)) return [];
+    return categories.map((cat) => ({
+      value: cat.slug,
+      label: cat.name
+    }));
+  }, [categories]);
+
   return (
     <SectionHeader
-      title="Historial de"
-      highlight="Votos"
-      highlightColor="blue-600"
+      title="Historial de "
+      highlight="Votaciones"
       subtitle="Revisa cómo has valorado los diferentes ítems."
     >
       <div className="flex gap-2 mr-auto mb-2 md:mb-0 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
@@ -50,18 +63,13 @@ export const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams
       </div>
 
       <div className="flex flex-1 md:flex-none justify-end gap-3 items-center">
-        <select
+        <SelectFilter
+          icon={Filter}
           value={currentCategory || ''}
           onChange={handleCategoryChange}
-          className="rounded-xl border border-border bg-surface px-3 py-2 text-sm font-bold text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        >
-          <option value="">Todas las Categorías</option>
-          {Array.isArray(categories) && categories.map((cat) => (
-            <option key={cat.id} value={cat.slug}>
-              {cat.name}
-            </option>
-          ))}
-        </select>
+          options={categoryOptions}
+          defaultOption="Todas las Categorías"
+        />
 
         <div className="flex flex-col items-center justify-center p-2 bg-background rounded-xl min-w-[70px] ml-2">
           <span className="text-xl text-text-highlight font-black">{meta.total || 0}</span>
@@ -71,3 +79,5 @@ export const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams
     </SectionHeader>
   );
 };
+
+export default MyVotesHeader;

@@ -7,9 +7,9 @@ import MyProposalsPage from './MyProposalsPage.jsx';
 import MyVotesPage from './MyVotesPage.jsx';
 import MyStatsPage from './MyStatsPage.jsx';
 import ProfileInfoFormSkeleton from '../../components/profile/ProfileInfoFormSkeleton.jsx';
-import SectionHeader from "../../components/common/SectionHeader.jsx";
+import SectionHeader from "../../components/ui/SectionHeader.jsx";
 import ProfileTabs from "../../components/profile/ProfileTabs.jsx";
-import FeedbackState from '../../components/common/FeedbackState.jsx';
+import FeedbackState from '../../components/ui/FeedbackState.jsx';
 // Hooks
 import {useProfile} from '../../hooks/users/useUserQueries.js';
 

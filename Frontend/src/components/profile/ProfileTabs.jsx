@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from '../common/Button';
+import Button from '../ui/Button.jsx';
 
-export const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => {
+const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => {
   return (
     <div className="w-full flex overflow-x-auto border-b border-border scrollbar-hide mb-6 gap-2 md:gap-8 min-w-0">
       {tabs.map((tab) => (
@@ -19,3 +19,5 @@ export const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => {
     </div>
   );
 };
+
+export default ProfileTabs;

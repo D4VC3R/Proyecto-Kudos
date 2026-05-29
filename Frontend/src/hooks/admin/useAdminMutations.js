@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import axiosClient from '../../lib/axiosClient';
+import axiosClient from '../../core/axiosClient.js';
 import { useBaseMutation } from '../common/useBaseMutation';
 import { ITEM_KEYS } from '../items/useItemQueries';
 import { ADMIN_ITEM_KEYS, ADMIN_PROPOSAL_KEYS, ADMIN_USER_KEYS } from './useAdminQueries';

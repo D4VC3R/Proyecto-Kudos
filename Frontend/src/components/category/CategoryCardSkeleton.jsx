@@ -1,7 +1,7 @@
 import React from 'react';
-import { Skeleton } from './../common/Skeleton';
+import Skeleton from '../ui/Skeleton.jsx';
 
-export const CategoryCardSkeleton = () => (
+const CategoryCardSkeleton = () => (
   <div className="h-80 w-full rounded-3xl bg-surface shadow-lg ring-1 ring-slate-200 p-6 flex flex-col justify-end relative overflow-hidden">
     <div className="absolute inset-0 bg-slate-100 animate-pulse" />
     <div className="relative z-10">
@@ -11,3 +11,5 @@ export const CategoryCardSkeleton = () => (
     </div>
   </div>
 );
+
+export default CategoryCardSkeleton;

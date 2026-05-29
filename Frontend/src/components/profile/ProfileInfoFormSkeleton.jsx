@@ -1,7 +1,7 @@
 import React from 'react';
-import { Skeleton } from './../common/Skeleton'; // Tu componente genérico de esqueleto
+import Skeleton from '../ui/Skeleton.jsx'; // Tu componente genérico de esqueleto
 
-export const ProfileInfoFormSkeleton = () => {
+const ProfileInfoFormSkeleton = () => {
   return (
     <div className="flex flex-col gap-8 md:flex-row max-w-4xl mx-auto w-full">
       <div className="flex flex-col items-center p-6 bg-background rounded-3xl border border-border md:w-1/3 h-fit">
@@ -47,3 +47,5 @@ export const ProfileInfoFormSkeleton = () => {
     </div>
   );
 };
+
+export default ProfileInfoFormSkeleton;

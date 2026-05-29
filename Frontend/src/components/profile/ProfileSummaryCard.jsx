@@ -1,8 +1,8 @@
 import React from 'react';
 import { User as UserIcon } from 'lucide-react';
-import StorageImage from "../common/StorageImage.jsx";
+import StorageImage from "../ui/StorageImage.jsx";
 
-export const ProfileSummaryCard = ({ user, profile }) => {
+const ProfileSummaryCard = ({ user, profile }) => {
   return (
     <div className="flex flex-col items-center p-6 bg-background rounded-3xl border border-border w-full">
       <div className="w-32 h-32 rounded-full overflow-hidden bg-blue-100 text-primary flex items-center justify-center mb-4 ring-4 ring-white shadow-lg">
@@ -30,3 +30,5 @@ export const ProfileSummaryCard = ({ user, profile }) => {
     </div>
   );
 };
+
+export default ProfileSummaryCard;

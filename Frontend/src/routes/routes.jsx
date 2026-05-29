@@ -4,12 +4,12 @@ import { RequireVerified } from './guards/RequireVerified.jsx';
 import { RequireAdmin } from './guards/RequireAdmin.jsx';
 import HomePage from '../pages/HomePage.jsx';
 import ProfilePage from "../pages/profile/ProfilePage.jsx";
-import VerifyEmailPage from "../pages/VerifyEmailPage.jsx";
+import VerifyEmailPage from "../pages/auth/VerifyEmailPage.jsx";
 import VotePage from "../pages/VotePage.jsx";
 import CategoryPage from "../pages/CategoryPage.jsx";
 import RankingPage from "../pages/RankingPage.jsx";
 import NewProposalPage from "../pages/NewProposalPage.jsx";
-import AuthPage from "../pages/AuthPage.jsx";
+import AuthPage from "../pages/auth/AuthPage.jsx";
 import AdminLayout  from "../pages/admin/AdminLayout.jsx";
 import AdminUsers from "../pages/admin/AdminUsers.jsx";
 import AdminCategories from "../pages/admin/AdminCategories.jsx";
@@ -18,8 +18,8 @@ import AdminProposals from "../pages/admin/AdminProposals.jsx";
 import AdminUserDetail from "../pages/admin/AdminUserDetail.jsx";
 import ExplorePage from "../pages/ExplorePage.jsx";
 import ItemDetailPage from "../pages/ItemDetailPage.jsx";
-import ForgotPasswordPage from "../pages/ForgotPasswordPage.jsx";
-import ResetPasswordPage from "../pages/ResetPasswordPage.jsx";
+import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage.jsx";
+import ResetPasswordPage from "../pages/auth/ResetPasswordPage.jsx";
 
 
 const AppRoutes = () => {

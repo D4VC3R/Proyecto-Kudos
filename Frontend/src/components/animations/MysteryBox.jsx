@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Gift, Sparkles } from 'lucide-react';
 import { gamifiedEntryVariants, floatingLoopVariants, pulseLoopVariants } from './../../lib/animations';
 
-export const MysteryBox = ({ onReveal }) => {
+const MysteryBox = ({ onReveal }) => {
   return (
     <motion.div
       variants={gamifiedEntryVariants}
@@ -37,3 +37,5 @@ export const MysteryBox = ({ onReveal }) => {
     </motion.div>
   );
 };
+
+export default MysteryBox;

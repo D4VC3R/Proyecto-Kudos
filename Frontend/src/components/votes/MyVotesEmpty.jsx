@@ -1,10 +1,11 @@
 import React from 'react';
 import { ThumbsUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { FeedbackState } from '../common/FeedbackState';
-import {ScaleFadeIn} from "../animations/ScaleFadeIn.jsx";
 
-export const MyVotesEmpty = () => {
+import  FeedbackState  from '../ui/FeedbackState.jsx';
+import ScaleFadeIn from "../animations/ScaleFadeIn.jsx";
+
+const MyVotesEmpty = () => {
   return (
       <ScaleFadeIn>
         <FeedbackState
@@ -24,3 +25,5 @@ export const MyVotesEmpty = () => {
       </ScaleFadeIn>
   );
 };
+
+export default MyVotesEmpty;

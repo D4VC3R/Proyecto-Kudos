@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { infiniteSliderVariants } from './../../lib/animations.js';
 
-export const InfiniteSlider = ({ children, duration, className = '' }) => {
+const InfiniteSlider = ({ children, duration, className = '' }) => {
   return (
     <motion.div
       className={className}
@@ -14,3 +14,5 @@ export const InfiniteSlider = ({ children, duration, className = '' }) => {
     </motion.div>
   );
 };
+
+export default InfiniteSlider;

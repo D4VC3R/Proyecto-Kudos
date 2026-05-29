@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const AdminUserRevokeBody = ({ userName }) => {
+const AdminUserRevokeBody = ({ userName }) => {
   return (
     <p className="text-nav-item">
       ¿Confirmas que deseas cerrar todas las sesiones del usuario <span className="font-bold">{userName}</span>?
@@ -8,3 +8,5 @@ export const AdminUserRevokeBody = ({ userName }) => {
     </p>
   );
 };
+
+export default AdminUserRevokeBody;

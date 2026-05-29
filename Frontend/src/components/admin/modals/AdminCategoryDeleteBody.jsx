@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const AdminCategoryDeleteBody = ({ categoryName }) => {
+const AdminCategoryDeleteBody = ({ categoryName }) => {
   return (
     <p className="text-nav-item">
       ¿Estás seguro de que deseas eliminar la categoría <span className="font-bold text-text-highlight">{categoryName}</span>?
@@ -9,3 +9,5 @@ export const AdminCategoryDeleteBody = ({ categoryName }) => {
     </p>
   );
 };
+
+export default AdminCategoryDeleteBody;

@@ -1,49 +1,34 @@
 import React from 'react';
-import { Trophy, Medal, UserCircle } from 'lucide-react';
 import clsx from 'clsx';
-import { StaggerItem } from '../animations/StaggerItem.jsx';
-import StorageImage from '../common/StorageImage.jsx';
-import { ChevronRight } from 'lucide-react';
+import { UserCircle, ChevronRight } from 'lucide-react';
+import {RANK_CONFIG} from '../../lib/constants.js';
+import { getScoreColor } from '../../lib/formatters.js';
 
-export const PodiumItem = ({ data, rank, type = "item", onClick }) => {
-  const isFirst = rank === 1;
-  const isSecond = rank === 2;
-  const isThird = rank === 3;
+import StaggerItem from '../animations/StaggerItem.jsx';
+import StorageImage from '../ui/StorageImage.jsx';
 
-  const getRankStyles = () => {
-    if (isFirst) return 'bg-gradient-to-r from-yellow-200 to-white border-accent shadow-[20px_0_25px_rgba(250,204,21,0.5)] z-30 border-2 py-5 px-5';
-    if (isSecond) return 'bg-gradient-to-r from-slate-300 to-white border-slate-500 shadow-[20px_0_20px_rgba(148,163,184,0.5)] z-20 border-2 py-4 px-4';
-    if (isThird) return 'bg-gradient-to-r from-orange-200 to-white border-orange-400 shadow-[20px_0_20px_rgba(217,119,6,0.5)] z-10 border-2 py-3 px-3';
-    return 'bg-surface border-slate-300 hover:border-blue-400 border py-1.5 px-3 shadow-md transition-colors';
-  };
 
-  const getRankIcon = () => {
-    if (isFirst) return <Trophy size={28} className="text-yellow-500 drop-shadow-sm" />;
-    if (isSecond) return <Medal size={24} className="text-slate-400 drop-shadow-sm" />;
-    if (isThird) return <Medal size={24} className="text-orange-400 drop-shadow-sm" />;
-    return <span className="text-sm font-bold text-text-normal w-6 text-center">{rank}</span>;
-  };
-
+const PodiumItem = ({ data, rank, type = "item", onClick }) => {
+  const config = RANK_CONFIG[rank] || RANK_CONFIG.default;
   const scoreValue = type === "user" ? data.total_kudos : (data.score || data.vote_avg || 0);
-
-  let scoreBgClass = "bg-primary";
-  if (type === "item") {
-    scoreBgClass = "bg-red-600";
-    if (scoreValue > 6) scoreBgClass = "bg-primary";
-    else if (scoreValue > 4) scoreBgClass = "bg-orange-500";
-  }
+  const scoreBgClass = getScoreColor(type, scoreValue);
+  const RankIcon = config.Icon;
 
   return (
     <StaggerItem
       className={clsx(
         'flex items-center gap-3 rounded-2xl transition-all group',
-        onClick ? 'cursor-pointer hover:scale-[1.01]' : '',
-        getRankStyles()
+        onClick && 'cursor-pointer hover:scale-[1.01]',
+        config.wrapperClass
       )}
       onClick={onClick}
     >
-      <div className={clsx("flex shrink-0 items-center justify-center rounded-full bg-surface shadow-sm", isFirst ? "h-12 w-12" : isSecond || isThird ? "h-10 w-10" : "h-8 w-8")}>
-        {getRankIcon()}
+      <div className={clsx("flex shrink-0 items-center justify-center rounded-full bg-surface shadow-sm", config.iconWrapperClass)}>
+        {RankIcon ? (
+          <RankIcon size={config.iconSize} className={config.iconClass} />
+        ) : (
+          <span className="text-sm font-bold text-text-normal w-6 text-center">{rank}</span>
+        )}
       </div>
 
       {type === "user" && (
@@ -58,20 +43,22 @@ export const PodiumItem = ({ data, rank, type = "item", onClick }) => {
       )}
 
       <div className="flex-1 truncate">
-        <h4 className={clsx("truncate font-bold text-text-highlight", isFirst ? "text-xl" : isSecond || isThird ? "text-lg" : "text-sm")}>
+        <h4 className={clsx("truncate font-bold text-text-highlight", config.textClass)}>
           {data.name}
         </h4>
       </div>
 
-      <div className={clsx("flex shrink-0 items-center gap-1 rounded-full font-bold text-text-btn shadow-md", scoreBgClass, isFirst ? "px-3 py-1.5 text-base" : "px-2.5 py-1 text-xs")}>
+      <div className={clsx("flex shrink-0 items-center gap-1 rounded-full font-bold text-text-btn shadow-md", scoreBgClass, config.scoreClass)}>
         {scoreValue} {type === "user" && "K"}
       </div>
 
       {onClick && (
-          <div className="flex shrink-0 items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
-            <ChevronRight size={20} />
-          </div>
+        <div className="flex shrink-0 items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
+          <ChevronRight size={20} />
+        </div>
       )}
     </StaggerItem>
   );
 };
+
+export default PodiumItem;

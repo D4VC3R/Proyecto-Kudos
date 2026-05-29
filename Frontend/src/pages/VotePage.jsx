@@ -8,7 +8,7 @@ import ItemImage from '../components/items/ItemImage.jsx';
 import VoteActionButtons from '../components/votes/VoteActionButtons.jsx';
 import EmptyVoteState from "../components/votes/EmptyVoteState.jsx";
 import AnimatedItem from "../components/animations/AnimatedItem.jsx";
-import BackButton from "../components/common/Buttons/BackButton.jsx";
+import BackButton from "../components/ui/BackButton.jsx";
 // Hooks
 import { useVotePage } from '../hooks/pages/useVotePage.js';
 

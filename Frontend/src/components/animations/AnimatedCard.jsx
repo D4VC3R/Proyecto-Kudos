@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { scaleFadeVariants } from '../../lib/animations';
 
-export const AnimatedCard = ({ children, className = '', ...props }) => {
+const AnimatedCard = ({ children, className = '', ...props }) => {
   return (
     <motion.div
       layout
@@ -17,3 +17,5 @@ export const AnimatedCard = ({ children, className = '', ...props }) => {
     </motion.div>
   );
 };
+
+export default AnimatedCard;

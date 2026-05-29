@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import {VARIANTS} from "../../lib/buttonStyles.js";
 
-export const AdminNav = () => {
+const AdminNav = () => {
   const baseNavStyles = "flex items-center gap-2 px-5 py-3 rounded-2xl font-bold transition-all whitespace-nowrap";
 
   return (
@@ -31,3 +31,5 @@ export const AdminNav = () => {
     </nav>
   );
 };
+
+export default AdminNav;

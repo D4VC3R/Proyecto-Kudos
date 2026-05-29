@@ -2,12 +2,12 @@ import React from 'react';
 import { LayoutGrid, Plus, ShieldAlert } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 // Componentes
-import SectionHeader from '../../components/common/SectionHeader';
-import FeedbackState from '../../components/common/FeedbackState';
-import Button from '../../components/common/Buttons/Button.jsx';
-import Modal from '../../components/common/Modal';
-import ModalButtons from "../../components/common/Buttons/ModalButtons.jsx";
-import SearchFilter from '../../components/common/SearchFilter';
+import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import FeedbackState from '../../components/ui/FeedbackState.jsx';
+import Button from '../../components/ui/Button.jsx';
+import Modal from '../../components/ui/Modal.jsx';
+import ModalButtons from "../../components/ui/ModalButtons.jsx";
+import SearchFilter from '../../components/ui/SearchFilter.jsx';
 import AdminCategoryCard from "../../components/admin/AdminCategoryCard.jsx";
 import AdminCategoryFormBody from "../../components/admin/modals/AdminCategoryFormBody.jsx";
 import AdminCategoryDeleteBody from "../../components/admin/modals/AdminCategoryDeleteBody.jsx";

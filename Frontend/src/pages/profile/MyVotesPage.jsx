@@ -6,8 +6,8 @@ import MyVotesEmpty from '../../components/votes/MyVotesEmpty.jsx';
 import MyVoteItemCard from '../../components/votes/MyVoteItemCard.jsx';
 import MyVoteItemCardSkeleton from '../../components/votes/MyVoteItemCardSkeleton.jsx';
 import FadeUp from "../../components/animations/FadeUp.jsx";
-import Modal from '../../components/common/Modal.jsx';
-import ModalButtons from '../../components/common/Buttons/ModalButtons.jsx';
+import Modal from '../../components/ui/Modal.jsx';
+import ModalButtons from '../../components/ui/ModalButtons.jsx';
 // Hooks
 import { useMyVotesPage } from '../../hooks/pages/useMyVotesPage.js';
 

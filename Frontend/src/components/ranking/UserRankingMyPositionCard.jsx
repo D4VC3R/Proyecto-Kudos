@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const UserRankingMyPositionCard = ({ position }) => {
+const UserRankingMyPositionCard = ({ position }) => {
   if (!position) return null;
 
   return (
@@ -15,3 +15,5 @@ export const UserRankingMyPositionCard = ({ position }) => {
     </div>
   );
 };
+
+export default UserRankingMyPositionCard;

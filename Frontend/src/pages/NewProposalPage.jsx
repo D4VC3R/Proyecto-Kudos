@@ -5,7 +5,7 @@ import NewProposalForm  from '../components/proposals/NewProposalForm.jsx';
 import NewProposalHeader  from '../components/proposals/NewProposalHeader.jsx';
 import  NewProposalInfoBanner  from '../components/proposals/NewProposalInfoBanner.jsx';
 import FadeUp from "../components/animations/FadeUp.jsx";
-import  BackButton from "../components/common/Buttons/BackButton.jsx";
+import  BackButton from "../components/ui/BackButton.jsx";
 
 import { useCategoryDetail } from '../hooks/categories/useCategoryQueries.js';
 

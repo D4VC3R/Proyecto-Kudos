@@ -1,8 +1,8 @@
 import React from 'react';
-import { AnimatedCard } from '../animations/AnimatedCard';
+import AnimatedCard  from '../animations/AnimatedCard';
 import clsx from 'clsx';
 
-export const StatCard = ({ icon: Icon, value, label, containerClass = "bg-background border-slate-100", iconColor = "text-blue-500", valueClass = "text-3xl" }) => {
+const StatCard = ({ icon: Icon, value, label, containerClass = "bg-background border-slate-100", iconColor = "text-blue-500", valueClass = "text-3xl" }) => {
   return (
     <AnimatedCard className={clsx("border p-5 rounded-3xl flex flex-col items-center justify-center text-center", containerClass)}>
       <Icon className={clsx("mb-2", iconColor)} size={32} />
@@ -11,3 +11,5 @@ export const StatCard = ({ icon: Icon, value, label, containerClass = "bg-backgr
     </AnimatedCard>
   );
 };
+
+export default StatCard;

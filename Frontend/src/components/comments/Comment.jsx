@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { UserCircle, EyeOff, Eye, Trash2, Edit2, Check, X } from 'lucide-react';
 import { formatDate } from '../../lib/formatters';
+// Componentes
+import Button from '../ui/Button.jsx';
+import StorageImage from '../ui/StorageImage.jsx';
+import TextAreaField from '../ui/TextAreaField.jsx';
+// Hooks
 import { useSessionStore } from '../../store/useSessionStore';
 import { useAdminUnhideComment } from '../../hooks/admin/useAdminMutations';
 import { useUpdateComment } from '../../hooks/items/useItemMutations';
-import { Button } from '../common/Button';
-import StorageImage from '../common/StorageImage.jsx';
-import { TextAreaField } from '../common/TextAreaField.jsx';
 
-export const Comment = ({ comment, onRequestHide, onRequestDelete }) => {
+const Comment = ({ comment, onRequestHide, onRequestDelete }) => {
   const { user } = useSessionStore();
   const isAdmin = user?.role === 'admin';
   const isOwner = user?.id === comment.user?.id;
@@ -96,3 +98,5 @@ export const Comment = ({ comment, onRequestHide, onRequestDelete }) => {
     </div>
   );
 };
+
+export default Comment;

@@ -1,7 +1,7 @@
 import React from 'react';
-import StorageImage from '../common/StorageImage.jsx';
+import StorageImage from '../ui/StorageImage.jsx';
 
-export const ItemImage = ({ item, showTitle = true, variant = 'banner' }) => {
+const ItemImage = ({item, showTitle = true, variant = 'banner'}) => {
   const image = item.images?.[0];
   const imageVariant = image?.variants?.[variant] || image?.variants?.[variant];
 
@@ -10,7 +10,7 @@ export const ItemImage = ({ item, showTitle = true, variant = 'banner' }) => {
   const dominantColor = metaColor.startsWith('#') ? metaColor : `#${metaColor}`;
 
   const orientation = image?.meta?.orientation || 'landscape';
-  const aspectRatio = image?.meta?.aspect_ratio || (orientation === 'portrait' ? 3/4 : 16/9);
+  const aspectRatio = image?.meta?.aspect_ratio || (orientation === 'portrait' ? 3 / 4 : 16 / 9);
 
   // Limitamos el ancho en función de la orientación para un escalado inteligente
   const maxWidthClass =
@@ -41,7 +41,7 @@ export const ItemImage = ({ item, showTitle = true, variant = 'banner' }) => {
           className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-50 scale-110"
         />
 
-        <div className="absolute inset-0 bg-black/5 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-black/5 mix-blend-multiply"/>
 
         <StorageImage
           src={imageVariant}
@@ -52,3 +52,5 @@ export const ItemImage = ({ item, showTitle = true, variant = 'banner' }) => {
     </div>
   );
 };
+
+export default ItemImage;

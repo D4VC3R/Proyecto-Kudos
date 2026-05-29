@@ -1,9 +1,9 @@
 import React from 'react';
 import { Edit2, Trash2 } from 'lucide-react';
-import { AnimatedCard } from '../animations/AnimatedCard.jsx';
-import { Button } from '../common/Button';
+import  AnimatedCard  from '../animations/AnimatedCard.jsx';
+import  Button  from '../ui/Button.jsx';
 
-export const AdminCategoryCard = ({ category, onEdit, onDelete }) => {
+const AdminCategoryCard = ({ category, onEdit, onDelete }) => {
   return (
     <AnimatedCard className="bg-surface border border-slate-100 shadow-sm hover:shadow-md transition-shadow rounded-3xl p-6 flex flex-col gap-3 group relative overflow-hidden">
       <div className="flex flex-col gap-1">
@@ -36,3 +36,5 @@ export const AdminCategoryCard = ({ category, onEdit, onDelete }) => {
     </AnimatedCard>
   );
 };
+
+export default AdminCategoryCard;

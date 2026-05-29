@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { slideTransitionVariants } from '../../lib/animations';
 
 // Componente que envuelve cualquier contenido para aplicar una animación de transición de deslizado al entrar o salir de la vista.
-export const SlideTransition = ({ children, direction = 'left', animationKey, className = '' }) => {
+const SlideTransition = ({ children, direction = 'left', animationKey, className = '' }) => {
     return (
         <motion.div
             key={animationKey}
@@ -18,3 +18,5 @@ export const SlideTransition = ({ children, direction = 'left', animationKey, cl
         </motion.div>
     );
 };
+
+export default SlideTransition;

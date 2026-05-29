@@ -2,10 +2,10 @@ import React from 'react';
 import { Ban, Key, Unlock } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
-import { AnimatedCard } from '../animations/AnimatedCard';
-import { Button } from '../common/Button';
+import  AnimatedCard  from '../animations/AnimatedCard';
+import  Button  from '../ui/Button.jsx';
 
-export const AdminUserCard = ({ user, onToggleBan, onRevoke, isBanning, isUnbanning, isRevoking }) => {
+const AdminUserCard = ({ user, onToggleBan, onRevoke, isBanning, isUnbanning, isRevoking }) => {
   const navigate = useNavigate();
 
   return (
@@ -56,3 +56,5 @@ export const AdminUserCard = ({ user, onToggleBan, onRevoke, isBanning, isUnbann
     </AnimatedCard>
   );
 };
+
+export default AdminUserCard;

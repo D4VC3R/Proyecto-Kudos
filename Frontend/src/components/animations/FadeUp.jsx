@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { fadeUpVariants } from '../../lib/animations';
 
 // Componente que envuelve cualquier contenido para crear una animación de entrada para algunas páginas.
-// Utiliza fadeUpVariants para crear un efecto de desvanecimiento y movimiento hacia arriba al cargar la página, lo que mejora la experiencia visual al navegar por el sitio.
-export const FadeUp = ({ children, className = '' }) => {
+// Utiliza fadeUpVariants para crear un efecto de desvanecimiento y movimiento hacia arriba al cargar la página.
+const FadeUp = ({ children, className = '' }) => {
     return (
         <motion.div
             variants={fadeUpVariants}
@@ -16,3 +16,5 @@ export const FadeUp = ({ children, className = '' }) => {
         </motion.div>
     );
 };
+
+export default FadeUp;

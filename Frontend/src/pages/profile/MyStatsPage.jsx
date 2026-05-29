@@ -2,7 +2,7 @@ import React from 'react';
 import { Loader2, AlertCircle, BarChart3, Star, Award, MessageSquare, ThumbsUp, SkipForward, Flame } from 'lucide-react';
 // Componentes
 import StatCard from '../../components/profile/StatCard.jsx';
-import SectionHeader from "../../components/common/SectionHeader.jsx";
+import SectionHeader from "../../components/ui/SectionHeader.jsx";
 import FadeUp from "../../components/animations/FadeUp.jsx"; // Añadido para estandarizar diseño
 // Hooks
 import { useProfileStatistics } from '../../hooks/users/useUserQueries.js';

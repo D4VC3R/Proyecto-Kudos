@@ -1,8 +1,8 @@
 import React from 'react';
 import { FilePlus } from 'lucide-react';
-import { FeedbackState } from '../common/FeedbackState';
+import  FeedbackState from '../ui/FeedbackState.jsx';
 
-export const NewProposalHeader = ({ categoryName }) => {
+const NewProposalHeader = ({ categoryName }) => {
   return (
     <FeedbackState
       icon={FilePlus}
@@ -17,3 +17,5 @@ export const NewProposalHeader = ({ categoryName }) => {
     />
   );
 };
+
+export default NewProposalHeader;

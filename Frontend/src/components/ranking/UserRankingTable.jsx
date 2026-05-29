@@ -1,8 +1,8 @@
 import React from 'react';
 import Ranking from './Ranking.jsx';
-import { Pagination } from '../common/Pagination';
+import Pagination from '../ui/Pagination.jsx';
 
-export const UserRankingTable = ({ items, page, setPage, meta, itemsPerPage = 10 }) => {
+const UserRankingTable = ({ items, page, setPage, meta, itemsPerPage = 10 }) => {
   return (
     <div className="w-full">
       <Ranking
@@ -21,4 +21,6 @@ export const UserRankingTable = ({ items, page, setPage, meta, itemsPerPage = 10
     </div>
   );
 };
+
+export default UserRankingTable;
 

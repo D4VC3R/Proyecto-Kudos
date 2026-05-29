@@ -1,29 +1,50 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Type, AlignLeft, Image as ImageIcon } from 'lucide-react';
-import { useCreateProposal } from '../../hooks/proposals/useProposalMutations';
-import { useNavigate } from 'react-router-dom';
-import { proposalSchema } from '../../lib/schemas';
-import { InputField } from '../common/InputField';
-import { TextAreaField } from '../common/TextAreaField';
-import { Button } from '../common/Button';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {Type, AlignLeft, Image as ImageIcon} from 'lucide-react';
+import {proposalSchema} from '../../lib/schemas';
+// Componentes
+import InputField from '../ui/InputField.jsx';
+import TextAreaField from '../ui/TextAreaField.jsx';
+import Button from '../ui/Button.jsx';
+// Hooks
+import {useCreateProposal, useUpdateProposal} from '../../hooks/proposals/useProposalMutations';
+import {useNavigate} from 'react-router-dom';
+import {useForm} from 'react-hook-form';
 
-export const NewProposalForm = ({ category }) => {
+const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
   const navigate = useNavigate();
-  const { mutate: createProposal, isPending } = useCreateProposal();
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {mutate: createProposal, isPending: isCreating} = useCreateProposal();
+  const {mutate: updateProposal, isPending: isUpdating} = useUpdateProposal();
+
+  const isSubmitting = isCreating || isUpdating;
+
+  const defaultValues = isEdit && initialData ? {
+    name: initialData.name || '',
+    description: initialData.description || '',
+    image_path: initialData.images?.[0]?.path || initialData.image_path || '',
+  } : {};
+
+  const {register, handleSubmit, formState: {errors}} = useForm({
     resolver: zodResolver(proposalSchema),
+    defaultValues,
   });
 
   const onSubmit = (data) => {
-    createProposal({
+    const payload = {
       ...data,
       category_id: category.id
-    }, {
-      onSuccess: () => navigate('/my-proposals'),
-    });
+    };
+    const handleSuccess = () => navigate('/my-proposals');
+
+    if (isEdit) {
+      updateProposal(
+        {id: initialData.id, data: payload},
+        {onSuccess: handleSuccess}
+      );
+    } else {
+      createProposal(payload, {onSuccess: handleSuccess});
+    }
   };
 
   return (
@@ -34,7 +55,7 @@ export const NewProposalForm = ({ category }) => {
         placeholder="Ej: The Legend of Zelda: Ocarina of Time"
         registration={register('name')}
         error={errors.name}
-        disabled={isPending}
+        disabled={isSubmitting}
       />
 
       <TextAreaField
@@ -44,7 +65,7 @@ export const NewProposalForm = ({ category }) => {
         placeholder="Mínimo 20 caracteres."
         registration={register('description')}
         error={errors.description}
-        disabled={isPending}
+        disabled={isSubmitting}
       />
 
       <InputField
@@ -53,18 +74,20 @@ export const NewProposalForm = ({ category }) => {
         placeholder="Ej: zelda-cover.jpg"
         registration={register('image_path')}
         error={errors.image_path}
-        disabled={isPending}
+        disabled={isSubmitting}
       />
 
       <Button
         type="submit"
-        isLoading={isPending}
+        isLoading={isSubmitting}
         isFullWidth
         variant="solid"
         color="primary"
       >
-        Enviar a Revisión
+        {isEdit ? 'Guardar Cambios' : 'Enviar a Revisión'}
       </Button>
     </form>
   );
 };
+
+export default NewProposalForm;

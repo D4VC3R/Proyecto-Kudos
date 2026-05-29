@@ -1,17 +1,19 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Save, MapPin, Calendar, Image as ImageIcon } from 'lucide-react';
-import { useUpdateProfile } from '../../hooks/users/useUserMutations';
-import { profileSchema } from '../../lib/schemas';
-import { InputField } from '../common/InputField';
-import { TextAreaField } from '../common/TextAreaField';
-import { Button } from '../common/Button';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {Save, MapPin, Calendar, Image as ImageIcon} from 'lucide-react';
+import {profileSchema} from '../../lib/schemas';
+//  Componentes
+import InputField from '../ui/InputField.jsx';
+import TextAreaField from '../ui/TextAreaField.jsx';
+import Button from '../ui/Button.jsx';
+// Hooks
+import {useForm} from 'react-hook-form';
+import {useUpdateProfile} from '../../hooks/users/useUserMutations';
 
-export const ProfileEditForm = ({ profile }) => {
-  const { mutate: updateProfile, isPending } = useUpdateProfile();
+const ProfileEditForm = ({profile}) => {
+  const {mutate: updateProfile, isPending} = useUpdateProfile();
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {register, handleSubmit, formState: {errors}} = useForm({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       avatar: '',
@@ -94,3 +96,5 @@ export const ProfileEditForm = ({ profile }) => {
     </div>
   );
 };
+
+export default ProfileEditForm;

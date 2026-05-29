@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { hoverFadeTextVariants } from '../../lib/animations';
 
 // Componente que envuelve cualquier texto para aplicar una animación de desvanecimiento al hacer hover sobre él.
-export const HoverFadeText = ({ children, className = '' }) => {
+const HoverFadeText = ({ children, className = '' }) => {
     return (
         <motion.div
             variants={hoverFadeTextVariants}
@@ -13,3 +13,5 @@ export const HoverFadeText = ({ children, className = '' }) => {
         </motion.div>
     );
 };
+
+export default HoverFadeText;

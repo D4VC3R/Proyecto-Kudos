@@ -1,7 +1,7 @@
 import React from 'react';
-import { InputField } from '../../common/InputField.jsx';
+import InputField from '../../ui/InputField.jsx';
 
-export const AdminUserBanBody = ({userName, banParams, setBanParams}) => {
+const AdminUserBanBody = ({userName, banParams, setBanParams}) => {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-nav-item">
@@ -38,3 +38,5 @@ export const AdminUserBanBody = ({userName, banParams, setBanParams}) => {
     </div>
   );
 };
+
+export default AdminUserBanBody;
