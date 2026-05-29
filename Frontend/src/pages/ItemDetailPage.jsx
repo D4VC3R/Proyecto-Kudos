@@ -1,11 +1,13 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import { Loader2, AlertTriangle } from 'lucide-react';
+// Componentes
+import CommentBox from '../components/comments/CommentBox';
+import BackButton from "../components/common/Buttons/BackButton.jsx";
+import FeedbackState from "../components/common/FeedbackState.jsx";
+import ItemDetailColumn from '../components/items/ItemDetailColumn.jsx';
+// Hooks
+import { useParams, useNavigate } from 'react-router-dom';
 import { useItem } from '../hooks/items/useItemQueries';
-import { CommentBox } from '../components/comments/CommentBox';
-import { BackButton } from "../components/common/BackButton.jsx";
-import { FeedbackState } from "../components/common/FeedbackState.jsx";
-import { ItemDetailColumn } from '../components/items/ItemDetailColumn.jsx';
 
 const ItemDetailPage = () => {
   const { itemId } = useParams();

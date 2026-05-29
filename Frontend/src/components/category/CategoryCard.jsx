@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BouncyCard } from '../animations/BouncyCard';
-import { HoverFadeText } from '../animations/HoverFadeText';
 import { getCategoryIcon } from "../../lib/constants.js";
+import BouncyCard from '../animations/BouncyCard';
+import HoverFadeText from '../animations/HoverFadeText';
 import StorageImage from "../common/StorageImage.jsx";
 
-export const CategoryCard = ({ category }) => {
+const CategoryCard = ({ category }) => {
   const Icon = getCategoryIcon(category.name);
 
   return (
@@ -44,3 +44,5 @@ export const CategoryCard = ({ category }) => {
     </Link>
   );
 };
+
+export default CategoryCard;

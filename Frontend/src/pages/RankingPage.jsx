@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+// Componentes
+import UserRankingMyPositionCard from '../components/ranking/UserRankingMyPositionCard';
+import UserRankingTable from '../components/ranking/UserRankingTable';
+import Skeleton from '../components/common/Skeleton';
+import SectionHeader from "../components/common/SectionHeader.jsx";
+// Hooks
 import { useUserRanking } from '../hooks/users/useUserQueries';
-import { UserRankingMyPositionCard } from '../components/ranking/UserRankingMyPositionCard';
-import { UserRankingTable } from '../components/ranking/UserRankingTable';
-import { Skeleton } from '../components/common/Skeleton';
-import {SectionHeader} from "../components/common/SectionHeader.jsx";
 
-export const RankingPage = () => {
+const RankingPage = () => {
   const [page, setPage] = useState(1);
   const { data: rankingResponse, isLoading, isFetching } = useUserRanking(page);
 

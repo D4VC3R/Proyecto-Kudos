@@ -1,13 +1,13 @@
 import React from 'react';
-import { StaggerGrid } from '../components/animations/StaggerGrid.jsx';
-import { CategoryCard } from '../components/category/CategoryCard';
-import { CategoryCardSkeleton } from '../components/category/CategoryCardSkeleton';
+// Componentes
+import StaggerGrid from '../components/animations/StaggerGrid.jsx';
+import CategoryCard from '../components/category/CategoryCard';
+import CategoryCardSkeleton from '../components/category/CategoryCardSkeleton';
+import SectionHeader from "../components/common/SectionHeader.jsx";
+import StaggerItem from "../components/animations/StaggerItem.jsx";
+// Hooks
 import { useCategories } from '../hooks/categories/useCategoryQueries';
-import {SectionHeader} from "../components/common/SectionHeader.jsx";
-import {StaggerItem} from "../components/animations/StaggerItem.jsx";
 
-// Página principal que muestra las categorías disponibles, utiliza el hook useCategories() para obtener los datos necesarios y renderiza un grid de CategoryCard.
-// Si los datos están cargando, muestra skeletons de carga. Si hay un error, muestra un mensaje de error centrado.
 const HomePage = () => {
   const { data: categories, isLoading, isFetching, isError } = useCategories();
 

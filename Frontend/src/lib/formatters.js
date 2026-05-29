@@ -29,4 +29,11 @@ export const getStorageUrl = (path) => {
   return `${cleanBaseUrl}${cleanPath}`;
 };
 
+export const getScoreColor = (type, score) => {
+  if (type === 'user') return 'bg-primary';
+  if (score > 6) return 'bg-primary';
+  if (score > 4) return 'bg-orange-500';
+  return 'bg-red-600';
+};
+
 

@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
 import {User as UserIcon} from 'lucide-react';
-import {useProfile} from '../hooks/users/useUserQueries.js';
-import {ProfileOverview} from '../components/profile/ProfileOverview.jsx';
-import {MyProposalsPage} from './MyProposalsPage.jsx';
-import {MyVotesPage} from './MyVotesPage.jsx';
-import {ProfileStatistics} from '../components/profile/ProfileStatistics.jsx';
-import {ProfileInfoFormSkeleton} from '../components/profile/ProfileInfoFormSkeleton.jsx';
-import {SectionHeader} from "../components/common/SectionHeader.jsx";
-import {ProfileTabs} from "../components/profile/ProfileTabs.jsx";
-import {profileTabs} from "../lib/constants.js";
-import {FeedbackState} from '../components/common/FeedbackState.jsx';
+import {profileTabs} from "../../lib/constants.js";
+// Componentes
+import ProfileOverview from './ProfileOverview.jsx';
+import MyProposalsPage from './MyProposalsPage.jsx';
+import MyVotesPage from './MyVotesPage.jsx';
+import MyStatsPage from './MyStatsPage.jsx';
+import ProfileInfoFormSkeleton from '../../components/profile/ProfileInfoFormSkeleton.jsx';
+import SectionHeader from "../../components/common/SectionHeader.jsx";
+import ProfileTabs from "../../components/profile/ProfileTabs.jsx";
+import FeedbackState from '../../components/common/FeedbackState.jsx';
+// Hooks
+import {useProfile} from '../../hooks/users/useUserQueries.js';
 
 export const ProfilePage = ({tab = 'info'}) => {
   const [activeTab, setActiveTab] = useState(tab);
@@ -55,7 +57,7 @@ export const ProfilePage = ({tab = 'info'}) => {
           <MyVotesPage/>
         )}
         {activeTab === 'stats' && (
-          <ProfileStatistics/>
+          <MyStatsPage/>
         )}
       </div>
     </div>

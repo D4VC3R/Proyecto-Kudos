@@ -1,11 +1,12 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { LoginForm } from '../components/auth/LoginForm.jsx';
-import { RegisterForm } from '../components/auth/RegisterForm.jsx';
-import { Gamepad2 } from 'lucide-react';
 import clsx from 'clsx';
 import { AnimatePresence } from 'framer-motion';
-import { SlideTransition } from '../components/animations/SlideTransition.jsx';
+import { Gamepad2 } from 'lucide-react';
+// Componentes
+import LoginForm  from '../components/auth/LoginForm.jsx';
+import RegisterForm from '../components/auth/RegisterForm.jsx';
+import SlideTransition from '../components/animations/SlideTransition.jsx';
 
 const AuthPage = () => {
   const location = useLocation();

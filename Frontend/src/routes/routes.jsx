@@ -3,7 +3,7 @@ import { RequireAuth } from './guards/RequireAuth.jsx';
 import { RequireVerified } from './guards/RequireVerified.jsx';
 import { RequireAdmin } from './guards/RequireAdmin.jsx';
 import HomePage from '../pages/HomePage.jsx';
-import ProfilePage from "../pages/ProfilePage.jsx";
+import ProfilePage from "../pages/profile/ProfilePage.jsx";
 import VerifyEmailPage from "../pages/VerifyEmailPage.jsx";
 import VotePage from "../pages/VotePage.jsx";
 import CategoryPage from "../pages/CategoryPage.jsx";
@@ -21,8 +21,8 @@ import ItemDetailPage from "../pages/ItemDetailPage.jsx";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "../pages/ResetPasswordPage.jsx";
 
-// Rutas de la aplicación junto con el elemento de página que cargan.
-export const AppRoutes = () => {
+
+const AppRoutes = () => {
   return (
     <Routes>
 
@@ -46,6 +46,7 @@ export const AppRoutes = () => {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/my-proposals" element={<ProfilePage tab={'proposals'} />} />
             <Route path="/:categorySlug/proposals/new" element={<NewProposalPage />} />
+            <Route path="/:categorySlug/proposals/:proposalId/edit" element={<NewProposalPage isEdit={true} />} />
             <Route path="/:categorySlug/vote" element={<VotePage />} />
 
             <Route element={<RequireAdmin />}>
@@ -64,3 +65,5 @@ export const AppRoutes = () => {
     </Routes>
   );
 };
+
+export default AppRoutes;

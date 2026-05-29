@@ -18,13 +18,13 @@ export const VARIANTS = {
   },
   tab: {
     active: 'border-b-2 border-primary text-primary rounded-none',
-    inactive: 'border-b-2 border-transparent text-nav-item hover:text-nav-hover-text hover:border-slate-300 rounded-none'
+    inactive: 'border-b-2 border-transparent text-nav-item hover:text-nav-hover-text hover:border-slate-300 rounded-none',
   },
   ring: {
     primary: 'bg-primary text-text-btn shadow-sm shadow-blue-500/30 ring-2 ring-transparent hover:ring-primary hover:ring-offset-2 hover:ring-offset-slate-50',
     danger: 'bg-red-600 text-text-btn shadow-sm shadow-red-500/30 ring-2 ring-transparent hover:ring-red-600 hover:ring-offset-2 hover:ring-offset-slate-50',
     navActive: 'bg-primary text-text-btn shadow-md shadow-blue-500/30 ring-2 ring-primary ring-offset-2 ring-offset-slate-50',
-    navInactive: 'text-nav-item ring-2 ring-transparent hover:bg-nav-hover-bg hover:text-nav-hover-text hover:shadow-sm'
+    navInactive: 'text-nav-item ring-2 ring-transparent hover:bg-nav-hover-bg hover:text-nav-hover-text hover:shadow-sm',
   }
 };
 
