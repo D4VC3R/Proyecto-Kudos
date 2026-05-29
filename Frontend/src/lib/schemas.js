@@ -25,7 +25,7 @@ export const registerSchema = z.object({
 export const proposalSchema = z.object({
   name: z.string().min(2, 'El título debe tener al menos 2 caracteres').max(200, 'El título es muy largo'),
   description: z.string().min(20, 'La descripción debe ser detallada (mínimo 20 caracteres)').max(2000, 'La descripción es muy larga'),
-  image_path: z.string().optional(),
+  image_path: z.string().trim().url('La imagen debe ser una URL válida').or(z.literal('')).optional(),
 });
 
 export const forgotPasswordSchema = z.object({

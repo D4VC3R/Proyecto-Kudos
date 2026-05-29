@@ -30,20 +30,20 @@ class ProposalController extends Controller
 		$validated = $request->validated();
 		$rawItems = [];
 
-		foreach ($request->input('images', []) as $value) {
-			if (is_string($value) && $value !== '') {
-				$rawItems[] = $value;
-			}
+		$imagePath = $request->input('image_path');
+		if (is_string($imagePath) && $imagePath !== '') {
+			$rawItems[] = $imagePath;
 		}
 
-		foreach ($request->file('images', []) as $file) {
-			$path = Storage::disk('local')->putFile('temp_uploads', $file);
+		$imageFile = $request->file('image_path');
+		if ($imageFile) {
+			$path = Storage::disk('local')->putFile('temp_uploads', $imageFile);
 			if (is_string($path) && $path !== '') {
 				$rawItems[] = $path;
 			}
 		}
 
-		unset($validated['images']);
+		unset($validated['image_path']);
 
 		$proposal = Proposal::create(array_merge($validated, [
 			'creator_id' => $request->user()->id,
@@ -52,10 +52,15 @@ class ProposalController extends Controller
 		]));
 
 		if (!empty($rawItems)) {
-			ProcessProposalImagesJob::dispatch($proposal, $rawItems);
+			try {
+				ProcessProposalImagesJob::dispatchSync($proposal, $rawItems);
+			} catch (\Throwable $e) {
+				// Si falla el procesamiento, la propuesta ya existe sin imágenes nuevas
+				// Log está dentro del job, aquí solo capturamos para no fallar la creación
+			}
 		}
 
-		return $this->respondMutation('Propuesta creada correctamente.', new ProposalDetailResource($proposal), status: 201);
+		return $this->respondMutation('Propuesta creada correctamente.', new ProposalDetailResource($proposal->fresh()), status: 201);
 	}
 
 	public function myProposals(Request $request): JsonResponse
@@ -66,7 +71,7 @@ class ProposalController extends Controller
 			->get();
 
 		return $this->respondList(
-			data: ProposalListResource::collection($proposals),
+			data: ProposalListResource::collection($proposals->fresh()),
 			meta: [
 				'total' => $proposals->count(),
 				'pending' => $proposals->where('status', Proposal::STATUS_PENDING)->count(),

@@ -15,7 +15,7 @@ const MyProposalItemCard = ({ proposal, isDeleting, onDeleteClick, onEditClick }
       <div className="flex items-start gap-4">
         <div className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl overflow-hidden bg-slate-100">
           <StorageImage
-            src={proposal.images?.[0]?.path}
+            src={proposal.images?.[0]?.variants?.thumb}
             alt={proposal.name || 'Propuesta'}
             className="h-full w-full"
             fallbackIcon={FileText}

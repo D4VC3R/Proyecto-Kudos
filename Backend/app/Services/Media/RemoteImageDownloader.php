@@ -41,7 +41,7 @@ class RemoteImageDownloader
             throw new RuntimeException('No se pudo descargar la imagen.');
         }
 
-        $this->assertMimeType($response->header('Content-Type'));
+        $this->assertMimeTypeOrExtension($response->header('Content-Type'), $url);
 
         $body = $response->getBody();
         $handle = fopen($absolutePath, 'wb');
@@ -103,6 +103,40 @@ class RemoteImageDownloader
         if (!in_array($cleanType, config('media.allowed_mimes'), true)) {
             throw new RuntimeException('El recurso remoto no es un formato de imagen permitido (jpeg, png, webp).');
         }
+    }
+
+    /**
+     * Valida que el tipo MIME sea válido, con fallback a extensión de archivo si el Content-Type es incorrecto.
+     *
+     * @param string $contentType El valor del encabezado Content-Type a validar.
+     * @param string $url La URL del recurso para extraer la extensión como fallback.
+     * @throws RuntimeException Si ni el MIME type ni la extensión son válidos.
+     */
+    private function assertMimeTypeOrExtension(string $contentType, string $url): void
+    {
+        $cleanType = strtolower(explode(';', $contentType)[0]);
+
+        // Si el Content-Type es válido, aceptar
+        if (in_array($cleanType, config('media.allowed_mimes'), true)) {
+            return;
+        }
+
+        // Fallback: validar por extensión del archivo
+        $path = parse_url($url, PHP_URL_PATH);
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        $mimeMap = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'webp' => 'image/webp',
+        ];
+
+        if (isset($mimeMap[$extension]) && in_array($mimeMap[$extension], config('media.allowed_mimes'), true)) {
+            return;
+        }
+
+        throw new RuntimeException('El recurso remoto no es un formato de imagen permitido (jpeg, png, webp).');
     }
 
     /**

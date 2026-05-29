@@ -33,6 +33,7 @@ const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
   const onSubmit = (data) => {
     const payload = {
       ...data,
+      image_path: data.image_path?.trim() || '',
       category_id: category.id
     };
     const handleSuccess = () => navigate('/my-proposals');
@@ -69,9 +70,10 @@ const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
       />
 
       <InputField
-        label="Ruta de Imagen (Opcional)"
+        label="URL de Imagen (Opcional)"
         icon={ImageIcon}
-        placeholder="Ej: zelda-cover.jpg"
+        type="url"
+        placeholder="Ej: https://ejemplo.com/zelda-cover.jpg"
         registration={register('image_path')}
         error={errors.image_path}
         disabled={isSubmitting}

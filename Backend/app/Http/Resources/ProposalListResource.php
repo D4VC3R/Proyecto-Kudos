@@ -25,9 +25,20 @@ class ProposalListResource extends JsonResource
 			'id' => $proposal->id,
 			'name' => $proposal->name,
 			'description' => $proposal->description,
+			'images' => collect($proposal->images ?? [])
+				->map(fn ($img) => [
+					'variants' => [
+						'thumb' => $img['variants']['thumb'] ?? null,
+						'banner' => $img['variants']['banner'] ?? null,
+					],
+					'meta' => $img['meta'] ?? null,
+					'alt' => $img['alt'] ?? null,
+					'order' => $img['order'] ?? 0,
+				])->toArray(),
 			'status' => $proposal->status,
 			'creator_id' => $proposal->creator_id,
 			'category_id' => $proposal->category_id,
+			'categorySlug' => $proposal->category->slug,
 			'reviewed_by' => $proposal->reviewed_by,
 			'reviewed_at' => $proposal->reviewed_at?->toIso8601String(),
 			'admin_notes' => $proposal->admin_notes,

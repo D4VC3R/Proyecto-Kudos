@@ -48,7 +48,7 @@ export const useMyProposalsPage = () => {
   };
 
   const handleEditClick = (proposal) => {
-    const categorySlug = proposal.category?.slug || 'default';
+    const categorySlug = proposal.category?.slug || proposal.categorySlug;
     navigate(`/${categorySlug}/proposals/${proposal.id}/edit`, {
       state: { proposalToEdit: proposal }
     });

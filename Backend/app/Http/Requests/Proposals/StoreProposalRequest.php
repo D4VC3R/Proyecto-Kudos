@@ -26,8 +26,7 @@ class StoreProposalRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'min:20', 'max:2000'],
-            'images' => ['nullable', 'array', 'max:10'],
-            'images.*' => ['required_with:images', new FileOrUrlRule()],
+            'image_path' => ['nullable', new FileOrUrlRule()],
             'category_id' => ['required', 'uuid', 'exists:categories,id'],
         ];
     }

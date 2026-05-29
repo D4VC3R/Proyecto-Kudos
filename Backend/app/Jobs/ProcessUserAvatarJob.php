@@ -55,7 +55,7 @@ class ProcessUserAvatarJob implements ShouldQueue
    		}
 
    		$tempPath = $downloader->isRemoteUrl($input)
-   			? $downloader->downloadToTemp($input, self::MAX_BYTES, self::TEMP_DISK, self::TEMP_DIR)
+   			? $downloader->downloadToTemp($input, self::TEMP_DISK, self::TEMP_DIR)
    			: $input;
 
    		$absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);

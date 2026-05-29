@@ -93,7 +93,7 @@ class ProcessProposalImagesJob implements ShouldQueue
 
         $rawItem = trim($rawItem);
         $tempPath = $downloader->isRemoteUrl($rawItem)
-            ? $downloader->downloadToTemp($rawItem, self::MAX_BYTES, self::TEMP_DISK, self::TEMP_DIR)
+            ? $downloader->downloadToTemp($rawItem, self::TEMP_DISK, self::TEMP_DIR)
             : $rawItem;
 
         $absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);
