@@ -6,6 +6,9 @@ use App\Models\Proposal;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * Gestiona y valida las peticiones de listado de propuestas por parte de administradores.
+ */
 class ListAdminProposalsRequest extends FormRequest
 {
     public function authorize(): bool
@@ -13,6 +16,11 @@ class ListAdminProposalsRequest extends FormRequest
         return $this->user()?->can('reviewAny', Proposal::class) ?? false;
     }
 
+    /**
+     * Define las reglas de validación para los parámetros de consulta al listar propuestas.
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [

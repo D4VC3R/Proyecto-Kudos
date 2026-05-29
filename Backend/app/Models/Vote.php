@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
+/**
+ * Representa un voto o una omisión de voto (skip) de un usuario sobre un ítem.
+ * Cada voto tiene un tipo (vote o skip) y una puntuación asociada (en caso de ser un voto).
+ * Proporciona relaciones con el usuario que realizó el voto, el ítem votado y las transacciones de kudos asociadas.
+ */
 class Vote extends Model
 {
     use HasFactory, HasUuids;

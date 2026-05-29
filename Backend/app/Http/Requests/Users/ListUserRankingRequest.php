@@ -4,6 +4,9 @@ namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Gestiona y valida las peticiones de listado de ranking de usuarios por parte de usuarios.
+ */
 class ListUserRankingRequest extends FormRequest
 {
     public function authorize(): bool

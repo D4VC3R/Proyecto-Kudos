@@ -6,6 +6,9 @@ use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * Gestiona y valida las peticiones de listado de ítems por parte de administradores.
+ */
 class ListAdminItemsRequest extends FormRequest
 {
     public function authorize(): bool

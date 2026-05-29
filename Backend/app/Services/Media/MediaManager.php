@@ -7,80 +7,53 @@ use App\Contracts\Media\MediaStorageInterface;
 
 class MediaManager
 {
-	public function __construct(
-		protected ImageProcessorInterface $processor,
-		protected MediaStorageInterface $storage
-	) {}
+    public function __construct(
+        protected ImageProcessorInterface $processor,
+        protected MediaStorageInterface $storage
+    ) {}
 
-	/**
-	 * Procesa imágenes de Items/Propuestas (Genera Thumb y Banner)
-	 * @return array<string, mixed> ['variants' => ['thumb' => '...', 'banner' => '...'], 'meta' => [...]]
-	 */
-	public function processItemVariants(string $absoluteTempPath, string $targetDirectory, ?string $filename = null): array
-	{
-		$base = $filename ?: uniqid('', true);
+    public function processItemVariants(string $absoluteTempPath, string $targetDirectory, ?string $filename = null): array
+    {
+        $base = $filename ?: uniqid('', true);
 
-		$thumbData = $this->processor->convertToWebp($absoluteTempPath, 80, 400);
-		$thumbTemp = $thumbData['path'];
-		$meta = $thumbData['meta']; // Capturamos los metadatos de la imagen original
+        $thumb = $this->processAndStore($absoluteTempPath, "$targetDirectory/{$base}-thumb.webp", 400);
+        $banner = $this->processAndStore($absoluteTempPath, "$targetDirectory/{$base}-banner.webp", 1280);
 
-		$thumbPath = $this->storage->storeFromPath('public', "$targetDirectory/{$base}-thumb.webp", $thumbTemp, 'public');
+        return [
+            'variants' => [
+                'thumb' => $thumb['path'],
+                'banner' => $banner['path'],
+            ],
+            // Usamos los metadatos del thumbnail original para guardar la proporción real
+            'meta' => $thumb['meta'],
+        ];
+    }
 
-		$bannerData = $this->processor->convertToWebp($absoluteTempPath, 80, 1280);
-		$bannerTemp = $bannerData['path'];
-		$bannerPath = $this->storage->storeFromPath('public', "$targetDirectory/{$base}-banner.webp", $bannerTemp, 'public');
+    public function processAvatar(string $absoluteTempPath, string $targetDirectory, ?string $filename = null): array
+    {
+        $base = $filename ?: uniqid('', true);
+        return $this->processAndStore($absoluteTempPath, "$targetDirectory/avatar-{$base}.webp", 256, true);
+    }
 
-		@unlink($thumbTemp);
-		@unlink($bannerTemp);
+    public function processCategory(string $absoluteTempPath, string $targetDirectory, ?string $filename = null): array
+    {
+        $base = $filename ?: uniqid('', true);
+        return $this->processAndStore($absoluteTempPath, "$targetDirectory/cover-{$base}.webp", 800);
+    }
 
-		return [
-			'variants' => [
-				'thumb' => $thumbPath,
-				'banner' => $bannerPath,
-			],
-			'meta' => $meta,
-		];
-	}
+    /**
+     * Orquesta el ciclo de vida: procesa con Intervention, sube con Storage y limpia la basura.
+     */
+    private function processAndStore(string $sourcePath, string $targetPath, int $width, bool $cropToSquare = false): array
+    {
+        $processed = $this->processor->convertToWebp($sourcePath, 80, $width, null, $cropToSquare);
+        $finalPath = $this->storage->storeFromPath('public', $targetPath, $processed['path'], 'public');
 
-	/**
-	 * Procesa imágenes de Avatares (Un solo tamaño, cuadrado)
-	 * @return array<string, mixed> ['path' => '...', 'meta' => [...]]
-	 */
-	public function processAvatar(string $absoluteTempPath, string $targetDirectory, ?string $filename = null): array
-	{
-		$base = $filename ?: uniqid('', true);
+        @unlink($processed['path']);
 
-		$avatarData = $this->processor->convertToWebp($absoluteTempPath, 80, 256, null, true);
-		$avatarTemp = $avatarData['path'];
-
-		$avatarPath = $this->storage->storeFromPath('public', "$targetDirectory/avatar-{$base}.webp", $avatarTemp, 'public');
-
-		@unlink($avatarTemp);
-
-		return [
-			'path' => $avatarPath,
-			'meta' => $avatarData['meta'],
-		];
-	}
-
-	/**
-	 * Procesa Portadas de Categorías (Un solo tamaño, escalado)
-	 * @return array<string, mixed> ['path' => '...', 'meta' => [...]]
-	 */
-	public function processCategory(string $absoluteTempPath, string $targetDirectory, ?string $filename = null): array
-	{
-		$base = $filename ?: uniqid('', true);
-
-		$categoryData = $this->processor->convertToWebp($absoluteTempPath, 80, 800);
-		$categoryTemp = $categoryData['path'];
-
-		$categoryPath = $this->storage->storeFromPath('public', "$targetDirectory/cover-{$base}.webp", $categoryTemp, 'public');
-
-		@unlink($categoryTemp);
-
-		return [
-			'path' => $categoryPath,
-			'meta' => $categoryData['meta'],
-		];
-	}
+        return [
+            'path' => $finalPath,
+            'meta' => $processed['meta']
+        ];
+    }
 }

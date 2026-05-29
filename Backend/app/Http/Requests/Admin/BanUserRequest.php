@@ -4,6 +4,9 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Gestiona y valida las peticiones de baneo de usuarios por parte de administradores.
+ */
 class BanUserRequest extends FormRequest
 {
     public function authorize(): bool

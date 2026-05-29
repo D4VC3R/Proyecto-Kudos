@@ -13,6 +13,11 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Job encargado de procesar el avatar de un usuario.
+ * Este job trata de descargar la imagen del avatar (si es una URL remota), procesarla (redimensionar, generar variantes, etc.)
+ * y almacenarla en el sistema de archivos, actualizando el perfil del usuario con la ruta del avatar procesado.
+ */
 class ProcessUserAvatarJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -26,6 +31,13 @@ class ProcessUserAvatarJob implements ShouldQueue
         public string $avatarInput,
     ) {}
 
+    /**
+     * Maneja la lógica principal del job:
+     * - Refresca la instancia del usuario para asegurarse de tener los datos más recientes.
+     * - Verifica si el input del avatar no está vacío, si es una URL remota, intenta descargarla a un directorio temporal.
+     * - Procesa la imagen del avatar utilizando el MediaManager y almacena el resultado en el sistema de archivos.
+     * - Actualiza el perfil del usuario con la ruta del avatar procesado, creando un perfil si no existe (no deberia de pasar).
+     */
    public function handle(
    		RemoteImageDownloader $downloader,
    		MediaManager $mediaManager,

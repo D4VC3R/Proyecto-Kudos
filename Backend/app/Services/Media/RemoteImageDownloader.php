@@ -9,17 +9,14 @@ use RuntimeException;
 
 class RemoteImageDownloader
 {
-    /**
-     * Descarga una imagen remota a disco temporal con protecciones SSRF.
-     */
     public function downloadToTemp(
         string $url,
-        int $maxBytes = 5_242_880,
         string $tempDisk = 'local',
         string $tempDir = 'temp_uploads',
     ): string {
         $this->assertSafeUrl($url);
-
+        $maxBytes = config('media.max_upload_size');
+        
         $head = Http::timeout(10)->head($url);
         if ($head->successful()) {
             $this->assertImageHeaders($head->headers(), $maxBytes);
@@ -29,65 +26,42 @@ class RemoteImageDownloader
         $tempPath = $tempDir . '/' . Str::uuid()->toString() . '.tmp';
         $absolutePath = Storage::disk($tempDisk)->path($tempPath);
 
-        $response = Http::timeout(30)
-            ->withOptions(['stream' => true])
-            ->get($url);
+        $response = Http::timeout(30)->withOptions(['stream' => true])->get($url);
 
         if (!$response->successful()) {
             throw new RuntimeException('No se pudo descargar la imagen.');
         }
 
-        $contentType = strtolower((string) $response->header('Content-Type'));
-        if ($contentType === '' || !str_starts_with($contentType, 'image/')) {
-            throw new RuntimeException('No es una imagen valida.');
-        }
+        $this->assertMimeType($response->header('Content-Type'));
 
         $body = $response->getBody();
         $handle = fopen($absolutePath, 'wb');
-        if ($handle === false) {
-            throw new RuntimeException('No se pudo crear el archivo temporal.');
-        }
 
         $bytes = 0;
         while (!$body->eof()) {
             $chunk = $body->read(8192);
-            if ($chunk === '') {
-                continue;
-            }
-
             $bytes += strlen($chunk);
+
             if ($bytes > $maxBytes) {
                 fclose($handle);
                 @unlink($absolutePath);
                 throw new RuntimeException('La imagen supera el máximo permitido.');
             }
-
             fwrite($handle, $chunk);
         }
-
         fclose($handle);
-
-        if (!is_file($absolutePath)) {
-            throw new RuntimeException('No se generó el archivo temporal.');
-        }
 
         return $tempPath;
     }
 
     public function isRemoteUrl(string $value): bool
     {
-        return str_starts_with($value, 'http://') || str_starts_with($value, 'https://');
+        return filter_var($value, FILTER_VALIDATE_URL) !== false;
     }
 
-    /**
-     * @param array<string, array<int, string>> $headers
-     */
     private function assertImageHeaders(array $headers, int $maxBytes): void
     {
-        $contentType = strtolower((string) ($headers['Content-Type'][0] ?? ''));
-        if ($contentType === '' || !str_starts_with($contentType, 'image/')) {
-            throw new RuntimeException('El recurso remoto no es una imagen.');
-        }
+        $this->assertMimeType($headers['Content-Type'][0] ?? '');
 
         $contentLength = (int) ($headers['Content-Length'][0] ?? 0);
         if ($contentLength > 0 && $contentLength > $maxBytes) {
@@ -95,56 +69,27 @@ class RemoteImageDownloader
         }
     }
 
+    private function assertMimeType(string $contentType): void
+    {
+        $cleanType = strtolower(explode(';', $contentType)[0]);
+        if (!in_array($cleanType, config('media.allowed_mimes'), true)) {
+            throw new RuntimeException('El recurso remoto no es un formato de imagen permitido (jpeg, png, webp).');
+        }
+    }
+
     private function assertSafeUrl(string $url): void
     {
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new RuntimeException('URL invalida.');
-        }
+        $host = parse_url($url, PHP_URL_HOST);
+        $scheme = strtolower(parse_url($url, PHP_URL_SCHEME));
 
-        $parts = parse_url($url);
-        $scheme = strtolower((string) ($parts['scheme'] ?? ''));
-        $host = (string) ($parts['host'] ?? '');
-
-        if (!in_array($scheme, ['http', 'https'], true) || $host === '') {
-            throw new RuntimeException('URL invalida.');
+        if (!in_array($scheme, ['http', 'https'], true) || !$host) {
+            throw new RuntimeException('URL inválida o esquema no permitido.');
         }
 
         $ip = gethostbyname($host);
-        if ($ip === $host && !filter_var($ip, FILTER_VALIDATE_IP)) {
-            throw new RuntimeException('No se pudo resolver el host remoto.');
+
+        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            throw new RuntimeException('El host remoto no es accesible o es una red privada.');
         }
-
-        if ($this->isPrivateIp($ip)) {
-            throw new RuntimeException('El host remoto no es accesible.');
-        }
-    }
-
-    private function isPrivateIp(string $ip): bool
-    {
-        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-            return false;
-        }
-
-        $long = ip2long($ip);
-        if ($long === false) {
-            return true;
-        }
-
-        $privateRanges = [
-            ['10.0.0.0', '10.255.255.255'],
-            ['127.0.0.0', '127.255.255.255'],
-            ['169.254.0.0', '169.254.255.255'],
-            ['172.16.0.0', '172.31.255.255'],
-            ['192.168.0.0', '192.168.255.255'],
-        ];
-
-        foreach ($privateRanges as [$start, $end]) {
-            if ($long >= ip2long($start) && $long <= ip2long($end)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
-

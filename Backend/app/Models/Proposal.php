@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/*
+ * Representa una propuesta de ítem realizada por un usuario.
+ * Cada propuesta tiene un estado (pendiente, aceptada, rechazada, cambios solicitados) y puede ser revisada por un administrador.
+ * Proporciona relaciones con el creador de la propuesta, la categoría a la que pertenece y el revisor que la evaluó.
+ */
 class Proposal extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
@@ -40,6 +45,11 @@ class Proposal extends Model
         'deleted_at' => 'datetime',
     ];
 
+
+    /*
+     * Aplica filtros a la consulta de propuestas según los parámetros proporcionados.
+     * Permite filtrar por estado, creador, revisor, categoría y búsqueda por nombre o descripción.
+     */
 	public function scopeAdminApplyFilters($query, array $filters)
 	{
 		return $query

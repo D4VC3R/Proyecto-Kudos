@@ -8,11 +8,14 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * Gestiona y valida las peticiones de creación de votos por parte de usuarios.
+ */
 class StoreVoteRequest extends FormRequest
 {
-	/**
-	 * Determine if the user is authorized to make this request.
-	 */
+    /**
+     * Autoriza la petición de creación de voto asegurando que el usuario esté autenticado y tenga permiso para votar en el ítem especificado.
+     */
 	public function authorize(): bool
 	{
 		if (!$this->user()) {
@@ -21,22 +24,21 @@ class StoreVoteRequest extends FormRequest
 
 		$itemId = $this->input('item_id');
 		if (!is_string($itemId) || $itemId === '') {
-			return true; // Dejamos que rules() atrape la falta de ID[cite: 46]
+			return true; // Dejamos que rules() atrape la falta de ID
 		}
 
 		$item = Item::query()->select(['id', 'status'])->find($itemId);
 		if (!$item) {
-			return true; // Dejamos que rules() atrape el exists[cite: 46]
+			return true; // Dejamos que rules() atrape el exists
 		}
 
 		return $this->user()->can('create', [Vote::class, $item]);
 	}
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array<string, ValidationRule|array<mixed>|string>
-	 */
+    /**
+     * Define las reglas de validación para la creación de votos.
+     * Asegura que el ID del ítem sea válido, que el tipo de voto sea correcto y que la puntuación se maneje adecuadamente según el tipo.
+     */
 	public function rules(): array
 	{
 		return [
@@ -53,6 +55,9 @@ class StoreVoteRequest extends FormRequest
 		];
 	}
 
+    /**
+     * Mensajes de error personalizados para las validaciones de puntuación.
+     */
 	public function messages(): array
 	{
 		return [
@@ -61,9 +66,10 @@ class StoreVoteRequest extends FormRequest
 		];
 	}
 
-	/**
-	 * Validaciones de negocio transferidas desde el servicio.
-	 */
+    /**
+     * Agrega validación personalizada para asegurar que el ítem votado esté activo.
+     * Esto se hace después de las validaciones básicas para evitar consultas innecesarias.
+     */
 	public function withValidator($validator): void
 	{
 		$validator->after(function ($validator) {
@@ -74,7 +80,6 @@ class StoreVoteRequest extends FormRequest
 
 			$item = Item::find($itemId);
 
-			// Regla de estado de negocio
 			if ($item && $item->status !== Item::STATUS_ACTIVE) {
 				$validator->errors()->add('item_id', 'No se puede votar un item inactivo.');
 			}

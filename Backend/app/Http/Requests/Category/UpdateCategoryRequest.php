@@ -8,21 +8,17 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
+/**
+ * Gestiona y valida las peticiones de actualización de categorías.
+ */
 class UpdateCategoryRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
         return $this->user()?->can('update', $this->route('category')) ?? false;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array|string>
-     */
 		public function rules(): array
 		{
 			$categoryId = $this->route('category')->id;

@@ -5,6 +5,12 @@ namespace App\Http\Requests\Proposals;
 use App\Models\Proposal;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Gestiona y valida las peticiones de actualización de propuestas por parte de usuarios.
+ * - Solo los usuarios con permiso para actualizar la propuesta específica pueden realizar esta acción.
+ * - Permite validar campos opcionales como 'name', 'description', 'images' y 'category_id' con reglas específicas.
+ * - Incluye validaciones adicionales para asegurar que la propuesta no esté eliminada y que su estado permita la edición o reenvío.
+ */
 class UpdateProposalRequest extends FormRequest
 {
     public function authorize(): bool

@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
+/**
+ * Job encargado de procesar las imágenes asociadas a una propuesta.
+ * Este job se encarga de descargar imágenes remotas, procesarlas (redimensionar, generar variantes, etc.)
+ * y almacenarlas en el sistema de archivos, actualizando la propuesta con las rutas de las imágenes procesadas.
+ */
 class ProcessProposalImagesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -29,6 +34,13 @@ class ProcessProposalImagesJob implements ShouldQueue
         public array $rawItems,
     ) {}
 
+    /**
+     * Maneja la lógica principal del job:
+     * - Refresca la instancia de la propuesta para asegurarse de tener los datos más recientes.
+     * - Itera sobre cada imagen cruda proporcionada, procesándola y generando las variantes necesarias.
+     * - Si el procesamiento es exitoso, actualiza la propuesta con las rutas de las imágenes procesadas.
+     * - Si ocurre algún error durante el procesamiento de una imagen, se registra una advertencia en los logs.
+     */
     public function handle(
         MediaStorageInterface $storage,
         RemoteImageDownloader $downloader,
@@ -42,13 +54,13 @@ class ProcessProposalImagesJob implements ShouldQueue
 
         foreach ($this->rawItems as $rawItem) {
             try {
-                // Ahora processItem devuelve un array: ['variants' => [...], 'meta' => [...]]
+                // processItem devuelve un array: ['variants' => [...], 'meta' => [...]]
                 $processedData = $this->processItem($rawItem, $proposal, $categorySlug, $downloader, $mediaManager, $storage);
 
                 if (!empty($processedData) && isset($processedData['variants'])) {
                     $images[] = [
                         'variants' => $processedData['variants'],
-                        'meta' => $processedData['meta'] ?? [], // Guardamos los metadatos
+                        'meta' => $processedData['meta'] ?? [],
                         'disk' => self::PUBLIC_DISK,
                         'alt' => null,
                         'order' => count($images),
@@ -65,6 +77,14 @@ class ProcessProposalImagesJob implements ShouldQueue
         $proposal->update(['images' => $images]);
     }
 
+    /**
+     * Procesa una imagen individual:
+     * - Verifica si la entrada es una URL remota o una ruta local.
+     * - Si es una URL remota, la descarga a un directorio temporal.
+     * - Procesa la imagen utilizando el MediaManager para generar las variantes necesarias.
+     * - Elimina el archivo temporal después del procesamiento.
+     * - Devuelve un array con las rutas de las variantes generadas y cualquier metadato relevante.
+     */
     private function processItem(
         mixed $rawItem, Proposal $proposal, string $categorySlug,
         RemoteImageDownloader $downloader, MediaManager $mediaManager, MediaStorageInterface $storage

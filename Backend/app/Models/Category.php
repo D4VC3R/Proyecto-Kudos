@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\CategoryFieldDefinition;
-use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+/*
+ * Representa una categoría / temática de la aplicación.
+ * Cada categoría puede tener múltiples ítems asociados.
+ * Proporciona métodos para acceder a los ítems activos, contar los ítems y obtener un ranking paginado.
+ */
 class Category extends Model
 {
     use HasFactory, HasUuids;
@@ -24,30 +27,31 @@ class Category extends Model
         'image'
     ];
 
+    /**
+     * Define la relación uno a muchos con los ítems.
+     * Permite acceder a todos los ítems asociados a esta categoría.
+     */
     public function items(): HasMany
     {
         return $this->hasMany(Item::class);
     }
 
+    /*
+     * Relación uno a muchos con los items activos (útil para obtener solo los ítems que están en estado activo).
+     */
     public function activeItems(): HasMany
     {
         return $this->hasMany(Item::class)->where('status', Item::STATUS_ACTIVE);
     }
 
+    /*
+     * Relación uno a muchos con propuestas.
+     */
     public function proposals(): HasMany
     {
         return $this->hasMany(Proposal::class);
     }
 
-
-    public function fieldDefinitions(): HasMany
-    {
-        return $this->hasMany(CategoryFieldDefinition::class)
-            ->where('is_active', true)
-            ->orderBy('sort_order');
-    }
-
-    // Accessor para items_count
     protected function itemsCount(): Attribute
     {
         return Attribute::make(
@@ -96,7 +100,6 @@ class Category extends Model
 			->orderBy('name')
 			->paginate($perPage);
 	}
-
     public function getRouteKeyName(): string
     {
         return 'slug';

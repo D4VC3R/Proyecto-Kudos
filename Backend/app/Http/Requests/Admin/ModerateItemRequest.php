@@ -5,6 +5,9 @@ namespace App\Http\Requests\Admin;
 use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Gestiona y valida las peticiones de moderación de ítems por parte de administradores.
+ */
 class ModerateItemRequest extends FormRequest
 {
     public function authorize(): bool
@@ -20,6 +23,7 @@ class ModerateItemRequest extends FormRequest
         ];
     }
 
+    /** Agrega una validación personalizada para asegurar que se proporcione un motivo al desactivar un ítem. */
     public function withValidator($validator): void
     {
         $validator->after(function ($validator) {

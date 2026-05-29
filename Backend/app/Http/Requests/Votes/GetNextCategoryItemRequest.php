@@ -4,6 +4,9 @@ namespace App\Http\Requests\Votes;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Gestiona y valida las peticiones de obtención del siguiente ítem de una categoría para votar.
+ */
 class GetNextCategoryItemRequest extends FormRequest
 {
     public function authorize(): bool

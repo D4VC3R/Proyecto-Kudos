@@ -11,6 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/*
+ * Representa un ítem dentro de una categoría.
+ * Cada ítem tiene un creador (usuario), pertenece a una categoría y puede tener múltiples votos y comentarios.
+ * Proporciona métodos para aplicar filtros y ordenamientos en las consultas, así como relaciones con otros modelos.
+ */
 class Item extends Model
 {
 	use HasFactory, HasUuids, SoftDeletes;
@@ -44,6 +49,12 @@ class Item extends Model
 		'deleted_at' => 'datetime',
 	];
 
+    // Filtrado y ordenamiento
+
+    /*
+     * Aplica filtros a la consulta de ítems según los parámetros proporcionados.
+     * Permite filtrar por categoría (ID o slug), búsqueda por nombre y exclusión de ítems votados por un usuario específico.
+     */
 	public function scopeApplyFilters($query, array $filters)
 	{
 		return $query
@@ -53,6 +64,10 @@ class Item extends Model
 			->when(!empty($filters['exclude_voted_by']), fn($q) => $q->whereDoesntHave('votes', fn($v) => $v->where('user_id', $filters['exclude_voted_by'])));
 	}
 
+    /*
+     * Para ordenar la consulta de ítems según los parámetros proporcionados.
+     * Permite ordenar por fecha de creación, nombre, promedio de votos o de forma aleatoria.
+     */
 	public function scopeApplySorting($query, string $sortBy = 'vote_avg', string $sortOrder = 'desc')
 	{
 		return match ($sortBy) {
@@ -63,6 +78,10 @@ class Item extends Model
 		};
 	}
 
+    /*
+     * Aplica filtros específicos para el panel de administración.
+     * Permite filtrar por estado, categoría, creador y búsqueda por nombre.
+     */
 	public function scopeAdminApplyFilters($query, array $filters)
 	{
 		return $query
@@ -72,6 +91,10 @@ class Item extends Model
 			->when(!empty($filters['search']), fn($q) => $q->where('name', 'ilike', '%' . $filters['search'] . '%'));
 	}
 
+    /*
+     * Aplica ordenamientos específicos para el panel de administración.
+     * Permite ordenar por fecha de creación, nombre o estado.
+     */
 	public function scopeAdminApplySorting($query, string $sortBy = 'created_at', string $sortDirection = 'desc')
 	{
 		$direction = strtolower($sortDirection) === 'asc' ? 'asc' : 'desc';
@@ -91,42 +114,74 @@ class Item extends Model
 		return $query->orderBy('id');
 	}
 
+    // Relaciones
+
+    /*
+     * Relación de pertenencia con el modelo User, representando al creador del ítem.
+     * Permite acceder a los detalles del usuario que creó el ítem.
+     */
 	public function creator(): BelongsTo
 	{
 		return $this->belongsTo(User::class, 'creator_id');
 	}
 
+    /*
+     * Relación de pertenencia con el modelo Category, representando la categoría a la que pertenece el ítem.
+     * Permite acceder a los detalles de la categoría asociada al ítem.
+     */
 	public function category(): BelongsTo
 	{
 		return $this->belongsTo(Category::class);
 	}
 
-
+    /*
+     * Relación uno a muchos con el modelo Vote, representando los votos asociados al ítem.
+     * Permite acceder a todos los votos realizados sobre el ítem.
+     */
 	public function votes(): HasMany
 	{
 		return $this->hasMany(Vote::class);
 	}
-
+    /*
+     * Relación uno a uno con el modelo Vote, representando el voto específico de un usuario sobre el ítem.
+     * Permite acceder al voto realizado por un usuario específico sobre el ítem.
+     */
 	public function userVote(): HasOne
 	{
 		return $this->hasOne(Vote::class);
 	}
 
+    /*
+     * Relación uno a muchos con el modelo ItemComment, representando los comentarios asociados al ítem.
+     * Permite acceder a todos los comentarios realizados sobre el ítem.
+     */
 	public function comments(): HasMany
 	{
 		return $this->hasMany(ItemComment::class);
 	}
 
+    /*
+     * Relación polimórfica uno a muchos con el modelo KudosTransaction, representando las transacciones de kudos asociadas al ítem.
+     * Permite acceder a todas las transacciones de kudos relacionadas con el ítem.
+     */
 	public function kudosTransactions(): MorphMany
 	{
 		return $this->morphMany(KudosTransaction::class, 'reference');
 	}
 
+    /*
+     * Scope para filtrar ítems activos.
+     * Permite obtener solo los ítems que están en estado activo.
+     */
 	public function scopeActive($query)
 	{
 		return $query->where('status', self::STATUS_ACTIVE);
 	}
 
+    /*
+     * Scope para filtrar ítems inactivos.
+     * Permite obtener solo los ítems que están en estado inactivo.
+     */
 	public function scopeInactive($query)
 	{
 		return $query->where('status', self::STATUS_INACTIVE);

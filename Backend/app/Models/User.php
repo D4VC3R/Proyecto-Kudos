@@ -24,22 +24,12 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens, HasUuids, HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -53,11 +43,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_banned' => false,
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -73,7 +58,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'banned_until' => 'datetime',
         ];
     }
-public function isCurrentlyBanned(): bool
+
+    /**
+     * Verifica si el usuario está actualmente suspendido.
+     */
+    public function isCurrentlyBanned(): bool
     {
         if (!$this->is_banned) {
             return false;
@@ -97,7 +86,7 @@ public function isCurrentlyBanned(): bool
     }
 
     /**
-     * Revoca la suspensión del usuario.
+     * Elimina la suspensión del usuario.
      */
     public function unban(): void
     {
@@ -110,167 +99,189 @@ public function isCurrentlyBanned(): bool
         $this->save();
     }
 
-	public function scopeAdminApplyFilters($query, array $filters)
-	{
-		$now = now();
+    /**
+     * Aplica los filtros de búsqueda y estado para la vista de administración.
+     * Soporta filtros combinados y manejo de estados de baneo (temporal, permanente, expirado).
+     */
+    public function scopeAdminApplyFilters($query, array $filters)
+    {
+        $now = now();
 
-		return $query
-			->when(!empty($filters['search']), function ($q) use ($filters) {
-				$q->where(fn($sub) => $sub->where('name', 'ilike', "%{$filters['search']}%")
-					->orWhere('email', 'ilike', "%{$filters['search']}%"));
-			})
-			->when(isset($filters['is_banned']), fn($q) => $q->where('is_banned', filter_var($filters['is_banned'], FILTER_VALIDATE_BOOLEAN)))
-			->when(!empty($filters['ban_state']), function ($q) use ($filters, $now) {
-				match ($filters['ban_state']) {
-					'temporary' => $q->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '>', $now),
-					'permanent' => $q->where('is_banned', true)->whereNull('banned_until'),
-					'expired'   => $q->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now),
-					'active'    => $q->where(fn($inner) => $inner->where('is_banned', false)
-						->orWhere(fn($expired) => $expired->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now))),
-					default => null,
-				};
-			})
-			->when(!empty($filters['role']), fn($q) => $q->role($filters['role']));
-	}
+        return $query
+            ->when(!empty($filters['search']), function ($q) use ($filters) {
+                $q->where(fn($sub) => $sub->where('name', 'ilike', "%{$filters['search']}%")
+                    ->orWhere('email', 'ilike', "%{$filters['search']}%"));
+            })
+            ->when(isset($filters['is_banned']), fn($q) => $q->where('is_banned', filter_var($filters['is_banned'], FILTER_VALIDATE_BOOLEAN)))
+            ->when(!empty($filters['ban_state']), function ($q) use ($filters, $now) {
+                match ($filters['ban_state']) {
+                    'temporary' => $q->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '>', $now),
+                    'permanent' => $q->where('is_banned', true)->whereNull('banned_until'),
+                    'expired' => $q->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now),
+                    'active' => $q->where(fn($inner) => $inner->where('is_banned', false)
+                        ->orWhere(fn($expired) => $expired->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now))),
+                    default => null,
+                };
+            })
+            ->when(!empty($filters['role']), fn($q) => $q->role($filters['role']));
+    }
 
-	public function scopeAdminApplySorting($query, array $filters)
-	{
-		$sortBy = in_array($filters['sort_by'] ?? null, ['name', 'email', 'role', 'status', 'created_at'], true) ? $filters['sort_by'] : 'name';
-		$sortDirection = ($filters['sort_direction'] ?? 'desc') === 'asc' ? 'asc' : 'desc';
+    /**
+     * Aplica la ordenación para la vista de administración.
+     * Soporta ordenación por nombre, email, rol, estado de baneo y fecha de creación.
+     * La ordenación por estado de baneo clasifica primero los usuarios activos, luego los baneados permanentes y finalmente los baneados temporales.
+     */
+    public function scopeAdminApplySorting($query, array $filters)
+    {
+        $sortBy = in_array($filters['sort_by'] ?? null, ['name', 'email', 'role', 'status', 'created_at'], true) ? $filters['sort_by'] : 'name';
+        $sortDirection = ($filters['sort_direction'] ?? 'desc') === 'asc' ? 'asc' : 'desc';
 
-		match ($sortBy) {
-			'email' => $query->orderByRaw("lower(users.email) {$sortDirection}"),
-			'status' => $query->orderByRaw(
-				"CASE 
-                    WHEN is_banned = false THEN 'activo' 
-                    WHEN banned_until IS NULL THEN 'baneado_permanente' 
-                    ELSE 'baneado_temporal' 
+        match ($sortBy) {
+            'email' => $query->orderByRaw("lower(users.email) {$sortDirection}"),
+            'status' => $query->orderByRaw(
+                "CASE
+                    WHEN is_banned = false THEN 'activo'
+                    WHEN banned_until IS NULL THEN 'baneado_permanente'
+                    ELSE 'baneado_temporal'
                 END {$sortDirection}"
-			),
-			'role' => $query->orderByRaw(
-				"(SELECT MIN(r.name) FROM model_has_roles AS mhr INNER JOIN roles AS r ON r.uuid = mhr.role_id WHERE mhr.model_id = users.id AND mhr.model_type = ?) {$sortDirection}",
-				[self::class]
-			),
-			'created_at' => $query->orderBy('created_at', $sortDirection),
-			default => $query->orderBy('name', $sortDirection),
-		};
+            ),
+            'role' => $query->orderByRaw(
+                "(SELECT MIN(r.name) FROM model_has_roles AS mhr INNER JOIN roles AS r ON r.uuid = mhr.role_id WHERE mhr.model_id = users.id AND mhr.model_type = ?) {$sortDirection}",
+                [self::class]
+            ),
+            'created_at' => $query->orderBy('created_at', $sortDirection),
+            default => $query->orderBy('name', $sortDirection),
+        };
 
-		if ($sortBy !== 'created_at') $query->orderByDesc('created_at');
+        if ($sortBy !== 'created_at') $query->orderByDesc('created_at');
 
-		return $query->orderBy('id');
-	}
+        return $query->orderBy('id');
+    }
 
-	public static function getAdminSummary(): array
-	{
-		$now = now();
-		return [
-			'total_users' => self::count(),
-			'banned_temporary' => self::where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '>', $now)->count(),
-			'banned_permanent' => self::where('is_banned', true)->whereNull('banned_until')->count(),
-			'banned_expired' => self::where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now)->count(),
-		];
-	}
+    /**
+     * Devuelve un resumen estadístico para la vista de administración, incluyendo el total de usuarios y la distribución de estados de baneo.
+     */
+    public static function getAdminSummary(): array
+    {
+        $now = now();
+        return [
+            'total_users' => self::count(),
+            'banned_temporary' => self::where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '>', $now)->count(),
+            'banned_permanent' => self::where('is_banned', true)->whereNull('banned_until')->count(),
+            'banned_expired' => self::where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now)->count(),
+        ];
+    }
 
-	public function getProfileStatistics(): array
-	{
-		// Estadísticas de votos
-		$totalVotes = $this->votes()->where('type', 'vote')->count();
-		$totalSkips = $this->votes()->where('type', 'skip')->count();
-		$averageScore = $this->votes()->where('type', 'vote')->avg('score');
+    /**
+     * Devuelve un resumen estadístico del perfil del usuario para la vista de perfil, incluyendo estadísticas de votos, categoría favorita, propuestas aceptadas, comentarios y rachas de inicio de sesión.
+     */
+    public function getProfileStatistics(): array
+    {
+        // Estadísticas de votos
+        $totalVotes = $this->votes()->where('type', 'vote')->count();
+        $totalSkips = $this->votes()->where('type', 'skip')->count();
+        $averageScore = $this->votes()->where('type', 'vote')->avg('score');
 
-		$favoriteCategoryId = $this->votes()
-			->where('type', 'vote')
-			->join('items', 'votes.item_id', '=', 'items.id')
-			->groupBy('items.category_id')
-			->orderByRaw('COUNT(*) DESC')
-			->value('items.category_id');
+        $favoriteCategoryId = $this->votes()
+            ->where('type', 'vote')
+            ->join('items', 'votes.item_id', '=', 'items.id')
+            ->groupBy('items.category_id')
+            ->orderByRaw('COUNT(*) DESC')
+            ->value('items.category_id');
 
-		$favoriteCategoryName = $favoriteCategoryId
-			? Category::find($favoriteCategoryId)?->name
-			: null;
+        $favoriteCategoryName = $favoriteCategoryId
+            ? Category::find($favoriteCategoryId)?->name
+            : null;
 
-		return [
-			'total_votes' => $totalVotes,
-			'total_skips' => $totalSkips,
-			'average_score' => $averageScore ? round((float) $averageScore, 1) : null,
-			'favorite_category' => $favoriteCategoryName,
-			'accepted_proposals' => $this->proposals()->accepted()->count(),
-			'total_comments' => $this->comments()->count(),
-			'current_login_streak' => $this->login_streak_count,
-			'max_login_streak' => $this->max_login_streak_count,
-			'total_kudos' => $this->total_kudos,
-		];
-	}
-	/**
-	 * Devuelve el paginador del ranking de Kudos global.
-	 */
-	public static function getRankingPaginator(int $perPage = 10, int $page = 1)
-	{
-		return self::query()
-			->select(['id', 'name', 'total_kudos', 'created_at'])
-			->orderByDesc('total_kudos')
-			->orderBy('created_at')
-			->orderBy('id')
-			->paginate($perPage, ['*'], 'page', $page);
-	}
+        return [
+            'total_votes' => $totalVotes,
+            'total_skips' => $totalSkips,
+            'average_score' => $averageScore ? round((float)$averageScore, 1) : null,
+            'favorite_category' => $favoriteCategoryName,
+            'accepted_proposals' => $this->proposals()->accepted()->count(),
+            'total_comments' => $this->comments()->count(),
+            'current_login_streak' => $this->login_streak_count,
+            'max_login_streak' => $this->max_login_streak_count,
+            'total_kudos' => $this->total_kudos,
+        ];
+    }
 
-	/**
-	 * Calcula la posición (ranking) absoluta de este usuario.
-	 */
-	public function getKudosRank(): int
-	{
-		$usersAhead = self::query()
-			->where(function ($query) {
-				$query->where('total_kudos', '>', $this->total_kudos)
-					->orWhere(function ($tieBreaker) {
-						$tieBreaker->where('total_kudos', $this->total_kudos)
-							->where(function ($sameKudos) {
-								$sameKudos->where('created_at', '<', $this->created_at)
-									->orWhere(function ($sameTimestamp) {
-										$sameTimestamp->where('created_at', $this->created_at)
-											->where('id', '<', $this->id);
-									});
-							});
-					});
-			})
-			->count();
+    /**
+     * Devuelve el paginador del ranking de Kudos global.
+     */
+    public static function getRankingPaginator(int $perPage = 10, int $page = 1)
+    {
+        return self::query()
+            ->select(['id', 'name', 'total_kudos', 'created_at'])
+            ->orderByDesc('total_kudos')
+            ->orderBy('created_at')
+            ->orderBy('id')
+            ->paginate($perPage, ['*'], 'page', $page);
+    }
 
-		return $usersAhead + 1;
-	}
+    /**
+     * Calcula la posición (ranking) absoluta de este usuario.
+     */
+    public function getKudosRank(): int
+    {
+        $usersAhead = self::query()
+            ->where(function ($query) {
+                $query->where('total_kudos', '>', $this->total_kudos)
+                    ->orWhere(function ($tieBreaker) {
+                        $tieBreaker->where('total_kudos', $this->total_kudos)
+                            ->where(function ($sameKudos) {
+                                $sameKudos->where('created_at', '<', $this->created_at)
+                                    ->orWhere(function ($sameTimestamp) {
+                                        $sameTimestamp->where('created_at', $this->created_at)
+                                            ->where('id', '<', $this->id);
+                                    });
+                            });
+                    });
+            })
+            ->count();
 
-	public function loadAdminDetails(): self
-	{
-		return $this->load(['roles:uuid,name', 'profile'])
-			->loadCount(['proposals', 'votes', 'comments', 'items', 'reviewedProposals']);
-	}
+        return $usersAhead + 1;
+    }
 
-		// Relaciones
+    public function loadAdminDetails(): self
+    {
+        return $this->load(['roles:uuid,name', 'profile'])
+            ->loadCount(['proposals', 'votes', 'comments', 'items', 'reviewedProposals']);
+    }
+
+    // Relaciones
     public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
     }
-		public function items(): HasMany
-		{
-			return $this->hasMany(Item::class, 'creator_id');
-		}
-		public function proposals(): HasMany
-		{
-			return $this->hasMany(Proposal::class, 'creator_id');
-		}
-		public function reviewedProposals(): HasMany
-		{
-			return $this->hasMany(Proposal::class, 'reviewed_by');
-		}
-		public function votes(): HasMany
-		{
-			return $this->hasMany(Vote::class);
-		}
-		public function kudosTransactions(): HasMany
-		{
-			return $this->hasMany(KudosTransaction::class);
-		}
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class, 'creator_id');
+    }
+
+    public function proposals(): HasMany
+    {
+        return $this->hasMany(Proposal::class, 'creator_id');
+    }
+
+    public function reviewedProposals(): HasMany
+    {
+        return $this->hasMany(Proposal::class, 'reviewed_by');
+    }
+
+    public function votes(): HasMany
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function kudosTransactions(): HasMany
+    {
+        return $this->hasMany(KudosTransaction::class);
+    }
+
     public function comments(): HasMany
     {
-      return $this->hasMany(ItemComment::class);
+        return $this->hasMany(ItemComment::class);
     }
 }

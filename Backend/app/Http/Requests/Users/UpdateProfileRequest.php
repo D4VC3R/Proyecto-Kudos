@@ -6,11 +6,13 @@ use App\Rules\FileOrUrlRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Gestiona y valida las peticiones de actualización de perfil por parte de usuarios.
+ * Permite actualizar el avatar, biografía, enlaces sociales, ciudad y fecha de nacimiento.
+ * Se incluyen validaciones específicas para cada campo, como el formato de URL para los enlaces sociales y restricciones de edad para la fecha de nacimiento.
+ */
 class UpdateProfileRequest extends FormRequest
 {
-	/**
-	 * Determine if the user is authorized to make this request.
-	 */
 	public function authorize(): bool
 	{
 		return $this->user() !== null;

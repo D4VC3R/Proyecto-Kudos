@@ -6,6 +6,9 @@ use App\Models\Vote;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * Gestiona y valida las peticiones de listado de votos del usuario autenticado.
+ */
 class ListMyVotesRequest extends FormRequest
 {
     public function authorize(): bool

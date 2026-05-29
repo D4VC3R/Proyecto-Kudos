@@ -4,6 +4,9 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Gestiona y valida las peticiones de eliminación de categorías.
+ */
 class DeleteCategoryRequest extends FormRequest
 {
     public function authorize(): bool

@@ -7,6 +7,9 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
+/**
+ * Gestiona y valida las peticiones de creación de categorías.
+ */
 class StoreCategoryRequest extends FormRequest
 {
     /**

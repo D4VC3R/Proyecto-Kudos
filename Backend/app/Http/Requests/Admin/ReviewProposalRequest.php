@@ -6,6 +6,9 @@ use App\Models\Proposal;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * Gestiona y valida las peticiones de moderación de ítems por parte de administradores.
+ */
 class ReviewProposalRequest extends FormRequest
 {
     public function authorize(): bool
@@ -13,6 +16,11 @@ class ReviewProposalRequest extends FormRequest
         return $this->user()?->can('review', $this->route('proposal')) ?? false;
     }
 
+    /**
+     * Define las reglas de validación para revisar una propuesta.
+     * - El campo 'status' es obligatorio y debe ser uno de los valores permitidos (accepted, rejected, changes_requested).
+     * - El campo 'admin_notes' es opcional, pero si se proporciona, debe ser una cadena de texto con un máximo de 2000 caracteres.
+     */
     public function rules(): array
     {
         return [
@@ -28,6 +36,12 @@ class ReviewProposalRequest extends FormRequest
         ];
     }
 
+    /**
+     * Agrega validaciones adicionales después de las reglas básicas.
+     * - Verifica que la propuesta no esté eliminada (trashed).
+     * - Verifica que la propuesta esté en estado 'pending' antes de permitir su revisión.
+     * - Si el estado es 'rejected' o 'changes_requested', asegura que se proporcionen notas administrativas.
+     */
 	public function withValidator($validator): void
 	{
 		$validator->after(function ($validator) {

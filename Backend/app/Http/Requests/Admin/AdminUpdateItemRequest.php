@@ -5,6 +5,9 @@ namespace App\Http\Requests\Admin;
 use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Gestiona y valida las peticiones de actualización de ítems por parte de administradores.
+ */
 class AdminUpdateItemRequest extends FormRequest
 {
     public function authorize(): bool

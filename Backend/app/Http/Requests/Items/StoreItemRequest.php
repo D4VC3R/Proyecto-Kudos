@@ -6,21 +6,26 @@ use App\Models\Item;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Gestiona y valida las peticiones de creación de ítems por parte de usuarios.
+ */
 class StoreItemRequest extends FormRequest
 {
-	/**
-	 * Determine if the user is authorized to make this request.
-	 */
+
+    /** Verifica que el usuario tenga permiso para crear un nuevo ítem.
+     * - El permiso se verifica utilizando la política de autorización 'create' para el modelo de ítem.
+     * - Si el usuario no tiene permiso, la petición será denegada automáticamente.
+     * - Si no hay un usuario autenticado, se deniega el acceso por defecto.
+     */
 	public function authorize(): bool
 	{
 		return $this->user()?->can('create', Item::class) ?? false;
 	}
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array<string, ValidationRule|array<mixed>|string>
-	 */
+
+    /**
+     * Define las reglas de validación para crear un nuevo ítem.
+     */
 	public function rules(): array
 	{
 		return [
@@ -36,6 +41,10 @@ class StoreItemRequest extends FormRequest
 	}
 
 
+    /** Define los mensajes de error personalizados para las reglas de validación.
+     * - Proporciona mensajes claros y específicos para cada regla.
+     * - Estos mensajes se mostrarán cuando una validación falle la petición.
+     */
 	public function messages(): array
 	{
 		return [
