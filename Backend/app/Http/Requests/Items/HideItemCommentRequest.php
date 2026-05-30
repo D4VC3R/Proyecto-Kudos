@@ -28,5 +28,14 @@ class HideItemCommentRequest extends FormRequest
             'reason' => ['sometimes', 'nullable', 'string', 'max:1000'],
         ];
     }
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'reason.string' => 'El campo motivo debe ser texto.',
+            'reason.max' => 'El campo motivo no puede superar los 1000 caracteres/elementos.',
+        ];
+    }
 }
-

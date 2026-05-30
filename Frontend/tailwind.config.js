@@ -26,7 +26,18 @@ export default {
           item: 'var(--color-nav-item)',
           'hover-bg': 'var(--color-nav-hover-bg)',
           'hover-text': 'var(--color-nav-hover-text)',
-        }
+        },
+
+        logo: {
+          'star-hi': '#FFE082',
+          'star-lt': '#facc15',
+          'star-md': '#FFA000',
+          'star-sh': '#FF6F00',
+          'star-dk': '#facc15',
+          'chart-top': '#4FC3F7',
+          'chart-bot': '#2563eb',
+          'orbit-color': '#2563eb',
+        },
       }
     },
   },

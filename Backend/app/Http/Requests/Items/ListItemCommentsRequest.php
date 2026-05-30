@@ -35,5 +35,15 @@ class ListItemCommentsRequest extends FormRequest
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
         ];
     }
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'per_page.integer' => 'El campo resultados por página debe ser un número entero.',
+            'per_page.min' => 'El campo resultados por página debe tener al menos 1 caracteres/elementos.',
+            'per_page.max' => 'El campo resultados por página no puede superar los 100 caracteres/elementos.',
+        ];
+    }
 }
-

@@ -22,8 +22,8 @@ const CategoryCard = ({ category }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/40 to-transparent/10" />
         </div>
 
-        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-700 ease-out group-hover:translate-x-full" />
-        <div className="absolute inset-0 flex flex-col justify-end p-6 rounded-3xl transition-all duration-300 group-hover:ring-4 group-hover:ring-inset group-hover:ring-blue-500">
+        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-accent/50 to-transparent skew-x-12 transition-transform duration-700 ease-out group-hover:translate-x-full" />
+        <div className="absolute inset-0 flex flex-col justify-end p-6 rounded-3xl transition-all duration-300 group-hover:ring-8 group-hover:ring-inset group-hover:ring-accent">
           <div className="absolute right-4 top-4">
             <div className="flex items-center gap-1.5 rounded-full bg-accent px-3 py-1.5 font-bold text-yellow-950 shadow-md">
               <Icon size={16} className="fill-yellow-600 stroke-yellow-700" />

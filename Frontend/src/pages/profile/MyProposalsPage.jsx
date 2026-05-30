@@ -18,7 +18,7 @@ const MyProposalsPage = () => {
   return (
     <div className="flex w-full flex-col relative">
       <FadeUp
-        className={`flex flex-col gap-6 relative transition-opacity duration-200 ${state.isBackgroundUpdating ? 'opacity-60' : 'opacity-100'}`}
+        className={`flex flex-col gap-6 relative`}
       >
         <MyProposalsHeader
           meta={state.meta}

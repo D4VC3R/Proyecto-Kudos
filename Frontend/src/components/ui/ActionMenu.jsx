@@ -8,11 +8,11 @@ import {BookOpenCheckIcon, PlayCircle, PlusCircle, SquareSplitHorizontalIcon, Te
 const ActionMenu = ({categorySlug, name}) => {
     return (
         <div className="flex flex-col gap-6 lg:col-span-5 items-center">
-            <StaggerGrid className="w-full flex flex-col gap-6 rounded-3xl bg-surface p-8 shadow-xl ring-1 ring-slate-200">
+            <StaggerGrid className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-1 gap-3 sm:gap-4 lg:gap-5 rounded-3xl bg-surface p-4 sm:p-5 lg:p-8 shadow-xl ring-1 ring-slate-200">
                 <StaggerItem>
                     <ActionButton
                         title="Votar"
-                        description="Enfréntate a la cola de votación y gana Kudos."
+                        description="¡Tu voto cuenta! Ayuda a decidir el ranking de esta categoría."
                         icon={PlayCircle}
                         to={`/${categorySlug}/vote`}
                         color="blue"

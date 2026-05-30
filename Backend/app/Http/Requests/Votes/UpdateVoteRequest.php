@@ -53,4 +53,16 @@ class UpdateVoteRequest extends FormRequest
 			}
 		});
 	}
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'type.in' => 'El valor seleccionado para tipo no es válido.',
+            'score.numeric' => 'El campo puntuación debe ser numérico.',
+            'score.min' => 'El campo puntuación debe tener al menos 0 caracteres/elementos.',
+            'score.max' => 'El campo puntuación no puede superar los 10 caracteres/elementos.',
+        ];
+    }
 }

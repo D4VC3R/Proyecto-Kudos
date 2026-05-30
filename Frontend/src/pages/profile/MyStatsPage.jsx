@@ -30,7 +30,7 @@ const MyStatsPage = () => {
 
   return (
     <div className="flex w-full flex-col relative">
-      <FadeUp className="flex flex-col gap-6 relative transition-opacity duration-200">
+      <FadeUp className="flex flex-col gap-6 relative">
         <SectionHeader
           title="Tus"
           highlight="Estadísticas"

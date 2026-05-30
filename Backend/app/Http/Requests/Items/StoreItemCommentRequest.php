@@ -26,5 +26,16 @@ class StoreItemCommentRequest extends FormRequest
             'content' => ['required', 'string', 'min:2', 'max:2000'],
         ];
     }
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'content.required' => 'El campo contenido es obligatorio.',
+            'content.string' => 'El campo contenido debe ser texto.',
+            'content.min' => 'El campo contenido debe tener al menos 2 caracteres/elementos.',
+            'content.max' => 'El campo contenido no puede superar los 2000 caracteres/elementos.',
+        ];
+    }
 }
-

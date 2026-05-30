@@ -14,6 +14,7 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Routing\Exceptions\InvalidSignatureException;
 
 /**
  * Configura y crea la aplicación Laravel.
@@ -73,12 +74,28 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        $exceptions->render(function (ValidationException $e, $request) {
+        // Error de verificación de email caducada
+        $exceptions->render(function (InvalidSignatureException $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => [
+                        'code' => 'invalid_signature',
+                        'message' => 'El enlace proporcionado es inválido o ha expirado.',
+                    ],
+                ], 403);
+            }
+        });
+
+        $exceptions->render(function (ValidationException $e, $request) {
+            if ($request->expectsJson()) {
+                // Obtener el primer mensaje de error para mostrarlo directamente al usuario en lugar del mensaje genérico.
+                $firstError = collect($e->errors())->flatten()->first();
+                $message = $firstError ?: 'La solicitud contiene errores de validación.';
+
+                return response()->json([
+                    'error' => [
                         'code' => 'validation_error',
-                        'message' => 'La solicitud contiene errores de validación.',
+                        'message' => $message,
                         'details' => $e->errors(),
                     ],
                 ], 422);

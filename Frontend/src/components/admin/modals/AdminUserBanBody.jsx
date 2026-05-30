@@ -9,8 +9,8 @@ const AdminUserBanBody = ({userName, banParams, setBanParams}) => {
       </p>
 
       <InputField
-        label="Motivo (Opcional)"
-        placeholder="Ej. Incumplimiento de normas"
+        label="Motivo"
+        placeholder="¿Qué ha hecho el nota?"
         value={banParams.reason}
         onChange={(e) => setBanParams({ ...banParams, reason: e.target.value })}
       />

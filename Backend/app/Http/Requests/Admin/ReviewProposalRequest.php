@@ -64,4 +64,16 @@ class ReviewProposalRequest extends FormRequest
 			}
 		});
 	}
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'status.required' => 'El campo estado es obligatorio.',
+            'status.in' => 'El valor seleccionado para estado no es válido.',
+            'admin_notes.string' => 'El campo notas del administrador debe ser texto.',
+            'admin_notes.max' => 'El campo notas del administrador no puede superar los 2000 caracteres/elementos.',
+        ];
+    }
 }

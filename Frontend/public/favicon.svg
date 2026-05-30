@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  
+  <defs>
+    <radialGradient id="fondo-azul" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4bb0e5" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </radialGradient>
+  </defs>
+
+  <style>
+    .fondo { fill: url(#fondo-azul); }
+    .base-estrella { fill: #FF8F00; }
+    .luz-fuerte   { fill: #FFF176; }
+    .luz-media    { fill: #facc15; }
+    .sombra-suave { fill: #FFB300; }
+    .sombra-media { fill: #FFA000; }
+    .sombra-fuerte{ fill: #FF8F00; }
+  </style>
+
+  <g id="logo-estrella">
+    
+    <circle cx="50" cy="50" r="48" class="fondo" />
+
+    <polygon points="50,10 59,37.6 88,37.6 64.6,54.7 73.5,82.4 50,65.3 26.5,82.4 35.4,54.7 12,37.6 41,37.6" class="base-estrella" />
+
+    <g id="facetas-aspas">
+      
+      <polygon points="50,50 50,10 41,37.6" class="luz-fuerte" />
+      <polygon points="50,50 50,10 59,37.6" class="luz-media" />
+
+      <polygon points="50,50 12,37.6 41,37.6" class="luz-fuerte" />
+      <polygon points="50,50 35.4,54.7 12,37.6" class="luz-media" />
+
+      <polygon points="50,50 26.5,82.4 35.4,54.7" class="luz-media" />
+      <polygon points="50,50 50,65.3 26.5,82.4" class="sombra-suave" />
+
+      <polygon points="50,50 59,37.6 88,37.6" class="sombra-suave" />
+      <polygon points="50,50 88,37.6 64.6,54.7" class="sombra-media" />
+
+      <polygon points="50,50 50,65.3 73.5,82.4" class="sombra-media" />
+      <polygon points="50,50 64.6,54.7 73.5,82.4" class="sombra-fuerte" />
+      
+    </g>
+  </g>
+</svg>

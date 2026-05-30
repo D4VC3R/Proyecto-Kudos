@@ -20,5 +20,14 @@ class ListUserRankingRequest extends FormRequest
             'page' => ['sometimes', 'integer', 'min:1'],
         ];
     }
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'page.integer' => 'El campo página debe ser un número entero.',
+            'page.min' => 'El campo página debe tener al menos 1 caracteres/elementos.',
+        ];
+    }
 }
-

@@ -34,6 +34,20 @@ class BanUserRequest extends FormRequest
             }
         });
     }
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'is_permanent.boolean' => 'El campo es permanente debe ser verdadero o falso.',
+            'days.required_unless' => 'El campo días es obligatorio.',
+            'days.integer' => 'El campo días debe ser un número entero.',
+            'days.min' => 'El campo días debe tener al menos 1 caracteres/elementos.',
+            'days.max' => 'El campo días no puede superar los 3650 caracteres/elementos.',
+            'reason.required' => 'El campo motivo es obligatorio.',
+            'reason.string' => 'El campo motivo debe ser texto.',
+            'reason.max' => 'El campo motivo no puede superar los 1000 caracteres/elementos.',
+        ];
+    }
 }
-
-

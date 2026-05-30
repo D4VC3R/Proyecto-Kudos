@@ -48,7 +48,7 @@ export const useCategoryPage = () => {
   }, [detailedItemsData]);
 
   const hasRankingData = rankingItems.length > 0;
-  const showNotFound = !isLoadingRanking && !category && !isErrorRanking;
+  const showNotFound = !isLoadingRanking && !category;
   const isBackgroundUpdating = isFetchingRanking && !isFetchingNextRanking && !isLoadingRanking;
 
   const handleItemClick = (item) => {

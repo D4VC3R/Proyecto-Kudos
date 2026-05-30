@@ -75,4 +75,17 @@ class LoginRequest extends FormRequest
     {
         return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
     }
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'El campo correo electrónico es obligatorio.',
+            'email.string' => 'El campo correo electrónico debe ser texto.',
+            'email.email' => 'El campo correo electrónico debe ser un correo electrónico válido.',
+            'password.required' => 'El campo contraseña es obligatorio.',
+            'password.string' => 'El campo contraseña debe ser texto.',
+        ];
+    }
 }

@@ -32,7 +32,7 @@ const ItemDetailColumn = ({ item }) => {
 
       <div className="prose prose-slate max-w-none mt-auto shrink-0">
         <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6">
-          <h3 className="text-lg font-bold text-slate-800 mb-3">Acerca de este candidato</h3>
+          <h3 className="text-lg font-bold text-slate-800 mb-3">Acerca de {item.name}:</h3>
           <p className="whitespace-pre-line text-lg text-slate-700 font-medium leading-relaxed">
             {item.description}
           </p>

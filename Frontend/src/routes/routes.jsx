@@ -1,7 +1,9 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { RequireAuth } from './guards/RequireAuth.jsx';
-import { RequireVerified } from './guards/RequireVerified.jsx';
-import { RequireAdmin } from './guards/RequireAdmin.jsx';
+import {Navigate, Route, Routes} from 'react-router-dom';
+import RequireGuest from './guards/RequireGuest.jsx';
+import RequireAuth from './guards/RequireAuth.jsx';
+import RequireVerified from './guards/RequireVerified.jsx';
+import RequireAdmin from './guards/RequireAdmin.jsx';
+
 import HomePage from '../pages/HomePage.jsx';
 import ProfilePage from "../pages/profile/ProfilePage.jsx";
 import VerifyEmailPage from "../pages/auth/VerifyEmailPage.jsx";
@@ -10,7 +12,7 @@ import CategoryPage from "../pages/CategoryPage.jsx";
 import RankingPage from "../pages/RankingPage.jsx";
 import NewProposalPage from "../pages/NewProposalPage.jsx";
 import AuthPage from "../pages/auth/AuthPage.jsx";
-import AdminLayout  from "../pages/admin/AdminLayout.jsx";
+import AdminLayout from "../pages/admin/AdminLayout.jsx";
 import AdminUsers from "../pages/admin/AdminUsers.jsx";
 import AdminCategories from "../pages/admin/AdminCategories.jsx";
 import AdminItems from "../pages/admin/AdminItems.jsx";
@@ -20,48 +22,53 @@ import ExplorePage from "../pages/ExplorePage.jsx";
 import ItemDetailPage from "../pages/ItemDetailPage.jsx";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "../pages/auth/ResetPasswordPage.jsx";
+import ForbiddenPage from "../pages/auth/ForbiddenPage.jsx";
+import ErrorPage from "../pages/ErrorPage.jsx";
 
 
 const AppRoutes = () => {
   return (
     <Routes>
 
-        <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<HomePage/>}/>
 
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/register" element={<AuthPage />} />
-        <Route path="/verify-email" element={<VerifyEmailPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/password-reset/:token" element={<ResetPasswordPage />} />
+      <Route element={<RequireGuest/>}>
+        <Route path="/login" element={<AuthPage/>}/>
+        <Route path="/register" element={<AuthPage/>}/>
+        <Route path="/verify-email" element={<VerifyEmailPage/>}/>
+        <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+        <Route path="/password-reset/:token" element={<ResetPasswordPage/>}/>
+      </Route>
 
-        <Route path="/ranking" element={<RankingPage />} />
-        <Route path="/:categorySlug" element={<CategoryPage />} />
-        <Route path="/:categorySlug/explore" element={<ExplorePage />} />
-        <Route path="/:categorySlug/item/:itemId" element={<ItemDetailPage />} />
+      <Route path="/ranking" element={<RankingPage/>}/>
+      <Route path="/:categorySlug" element={<CategoryPage/>}/>
+      <Route path="/:categorySlug/explore" element={<ExplorePage/>}/>
+      <Route path="/:categorySlug/item/:itemId" element={<ItemDetailPage/>}/>
 
-        <Route path="/forbidden" element={<div>Acceso Denegado</div>} />
+      <Route path="/forbidden" element={<ForbiddenPage />}/>
 
-        <Route element={<RequireAuth />}>
-          <Route element={<RequireVerified />}>
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/my-proposals" element={<ProfilePage tab={'proposals'} />} />
-            <Route path="/:categorySlug/proposals/new" element={<NewProposalPage />} />
-            <Route path="/:categorySlug/proposals/:proposalId/edit" element={<NewProposalPage isEdit={true} />} />
-            <Route path="/:categorySlug/vote" element={<VotePage />} />
+      <Route element={<RequireAuth/>}>
+        <Route element={<RequireVerified/>}>
+          <Route path="/profile" element={<ProfilePage/>}/>
+          <Route path="/my-proposals" element={<ProfilePage tab={'proposals'}/>}/>
+          <Route path="/:categorySlug/proposals/new" element={<NewProposalPage/>}/>
+          <Route path="/:categorySlug/proposals/:proposalId/edit" element={<NewProposalPage isEdit={true}/>}/>
+          <Route path="/:categorySlug/vote" element={<VotePage/>}/>
 
-            <Route element={<RequireAdmin />}>
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route path="users" element={<AdminUsers />} />
-                <Route path="users/:userId" element={<AdminUserDetail />} />
-                <Route path="categories" element={<AdminCategories />} />
-                <Route path="items" element={<AdminItems />} />
-                <Route path="proposals" element={<AdminProposals />} />
-              </Route>
+          <Route element={<RequireAdmin/>}>
+            <Route path="/admin" element={<AdminLayout/>}>
+              <Route path="users" element={<AdminUsers/>}/>
+              <Route path="users/:userId" element={<AdminUserDetail/>}/>
+              <Route path="categories" element={<AdminCategories/>}/>
+              <Route path="items" element={<AdminItems/>}/>
+              <Route path="proposals" element={<AdminProposals/>}/>
             </Route>
           </Route>
         </Route>
+      </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/404" element={<ErrorPage />}/>
+      <Route path="*" element={<Navigate to="/404" replace />} />
     </Routes>
   );
 };

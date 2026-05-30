@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="100%" height="100%">
+
+    <defs>
+        <style>
+            :root {
+            --star-hi: #FFE082;
+            --star-lt: #facc15;
+            --star-md: #FFA000;
+            --star-sh: #FF6F00;
+            --star-dk: #facc15;
+
+            --chart-top: #4FC3F7;
+            --chart-bot: #2563eb;
+            --orbit-color: #2563eb;
+
+            .f-hi { fill: var(--star-hi); }
+            .f-lt { fill: var(--star-lt); }
+            .f-md { fill: var(--star-md); }
+            .f-sh { fill: var(--star-sh); }
+            .f-dk { fill: var(--star-dk); }
+        </style>
+
+        <linearGradient id="chart-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="var(--chart-top)" />
+            <stop offset="100%" stop-color="var(--chart-bot)" />
+        </linearGradient>
+
+        <path id="orbit-swoosh" d="M -24,14 C -38,25 -25,44 -6,38 C -18,36 -28,26 -18,16 Z" fill="var(--orbit-color)" />
+
+        <g id="star-core">
+            <polygon points="0,-40 9,-12 38,-12 14,6 23,32 0,15 -23,32 -14,6 -38,-12 -9,-12" fill="var(--star-md)"/>
+
+            <polygon points="0,0 0,-40 -9,-12" class="f-lt" />
+            <polygon points="0,0 0,-40 9,-12" class="f-md" />
+            <polygon points="0,0 38,-12 9,-12" class="f-hi" />
+            <polygon points="0,0 38,-12 14,6" class="f-sh" />
+            <polygon points="0,0 23,32 14,6" class="f-md" />
+            <polygon points="0,0 23,32 0,15" class="f-dk" />
+            <polygon points="0,0 -23,32 0,15" class="f-sh" />
+            <polygon points="0,0 -23,32 -14,6" class="f-dk" />
+            <polygon points="0,0 -38,-12 -14,6" class="f-md" />
+            <polygon points="0,0 -38,-12 -9,-12" class="f-lt" />
+        </g>
+    </defs>
+
+    <g id="logo-icon" transform="translate(40, 40) scale(0.85)">
+
+        <use href="#orbit-swoosh" />
+        <use href="#orbit-swoosh" transform="scale(-1, 1)" />
+
+        <use href="#star-core" />
+
+        <g id="growth-chart" fill="url(#chart-grad)">
+            <rect x="-19" y="10" width="7" height="18" rx="1" />
+            <rect x="12" y="10" width="7" height="18" rx="1" />
+            <polygon points="0,-10 9,5 4,5 4,28 -4,28 -4,5 -9,5" />
+        </g>
+
+    </g>
+
+</svg>

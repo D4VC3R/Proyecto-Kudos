@@ -14,8 +14,8 @@ const AdminCategoryFormBody = ({ formData, setFormData }) => {
       />
       <div className="mt-4">
         <TextAreaField
-          label="Descripción (Opcional)"
-          placeholder="Descripción de la categoría..."
+          label="Descripción"
+          placeholder="No me seas rancio..."
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
         />

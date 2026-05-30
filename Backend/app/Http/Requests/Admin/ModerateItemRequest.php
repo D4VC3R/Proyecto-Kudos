@@ -35,5 +35,17 @@ class ModerateItemRequest extends FormRequest
             }
         });
     }
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'status.required' => 'El campo estado es obligatorio.',
+            'status.string' => 'El campo estado debe ser texto.',
+            'status.in' => 'El valor seleccionado para estado no es válido.',
+            'reason.string' => 'El campo motivo debe ser texto.',
+            'reason.max' => 'El campo motivo no puede superar los 1000 caracteres/elementos.',
+        ];
+    }
 }
-

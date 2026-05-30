@@ -28,11 +28,11 @@ export const useAdminCategoriesPage = () => {
       filteredCategories,
       isLoading,
       isError,
-      ...modalActions, // Incluye isOpen, modalType, formData, isPending, etc.
+      ...modalActions,
     },
     actions: {
       handleSearchChange,
-      ...modalActions, // Incluye handleOpenAction, executeAction, setFormData, etc.
+      ...modalActions,
     }
   };
 };

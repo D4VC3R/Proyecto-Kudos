@@ -31,4 +31,23 @@ class StoreProposalRequest extends FormRequest
         ];
     }
 
+/**
+     * Mensajes de validación personalizados para las reglas.
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'El campo nombre es obligatorio.',
+            'name.string' => 'El campo nombre debe ser texto.',
+            'name.max' => 'El campo nombre no puede superar los 255 caracteres/elementos.',
+            'description.required' => 'El campo descripción es obligatorio.',
+            'description.string' => 'El campo descripción debe ser texto.',
+            'description.min' => 'El campo descripción debe tener al menos 20 caracteres/elementos.',
+            'description.max' => 'El campo descripción no puede superar los 2000 caracteres/elementos.',
+            'image_path.App\Rules\FileOrUrlRule' => 'El archivo proporcionado no es válido.',
+            'category_id.required' => 'El campo categoría es obligatorio.',
+            'category_id.uuid' => 'El campo categoría debe ser un identificador válido.',
+            'category_id.exists' => 'El categoría seleccionado no es válido o no existe.',
+        ];
+    }
 }
