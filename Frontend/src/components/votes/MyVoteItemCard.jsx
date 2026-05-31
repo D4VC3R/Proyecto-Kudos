@@ -7,7 +7,7 @@ import StorageImage from "../ui/StorageImage.jsx";
 const MyVoteItemCard = ({ vote, isDeleting, onDeleteClick }) => {
   const isSkip = vote.type === 'skip';
   const item = vote.item;
-  const imageUrl = item.images?.[0]?.variants?.thumb;
+  const imageUrl = item.images?.[0]?.variants?.thumb || item.images?.[0]?.variants?.banner;
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">

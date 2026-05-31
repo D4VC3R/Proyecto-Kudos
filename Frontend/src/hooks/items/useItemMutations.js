@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../core/axiosClient.js';
 import { ITEM_KEYS } from './useItemQueries';
+import {VOTE_KEYS} from "../votes/useVoteQueries.js";
 import { useBaseMutation } from '../common/useBaseMutation';
 
 export const useCreateComment = () => {
@@ -18,7 +19,7 @@ export const useCreateComment = () => {
 export const useUpdateComment = () => {
   return useBaseMutation({
     mutationFn: ({ id, content }) => axiosClient.put(`/comments/${id}`, { content }),
-    invalidateKeys: [ITEM_KEYS.all],
+    invalidateKeys: [ITEM_KEYS.all][VOTE_KEYS.infiniteMyVotes()],
     successMessage: 'Comentario actualizado',
   });
 };

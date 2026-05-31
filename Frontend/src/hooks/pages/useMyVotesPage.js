@@ -37,7 +37,11 @@ export const useMyVotesPage = () => {
   });
 
   const allVotes = useMemo(() => {
-    return response?.pages.flatMap(page => page.data) || [];
+    if (!response?.pages) return [];
+
+    return response.pages
+      .flatMap(page => page.data)
+      .filter(vote => vote && vote.item !== null);
   }, [response]);
 
   const meta = useMemo(() => {
