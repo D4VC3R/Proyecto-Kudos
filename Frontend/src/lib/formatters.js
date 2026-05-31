@@ -36,4 +36,22 @@ export const getScoreColor = (type, score) => {
   return 'bg-red-600';
 };
 
+export const formatStatus = (status) => {
+  switch (status.toLowerCase()) {
+    case 'active':
+      return 'ACTIVO';
+    case 'inactive':
+      return 'INACTIVO';
+    case 'pending':
+      return 'PENDIENTE';
+    case 'rejected':
+      return 'RECHAZADA';
+    case 'accepted':
+      return 'ACEPTADA';
+    case 'changes_requested':
+      return 'CAMBIOS SOLICITADOS';
+    default: return status;
+  }
+}
+
 

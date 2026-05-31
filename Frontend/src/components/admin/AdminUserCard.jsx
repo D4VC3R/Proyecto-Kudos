@@ -20,9 +20,9 @@ const AdminUserCard = ({ user, onToggleBan, onRevoke, isBanning, isUnbanning, is
           <div className="mt-2 flex gap-2">
             <span className={clsx("px-2.5 py-1 rounded-lg text-xs font-bold w-fit",
               user.role === 'admin' ? "bg-purple-100 text-purple-700" :
-                user.is_verified ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-nav-item"
+                user.is_verified ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-text-normal"
             )}>
-              {user.role === 'admin' ? 'ADMIN' : (user.is_verified ? 'VERIFIED' : 'GUEST')}
+              {user.role === 'admin' ? 'ADMIN' : (user.is_verified ? 'VERIFICADO' : 'INVITADO')}
             </span>
             {user.is_banned && (
               <span className="px-2.5 py-1 rounded-lg text-xs font-bold w-fit bg-red-100 text-red-700">

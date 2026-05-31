@@ -38,7 +38,10 @@ export default {
           'chart-bot': '#2563eb',
           'orbit-color': '#2563eb',
         },
-      }
+      },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
     },
   },
   plugins: [],

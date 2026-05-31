@@ -113,6 +113,13 @@ class User extends Authenticatable implements MustVerifyEmail
                     ->orWhere('email', 'ilike', "%{$filters['search']}%"));
             })
             ->when(isset($filters['is_banned']), fn($q) => $q->where('is_banned', filter_var($filters['is_banned'], FILTER_VALIDATE_BOOLEAN)))
+            ->when(isset($filters['is_verified']), function ($q) use ($filters) {
+                if (filter_var($filters['is_verified'], FILTER_VALIDATE_BOOLEAN)) {
+                    $q->whereNotNull('email_verified_at');
+                } else {
+                    $q->whereNull('email_verified_at');
+                }
+            })
             ->when(!empty($filters['ban_state']), function ($q) use ($filters, $now) {
                 match ($filters['ban_state']) {
                     'temporary' => $q->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '>', $now),

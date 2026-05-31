@@ -3,6 +3,7 @@ import { CheckCircle, XCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import  AnimatedCard  from '../animations/AnimatedCard.jsx';
 import {statusColors} from '../../lib/constants.js';
+import {formatStatus} from '../../lib/formatters.js';
 import  Button  from '../ui/Button.jsx';
 
 
@@ -12,10 +13,10 @@ const AdminProposalCard = ({ proposal, onAccept, onReject }) => {
       <div className="flex justify-between items-start gap-2">
         <h3 className="font-black text-slate-800 line-clamp-1">{proposal.name}</h3>
         <span className={clsx("px-2 py-0.5 rounded-lg text-[10px] font-black uppercase whitespace-nowrap", statusColors[proposal.status])}>
-          {proposal.status}
+          {formatStatus(proposal.status)}
         </span>
       </div>
-      <p className="text-sm text-nav-item line-clamp-2 mt-1">{proposal.description}</p>
+      <p className="text-sm text-text-normal line-clamp-2 mt-1">{proposal.description}</p>
 
       <div className="flex flex-col gap-1 mt-2 text-xs font-medium text-text-normal">
         <div>Por: <span className="font-bold text-slate-700">{proposal.creator?.name}</span></div>

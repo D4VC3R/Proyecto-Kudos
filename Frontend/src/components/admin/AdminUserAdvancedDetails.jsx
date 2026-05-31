@@ -6,7 +6,7 @@ import { formatDate } from '../../lib/formatters.js';
 const AdminUserAdvancedDetails = ({ user }) => {
   return (
     <>
-      <SectionHeader title="Detalles" highlight="Avanzados" icon={Calendar} />
+      <SectionHeader title="Detalles" highlight="Avanzados" highlightColor="accent" icon={Calendar} />
       <div className="bg-surface border border-slate-100 shadow-sm rounded-3xl p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
           <div className="flex flex-col">

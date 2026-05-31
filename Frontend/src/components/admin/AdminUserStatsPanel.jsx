@@ -6,7 +6,7 @@ import {Award, FileText, CheckCircle, MessageSquare, PlusSquare, Eye, Key} from 
 const AdminUserStatsPanel = ({user}) => {
   return (
     <>
-      <SectionHeader title="Estadísticas" highlight="Kudos" icon={Award}/>
+      <SectionHeader title="Estadísticas" highlight="Kudos" highlightColor="accent" icon={Award}/>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard

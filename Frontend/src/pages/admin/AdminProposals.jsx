@@ -19,7 +19,7 @@ const AdminProposals = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Revisión de" highlight="Propuestas" icon={FileText}>
+      <SectionHeader title="Revisión de" highlight="Propuestas" highlightColor="accent" icon={FileText}>
         <div className="flex gap-2 flex-wrap">
           <SelectFilter
             icon={LayoutGrid}

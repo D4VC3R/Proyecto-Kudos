@@ -22,7 +22,7 @@ const AdminUserDetail = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Detalles del" highlight="Usuario" icon={UserSquare}>
+      <SectionHeader title="Detalles del" highlight="Usuario" highlightColor="accent" icon={UserSquare}>
         <Button
           onClick={actions.handleGoBack}
           variant="ghost"
