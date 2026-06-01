@@ -1,3 +1,0 @@
-web: ./start.sh
-worker: php artisan config:cache && php artisan queue:work
-
