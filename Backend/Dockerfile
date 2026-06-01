@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:1.4-php8.4-bookworm
 
-ENV FRANKENPHP_CONFIG="web-service" \
+ENV SERVER_NAME=":8080" \
     APP_ENV=production \
     APP_DEBUG=false
 
