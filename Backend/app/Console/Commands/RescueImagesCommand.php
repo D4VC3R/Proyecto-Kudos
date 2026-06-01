@@ -18,9 +18,9 @@ class RescueImagesCommand extends Command
 		$fileName = 'rescate-imagenes.tar.gz';
 		$fileId = '1QsX33KsyVllpJ38FBdzlNHTckav-mO4t';
 
+		// Usamos wget con el flag --no-check-certificate y gestionamos el token de confirmación de forma limpia
 		$command = "cd {$targetDir} && " .
-			"curl -Lb /tmp/cookies.txt \"https://docs.google.com/uc?export=download&confirm=$(curl -sL -b /tmp/cookies.txt 'https://docs.google.com/uc?export=download&id={$fileId}' | grep -o 'confirm=[^&]*' | sed 's/confirm=//')&id={$fileId}\" -o {$fileName} && " .
-			"rm -rf /tmp/cookies.txt && " .
+			"wget --no-check-certificate 'https://docs.google.com/uc?export=download&id={$fileId}' -O {$fileName} && " .
 			"tar -xzvf {$fileName} && " .
 			"rm {$fileName}";
 
@@ -30,8 +30,9 @@ class RescueImagesCommand extends Command
 			$this->info('¡Imágenes descargadas y extraídas con éxito en el volumen!');
 			$this->line($result->output());
 		} else {
-			$this->error('Hubo un error en la descarga:');
+			$this->error('Hubo un error en la descarga o extracción:');
 			$this->error($result->errorOutput());
+			$this->line($result->output());
 		}
 	}
 }
