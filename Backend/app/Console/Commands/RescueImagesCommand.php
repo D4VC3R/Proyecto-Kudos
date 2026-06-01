@@ -21,7 +21,7 @@ class RescueImagesCommand extends Command
 		$tarGzPath = $targetDir . '/' . $fileName;
 
 		// Mantén aquí tu enlace de Dropbox (terminado en ?dl=1) o Transfer.sh
-		$url = 'TU_ENLACE_DIRECTO_AQUI';
+		$url = 'https://www.dropbox.com/scl/fi/es9wh2u1ik3vldysz4j8e/rescate-imagenes.tar.gz?rlkey=4l845hqxfginbucrzvw6bio1q&st=sx3mxu2w&dl=1';
 
 		try {
 			$this->info('Descargando los 188MB de datos (esto puede tardar unos segundos)...');
