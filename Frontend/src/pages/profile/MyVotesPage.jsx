@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loader2 } from 'lucide-react';
+import {Loader2} from 'lucide-react';
 // Componentes
 import MyVotesHeader from '../../components/votes/MyVotesHeader.jsx';
 import MyVotesEmpty from '../../components/votes/MyVotesEmpty.jsx';
@@ -9,10 +9,10 @@ import FadeUp from "../../components/animations/FadeUp.jsx";
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from '../../components/ui/ModalButtons.jsx';
 // Hooks
-import { useMyVotesPage } from '../../hooks/pages/useMyVotesPage.js';
+import {useMyVotesPage} from '../../hooks/pages/useMyVotesPage.js';
 
 const MyVotesPage = () => {
-  const { state, actions, refs } = useMyVotesPage();
+  const {state, actions, refs} = useMyVotesPage();
 
   return (
     <div className="flex w-full flex-col relative">
@@ -28,12 +28,12 @@ const MyVotesPage = () => {
 
         {state.showSkeletons ? (
           <div className="grid gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <MyVoteItemCardSkeleton key={i} />
+            {Array.from({length: 4}).map((_, i) => (
+              <MyVoteItemCardSkeleton key={i}/>
             ))}
           </div>
         ) : state.allVotes.length === 0 ? (
-          <MyVotesEmpty />
+          <MyVotesEmpty/>
         ) : (
           <>
             <div className="grid gap-4">
@@ -50,7 +50,7 @@ const MyVotesPage = () => {
             </div>
 
             <div ref={refs.lastElementRef} className="flex h-12 w-full items-center justify-center py-4">
-              {state.isFetchingNextPage && <Loader2 className="animate-spin text-blue-500" size={24} />}
+              {state.isFetchingNextPage && <Loader2 className="animate-spin text-blue-500" size={24}/>}
             </div>
 
             {!state.hasNextPage && state.allVotes.length > 0 && (
@@ -77,7 +77,8 @@ const MyVotesPage = () => {
         }
       >
         <p className="text-nav-item font-medium">
-          ¿Estás seguro de que deseas eliminar este registro de voto para <strong>{state.voteToDelete?.item?.name}</strong>?
+          ¿Hacer como si nunca hubieras votado <strong>{state.voteToDelete?.item?.name}</strong>?
+          No perderás Kudos por esta acción, pero volver a votar este elemento tampoco te dará más puntos.
         </p>
       </Modal>
     </div>

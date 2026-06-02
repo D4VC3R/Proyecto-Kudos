@@ -42,18 +42,18 @@ const ExplorePage = () => {
 
         <div className="flex flex-col gap-8 w-full mt-4">
           {state.isLoading ? (
-            <FeedbackState icon={Telescope} isLoading title="Explorando el universo..." />
+            <FeedbackState icon={Telescope} isLoading title={`Explorando ${state.displayCategoryName}...`}  />
           ) : state.isError ? (
             <FeedbackState
               icon={Compass}
               title="Problemas de conexión"
-              description="No pudimos cargar los items. Por favor, intenta nuevamente."
+              description="Algo no ha ido bien, inténtalo de nuevo más tarde."
               iconColorClass="bg-red-100 text-red-500"
             />
           ) : state.flattenedItems.length === 0 ? (
             <FeedbackState
               icon={Telescope}
-              title="Ningún ítem en el horizonte"
+              title="Buscas cosas muy raras, ¿no?"
               description="No se encontraron resultados con los filtros actuales."
             />
           ) : (

@@ -19,7 +19,7 @@ const UserInfo = () => {
         to="/profile"
         className="flex items-center gap-2 sm:gap-3 bg-background hover:bg-blue-50 transition-colors border border-border rounded-full pr-3 sm:pr-4 pl-1 py-1"
       >
-        <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full bg-blue-100 flex items-center justify-center text-primary overflow-hidden shrink-0">
+        <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-blue-100 flex items-center justify-center text-primary overflow-hidden shrink-0">
           <StorageImage
             src={profile?.avatar}
             alt={user?.name || 'Avatar'}

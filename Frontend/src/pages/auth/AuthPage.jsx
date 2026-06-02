@@ -34,7 +34,7 @@ const AuthPage = () => {
               {isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
             </h1>
             <p className="mt-2 text-text-normal">
-              {isLogin ? 'Ingresa para continuar tu racha de Kudos.' : 'Únete y empieza a votar hoy mismo.'}
+              {isLogin ? 'Inicia sesión para continuar votando.' : 'Únete a la comunidad Kudos.'}
             </p>
           </div>
 

@@ -17,20 +17,6 @@ export const ProfilePage = ({tab = 'info'}) => {
   const [activeTab, setActiveTab] = useState(tab);
   const {data: profile, isLoading, isError} = useProfile();
 
-
-  if (!isLoading && (isError || !profile)) {
-    return (
-      <div className="flex h-[50vh] w-full flex-col items-center justify-center">
-        <FeedbackState
-          icon={UserIcon}
-          iconColorClass="bg-slate-100 text-slate-400"
-          title="Error al cargar perfil"
-          description="No se pudo obtener la información de tu perfil. Intenta iniciar sesión nuevamente."
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="flex w-full flex-col">
       <div className="mb-8 shrink-0">
@@ -47,17 +33,28 @@ export const ProfilePage = ({tab = 'info'}) => {
         setActiveTab={setActiveTab}
       />
       <div className="w-full min-h-[50vh]">
-        {activeTab === 'info' && (
-          isLoading ? <ProfileInfoFormSkeleton/> : <ProfileOverview profile={profile}/>
-        )}
-        {activeTab === 'proposals' && (
-          <MyProposalsPage/>
-        )}
-        {activeTab === 'votes' && (
-          <MyVotesPage/>
-        )}
-        {activeTab === 'stats' && (
-          <MyStatsPage/>
+        {!isLoading && (isError || !profile) ? (
+          <FeedbackState
+            icon={UserIcon}
+            iconColorClass="bg-slate-100 text-slate-400"
+            title="Error al cargar perfil"
+            description="No se pudo obtener la información de tu perfil. Intenta iniciar sesión de nuevo."
+          />
+        ) : (
+          <>
+            {activeTab === 'info' && (
+              isLoading ? <ProfileInfoFormSkeleton/> : <ProfileOverview profile={profile}/>
+            )}
+            {activeTab === 'proposals' && (
+              <MyProposalsPage/>
+            )}
+            {activeTab === 'votes' && (
+              <MyVotesPage/>
+            )}
+            {activeTab === 'stats' && (
+              <MyStatsPage/>
+            )}
+          </>
         )}
       </div>
     </div>

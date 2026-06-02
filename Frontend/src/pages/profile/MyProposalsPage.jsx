@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchX } from 'lucide-react';
+import {SearchX} from 'lucide-react';
 // Componentes
 import MyProposalsHeader from '../../components/proposals/MyProposalsHeader.jsx';
 import MyProposalsEmpty from '../../components/proposals/MyProposalsEmpty.jsx';
@@ -10,10 +10,10 @@ import FadeUp from "../../components/animations/FadeUp.jsx";
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from "../../components/ui/ModalButtons.jsx";
 // Hooks
-import { useMyProposalsPage } from '../../hooks/pages/useMyProposalsPage.js';
+import {useMyProposalsPage} from '../../hooks/pages/useMyProposalsPage.js';
 
 const MyProposalsPage = () => {
-  const { state, actions } = useMyProposalsPage();
+  const {state, actions} = useMyProposalsPage();
 
   return (
     <div className="flex w-full flex-col relative">
@@ -28,12 +28,12 @@ const MyProposalsPage = () => {
 
         {state.showSkeletons ? (
           <div className="grid gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <MyProposalItemCardSkeleton key={i} />
+            {Array.from({length: 4}).map((_, i) => (
+              <MyProposalItemCardSkeleton key={i}/>
             ))}
           </div>
         ) : state.proposals.length === 0 ? (
-          <MyProposalsEmpty />
+          <MyProposalsEmpty/>
         ) : state.filteredProposals.length === 0 ? (
           <FeedbackState
             icon={SearchX}

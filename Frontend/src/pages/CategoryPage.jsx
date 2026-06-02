@@ -47,15 +47,18 @@ const CategoryPage = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
-        <ActionMenu categorySlug={state.categorySlug} name={state.category?.name} />
-
-        <div className="lg:col-span-7">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start ">
+        <ActionMenu
+          className="lg:col-span-5 w-full shadow-2xl ring-2 ring-slate-200 rounded-3xl"
+          categorySlug={state.categorySlug}
+          name={state.category?.name}
+        />
+        <div className="lg:col-span-7 flex flex-col w-full">
           {state.isLoadingRanking || (state.isFetchingRanking && !state.hasRankingData) ? (
-            <Skeleton className="h-[750px] w-full rounded-3xl shadow-2xl ring-2 ring-slate-200" />
+            <Skeleton className="min-h-[500px] w-full rounded-3xl shadow-xl ring-1 ring-border" />
           ) : state.isErrorRanking && !state.hasRankingData ? (
-            <div className="flex min-h-[420px] items-center justify-center rounded-3xl bg-surface p-6 text-center shadow-2xl ring-2 ring-slate-200">
-              <p className="text-nav-item">Error al cargar el ranking: {state.rankingError?.message}</p>
+            <div className="flex min-h-[500px] w-full items-center justify-center rounded-3xl bg-surface p-6 text-center shadow-xl ring-1 ring-border">
+              <p className="text-text-normal">Error al cargar el ranking: {state.rankingError?.message}</p>
             </div>
           ) : (
             <Ranking
@@ -72,15 +75,15 @@ const CategoryPage = () => {
       </div>
 
       {state.isLoadingDetailed ? (
-        <Skeleton className="mt-8 h-64 w-full rounded-3xl" />
+        <Skeleton className="mt-8 min-h-[250px] w-full rounded-3xl shadow-xl ring-1 ring-border" />
       ) : state.isErrorDetailed ? (
-        <div className="mt-8 flex h-64 items-center justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-slate-200">
+        <div className="mt-8 flex min-h-[250px] w-full items-center justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border">
           <p className="text-text-normal text-sm">No se pudieron cargar los candidatos destacados.</p>
         </div>
       ) : state.sliderItems.length > 0 && (
-        <div className="mt-8 rounded-3xl bg-surface py-8 shadow-xl ring-1 ring-slate-200">
-          <div className="mb-6 px-8 border-b border-slate-100 pb-4">
-            <h3 className="text-2xl font-black text-text-highlight text-primary">Destacados</h3>
+        <div className="mt-8 flex min-h-[250px] w-full flex-col justify-center rounded-3xl bg-surface py-4 shadow-xl ring-1 ring-border">
+          <div className="mb-6 px-8 border-b border-border pb-4">
+            <h3 className="text-3xl font-black text-text-highlight">Destacados de <span className="text-primary">esta semana</span></h3>
           </div>
           <InfiniteItemSlider items={state.sliderItems} onItemClick={actions.handleItemClick} />
         </div>

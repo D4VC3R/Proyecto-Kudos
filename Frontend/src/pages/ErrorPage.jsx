@@ -12,9 +12,9 @@ const ErrorPage = () => {
       <FeedbackState
         icon={Ban}
         iconColorClass={'bg-red-100 text-red-500'}
-        title={'¡Enhorabuena, has encontrado un bug!'}
+        title={'¡Enhorabuena, has me has roto el proyecto!'}
         description={'Por desgracia esta acción no te hace ganar Kudos, mejor vuelve a la página principal y busca otra manera de conseguirlos.'}
-        actionText="Quiero más Kudos y menos bugs."
+        actionText="Más Kudos y menos bugs."
         onAction={() => navigate('/')}
       />
     </FadeUp>
