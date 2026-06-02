@@ -9,6 +9,7 @@ import VoteActionButtons from '../components/votes/VoteActionButtons.jsx';
 import EmptyVoteState from "../components/votes/EmptyVoteState.jsx";
 import AnimatedItem from "../components/animations/AnimatedItem.jsx";
 import BackButton from "../components/ui/BackButton.jsx";
+import FeedbackState from "../components/ui/FeedbackState.jsx";
 // Hooks
 import { useVotePage } from '../hooks/pages/useVotePage.js';
 
@@ -28,8 +29,11 @@ export const VotePage = () => {
 
           {state.isLoading ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-surface rounded-3xl z-10">
-              <Loader2 className="animate-spin text-blue-500 mb-4" size={48}/>
-              <p className="text-text-normal font-medium animate-pulse">Buscando el siguiente candidato...</p>
+              <FeedbackState
+                icon={Loader2}
+                isLoading
+                description="Buscando el siguiente candidato..."
+              />
             </div>
           ) : !state.isLoading && !state.item ? (
             <EmptyVoteState category={state.categorySlug}/>
