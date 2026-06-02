@@ -11,8 +11,6 @@ services:
     ports:
       - "5174:5174"
       - "4174:4174"
-    environment:
-      - VITE_API_URL=${VITE_API_URL:-http://localhost:8095/api}
 
 volumes:
   frontend-node_modules:
