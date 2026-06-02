@@ -80,7 +80,7 @@ const CategoryPage = () => {
       ) : state.sliderItems.length > 0 && (
         <div className="mt-8 rounded-3xl bg-surface py-8 shadow-xl ring-1 ring-slate-200">
           <div className="mb-6 px-8 border-b border-slate-100 pb-4">
-            <h3 className="text-2xl font-black text-text-highlight">Candidatos Destacados</h3>
+            <h3 className="text-2xl font-black text-text-highlight text-primary">Destacados</h3>
           </div>
           <InfiniteItemSlider items={state.sliderItems} onItemClick={actions.handleItemClick} />
         </div>

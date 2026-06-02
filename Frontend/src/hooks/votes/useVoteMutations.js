@@ -12,9 +12,8 @@ export const useCreateVote = () => {
 
   return useBaseMutation({
     mutationFn: (voteData) => axiosClient.post('/votes', voteData),
-    invalidateKeys: [VOTE_KEYS.myVotesList(), ['categories'], ITEM_KEYS.all],
+    invalidateKeys: [VOTE_KEYS.myVotesList(), ['categories'], ITEM_KEYS.all, USER_KEYS.ranking, USER_KEYS.statistics],
     onSuccessExtra: (response) => {
-      // 1. Sincronizar Kudos en Zustand
       const tk = response.meta?.total_kudos;
       if (tk !== undefined) {
         const { token, user, setSession } = useSessionStore.getState();
@@ -34,7 +33,6 @@ export const useCreateVote = () => {
         });
       }
 
-      // Opcional: Mostrar toast solo si no fue un "skip" o si realmente gan puntos
       if (response.meta?.vote_type === 'vote' && response.message) {
         toast.success(response.message);
       }
