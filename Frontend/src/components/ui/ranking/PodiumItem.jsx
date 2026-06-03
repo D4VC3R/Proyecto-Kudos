@@ -1,11 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
 import { UserCircle, ChevronRight } from 'lucide-react';
-import {RANK_CONFIG} from '../../lib/constants.js';
-import { getScoreColor } from '../../lib/formatters.js';
+import {RANK_CONFIG} from '../../../lib/constants.js';
+import { getScoreColor } from '../../../lib/formatters.js';
 
-import StaggerItem from '../animations/StaggerItem.jsx';
-import StorageImage from '../ui/StorageImage.jsx';
+import StaggerItem from '../../animations/StaggerItem.jsx';
+import StorageImage from '../StorageImage.jsx';
 
 
 const PodiumItem = ({ data, rank, type = "item", onClick }) => {

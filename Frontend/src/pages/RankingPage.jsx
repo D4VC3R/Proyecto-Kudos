@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // Componentes
-import UserRankingMyPositionCard from '../components/ranking/UserRankingMyPositionCard';
-import UserRankingTable from '../components/ranking/UserRankingTable';
+import UserRankingMyPositionCard from '../components/ui/ranking/UserRankingMyPositionCard';
+import UserRankingTable from '../components/ui/ranking/UserRankingTable';
 import Skeleton from '../components/ui/Skeleton.jsx';
 import SectionHeader from "../components/ui/SectionHeader.jsx";
 // Hooks

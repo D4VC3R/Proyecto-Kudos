@@ -1,6 +1,6 @@
 import React from 'react';
 import Ranking from './Ranking.jsx';
-import Pagination from '../ui/Pagination.jsx';
+import Pagination from '../Pagination.jsx';
 
 const UserRankingTable = ({ items, page, setPage, meta, itemsPerPage = 10 }) => {
   return (

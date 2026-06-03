@@ -1,7 +1,7 @@
 import React from 'react';
 import { Telescope } from 'lucide-react';
 // Componentes
-import Ranking from '../components/ranking/Ranking.jsx';
+import Ranking from '../components/ui/ranking/Ranking.jsx';
 import InfiniteItemSlider from '../components/items/InfiniteItemSlider.jsx';
 import Skeleton from '../components/ui/Skeleton.jsx';
 import SectionHeader from "../components/ui/SectionHeader.jsx";
