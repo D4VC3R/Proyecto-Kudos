@@ -22,7 +22,7 @@ const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan
             user.role === 'admin' ? "bg-purple-100 text-purple-700" :
             user.is_verified ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-nav-item"
           )}>
-            Rol: {user.role === 'admin' ? 'ADMIN' : (user.is_verified ? 'VERIFIED' : 'GUEST')}
+            Rol: {user.role === 'admin' ? 'ADMIN' : (user.is_verified ? 'USUARIO' : 'INVITADO')}
           </span>
           <span className={clsx("px-3 py-1 rounded-xl text-xs font-bold",
              user.is_banned ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
@@ -50,7 +50,7 @@ const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan
           isFullWidth
           icon={user.is_banned ? Unlock : Ban}
         >
-          {user.is_banned ? "Desbanear Usuario" : "Suspender Usuario"}
+          {user.is_banned ? "Desbanear usuario" : "Suspender usuario"}
         </Button>
         <Button
           onClick={onRevokeSessions}
@@ -60,7 +60,7 @@ const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan
           isFullWidth
           icon={Key}
         >
-          Revocar Sesiones
+          Cerrar sesiones
         </Button>
       </div>
     </AnimatedCard>

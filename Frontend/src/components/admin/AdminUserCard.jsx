@@ -22,7 +22,7 @@ const AdminUserCard = ({ user, onToggleBan, onRevoke, isBanning, isUnbanning, is
               user.role === 'admin' ? "bg-purple-100 text-purple-700" :
                 user.is_verified ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-text-normal"
             )}>
-              {user.role === 'admin' ? 'ADMIN' : (user.is_verified ? 'VERIFICADO' : 'INVITADO')}
+              {user.role === 'admin' ? 'ADMIN' : (user.is_verified ? 'USUARIO' : 'INVITADO')}
             </span>
             {user.is_banned && (
               <span className="px-2.5 py-1 rounded-lg text-xs font-bold w-fit bg-red-100 text-red-700">

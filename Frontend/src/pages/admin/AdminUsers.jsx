@@ -36,7 +36,7 @@ const AdminUsers = () => {
             icon={Shield}
             value={state.filters.role}
             onChange={(e) => actions.handleFilterChange('role', e.target.value)}
-            defaultOption="Todos los roles"
+            defaultOption="Roles: Todos"
             options={[
               { value: 'admin', label: 'Administradores' },
               { value: 'user', label: 'Usuarios' }
@@ -46,7 +46,7 @@ const AdminUsers = () => {
             icon={CheckCircle}
             value={state.filters.isVerified}
             onChange={(e) => actions.handleFilterChange('isVerified', e.target.value)}
-            defaultOption="Email: Cualquier estado"
+            defaultOption="Email: Todos"
             options={[
               { value: '1', label: 'Verificados' },
               { value: '0', label: 'No verificados' }
@@ -55,8 +55,8 @@ const AdminUsers = () => {
           <SearchFilter
             value={state.searchInput}
             onChange={actions.handleSearchChange}
-            placeholder="Buscar por email o nombre..."
-            maxWidth="max-w-sm"
+            placeholder="Buscar..."
+            maxWidth="max-w-[180px]"
           />
         </div>
       </SectionHeader>

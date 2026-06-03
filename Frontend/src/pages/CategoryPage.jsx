@@ -47,6 +47,22 @@ const CategoryPage = () => {
         )}
       </div>
 
+
+      {state.isLoadingDetailed ? (
+        <Skeleton className="mb-8 min-h-[250px] w-full rounded-3xl shadow-xl ring-1 ring-border" />
+      ) : state.isErrorDetailed ? (
+        <div className="mb-8 flex min-h-[250px] w-full items-center justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border">
+          <p className="text-text-normal text-sm">No se pudieron cargar los candidatos destacados.</p>
+        </div>
+      ) : state.sliderItems.length > 0 && (
+        <div className="mb-8 flex min-h-[250px] w-full flex-col justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border">
+          <div className="mt-6 px-8 border-b border-border pb-4">
+            <h3 className=" text-2xl md:text-3xl font-black text-text-highlight">Destacados de <span className="text-primary">esta semana</span></h3>
+          </div>
+          <InfiniteItemSlider items={state.sliderItems} onItemClick={actions.handleItemClick} />
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start ">
         <ActionMenu
           className="lg:col-span-5 w-full shadow-2xl ring-2 ring-slate-200 rounded-3xl"
@@ -74,20 +90,6 @@ const CategoryPage = () => {
         </div>
       </div>
 
-      {state.isLoadingDetailed ? (
-        <Skeleton className="mt-8 min-h-[250px] w-full rounded-3xl shadow-xl ring-1 ring-border" />
-      ) : state.isErrorDetailed ? (
-        <div className="mt-8 flex min-h-[250px] w-full items-center justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border">
-          <p className="text-text-normal text-sm">No se pudieron cargar los candidatos destacados.</p>
-        </div>
-      ) : state.sliderItems.length > 0 && (
-        <div className="mt-8 flex min-h-[250px] w-full flex-col justify-center rounded-3xl bg-surface py-4 shadow-xl ring-1 ring-border">
-          <div className="mb-6 px-8 border-b border-border pb-4">
-            <h3 className="text-3xl font-black text-text-highlight">Destacados de <span className="text-primary">esta semana</span></h3>
-          </div>
-          <InfiniteItemSlider items={state.sliderItems} onItemClick={actions.handleItemClick} />
-        </div>
-      )}
 
     </div>
   );

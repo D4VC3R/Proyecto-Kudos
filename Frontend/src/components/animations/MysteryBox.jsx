@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Gift, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import LogoKudos from "../layout/LogoKudos.jsx";
 import { gamifiedEntryVariants, floatingLoopVariants, pulseLoopVariants } from './../../lib/animations';
 
 const MysteryBox = ({ onReveal }) => {
@@ -16,9 +17,9 @@ const MysteryBox = ({ onReveal }) => {
       <motion.div
         variants={floatingLoopVariants}
         animate="animate"
-        className="relative bg-gradient-to-br from-indigo-500 to-purple-600 p-6 sm:p-8 rounded-full shadow-lg shadow-purple-500/30 mb-4 group-hover:scale-105 transition-transform"
+        className="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 sm:p-8 rounded-full shadow-lg shadow-purple-500/30 mb-4 group-hover:scale-105 transition-transform"
       >
-        <Gift size={56} className="text-text-btn" strokeWidth={1.5} />
+        <LogoKudos  className="w-14 h-14 lg:h-16 lg:w-16" />
         <motion.div
           variants={pulseLoopVariants}
           animate="animate"
@@ -29,9 +30,9 @@ const MysteryBox = ({ onReveal }) => {
       </motion.div>
 
       <h2 className="text-xl sm:text-2xl font-bold text-slate-800">
-        ¡Tu bonus diario está listo!
+        ¡Recoge tu <span className="text-primary">bonus</span> diario!
       </h2>
-      <p className="text-sm sm:text-base text-text-normal mt-2 animate-pulse">
+      <p className="text-sm sm:text-base text-accent mt-2 animate-pulse">
         Toca para abrir
       </p>
     </motion.div>

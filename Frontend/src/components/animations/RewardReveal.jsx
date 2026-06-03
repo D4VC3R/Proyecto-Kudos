@@ -5,8 +5,8 @@ import {rewardRevealVariants, popInVariants, fadeUpVariants, springPopVariants} 
 
 const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
   const isUpgraded = data.isCritical && isMultiplierActive;
-  const iconBg = isUpgraded ? 'bg-purple-100 text-purple-600 shadow-purple-200' : 'bg-amber-100 text-amber-500 shadow-amber-200';
-  const textColor = isUpgraded ? 'text-purple-600' : 'text-primary';
+  const iconBg = isUpgraded ? 'bg-accent text-yellow-900 shadow-yellow-900' : 'bg-amber-100 text-amber-500 shadow-amber-200';
+  const textColor = isUpgraded ? 'text-accent' : 'text-primary';
 
   return (
     <motion.div
@@ -23,7 +23,7 @@ const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
       </motion.div>
 
       <motion.h2 variants={popInVariants} className="text-3xl sm:text-5xl font-extrabold text-slate-800 tracking-tight">
-        ¡Día {data.streak}!
+        ¡Día <span className="text-primary">{data.streak}</span>!
       </motion.h2>
 
       <motion.div variants={fadeUpVariants} className="mt-3 flex flex-col items-center">
@@ -31,7 +31,7 @@ const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
         <span className={`font-black text-4xl sm:text-5xl transition-colors duration-700 ${textColor}`}>
           +{displayedKudos}
         </span>
-        <p className="text-sm text-text-normal font-semibold mt-1">Kudos</p>
+        <p className="text-xl text-text-highlight font-black mt-1">Kudos</p>
       </motion.div>
 
       <AnimatePresence>
@@ -41,10 +41,10 @@ const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="flex items-center gap-2 text-purple-700 font-black mt-4 bg-purple-100 px-4 py-2 rounded-full border border-purple-300 shadow-md"
+            className="flex items-center gap-2 font-black mt-4 bg-gradient-to-r from-amber-100 to-amber-50 text-amber-800 px-4 py-2 rounded-full border border-amber-300 shadow-md"
           >
-            <Zap size={18} className="animate-pulse text-purple-600" fill="currentColor" />
-            <span className="text-sm uppercase tracking-wider">¡Multiplicador x{data.multiplier}!</span>
+            <Zap size={18} className="animate-pulse text-amber-500" fill="currentColor" />
+            <span className="text-sm uppercase">¡Multiplicador x{data.multiplier}!</span>
           </motion.div>
         )}
       </AnimatePresence>

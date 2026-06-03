@@ -3,6 +3,10 @@ import axiosClient from '../../core/axiosClient.js';
 import { useSessionStore } from '../../store/useSessionStore';
 import { useBaseMutation } from '../common/useBaseMutation';
 
+/**
+ * Al iniciar sesión, se guarda el token y la información del usuario en el store de sesión, y se limpia la caché de queries para asegurar que cualquier dato relacionado con el usuario se vuelva a cargar con la nueva sesión.
+ *
+ * */
 export const useLogin = () => {
   const setSession = useSessionStore((state) => state.setSession);
   const queryClient = useQueryClient();
