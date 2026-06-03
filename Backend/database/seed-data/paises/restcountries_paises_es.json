@@ -13,16 +13,7 @@
                     "alt": "Bandera de Islas Cook",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 15040,
-                "language": "English, Cook Islands Māori",
-                "interesting_cities": [
-                    "Avarua"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Guinea",
@@ -34,16 +25,7 @@
                     "alt": "Bandera de Guinea",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 14363931,
-                "language": "French",
-                "interesting_cities": [
-                    "Conakry"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Isla de Navidad",
@@ -55,16 +37,7 @@
                     "alt": "Bandera de Isla de Navidad",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 1692,
-                "language": "English",
-                "interesting_cities": [
-                    "Flying Fish Cove"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Togo",
@@ -76,16 +49,7 @@
                     "alt": "Bandera de Togo",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 8095498,
-                "language": "French",
-                "interesting_cities": [
-                    "Lomé"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Taiwán",
@@ -97,16 +61,7 @@
                     "alt": "Bandera de Taiwán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 23317031,
-                "language": "Chinese",
-                "interesting_cities": [
-                    "Taipei"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Kirguizistán",
@@ -118,16 +73,7 @@
                     "alt": "Bandera de Kirguizistán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 7281800,
-                "language": "Kyrgyz, Russian",
-                "interesting_cities": [
-                    "Bishkek"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Surinam",
@@ -139,16 +85,7 @@
                     "alt": "Bandera de Surinam",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 616500,
-                "language": "Dutch",
-                "interesting_cities": [
-                    "Paramaribo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "República Dominicana",
@@ -160,16 +97,7 @@
                     "alt": "Bandera de República Dominicana",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 10771504,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Santo Domingo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Guatemala",
@@ -181,16 +109,7 @@
                     "alt": "Bandera de Guatemala",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 18079810,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Guatemala City"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Argelia",
@@ -202,16 +121,7 @@
                     "alt": "Bandera de Argelia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 47400000,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Algiers"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Ucrania",
@@ -223,16 +133,7 @@
                     "alt": "Bandera de Ucrania",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 32862000,
-                "language": "Ukrainian",
-                "interesting_cities": [
-                    "Kyiv"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "San Cristóbal y Nieves",
@@ -244,16 +145,7 @@
                     "alt": "Bandera de San Cristóbal y Nieves",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 51320,
-                "language": "English",
-                "interesting_cities": [
-                    "Basseterre"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Croacia",
@@ -265,16 +157,7 @@
                     "alt": "Bandera de Croacia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 3866233,
-                "language": "Croatian",
-                "interesting_cities": [
-                    "Zagreb"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Guinea Ecuatorial",
@@ -286,16 +169,7 @@
                     "alt": "Bandera de Guinea Ecuatorial",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 1668768,
-                "language": "French, Portuguese, Spanish",
-                "interesting_cities": [
-                    "Ciudad de la Paz"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Panamá",
@@ -307,16 +181,7 @@
                     "alt": "Bandera de Panamá",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 4064780,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Panama City"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bélgica",
@@ -328,16 +193,7 @@
                     "alt": "Bandera de Bélgica",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 11825551,
-                "language": "German, French, Dutch",
-                "interesting_cities": [
-                    "Brussels"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Ruanda",
@@ -349,16 +205,7 @@
                     "alt": "Bandera de Ruanda",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 14104969,
-                "language": "English, French, Kinyarwanda",
-                "interesting_cities": [
-                    "Kigali"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Cabo Verde",
@@ -370,16 +217,7 @@
                     "alt": "Bandera de Cabo Verde",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 491233,
-                "language": "Portuguese",
-                "interesting_cities": [
-                    "Praia"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Corea del Sur",
@@ -391,16 +229,7 @@
                     "alt": "Bandera de Corea del Sur",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 51159889,
-                "language": "Korean",
-                "interesting_cities": [
-                    "Seoul"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Guam",
@@ -412,16 +241,7 @@
                     "alt": "Bandera de Guam",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 153836,
-                "language": "Chamorro, English, Spanish",
-                "interesting_cities": [
-                    "Hagåtña"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Andorra",
@@ -433,16 +253,7 @@
                     "alt": "Bandera de Andorra",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 88406,
-                "language": "Catalan",
-                "interesting_cities": [
-                    "Andorra la Vella"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Senegal",
@@ -454,16 +265,7 @@
                     "alt": "Bandera de Senegal",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 18593258,
-                "language": "French",
-                "interesting_cities": [
-                    "Dakar"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Uruguay",
@@ -475,16 +277,7 @@
                     "alt": "Bandera de Uruguay",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 3499451,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Montevideo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Congo",
@@ -496,16 +289,7 @@
                     "alt": "Bandera de Congo",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 6142180,
-                "language": "French, Kikongo, Lingala",
-                "interesting_cities": [
-                    "Brazzaville"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Namibia",
@@ -517,16 +301,7 @@
                     "alt": "Bandera de Namibia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 3022401,
-                "language": "Afrikaans, German, English",
-                "interesting_cities": [
-                    "Windhoek"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Singapur",
@@ -538,16 +313,7 @@
                     "alt": "Bandera de Singapur",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 6110200,
-                "language": "English, Chinese, Malay",
-                "interesting_cities": [
-                    "Singapore"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Finlandia",
@@ -559,16 +325,7 @@
                     "alt": "Bandera de Finlandia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 5650325,
-                "language": "Finnish, Swedish",
-                "interesting_cities": [
-                    "Helsinki"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Egipto",
@@ -580,16 +337,7 @@
                     "alt": "Bandera de Egipto",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 107271260,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Cairo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Palau",
@@ -601,16 +349,7 @@
                     "alt": "Bandera de Palau",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 16733,
-                "language": "English, Palauan",
-                "interesting_cities": [
-                    "Ngerulmud"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Samoa Americana",
@@ -622,16 +361,7 @@
                     "alt": "Bandera de Samoa Americana",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 49710,
-                "language": "English, Samoan",
-                "interesting_cities": [
-                    "Pago Pago"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Antigua y Barbuda",
@@ -643,16 +373,7 @@
                     "alt": "Bandera de Antigua y Barbuda",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 103603,
-                "language": "English",
-                "interesting_cities": [
-                    "Saint John's"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Seychelles",
@@ -664,16 +385,7 @@
                     "alt": "Bandera de Seychelles",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 122729,
-                "language": "Seychellois Creole, English, French",
-                "interesting_cities": [
-                    "Victoria"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Kuwait",
@@ -685,16 +397,7 @@
                     "alt": "Bandera de Kuwait",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 4881254,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Kuwait City"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Grecia",
@@ -706,16 +409,7 @@
                     "alt": "Bandera de Grecia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 10400720,
-                "language": "Greek",
-                "interesting_cities": [
-                    "Athens"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Kiribati",
@@ -727,16 +421,7 @@
                     "alt": "Bandera de Kiribati",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 120740,
-                "language": "English, Gilbertese",
-                "interesting_cities": [
-                    "South Tarawa"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Chipre",
@@ -748,16 +433,7 @@
                     "alt": "Bandera de Chipre",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 1442614,
-                "language": "Greek, Turkish",
-                "interesting_cities": [
-                    "Nicosia"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Mali",
@@ -769,16 +445,7 @@
                     "alt": "Bandera de Mali",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 22395489,
-                "language": "French",
-                "interesting_cities": [
-                    "Bamako"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bermudas",
@@ -790,16 +457,7 @@
                     "alt": "Bandera de Bermudas",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 64055,
-                "language": "English",
-                "interesting_cities": [
-                    "Hamilton"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Groenlandia",
@@ -811,16 +469,7 @@
                     "alt": "Bandera de Groenlandia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 56542,
-                "language": "Greenlandic",
-                "interesting_cities": [
-                    "Nuuk"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Eritrea",
@@ -832,16 +481,7 @@
                     "alt": "Bandera de Eritrea",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 3607000,
-                "language": "Arabic, English, Tigrinya",
-                "interesting_cities": [
-                    "Asmara"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Tanzania",
@@ -853,16 +493,7 @@
                     "alt": "Bandera de Tanzania",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 68153004,
-                "language": "English, Swahili",
-                "interesting_cities": [
-                    "Dodoma"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Vietnam",
@@ -874,16 +505,7 @@
                     "alt": "Bandera de Vietnam",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 101343800,
-                "language": "Vietnamese",
-                "interesting_cities": [
-                    "Hanoi"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Chad",
@@ -895,16 +517,7 @@
                     "alt": "Bandera de Chad",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 19340757,
-                "language": "Arabic, French",
-                "interesting_cities": [
-                    "N'Djamena"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Costa de Marfil",
@@ -916,16 +529,7 @@
                     "alt": "Bandera de Costa de Marfil",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 31719275,
-                "language": "French",
-                "interesting_cities": [
-                    "Yamoussoukro"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Georgia",
@@ -937,16 +541,7 @@
                     "alt": "Bandera de Georgia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 4000921,
-                "language": "Georgian",
-                "interesting_cities": [
-                    "Tbilisi"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Isla de Man",
@@ -958,16 +553,7 @@
                     "alt": "Bandera de Isla de Man",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 84530,
-                "language": "English, Manx",
-                "interesting_cities": [
-                    "Douglas"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bolivia",
@@ -979,16 +565,7 @@
                     "alt": "Bandera de Bolivia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 11365333,
-                "language": "Aymara, Guaraní, Quechua",
-                "interesting_cities": [
-                    "Sucre"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Ultramarinas Menores de Estados Unidos",
@@ -1000,16 +577,7 @@
                     "alt": "Bandera de Islas Ultramarinas Menores de Estados Unidos",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 0,
-                "language": "English",
-                "interesting_cities": [
-                    "Washington DC"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Dinamarca",
@@ -1021,16 +589,7 @@
                     "alt": "Bandera de Dinamarca",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 6011488,
-                "language": "Danish",
-                "interesting_cities": [
-                    "Copenhagen"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Turkmenistán",
@@ -1042,16 +601,7 @@
                     "alt": "Bandera de Turkmenistán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 7057841,
-                "language": "Russian, Turkmen",
-                "interesting_cities": [
-                    "Ashgabat"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Níger",
@@ -1063,16 +613,7 @@
                     "alt": "Bandera de Níger",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 26312034,
-                "language": "French",
-                "interesting_cities": [
-                    "Niamey"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Micronesia",
@@ -1084,16 +625,7 @@
                     "alt": "Bandera de Micronesia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 105564,
-                "language": "English",
-                "interesting_cities": [
-                    "Palikir"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Jersey",
@@ -1105,16 +637,7 @@
                     "alt": "Bandera de Jersey",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 103267,
-                "language": "English, French, Jèrriais",
-                "interesting_cities": [
-                    "Saint Helier"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Caimán",
@@ -1126,16 +649,7 @@
                     "alt": "Bandera de Islas Caimán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 84738,
-                "language": "English",
-                "interesting_cities": [
-                    "George Town"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Liechtenstein",
@@ -1147,16 +661,7 @@
                     "alt": "Bandera de Liechtenstein",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 40900,
-                "language": "German",
-                "interesting_cities": [
-                    "Vaduz"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bosnia y Herzegovina",
@@ -1168,16 +673,7 @@
                     "alt": "Bandera de Bosnia y Herzegovina",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 3422000,
-                "language": "Bosnian, Croatian, Serbian",
-                "interesting_cities": [
-                    "Sarajevo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Francia",
@@ -1189,16 +685,7 @@
                     "alt": "Bandera de Francia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 66351959,
-                "language": "French",
-                "interesting_cities": [
-                    "Paris"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Polinesia Francesa",
@@ -1210,16 +697,7 @@
                     "alt": "Bandera de Polinesia Francesa",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 279500,
-                "language": "French",
-                "interesting_cities": [
-                    "Papeetē"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Kazajistán",
@@ -1231,16 +709,7 @@
                     "alt": "Bandera de Kazajistán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 20426568,
-                "language": "Kazakh, Russian",
-                "interesting_cities": [
-                    "Astana"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Angola",
@@ -1252,16 +721,7 @@
                     "alt": "Bandera de Angola",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 36170961,
-                "language": "Portuguese",
-                "interesting_cities": [
-                    "Luanda"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Nueva Zelanda",
@@ -1273,16 +733,7 @@
                     "alt": "Bandera de Nueva Zelanda",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 5324700,
-                "language": "English, Māori, New Zealand Sign Language",
-                "interesting_cities": [
-                    "Wellington"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Puerto Rico",
@@ -1294,16 +745,7 @@
                     "alt": "Bandera de Puerto Rico",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 3203295,
-                "language": "English, Spanish",
-                "interesting_cities": [
-                    "San Juan"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Arabia Saudí",
@@ -1315,16 +757,7 @@
                     "alt": "Bandera de Arabia Saudí",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 35300280,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Riyadh"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Montenegro",
@@ -1336,16 +769,7 @@
                     "alt": "Bandera de Montenegro",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 623327,
-                "language": "Montenegrin",
-                "interesting_cities": [
-                    "Podgorica"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Sudáfrica",
@@ -1357,18 +781,7 @@
                     "alt": "Bandera de Sudáfrica",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 63100945,
-                "language": "Afrikaans, English, Southern Ndebele",
-                "interesting_cities": [
-                    "Pretoria",
-                    "Bloemfontein",
-                    "Cape Town"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Pakistán",
@@ -1380,16 +793,7 @@
                     "alt": "Bandera de Pakistán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 241499431,
-                "language": "English, Urdu",
-                "interesting_cities": [
-                    "Islamabad"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Sri Lanka",
@@ -1401,16 +805,7 @@
                     "alt": "Bandera de Sri Lanka",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 21763170,
-                "language": "Sinhala, Tamil",
-                "interesting_cities": [
-                    "Sri Jayawardenepura Kotte"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Camerún",
@@ -1422,16 +817,7 @@
                     "alt": "Bandera de Camerún",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 29442327,
-                "language": "English, French",
-                "interesting_cities": [
-                    "Yaoundé"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Guernsey",
@@ -1443,16 +829,7 @@
                     "alt": "Bandera de Guernsey",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 64781,
-                "language": "English, French, Guernésiais",
-                "interesting_cities": [
-                    "St. Peter Port"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Liberia",
@@ -1464,16 +841,7 @@
                     "alt": "Bandera de Liberia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 5248621,
-                "language": "English",
-                "interesting_cities": [
-                    "Monrovia"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Emiratos Árabes Unidos",
@@ -1485,16 +853,7 @@
                     "alt": "Bandera de Emiratos Árabes Unidos",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 11294243,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Abu Dhabi"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Suiza",
@@ -1506,16 +865,7 @@
                     "alt": "Bandera de Suiza",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 9082848,
-                "language": "French, Swiss German, Italian",
-                "interesting_cities": [
-                    "Bern"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Hungría",
@@ -1527,16 +877,7 @@
                     "alt": "Bandera de Hungría",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 9539502,
-                "language": "Hungarian",
-                "interesting_cities": [
-                    "Budapest"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Libia",
@@ -1548,16 +889,7 @@
                     "alt": "Bandera de Libia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 7459000,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Tripoli"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Vanuatu",
@@ -1569,16 +901,7 @@
                     "alt": "Bandera de Vanuatu",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 321409,
-                "language": "Bislama, English, French",
-                "interesting_cities": [
-                    "Port Vila"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Wallis y Futuna",
@@ -1590,16 +913,7 @@
                     "alt": "Bandera de Wallis y Futuna",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 11620,
-                "language": "French",
-                "interesting_cities": [
-                    "Mata-Utu"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Santa Lucía",
@@ -1611,16 +925,7 @@
                     "alt": "Bandera de Santa Lucía",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 184100,
-                "language": "English",
-                "interesting_cities": [
-                    "Castries"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "República Centroafricana",
@@ -1632,16 +937,7 @@
                     "alt": "Bandera de República Centroafricana",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 6470307,
-                "language": "French, Sango",
-                "interesting_cities": [
-                    "Bangui"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Tayikistán",
@@ -1653,16 +949,7 @@
                     "alt": "Bandera de Tayikistán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 10499000,
-                "language": "Russian, Tajik",
-                "interesting_cities": [
-                    "Dushanbe"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Irlanda",
@@ -1674,16 +961,7 @@
                     "alt": "Bandera de Irlanda",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 5458600,
-                "language": "English, Irish",
-                "interesting_cities": [
-                    "Dublin"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Nueva Caledonia",
@@ -1695,16 +973,7 @@
                     "alt": "Bandera de Nueva Caledonia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 264596,
-                "language": "French",
-                "interesting_cities": [
-                    "Nouméa"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Yemen",
@@ -1716,16 +985,7 @@
                     "alt": "Bandera de Yemen",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 32684503,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Sana'a"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Faroe",
@@ -1737,16 +997,7 @@
                     "alt": "Bandera de Islas Faroe",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 54885,
-                "language": "Danish, Faroese",
-                "interesting_cities": [
-                    "Tórshavn"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Cuba",
@@ -1758,16 +1009,7 @@
                     "alt": "Bandera de Cuba",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 9748007,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Havana"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Azerbaiyán",
@@ -1779,16 +1021,7 @@
                     "alt": "Bandera de Azerbaiyán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 10241722,
-                "language": "Azerbaijani",
-                "interesting_cities": [
-                    "Baku"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Salomón",
@@ -1800,16 +1033,7 @@
                     "alt": "Bandera de Islas Salomón",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 750325,
-                "language": "English",
-                "interesting_cities": [
-                    "Honiara"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Jamaica",
@@ -1821,16 +1045,7 @@
                     "alt": "Bandera de Jamaica",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 2825544,
-                "language": "English, Jamaican Patois",
-                "interesting_cities": [
-                    "Kingston"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Marruecos",
@@ -1842,16 +1057,7 @@
                     "alt": "Bandera de Marruecos",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 36828330,
-                "language": "Arabic, Berber",
-                "interesting_cities": [
-                    "Rabat"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Trinidad y Tobago",
@@ -1863,16 +1069,7 @@
                     "alt": "Bandera de Trinidad y Tobago",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 1367764,
-                "language": "English",
-                "interesting_cities": [
-                    "Port of Spain"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Mayotte",
@@ -1884,16 +1081,7 @@
                     "alt": "Bandera de Mayotte",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 320901,
-                "language": "French",
-                "interesting_cities": [
-                    "Mamoudzou"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Niue",
@@ -1905,16 +1093,7 @@
                     "alt": "Bandera de Niue",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 1681,
-                "language": "English, Niuean",
-                "interesting_cities": [
-                    "Alofi"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Belice",
@@ -1926,16 +1105,7 @@
                     "alt": "Bandera de Belice",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 417634,
-                "language": "Belizean Creole, English, Spanish",
-                "interesting_cities": [
-                    "Belmopan"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "China",
@@ -1947,16 +1117,7 @@
                     "alt": "Bandera de China",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 1408280000,
-                "language": "Chinese",
-                "interesting_cities": [
-                    "Beijing"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Samoa",
@@ -1968,16 +1129,7 @@
                     "alt": "Bandera de Samoa",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 205557,
-                "language": "English, Samoan",
-                "interesting_cities": [
-                    "Apia"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Vírgenes del Reino Unido",
@@ -1989,16 +1141,7 @@
                     "alt": "Bandera de Islas Vírgenes del Reino Unido",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 39471,
-                "language": "English",
-                "interesting_cities": [
-                    "Road Town"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Sudán",
@@ -2010,16 +1153,7 @@
                     "alt": "Bandera de Sudán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 51662000,
-                "language": "Arabic, English",
-                "interesting_cities": [
-                    "Khartoum"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Isla de Norfolk",
@@ -2031,16 +1165,7 @@
                     "alt": "Bandera de Isla de Norfolk",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 2188,
-                "language": "English, Norfuk",
-                "interesting_cities": [
-                    "Kingston"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "República Eslovaca",
@@ -2052,16 +1177,7 @@
                     "alt": "Bandera de República Eslovaca",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 5413813,
-                "language": "Slovak",
-                "interesting_cities": [
-                    "Bratislava"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Burundi",
@@ -2073,16 +1189,7 @@
                     "alt": "Bandera de Burundi",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 12332788,
-                "language": "French, Kirundi",
-                "interesting_cities": [
-                    "Gitega"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Marshall",
@@ -2094,16 +1201,7 @@
                     "alt": "Bandera de Islas Marshall",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 42418,
-                "language": "English, Marshallese",
-                "interesting_cities": [
-                    "Majuro"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Austria",
@@ -2115,16 +1213,7 @@
                     "alt": "Bandera de Austria",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 9200931,
-                "language": "German",
-                "interesting_cities": [
-                    "Vienna"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Mozambique",
@@ -2136,16 +1225,7 @@
                     "alt": "Bandera de Mozambique",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 34090466,
-                "language": "Portuguese",
-                "interesting_cities": [
-                    "Maputo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "San Vicente y Granadinas",
@@ -2157,16 +1237,7 @@
                     "alt": "Bandera de San Vicente y Granadinas",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 110872,
-                "language": "English",
-                "interesting_cities": [
-                    "Kingstown"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Papúa Nueva Guinea",
@@ -2178,16 +1249,7 @@
                     "alt": "Bandera de Papúa Nueva Guinea",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 11781559,
-                "language": "English, Hiri Motu, Tok Pisin",
-                "interesting_cities": [
-                    "Port Moresby"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Turquía",
@@ -2199,16 +1261,7 @@
                     "alt": "Bandera de Turquía",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 85664944,
-                "language": "Turkish",
-                "interesting_cities": [
-                    "Ankara"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Kosovo",
@@ -2220,16 +1273,7 @@
                     "alt": "Bandera de Kosovo",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 1585566,
-                "language": "Albanian, Serbian",
-                "interesting_cities": [
-                    "Pristina"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Grenada",
@@ -2241,16 +1285,7 @@
                     "alt": "Bandera de Grenada",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 109021,
-                "language": "English",
-                "interesting_cities": [
-                    "St. George's"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Camboya",
@@ -2262,16 +1297,7 @@
                     "alt": "Bandera de Camboya",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 17577760,
-                "language": "Khmer",
-                "interesting_cities": [
-                    "Phnom Penh"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Portugal",
@@ -2283,16 +1309,7 @@
                     "alt": "Bandera de Portugal",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 10749635,
-                "language": "Portuguese",
-                "interesting_cities": [
-                    "Lisbon"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Reino Unido",
@@ -2304,16 +1321,7 @@
                     "alt": "Bandera de Reino Unido",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 69281437,
-                "language": "English",
-                "interesting_cities": [
-                    "London"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Nigeria",
@@ -2325,16 +1333,7 @@
                     "alt": "Bandera de Nigeria",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 223800000,
-                "language": "English",
-                "interesting_cities": [
-                    "Abuja"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Anguilla",
@@ -2346,16 +1345,7 @@
                     "alt": "Bandera de Anguilla",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 16010,
-                "language": "English",
-                "interesting_cities": [
-                    "The Valley"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Marianas del Norte",
@@ -2367,16 +1357,7 @@
                     "alt": "Bandera de Islas Marianas del Norte",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 47329,
-                "language": "Carolinian, Chamorro, English",
-                "interesting_cities": [
-                    "Saipan"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Israel",
@@ -2388,16 +1369,7 @@
                     "alt": "Bandera de Israel",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 10134800,
-                "language": "Arabic, Hebrew",
-                "interesting_cities": [
-                    "Jerusalem"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Guayana Francesa",
@@ -2409,16 +1381,7 @@
                     "alt": "Bandera de Guayana Francesa",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 292354,
-                "language": "French",
-                "interesting_cities": [
-                    "Cayenne"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Líbano",
@@ -2430,16 +1393,7 @@
                     "alt": "Bandera de Líbano",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 5490000,
-                "language": "Arabic, French",
-                "interesting_cities": [
-                    "Beirut"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Japón",
@@ -2451,16 +1405,7 @@
                     "alt": "Bandera de Japón",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 123210000,
-                "language": "Japanese",
-                "interesting_cities": [
-                    "Tokyo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Gambia",
@@ -2472,16 +1417,7 @@
                     "alt": "Bandera de Gambia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 2422712,
-                "language": "English",
-                "interesting_cities": [
-                    "Banjul"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Saint Martin",
@@ -2493,16 +1429,7 @@
                     "alt": "Bandera de Saint Martin",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 31496,
-                "language": "French",
-                "interesting_cities": [
-                    "Marigot"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Guinea-Bisáu",
@@ -2514,16 +1441,7 @@
                     "alt": "Bandera de Guinea-Bisáu",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 1781308,
-                "language": "Portuguese, Upper Guinea Creole",
-                "interesting_cities": [
-                    "Bissau"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Laos",
@@ -2535,16 +1453,7 @@
                     "alt": "Bandera de Laos",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 7647000,
-                "language": "Lao",
-                "interesting_cities": [
-                    "Vientiane"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Macedonia del Norte",
@@ -2556,16 +1465,7 @@
                     "alt": "Bandera de Macedonia del Norte",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 1822612,
-                "language": "Macedonian",
-                "interesting_cities": [
-                    "Skopje"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Catar",
@@ -2577,16 +1477,7 @@
                     "alt": "Bandera de Catar",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 3173024,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Doha"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Zambia",
@@ -2598,16 +1489,7 @@
                     "alt": "Bandera de Zambia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 19693423,
-                "language": "English",
-                "interesting_cities": [
-                    "Lusaka"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Barbados",
@@ -2619,16 +1501,7 @@
                     "alt": "Bandera de Barbados",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 267800,
-                "language": "English",
-                "interesting_cities": [
-                    "Bridgetown"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Ciudad del Vaticano",
@@ -2640,16 +1513,7 @@
                     "alt": "Bandera de Ciudad del Vaticano",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 882,
-                "language": "Italian, Latin",
-                "interesting_cities": [
-                    "Vatican City"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Italia",
@@ -2661,16 +1525,7 @@
                     "alt": "Bandera de Italia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 58927633,
-                "language": "Italian, Catalan",
-                "interesting_cities": [
-                    "Rome"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Comoras",
@@ -2682,16 +1537,7 @@
                     "alt": "Bandera de Comoras",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 919901,
-                "language": "Arabic, French, Comorian",
-                "interesting_cities": [
-                    "Moroni"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Albania",
@@ -2703,16 +1549,7 @@
                     "alt": "Bandera de Albania",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 2363314,
-                "language": "Albanian",
-                "interesting_cities": [
-                    "Tirana"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Gibraltar",
@@ -2724,16 +1561,7 @@
                     "alt": "Bandera de Gibraltar",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 38000,
-                "language": "English",
-                "interesting_cities": [
-                    "Gibraltar"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Mongolia",
@@ -2745,16 +1573,7 @@
                     "alt": "Bandera de Mongolia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 3544835,
-                "language": "Mongolian",
-                "interesting_cities": [
-                    "Ulan Bator"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Tonga",
@@ -2766,16 +1585,7 @@
                     "alt": "Bandera de Tonga",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 100179,
-                "language": "English, Tongan",
-                "interesting_cities": [
-                    "Nuku'alofa"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Madagascar",
@@ -2787,16 +1597,7 @@
                     "alt": "Bandera de Madagascar",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 31727042,
-                "language": "French, Malagasy",
-                "interesting_cities": [
-                    "Antananarivo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "San Pedro y Miquelón",
@@ -2808,16 +1609,7 @@
                     "alt": "Bandera de San Pedro y Miquelón",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 5819,
-                "language": "French",
-                "interesting_cities": [
-                    "Saint-Pierre"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Santa Elena, Ascensión y Tristán de Acuña",
@@ -2829,16 +1621,7 @@
                     "alt": "Bandera de Santa Elena, Ascensión y Tristán de Acuña",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 5651,
-                "language": "English",
-                "interesting_cities": [
-                    "Jamestown"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Mónaco",
@@ -2850,16 +1633,7 @@
                     "alt": "Bandera de Mónaco",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 38423,
-                "language": "French",
-                "interesting_cities": [
-                    "Monaco"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Brasil",
@@ -2871,16 +1645,7 @@
                     "alt": "Bandera de Brasil",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 213421037,
-                "language": "Portuguese",
-                "interesting_cities": [
-                    "Brasília"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Australia",
@@ -2892,16 +1657,7 @@
                     "alt": "Bandera de Australia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 27536874,
-                "language": "English",
-                "interesting_cities": [
-                    "Canberra"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Guyana",
@@ -2913,16 +1669,7 @@
                     "alt": "Bandera de Guyana",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 772975,
-                "language": "English",
-                "interesting_cities": [
-                    "Georgetown"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Eslovenia",
@@ -2934,16 +1681,7 @@
                     "alt": "Bandera de Eslovenia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 2130638,
-                "language": "Slovene",
-                "interesting_cities": [
-                    "Ljubljana"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "San Marino",
@@ -2955,16 +1693,7 @@
                     "alt": "Bandera de San Marino",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 34132,
-                "language": "Italian",
-                "interesting_cities": [
-                    "City of San Marino"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Tokelau",
@@ -2976,16 +1705,7 @@
                     "alt": "Bandera de Islas Tokelau",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 2608,
-                "language": "English, Samoan, Tokelauan",
-                "interesting_cities": [
-                    "Fakaofo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Palestina",
@@ -2997,17 +1717,7 @@
                     "alt": "Bandera de Palestina",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 5483450,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Ramallah",
-                    "Jerusalem"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bután",
@@ -3019,16 +1729,7 @@
                     "alt": "Bandera de Bután",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 784043,
-                "language": "Dzongkha",
-                "interesting_cities": [
-                    "Thimphu"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Sint Maarten",
@@ -3040,16 +1741,7 @@
                     "alt": "Bandera de Sint Maarten",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 41349,
-                "language": "English, French, Dutch",
-                "interesting_cities": [
-                    "Philipsburg"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Filipinas",
@@ -3061,16 +1753,7 @@
                     "alt": "Bandera de Filipinas",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 114123600,
-                "language": "English, Filipino",
-                "interesting_cities": [
-                    "Manila"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Chile",
@@ -3082,16 +1765,7 @@
                     "alt": "Bandera de Chile",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 20206953,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Santiago"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Martinica",
@@ -3103,16 +1777,7 @@
                     "alt": "Bandera de Martinica",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 349925,
-                "language": "French",
-                "interesting_cities": [
-                    "Fort-de-France"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Haití",
@@ -3124,16 +1789,7 @@
                     "alt": "Bandera de Haití",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 11867032,
-                "language": "French, Haitian Creole",
-                "interesting_cities": [
-                    "Port-au-Prince"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Santo Tomé y Príncipe",
@@ -3145,16 +1801,7 @@
                     "alt": "Bandera de Santo Tomé y Príncipe",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 209607,
-                "language": "Portuguese",
-                "interesting_cities": [
-                    "São Tomé"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Macao",
@@ -3166,14 +1813,7 @@
                     "alt": "Bandera de Macao",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 685900,
-                "language": "Portuguese, Chinese",
-                "interesting_cities": [],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Mauricio",
@@ -3185,16 +1825,7 @@
                     "alt": "Bandera de Mauricio",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 1243741,
-                "language": "English, French, Mauritian Creole",
-                "interesting_cities": [
-                    "Port Louis"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bahrein",
@@ -3206,16 +1837,7 @@
                     "alt": "Bandera de Bahrein",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 1594654,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Manama"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "México",
@@ -3227,16 +1849,7 @@
                     "alt": "Bandera de México",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 130575786,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Mexico City"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Pitcairn",
@@ -3248,16 +1861,7 @@
                     "alt": "Bandera de Islas Pitcairn",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 35,
-                "language": "English",
-                "interesting_cities": [
-                    "Adamstown"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Argentina",
@@ -3269,16 +1873,7 @@
                     "alt": "Bandera de Argentina",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 46735004,
-                "language": "Guaraní, Spanish",
-                "interesting_cities": [
-                    "Buenos Aires"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Nepal",
@@ -3290,16 +1885,7 @@
                     "alt": "Bandera de Nepal",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 29911840,
-                "language": "Nepali",
-                "interesting_cities": [
-                    "Kathmandu"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Suecia",
@@ -3311,16 +1897,7 @@
                     "alt": "Bandera de Suecia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 10605098,
-                "language": "Swedish",
-                "interesting_cities": [
-                    "Stockholm"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Sierra Leone",
@@ -3332,16 +1909,7 @@
                     "alt": "Bandera de Sierra Leone",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 9077691,
-                "language": "English",
-                "interesting_cities": [
-                    "Freetown"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Suazilandia",
@@ -3353,16 +1921,7 @@
                     "alt": "Bandera de Suazilandia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 1235549,
-                "language": "English, Swazi",
-                "interesting_cities": [
-                    "Mbabane"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "España",
@@ -3374,16 +1933,7 @@
                     "alt": "Bandera de España",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 49315949,
-                "language": "Spanish, Catalan, Basque",
-                "interesting_cities": [
-                    "Madrid"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Colombia",
@@ -3395,16 +1945,7 @@
                     "alt": "Bandera de Colombia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 53057212,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Bogotá"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Turks y Caicos",
@@ -3416,16 +1957,7 @@
                     "alt": "Bandera de Islas Turks y Caicos",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 50828,
-                "language": "English",
-                "interesting_cities": [
-                    "Cockburn Town"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Djibouti",
@@ -3437,16 +1969,7 @@
                     "alt": "Bandera de Djibouti",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 1066809,
-                "language": "Arabic, French",
-                "interesting_cities": [
-                    "Djibouti"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Nauru",
@@ -3458,16 +1981,7 @@
                     "alt": "Bandera de Nauru",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 11680,
-                "language": "English, Nauru",
-                "interesting_cities": [
-                    "Yaren"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "El Salvador",
@@ -3479,16 +1993,7 @@
                     "alt": "Bandera de El Salvador",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 6029976,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "San Salvador"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Alandia",
@@ -3500,16 +2005,7 @@
                     "alt": "Bandera de Alandia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 30654,
-                "language": "Swedish",
-                "interesting_cities": [
-                    "Mariehamn"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Guadalupe",
@@ -3521,16 +2017,7 @@
                     "alt": "Bandera de Guadalupe",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 378561,
-                "language": "French",
-                "interesting_cities": [
-                    "Basse-Terre"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Honduras",
@@ -3542,16 +2029,7 @@
                     "alt": "Bandera de Honduras",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 9892632,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Tegucigalpa"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Kenia",
@@ -3563,16 +2041,7 @@
                     "alt": "Bandera de Kenia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 53330978,
-                "language": "English, Swahili",
-                "interesting_cities": [
-                    "Nairobi"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Malta",
@@ -3584,16 +2053,7 @@
                     "alt": "Bandera de Malta",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 574250,
-                "language": "English, Maltese",
-                "interesting_cities": [
-                    "Valletta"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Letonia",
@@ -3605,16 +2065,7 @@
                     "alt": "Bandera de Letonia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 1829000,
-                "language": "Latvian",
-                "interesting_cities": [
-                    "Riga"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Gabón",
@@ -3626,16 +2077,7 @@
                     "alt": "Bandera de Gabón",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 2469296,
-                "language": "French",
-                "interesting_cities": [
-                    "Libreville"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Hong Kong",
@@ -3647,16 +2089,7 @@
                     "alt": "Bandera de Hong Kong",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 7527500,
-                "language": "English, Chinese",
-                "interesting_cities": [
-                    "City of Victoria"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Svalbard y Jan Mayen",
@@ -3668,16 +2101,7 @@
                     "alt": "Bandera de Islas Svalbard y Jan Mayen",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 2530,
-                "language": "Norwegian",
-                "interesting_cities": [
-                    "Longyearbyen"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Tuvalu",
@@ -3689,16 +2113,7 @@
                     "alt": "Bandera de Tuvalu",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 10643,
-                "language": "English, Tuvaluan",
-                "interesting_cities": [
-                    "Funafuti"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Timor Oriental",
@@ -3710,16 +2125,7 @@
                     "alt": "Bandera de Timor Oriental",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 1391221,
-                "language": "Portuguese, Tetum",
-                "interesting_cities": [
-                    "Dili"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Sahara Occidental",
@@ -3731,16 +2137,7 @@
                     "alt": "Bandera de Sahara Occidental",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 600904,
-                "language": "Berber, Hassaniya, Spanish",
-                "interesting_cities": [
-                    "El Aaiún"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Lesotho",
@@ -3752,16 +2149,7 @@
                     "alt": "Bandera de Lesotho",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 2116427,
-                "language": "English, Sotho",
-                "interesting_cities": [
-                    "Maseru"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Estados Unidos",
@@ -3773,16 +2161,7 @@
                     "alt": "Bandera de Estados Unidos",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 340110988,
-                "language": "English",
-                "interesting_cities": [
-                    "Washington, D.C."
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Tailandia",
@@ -3794,16 +2173,7 @@
                     "alt": "Bandera de Tailandia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 65859640,
-                "language": "Thai",
-                "interesting_cities": [
-                    "Bangkok"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Territorio Británico del Océano Índico",
@@ -3815,16 +2185,7 @@
                     "alt": "Bandera de Territorio Británico del Océano Índico",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 0,
-                "language": "English",
-                "interesting_cities": [
-                    "Diego Garcia"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "India",
@@ -3836,16 +2197,7 @@
                     "alt": "Bandera de India",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 1417492000,
-                "language": "English, Hindi, Tamil",
-                "interesting_cities": [
-                    "New Delhi"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Lituania",
@@ -3857,16 +2209,7 @@
                     "alt": "Bandera de Lituania",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 2894886,
-                "language": "Lithuanian",
-                "interesting_cities": [
-                    "Vilnius"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Montserrat",
@@ -3878,16 +2221,7 @@
                     "alt": "Bandera de Montserrat",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 4386,
-                "language": "English",
-                "interesting_cities": [
-                    "Plymouth"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Zimbabue",
@@ -3899,16 +2233,7 @@
                     "alt": "Bandera de Zimbabue",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 17073087,
-                "language": "Chibarwe, English, Kalanga",
-                "interesting_cities": [
-                    "Harare"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Malvinas",
@@ -3920,16 +2245,7 @@
                     "alt": "Bandera de Islas Malvinas",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 3662,
-                "language": "English",
-                "interesting_cities": [
-                    "Stanley"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Maldivas",
@@ -3941,16 +2257,7 @@
                     "alt": "Bandera de Maldivas",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 515132,
-                "language": "Maldivian",
-                "interesting_cities": [
-                    "Malé"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Túnez",
@@ -3962,16 +2269,7 @@
                     "alt": "Bandera de Túnez",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 11972169,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Tunis"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Estonia",
@@ -3983,16 +2281,7 @@
                     "alt": "Bandera de Estonia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 1369995,
-                "language": "Estonian",
-                "interesting_cities": [
-                    "Tallinn"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bangladesh",
@@ -4004,16 +2293,7 @@
                     "alt": "Bandera de Bangladesh",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 169828911,
-                "language": "Bengali",
-                "interesting_cities": [
-                    "Dhaka"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Uzbekistán",
@@ -4025,16 +2305,7 @@
                     "alt": "Bandera de Uzbekistán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 37859698,
-                "language": "Russian, Uzbek",
-                "interesting_cities": [
-                    "Tashkent"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Ghana",
@@ -4046,16 +2317,7 @@
                     "alt": "Bandera de Ghana",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 33742380,
-                "language": "English",
-                "interesting_cities": [
-                    "Accra"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Noruega",
@@ -4067,16 +2329,7 @@
                     "alt": "Bandera de Noruega",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 5606944,
-                "language": "Norwegian Nynorsk, Norwegian Bokmål, Sami",
-                "interesting_cities": [
-                    "Oslo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Somalia",
@@ -4088,16 +2341,7 @@
                     "alt": "Bandera de Somalia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 19655000,
-                "language": "Arabic, Somali",
-                "interesting_cities": [
-                    "Mogadishu"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bahamas",
@@ -4109,16 +2353,7 @@
                     "alt": "Bandera de Bahamas",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 398165,
-                "language": "English",
-                "interesting_cities": [
-                    "Nassau"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Omán",
@@ -4130,16 +2365,7 @@
                     "alt": "Bandera de Omán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 5343630,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Muscat"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Luxemburgo",
@@ -4151,16 +2377,7 @@
                     "alt": "Bandera de Luxemburgo",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 681973,
-                "language": "German, French, Luxembourgish",
-                "interesting_cities": [
-                    "Luxembourg"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Irak",
@@ -4172,16 +2389,7 @@
                     "alt": "Bandera de Irak",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 46118793,
-                "language": "Arabic, Aramaic, Sorani",
-                "interesting_cities": [
-                    "Baghdad"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Vírgenes de los Estados Unidos",
@@ -4193,16 +2401,7 @@
                     "alt": "Bandera de Islas Vírgenes de los Estados Unidos",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 87146,
-                "language": "English",
-                "interesting_cities": [
-                    "Charlotte Amalie"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Mauritania",
@@ -4214,16 +2413,7 @@
                     "alt": "Bandera de Mauritania",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 4927532,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Nouakchott"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Canadá",
@@ -4235,16 +2425,7 @@
                     "alt": "Bandera de Canadá",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 41651653,
-                "language": "English, French",
-                "interesting_cities": [
-                    "Ottawa"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Myanmar",
@@ -4256,16 +2437,7 @@
                     "alt": "Bandera de Myanmar",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 51316756,
-                "language": "Burmese",
-                "interesting_cities": [
-                    "Naypyidaw"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Malasia",
@@ -4277,16 +2449,7 @@
                     "alt": "Bandera de Malasia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 34231700,
-                "language": "English, Malay",
-                "interesting_cities": [
-                    "Kuala Lumpur"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islas Cocos o Islas Keeling",
@@ -4298,16 +2461,7 @@
                     "alt": "Bandera de Islas Cocos o Islas Keeling",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 593,
-                "language": "English",
-                "interesting_cities": [
-                    "West Island"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Caribe Neerlandés",
@@ -4319,16 +2473,7 @@
                     "alt": "Bandera de Caribe Neerlandés",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 31980,
-                "language": "English, Dutch, Papiamento",
-                "interesting_cities": [
-                    "Kralendijk"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Uganda",
@@ -4340,16 +2485,7 @@
                     "alt": "Bandera de Uganda",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 45905417,
-                "language": "English, Swahili",
-                "interesting_cities": [
-                    "Kampala"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Iran",
@@ -4361,16 +2497,7 @@
                     "alt": "Bandera de Iran",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 85961000,
-                "language": "Persian (Farsi)",
-                "interesting_cities": [
-                    "Tehran"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Curazao",
@@ -4382,16 +2509,7 @@
                     "alt": "Bandera de Curazao",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 156115,
-                "language": "English, Dutch, Papiamento",
-                "interesting_cities": [
-                    "Willemstad"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Rumania",
@@ -4403,16 +2521,7 @@
                     "alt": "Bandera de Rumania",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 19036031,
-                "language": "Romanian",
-                "interesting_cities": [
-                    "Bucharest"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Siria",
@@ -4424,16 +2533,7 @@
                     "alt": "Bandera de Siria",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 25620000,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Damascus"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Fiyi",
@@ -4445,16 +2545,7 @@
                     "alt": "Bandera de Fiyi",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "oceania",
-                "population": 900869,
-                "language": "English, Fijian, Fiji Hindi",
-                "interesting_cities": [
-                    "Suva"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Aruba",
@@ -4466,16 +2557,7 @@
                     "alt": "Bandera de Aruba",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 107566,
-                "language": "Dutch, Papiamento",
-                "interesting_cities": [
-                    "Oranjestad"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Países Bajos",
@@ -4487,16 +2569,7 @@
                     "alt": "Bandera de Países Bajos",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 18100436,
-                "language": "Dutch",
-                "interesting_cities": [
-                    "Amsterdam"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Perú",
@@ -4508,16 +2581,7 @@
                     "alt": "Bandera de Perú",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 34350244,
-                "language": "Aymara, Quechua, Spanish",
-                "interesting_cities": [
-                    "Lima"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Reunión",
@@ -4529,16 +2593,7 @@
                     "alt": "Bandera de Reunión",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 896175,
-                "language": "French",
-                "interesting_cities": [
-                    "Saint-Denis"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Botswana",
@@ -4550,16 +2605,7 @@
                     "alt": "Bandera de Botswana",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 2359609,
-                "language": "English, Tswana",
-                "interesting_cities": [
-                    "Gaborone"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Afganistán",
@@ -4571,16 +2617,7 @@
                     "alt": "Bandera de Afganistán",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 43844000,
-                "language": "Dari, Pashto, Turkmen",
-                "interesting_cities": [
-                    "Kabul"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Serbia",
@@ -4592,16 +2629,7 @@
                     "alt": "Bandera de Serbia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 6567783,
-                "language": "Serbian",
-                "interesting_cities": [
-                    "Belgrade"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Chequia",
@@ -4613,16 +2641,7 @@
                     "alt": "Bandera de Chequia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 10882341,
-                "language": "Czech, Slovak",
-                "interesting_cities": [
-                    "Prague"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Dominica",
@@ -4634,16 +2653,7 @@
                     "alt": "Bandera de Dominica",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 67408,
-                "language": "English",
-                "interesting_cities": [
-                    "Roseau"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Polonia",
@@ -4655,16 +2665,7 @@
                     "alt": "Bandera de Polonia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 37392000,
-                "language": "Polish",
-                "interesting_cities": [
-                    "Warsaw"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Benín",
@@ -4676,16 +2677,7 @@
                     "alt": "Bandera de Benín",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 13224860,
-                "language": "French",
-                "interesting_cities": [
-                    "Porto-Novo"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Moldavia",
@@ -4697,16 +2689,7 @@
                     "alt": "Bandera de Moldavia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 2749076,
-                "language": "Romanian",
-                "interesting_cities": [
-                    "Chișinău"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Rusia",
@@ -4718,16 +2701,7 @@
                     "alt": "Bandera de Rusia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 146028325,
-                "language": "Russian",
-                "interesting_cities": [
-                    "Moscow"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "San Bartolomé",
@@ -4739,16 +2713,7 @@
                     "alt": "Bandera de San Bartolomé",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 10562,
-                "language": "French",
-                "interesting_cities": [
-                    "Gustavia"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Indonesia",
@@ -4760,16 +2725,7 @@
                     "alt": "Bandera de Indonesia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 284438782,
-                "language": "Indonesian",
-                "interesting_cities": [
-                    "Jakarta"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Nicaragua",
@@ -4781,16 +2737,7 @@
                     "alt": "Bandera de Nicaragua",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 6803886,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Managua"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Armenia",
@@ -4802,16 +2749,7 @@
                     "alt": "Bandera de Armenia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 3076200,
-                "language": "Armenian",
-                "interesting_cities": [
-                    "Yerevan"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bielorrusia",
@@ -4823,16 +2761,7 @@
                     "alt": "Bandera de Bielorrusia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 9109280,
-                "language": "Belarusian, Russian",
-                "interesting_cities": [
-                    "Minsk"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Etiopía",
@@ -4844,16 +2773,7 @@
                     "alt": "Bandera de Etiopía",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 111652998,
-                "language": "Amharic",
-                "interesting_cities": [
-                    "Addis Ababa"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Costa Rica",
@@ -4865,16 +2785,7 @@
                     "alt": "Bandera de Costa Rica",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 5309625,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "San José"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Jordania",
@@ -4886,16 +2797,7 @@
                     "alt": "Bandera de Jordania",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 11734000,
-                "language": "Arabic",
-                "interesting_cities": [
-                    "Amman"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Alemania",
@@ -4907,16 +2809,7 @@
                     "alt": "Bandera de Alemania",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 83491249,
-                "language": "German",
-                "interesting_cities": [
-                    "Berlin"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Ecuador",
@@ -4928,16 +2821,7 @@
                     "alt": "Bandera de Ecuador",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 18103660,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Quito"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Corea del Norte",
@@ -4949,16 +2833,7 @@
                     "alt": "Bandera de Corea del Norte",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 25950000,
-                "language": "Korean",
-                "interesting_cities": [
-                    "Pyongyang"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Islandia",
@@ -4970,16 +2845,7 @@
                     "alt": "Bandera de Islandia",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 391810,
-                "language": "Icelandic",
-                "interesting_cities": [
-                    "Reykjavik"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Sudán del Sur",
@@ -4991,16 +2857,7 @@
                     "alt": "Bandera de Sudán del Sur",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 15786898,
-                "language": "English",
-                "interesting_cities": [
-                    "Juba"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Malawi",
@@ -5012,16 +2869,7 @@
                     "alt": "Bandera de Malawi",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 20734262,
-                "language": "English, Chewa",
-                "interesting_cities": [
-                    "Lilongwe"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Burkina Faso",
@@ -5033,16 +2881,7 @@
                     "alt": "Bandera de Burkina Faso",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 24070553,
-                "language": "French",
-                "interesting_cities": [
-                    "Ouagadougou"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Congo (Rep. Dem.)",
@@ -5054,16 +2893,7 @@
                     "alt": "Bandera de Congo (Rep. Dem.)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "africa",
-                "population": 112832000,
-                "language": "French, Kikongo, Lingala",
-                "interesting_cities": [
-                    "Kinshasa"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Venezuela",
@@ -5075,16 +2905,7 @@
                     "alt": "Bandera de Venezuela",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 28517000,
-                "language": "Spanish",
-                "interesting_cities": [
-                    "Caracas"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Brunei",
@@ -5096,16 +2917,7 @@
                     "alt": "Bandera de Brunei",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "asia",
-                "population": 455500,
-                "language": "Malay",
-                "interesting_cities": [
-                    "Bandar Seri Begawan"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Paraguay",
@@ -5117,16 +2929,7 @@
                     "alt": "Bandera de Paraguay",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "america",
-                "population": 6109644,
-                "language": "Guaraní, Spanish",
-                "interesting_cities": [
-                    "Asunción"
-                ],
-                "main_religion": null
-            }
+            ]
         },
         {
             "name": "Bulgaria",
@@ -5138,16 +2941,7 @@
                     "alt": "Bandera de Bulgaria",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "continent": "europa",
-                "population": 6437360,
-                "language": "Bulgarian",
-                "interesting_cities": [
-                    "Sofia"
-                ],
-                "main_religion": null
-            }
+            ]
         }
     ]
 }

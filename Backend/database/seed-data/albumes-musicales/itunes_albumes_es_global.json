@@ -17,14 +17,7 @@
                     "alt": "LUX",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "ROSALÍA",
-                "genre": "Música",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/lux/1848167516"
-            }
+            ]
         },
         {
             "name": "Más Cara",
@@ -36,14 +29,7 @@
                     "alt": "Más Cara",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Bad Gyal",
-                "genre": "Música latina",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%A1s-cara/1876382588"
-            }
+            ]
         },
         {
             "name": "ARIRANG",
@@ -55,14 +41,7 @@
                     "alt": "ARIRANG",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "BTS",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/arirang/1868862375"
-            }
+            ]
         },
         {
             "name": "POR SI MAÑANA NO ESTOY",
@@ -74,14 +53,7 @@
                     "alt": "POR SI MAÑANA NO ESTOY",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Omar Courtz",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/por-si-ma%C3%B1ana-no-estoy/1877481995"
-            }
+            ]
         },
         {
             "name": "BULLY",
@@ -93,14 +65,7 @@
                     "alt": "BULLY",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Kanye West",
-                "genre": "Hip-hop/Rap",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/bully/1888707282"
-            }
+            ]
         },
         {
             "name": "THIS MUSIC MAY CONTAIN HOPE.",
@@ -112,14 +77,7 @@
                     "alt": "THIS MUSIC MAY CONTAIN HOPE.",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "RAYE",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/this-music-may-contain-hope/1871085677"
-            }
+            ]
         },
         {
             "name": "DeBÍ TiRAR MáS FOToS",
@@ -131,14 +89,7 @@
                     "alt": "DeBÍ TiRAR MáS FOToS",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Bad Bunny",
-                "genre": "Música latina",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/deb%C3%AD-tirar-m%C3%A1s-fotos/1787022393"
-            }
+            ]
         },
         {
             "name": "EL GREEN PRINT: La Saga (Disc 1) — FEID VS FERXXO",
@@ -150,14 +101,7 @@
                     "alt": "EL GREEN PRINT: La Saga (Disc 1) — FEID VS FERXXO",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Feid",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-green-print-la-saga-disc-1-feid-vs-ferxxo/1886206566"
-            }
+            ]
         },
         {
             "name": "The Romantic",
@@ -169,14 +113,7 @@
                     "alt": "The Romantic",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Bruno Mars",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-romantic/1866732792"
-            }
+            ]
         },
         {
             "name": "Música para Dormir Profundamente: Duermes Bien con Sonidos Relajantes de la Naturaleza",
@@ -188,14 +125,7 @@
                     "alt": "Música para Dormir Profundamente: Duermes Bien con Sonidos Relajantes de la Naturaleza",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Linda Beldad",
-                "genre": "Música",
-                "release_year": 2015,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-para-dormir-profundamente-duermes-bien-con-sonidos/996208894"
-            }
+            ]
         },
         {
             "name": "Kiss All The Time. Disco, Occasionally.",
@@ -207,14 +137,7 @@
                     "alt": "Kiss All The Time. Disco, Occasionally.",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Harry Styles",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/kiss-all-the-time-disco-occasionally/1870984032"
-            }
+            ]
         },
         {
             "name": "Better Late Than Never",
@@ -226,14 +149,7 @@
                     "alt": "Better Late Than Never",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Romeo Santos & Prince Royce",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/better-late-than-never/1848960616"
-            }
+            ]
         },
         {
             "name": "Música para Dormir Bebés - Sonidos de la Naturaleza",
@@ -245,14 +161,7 @@
                     "alt": "Música para Dormir Bebés - Sonidos de la Naturaleza",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Música Infantil TV",
-                "genre": "Música para niños",
-                "release_year": 2020,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-para-dormir-beb%C3%A9s-sonidos-de-la-naturaleza/1532787631"
-            }
+            ]
         },
         {
             "name": "CUARTO AZUL",
@@ -264,14 +173,7 @@
                     "alt": "CUARTO AZUL",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Aitana",
-                "genre": "Música",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/cuarto-azul/1814146266"
-            }
+            ]
         },
         {
             "name": "FREE SPIRITS",
@@ -283,14 +185,7 @@
                     "alt": "FREE SPIRITS",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "CA7RIEL & Paco Amoroso",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/free-spirits/1885698497"
-            }
+            ]
         },
         {
             "name": "WOR$T GIRL IN AMERICA",
@@ -302,14 +197,7 @@
                     "alt": "WOR$T GIRL IN AMERICA",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Slayyyter",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/wor%24t-girl-in-america/1867530577"
-            }
+            ]
         },
         {
             "name": "KPop Demon Hunters (Soundtrack from the Netflix Film)",
@@ -321,14 +209,7 @@
                     "alt": "KPop Demon Hunters (Soundtrack from the Netflix Film)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "KPop Demon Hunters Cast, HUNTR/X & Saja Boys",
-                "genre": "K-Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/kpop-demon-hunters-soundtrack-from-the-netflix-film/1820264137"
-            }
+            ]
         },
         {
             "name": "HADES",
@@ -340,14 +221,7 @@
                     "alt": "HADES",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Melanie Martinez",
-                "genre": "Alternativa",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/hades/1874455968"
-            }
+            ]
         },
         {
             "name": "Un Verano Sin Ti",
@@ -359,14 +233,7 @@
                     "alt": "Un Verano Sin Ti",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Bad Bunny",
-                "genre": "Música latina",
-                "release_year": 2022,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/un-verano-sin-ti/1622045624"
-            }
+            ]
         },
         {
             "name": "HIJOS DE LA RUINA VOL. 4",
@@ -378,14 +245,7 @@
                     "alt": "HIJOS DE LA RUINA VOL. 4",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Natos y Waor, Recycled J & Hijos de la Ruina",
-                "genre": "Hip-hop/Rap",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/hijos-de-la-ruina-vol-4/1863671064"
-            }
+            ]
         },
         {
             "name": "Lluvia Para Dormir",
@@ -397,14 +257,7 @@
                     "alt": "Lluvia Para Dormir",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Música Ambiente",
-                "genre": "Música",
-                "release_year": 2023,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/lluvia-para-dormir/1716746078"
-            }
+            ]
         },
         {
             "name": "ALL ROADS LEAD HOME",
@@ -416,14 +269,7 @@
                     "alt": "ALL ROADS LEAD HOME",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Central Cee",
-                "genre": "Hip-hop/Rap",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/all-roads-lead-home/1876931503"
-            }
+            ]
         },
         {
             "name": "¿Dónde Es El After?",
@@ -435,14 +281,7 @@
                     "alt": "¿Dónde Es El After?",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Rawayana",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/d%C3%B3nde-es-el-after/1860998746"
-            }
+            ]
         },
         {
             "name": "El SEI66EIS",
@@ -454,14 +293,7 @@
                     "alt": "El SEI66EIS",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Hades66",
-                "genre": "Música latina",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-sei66eis/1876290995"
-            }
+            ]
         },
         {
             "name": "Sexistential",
@@ -473,14 +305,7 @@
                     "alt": "Sexistential",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Robyn",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/sexistential/1852752613"
-            }
+            ]
         },
         {
             "name": "Man’s Best Friend",
@@ -492,14 +317,7 @@
                     "alt": "Man’s Best Friend",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Sabrina Carpenter",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/mans-best-friend/1819861154"
-            }
+            ]
         },
         {
             "name": "MODO LEYENDA",
@@ -511,14 +329,7 @@
                     "alt": "MODO LEYENDA",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Camin",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/modo-leyenda/1886443507"
-            }
+            ]
         },
         {
             "name": "YO CANTO 2",
@@ -530,14 +341,7 @@
                     "alt": "YO CANTO 2",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Laura Pausini",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/yo-canto-2/1871439355"
-            }
+            ]
         },
         {
             "name": "Tormenta",
@@ -549,14 +353,7 @@
                     "alt": "Tormenta",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Sonidos de Tormenta y Lluvia Fuerte",
-                "genre": "Música",
-                "release_year": 2022,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/tormenta/1618123203"
-            }
+            ]
         },
         {
             "name": "The Life of a Showgirl",
@@ -568,14 +365,7 @@
                     "alt": "The Life of a Showgirl",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Taylor Swift",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-life-of-a-showgirl/1838810949"
-            }
+            ]
         },
         {
             "name": "Latin Lover Songs 2 - EP",
@@ -587,14 +377,7 @@
                     "alt": "Latin Lover Songs 2 - EP",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "C Marí",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/latin-lover-songs-2-ep/1884700380"
-            }
+            ]
         },
         {
             "name": "La Reina del Flow 3 (Música de la Serie de Televisión Original)",
@@ -606,14 +389,7 @@
                     "alt": "La Reina del Flow 3 (Música de la Serie de Televisión Original)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Varios Artistas",
-                "genre": "Banda sonora",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/la-reina-del-flow-3-m%C3%BAsica-de-la-serie-de-televisi%C3%B3n-original/1803716279"
-            }
+            ]
         },
         {
             "name": "nadie sabe lo que va a pasar mañana",
@@ -625,14 +401,7 @@
                     "alt": "nadie sabe lo que va a pasar mañana",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Bad Bunny",
-                "genre": "Música latina",
-                "release_year": 2023,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/nadie-sabe-lo-que-va-a-pasar-ma%C3%B1ana/1710982865"
-            }
+            ]
         },
         {
             "name": "TA FÁCIL",
@@ -644,14 +413,7 @@
                     "alt": "TA FÁCIL",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Lucho RK & La Pantera",
-                "genre": "Música",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/ta-f%C3%A1cil/1854447776"
-            }
+            ]
         },
         {
             "name": "SUPERARTE",
@@ -663,14 +425,7 @@
                     "alt": "SUPERARTE",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Justin Quiles & Lenny Tavárez",
-                "genre": "Música latina",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/superarte/1876634379"
-            }
+            ]
         },
         {
             "name": "Spanish Leather",
@@ -682,14 +437,7 @@
                     "alt": "Spanish Leather",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Guitarricadelafuente",
-                "genre": "Música",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/spanish-leather/1804329771"
-            }
+            ]
         },
         {
             "name": "Manual de Belleza",
@@ -701,14 +449,7 @@
                     "alt": "Manual de Belleza",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Rodrigo Cuevas",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/manual-de-belleza/1882706347"
-            }
+            ]
         },
         {
             "name": "Lluvia Con Truenos (2024 Remaster)",
@@ -720,14 +461,7 @@
                     "alt": "Lluvia Con Truenos (2024 Remaster)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Para Dormir",
-                "genre": "Música",
-                "release_year": 2024,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/lluvia-con-truenos-2024-remaster/1733352034"
-            }
+            ]
         },
         {
             "name": "The Mountain",
@@ -739,14 +473,7 @@
                     "alt": "The Mountain",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Gorillaz",
-                "genre": "Alternativa",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-mountain/1837237742"
-            }
+            ]
         },
         {
             "name": "Whatever's Clever!",
@@ -758,14 +485,7 @@
                     "alt": "Whatever's Clever!",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Charlie Puth",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/whatevers-clever/1845189970"
-            }
+            ]
         },
         {
             "name": "50 Canciones de curación para la meditación y la relajación: Música serenidad para el yoga, Spa, Masajes y dormir, Música relajante zen",
@@ -777,14 +497,7 @@
                     "alt": "50 Canciones de curación para la meditación y la relajación: Música serenidad para el yoga, Spa, Masajes y dormir, Música relajante zen",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Técnicas de Meditación Academia & Academia de Música de la Música Ambiente",
-                "genre": "Música",
-                "release_year": 2016,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/50-canciones-de-curaci%C3%B3n-para-la-meditaci%C3%B3n-y-la/1098198307"
-            }
+            ]
         },
         {
             "name": "BUENAS NOCHES",
@@ -796,14 +509,7 @@
                     "alt": "BUENAS NOCHES",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Quevedo",
-                "genre": "Música latina",
-                "release_year": 2024,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/buenas-noches/1780125571"
-            }
+            ]
         },
         {
             "name": "Las Mejores Marchas de Semana Santa",
@@ -815,14 +521,7 @@
                     "alt": "Las Mejores Marchas de Semana Santa",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Varios Artistas",
-                "genre": "Música",
-                "release_year": null,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/las-mejores-marchas-de-semana-santa/1498815484"
-            }
+            ]
         },
         {
             "name": "El monte de los aullidos",
@@ -834,14 +533,7 @@
                     "alt": "El monte de los aullidos",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Fito y Fitipaldis",
-                "genre": "Rock",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-monte-de-los-aullidos/1837464663"
-            }
+            ]
         },
         {
             "name": "PRIMERA MUSA",
@@ -853,14 +545,7 @@
                     "alt": "PRIMERA MUSA",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Omar Courtz",
-                "genre": "Música",
-                "release_year": 2024,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/primera-musa/1760193416"
-            }
+            ]
         },
         {
             "name": "MOTOMAMI +",
@@ -872,14 +557,7 @@
                     "alt": "MOTOMAMI +",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "ROSALÍA",
-                "genre": "Música",
-                "release_year": 2022,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/motomami/1643048319"
-            }
+            ]
         },
         {
             "name": "Tropicoqueta",
@@ -891,14 +569,7 @@
                     "alt": "Tropicoqueta",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "KAROL G",
-                "genre": "Música latina",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/tropicoqueta/1819544141"
-            }
+            ]
         },
         {
             "name": "¿Y ahora qué +?",
@@ -910,14 +581,7 @@
                     "alt": "¿Y ahora qué +?",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Alejandro Sanz",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/y-ahora-qu%C3%A9/1847924845"
-            }
+            ]
         },
         {
             "name": "EL VENDEDOR DE ROSAS",
@@ -929,14 +593,7 @@
                     "alt": "EL VENDEDOR DE ROSAS",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Raul Clyde",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-vendedor-de-rosas/1882365919"
-            }
+            ]
         },
         {
             "name": "The Art of Loving",
@@ -948,14 +605,7 @@
                     "alt": "The Art of Loving",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Olivia Dean",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-art-of-loving/1817609404"
-            }
+            ]
         },
         {
             "name": "Hecho En Tiempos De Paz",
@@ -967,14 +617,7 @@
                     "alt": "Hecho En Tiempos De Paz",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Viva Suecia",
-                "genre": "Música",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/hecho-en-tiempos-de-paz/1838731957"
-            }
+            ]
         },
         {
             "name": "Wuthering Heights",
@@ -986,14 +629,7 @@
                     "alt": "Wuthering Heights",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Charli xcx",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/wuthering-heights/1852566184"
-            }
+            ]
         },
         {
             "name": "THE TORTURED POETS DEPARTMENT: THE ANTHOLOGY",
@@ -1005,14 +641,7 @@
                     "alt": "THE TORTURED POETS DEPARTMENT: THE ANTHOLOGY",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Taylor Swift",
-                "genre": "Pop",
-                "release_year": 2024,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-tortured-poets-department-the-anthology/1742057774"
-            }
+            ]
         },
         {
             "name": "ADL",
@@ -1024,14 +653,7 @@
                     "alt": "ADL",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Yeat",
-                "genre": "Hip-hop/Rap",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/adl/1888322963"
-            }
+            ]
         },
         {
             "name": "Gigante",
@@ -1043,14 +665,7 @@
                     "alt": "Gigante",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Leiva",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/gigante/1795987315"
-            }
+            ]
         },
         {
             "name": "El Madrileño (La Sobremesa)",
@@ -1062,14 +677,7 @@
                     "alt": "El Madrileño (La Sobremesa)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "C. Tangana",
-                "genre": "Música",
-                "release_year": 2022,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-madrile%C3%B1o-la-sobremesa/1610097186"
-            }
+            ]
         },
         {
             "name": "Taracá",
@@ -1081,14 +689,7 @@
                     "alt": "Taracá",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Jorge Drexler",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/tarac%C3%A1/1879440468"
-            }
+            ]
         },
         {
             "name": "JANE DOE IN THE DREAM HOUSE - EP",
@@ -1100,14 +701,7 @@
                     "alt": "JANE DOE IN THE DREAM HOUSE - EP",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Metrika",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/jane-doe-in-the-dream-house-ep/1867578853"
-            }
+            ]
         },
         {
             "name": "Escrito en la M-30",
@@ -1119,14 +713,7 @@
                     "alt": "Escrito en la M-30",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "GRECAS",
-                "genre": "Música",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/escrito-en-la-m-30/1854173544"
-            }
+            ]
         },
         {
             "name": "Mayéutica",
@@ -1138,14 +725,7 @@
                     "alt": "Mayéutica",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Robe",
-                "genre": "Música",
-                "release_year": 2021,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/may%C3%A9utica/1563963179"
-            }
+            ]
         },
         {
             "name": "La Ley Innata",
@@ -1157,14 +737,7 @@
                     "alt": "La Ley Innata",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Extremoduro",
-                "genre": "Música",
-                "release_year": 2008,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/la-ley-innata/290090461"
-            }
+            ]
         },
         {
             "name": "Trying Times",
@@ -1176,14 +749,7 @@
                     "alt": "Trying Times",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "James Blake",
-                "genre": "Alternativa",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/trying-times/1862353780"
-            }
+            ]
         },
         {
             "name": "POR SI MUERO MAÑANA",
@@ -1195,14 +761,7 @@
                     "alt": "POR SI MUERO MAÑANA",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Reality",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/por-si-muero-ma%C3%B1ana/1878121331"
-            }
+            ]
         },
         {
             "name": "Honora",
@@ -1214,14 +773,7 @@
                     "alt": "Honora",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Flea",
-                "genre": "Alternativa",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/honora/1861644307"
-            }
+            ]
         },
         {
             "name": "OCTANE",
@@ -1233,14 +785,7 @@
                     "alt": "OCTANE",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Don Toliver",
-                "genre": "Hip-hop/Rap",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/octane/1871258329"
-            }
+            ]
         },
         {
             "name": "Mamma Mia! (The Movie Soundtrack feat. the Songs of ABBA) [Bonus Track Version]",
@@ -1252,14 +797,7 @@
                     "alt": "Mamma Mia! (The Movie Soundtrack feat. the Songs of ABBA) [Bonus Track Version]",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Benny Andersson, Björn Ulvaeus, Meryl Streep & Amanda Seyfried",
-                "genre": "Música",
-                "release_year": 2008,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/mamma-mia-the-movie-soundtrack-feat-the-songs-of/1440767912"
-            }
+            ]
         },
         {
             "name": "El perro que fuma",
@@ -1271,14 +809,7 @@
                     "alt": "El perro que fuma",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Taburete",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-perro-que-fuma/1853534606"
-            }
+            ]
         },
         {
             "name": "EL TRAP DE KOLOMBIA",
@@ -1290,14 +821,7 @@
                     "alt": "EL TRAP DE KOLOMBIA",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Kris R.",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-trap-de-kolombia/1883243447"
-            }
+            ]
         },
         {
             "name": "Easter Lily EP",
@@ -1309,14 +833,7 @@
                     "alt": "Easter Lily EP",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "U2",
-                "genre": "Rock",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/easter-lily-ep/1888147400"
-            }
+            ]
         },
         {
             "name": "EL MAL QUERER",
@@ -1328,14 +845,7 @@
                     "alt": "EL MAL QUERER",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "ROSALÍA",
-                "genre": "Pop",
-                "release_year": 2018,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/el-mal-querer/1436309944"
-            }
+            ]
         },
         {
             "name": "GUTS (spilled)",
@@ -1347,14 +857,7 @@
                     "alt": "GUTS (spilled)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Olivia Rodrigo",
-                "genre": "Pop",
-                "release_year": 2023,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/guts-spilled/1736994915"
-            }
+            ]
         },
         {
             "name": "WILDFIRE",
@@ -1366,14 +869,7 @@
                     "alt": "WILDFIRE",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Loreen",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/wildfire/1869692509"
-            }
+            ]
         },
         {
             "name": "Sonido de Lluvia: Relajación y Sueño Profundo",
@@ -1385,14 +881,7 @@
                     "alt": "Sonido de Lluvia: Relajación y Sueño Profundo",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Sonido de Lluvia",
-                "genre": "Música",
-                "release_year": 2021,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/sonido-de-lluvia-relajaci%C3%B3n-y-sue%C3%B1o-profundo/1563633344"
-            }
+            ]
         },
         {
             "name": "Se nos lleva el aire",
@@ -1404,14 +893,7 @@
                     "alt": "Se nos lleva el aire",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Robe",
-                "genre": "Música",
-                "release_year": 2023,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/se-nos-lleva-el-aire/1719850406"
-            }
+            ]
         },
         {
             "name": "ADIOS",
@@ -1423,14 +905,7 @@
                     "alt": "ADIOS",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "El Alfa",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/adios/1887899443"
-            }
+            ]
         },
         {
             "name": "HIT ME HARD AND SOFT",
@@ -1442,14 +917,7 @@
                     "alt": "HIT ME HARD AND SOFT",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Billie Eilish",
-                "genre": "Alternativa",
-                "release_year": 2024,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/hit-me-hard-and-soft/1739659134"
-            }
+            ]
         },
         {
             "name": "Pelo De Foca",
@@ -1461,14 +929,7 @@
                     "alt": "Pelo De Foca",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Ultraligera",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/pelo-de-foca/1796256679"
-            }
+            ]
         },
         {
             "name": "PÓRTATE BIEN!",
@@ -1480,14 +941,7 @@
                     "alt": "PÓRTATE BIEN!",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "mvrk",
-                "genre": "Hip-hop/Rap",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/p%C3%B3rtate-bien/1815259114"
-            }
+            ]
         },
         {
             "name": "YHLQMDLG",
@@ -1499,14 +953,7 @@
                     "alt": "YHLQMDLG",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Bad Bunny",
-                "genre": "Música",
-                "release_year": 2020,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/yhlqmdlg/1500776322"
-            }
+            ]
         },
         {
             "name": "MAYHEM",
@@ -1518,14 +965,7 @@
                     "alt": "MAYHEM",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Lady Gaga",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/mayhem/1837310866"
-            }
+            ]
         },
         {
             "name": "eternal sunshine deluxe: brighter days ahead",
@@ -1537,14 +977,7 @@
                     "alt": "eternal sunshine deluxe: brighter days ahead",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Ariana Grande",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/eternal-sunshine-deluxe-brighter-days-ahead/1800579610"
-            }
+            ]
         },
         {
             "name": "SOUR (Video Version)",
@@ -1556,14 +989,7 @@
                     "alt": "SOUR (Video Version)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Olivia Rodrigo",
-                "genre": "Pop",
-                "release_year": 2021,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/sour-video-version/1582274783"
-            }
+            ]
         },
         {
             "name": "La Vida Era Más Corta",
@@ -1575,14 +1001,7 @@
                     "alt": "La Vida Era Más Corta",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Milo j",
-                "genre": "Música",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/la-vida-era-m%C3%A1s-corta/1839970139"
-            }
+            ]
         },
         {
             "name": "DINASTÍA (DELUXE)",
@@ -1594,14 +1013,7 @@
                     "alt": "DINASTÍA (DELUXE)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Peso Pluma & Tito Double P",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/dinast%C3%ADa-deluxe/1879902711"
-            }
+            ]
         },
         {
             "name": "Música Clásica Relajante para la Relajación, Dormir, Estudiar, Canciónes de Cuna para los Bebés, La Oración, El Masaje, Yoga, Spa, La Meditación",
@@ -1613,14 +1025,7 @@
                     "alt": "Música Clásica Relajante para la Relajación, Dormir, Estudiar, Canciónes de Cuna para los Bebés, La Oración, El Masaje, Yoga, Spa, La Meditación",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Música de la Luz de la Luna",
-                "genre": "Música",
-                "release_year": 2016,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-cl%C3%A1sica-relajante-para-la-relajaci%C3%B3n-dormir/1098277376"
-            }
+            ]
         },
         {
             "name": "Rain Sounds",
@@ -1632,14 +1037,7 @@
                     "alt": "Rain Sounds",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Rain Sounds Lab & Rain",
-                "genre": "Música",
-                "release_year": 2019,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/rain-sounds/1456106159"
-            }
+            ]
         },
         {
             "name": "DAISY",
@@ -1651,14 +1049,7 @@
                     "alt": "DAISY",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "rusowsky",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/daisy/1810078231"
-            }
+            ]
         },
         {
             "name": "The Greatest Showman (Original Motion Picture Soundtrack) [Sing-A-Long Edition]",
@@ -1670,14 +1061,7 @@
                     "alt": "The Greatest Showman (Original Motion Picture Soundtrack) [Sing-A-Long Edition]",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Benj Pasek & Justin Paul, Hugh Jackman",
-                "genre": "Música",
-                "release_year": 2017,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/the-greatest-showman-original-motion-picture/1436091603"
-            }
+            ]
         },
         {
             "name": "CantaJuego, Vol. 1",
@@ -1689,14 +1073,7 @@
                     "alt": "CantaJuego, Vol. 1",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "CantaJuego",
-                "genre": "Música para niños",
-                "release_year": 2014,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/cantajuego-vol-1/826892114"
-            }
+            ]
         },
         {
             "name": "Pasión",
@@ -1708,14 +1085,7 @@
                     "alt": "Pasión",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Hakuna Group Music",
-                "genre": "Pop",
-                "release_year": 2018,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/pasi%C3%B3n/1357692623"
-            }
+            ]
         },
         {
             "name": "Se Ha Acabado El Show",
@@ -1727,14 +1097,7 @@
                     "alt": "Se Ha Acabado El Show",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Ana Torroja",
-                "genre": "Música",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/se-ha-acabado-el-show/1877073392"
-            }
+            ]
         },
         {
             "name": "No vuelve a suceder (calentamiento pre álbum)",
@@ -1746,14 +1109,7 @@
                     "alt": "No vuelve a suceder (calentamiento pre álbum)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Clarent",
-                "genre": "Música latina",
-                "release_year": 2026,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/no-vuelve-a-suceder-calentamiento-pre-%C3%A1lbum/1862685663"
-            }
+            ]
         },
         {
             "name": "BORONDO",
@@ -1765,14 +1121,7 @@
                     "alt": "BORONDO",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Beéle",
-                "genre": "Música",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/borondo/1812536829"
-            }
+            ]
         },
         {
             "name": "Interstellar (Original Motion Picture Soundtrack) [Expanded Edition]",
@@ -1784,14 +1133,7 @@
                     "alt": "Interstellar (Original Motion Picture Soundtrack) [Expanded Edition]",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Hans Zimmer",
-                "genre": "Banda sonora",
-                "release_year": 2014,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/interstellar-original-motion-picture-soundtrack-expanded/1533983552"
-            }
+            ]
         },
         {
             "name": "Midnight Sun",
@@ -1803,14 +1145,7 @@
                     "alt": "Midnight Sun",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Zara Larsson",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/midnight-sun/1817499239"
-            }
+            ]
         },
         {
             "name": "La Madrugá",
@@ -1822,14 +1157,7 @@
                     "alt": "La Madrugá",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Delaossa",
-                "genre": "Música",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/la-madrug%C3%A1/1801259880"
-            }
+            ]
         },
         {
             "name": "LO MISMO DE SIEMPRE",
@@ -1841,14 +1169,7 @@
                     "alt": "LO MISMO DE SIEMPRE",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Mora",
-                "genre": "Música latina",
-                "release_year": 2025,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/lo-mismo-de-siempre/1811396930"
-            }
+            ]
         },
         {
             "name": "Música Relajante y Calmante con Ruido Blanco para el Bebé: Sonidos de la Naturaleza para Recién Nacidos y Ayudar a Dormir los Niños",
@@ -1860,14 +1181,7 @@
                     "alt": "Música Relajante y Calmante con Ruido Blanco para el Bebé: Sonidos de la Naturaleza para Recién Nacidos y Ayudar a Dormir los Niños",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Armonìa Luz",
-                "genre": "Música para niños",
-                "release_year": 2015,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/m%C3%BAsica-relajante-y-calmante-con-ruido-blanco-para-el/1015922244"
-            }
+            ]
         },
         {
             "name": "Frozen: El Reino del Hielo (Edición Deluxe)",
@@ -1879,14 +1193,7 @@
                     "alt": "Frozen: El Reino del Hielo (Edición Deluxe)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Varios Artistas",
-                "genre": "Banda sonora",
-                "release_year": 2013,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/frozen-el-reino-del-hielo-edici%C3%B3n-deluxe/1440666116"
-            }
+            ]
         },
         {
             "name": "Real Hasta la Muerte",
@@ -1898,14 +1205,7 @@
                     "alt": "Real Hasta la Muerte",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Anuel AA",
-                "genre": "Música",
-                "release_year": 2018,
-                "origin_country": "ES",
-                "listening_url": "https://music.apple.com/es/album/real-hasta-la-muerte/1453888864"
-            }
+            ]
         },
         {
             "name": "Dandelion",
@@ -1917,14 +1217,7 @@
                     "alt": "Dandelion",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Ella Langley",
-                "genre": "Country",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/dandelion/1869436835"
-            }
+            ]
         },
         {
             "name": "The Way I Am",
@@ -1936,14 +1229,7 @@
                     "alt": "The Way I Am",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Luke Combs",
-                "genre": "Country",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-way-i-am/1862634688"
-            }
+            ]
         },
         {
             "name": "I’m The Problem",
@@ -1955,14 +1241,7 @@
                     "alt": "I’m The Problem",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Morgan Wallen",
-                "genre": "Country",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/im-the-problem/1802103958"
-            }
+            ]
         },
         {
             "name": "The Fall-Off",
@@ -1974,14 +1253,7 @@
                     "alt": "The Fall-Off",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "J. Cole",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-fall-off/1875080726"
-            }
+            ]
         },
         {
             "name": "EMOTIONS",
@@ -1993,14 +1265,7 @@
                     "alt": "EMOTIONS",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Nine Vicious",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/emotions/1887619269"
-            }
+            ]
         },
         {
             "name": "Slime Cry",
@@ -2012,14 +1277,7 @@
                     "alt": "Slime Cry",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "YoungBoy Never Broke Again",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/slime-cry/1869534167"
-            }
+            ]
         },
         {
             "name": "Brown Noise: Loops for Relaxation, Deep Sleep, Meditation, And Babies",
@@ -2031,14 +1289,7 @@
                     "alt": "Brown Noise: Loops for Relaxation, Deep Sleep, Meditation, And Babies",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "SleepTherapy",
-                "genre": null,
-                "release_year": 2018,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/brown-noise-loops-for-relaxation-deep-sleep-meditation/1417709876"
-            }
+            ]
         },
         {
             "name": "Zavier",
@@ -2050,14 +1301,7 @@
                     "alt": "Zavier",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Fetty Wap",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/zavier/1885054146"
-            }
+            ]
         },
         {
             "name": "Skeletor",
@@ -2069,14 +1313,7 @@
                     "alt": "Skeletor",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Chief Keef",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/skeletor/1882892614"
-            }
+            ]
         },
         {
             "name": "Ca$ino",
@@ -2088,14 +1325,7 @@
                     "alt": "Ca$ino",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Baby Keem",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/ca%24ino/1878399948"
-            }
+            ]
         },
         {
             "name": "Baby Lullaby: Relaxing Piano Lullabies and Natural Sleep Aid for Baby Sleep Music",
@@ -2107,14 +1337,7 @@
                     "alt": "Baby Lullaby: Relaxing Piano Lullabies and Natural Sleep Aid for Baby Sleep Music",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Baby Lullaby Academy",
-                "genre": "Children's Music",
-                "release_year": 2015,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/baby-lullaby-relaxing-piano-lullabies-and-natural/1065946325"
-            }
+            ]
         },
         {
             "name": "Cloud 9",
@@ -2126,14 +1349,7 @@
                     "alt": "Cloud 9",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Megan Moroney",
-                "genre": "Country",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/cloud-9/1851296746"
-            }
+            ]
         },
         {
             "name": "LOL : SLUTTY BASS",
@@ -2145,14 +1361,7 @@
                     "alt": "LOL : SLUTTY BASS",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Tory Lanez",
-                "genre": "R&B/Soul",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/lol-slutty-bass/1884747045"
-            }
+            ]
         },
         {
             "name": "Icon (Director's Cut)",
@@ -2164,14 +1373,7 @@
                     "alt": "Icon (Director's Cut)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Brent Faiyaz",
-                "genre": "R&B/Soul",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/icon-directors-cut/1877179580"
-            }
+            ]
         },
         {
             "name": "DEPR</3$$ED MFKZ",
@@ -2183,14 +1385,7 @@
                     "alt": "DEPR</3$$ED MFKZ",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Junior H & Gael Valenzuela",
-                "genre": "Latin",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/depr-3%24%24ed-mfkz/1876715320"
-            }
+            ]
         },
         {
             "name": "6WA",
@@ -2202,14 +1397,7 @@
                     "alt": "6WA",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "BigXthaPlug, Ro$ama, MurdaGang PB & Yung Hood",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/6wa/1880492397"
-            }
+            ]
         },
         {
             "name": "Do You Still Love Me?",
@@ -2221,14 +1409,7 @@
                     "alt": "Do You Still Love Me?",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Ella Mai",
-                "genre": "R&B/Soul",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/do-you-still-love-me/1858754868"
-            }
+            ]
         },
         {
             "name": "Hamilton: An American Musical (Original Broadway Cast Recording)",
@@ -2240,14 +1421,7 @@
                     "alt": "Hamilton: An American Musical (Original Broadway Cast Recording)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Lin-Manuel Miranda, Leslie Odom, Jr., Phillipa Soo, Daveed Diggs & Christopher Jackson",
-                "genre": "Soundtrack",
-                "release_year": 2015,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/hamilton-an-american-musical-original-broadway-cast/1025210938"
-            }
+            ]
         },
         {
             "name": "Boiling Point",
@@ -2259,14 +1433,7 @@
                     "alt": "Boiling Point",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Juvenile",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/boiling-point/1884435522"
-            }
+            ]
         },
         {
             "name": "$ome $exy $ongs 4 U",
@@ -2278,14 +1445,7 @@
                     "alt": "$ome $exy $ongs 4 U",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "PARTYNEXTDOOR & Drake",
-                "genre": "R&B/Soul",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/%24ome-%24exy-%24ongs-4-u/1796127242"
-            }
+            ]
         },
         {
             "name": "The Leaks",
@@ -2297,14 +1457,7 @@
                     "alt": "The Leaks",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Lil Baby",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-leaks/1858158528"
-            }
+            ]
         },
         {
             "name": "Roofless Records For Drop Tops: Disc 1",
@@ -2316,14 +1469,7 @@
                     "alt": "Roofless Records For Drop Tops: Disc 1",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Wiz Khalifa & Curren$y",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/roofless-records-for-drop-tops-disc-1/1889878392"
-            }
+            ]
         },
         {
             "name": "Monica",
@@ -2335,14 +1481,7 @@
                     "alt": "Monica",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Jack Harlow",
-                "genre": "R&B/Soul",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/monica/1878823462"
-            }
+            ]
         },
         {
             "name": "Rain Sounds For Sleep",
@@ -2354,14 +1493,7 @@
                     "alt": "Rain Sounds For Sleep",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Silent Chills",
-                "genre": null,
-                "release_year": 2020,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/rain-sounds-for-sleep/1542331034"
-            }
+            ]
         },
         {
             "name": "Graduation",
@@ -2373,14 +1505,7 @@
                     "alt": "Graduation",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Kanye West",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2007,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/graduation/1451901307"
-            }
+            ]
         },
         {
             "name": "HEARTS SOLD SEPARATELY",
@@ -2392,14 +1517,7 @@
                     "alt": "HEARTS SOLD SEPARATELY",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Mariah the Scientist",
-                "genre": "R&B/Soul",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/hearts-sold-separately/1824543088"
-            }
+            ]
         },
         {
             "name": "Take Care (Deluxe Version)",
@@ -2411,14 +1529,7 @@
                     "alt": "Take Care (Deluxe Version)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Drake",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2011,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/take-care-deluxe-version/1440642493"
-            }
+            ]
         },
         {
             "name": "LINAJE",
@@ -2430,14 +1541,7 @@
                     "alt": "LINAJE",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Hermanos Espinoza",
-                "genre": "Latin",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/linaje/1884623413"
-            }
+            ]
         },
         {
             "name": "With Heaven On Top",
@@ -2449,14 +1553,7 @@
                     "alt": "With Heaven On Top",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Zach Bryan",
-                "genre": "Country",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/with-heaven-on-top/1867328456"
-            }
+            ]
         },
         {
             "name": "AM I THE DRAMA? (Album Release Live Edition)",
@@ -2468,14 +1565,7 @@
                     "alt": "AM I THE DRAMA? (Album Release Live Edition)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Cardi B",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/am-i-the-drama-album-release-live-edition/1841168343"
-            }
+            ]
         },
         {
             "name": "SO CLOSE TO WHAT??? (deluxe)",
@@ -2487,14 +1577,7 @@
                     "alt": "SO CLOSE TO WHAT??? (deluxe)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Tate McRae",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/so-close-to-what-deluxe/1853104433"
-            }
+            ]
         },
         {
             "name": "World At War",
@@ -2506,14 +1589,7 @@
                     "alt": "World At War",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Yung Bleu",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/world-at-war/1884478993"
-            }
+            ]
         },
         {
             "name": "Broken View",
@@ -2525,14 +1601,7 @@
                     "alt": "Broken View",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Sam Barber",
-                "genre": "Country",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/broken-view/1882826154"
-            }
+            ]
         },
         {
             "name": "The Last Wun",
@@ -2544,14 +1613,7 @@
                     "alt": "The Last Wun",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Gunna",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-last-wun/1830597627"
-            }
+            ]
         },
         {
             "name": "Prizefighter",
@@ -2563,14 +1625,7 @@
                     "alt": "Prizefighter",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Mumford & Sons",
-                "genre": "Alternative",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/prizefighter/1848218113"
-            }
+            ]
         },
         {
             "name": "Son Of Spergy",
@@ -2582,14 +1637,7 @@
                     "alt": "Son Of Spergy",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Daniel Caesar",
-                "genre": "R&B/Soul",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/son-of-spergy/1839352404"
-            }
+            ]
         },
         {
             "name": "GNX",
@@ -2601,14 +1649,7 @@
                     "alt": "GNX",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Kendrick Lamar",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2024,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/gnx/1781270319"
-            }
+            ]
         },
         {
             "name": "POMPEII // UTILITY",
@@ -2620,14 +1661,7 @@
                     "alt": "POMPEII // UTILITY",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Earl Sweatshirt, MIKE & SURF GANG",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/pompeii-utility/1870867411"
-            }
+            ]
         },
         {
             "name": "The Life of Pablo",
@@ -2639,14 +1673,7 @@
                     "alt": "The Life of Pablo",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Kanye West",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2016,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/the-life-of-pablo/1443063578"
-            }
+            ]
         },
         {
             "name": "SWAG II",
@@ -2658,14 +1685,7 @@
                     "alt": "SWAG II",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Justin Bieber",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/swag-ii/1837867200"
-            }
+            ]
         },
         {
             "name": "For All The Dogs Scary Hours Edition",
@@ -2677,14 +1697,7 @@
                     "alt": "For All The Dogs Scary Hours Edition",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Drake",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2023,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/for-all-the-dogs-scary-hours-edition/1716979097"
-            }
+            ]
         },
         {
             "name": "Views",
@@ -2696,14 +1709,7 @@
                     "alt": "Views",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Drake",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2016,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/views/1440841363"
-            }
+            ]
         },
         {
             "name": "Free(Style) Game - Remix Edition",
@@ -2715,14 +1721,7 @@
                     "alt": "Free(Style) Game - Remix Edition",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "1900Rugrat",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/free-style-game-remix-edition/1888229325"
-            }
+            ]
         },
         {
             "name": "Fully Loaded - EP",
@@ -2734,14 +1733,7 @@
                     "alt": "Fully Loaded - EP",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Che",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/fully-loaded-ep/1889353517"
-            }
+            ]
         },
         {
             "name": "Dhurandhar The Revenge (Original Motion Picture Soundtrack)",
@@ -2753,14 +1745,7 @@
                     "alt": "Dhurandhar The Revenge (Original Motion Picture Soundtrack)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Shashwat Sachdev & Irshad Kamil",
-                "genre": "Soundtrack",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/dhurandhar-the-revenge-original-motion-picture/1887523860"
-            }
+            ]
         },
         {
             "name": "THY WILL BE DONE",
@@ -2772,14 +1757,7 @@
                     "alt": "THY WILL BE DONE",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "$uicideboy$",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/thy-will-be-done/1860098913"
-            }
+            ]
         },
         {
             "name": "111XPANTIA",
@@ -2791,14 +1769,7 @@
                     "alt": "111XPANTIA",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Fuerza Regida",
-                "genre": "Latin",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/111xpantia/1804142476"
-            }
+            ]
         },
         {
             "name": "Don’t Come Home",
@@ -2810,14 +1781,7 @@
                     "alt": "Don’t Come Home",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Pimmie",
-                "genre": "R&B/Soul",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/dont-come-home/1878821052"
-            }
+            ]
         },
         {
             "name": "Heavy On The Soul",
@@ -2829,14 +1793,7 @@
                     "alt": "Heavy On The Soul",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Ty Myers",
-                "genre": "Country",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/heavy-on-the-soul/1867275110"
-            }
+            ]
         },
         {
             "name": "folklore (deluxe version)",
@@ -2848,14 +1805,7 @@
                     "alt": "folklore (deluxe version)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Taylor Swift",
-                "genre": "Alternative",
-                "release_year": 2020,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/folklore-deluxe-version/1528112358"
-            }
+            ]
         },
         {
             "name": "R3SET (EXT3ND3D)",
@@ -2867,14 +1817,7 @@
                     "alt": "R3SET (EXT3ND3D)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Mike WiLL Made-It",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/r3set-ext3nd3d/1887977611"
-            }
+            ]
         },
         {
             "name": "Blonde",
@@ -2886,14 +1829,7 @@
                     "alt": "Blonde",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Frank Ocean",
-                "genre": "Pop",
-                "release_year": 2016,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/blonde/1146195596"
-            }
+            ]
         },
         {
             "name": "MASA",
@@ -2905,14 +1841,7 @@
                     "alt": "MASA",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "YoungBoy Never Broke Again",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/masa/1824363644"
-            }
+            ]
         },
         {
             "name": "My Beautiful Dark Twisted Fantasy (Deluxe Edition (Explicit))",
@@ -2924,14 +1853,7 @@
                     "alt": "My Beautiful Dark Twisted Fantasy (Deluxe Edition (Explicit))",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Kanye West",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2010,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/my-beautiful-dark-twisted-fantasy-deluxe-edition-explicit/1440621197"
-            }
+            ]
         },
         {
             "name": "everything is a lot.",
@@ -2943,14 +1865,7 @@
                     "alt": "everything is a lot.",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Wale",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/everything-is-a-lot/1849570906"
-            }
+            ]
         },
         {
             "name": "Certified Lover Boy",
@@ -2962,14 +1877,7 @@
                     "alt": "Certified Lover Boy",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Drake",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2021,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/certified-lover-boy/1584281467"
-            }
+            ]
         },
         {
             "name": "Frozen (Original Motion Picture Soundtrack)",
@@ -2981,14 +1889,7 @@
                     "alt": "Frozen (Original Motion Picture Soundtrack)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Kristen Anderson-Lopez & Robert Lopez, Idina Menzel, Kristen Bell & Christophe Beck",
-                "genre": "Soundtrack",
-                "release_year": 2013,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/frozen-original-motion-picture-soundtrack/1440618177"
-            }
+            ]
         },
         {
             "name": "HAVE U BN 2 HEAVEN @ NITE? - EP",
@@ -3000,14 +1901,7 @@
                     "alt": "HAVE U BN 2 HEAVEN @ NITE? - EP",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Kid Cudi",
-                "genre": "Alternative",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/have-u-bn-2-heaven-nite-ep/1886092612"
-            }
+            ]
         },
         {
             "name": "BE MORE GRATEFUL",
@@ -3019,14 +1913,7 @@
                     "alt": "BE MORE GRATEFUL",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "DaBaby",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/be-more-grateful/1862402656"
-            }
+            ]
         },
         {
             "name": "sounds for someone",
@@ -3038,14 +1925,7 @@
                     "alt": "sounds for someone",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Elmiene",
-                "genre": "R&B/Soul",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/sounds-for-someone/1860405416"
-            }
+            ]
         },
         {
             "name": "ALREADY LEGEND. (GIFTED Edition)",
@@ -3057,14 +1937,7 @@
                     "alt": "ALREADY LEGEND. (GIFTED Edition)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "YFN Lucci",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/already-legend-gifted-edition/1861018897"
-            }
+            ]
         },
         {
             "name": "AM I THE DRAMA? (The Snow Mix)",
@@ -3076,14 +1949,7 @@
                     "alt": "AM I THE DRAMA? (The Snow Mix)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Cardi B",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/am-i-the-drama-the-snow-mix/1852374241"
-            }
+            ]
         },
         {
             "name": "CTRL ESCAPE",
@@ -3095,14 +1961,7 @@
                     "alt": "CTRL ESCAPE",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "John Summit",
-                "genre": "Dance",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/ctrl-escape/1874015470"
-            }
+            ]
         },
         {
             "name": "Moana (Original Motion Picture Soundtrack)",
@@ -3114,14 +1973,7 @@
                     "alt": "Moana (Original Motion Picture Soundtrack)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Lin-Manuel Miranda & Mark Mancina",
-                "genre": "Soundtrack",
-                "release_year": 2016,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/moana-original-motion-picture-soundtrack/1440634928"
-            }
+            ]
         },
         {
             "name": "Nothing Was the Same (Deluxe)",
@@ -3133,14 +1985,7 @@
                     "alt": "Nothing Was the Same (Deluxe)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Drake",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2013,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/nothing-was-the-same-deluxe/1440829462"
-            }
+            ]
         },
         {
             "name": "Thank Me Later",
@@ -3152,14 +1997,7 @@
                     "alt": "Thank Me Later",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Drake",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2010,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/thank-me-later/1440762388"
-            }
+            ]
         },
         {
             "name": "Short n' Sweet (Deluxe)",
@@ -3171,14 +2009,7 @@
                     "alt": "Short n' Sweet (Deluxe)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Sabrina Carpenter",
-                "genre": "Pop",
-                "release_year": 2024,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/short-n-sweet-deluxe/1795512297"
-            }
+            ]
         },
         {
             "name": "TODO Ø NADA",
@@ -3190,14 +2021,7 @@
                     "alt": "TODO Ø NADA",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Linea Personal",
-                "genre": "Latin",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/todo-%C3%B8-nada/1883176465"
-            }
+            ]
         },
         {
             "name": "Dangerous: The Double Album",
@@ -3209,14 +2033,7 @@
                     "alt": "Dangerous: The Double Album",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Morgan Wallen",
-                "genre": "Country",
-                "release_year": 2021,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/dangerous-the-double-album/1818409982"
-            }
+            ]
         },
         {
             "name": "SO BE IT (Live)",
@@ -3228,14 +2045,7 @@
                     "alt": "SO BE IT (Live)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Elevation Worship",
-                "genre": "Christian",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/so-be-it-live/1870678481"
-            }
+            ]
         },
         {
             "name": "Her Loss",
@@ -3247,14 +2057,7 @@
                     "alt": "Her Loss",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Drake & 21 Savage",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2022,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/her-loss/1652998965"
-            }
+            ]
         },
         {
             "name": "Da Realest",
@@ -3266,14 +2069,7 @@
                     "alt": "Da Realest",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Babyfxce E",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/da-realest/1860991661"
-            }
+            ]
         },
         {
             "name": "Finally Over It (The Afterparty)",
@@ -3285,14 +2081,7 @@
                     "alt": "Finally Over It (The Afterparty)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Summer Walker",
-                "genre": "R&B/Soul",
-                "release_year": 2025,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/finally-over-it-the-afterparty/1853929060"
-            }
+            ]
         },
         {
             "name": "Before Artistry - EP",
@@ -3304,14 +2093,7 @@
                     "alt": "Before Artistry - EP",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "A Boogie wit da Hoodie",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2026,
-                "origin_country": "US",
-                "listening_url": "https://music.apple.com/us/album/before-artistry-ep/1876602581"
-            }
+            ]
         },
         {
             "name": "To Fall Asleep To",
@@ -3323,14 +2105,7 @@
                     "alt": "To Fall Asleep To",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Rain Sounds",
-                "genre": "Worldwide",
-                "release_year": 2022,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/to-fall-asleep-to/1831729178"
-            }
+            ]
         },
         {
             "name": "The Weight of the Woods",
@@ -3342,14 +2117,7 @@
                     "alt": "The Weight of the Woods",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Dermot Kennedy",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-weight-of-the-woods/1867616617"
-            }
+            ]
         },
         {
             "name": "Full Circle",
@@ -3361,14 +2129,7 @@
                     "alt": "Full Circle",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Tom Misch",
-                "genre": "Alternative",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/full-circle/1868437787"
-            }
+            ]
         },
         {
             "name": "CLARITY OF MIND",
@@ -3380,14 +2141,7 @@
                     "alt": "CLARITY OF MIND",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "OMAH LAY",
-                "genre": null,
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/clarity-of-mind/1880890112"
-            }
+            ]
         },
         {
             "name": "Nightmare Tripping",
@@ -3399,14 +2153,7 @@
                     "alt": "Nightmare Tripping",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Don Broco",
-                "genre": "Rock",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/nightmare-tripping/1870746243"
-            }
+            ]
         },
         {
             "name": "West End Girl",
@@ -3418,14 +2165,7 @@
                     "alt": "West End Girl",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Lily Allen",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/west-end-girl/1846342052"
-            }
+            ]
         },
         {
             "name": "My Favourite Nursery Rhymes",
@@ -3437,14 +2177,7 @@
                     "alt": "My Favourite Nursery Rhymes",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Various Artists",
-                "genre": "Children’s Music",
-                "release_year": null,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/my-favourite-nursery-rhymes/1441072765"
-            }
+            ]
         },
         {
             "name": "Six: The Musical (Studio Cast Recording)",
@@ -3456,14 +2189,7 @@
                     "alt": "Six: The Musical (Studio Cast Recording)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "SIX, Toby Marlow & Lucy Moss",
-                "genre": "Soundtrack",
-                "release_year": 2018,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/six-the-musical-studio-cast-recording/1465183308"
-            }
+            ]
         },
         {
             "name": "The Boy Who Played the Harp",
@@ -3475,14 +2201,7 @@
                     "alt": "The Boy Who Played the Harp",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Dave",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-boy-who-played-the-harp/1847992481"
-            }
+            ]
         },
         {
             "name": "Richard Ashcroft Live Vol 1",
@@ -3494,14 +2213,7 @@
                     "alt": "Richard Ashcroft Live Vol 1",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Richard Ashcroft",
-                "genre": "Rock",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/richard-ashcroft-live-vol-1/1886712037"
-            }
+            ]
         },
         {
             "name": "Dhurandhar (Original Motion Picture Soundtrack)",
@@ -3513,14 +2225,7 @@
                     "alt": "Dhurandhar (Original Motion Picture Soundtrack)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Shashwat Sachdev, Hanumankind, Babu Singh Maan, Irshad Kamil & Jasmine Sandlas",
-                "genre": "Soundtrack",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/dhurandhar-original-motion-picture-soundtrack/1858961207"
-            }
+            ]
         },
         {
             "name": "Rumours",
@@ -3532,14 +2237,7 @@
                     "alt": "Rumours",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Fleetwood Mac",
-                "genre": "Rock",
-                "release_year": 1977,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/rumours/594061854"
-            }
+            ]
         },
         {
             "name": "People Watching (Deluxe Edition)",
@@ -3551,14 +2249,7 @@
                     "alt": "People Watching (Deluxe Edition)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Sam Fender",
-                "genre": "Alternative",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/people-watching-deluxe-edition/1845916617"
-            }
+            ]
         },
         {
             "name": "The Dark Side of the Moon (50th Anniversary) [Remastered]",
@@ -3570,14 +2261,7 @@
                     "alt": "The Dark Side of the Moon (50th Anniversary) [Remastered]",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Pink Floyd",
-                "genre": "Rock",
-                "release_year": 1973,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-dark-side-of-the-moon-50th-anniversary-remastered/1665303755"
-            }
+            ]
         },
         {
             "name": "Getting Killed",
@@ -3589,14 +2273,7 @@
                     "alt": "Getting Killed",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Geese",
-                "genre": "Alternative",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/getting-killed/1818548779"
-            }
+            ]
         },
         {
             "name": "Lost, Found & Forgotten...",
@@ -3608,14 +2285,7 @@
                     "alt": "Lost, Found & Forgotten...",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Chris Stussy",
-                "genre": "Dance",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/lost-found-forgotten/1880361449"
-            }
+            ]
         },
         {
             "name": "The Clearing",
@@ -3627,14 +2297,7 @@
                     "alt": "The Clearing",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Wolf Alice",
-                "genre": "Alternative",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-clearing/1812904249"
-            }
+            ]
         },
         {
             "name": "EVERYONE'S A STAR! (Fully Evolved)",
@@ -3646,14 +2309,7 @@
                     "alt": "EVERYONE'S A STAR! (Fully Evolved)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "5 Seconds of Summer",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/everyones-a-star-fully-evolved/1850324993"
-            }
+            ]
         },
         {
             "name": "Sleep Baby - White & Pink Noise",
@@ -3665,14 +2321,7 @@
                     "alt": "Sleep Baby - White & Pink Noise",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "MagicMotion",
-                "genre": "Children’s Music",
-                "release_year": 2012,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/sleep-baby-white-pink-noise/534263991"
-            }
+            ]
         },
         {
             "name": "Vol.II",
@@ -3684,14 +2333,7 @@
                     "alt": "Vol.II",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Angine de Poitrine",
-                "genre": "Rock",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/vol-ii/1876355936"
-            }
+            ]
         },
         {
             "name": "You'll Be Alright, Kid",
@@ -3703,14 +2345,7 @@
                     "alt": "You'll Be Alright, Kid",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Alex Warren",
-                "genre": "Pop",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/youll-be-alright-kid/1817735146"
-            }
+            ]
         },
         {
             "name": "Vol.1",
@@ -3722,14 +2357,7 @@
                     "alt": "Vol.1",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Angine de Poitrine",
-                "genre": "Rock",
-                "release_year": 2024,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/vol-1/1750092185"
-            }
+            ]
         },
         {
             "name": "The Stone Roses (20th Anniversary Collectors Edition)",
@@ -3741,14 +2369,7 @@
                     "alt": "The Stone Roses (20th Anniversary Collectors Edition)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "The Stone Roses",
-                "genre": "Rock",
-                "release_year": 1989,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-stone-roses-20th-anniversary-collectors-edition/325817925"
-            }
+            ]
         },
         {
             "name": "ABBA Gold: Greatest Hits (40th Anniversary Edition)",
@@ -3760,14 +2381,7 @@
                     "alt": "ABBA Gold: Greatest Hits (40th Anniversary Edition)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "ABBA",
-                "genre": "Pop",
-                "release_year": 1992,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/abba-gold-greatest-hits-40th-anniversary-edition/1440816833"
-            }
+            ]
         },
         {
             "name": "Romance (Deluxe Edition)",
@@ -3779,14 +2393,7 @@
                     "alt": "Romance (Deluxe Edition)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Fontaines D.C.",
-                "genre": "Alternative",
-                "release_year": 2024,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/romance-deluxe-edition/1803604510"
-            }
+            ]
         },
         {
             "name": "I Barely Know Her",
@@ -3798,14 +2405,7 @@
                     "alt": "I Barely Know Her",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "sombr",
-                "genre": "Alternative",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/i-barely-know-her/1832087626"
-            }
+            ]
         },
         {
             "name": "Hybrid Theory (Deluxe Edition)",
@@ -3817,14 +2417,7 @@
                     "alt": "Hybrid Theory (Deluxe Edition)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "LINKIN PARK",
-                "genre": "Rock",
-                "release_year": 2000,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/hybrid-theory-deluxe-edition/590431776"
-            }
+            ]
         },
         {
             "name": "Ö",
@@ -3836,14 +2429,7 @@
                     "alt": "Ö",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Fcukers",
-                "genre": "Dance",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/%C3%B6/1861895134"
-            }
+            ]
         },
         {
             "name": "Stick Season (Forever)",
@@ -3855,14 +2441,7 @@
                     "alt": "Stick Season (Forever)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Noah Kahan",
-                "genre": "Alternative",
-                "release_year": 2024,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/stick-season-forever/1728501020"
-            }
+            ]
         },
         {
             "name": "These Are The Good Days",
@@ -3874,14 +2453,7 @@
                     "alt": "These Are The Good Days",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Scouting for Girls",
-                "genre": "Pop",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/these-are-the-good-days/1846213855"
-            }
+            ]
         },
         {
             "name": "Midnights (The Til Dawn Edition)",
@@ -3893,14 +2465,7 @@
                     "alt": "Midnights (The Til Dawn Edition)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Taylor Swift",
-                "genre": "Pop",
-                "release_year": 2022,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/midnights-the-til-dawn-edition/1689131527"
-            }
+            ]
         },
         {
             "name": "Ocean Sounds",
@@ -3912,14 +2477,7 @@
                     "alt": "Ocean Sounds",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "SleepTherapy",
-                "genre": null,
-                "release_year": 2019,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/ocean-sounds/1455864111"
-            }
+            ]
         },
         {
             "name": "Creature of Habit",
@@ -3931,14 +2489,7 @@
                     "alt": "Creature of Habit",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Courtney Barnett",
-                "genre": "Singer/Songwriter",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/creature-of-habit/1859898141"
-            }
+            ]
         },
         {
             "name": "Deadbeat",
@@ -3950,14 +2501,7 @@
                     "alt": "Deadbeat",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Tame Impala",
-                "genre": "Alternative",
-                "release_year": 2025,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/deadbeat/1836226516"
-            }
+            ]
         },
         {
             "name": "Wicked: For Good – The Soundtrack (Commentary)",
@@ -3969,14 +2513,7 @@
                     "alt": "Wicked: For Good – The Soundtrack (Commentary)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Wicked Movie Cast, Cynthia Erivo & Ariana Grande",
-                "genre": "Soundtrack",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/wicked-for-good-the-soundtrack-commentary/1880545988"
-            }
+            ]
         },
         {
             "name": "Wicked: The Soundtrack",
@@ -3988,14 +2525,7 @@
                     "alt": "Wicked: The Soundtrack",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Wicked Movie Cast, Cynthia Erivo & Ariana Grande",
-                "genre": "Soundtrack",
-                "release_year": 2024,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/wicked-the-soundtrack/1772364192"
-            }
+            ]
         },
         {
             "name": "Legend – The Best Of Bob Marley & The Wailers",
@@ -4007,14 +2537,7 @@
                     "alt": "Legend – The Best Of Bob Marley & The Wailers",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Bob Marley & The Wailers",
-                "genre": "Reggae",
-                "release_year": 1984,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/legend-the-best-of-bob-marley-the-wailers/1469575763"
-            }
+            ]
         },
         {
             "name": "Ambiguous Desire",
@@ -4026,14 +2549,7 @@
                     "alt": "Ambiguous Desire",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Arlo Parks",
-                "genre": "Alternative",
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/ambiguous-desire/1862570378"
-            }
+            ]
         },
         {
             "name": "Get Rich or Die Tryin' (Bonus Track Version)",
@@ -4045,14 +2561,7 @@
                     "alt": "Get Rich or Die Tryin' (Bonus Track Version)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "50 Cent",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2003,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/get-rich-or-die-tryin-bonus-track-version/1440841450"
-            }
+            ]
         },
         {
             "name": "The College Dropout",
@@ -4064,14 +2573,7 @@
                     "alt": "The College Dropout",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Kanye West",
-                "genre": "Hip-Hop/Rap",
-                "release_year": 2004,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/the-college-dropout/1412872568"
-            }
+            ]
         },
         {
             "name": "REAL, Vol. 1 - EP",
@@ -4083,14 +2585,7 @@
                     "alt": "REAL, Vol. 1 - EP",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Wizkid & Asake",
-                "genre": null,
-                "release_year": 2026,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/real-vol-1-ep/1867908237"
-            }
+            ]
         },
         {
             "name": "Disney Lullabies Classic Renditions of Disney Favorites",
@@ -4102,14 +2597,7 @@
                     "alt": "Disney Lullabies Classic Renditions of Disney Favorites",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "Lullaby Baby Trio",
-                "genre": "Children’s Music",
-                "release_year": 2014,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/disney-lullabies-classic-renditions-of-disney-favorites/892858217"
-            }
+            ]
         },
         {
             "name": "From Zero (Deluxe Edition)",
@@ -4121,14 +2609,7 @@
                     "alt": "From Zero (Deluxe Edition)",
                     "order": 0
                 }
-            ],
-            "extra_data": {
-                "artist": "LINKIN PARK",
-                "genre": "Alternative",
-                "release_year": 2024,
-                "origin_country": "GB",
-                "listening_url": "https://music.apple.com/gb/album/from-zero-deluxe-edition/1801842323"
-            }
+            ]
         }
     ]
 }
