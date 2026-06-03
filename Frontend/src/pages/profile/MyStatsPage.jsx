@@ -17,7 +17,7 @@ const MyStatsPage = () => {
         <SectionHeader
           title="Tus"
           highlight="Estadísticas"
-          subtitle="Echa un vistazo a tu historial de votaciones."
+          subtitle="Así estás usando Proyecto Kudos."
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {isLoading ? (
