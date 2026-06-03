@@ -4,6 +4,14 @@ import { useFilters } from '../common/useFilters.js';
 import { useInfiniteItems } from '../items/useItemQueries.js';
 import { useInfiniteScroll } from '../common/useInfiniteScroll.js';
 
+/**
+ * Hook personalizado para manejar la lógica de la página de exploración.
+ *
+ * @return {object} Objeto con el estado, acciones y refs necesarios para la página de exploración.
+ * - `state`: Contiene el estado actual de la página, incluyendo el slug de la categoría, input de búsqueda, ordenamiento, estado de carga y error, items a mostrar, nombre de la categoría para mostrar y si se están cargando más items.
+ * - `actions`: Funciones para manejar cambios en el input de búsqueda, ordenamiento y clics en los items.
+ * - `refs`: Referencias necesarias para implementar el scroll infinito.
+ * */
 export const useExplorePage = () => {
   const { categorySlug } = useParams();
   const navigate = useNavigate();

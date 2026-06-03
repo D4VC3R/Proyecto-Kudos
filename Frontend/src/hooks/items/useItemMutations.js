@@ -4,6 +4,10 @@ import { ITEM_KEYS } from './useItemQueries';
 import {VOTE_KEYS} from "../votes/useVoteQueries.js";
 import { useBaseMutation } from '../common/useBaseMutation';
 
+/**
+ * Hooks personalizados para manejar las mutaciones relacionadas con los comentarios de los ítems.
+ * */
+// Guardar un comentario nuevo para un ítem específico. Al finalizar, invalida la consulta de los comentarios del ítem para mostrar el nuevo comentario.
 export const useCreateComment = () => {
   const queryClient = useQueryClient();
 
@@ -15,7 +19,7 @@ export const useCreateComment = () => {
     }
   });
 };
-
+// Actualizar el contenido de un comentario existente. También invalida las keys.
 export const useUpdateComment = () => {
   return useBaseMutation({
     mutationFn: ({ id, content }) => axiosClient.put(`/comments/${id}`, { content }),
@@ -24,6 +28,7 @@ export const useUpdateComment = () => {
   });
 };
 
+// Borrar un comentario e invalida las keys para reflejar el cambio.
 export const useDeleteComment = () => {
   return useBaseMutation({
     mutationFn: (id) => axiosClient.delete(`/comments/${id}`),

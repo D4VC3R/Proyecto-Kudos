@@ -4,6 +4,13 @@ import { useFilters } from '../common/useFilters.js';
 import { useMyProposals } from '../proposals/useProposalQueries.js';
 import { useDeleteProposal } from '../proposals/useProposalMutations.js';
 
+/**
+ * Hook para gestionar la lógica de la página "Mis Propuestas".
+ *
+ * @return {object} Objeto con el estado y acciones para manejar la lista de propuestas del usuario, filtros, eliminación y navegación.
+ * - `state`: Contiene la lista de propuestas, filtros, estado de carga y eliminación, y la propuesta seleccionada para eliminación.
+ * - `actions`: Funciones para actualizar filtros, manejar el modal de eliminación, confirmar eliminación y navegar a la edición de una propuesta.
+ * */
 export const useMyProposalsPage = () => {
   const navigate = useNavigate();
 

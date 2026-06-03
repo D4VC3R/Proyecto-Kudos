@@ -4,6 +4,13 @@ import { useCategories } from '../categories/useCategoryQueries';
 import { useAdminItems } from './../admin/useAdminQueries';
 import { useAdminItemActions } from './../admin/useAdminActions';
 
+/**
+ * Hook para la página de administración de ítems, que maneja la lógica de filtros, búsqueda y acciones sobre los ítems.
+ *
+ * @returns {object} Un objeto con el estado y las acciones necesarias para la página de administración de ítems.
+ * - `state`: Contiene el estado actual de la página, incluyendo la página actual, el input de búsqueda, los filtros aplicados, la respuesta de los ítems, el estado de carga y error, las opciones de categoría y las acciones del modal.
+ * - `actions`: Contiene las funciones para manejar la paginación, el cambio en el input de búsqueda, el cambio en los filtros y las acciones del modal.
+ * */
 export const useAdminItemsPage = () => {
   const { page, setPage, searchInput, debouncedSearch, handleSearchChange, filters, handleFilterChange } =
     useFilters({ initialFilters: { status: '', category_id: '' } });

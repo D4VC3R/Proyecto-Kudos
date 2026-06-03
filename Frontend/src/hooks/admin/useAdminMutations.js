@@ -4,7 +4,7 @@ import { useBaseMutation } from '../common/useBaseMutation';
 import { ITEM_KEYS } from '../items/useItemQueries';
 import { ADMIN_ITEM_KEYS, ADMIN_PROPOSAL_KEYS, ADMIN_USER_KEYS } from './useAdminQueries';
 
-// --- CATEGORIES ---
+// --- CATEGORIAS ---
 export const useCreateCategory = () => {
   return useBaseMutation({
     mutationFn: (newCategory) => axiosClient.post('/categories', newCategory),
@@ -27,7 +27,7 @@ export const useDeleteCategory = () => {
   });
 };
 
-// --- COMMENTS ---
+// --- COMENTARIOS ---
 export const useAdminHideComment = () => {
   return useBaseMutation({
     mutationFn: ({ id, reason }) => axiosClient.patch(`/admin/comments/${id}/hide`, { reason }),
@@ -82,7 +82,7 @@ export const useAdminDeleteItem = () => {
   });
 };
 
-// --- PROPOSALS ---
+// --- PROPUESTAS ---
 export const useReviewProposal = () => {
   const queryClient = useQueryClient();
   return useBaseMutation({
@@ -98,7 +98,7 @@ export const useReviewProposal = () => {
   });
 };
 
-// --- USERS ---
+// --- USUARIOS ---
 export const useBanUser = () => {
   const queryClient = useQueryClient();
   return useBaseMutation({

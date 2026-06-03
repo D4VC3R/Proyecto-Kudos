@@ -11,6 +11,8 @@ import {
   BarChart3, Trophy, Medal
 } from 'lucide-react';
 
+
+ // Configuración para los estados de las propuestas, incluyendo colores, iconos y etiquetas.
 export const PROPOSAL_STATUS_CONFIG = {
   pending: {
     color: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -34,6 +36,7 @@ export const PROPOSAL_STATUS_CONFIG = {
   }
 };
 
+// Configuración del ranking, con estilos específicos para los primeros 3 puestos y un estilo genérico para el resto.
 export const RANK_CONFIG = {
   1: {
     wrapperClass: 'bg-gradient-to-r from-yellow-200 to-white border-accent shadow-[20px_0_25px_rgba(250,204,21,0.5)] z-30 border-2 py-5 px-5',
@@ -71,6 +74,7 @@ export const RANK_CONFIG = {
   }
 };
 
+// Configuración de colores para las etiquetas del bloque de administración según su estado.
 export const statusColors = {
   pending: 'bg-yellow-100 text-yellow-700',
   accepted: 'bg-green-100 text-green-700',
@@ -80,7 +84,8 @@ export const statusColors = {
   inactive: 'bg-slate-100 text-slate-700'
 };
 
-const categoryIcons = {
+// Iconos asociados a cada categoría.
+export const categoryIcons = {
   'ciudades': Building2,
   'politicos': Landmark,
   'albumes musicales': Disc,
@@ -93,15 +98,7 @@ const categoryIcons = {
   'libros': Book,
 };
 
-export const getCategoryIcon = (categoryName) => {
-  const normalizedName = categoryName
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-
-  return categoryIcons[normalizedName] || LayoutGrid;
-};
-
+// Objeto con la configuración de las pestañas para el panel de administración.
 export const adminTabs = [
   { name: 'Usuarios', to: '/admin/users', icon: Users },
   { name: 'Propuestas', to: '/admin/proposals', icon: FileText },
@@ -109,6 +106,7 @@ export const adminTabs = [
   { name: 'Items', to: '/admin/items', icon: Target },
 ];
 
+// Objeto con la configuración de las pestañas para el panel de perfil.
 export const profileTabs = [
   { id: 'info', name: 'Información', icon: UserIcon },
   { id: 'proposals', name: 'Mis Propuestas', icon: List },
@@ -116,4 +114,5 @@ export const profileTabs = [
   { id: 'stats', name: 'Estadísticas', icon: BarChart3 },
 ];
 
+// Clases de Tailwind para el tamaño de las estrellas en la sección de votación..
 export const STAR_SIZE_CLASSES = "w-6 h-6 min-[400px]:w-7 min-[400px]:h-7 sm:w-8 sm:h-8 md:w-10 md:h-10";

@@ -3,6 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useInfiniteCategoryRanking } from '../categories/useCategoryQueries.js';
 import { useInfiniteItems } from '../items/useItemQueries.js';
 
+/**
+ * Hook para la página de categoría, que maneja tanto el ranking como los ítems destacados.
+ *
+ * @returns {Object} Un objeto con el estado y las acciones para la página de categoría.
+ * - `state`: Contiene toda la información relevante para renderizar la página, como el slug de la categoría, los datos del ranking, los ítems destacados, estados de carga y errores.
+ * - `actions`: Funciones para manejar interacciones del usuario, como cargar más datos o navegar a detalles de ítems.
+ * */
 export const useCategoryPage = () => {
   const { categorySlug } = useParams();
   const navigate = useNavigate();

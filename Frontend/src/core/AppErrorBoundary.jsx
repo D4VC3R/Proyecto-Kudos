@@ -1,5 +1,11 @@
 import React from 'react';
+import FeedbackState from "../components/ui/FeedbackState.jsx";
+import logo from "./../../public/logo.svg"
 
+/**
+ * Pantalla de error, evita mostrar la página en blanco
+ * si ocurre un error no controlado.
+ * */
 export class AppErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -17,10 +23,16 @@ export class AppErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <main className="mx-auto mt-16 w-full max-w-xl rounded-2xl border border-slate-800 bg-slate-900 p-8 text-center text-slate-100">
-          <h1 className="text-2xl font-bold">Se produjo un error inesperado</h1>
-          <p className="mt-2 text-slate-300">Recarga la pagina. Si persiste, revisa la consola del navegador.</p>
-        </main>
+          <div className="flex min-h-[50vh] w-full items-center justify-center p-4">
+            <FeedbackState
+                icon={logo}
+                iconColorClass="bg-red-100 text-red-600"
+                title="Esto no pinta bien..."
+                description="Estamos trabajando para volver lo más rápido posible."
+                actionText="Recargar página"
+                onAction={this.handleReload}
+            />
+          </div>
       );
     }
 
