@@ -3,8 +3,9 @@ import { Toaster } from 'react-hot-toast';
 import { AppErrorBoundary } from '../core/AppErrorBoundary.jsx';
 import { queryClient } from '../core/queryClient.js';
 
-
-// Proveedores globales de la aplicación (errores, alertas toast, React Query)
+/**
+ * Proveedores globales de la aplicación (errores, alertas toast, React Query)
+ * */
 export const AppProviders = ({ children }) => {
   return (
     <AppErrorBoundary>

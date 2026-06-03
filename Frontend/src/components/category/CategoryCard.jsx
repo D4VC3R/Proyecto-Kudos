@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getCategoryIcon } from "../../lib/constants.js";
+import { getCategoryIcon } from "../../lib/formatters.js";
 import BouncyCard from '../animations/BouncyCard';
 import HoverFadeText from '../animations/HoverFadeText';
 import StorageImage from "../ui/StorageImage.jsx";

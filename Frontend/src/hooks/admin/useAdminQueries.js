@@ -19,7 +19,7 @@ export const useAdminItems = (filters = {}) => {
   });
 };
 
-// --- PROPOSALS ---
+// --- PROPUESTAS ---
 export const ADMIN_PROPOSAL_KEYS = {
   all: ['admin-proposals'],
   lists: () => [...ADMIN_PROPOSAL_KEYS.all, 'list'],
@@ -45,7 +45,7 @@ export const useAdminProposals = (filters = {}) => {
   });
 };
 
-// --- USERS ---
+// --- USUARIOS ---
 export const ADMIN_USER_KEYS = {
   all: ['admin-users'],
   lists: () => [...ADMIN_USER_KEYS.all, 'list'],

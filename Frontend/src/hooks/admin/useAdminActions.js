@@ -7,6 +7,12 @@ import {
   useBanUser, useUnbanUser, useRevokeUserSessions
 } from './useAdminMutations';
 
+/**
+* Centraliza la lógica de acciones administrativas para categorías, ítems, propuestas y usuarios.
+* Proporciona funciones para abrir modales, manejar formularios y ejecutar mutaciones.
+* Cada sección (categorías, ítems, propuestas, usuarios) tiene su propio hook para mantener la claridad y separación de responsabilidades.
+*/
+
 
 export const useAdminCategoryActions = () => {
   const { isOpen, modalType, modalData: selectedCat, openModal, closeModal } = useModal();

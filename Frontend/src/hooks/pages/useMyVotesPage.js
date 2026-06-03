@@ -4,6 +4,14 @@ import { useInfiniteScroll } from '../common/useInfiniteScroll.js';
 import { useInfiniteMyVotes } from '../votes/useVoteQueries.js';
 import { useDeleteVote, useUpdateVote } from '../votes/useVoteMutations.js';
 
+/**
+ * Hook personalizado para manejar la lógica de la página "Mis Votos".
+ *
+ * @return {object} Objeto con el estado, acciones y refs necesarios para la página de "Mis Votos".
+ * - `state`: Contiene el estado actual de la página, incluyendo el tipo de vista, categoría seleccionada, lista de votos, meta información, estados de carga y eliminación/actualización.
+ * - `actions`: Funciones para actualizar los filtros, manejar la apertura/cierre del modal de eliminación y confirmar la eliminación de un voto.
+ * - `refs`: Referencias necesarias para implementar el scroll infinito.
+ * */
 export const useMyVotesPage = () => {
   const { filters, setFilters } = useFilters({
     initialFilters: { type: 'all', category_slug: '' }

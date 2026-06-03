@@ -1,3 +1,5 @@
+import {categoryIcons} from "./constants.js";
+
 export const formatDate = (dateString) => {
   if (!dateString) return '';
   return new Date(dateString).toLocaleDateString('es-ES', {
@@ -53,5 +55,16 @@ export const formatStatus = (status) => {
     default: return status;
   }
 }
+
+// Devuelve el icono asociado a una categoría
+export const getCategoryIcon = (categoryName) => {
+
+  const normalizedName = categoryName
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  return categoryIcons[normalizedName] || LayoutGrid;
+};
 
 

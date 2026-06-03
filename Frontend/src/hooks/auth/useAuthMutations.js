@@ -2,10 +2,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../core/axiosClient.js';
 import { useSessionStore } from '../../store/useSessionStore';
 import { useBaseMutation } from '../common/useBaseMutation';
+/** Hooks personalizados para manejar las mutaciones relacionadas con la autenticación.
+ *
+ * Cada hook utiliza `useBaseMutation` para manejar la lógica común de las mutaciones, como mostrar mensajes de éxito y manejar errores.
+ * Algunos hooks interactúan con el estado global de la sesión y el cliente de React Query para mantener los datos sincronizados.
+ */
 
 /**
- * Al iniciar sesión, se guarda el token y la información del usuario en el store de sesión, y se limpia la caché de queries para asegurar que cualquier dato relacionado con el usuario se vuelva a cargar con la nueva sesión.
- *
+ * useLogin: Maneja el proceso de inicio de sesión. Envía las credenciales al backend, actualiza el estado de la sesión con el token
+ * y la información del usuario, y limpia el caché de consultas para reflejar el nuevo estado autenticado.
  * */
 export const useLogin = () => {
   const setSession = useSessionStore((state) => state.setSession);
@@ -22,6 +27,10 @@ export const useLogin = () => {
   });
 };
 
+/** useLogout: Maneja el proceso de cierre de sesión.
+ * Envía una solicitud al backend para cerrar la sesión, limpia el estado de la sesión y el caché de consultas.
+ *
+ */
 export const useLogout = () => {
   const clearSession = useSessionStore((state) => state.clearSession);
   const queryClient = useQueryClient();
@@ -36,6 +45,9 @@ export const useLogout = () => {
   });
 };
 
+/** useRegister: Maneja el proceso de registro de nuevos usuarios.
+ * Al finalizar, limpia el caché de consultas para reflejar cualquier cambio relacionado con la autenticación.
+ */
 export const useRegister = () => {
   const queryClient = useQueryClient();
 
@@ -48,6 +60,9 @@ export const useRegister = () => {
   });
 };
 
+/** useForgotPassword: Maneja el proceso de solicitud de restablecimiento de contraseña.
+ * Envía el correo electrónico al backend y muestra un mensaje genérico para evitar revelar si el correo existe o no.
+ */
 export const useForgotPassword = () => {
   return useBaseMutation({
     mutationFn: (data) => axiosClient.post('/forgot-password', data),

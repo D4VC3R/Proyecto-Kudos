@@ -4,6 +4,11 @@ import toast from 'react-hot-toast';
 import {Loader2, MailCheck, Mail, AlertCircle} from 'lucide-react';
 import {useVerifyEmail as useVerifyEmailQuery} from './useAuthQueries';
 
+/**
+ * Custom hook para manejar la lógica de verificación de email.
+ * Extrae el parámetro de verificación de la URL, realiza la consulta de verificación y maneja los estados de carga, éxito y error.
+ * Devuelve un objeto con la información necesaria para mostrar el estado actual de la verificación en la interfaz de usuario.
+ */
 const useVerifyEmail = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
