@@ -6,7 +6,7 @@ const UserRankingTable = ({ items, page, setPage, meta, itemsPerPage = 10 }) => 
   return (
     <div className="w-full">
       <Ranking
-        title="Top Usuarios"
+        title="Usuarios"
         items={items}
         page={page}
         itemsPerPage={itemsPerPage}

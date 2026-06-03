@@ -78,7 +78,7 @@ const CategoryPage = () => {
             </div>
           ) : (
             <Ranking
-              title="Top Ranking Global"
+              title={state.category?.name}
               items={state.rankingItems}
               itemsPerPage={state.itemsPerPage}
               fetchNextPage={actions.fetchNextRanking}

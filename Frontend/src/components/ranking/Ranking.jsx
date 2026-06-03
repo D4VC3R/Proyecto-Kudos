@@ -46,7 +46,7 @@ const Ranking = ({
   return (
     <div className={`flex ${containerHeightClass} w-full flex-col rounded-3xl bg-surface p-6 md:p-8 shadow-2xl ring-2 ring-slate-200 overflow-hidden`}>
       <div className="mb-6 flex items-center justify-between shrink-0 border-b border-slate-100 pb-4">
-        <h2 className="text-2xl font-black text-text-highlight">{title}</h2>
+        <h2 className="text-2xl font-black text-text-highlight">Top <span className="text-primary">{title}</span></h2>
         <Trophy className="text-accent" size={32} />
       </div>
 
