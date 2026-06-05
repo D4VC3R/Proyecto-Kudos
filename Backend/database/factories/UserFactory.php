@@ -14,27 +14,24 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-
     /**
      * Define el estado por defecto de los atributos del usuario.
-     * Genera datos aleatorios para el nombre, correo electrónico, verificación de correo, contraseña y token de recuerdo.
      *
      * @return array Los atributos del usuario con datos generados.
      */
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name'              => fake()->name(),
+            'email'             => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'password'          => Hash::make('password'),
+            'remember_token'    => Str::random(10),
         ];
     }
 
     /**
      * Configura la fábrica para crear un perfil asociado cada vez que se crea un usuario.
-     * Utiliza la función afterCreating para generar un perfil con el user_id del usuario recién creado.
      *
      * @return $this La instancia de la fábrica configurada para crear perfiles automáticamente.
      */
@@ -46,7 +43,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Define un estado para un usuario no verificado, estableciendo el campo email_verified_at como null.
+     * Define un estado para un usuario no verificado.
      *
      * @return static La instancia de la fábrica con el estado actualizado a no verificado.
      */
@@ -54,21 +51,6 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
-        ]);
-    }
-
-    /**
-     * Define un estado para un usuario administrador, estableciendo un nombre, correo electrónico y contraseña específicos, y marcando el correo como verificado.
-     *
-     * @return static La instancia de la fábrica con el estado actualizado a administrador.
-     */
-    public function admin(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'name' => 'kudosAdmin',
-            'email' => 'admin@kudos.com',
-            'password' => Hash::make('password123'),
-            'email_verified_at' => now(),
         ]);
     }
 }
