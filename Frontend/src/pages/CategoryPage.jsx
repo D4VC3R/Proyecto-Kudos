@@ -52,7 +52,7 @@ const CategoryPage = () => {
         <Skeleton className="mb-8 min-h-[250px] w-full rounded-3xl shadow-xl ring-1 ring-border" />
       ) : state.isErrorDetailed ? (
         <div className="mb-8 flex min-h-[250px] w-full items-center justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border">
-          <p className="text-text-normal text-sm">No se pudieron cargar los candidatos destacados.</p>
+          <p className="text-text-normal text-sm">No se pudieron cargar los ítems destacados.</p>
         </div>
       ) : state.sliderItems.length > 0 && (
         <div className="mb-8 flex min-h-[250px] w-full flex-col justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border">
@@ -71,7 +71,7 @@ const CategoryPage = () => {
         />
         <div className="lg:col-span-7 flex flex-col w-full">
           {state.isLoadingRanking || (state.isFetchingRanking && !state.hasRankingData) ? (
-            <Skeleton className="min-h-[500px] w-full rounded-3xl shadow-xl ring-1 ring-border" />
+            <Skeleton className="min-h-[800px] w-full rounded-3xl shadow-xl ring-1 ring-border" />
           ) : state.isErrorRanking && !state.hasRankingData ? (
             <div className="flex min-h-[500px] w-full items-center justify-center rounded-3xl bg-surface p-6 text-center shadow-xl ring-1 ring-border">
               <p className="text-text-normal">Error al cargar el ranking: {state.rankingError?.message}</p>
