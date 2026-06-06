@@ -80,8 +80,6 @@ Sistema idempotente con ledger de transacciones.
 
 Piezas clave:
 - `app/Services/KudosService.php`
-- `app/Services/KudosRules.php`
-- `app/Services/DailyLoginKudosService.php`
 - `config/kudos.php`
 
 ### 3) Propuestas y moderación
