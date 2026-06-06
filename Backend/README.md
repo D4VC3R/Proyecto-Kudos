@@ -7,9 +7,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Proyecto Kudos - Backend
+# ⚙️ Proyecto Kudos - Backend
 
-Backend API de Kudos construido con Laravel 12, autenticación por token (Sanctum), autorización por roles (Spatie), verificación de email, votación y creación de ítems, sistema de puntos (kudos) y panel de administración con moderación y baneos.
+<img src="https://skillicons.dev/icons?i=laravel,php,mysql,redis,docker" alt="Backend Stack" />
+
+> Backend API de Kudos construido con Laravel 12. Gestiona la autenticación por token (Sanctum), autorización por roles (Spatie), verificación de email, votación, creación de ítems, el sistema de puntos (Kudos) y el panel de administración con moderación y baneos.
 
 ## Objetivo de arquitectura
 
@@ -205,6 +207,7 @@ Categorías cubiertas por snapshots locales:
 
 ```bash
 php artisan migrate:fresh --seed
+php artisan storage:link
 php artisan route:list
 ```
 
@@ -212,16 +215,15 @@ php artisan route:list
 
 Para el desarrollo de nuevas funcionalidades:
 
-1. **Rutas:** Registrar en `api.php` o `auth.php`.
+1. **Rutas:** Registrar en `api.php` o `auth.php` según contexto.
 2. **Validación:** Crear un `Request` (`make:request`) específico.
 3. **Controlador:** Crear un `Controller` (`make:controller`). Su trabajo debe limitarse a delegar datos extraídos y retornar un `Resource`.
 4. **Lógica de Ejecución Transaccional:** Crear un `Action` si la petición requiere manejar transacciones complejas o varias mutaciones en base de datos.
 5. **Lógica de Dominio Reutilizable:** Centralizar las validaciones o herramientas comunes de modelo de datos en un `Service`.
-6. **Respuesta:** Crear y retornar siempre un `Resource` (`make:resource`) o `ResourceCollection`. No devuelvas arrays fijos manualmente si representa un Modelo que puedes escalar.
+6. **Respuesta:** Crear y retornar siempre un `Resource` (`make:resource`) o `ResourceCollection`. No devuelvas arrays fijos manualmente.
 
 ## Documentación de contrato API
 
 - Contrato JSON de respuestas y errores: `docs/api-contract.md`
 - Referencia completa de endpoints y flujos: `docs/api-reference.md`
-- Convención de autorización: `docs/authorization-conventions.md`
 - Colección Postman: `docs/postman/Proyecto-Kudos.postman_collection.json`
