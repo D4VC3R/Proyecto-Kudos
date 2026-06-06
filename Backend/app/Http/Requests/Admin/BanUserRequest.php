@@ -43,7 +43,7 @@ class BanUserRequest extends FormRequest
             'is_permanent.boolean' => 'El campo es permanente debe ser verdadero o falso.',
             'days.required_unless' => 'El campo días es obligatorio.',
             'days.integer' => 'El campo días debe ser un número entero.',
-            'days.min' => 'El campo días debe tener al menos 1 caracteres/elementos.',
+            'days.min' => 'El campo días requiere al menos un dígito.',
             'days.max' => 'El campo días no puede superar los 3650 caracteres/elementos.',
             'reason.required' => 'El campo motivo es obligatorio.',
             'reason.string' => 'El campo motivo debe ser texto.',
