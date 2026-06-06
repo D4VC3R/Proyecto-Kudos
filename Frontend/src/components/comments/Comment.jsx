@@ -10,7 +10,7 @@ import { useSessionStore } from '../../store/useSessionStore';
 import { useAdminUnhideComment } from '../../hooks/admin/useAdminMutations';
 import { useUpdateComment } from '../../hooks/items/useItemMutations';
 
-const Comment = ({ comment, onRequestHide, onRequestDelete }) => {
+const Comment = ({ comment, itemId, onRequestHide, onRequestDelete }) => {
   const { user } = useSessionStore();
   const isAdmin = user?.role === 'admin';
   const isOwner = user?.id === comment.user?.id;
@@ -26,7 +26,10 @@ const Comment = ({ comment, onRequestHide, onRequestDelete }) => {
 
   const handleUpdate = () => {
     if (editContent.trim() && editContent !== comment.content) {
-      updateComment({ id: comment.id, content: editContent }, { onSuccess: () => setIsEditing(false) });
+      updateComment(
+        { id: comment.id, itemId: itemId, content: editContent },
+        { onSuccess: () => setIsEditing(false) }
+      );
     } else {
       setIsEditing(false);
     }

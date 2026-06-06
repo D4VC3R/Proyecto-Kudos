@@ -51,7 +51,7 @@ const CommentBox = ({ itemId, className = "" }) => {
     if (modalType === 'hide') {
       hideComment({ id: activeCommentId, reason: hideReason }, { onSuccess: closeModal });
     } else if (modalType === 'delete') {
-      deleteComment(activeCommentId, { onSuccess: closeModal });
+      deleteComment({ id: activeCommentId, itemId }, { onSuccess: closeModal });
     }
   };
 
@@ -79,6 +79,7 @@ const CommentBox = ({ itemId, className = "" }) => {
         {comments?.map((comment) => (
           <Comment
             key={comment.id}
+            itemId={itemId}
             comment={comment}
             onRequestHide={() => requestHide(comment.id)}
             onRequestDelete={() => requestDelete(comment.id)}

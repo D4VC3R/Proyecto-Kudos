@@ -1,7 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../core/axiosClient.js';
 import { ITEM_KEYS } from './useItemQueries';
-import {VOTE_KEYS} from "../votes/useVoteQueries.js";
 import { useBaseMutation } from '../common/useBaseMutation';
 
 /**
@@ -21,19 +20,31 @@ export const useCreateComment = () => {
 };
 // Actualizar el contenido de un comentario existente. También invalida las keys.
 export const useUpdateComment = () => {
+  const queryClient = useQueryClient();
+
   return useBaseMutation({
     mutationFn: ({ id, content }) => axiosClient.put(`/comments/${id}`, { content }),
-    invalidateKeys: [ITEM_KEYS.all][VOTE_KEYS.infiniteMyVotes()],
     successMessage: 'Comentario actualizado',
+    onSuccessExtra: (_, variables) => {
+      if (variables.itemId) {
+        queryClient.invalidateQueries({ queryKey: [...ITEM_KEYS.detail(variables.itemId), 'comments'] });
+      }
+    }
   });
 };
 
 // Borrar un comentario e invalida las keys para reflejar el cambio.
 export const useDeleteComment = () => {
+  const queryClient = useQueryClient();
+
   return useBaseMutation({
-    mutationFn: (id) => axiosClient.delete(`/comments/${id}`),
-    invalidateKeys: [ITEM_KEYS.all],
+    mutationFn: ({ id }) => axiosClient.delete(`/comments/${id}`),
     successMessage: 'Comentario eliminado',
+
+    onSuccessExtra: (_, variables) => {
+      if (variables.itemId) {
+        queryClient.invalidateQueries({ queryKey: [...ITEM_KEYS.detail(variables.itemId), 'comments'] });
+      }
+    }
   });
 };
-
