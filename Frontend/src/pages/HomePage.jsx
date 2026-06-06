@@ -2,7 +2,7 @@ import React from 'react';
 // Componentes
 import StaggerGrid from '../components/animations/StaggerGrid.jsx';
 import CategoryCard from '../components/category/CategoryCard';
-import CategoryCardSkeleton from '../components/category/CategoryCardSkeleton';
+import CategoryCardSkeleton from '../components/ui/skeletons/CategoryCardSkeleton.jsx';
 import SectionHeader from "../components/ui/SectionHeader.jsx";
 import StaggerItem from "../components/animations/StaggerItem.jsx";
 // Hooks

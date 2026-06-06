@@ -6,7 +6,7 @@ import ProfileOverview from './ProfileOverview.jsx';
 import MyProposalsPage from './MyProposalsPage.jsx';
 import MyVotesPage from './MyVotesPage.jsx';
 import MyStatsPage from './MyStatsPage.jsx';
-import ProfileInfoFormSkeleton from '../../components/profile/ProfileInfoFormSkeleton.jsx';
+import ProfileInfoFormSkeleton from '../../components/ui/skeletons/ProfileInfoFormSkeleton.jsx';
 import SectionHeader from "../../components/ui/SectionHeader.jsx";
 import ProfileTabs from "../../components/profile/ProfileTabs.jsx";
 import FeedbackState from '../../components/ui/FeedbackState.jsx';

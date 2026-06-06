@@ -5,7 +5,7 @@ import MyProposalsHeader from '../../components/proposals/MyProposalsHeader.jsx'
 import MyProposalsEmpty from '../../components/proposals/MyProposalsEmpty.jsx';
 import FeedbackState from "../../components/ui/FeedbackState.jsx";
 import MyProposalItemCard from '../../components/proposals/MyProposalItemCard.jsx';
-import MyProposalItemCardSkeleton from '../../components/proposals/MyProposalItemCardSkeleton.jsx';
+import MyProposalItemCardSkeleton from '../../components/ui/skeletons/MyProposalItemCardSkeleton.jsx';
 import FadeUp from "../../components/animations/FadeUp.jsx";
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from "../../components/ui/ModalButtons.jsx";

@@ -1,5 +1,5 @@
 import React from 'react';
-import Skeleton from '../ui/skeletons/Skeleton.jsx';
+import Skeleton from './Skeleton.jsx';
 
 const MyVoteItemCardSkeleton = () => {
   return (

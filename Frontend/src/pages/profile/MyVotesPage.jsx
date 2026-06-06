@@ -4,7 +4,7 @@ import {Loader2} from 'lucide-react';
 import MyVotesHeader from '../../components/votes/MyVotesHeader.jsx';
 import MyVotesEmpty from '../../components/votes/MyVotesEmpty.jsx';
 import MyVoteItemCard from '../../components/votes/MyVoteItemCard.jsx';
-import MyVoteItemCardSkeleton from '../../components/votes/MyVoteItemCardSkeleton.jsx';
+import MyVoteItemCardSkeleton from '../../components/ui/skeletons/MyVoteItemCardSkeleton.jsx';
 import FadeUp from "../../components/animations/FadeUp.jsx";
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from '../../components/ui/ModalButtons.jsx';
