@@ -1,5 +1,5 @@
 import React from 'react';
-import Skeleton from '../ui/Skeleton.jsx'; // Tu componente genérico de esqueleto
+import Skeleton from '../ui/skeletons/Skeleton.jsx';
 
 const ProfileInfoFormSkeleton = () => {
   return (

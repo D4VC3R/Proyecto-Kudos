@@ -1,5 +1,5 @@
 import React from 'react';
-import Skeleton from '../ui/Skeleton.jsx';
+import Skeleton from '../ui/skeletons/Skeleton.jsx';
 
 const CategoryCardSkeleton = () => (
   <div className="h-80 w-full rounded-3xl bg-surface shadow-lg ring-1 ring-slate-200 p-6 flex flex-col justify-end relative overflow-hidden">

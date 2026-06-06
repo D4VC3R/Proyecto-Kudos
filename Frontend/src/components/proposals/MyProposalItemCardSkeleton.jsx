@@ -1,5 +1,5 @@
 import React from 'react';
-import Skeleton from '../ui/Skeleton.jsx';
+import Skeleton from '../ui/skeletons/Skeleton.jsx';
 
 const MyProposalItemCardSkeleton = () => {
   return (

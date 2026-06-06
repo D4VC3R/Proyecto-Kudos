@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 // Componentes
 import UserRankingMyPositionCard from '../components/ui/ranking/UserRankingMyPositionCard';
 import UserRankingTable from '../components/ui/ranking/UserRankingTable';
-import Skeleton from '../components/ui/Skeleton.jsx';
+import Skeleton from '../components/ui/skeletons/Skeleton.jsx';
 import SectionHeader from "../components/ui/SectionHeader.jsx";
 // Hooks
 import { useUserRanking } from '../hooks/users/useUserQueries';
+import RankingSkeleton from "../components/ui/skeletons/RankingSkeleton.jsx";
 
 const RankingPage = () => {
   const [page, setPage] = useState(1);
@@ -32,7 +33,7 @@ const RankingPage = () => {
         {isLoading ? (
           <>
             <Skeleton className="h-32 w-full rounded-3xl" />
-            <Skeleton className="h-[500px] w-full rounded-3xl" />
+            <RankingSkeleton />
           </>
         ) : (
           <>
