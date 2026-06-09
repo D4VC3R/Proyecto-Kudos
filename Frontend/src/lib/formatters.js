@@ -1,4 +1,5 @@
 import {categoryIcons} from "./constants.js";
+import {LayoutGrid} from "lucide-react";
 
 export const formatDate = (dateString) => {
   if (!dateString) return '';
