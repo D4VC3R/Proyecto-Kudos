@@ -40,7 +40,7 @@ services:
         limits:
           memory: 1G
 
-  # Procesa la cola (tabla jobs de PostgreSQL): hoy, los correos de verificación y de reset.
+  # Procesa la cola (tabla jobs de PostgreSQL): los correos de reset de contraseña y de verificación.
   # --max-time recicla el proceso cada hora (restart lo vuelve a levantar) para no acumular memoria.
   worker:
     <<: *laravel

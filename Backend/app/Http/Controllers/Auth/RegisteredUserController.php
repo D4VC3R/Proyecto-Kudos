@@ -41,6 +41,12 @@ class RegisteredUserController extends Controller
             // Si esto falla, se hace rollback automático de la creación del usuario.
             $newUser->profile()->create();
 
+            // Con la verificación de email apagada, la cuenta nace verificada: el middleware 'verified'
+            // la deja pasar y el listener de Registered no envía el correo (solo lo hace si falta verificar).
+            if (! config('auth.verification.enabled')) {
+                $newUser->markEmailAsVerified();
+            }
+
             return $newUser;
         });
 
@@ -53,7 +59,9 @@ class RegisteredUserController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                ]
+                ],
+                // El frontend decide con esto si muestra "revisa tu correo" o manda directamente al login.
+                'requires_email_verification' => ! $user->hasVerifiedEmail(),
             ],
             status: 201,
         );

@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
  *
  * @param mutationFn - Función que realiza la mutación (ej. llamada a API).
  * @param invalidateKeys - Array de claves de consultas a invalidar tras el éxito de la mutación.
- * @param successMessage - Mensaje a mostrar en caso de éxito.
+ * @param successMessage - Mensaje a mostrar en caso de éxito, o función que lo construye a partir de la respuesta.
  * @param errorMessage - Mensaje a mostrar en caso de error (opcional).
  * @param onSuccessExtra - Función adicional a ejecutar tras el éxito (opcional).
  * @param onErrorExtra - Función adicional a ejecutar tras el error (opcional).
@@ -33,7 +33,8 @@ export const useBaseMutation = ({
           queryClient.invalidateQueries({ queryKey: key });
         });
       }
-      if (successMessage) toast.success(successMessage);
+      const message = typeof successMessage === 'function' ? successMessage(data) : successMessage;
+      if (message) toast.success(message);
       if (onSuccessExtra) onSuccessExtra(data, variables, context);
     },
     onError: (error, variables, context) => {
