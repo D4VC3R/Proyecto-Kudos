@@ -35,7 +35,8 @@ services:
       POSTGRES_USER: '${DB_USERNAME:-sail}'
       POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
     volumes:
-      - 'sail-pgsql:/var/lib/postgresql/data'
+      # PostgreSQL 18+ guarda los datos en /var/lib/postgresql/<versión>/docker: el volumen va en el directorio padre.
+      - 'sail-pgsql:/var/lib/postgresql'
     networks:
       - sail
     healthcheck:

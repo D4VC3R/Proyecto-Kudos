@@ -56,6 +56,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Frontend URL
+    |--------------------------------------------------------------------------
+    |
+    | URL pública del frontend, usada para construir los enlaces de los correos
+    | (verificación de email y restablecimiento de contraseña). FRONTEND_URL
+    | puede ser una lista separada por comas (orígenes CORS en desarrollo);
+    | aquí se toma solo el primer valor.
+    |
+    */
+
+    'frontend_url' => rtrim(trim(explode(',', (string) env('FRONTEND_URL', 'http://localhost:5174'))[0]), '/'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

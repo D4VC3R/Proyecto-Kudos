@@ -31,5 +31,13 @@ return [
         'proposal_accepted' => 'proposal_accepted',
         'daily_login_streak' => 'daily_login_streak',
     ],
+
+    // Credenciales del administrador que crea UserSeeder. Se leen aquí (y no con env() en el seeder)
+    // porque con la configuración cacheada env() devuelve null fuera de config/.
+    'seed_admin' => [
+        'name' => env('SEED_ADMIN_NAME', 'kudosAdmin'),
+        'email' => env('SEED_ADMIN_EMAIL'),
+        'password' => env('SEED_ADMIN_PASSWORD'),
+    ],
 ];
 
