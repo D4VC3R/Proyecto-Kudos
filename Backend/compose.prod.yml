@@ -1,0 +1,141 @@
+# Stack de PRODUCCIÓN de la API de Kudos (VPS). El desarrollo local usa compose.yml (Sail).
+#
+# Es un fichero independiente y no un override de compose.yml: producción cambia casi todo (imagen,
+# volúmenes, puertos, servicios) y Compose SUMA listas al combinar ficheros, así que un override
+# tendría que anular puertos y montajes uno a uno.
+#
+# Uso (desde Backend/):  docker compose -f compose.prod.yml --env-file .env.production <comando>
+# Despliegue completo:   ./deploy.sh (en la raíz del repositorio)
+#
+# Presupuesto de memoria (VPS de 4 GB compartido; Kudos dispone de 2-2,5 GB):
+#   postgres 512M + app 1G + worker 256M + redis 128M + nginx 64M = ~2 GB
+
+# Sin esto el proyecto se llamaría "backend" (la carpeta) y podría chocar con otros proyectos del VPS.
+name: kudos
+
+# Configuración común de app y worker: misma imagen, mismas variables y mismos volúmenes.
+x-laravel: &laravel
+  image: kudos-api:latest
+  build:
+    context: .
+    target: app
+  env_file: .env.production
+  restart: unless-stopped
+  volumes:
+    - storage-public:/var/www/html/storage/app/public
+    - storage-logs:/var/www/html/storage/logs
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  # PHP-FPM: atiende las peticiones que le pasa nginx por el puerto 9000 de la red interna.
+  app:
+    <<: *laravel
+    # 1G: memory_limit de PHP es 512M (procesado de imágenes) y hay hasta 5 procesos FPM.
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  # Procesa la cola (tabla jobs de PostgreSQL): hoy, los correos de verificación y de reset.
+  # --max-time recicla el proceso cada hora (restart lo vuelve a levantar) para no acumular memoria.
+  worker:
+    <<: *laravel
+    command: ["php", "artisan", "queue:work", "--tries=3", "--backoff=60", "--max-time=3600"]
+    # Tiempo para terminar el job en curso antes de que Docker mate el proceso al desplegar.
+    stop_grace_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  # Nginx interno. ÚNICO puerto publicado, y solo en 127.0.0.1: Docker escribe sus propias reglas
+  # de iptables y se salta ufw, así que "8001:80" quedaría abierto a internet.
+  nginx:
+    image: kudos-web:latest
+    build:
+      context: .
+      target: web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8001:80"
+    volumes:
+      - storage-public:/var/www/html/storage/app/public:ro
+    depends_on:
+      - app
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/up"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      # Solo se aplican al crear el volumen por primera vez. Cambiar DB_PASSWORD después no cambia
+      # la contraseña de la base de datos (habría que hacerlo con ALTER USER).
+      POSTGRES_DB: ${DB_DATABASE:?Falta DB_DATABASE en .env.production}
+      POSTGRES_USER: ${DB_USERNAME:?Falta DB_USERNAME en .env.production}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en .env.production}
+    # Memoria ajustada al límite de 512M: caché compartida de 128MB y pocas conexiones (PHP-FPM
+    # tiene 5 procesos como máximo, más el worker).
+    command:
+      - postgres
+      - -c
+      - shared_buffers=128MB
+      - -c
+      - effective_cache_size=384MB
+      - -c
+      - work_mem=4MB
+      - -c
+      - maintenance_work_mem=64MB
+      - -c
+      - max_connections=30
+    volumes:
+      # Desde PostgreSQL 18 los datos van en /var/lib/postgresql/<versión>/docker.
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  # Caché (límites diarios y rendimiento decreciente de votos) y sesiones.
+  # La cola NO va aquí: con maxmemory + allkeys-lru, Redis podría expulsar jobs pendientes.
+  redis:
+    image: redis:8.10-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--maxmemory", "64mb", "--maxmemory-policy", "allkeys-lru", "--save", "60", "1"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
+volumes:
+  pgdata:
+  redisdata:
+  # Imágenes subidas (avatares, ítems, propuestas). Compartido: app y worker escriben, nginx lee.
+  storage-public:
+  # Log de auditoría de moderación (canal "moderation", ficheros diarios con 30 días de retención).
+  storage-logs:

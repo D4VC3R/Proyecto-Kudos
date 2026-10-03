@@ -29,7 +29,7 @@ class ItemSeeder extends Seeder
      */
 	public function run(): void
 	{
-		$creator = User::query()->where('email', 'admin@kudos.com')->first()
+		$creator = User::query()->where('email', config('kudos.seed_admin.email'))->first()
 			?? User::query()->orderBy('created_at')->first();
 
 		if (!$creator instanceof User) {

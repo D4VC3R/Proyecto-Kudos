@@ -20,7 +20,7 @@ class ProposalSeeder extends Seeder
 	{
 		$reviewProposalAction = app(ReviewProposalAction::class);
 
-		$admin = User::role('admin')->where('email', 'admin@kudos.com')->first();
+		$admin = User::role('admin')->where('email', config('kudos.seed_admin.email'))->first();
 		$users = User::role('user')->get();
 		$categories = Category::all();
 
