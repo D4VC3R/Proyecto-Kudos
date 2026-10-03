@@ -57,7 +57,7 @@ Piezas clave:
 ### 1) Autenticación y sesiones
 
 - Login por token con Sanctum (`Bearer`).
-- Verificación de email obligatoria en rutas protegidas.
+- Verificación de email en rutas protegidas, con interruptor `AUTH_EMAIL_VERIFICATION` (apagada por defecto: las cuentas se crean ya verificadas y el registro devuelve `requires_email_verification: false`).
 - Bloqueo de cuentas baneadas en login y en rutas autenticadas.
 - Cierre de sesión individual y global (revocación de tokens).
 

@@ -45,12 +45,20 @@ alias kudos-dc='docker compose -f ~/apps/kudos/Backend/compose.prod.yml --env-fi
 Comprobar antes de seguir: `dig +short api.kudos.dcerdan.es` debe devolver la IP del VPS.
 El registro CAA ya autoriza a Let's Encrypt.
 
-### 2. Buzón de correo (panel de OVH)
+### 2. Correo (nada que hacer por ahora)
 
-Crea el buzón `no-reply@dcerdan.es` en la sección de correo del dominio y guarda su contraseña.
-Laravel se autentica con él contra `ssl0.ovh.net:465` (SMTPS), y el remitente tiene que ser el
-mismo buzón. Comprueba que la zona DNS tiene el SPF de OVH (`v=spf1 include:mx.ovh.com ~all`);
-sin él, los correos de verificación acabarán en spam.
+El dominio solo tiene el producto de redirecciones de OVH, sin buzones, así que la API no envía
+correos:
+
+- `AUTH_EMAIL_VERIFICATION=false`: las cuentas se crean ya verificadas y el frontend lleva
+  directamente al login tras registrarse. La funcionalidad sigue en el código, solo apagada.
+- `MAIL_MAILER=log`: el correo de "olvidé mi contraseña" no llega a nadie.
+
+Para enviar correos más adelante (y poder encender la verificación), configura un proveedor
+SMTP transaccional (Resend, Brevo...), verifica el dominio añadiendo sus registros DNS en OVH,
+cambia las variables `MAIL_*` y ejecuta `kudos-dc up -d`. Antes, comprueba desde el VPS que
+puede salir por el puerto 587 (`nc -zv smtp.resend.com 587`): algunos proveedores de VPS
+bloquean el envío de correo.
 
 ### 3. Código
 
@@ -70,8 +78,7 @@ sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$(openssl rand -hex 24)|" .env.production
 nano .env.production
 ```
 
-En `nano`, rellena `MAIL_PASSWORD` (el del buzón del paso 2), `SEED_ADMIN_EMAIL` y
-`SEED_ADMIN_PASSWORD`. Para la contraseña del admin puedes usar `openssl rand -hex 16`, y
+En `nano`, rellena `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD`. Para la contraseña del admin puedes usar `openssl rand -hex 16`, y
 guárdala en tu gestor de contraseñas. Las contraseñas de desarrollo o de Railway no valen.
 
 Después genera la `APP_KEY`. El primer `run` construye la imagen, así que tarda unos minutos:
@@ -188,8 +195,8 @@ curl -I https://api.kudos.dcerdan.es/.env       # 404
 
 Desde el navegador, en `https://kudos.dcerdan.es`:
 
-1. Regístrate con un email real: el correo de verificación debe llegar.
-2. Verifica la cuenta, vota y sube un avatar.
+1. Regístrate: debe llevarte al login con "Cuenta creada. Ya puedes iniciar sesión".
+2. Inicia sesión, vota y sube un avatar.
 3. Comprueba que la consola no muestra errores de CORS.
 
 ---

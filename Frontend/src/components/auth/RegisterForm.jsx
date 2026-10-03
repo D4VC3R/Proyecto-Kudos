@@ -8,7 +8,7 @@ import InputField from '../ui/InputField.jsx';
 import Button from '../ui/Button.jsx';
 
 import {useForm} from 'react-hook-form';
-import {useRegister} from '../../hooks/auth/useAuthMutations';
+import {requiresEmailVerification, useRegister} from '../../hooks/auth/useAuthMutations';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -20,8 +20,12 @@ const RegisterForm = () => {
 
   const onSubmit = (data) => {
     registerUser(data, {
-      onSuccess: () => {
-        navigate('/verify-email', {replace: true, state: {registered: true}});
+      onSuccess: (response) => {
+        if (requiresEmailVerification(response)) {
+          navigate('/verify-email', {replace: true, state: {registered: true}});
+        } else {
+          navigate('/login', {replace: true});
+        }
       }
     });
   };

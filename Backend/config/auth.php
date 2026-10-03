@@ -116,4 +116,22 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Verificación de email
+    |--------------------------------------------------------------------------
+    |
+    | Interruptor de la verificación de email. Apagada (false), las cuentas
+    | nuevas se crean ya verificadas y no se envía ningún correo. Encendida
+    | (true), el usuario recibe el enlace firmado y no puede usar las rutas
+    | con el middleware 'verified' hasta confirmarlo (requiere un proveedor
+    | de correo configurado). "expire" es la validez del enlace en minutos.
+    |
+    */
+
+    'verification' => [
+        'enabled' => (bool) env('AUTH_EMAIL_VERIFICATION', false),
+        'expire' => 60,
+    ],
+
 ];

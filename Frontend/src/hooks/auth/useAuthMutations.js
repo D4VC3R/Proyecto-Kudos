@@ -45,6 +45,12 @@ export const useLogout = () => {
   });
 };
 
+/** requiresEmailVerification: indica si la cuenta recién registrada tiene que confirmar el email.
+ * Lo decide el backend (interruptor AUTH_EMAIL_VERIFICATION). Si la respuesta no trae el campo, se asume
+ * que sí, que es el comportamiento original.
+ */
+export const requiresEmailVerification = (response) => response?.data?.requires_email_verification !== false;
+
 /** useRegister: Maneja el proceso de registro de nuevos usuarios.
  * Al finalizar, limpia el caché de consultas para reflejar cualquier cambio relacionado con la autenticación.
  */
@@ -53,7 +59,9 @@ export const useRegister = () => {
 
   return useBaseMutation({
     mutationFn: (data) => axiosClient.post('/register', data),
-    successMessage: 'Cuenta creada. Revisa tu email para confirmar y empezar a jugar.',
+    successMessage: (response) => requiresEmailVerification(response)
+      ? 'Cuenta creada. Revisa tu email para confirmar y empezar a jugar.'
+      : 'Cuenta creada. Ya puedes iniciar sesión.',
     onSuccessExtra: () => {
       queryClient.clear();
     }
