@@ -6,7 +6,10 @@
 #   - target "web": Nginx interno que sirve public/ y pasa las peticiones PHP a app:9000.
 # Las versiones están fijadas: una imagen "latest" puede cambiar entre dos despliegues sin que cambie el código.
 
-ARG PHP_VERSION=8.4
+# Parche exacto y no la etiqueta flotante "8.5": así dos despliegues del mismo commit dan el mismo
+# PHP. El coste es subirlo a mano cuando salga una corrección de seguridad ("build --pull" no basta).
+# 8.5.12 corrige PHP2Shell (CVE-2026-109618, CVE-2026-109619).
+ARG PHP_VERSION=8.5.12
 ARG ALPINE_VERSION=3.24
 ARG NGINX_VERSION=1.30
 ARG COMPOSER_VERSION=2.10
@@ -26,7 +29,10 @@ RUN set -eux; \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS freetype-dev icu-dev libjpeg-turbo-dev \
         libpng-dev libpq-dev libwebp-dev libzip-dev; \
     docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp; \
-    docker-php-ext-install -j"$(nproc)" bcmath exif gd intl opcache pcntl pdo_pgsql zip; \
+    # opcache no va en la lista: desde PHP 8.5 la imagen oficial lo trae compilado de serie y ya
+    # activado, así que "docker-php-ext-install opcache" no genera módulo y falla al instalarlo
+    # ("cp: can't stat 'modules/*'"). Los ajustes de docker/prod/php.ini se le siguen aplicando.
+    docker-php-ext-install -j"$(nproc)" bcmath exif gd intl pcntl pdo_pgsql zip; \
     pecl install "redis-${PHPREDIS_VERSION}"; \
     docker-php-ext-enable redis; \
     apk del .build-deps; \
