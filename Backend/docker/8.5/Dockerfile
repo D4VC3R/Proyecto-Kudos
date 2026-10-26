@@ -1,5 +1,5 @@
 # Usamos Debian 12 Slim. Motor rápido (glibc) pero peso pluma.
-FROM php:8.4-cli-bookworm
+FROM php:8.5.12-cli-bookworm
 
 LABEL maintainer="Tu Nombre/Proyecto"
 
@@ -39,8 +39,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
         zip \
         pcntl \
         intl \
-        opcache \
         exif
+# opcache no se instala: desde PHP 8.5 la imagen oficial lo trae compilado de serie y ya activado,
+# así que "docker-php-ext-install opcache" no genera módulo y falla ("cp: can't stat 'modules/*'").
 
 RUN pecl install redis \
     && docker-php-ext-enable redis
