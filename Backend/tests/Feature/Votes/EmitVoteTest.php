@@ -102,9 +102,39 @@ class EmitVoteTest extends TestCase
         $response = $this->postJson('/api/votes', ['item_id' => $item->id, 'type' => 'vote', 'score' => 8]);
 
         // Es 403 y no 422: StoreVoteRequest::authorize() llama a VotePolicy::create(), que lo niega
-        // antes de que se ejecute la validación. El 422 de withValidator() es inalcanzable por esta ruta.
+        // antes de que se ejecute la validación.
         $response->assertForbidden()
             ->assertJsonPath('error.code', 'forbidden');
+
+        $this->assertDatabaseCount('votes', 0);
+    }
+
+    public function test_no_se_puede_votar_un_item_borrado(): void
+    {
+        $this->actingAsUser();
+        $item = $this->createItem($this->createCategory());
+        $item->delete(); // soft delete
+
+        $this->postJson('/api/votes', ['item_id' => $item->id, 'type' => 'vote', 'score' => 8])
+            ->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_error')
+            ->assertJsonPath('error.message', 'El ítem no existe o ya no está disponible.')
+            ->assertJsonStructure(['error' => ['details' => ['item_id']]]);
+
+        $this->assertDatabaseCount('votes', 0);
+    }
+
+    public function test_no_se_puede_omitir_un_item_borrado(): void
+    {
+        $this->actingAsUser();
+        $item = $this->createItem($this->createCategory());
+        $item->delete(); // soft delete
+
+        $this->postJson('/api/votes', ['item_id' => $item->id, 'type' => 'skip'])
+            ->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_error')
+            ->assertJsonPath('error.message', 'El ítem no existe o ya no está disponible.')
+            ->assertJsonStructure(['error' => ['details' => ['item_id']]]);
 
         $this->assertDatabaseCount('votes', 0);
     }
