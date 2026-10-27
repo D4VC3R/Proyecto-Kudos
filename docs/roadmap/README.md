@@ -1,0 +1,87 @@
+# Hoja de ruta: tablero de tareas
+
+**Cómo usarlo:**
+- Coge la primera tarea `pendiente` cuyas dependencias estén en `hecho`.
+- Cámbiala a `en curso` al empezar y a `hecho` al terminar. Si no puede avanzar, márcala como `bloqueada` y explica el motivo en su ficha.
+- Las reglas de trabajo están en [../guia-agentes.md](../guia-agentes.md).
+
+**Responsabilidades:** `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integraciones · `QA` tests · `LEGAL` cumplimiento · `DOCS` documentación · `HUMANO` lo decide o ejecuta el humano.
+
+## Fase 0: higiene y base (~1,5–2 semanas). [Fichas](fase-0-higiene.md)
+
+| ID | Tarea | Resp. | Depende de | Estado |
+|---|---|---|---|---|
+| F0-01 | Tests sobre PostgreSQL: configuración, `TestCase` con protección | INFRA, QA | — | pendiente |
+| F0-02 | Batería base de tests de votos, kudos, ranking e ítems | QA, BE | F0-01 | pendiente |
+| F0-03 | Medias exactas: corregir el truncado de medios puntos y recalcular con `AVG` | BE | F0-01 | pendiente |
+| F0-04 | Ranking bayesiano (`bayes_score`) | BE | F0-03 | pendiente |
+| F0-05 | `quality_score` y excluir las fichas pobres de la cola y de los destacados | BE | F0-01 | pendiente |
+| F0-06 | *Placeholder* generativo para ítems sin imagen | FE | — | pendiente |
+| F0-07 | Ocultar secciones vacías en la ficha | FE | — | pendiente |
+| F0-08 | Corregir las clases CSS sin definir | FE | — | pendiente |
+| F0-09 | Búsqueda global (cabecera y página `/buscar`) | FE, BE | F0-01 | pendiente |
+| F0-10 | Servicio `scheduler`, cola `catalog` y memoria del worker en producción | INFRA | — | pendiente |
+| F0-11 | Copia de seguridad del volumen de imágenes | INFRA | — | pendiente |
+| F0-12 | Corregir el README (PostgreSQL, tests, estructura) | DOCS | F0-01 | pendiente |
+| F0-13 | CI de GitHub Actions que ejecute los tests con PostgreSQL | INFRA | F0-02 | pendiente |
+
+## Fase 1: catálogo vivo de películas y series (~3 semanas). [Fichas](fase-1-catalogo-vivo.md)
+
+| ID | Tarea | Resp. | Depende de | Estado |
+|---|---|---|---|---|
+| F1-00 | Dar de alta el token de TMDB y la variable `CATALOG_USER_AGENT` | HUMANO | — | pendiente |
+| F1-01 | Migraciones del catálogo: `items`, `item_sources`, `categories` | BE | F0-05 | pendiente |
+| F1-02 | Módulo `app/Catalog`: contratos, DTO, `config/catalog.php` y clientes HTTP | INT | F1-01 | pendiente |
+| F1-03 | Proveedores de TMDB (películas y series) | INT | F1-02 | pendiente |
+| F1-04 | `DescriptionResolver` (Wikidata y Wikipedia ES) y `CatalogImporter` | INT, BE | F1-02 | pendiente |
+| F1-05 | Comandos `fetch-new`, `refresh`, `purge-stale` e `import`, y su programación | BE | F1-03, F1-04, F0-10 | pendiente |
+| F1-06 | La API expone los campos nuevos; las categorías inactivas quedan ocultas | BE | F1-01 | pendiente |
+| F1-07 | Importación bajo demanda (API y la interfaz en `/buscar`) | BE, FE | F1-05, F0-09 | pendiente |
+| F1-08 | Atribución en la interfaz (TMDB y Wikipedia) | FE, LEGAL | F1-06 | pendiente |
+| F1-09 | Chips de atributos genéricos a partir de `attribute_schema` | FE | F1-06 | pendiente |
+| F1-10 | Sembrado nuevo y *runbook* del reset de producción | BE, INFRA | F1-05 | pendiente |
+| F1-11 | Ejecutar el reset en producción | HUMANO | F1-10 | pendiente |
+
+## Fase 2: descubrimiento (~2–3 semanas). [Fichas](fase-2-descubrimiento.md)
+
+| ID | Tarea | Resp. | Depende de | Estado |
+|---|---|---|---|---|
+| F2-01 | Tipos de voto `want` y `not_interested`; normalizar `skip` | BE | F1-10 | pendiente |
+| F2-02 | Transiciones entre tipos de voto (`want` → valoración), con kudos una sola vez | BE | F2-01 | pendiente |
+| F2-03 | Reajuste de las recompensas de kudos | BE | — | pendiente |
+| F2-04 | Votación en dos pasos (interfaz) y limpieza de `ActionMenu` | FE | F2-02 | pendiente |
+| F2-05 | *Wishlist* (API y página) | BE, FE | F2-01 | pendiente |
+| F2-06 | Cola de votación ponderada | BE | F2-01 | pendiente |
+| F2-07 | Onboarding: intereses y *speed-rating* | BE, FE | F2-04 | pendiente |
+| F2-08 | "Similares" y "Porque te gustó X" por contenido | BE, FE | F1-09 | pendiente |
+| F2-09 | Listas editoriales (esquema de listas y administración) y portada nueva | BE, FE | F2-08 | pendiente |
+| F2-10 | SEO: meta tags y OG de las fichas servidos desde Vercel | FE, INFRA | F1-06 | pendiente |
+| F2-11 | Comando de métricas de uso | BE | F2-01 | pendiente |
+
+## Fase 3: comunidad mínima (~2–3 semanas). [Fichas](fase-3-comunidad.md)
+
+| ID | Tarea | Resp. | Depende de | Estado |
+|---|---|---|---|---|
+| F3-01 | Listas de usuarios: CRUD, visibilidad y *likes* | BE, FE | F2-09, F3-04, F3-07 | pendiente |
+| F3-02 | Reseñas ligadas a una nota y respuestas de un nivel | BE, FE | F3-04 | pendiente |
+| F3-03 | Perfil público (`username`, `is_public`, `/u/:username`) | BE, FE | F3-07 | pendiente |
+| F3-04 | Reportes (DSA) y cola de revisión del admin | BE, FE | F3-05 | pendiente |
+| F3-05 | Notificaciones dentro de la app | BE, FE | — | pendiente |
+| F3-06 | Aviso de estreno de los ítems de la *wishlist* | BE | F3-05, F2-05 | pendiente |
+| F3-07 | Páginas legales y requisitos en el registro (casilla, 14 años) | FE, BE, HUMANO | — | pendiente |
+| F3-08 | Borrado de cuenta y exportación de datos | BE, FE | — | pendiente |
+| F3-09 | OG de listas y perfiles | FE | F2-10, F3-01 | pendiente |
+
+## Fase 4: más categorías (~2 semanas). [Fichas](fase-4-mas-categorias.md)
+
+| ID | Tarea | Resp. | Depende de | Estado |
+|---|---|---|---|---|
+| F4-00 | Verificar los términos de IGDB y RAWG y elegir proveedor | LEGAL, HUMANO | — | pendiente |
+| F4-01 | Proveedor de videojuegos | INT | F4-00, F1-05 | pendiente |
+| F4-02 | Proveedor de Destinos (Wikidata y Commons) | INT | F1-05 | pendiente |
+| F4-03 | Ficha de destinos con mapa (Leaflet y OSM) | FE | F4-02 | pendiente |
+| F4-04 | Atribuciones de Commons, RAWG o IGDB en la interfaz | FE, LEGAL | F4-01, F4-02 | pendiente |
+
+## Aplazado (no implementar sin orden del humano)
+
+Ver [../producto/vision.md](../producto/vision.md) §4: filtrado colaborativo, compatibilidad, tendencias, follows y feed, Elo global, reputación, insignias, trivia, edición tipo wiki, libros, álbumes, anime, modo oscuro e `item_relations`.
