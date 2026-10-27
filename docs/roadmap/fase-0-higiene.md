@@ -230,6 +230,22 @@
 
 **Hecho cuando:** las tarjetas y fichas sin imagen o con la imagen rota muestran el *placeholder*, y el mismo nombre da siempre el mismo color.
 
+**Notas:**
+- **Colores:** degradado `linear-gradient(135deg, …)` entre dos tonos HSL con saturación 60 % y luminosidad 28 % → 20 %; el segundo tono se desplaza +40° del primero. El contraste mínimo con texto blanco, calculado sobre los 360 tonos y las dos luminosidades, es **5,06:1** (peor caso, amarillo a L = 28 %), por encima del 4,5:1 de AA. Se usa `text-white` y no `text-text-btn` para que el contraste no dependa del tema.
+- **Hash:** FNV-1a de 32 bits sobre el nombre en minúsculas (`toLocaleLowerCase('es-ES')`) y recortado; tono = `hash % 360`. Estable entre sesiones y navegadores, e insensible a mayúsculas y espacios exteriores.
+- **Iniciales:** primera letra o cifra de las dos primeras palabras (se ignoran signos iniciales como `¿`), en mayúsculas. `"El señor de los anillos"` → `ES`; `"¿Quién es quién?"` → `QE`.
+- **Desviación: `lib/placeholder.js`.** La ficha solo preveía `ItemPlaceholder.jsx` y `constants.js`; la lógica pura (hash, colores, iniciales) va en un módulo sin React ni lucide para poder probarla con `node` (no hay tests de frontend).
+- **Iconos:** `CATEGORY_SLUG_ICONS` (por slug, con `DEFAULT_CATEGORY_ICON = LayoutGrid`) es nuevo y convive con `categoryIcons` (por nombre normalizado, lo usa `getCategoryIcon`/`CategoryCard`); no se unifican (R6), es candidato para la F1. `CATEGORY_ICONS_BY_NAME` es una lista cerrada `nombre lucide en kebab-case → componente` para `category.icon`, para no meter todo lucide en el *bundle*: la F1 tendrá que añadir aquí los iconos nuevos que use.
+- **Discrepancia (R1): `onError` en `StorageImage`.** La ficha y `arquitectura.md` decían que la prop "ya existe", pero no: `onError` caía en `...props`, que va después del manejador interno, y un `onError` externo lo sustituiría (`hasError` no pasaría a `true`). Ahora se desestructura y se llama tras marcar el estado interno. Corregido el documento.
+- **Prop nueva `fallback`** en `StorageImage`: si hay error y se pasa `fallback`, se pinta ese nodo; si no, sigue el `div` con `fallbackIcon` (`ImageOff`) para lo que no son ítems.
+- **`ItemCard` y `MyVoteItemCard` tocados** aunque no estaban en *Archivos*: sin ello las tarjetas no mostrarían el *placeholder*. `ItemImage` (ficha y votación) pinta el *placeholder* si no hay variante de imagen o si falla la carga del principal (`imageFailed`, que se reinicia al cambiar de imagen).
+- **Variantes:** `card` (icono 40 px, `text-3xl`), `banner` (64 px, `text-5xl md:text-6xl`) y `thumb` (20 px, `text-sm`), esta última para la miniatura de 56×64 de `MyVoteItemCard`.
+- **Sin cambios de JSON (R7)** ni de backend; `item.category.slug` ya llegaba a todos los consumidores.
+- **Verificación:**
+  - `docker compose run --rm kudos-frontend pnpm build` → `✓ 2366 modules transformed … ✓ built in 3.02s`, sin errores;
+  - comprobación en Node (`hashString`, `getPlaceholderColors`, `getInitials`, contraste en 360 tonos) ejecutada dos veces con la misma salida: `OK placeholder; contraste mínimo 5.06 ; Matrix -> hsl(204, 60%, 28%)`.
+- **Sin prueba manual en el navegador:** el entorno del agente no la permite; la comprobación visual (tarjetas, ficha, votación y "Mis votos" sin imagen o con la imagen rota) queda para la revisión humana.
+
 ---
 
 ## F0-07 · Ocultar secciones vacías
