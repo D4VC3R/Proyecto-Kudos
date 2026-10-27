@@ -60,3 +60,8 @@ Artisan::command('kudos:audit-consistency {--fix : Reconciliar users.total_kudos
  * Recálculo diario de las medias de los ítems. El comando solo encola jobs en la cola 'catalog'.
  */
 Schedule::command('items:recalculate-stats')->dailyAt('03:00')->withoutOverlapping();
+
+/**
+ * Recálculo semanal de quality_score (por si cambian las reglas o los patrones de config/catalog.php). Solo encola en 'catalog'.
+ */
+Schedule::command('items:recalculate-quality')->weeklyOn(1, '03:30')->withoutOverlapping();

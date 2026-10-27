@@ -24,6 +24,7 @@ trait CreatesItems
 
     /**
      * Crea un ítem activo (por defecto sin votos) en la categoría indicada.
+     * Por defecto la ficha es completa (imagen y descripción larga, quality_score = 80).
      * Calcula bayes_score a partir de vote_avg y vote_count, salvo que el test lo pase explícitamente.
      */
     protected function createItem(Category $category, array $attrs = []): Item
@@ -37,6 +38,13 @@ trait CreatesItems
             'status'      => Item::STATUS_ACTIVE,
             'vote_avg'    => 0,
             'vote_count'  => 0,
+            // Ficha completa por defecto (quality_score = 80) para que la cola y discoverable la incluyan;
+            // los tests de fichas pobres pasan 'images' => [] y su propia descripción.
+            'images'      => [[
+                'disk' => 'public', 'alt' => null, 'order' => 0,
+                'variants' => ['thumb' => 'items/tests/imagen-thumb.webp', 'banner' => 'items/tests/imagen-banner.webp'],
+            ]],
+            'description' => 'Descripción de prueba lo bastante larga para que la ficha cuente como completa.',
         ], $attrs);
 
         // bayes_score coherente con vote_avg/vote_count, como si la categoría no tuviera votos (C = fallback).

@@ -68,7 +68,7 @@ class NextCategoryItemService
 
     /**
      * Genera un nuevo lote de ítems elegibles para votar por el usuario en la categoría, excluyendo aquellos por los que ya ha votado.
-     * Selecciona aleatoriamente hasta 50 ítems activos de la categoría que el usuario no haya votado, y retorna sus IDs.
+     * Selecciona aleatoriamente hasta 50 ítems activos y con calidad suficiente (quality_score por encima del umbral) de la categoría que el usuario no haya votado, y retorna sus IDs.
      *
      * @param User $user Usuario para el que se generan los ítems.
      * @param Category $category Categoría de la que se generan los ítems.
@@ -79,6 +79,7 @@ class NextCategoryItemService
 		$eligibleItemIds = Item::query()
 			->where('category_id', $category->id)
 			->where('status', Item::STATUS_ACTIVE)
+			->discoverable() // Sin fichas pobres (F0-05)
 			->whereDoesntHave('votes', function ($query) use ($user) {
 				$query->where('user_id', $user->id);
 			})
