@@ -75,7 +75,7 @@ const CommentBox = ({ itemId, className = "" }) => {
         <Button type="submit" isLoading={createCommentMutation.isPending} variant="solid" color="primary" radius="lg" size="iconMd" icon={Send} />
       </form>
 
-      <div className="flex-1 min-h-0 flex flex-col gap-4 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200">
+      <div className="flex-1 min-h-0 flex flex-col gap-4 overflow-y-auto pr-2">
         {comments?.map((comment) => (
           <Comment
             key={comment.id}

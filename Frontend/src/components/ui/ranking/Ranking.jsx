@@ -41,7 +41,7 @@ const Ranking = ({
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   const containerHeightClass = disableScroll ? 'h-auto min-h-[760px]' : 'h-[800px]';
-  const overflowClass = disableScroll ? 'overflow-visible' : 'overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200';
+  const overflowClass = disableScroll ? 'overflow-visible' : 'overflow-y-auto';
 
   return (
     <div className={`flex ${containerHeightClass} w-full flex-col rounded-3xl bg-surface p-6 md:p-8 shadow-2xl ring-2 ring-slate-200 overflow-hidden`}>
