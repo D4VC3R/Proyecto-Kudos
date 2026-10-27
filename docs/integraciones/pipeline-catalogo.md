@@ -134,7 +134,7 @@ Todas llevan `withoutOverlapping()`.
 
 ## 8. `config/catalog.php`
 
-> La F0-05 ya creó el archivo, solo con `min_quality_for_discovery` y `template_description_patterns`. La F0-09 (`reserved_slugs`) y la F1-02 (el resto) lo amplían hasta llegar a lo que sigue.
+> La F0-05 creó el archivo con `min_quality_for_discovery` y `template_description_patterns`, y la F0-09 añadió `reserved_slugs`; la F1-02 lo amplía hasta llegar a lo que sigue.
 
 ```php
 return [
@@ -144,7 +144,7 @@ return [
     'tmdb_max_age_days' => 180,
     'min_quality_for_discovery' => 40,          // F0-05: por debajo, fuera de la portada y la cola
     'template_description_patterns' => ['Item importado', 'importado desde'],   // F0-05
-    'reserved_slugs' => ['buscar', 'wishlist', 'u', 'listas', 'ranking', 'admin', /* … */],   // F0-09
+    'reserved_slugs' => ['buscar', 'ranking', 'admin', /* … lista completa en config/catalog.php */],   // F0-09
     'categories' => [
         'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
         'series'    => ['provider' => \App\Catalog\Providers\TmdbTvProvider::class],

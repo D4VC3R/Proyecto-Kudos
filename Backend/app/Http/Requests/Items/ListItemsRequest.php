@@ -17,7 +17,7 @@ class ListItemsRequest extends FormRequest
     /** Define las reglas de validación para listar los ítems.
      * - El campo 'category_id' es opcional, pero si se proporciona, debe ser una cadena que exista en la columna 'id' de la tabla 'categories'.
      * - El campo 'category_slug' es opcional, pero si se proporciona, debe ser una cadena que exista en la columna 'slug' de la tabla 'categories'.
-     * - El campo 'search' es opcional, pero si se proporciona, debe ser una cadena con un máximo de 255 caracteres.
+     * - El campo 'search' es opcional, pero si se proporciona, debe ser una cadena de entre 2 y 255 caracteres (F0-09: la búsqueda global y Explorar no envían búsquedas de 1 carácter).
      * - El campo 'sort_by' es opcional, pero si se proporciona, debe ser una cadena que coincida con uno de los valores permitidos: 'vote_avg', 'recent', 'name', o 'random'.
      * - El campo 'sort_order' es opcional, pero si se proporciona, debe ser una cadena que coincida con uno de los valores permitidos: 'asc' o 'desc'.
      * - El campo 'per_page' es opcional, pero si se proporciona, debe ser un entero entre 1 y 100.
@@ -28,7 +28,7 @@ class ListItemsRequest extends FormRequest
         return [
             'category_id' => ['nullable', 'string', 'exists:categories,id'],
 	          'category_slug' => ['nullable', 'string', 'exists:categories,slug'],
-            'search' => ['nullable', 'string', 'max:255'],
+            'search' => ['nullable', 'string', 'min:2', 'max:255'],
             'sort_by' => ['nullable', 'string', 'in:vote_avg,recent,name,random'],
             'sort_order' => ['nullable', 'string', 'in:asc,desc'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
@@ -46,6 +46,7 @@ class ListItemsRequest extends FormRequest
             'category_slug.string' => 'El campo categoría debe ser texto.',
             'category_slug.exists' => 'El categoría seleccionado no es válido o no existe.',
             'search.string' => 'El campo búsqueda debe ser texto.',
+            'search.min' => 'La búsqueda debe tener al menos 2 caracteres.',
             'search.max' => 'El campo búsqueda no puede superar los 255 caracteres/elementos.',
             'sort_by.string' => 'El campo ordenar por debe ser texto.',
             'sort_by.in' => 'El valor seleccionado para ordenar por no es válido.',

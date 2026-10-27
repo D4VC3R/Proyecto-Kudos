@@ -6,6 +6,7 @@ import LogoutButton from "../auth/LogoutButton.jsx";
 import HeaderLogin from "./HeaderLogin.jsx";
 import { useSessionStore } from "../../store/useSessionStore.js";
 import LogoKudos from "./LogoKudos.jsx";
+import GlobalSearch from "./GlobalSearch.jsx";
 
 const MainHeader = () => {
   const isAuthenticated = useSessionStore((state) => !!state.token);
@@ -26,6 +27,10 @@ const MainHeader = () => {
 
         <div className="order-last md:order-2 md:flex-1 flex justify-center shrink-0">
           <NavBar />
+        </div>
+
+        <div className="hidden md:block md:order-2 min-w-0 flex-1 md:max-w-[14rem] lg:max-w-xs">
+          <GlobalSearch />
         </div>
 
         <div className="flex shrink-0 items-center justify-end gap-2 order-2 md:order-3 min-w-0">

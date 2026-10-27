@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
 import { VARIANTS } from "../../lib/buttonStyles.js";
+import GlobalSearch from "./GlobalSearch.jsx";
 
 const NavBarMobile = ({ isOpen, setIsOpen, navItems }) => {
   if (!isOpen) return null;
@@ -11,6 +12,7 @@ const NavBarMobile = ({ isOpen, setIsOpen, navItems }) => {
 
   return (
     <div className="absolute top-[72px] left-0 w-full bg-surface border-b border-border shadow-xl md:hidden py-4 px-4 flex flex-col gap-2 z-40">
+      <GlobalSearch onNavigate={() => setIsOpen(false)} className="mb-2" />
       {navItems.map((item) => {
         const Icon = item.icon;
         return (
