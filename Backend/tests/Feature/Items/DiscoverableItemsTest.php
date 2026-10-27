@@ -38,7 +38,7 @@ class DiscoverableItemsTest extends TestCase
             ->assertJsonPath('data.name', 'Ficha completa')
             ->assertJsonPath('meta.remaining', 0);
 
-        // La cola no consume el ítem hasta que se vota: tras votar la buena, no queda nada (la pobre no está en la cola).
+        // Cada GET consume el ítem de la cola, pero al vaciarse se regenera y lo volvería a ofrecer mientras no se vote: tras votar la buena, no queda nada (la pobre no está en la cola).
         $this->postJson('/api/votes', ['item_id' => $response->json('data.id'), 'type' => 'vote', 'score' => 7])
             ->assertCreated();
 
