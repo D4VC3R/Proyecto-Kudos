@@ -9,5 +9,16 @@ return [
     // una descripción que contenga alguno no suma puntos de calidad.
     'template_description_patterns' => ['Item importado', 'importado desde'],
 
-    // La F0-09 añade 'reserved_slugs' y la F1-02 el resto (proveedores, límites…).
+    // Slugs que no puede usar una categoría porque coinciden con una ruta de primer nivel del frontend (F0-09).
+    // Se comparan sin distinguir mayúsculas (React Router tampoco las distingue).
+    // Al añadir una ruta de primer nivel en Frontend/src/routes/routes.jsx, añádela aquí.
+    'reserved_slugs' => [
+        // Rutas actuales
+        'buscar', 'ranking', 'admin', 'profile', 'my-proposals', 'forbidden', '404',
+        'login', 'register', 'verify-email', 'forgot-password', 'password-reset',
+        // Rutas previstas (docs/frontend/arquitectura.md §2)
+        'wishlist', 'u', 'listas', 'privacidad', 'aviso-legal',
+    ],
+
+    // La F1-02 añade el resto (proveedores, límites…).
 ];

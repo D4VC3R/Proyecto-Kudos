@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Category;
 
 use App\Models\Category;
+use App\Rules\NotReservedSlug;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -38,6 +39,7 @@ class UpdateCategoryRequest extends FormRequest
 					'string',
 					'max:255',
 					'alpha_dash',
+					new NotReservedSlug(),
 					Rule::unique('categories', 'slug')->ignore($categoryId),
 				],
 				'image' => ['sometimes', 'nullable', 'string', 'url', 'max:500'],

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Category;
 
 use App\Models\Category;
+use App\Rules\NotReservedSlug;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -30,7 +31,7 @@ class StoreCategoryRequest extends FormRequest
         return [
 	        'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
 	        'description' => ['required', 'string', 'max:1000'],
-	        'slug' => ['nullable', 'string', 'max:255', 'unique:categories,slug', 'alpha_dash'],
+	        'slug' => ['nullable', 'string', 'max:255', 'unique:categories,slug', 'alpha_dash', new NotReservedSlug()],
 	        'image' => ['nullable', 'string', 'url', 'max:500'],
         ];
     }
