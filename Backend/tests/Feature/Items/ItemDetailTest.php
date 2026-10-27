@@ -3,6 +3,7 @@
 namespace Tests\Feature\Items;
 
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\Concerns\CreatesItems;
@@ -65,10 +66,23 @@ class ItemDetailTest extends TestCase
 
         $response = $this->getJson("/api/items/{$item->id}");
 
-        if ($response->status() === 200) {
-            $this->markTestIncomplete('Bug: ShowItemRequest::authorize() devuelve true a los invitados (?? true) y se salta ItemPolicy::view(); un invitado ve los ítems inactivos. Anotado en la ficha F0-02.');
-        }
-
         $response->assertForbidden();
+    }
+
+    public function test_un_admin_con_token_ve_el_detalle_de_un_item_inactivo(): void
+    {
+        // Token Bearer real (sin Sanctum::actingAs): la ruta es pública y el guard por defecto es 'web',
+        // como en producción. Comprueba que authorize() resuelve el usuario con el guard 'sanctum'.
+        $this->seedRolesAndPermissions();
+        $admin = User::factory()->create(['email_verified_at' => now(), 'is_banned' => false]);
+        $admin->assignRole('admin');
+        $token = $admin->createToken('test')->plainTextToken;
+
+        $item = $this->createItem($this->createCategory(), ['status' => Item::STATUS_INACTIVE]);
+
+        $this->withToken($token)
+            ->getJson("/api/items/{$item->id}")
+            ->assertOk()
+            ->assertJsonPath('data.id', $item->id);
     }
 }
