@@ -1,47 +1,26 @@
-# Documentación del rediseño de Kudos ("Kudos 2.0")
+# Kudos 2.0: documentación del rediseño
 
-Esta carpeta contiene todo lo necesario para que una persona o un agente de IA ejecute el rediseño de Kudos sin necesitar el contexto de la conversación en la que se diseñó.
+Plan aprobado el 26-10-2026. Rama de integración: `rediseno-fase-0`; `docs/` solo existe en ella. El estado de cada tarea está **solo** en [roadmap/README.md](roadmap/README.md).
 
-> **Estado del documento:** plan aprobado el 26-10-2026. Nada de este plan está implementado todavía.
-> La rama `rediseno-fase-0` es la **rama de integración** del rediseño: contiene `docs/` (que no está en `main`). Las ramas de tarea salen de ella y se fusionan en ella; a `main` se fusiona por fases con aprobación del humano.
+**Objetivo:** *"Tu diario de pelis, series y juegos en español, y destinos que descubrir, con listas que lo conectan todo."* Tres categorías vivas (Pelis/Series, Juegos, Destinos) alimentadas por APIs gratuitas; votar como "¿Lo conoces? → valóralo / me interesa / no me interesa"; descubrimiento que no depende del volumen de usuarios.
 
-## Orden de lectura
+**Restricciones:** coste cero y sin ánimo de lucro; contenido en español; un VPS de 4 GB compartido; un solo desarrollador; los datos actuales son de prueba y se pueden resetear.
 
-**Primera vez:**
-1. [guia-agentes.md](guia-agentes.md): reglas de trabajo, definición de "hecho", flujo de git y qué está prohibido. **Obligatoria antes de tocar código.**
-2. [producto/vision.md](producto/vision.md): qué es Kudos 2.0, por qué y qué se ha decidido no hacer.
-3. [infra/entorno-local.md](infra/entorno-local.md): cómo levantar el proyecto en Linux con Docker.
-4. [roadmap/README.md](roadmap/README.md): tablero de tareas con su estado. Allí se elige la siguiente tarea.
+## Lectura
 
-**Antes de cada tarea:** la propia tarea indica qué documentos de referencia leer.
+- **Siempre:** [guia-agentes.md](guia-agentes.md), y después la ficha de tu tarea.
+- **Según la ficha:** las secciones que cite, de esta lista:
 
-## Mapa de documentos por responsabilidad
-
-| Responsabilidad | Documento | Contenido |
-|---|---|---|
-| Producto | [producto/vision.md](producto/vision.md) | Diagnóstico, enfoque, decisiones tomadas, funciones aplazadas y su umbral de activación |
-| Entorno | [infra/entorno-local.md](infra/entorno-local.md) | Puesta en marcha en Linux, comandos, base de datos de tests, problemas frecuentes |
-| Infraestructura | [infra/produccion.md](infra/produccion.md) | Cambios en `compose.prod.yml` (scheduler, colas, memoria), variables nuevas, runbook del reset |
-| Backend | [backend/arquitectura.md](backend/arquitectura.md) | Capas (Controller / Action / Service), convenciones, mapa de archivos, trampas conocidas |
-| Backend | [backend/base-de-datos.md](backend/base-de-datos.md) | Esquema actual y cambios previstos por fase, con la especificación de cada migración |
-| Backend | [backend/testing.md](backend/testing.md) | Tests sobre PostgreSQL, estructura, convenciones, *fakes* de APIs externas |
-| Frontend | [frontend/arquitectura.md](frontend/arquitectura.md) | Stack, patrones (`useXPage`), estilos, deuda de CSS conocida, decisiones de UI |
-| Integraciones | [integraciones/fuentes-externas.md](integraciones/fuentes-externas.md) | APIs gratuitas permitidas, límites, cobertura en español, lo que está prohibido |
-| Integraciones | [integraciones/pipeline-catalogo.md](integraciones/pipeline-catalogo.md) | Diseño del módulo `app/Catalog`: proveedores, enriquecimiento, importación, refresco |
-| Legal | [legal/cumplimiento.md](legal/cumplimiento.md) | Términos de las APIs, atribuciones, licencias CC, DSA y RGPD |
-| Planificación | [roadmap/README.md](roadmap/README.md) | Tablero de tareas, dependencias y estado |
-| Planificación | [roadmap/fase-0-higiene.md](roadmap/fase-0-higiene.md) … [roadmap/fase-4-mas-categorias.md](roadmap/fase-4-mas-categorias.md) | Tareas detalladas, con sus criterios de aceptación |
-
-## Resumen en 30 segundos
-
-- **Problema.** Kudos pide valorar ítems aleatorios de un catálogo estático e incompleto: 9 categorías importadas una sola vez, muchas sin imagen ni descripción. Además no tiene capa personal ni social.
-- **Objetivo.** *"Tu diario de pelis, series y juegos en español, y destinos que descubrir, con listas que lo conectan todo."*
-- **Catálogo.** Tres categorías vivas (Pelis/Series, Juegos y Destinos), alimentadas por APIs gratuitas y guardadas en la base de datos propia.
-- **Votar.** Votar pasa a ser "¿Lo conoces? → valóralo / me interesa / no me interesa".
-- **Descubrir.** Funciona sin depender del volumen de usuarios: recomendaciones por contenido, listas editoriales, novedades y búsqueda con importación bajo demanda.
-- **Restricciones.**
-  - Coste cero y sin ánimo de lucro.
-  - Contenido en español.
-  - Un VPS de 4 GB compartido.
-  - Un solo desarrollador.
-  - Los datos actuales son de prueba y se pueden resetear.
+| Documento | Contenido |
+|---|---|
+| [producto/vision.md](producto/vision.md) | Decisiones de producto, funciones aplazadas, métricas |
+| [infra/entorno-local.md](infra/entorno-local.md) | Sail, base de datos de tests, frontend, comandos, problemas frecuentes |
+| [infra/produccion.md](infra/produccion.md) | `compose.prod.yml`, variables nuevas, copias, *runbook* del reset |
+| [backend/arquitectura.md](backend/arquitectura.md) | Capas, mapa de archivos, trampas conocidas, patrones |
+| [backend/base-de-datos.md](backend/base-de-datos.md) | Esquema actual y migraciones de cada fase |
+| [backend/testing.md](backend/testing.md) | `TestCase`, estructura, convenciones, APIs falseadas |
+| [frontend/arquitectura.md](frontend/arquitectura.md) | Stack, estructura, rutas, estilos, decisiones de UI |
+| [integraciones/fuentes-externas.md](integraciones/fuentes-externas.md) | Reglas y APIs permitidas, endpoints, cobertura |
+| [integraciones/pipeline-catalogo.md](integraciones/pipeline-catalogo.md) | Módulo `app/Catalog`: contratos, importación, refresco |
+| [legal/cumplimiento.md](legal/cumplimiento.md) | Atribuciones, datos de terceros, DSA, RGPD |
+| [roadmap/](roadmap/README.md) | Tablero y fichas de las fases 0–4 |

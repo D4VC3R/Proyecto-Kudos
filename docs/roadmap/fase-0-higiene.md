@@ -1,305 +1,211 @@
 # Fase 0: higiene y base
 
-**Objetivo:** tener una red de tests, corregir los bugs de puntuación, ofrecer un ranking honesto, ocultar las fichas pobres, arreglar la deuda visual evidente y preparar la infraestructura (scheduler y colas) para la Fase 1.
+**Objetivo:** red de tests, puntuaciones correctas, ranking honesto, fichas pobres ocultas, deuda visual arreglada e infraestructura (scheduler y colas) lista para la Fase 1.
 
-**Lecturas comunes:**
-- [../guia-agentes.md](../guia-agentes.md)
-- [../backend/arquitectura.md](../backend/arquitectura.md)
-- [../backend/testing.md](../backend/testing.md)
-- [../infra/entorno-local.md](../infra/entorno-local.md)
+**Lee para toda la fase:** [../backend/arquitectura.md](../backend/arquitectura.md), [../backend/testing.md](../backend/testing.md) y [../infra/entorno-local.md](../infra/entorno-local.md) §3–4.
 
 ---
 
 ## F0-01 · Tests sobre PostgreSQL
 
-- **Responsabilidad:** INFRA, QA
-- **Depende de:** —
-- **Objetivo:** que `sail test` ejecute PHPUnit contra la base de datos `testing` de PostgreSQL de forma segura.
+**Depende:** — · **Archivos:** `Backend/phpunit.xml`, `Backend/compose.yml`, `Backend/tests/**`
 
 **Pasos:**
-1. En `Backend/phpunit.xml`, sustituye `DB_CONNECTION=sqlite` / `DB_DATABASE=:memory:` por `pgsql` / `testing`, ambos con `force="true"`. Ver [../backend/testing.md](../backend/testing.md) §1.
-2. En `Backend/compose.yml`, servicio `pgsql`, añade el volumen (el script `docker/pgsql/create-testing-database.sql` ya existe) `./docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql`.
-3. Crea `tests/TestCase.php` con la protección de nombre de base de datos ([../backend/testing.md](../backend/testing.md) §3) y `tests/Feature/`, `tests/Unit/` y `tests/Fixtures/`.
-4. Crea los helpers `actingAsUser()`, `actingAsAdmin()` y `seedRolesAndPermissions()`.
-5. Escribe un *smoke test*: `GET /up` devuelve 200 y `GET /api/categories` devuelve 200 con un JSON válido.
+1. `phpunit.xml`: sustituye `DB_CONNECTION=sqlite` / `DB_DATABASE=:memory:` por `pgsql` / `testing`, ambos con `force="true"` (bloque completo en testing §1).
+2. `compose.yml`, servicio `pgsql`: monta `./docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql` (el script ya existe).
+3. Crea `tests/TestCase.php` **exactamente** con la protección de testing §3 (en `beforeRefreshingDatabase()`, no en `setUp()`), y las carpetas `tests/Unit/`, `tests/Fixtures/` y `tests/Concerns/` (`tests/Feature/` ya existe, vacía).
+4. Crea los helpers `seedRolesAndPermissions()`, `actingAsUser()` y `actingAsAdmin()` (testing §3).
+5. Escribe un *smoke test*: `GET /up` → 200; `GET /api/categories` → 200 con un JSON válido.
 
-**Criterios de aceptación:**
-- `sail test` pasa, con al menos el *smoke test*.
-- Si se fuerza `DB_DATABASE=kudos_db`, los tests abortan con el mensaje de protección **antes** de borrar nada (la protección va en `beforeRefreshingDatabase()`, ver testing §3). Pruébalo a mano y no lo dejes así.
-- La base de datos de desarrollo `kudos_db` no se toca al ejecutar los tests: comprueba que el número de filas de `items` es el mismo antes y después.
-
-**Archivos:** `Backend/phpunit.xml`, `Backend/compose.yml`, `Backend/tests/**`
+**Hecho cuando:**
+- `sail test` pasa.
+- Con `DB_DATABASE=kudos_db` forzado, los tests abortan con el mensaje de protección **y** el número de filas de `items` en `kudos_db` es el mismo antes y después. Pruébalo a mano y deshaz el cambio.
 
 ---
 
 ## F0-02 · Batería base de tests
 
-- **Responsabilidad:** QA, BE
-- **Depende de:** F0-01
-- **Objetivo:** cubrir el comportamiento **actual** antes de cambiarlo, con unos 15–25 tests.
-
-**Casos mínimos:**
+**Depende:** F0-01 · **Objetivo:** fijar el comportamiento **actual** antes de cambiarlo (unos 15–25 tests).
 
 | Área | Casos |
 |---|---|
-| Votos | Emitir un voto (201/200, actualiza `vote_count`); voto duplicado (devuelve el existente y no suma); *skip* (no cambia la media); un ítem inactivo no se puede votar; un usuario baneado o sin verificar recibe 403; cambiar la nota; borrar el voto |
-| Kudos | El primer voto da `vote_first_time_item`; repetir no da más (idempotencia); el rendimiento decreciente por encima de 20 votos diarios; el tope diario de 50; `kudos:audit-consistency` sin desajustes después de los flujos anteriores |
+| Votos | Emitir (201/200, actualiza `vote_count`); voto duplicado (devuelve el existente y no suma); `skip` (no cambia la media); un ítem inactivo no se puede votar; usuario baneado o sin verificar → 403; cambiar la nota; borrar el voto |
+| Kudos | El primer voto da `vote_first_time_item`; repetir no da más; rendimiento decreciente por encima de 20 votos diarios; tope diario de 50; `kudos:audit-consistency` sin desajustes tras esos flujos |
 | Ranking | `GET /api/categories/{slug}/ranking` ordena por media y excluye los inactivos |
-| Cola | `GET /api/categories/{slug}/next-item` no devuelve ítems ya votados ni inactivos; devuelve null o vacío cuando no queda nada |
+| Cola | `GET /api/categories/{slug}/next-item` no devuelve ítems votados ni inactivos; devuelve null o vacío cuando no queda nada (`Cache::flush()` antes) |
 | Ítems | `GET /api/items?search=` encuentra por nombre parcial sin distinguir mayúsculas; el detalle devuelve la estructura esperada |
 
-**Notas:**
-- Los tests de las medias con medios puntos se escriben en la F0-03. Aquí se documenta el comportamiento actual de los votos con notas enteras.
-- **Si encuentras otros bugs, no los arregles aquí.** Márcalos con `markTestIncomplete` y anótalos en esta ficha para crear una tarea.
+- Usa solo notas enteras: los medios puntos van en la F0-03.
+- **Si encuentras otros bugs, no los arregles:** márcalos con `markTestIncomplete` y anótalos en esta ficha.
 
-**Criterios de aceptación:** todos los casos implementados y en verde.
+**Hecho cuando:** todos los casos están implementados y en verde.
 
 ---
 
 ## F0-03 · Medias exactas (bug del truncado)
 
-- **Responsabilidad:** BE
-- **Depende de:** F0-01
-- **Bug:** ver [../backend/arquitectura.md](../backend/arquitectura.md) §3, puntos 1 y 2.
+**Depende:** F0-01 · **Lee:** arquitectura §3 (trampas 1 y 2) · **Archivos:** `Backend/app/Actions/{Emit,Change,Delete}VoteAction.php`, `Backend/app/Http/Requests/Votes/{Store,Update}VoteRequest.php`, `Backend/routes/console.php`
 
 **Pasos:**
-1. **Primero el test que falla:** votar 7.5 y 8.0 sobre un ítem da una media de 7.75. Cambiar 7.5 por 6.5 guarda `score = 6.5` y la media pasa a 7.25. Borrar recalcula de forma exacta.
-2. **Crea `app/Services/ItemStatsService.php`** con `recalculate(string $itemId): Item`:
-   - se ejecuta dentro de la transacción del llamante, con `Item::lockForUpdate()`;
-   - calcula `COUNT(*)` y `AVG(score)` de `votes` donde `item_id = ?` y `type = 'vote'`;
-   - guarda `vote_count` y `vote_avg` (`round(…, 2)`; 0 si no hay votos).
-3. **Sustituye los cálculos incrementales** de `EmitVoteAction`, `ChangeVoteAction` y `DeleteVoteAction` por llamadas al servicio:
-   - elimina todos los casts `(int)`;
-   - `ChangeVoteAction` guarda la nota como float.
-4. **En `StoreVoteRequest` y `UpdateVoteRequest`,** añade la regla `multiple_of:0.5` a `score`, con un mensaje en español.
-5. **Crea el comando `items:recalculate-stats {--category=}`:**
-   - recorre los ítems por bloques (`chunkById`) y encola un job por bloque en la cola `catalog` que llama al servicio (ver F0-10: el scheduler tiene poca memoria);
-   - se registra en `routes/console.php` con una frecuencia diaria a las 03:00 (`withoutOverlapping`).
+1. **Primero, el test que falla:** votar 7.5 y 8.0 da una media de 7.75; cambiar 7.5 por 6.5 guarda `score = 6.5` y la media pasa a 7.25; borrar recalcula de forma exacta.
+2. Crea `app/Services/ItemStatsService.php` con `recalculate(string $itemId): Item`. Se ejecuta dentro de la transacción del llamante, con `Item::lockForUpdate()`, y calcula `COUNT(*)` y `AVG(score)` de `votes` con `type = 'vote'`. Guarda `vote_count` y `vote_avg` (`round(…, 2)`, o 0 si no hay votos).
+3. Sustituye los cálculos incrementales de las tres Actions por llamadas al servicio. Elimina todos los casts `(int)`. `ChangeVoteAction` guarda la nota como float.
+4. Añade `multiple_of:0.5` a `score` en `StoreVoteRequest` y `UpdateVoteRequest`, con mensaje en español.
+5. Crea el comando `items:recalculate-stats {--category=}`: recorre los ítems con `chunkById` y **encola un job por bloque** en la cola `catalog`, que llama al servicio (motivo en produccion §2). Prográmalo a diario a las 03:00 con `withoutOverlapping()`.
 
-**Criterios de aceptación:**
-- Los tests del paso 1 pasan.
-- Los tests de la F0-02 siguen en verde.
-- Ningún cast `(int)` sobre notas en `app/Actions`.
+**Hecho cuando:** el test del paso 1 pasa, la F0-02 sigue en verde y `grep -rn "(int)" Backend/app/Actions` no devuelve ningún cast sobre notas.
 
 ---
 
 ## F0-04 · Ranking bayesiano
 
-- **Responsabilidad:** BE
-- **Depende de:** F0-03
+**Depende:** F0-03 · **Lee:** base-de-datos §3 (Fase 0) · **Archivos:** `Backend/app/Services/ItemStatsService.php`, `Backend/app/Models/{Category,Item}.php`, `Backend/config/kudos.php`
 
-**Fórmula:**
-
-```
-bayes = (v·R + m·C) / (v + m)     si v > 0
-bayes = 0                          si v = 0   (los ítems sin votos van al final)
-```
-
-- `v` es `vote_count` y `R` es `vote_avg`.
-- `C` es la media de todos los votos de tipo `vote` de la categoría. Se cachea 1 h en `category-mean:{id}`; si no hay votos, se usa 5.0.
-- `m` es `config('kudos.ranking.bayes_min_votes')`, 5 por defecto.
+**Fórmula:** `bayes = (v·R + m·C) / (v + m)` si `v > 0`; `bayes = 0` si `v = 0` (los ítems sin votos van al final).
+- `v` = `vote_count`; `R` = `vote_avg`.
+- `C` = media de todos los votos `type = 'vote'` de la categoría, cacheada 1 h en `category-mean:{id}`. Si no hay votos, `ranking.category_mean_fallback` (5.0).
+- `m` = `config('kudos.ranking.bayes_min_votes')`, 5 por defecto.
 
 **Pasos:**
-1. **Migración** con la columna `bayes_score` y el índice ([../backend/base-de-datos.md](../backend/base-de-datos.md), Fase 0).
-2. **`config/kudos.php`:** sección `ranking` con `bayes_min_votes` y `category_mean_fallback` (5.0), cada una comentada.
-3. **`ItemStatsService::recalculate`** también calcula `bayes_score`. El comando `items:recalculate-stats` invalida y recalcula `C` primero.
-4. **Ordenar por `bayes_score`:**
-   - `Category::getRankingPaginator()`: `bayes_score desc`, luego `vote_count desc`, luego `name`;
-   - `Item::scopeApplySorting`: la opción `vote_avg` (la que usan los destacados y "Mejor valorados" en Explorar) ordena por `bayes_score desc` y después por `vote_count desc`.
+1. Migración con `bayes_score` y su índice (base-de-datos §3, Fase 0).
+2. `config/kudos.php` → sección `ranking` con `bayes_min_votes` y `category_mean_fallback`, cada una comentada.
+3. `ItemStatsService::recalculate` también calcula `bayes_score`. `items:recalculate-stats` invalida y recalcula `C` antes de encolar nada.
+4. Ordena por `bayes_score`:
+   - `Category::getRankingPaginator()`: `bayes_score desc`, `vote_count desc`, `name`;
+   - `Item::scopeApplySorting`, opción `vote_avg` (la usan los destacados y "Mejor valorados"): `bayes_score desc`, `vote_count desc`.
+   - **No cambies** el parámetro `sort_by=vote_avg` ni los campos del JSON (R7).
 
-   **No cambies el nombre del parámetro** (`sort_by=vote_avg`) ni los campos del JSON, para no romper el frontend.
-
-**Criterios de aceptación:**
+**Hecho cuando:**
 - Test: con m=5 y C≈6, un ítem con un único 10 queda **por debajo** de uno con 20 votos y media 8.
 - Test: los ítems sin votos quedan al final.
-- El JSON del ranking sigue teniendo `vote_avg` y `vote_count`.
+- El JSON del ranking sigue incluyendo `vote_avg` y `vote_count`.
 
 ---
 
-## F0-05 · `quality_score` y exclusión de las fichas pobres
+## F0-05 · `quality_score` y exclusión de fichas pobres
 
-- **Responsabilidad:** BE
-- **Depende de:** F0-01
+**Depende:** F0-01 · **Lee:** base-de-datos §3 (Fase 0) · **Archivos:** `Backend/app/Models/Item.php`, `Backend/app/Services/NextCategoryItemService.php`, `Backend/app/Http/Requests/Items/ListItemsRequest.php`, `Backend/database/seeders/DatabaseSeeder.php`, `Frontend/src/hooks/pages/useCategoryPage.js`
 
-**Reglas iniciales** (en la Fase 1 se amplían a 100 puntos):
+**Reglas** (0–100):
 
 | Condición | Puntos |
 |---|---|
 | Al menos una imagen en `images` | +40 |
-| `description` no vacía, de 60 caracteres o más, y que no contiene ningún patrón de plantilla | +40 |
-| (F1) `released_at` no nulo o `attributes` no vacío | +20 |
+| `description` de 60 caracteres o más, sin patrones de plantilla | +40 |
+| `released_at` no nulo o `attributes` no vacío (se añade en la F1-01) | +20 |
 
-- **Patrones de plantilla:** se configuran en `config/catalog.php` → `template_description_patterns`, empezando con `Item importado` e `importado desde`.
-- **Umbral de descubrimiento:** `config('catalog.min_quality_for_discovery')`, 40 por defecto.
+- Los patrones de plantilla están en `config/catalog.php` → `template_description_patterns` (al principio: `Item importado`, `importado desde`).
+- El umbral es `config('catalog.min_quality_for_discovery')`, 40 por defecto.
 
 **Pasos:**
-1. **Migración** con `quality_score` y su índice. Crea `config/catalog.php` solo con las claves anteriores (la F1-02 lo amplía).
-2. **Crea `app/Services/ItemQualityScorer.php`** con `score(Item $item): int`.
-3. **Hook en `Item::booted()`:** en el evento `saving`, si cambian `images` o `description` (o, desde la F1, `attributes`/`released_at`), se recalcula `quality_score`.
-4. **`DatabaseSeeder` usa `WithoutModelEvents`,** así que el hook no se ejecuta al sembrar. Al final de `DatabaseSeeder::run()`, ejecuta `Artisan::call('items:recalculate-quality')`.
-5. **Crea el comando `items:recalculate-quality`** (por bloques) y prográmalo semanalmente.
-6. **Excluir los ítems con `quality_score < umbral`:**
-   - de `NextCategoryItemService::generateNewBatch()`;
-   - de `GET /api/items` cuando se pase el parámetro nuevo `discoverable=1`, validado en `ListItemsRequest`.
-7. **Frontend:** `useCategoryPage.js` (destacados) envía `discoverable: 1`.
+1. Migración con `quality_score` y su índice. Crea `config/catalog.php` solo con estas claves (la F1-02 lo amplía).
+2. Crea `app/Services/ItemQualityScorer.php` → `score(Item $item): int`.
+3. En `Item::booted()` → `saving`: si cambian `images` o `description`, recalcula `quality_score`.
+4. `DatabaseSeeder` usa `WithoutModelEvents`, así que el hook no se ejecuta al sembrar: al final de `run()`, llama a `Artisan::call('items:recalculate-quality')`.
+5. Crea el comando `items:recalculate-quality`, que funciona por bloques y encola igual que en la F0-03. Prográmalo semanalmente.
+6. Excluye los ítems con `quality_score < umbral` de `NextCategoryItemService::generateNewBatch()` y de `GET /api/items` cuando llegue el parámetro nuevo `discoverable=1` (validado en `ListItemsRequest`).
+7. Frontend: `useCategoryPage.js` (destacados) envía `discoverable: 1`.
 
-**Criterios de aceptación:**
-- Tests:
-  - un ítem sin imagen y con "Item importado." tiene una puntuación menor de 40;
-  - no aparece en la cola;
-  - no aparece en `?discoverable=1`;
-  - **sí** aparece en Explorar y en la búsqueda, que no llevan el filtro.
-- Después de `migrate:fresh --seed`, `quality_score` está calculado (no queda todo a 0).
+**Hecho cuando:**
+- Tests: un ítem sin imagen y con "Item importado." puntúa menos de 40; no aparece en la cola ni con `?discoverable=1`; **sí** aparece en Explorar y en la búsqueda.
+- Tras `migrate:fresh --seed`, `quality_score` está calculado (no todo a 0).
 
 ---
 
 ## F0-06 · *Placeholder* generativo
 
-- **Responsabilidad:** FE
-- **Depende de:** —
-- **Lectura:** [../frontend/arquitectura.md](../frontend/arquitectura.md) §4
+**Depende:** — · **Lee:** frontend §4 · **Archivos:** `Frontend/src/components/ui/{StorageImage,ItemPlaceholder}.jsx`, `Frontend/src/components/items/ItemImage.jsx`, `Frontend/src/lib/constants.js`
 
 **Pasos:**
-1. **Crea `components/ui/ItemPlaceholder.jsx`** con las props `name`, `categorySlug`, `className` y `variant` (`card` o `banner`):
-   - el fondo es un degradado de dos tonos HSL derivado de un hash estable del nombre. Usa saturación y luminosidad controladas para mantener el contraste AA con texto blanco;
-   - encima, el icono de la categoría y hasta dos iniciales.
-2. **Mapa de iconos `slug → icono lucide`** en `lib/constants.js`, con un icono por defecto. En la F1 vendrá de `categories.icon`; deja preparada la lectura de `category.icon` si existe.
-3. **Usa el *placeholder*** en `StorageImage.jsx` (en lugar de `ImageOff` cuando el contexto es un ítem) y en `ItemImage.jsx` cuando no haya imagen o falle su carga (`onError`).
+1. Crea `components/ui/ItemPlaceholder.jsx` con las props `name`, `categorySlug`, `className` y `variant` (`card` | `banner`). El fondo es un degradado HSL de dos tonos derivado de un hash estable del nombre, con saturación y luminosidad que den contraste AA con texto blanco. Encima, el icono de la categoría y hasta dos iniciales.
+2. En `lib/constants.js`, un mapa `slug → icono lucide` con un icono por defecto. Usa `category.icon` si existe (llega en la F1).
+3. Usa el *placeholder* en `StorageImage.jsx` (en lugar de `ImageOff` cuando es un ítem; ya tiene la prop `fallbackIcon` y `onError`) y en `ItemImage.jsx` cuando no haya imagen o falle su carga.
 
-**Criterios de aceptación:**
-- `pnpm build` termina sin errores.
-- Las tarjetas y las fichas sin imagen muestran el *placeholder*: el mismo nombre da siempre el mismo color.
-- Las imágenes rotas también caen al *placeholder*.
+**Hecho cuando:** las tarjetas y fichas sin imagen o con la imagen rota muestran el *placeholder*, y el mismo nombre da siempre el mismo color.
 
 ---
 
 ## F0-07 · Ocultar secciones vacías
 
-- **Responsabilidad:** FE
-- **Depende de:** —
+**Depende:** — · **Archivos:** `Frontend/src/components/items/ItemDetailColumn.jsx`, `ItemCard`
 
-**Pasos:**
-- En `components/items/ItemDetailColumn.jsx`, no se renderiza el bloque "Acerca de…" si `description` es nulo o está vacío tras `trim()`.
-- Revisa la ficha y la tarjeta por si hay otras secciones con el mismo problema (creador vacío, imágenes vacías) y aplica el mismo criterio.
+**Pasos:** no renderices "Acerca de…" si `description` es nulo o queda vacío tras `trim()`. Aplica el mismo criterio a cualquier otra sección vacía de la ficha o la tarjeta (imágenes, etc.). El creador ya se protege con `item.creator &&`; mantenlo, porque los ítems importados no tienen creador.
 
-**Criterios de aceptación:**
-- Una ficha sin descripción no muestra una caja vacía.
-- `pnpm build` termina sin errores.
+**Hecho cuando:** una ficha sin descripción no muestra una caja vacía.
 
 ---
 
 ## F0-08 · Clases CSS sin definir
 
-- **Responsabilidad:** FE
-- **Depende de:** —
-- **Lectura:** [../frontend/arquitectura.md](../frontend/arquitectura.md) §3 (tabla "Deuda de CSS conocida")
+**Depende:** — · **Lee:** frontend §3 · **Archivos:** `Frontend/tailwind.config.js`, `Frontend/src/index.css` y los archivos que devuelva el `grep`
 
-**Pasos:**
-- Aplica la solución decidida para cada clase.
-- Comprueba visualmente las 13 páginas o componentes afectados, entre ellos `CategoryPage`, `ExplorePage`, `ItemDetailPage`, `VotePage`, `CommentBox`, `Ranking` y `admin/*`.
+**Pasos:** aplica la solución de la tabla de frontend §3 a cada clase y revisa visualmente cada página afectada.
 
-**Criterios de aceptación:**
-- El `grep` de comprobación no devuelve ninguna coincidencia.
-- `pnpm build` termina sin errores.
-- No se ha añadido ningún plugin de Tailwind.
+**Hecho cuando:** el `grep` de frontend §3 no devuelve nada y no se ha añadido ningún plugin de Tailwind.
 
 ---
 
-## F0-09 · Búsqueda global
+## F0-09 · Búsqueda global y slugs reservados
 
-- **Responsabilidad:** FE, BE
-- **Depende de:** F0-01
+**Depende:** F0-01 · **Lee:** frontend §2 y §4 · **Archivos:** `Backend/app/Http/Requests/Items/ListItemsRequest.php`, `Backend/app/Http/Requests/Category/{Store,Update}CategoryRequest.php`, `Frontend/src/components/layout/{MainHeader,NavBarMobile}.jsx`, `Frontend/src/routes/routes.jsx`
 
 **Backend:**
-1. Verifica que `GET /api/items?search=…&per_page=…` sin categoría funciona y que `ItemListResource` incluye la categoría (`slug`, `name`). Si no la incluye, añádela con *eager loading*, sin consultas N+1.
-2. Exige un mínimo de 2 caracteres en `search` (regla `min:2`). `ListItemsRequest` también lo usa Explorar: comprueba que `useFilters` no envía búsquedas de 1 carácter (darían 422).
-3. Añade `reserved_slugs` a `config/catalog.php` (créalo si la F0-05 aún no lo ha hecho) y valídalo en `StoreCategoryRequest` y `UpdateCategoryRequest` (ver [../frontend/arquitectura.md](../frontend/arquitectura.md) §2).
-4. Escribe los tests.
+1. `GET /api/items?search=…&per_page=…` sin categoría ya funciona, y `ItemListResource` ya incluye `category` con *eager loading*. Verifícalo con un test.
+2. `search` con `min:2`. Explorar usa la misma petición: comprueba que `useFilters` no envía búsquedas de 1 carácter.
+3. `reserved_slugs` en `config/catalog.php` (créalo si la F0-05 no lo ha hecho) y valídalo en `StoreCategoryRequest` y `UpdateCategoryRequest`.
 
 **Frontend:**
-1. **Componente `GlobalSearch`** en `MainHeader` y `NavBarMobile`:
-   - *debounce* de 300 ms (reutiliza `useFilters` si encaja);
-   - al pulsar Enter, navega a `/buscar?q=`.
-2. **Ruta `/buscar`,** declarada **antes** de `/:categorySlug` en `routes.jsx`:
-   - página `SearchPage` con su hook `useSearchPage`;
-   - consulta infinita;
-   - resultados agrupados por categoría con `ItemCard`;
-   - estados de vacío y de carga con los *skeletons* existentes.
+1. Componente `GlobalSearch` en `MainHeader` y `NavBarMobile`: *debounce* de 300 ms (reutiliza `useFilters` si encaja); con Enter, navega a `/buscar?q=`.
+2. Ruta `/buscar` → `SearchPage` + `useSearchPage`: consulta infinita, resultados agrupados por categoría con `ItemCard`, y estados de vacío y de carga con los *skeletons* existentes.
 
-**Criterios de aceptación:**
-- Buscar "mat" encuentra "Matrix" desde cualquier página.
-- `/buscar` no se confunde con un slug de categoría.
-- `pnpm build` termina sin errores y los tests del backend están en verde.
+**Hecho cuando:** buscar "mat" encuentra "Matrix" desde cualquier página; `/buscar` no se trata como categoría; una categoría con slug `buscar` da 422.
 
 ---
 
 ## F0-10 · Scheduler, colas y memoria en producción
 
-- **Responsabilidad:** INFRA
-- **Depende de:** —
-- **Lectura:** [../infra/produccion.md](../infra/produccion.md) §2
+**Depende:** — · **Lee:** produccion §2 · **Archivos:** `Backend/compose.prod.yml`, `deploy/README.md`, `Backend/routes/console.php`
 
 **Pasos:**
-1. **En `compose.prod.yml`:**
-   - servicio `scheduler`;
-   - worker con `--queue=default,catalog` y 512M;
-   - comentario de presupuesto de memoria actualizado.
-2. **En `deploy/README.md`:**
-   - explica el servicio nuevo;
-   - explica cómo comprobarlo: `kudos-dc logs scheduler`, `kudos-dc exec app php artisan schedule:list`.
-3. **En `routes/console.php`,** deja programadas las tareas que ya existen en esta fase: `items:recalculate-stats` e `items:recalculate-quality`. El scheduler ejecuta los comandos **dentro de su contenedor de 128M**: los comandos programados solo recorren IDs y **encolan jobs** en la cola `catalog`; el trabajo pesado lo hace el worker (512M).
-4. **Valida la sintaxis** con `docker compose -f compose.prod.yml --env-file .env.production.example config > /dev/null`. Usa un `.env` temporal si hace falta y **no lo subas**.
+1. En `compose.prod.yml`, aplica produccion §2: servicio `scheduler`, worker con `--queue=default,catalog` y 512M, y el comentario de presupuesto de memoria.
+2. En `deploy/README.md`, documenta el servicio y cómo comprobarlo: `kudos-dc logs scheduler` y `kudos-dc exec app php artisan schedule:list`.
+3. En `routes/console.php`, programa las tareas ya existentes en esta fase (`items:recalculate-stats`, `items:recalculate-quality`). Esos comandos solo encolan.
+4. Valida con `docker compose -f compose.prod.yml --env-file .env.production.example config > /dev/null`. Si hace falta un `.env` temporal, no lo subas.
 
-**Criterios de aceptación:**
-- `docker compose … config` es válido.
-- `schedule:list` muestra las tareas en local.
-- **No se ha desplegado nada.** El despliegue lo hace el humano.
+**Hecho cuando:** `config` es válido, `sail artisan schedule:list` muestra las tareas y **no se ha desplegado nada**.
 
 ---
 
-## F0-11 · Copia de seguridad de imágenes
+## F0-11 · Copia de seguridad de imágenes (prioridad baja)
 
-- **Responsabilidad:** INFRA
-- **Depende de:** —
-- **Prioridad:** baja
-- **Lectura:** [../infra/produccion.md](../infra/produccion.md) §4
+**Depende:** — · **Lee:** produccion §4
 
-**Criterios de aceptación:**
-- Existe un script con rotación, sin errores en `shellcheck` si está disponible.
-- Está documentado en `deploy/README.md` junto con la línea de cron.
+**Hecho cuando:** existe un script con rotación, sin avisos de `shellcheck` (si está disponible), documentado en `deploy/README.md` con su línea de cron.
 
 ---
 
 ## F0-12 · Corregir el README
 
-- **Responsabilidad:** DOCS
-- **Depende de:** F0-01
+**Depende:** F0-01 · **Archivos:** `README.md`, `Backend/README.md`
 
-**Cambios en el `README.md` raíz y en `Backend/README.md`:**
-- MySQL → **PostgreSQL**;
-- quitar "Spatie Media Library" y "Telescope" si no están en `composer.json`;
-- explicar cómo ejecutar los tests;
-- enlazar a `docs/`.
+**Pasos:** MySQL → PostgreSQL; quita "Spatie Media Library" y "Telescope" si no están en `composer.json`; explica cómo ejecutar los tests; enlaza a `docs/`.
 
-**Criterios de aceptación:** las afirmaciones del README coinciden con `composer.json`, `package.json` y la estructura real del repositorio.
+**Hecho cuando:** cada afirmación coincide con `composer.json`, `package.json` y la estructura real.
 
 ---
 
 ## F0-13 · CI con GitHub Actions
 
-- **Responsabilidad:** INFRA
-- **Depende de:** F0-02
+**Depende:** F0-02 · **Archivos:** `.github/workflows/tests.yml` (no toques `docs.yml`)
 
 **Pasos:**
-1. **Crea `.github/workflows/tests.yml`:**
-   - se lanza con `push` y `pull_request`;
+1. Job de backend, en `push` y `pull_request`:
    - servicio `postgres:18-alpine` con la base de datos `testing`;
    - `shivammathur/setup-php@v2` con PHP 8.5 y las extensiones `pdo_pgsql`, `pgsql`, `gd`, `intl`, `mbstring` y `redis`;
    - `composer install`, `cp .env.example .env`, `php artisan key:generate`;
-   - variables `DB_HOST=127.0.0.1`, `DB_USERNAME` y `DB_PASSWORD`. No hace falta servicio Redis: los tests usan caché y sesión en array (no uses `predis`, no está en `composer.json`);
+   - `DB_HOST=127.0.0.1`, `DB_USERNAME` y `DB_PASSWORD`;
+   - sin servicio Redis (los tests usan caché y sesión en array; `predis` no está instalado);
    - `php artisan test`.
-2. **Job adicional** con Node 22 y pnpm que ejecute `pnpm install --frozen-lockfile && pnpm build` en `Frontend/`.
+2. Job de frontend: Node 22 y pnpm, `pnpm install --frozen-lockfile && pnpm build` en `Frontend/`.
 
-**Criterios de aceptación:**
-- El workflow es válido y pasa en una rama de prueba.
-- **Pide permiso al humano antes del push.**
+**Hecho cuando:** el workflow pasa en una rama de prueba. **Pide permiso antes del push** (R11).

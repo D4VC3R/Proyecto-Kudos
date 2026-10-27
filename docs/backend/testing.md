@@ -1,12 +1,9 @@
-# Backend: estrategia de tests
-
-**Responsable:** backend/QA. **Estado actual: no hay ningún test.** La tarea F0-01 crea la infraestructura y la F0-02 la batería base.
+# Backend: tests
 
 ## 1. Configuración
 
-- **Motor:** PostgreSQL, base de datos `testing`, en el mismo servicio `pgsql` de Sail. **Nunca SQLite**, porque las migraciones usan `CREATE EXTENSION`, `jsonb` y GIN.
-- **`phpunit.xml`** (lo deja así la tarea F0-01):
-
+- PostgreSQL, base de datos `testing`, en el mismo servicio `pgsql` de Sail. **Nunca SQLite**: las migraciones usan `CREATE EXTENSION`, `jsonb` y GIN.
+- `phpunit.xml` (lo deja así la F0-01):
   ```xml
   <env name="DB_CONNECTION" value="pgsql" force="true"/>
   <env name="DB_DATABASE" value="testing" force="true"/>
@@ -15,36 +12,29 @@
   <env name="MAIL_MAILER" value="array"/>
   <env name="SESSION_DRIVER" value="array"/>
   ```
-
   `DB_HOST`, `DB_USERNAME` y `DB_PASSWORD` se heredan de `.env` (`pgsql` / `sail` / `password`).
-- **Ejecución:** `sail test` (ver [../infra/entorno-local.md](../infra/entorno-local.md)).
+- Cómo crear la base de datos y ejecutar los tests: [../infra/entorno-local.md](../infra/entorno-local.md) §4.
 
 ## 2. Estructura
 
 ```
 Backend/tests/
-├── TestCase.php                 # clase base con la protección de la base de datos y helpers
-├── Feature/
-│   ├── Votes/                   # EmitVoteTest, ChangeVoteTest, DeleteVoteTest, NextItemTest…
-│   ├── Ranking/
-│   ├── Items/                   # búsqueda, listado, detalle
-│   ├── Kudos/
-│   ├── Catalog/                 # importación, refresco, búsqueda bajo demanda (Fase 1)
-│   └── …
-├── Unit/                        # cálculos puros: BayesianScore, QualityScore, mapeadores de proveedores
-└── Fixtures/
-    └── catalog/                 # respuestas JSON reales (anonimizadas o recortadas) de TMDB, Wikidata y Wikipedia
+├── TestCase.php     # protección de la base de datos (§3)
+├── Concerns/        # helpers: seedRolesAndPermissions, actingAsUser, actingAsAdmin
+├── Feature/         # Votes/, Ranking/, Items/, Kudos/, Catalog/…
+├── Unit/            # lógica pura: fórmulas, mapeadores, normalizadores
+└── Fixtures/catalog/  # respuestas reales recortadas de TMDB, Wikidata y Wikipedia
 ```
 
-## 3. `tests/TestCase.php` (obligatorio)
+## 3. `tests/TestCase.php` (obligatorio, R3)
+
+`RefreshDatabase` se ejecuta **dentro** de `parent::setUp()`. Por eso la protección va en su hook `beforeRefreshingDatabase()`: si estuviera en `setUp()`, comprobaría cuando la base de datos ya se ha borrado.
 
 ```php
 abstract class TestCase extends BaseTestCase
 {
     /**
      * Protección: RefreshDatabase borra la base de datos. Nunca contra la de desarrollo o producción.
-     * Debe ir en este hook: RefreshDatabase se ejecuta DENTRO de parent::setUp(), así que una
-     * comprobación en setUp() llegaría cuando la base de datos ya se ha borrado.
      */
     protected function beforeRefreshingDatabase(): void
     {
@@ -56,28 +46,21 @@ abstract class TestCase extends BaseTestCase
 }
 ```
 
-Para comprobar que funciona, fuerza `DB_DATABASE=kudos_db` y verifica que los tests abortan **y** que `kudos_db` mantiene sus filas.
-
-**Helpers recomendados**, como métodos o traits en `tests/Concerns/`:
-- `seedRolesAndPermissions()`: llama a `PermissionSeeder` y `RoleSeeder`. Las rutas de admin y algunas *policies* los necesitan.
+**Helpers** (`tests/Concerns/`):
+- `seedRolesAndPermissions()`: ejecuta `PermissionSeeder` y `RoleSeeder`; las rutas de admin y algunas *policies* los necesitan.
 - `actingAsUser(array $attrs = [])`: crea un usuario verificado y sin ban y hace `Sanctum::actingAs`.
 - `actingAsAdmin()`.
 
 ## 4. Convenciones
 
-- **Tests de feature contra endpoints HTTP reales** (`$this->postJson('/api/votes', …)`), con `RefreshDatabase`. Comprueban:
-  - el código de estado;
-  - la forma del JSON (`assertJsonPath`, `assertJsonStructure`);
-  - el estado de la base de datos (`assertDatabaseHas`).
-- **Tests unitarios** solo para la lógica pura: fórmulas, mapeadores y normalizadores.
-- **Nombres:** `test_<comportamiento_en_snake_case>` o el atributo `#[Test]`, con una descripción clara. Por ejemplo: `test_cambiar_un_voto_mantiene_los_medios_puntos`.
-- **Factories:** existen `CategoryFactory`, `ItemFactory`, `UserFactory`, `VoteFactory`, `ProposalFactory` y `ProfileFactory`. Amplíalas con *states* (`->rated(7.5)`, `->want()`) en lugar de repetir arrays.
-- **Tiempo:** si se depende de él, usar `$this->travelTo(...)` o `Carbon::setTestNow`.
-- **Caché:** `Cache::flush()` cuando se pruebe `NextCategoryItemService`, porque cachea la cola.
+- **Feature:** contra endpoints reales (`$this->postJson('/api/votes', …)`) con `RefreshDatabase`. Comprueba el estado HTTP, el JSON (`assertJsonPath`, `assertJsonStructure`) y la base de datos (`assertDatabaseHas`).
+- **Unit:** solo lógica pura.
+- **Nombres:** `test_<comportamiento_en_snake_case>` o `#[Test]`. Por ejemplo, `test_cambiar_un_voto_mantiene_los_medios_puntos`.
+- **Factories:** existen `Category`, `Item`, `User`, `Vote`, `Proposal` y `Profile`. `UserFactory` crea usuarios verificados por defecto. Añade *states* (`->rated(7.5)`, `->want()`) en lugar de repetir arrays.
+- **Tiempo:** `$this->travelTo(...)` o `Carbon::setTestNow`.
+- **Caché:** `Cache::flush()` al probar `NextCategoryItemService`.
 
-## 5. APIs externas: siempre falseadas
-
-**Ningún test puede hacer peticiones reales.** Al principio de cada test o en `setUp`:
+## 5. APIs externas: siempre falseadas (R4)
 
 ```php
 Http::preventStrayRequests();
@@ -89,19 +72,17 @@ Http::fake([
 ]);
 ```
 
-- **Fixtures:**
-  - capturadas una vez a mano con `curl` y recortadas a lo necesario;
-  - **sin tokens** en las URLs ni en el contenido.
-- **Casos de error que hay que probar** en cada proveedor: 404, 429 (límite de peticiones), un campo vacío (por ejemplo, sinopsis en español vacía) y un *timeout*.
-- **Imágenes:** `Storage::fake('public')` y `Storage::fake('local')`.
-- **DNS:** `RemoteImageDownloader::assertSafeUrl()` resuelve el host con `gethostbyname()` (protección anti-SSRF), y `Http::fake()` no lo evita. La F1-04 extrae esa resolución a un método o colaborador inyectable para poder falsearla en los tests. Sin eso, los tests de imágenes dependen de la red.
+- **Fixtures:** capturadas una vez a mano con `curl` y recortadas. **Sin tokens**, ni en las URLs ni en el contenido.
+- **Casos de error en cada proveedor:** 404, 429, campo vacío (por ejemplo, sinopsis es-ES vacía) y *timeout*.
+- **Imágenes:** `Storage::fake('public')` y `Storage::fake('local')`. `RemoteImageDownloader` hace primero un `HEAD` y luego un `GET`; el *fake* responde a ambos.
+- **DNS:** `RemoteImageDownloader::assertSafeUrl()` llama a `gethostbyname()` y `Http::fake()` no lo evita. La F1-04 lo extrae a un colaborador inyectable; en los tests, falséalo. Si no, los tests dependen de la red.
 
 ## 6. Cobertura mínima por fase
 
-| Fase | Debe quedar cubierto |
+| Fase | Cubierto |
 |---|---|
-| 0 | Emitir, cambiar y borrar voto (medias exactas con medios puntos), voto duplicado, *skip*, primer voto da kudos e idempotencia, tope diario de kudos, ranking bayesiano, cola sin ítems de baja calidad, búsqueda global, `kudos:audit-consistency` sin desajustes tras los flujos |
-| 1 | Importar desde TMDB (ficha en español, `item_sources`, sin duplicados al reimportar), cadena de prioridades de la descripción, cálculo de `quality_score`, refresco (actualiza `last_synced_at`; un 404 desactiva el ítem), búsqueda e importación bajo demanda (autorización y *throttle*) |
-| 2 | Tipos `want` y `not_interested`, normalización de `skip`, transición de `want` a valoración (da kudos una sola vez), *wishlist*, cola ponderada (excluye lo votado y lo de baja calidad), similares, listas editoriales en la portada |
-| 3 | CRUD de listas y visibilidad (una lista privada da 404 a terceros), reseñas y respuestas (un solo nivel), reportes y su resolución con aviso, borrado de cuenta (cascada y anonimización), notificaciones |
-| 4 | Mapeadores de IGDB o RAWG y de Wikidata para destinos, atribución y licencia de imágenes de Commons |
+| 0 | Emitir, cambiar y borrar voto con medias exactas con medios puntos; duplicado; `skip`; kudos del primer voto e idempotencia; tope diario; ranking bayesiano; cola sin baja calidad; búsqueda global; `kudos:audit-consistency` limpio |
+| 1 | Importar de TMDB (ficha es-ES, `item_sources`, reimportar sin duplicar); cadena de la descripción; `quality_score`; refresco (`last_synced_at`; un 404 desactiva); búsqueda e importación bajo demanda (autorización y *throttle*) |
+| 2 | `want`/`not_interested`; normalización de `skip`; de `want` a valoración (kudos una sola vez); *wishlist*; cola ponderada; similares; listas editoriales en la portada |
+| 3 | CRUD de listas y visibilidad (privada → 404); reseñas y respuestas (un nivel); reportes y su resolución con aviso; borrado de cuenta (cascada y anonimización); notificaciones |
+| 4 | Mapeadores de IGDB/RAWG y de destinos en Wikidata; licencia de las imágenes de Commons |

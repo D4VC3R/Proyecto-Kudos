@@ -1,113 +1,68 @@
-# Guía para agentes (y personas) que ejecuten el rediseño
+# Guía para agentes
 
-Lee este documento entero antes de empezar cualquier tarea. Las reglas marcadas como **OBLIGATORIO** no son negociables.
+## 1. Reglas (OBLIGATORIAS)
 
-## 1. Cómo trabajar una tarea
+| # | Regla |
+|---|---|
+| R1 | Los documentos describen la intención; **el código es la verdad**. Si se contradicen, sigue el código, corrige el documento y anótalo en el resumen. |
+| R2 | Todo PHP y Artisan se ejecuta **dentro de Sail**: `sail artisan …`, `sail test`. Nunca `php` en el host. Entorno: [infra/entorno-local.md](infra/entorno-local.md). |
+| R3 | Los tests van contra PostgreSQL `testing`. Nunca SQLite. No quites la protección de `tests/TestCase.php`. |
+| R4 | Ningún test hace peticiones reales: `Http::preventStrayRequests()` + `Http::fake()` con fixtures ([backend/testing.md](backend/testing.md) §5). |
+| R5 | Migraciones siempre **nuevas** y con un `down()` que funcione. No edites las existentes. |
+| R6 | Cambio mínimo: no refactorices código ajeno a la tarea. **No ejecutes Pint** sobre archivos que no hayas tocado. Imita el estilo del archivo, también la indentación (hay archivos con tabuladores y otros con espacios). |
+| R7 | No rompas el contrato JSON del frontend: los campos se **añaden**, nunca se renombran ni se quitan. |
+| R8 | No borres tests. Si uno deja de tener sentido, explícalo en el resumen. No desactives validaciones, *policies* ni middlewares para que algo pase. |
+| R9 | Sin secretos en el repo. Cada variable nueva va vacía en `Backend/.env.example` y `Backend/.env.production.example`, y se documenta en [infra/produccion.md](infra/produccion.md) §3. |
+| R10 | **Prohibido sin permiso explícito del humano:** conectarse al VPS, ejecutar `deploy.sh` o cualquier comando contra producción; usar APIs de pago o pruebas que caduquen; incumplir los términos de una API ([integraciones/fuentes-externas.md](integraciones/fuentes-externas.md) §1); enviar correos reales, publicar o crear cuentas en servicios externos; implementar funciones **aplazadas** ([producto/vision.md](producto/vision.md) §3). |
+| R11 | Git: nunca `push` (tampoco a ramas de tarea) sin permiso, nunca `--force`, `--no-verify` ni merge a `main`. |
+| R12 | Si la tarea es inviable o mucho mayor de lo descrito, o una verificación no se puede hacer en tu entorno: **para y pregunta**. Nunca des por hecha una tarea sin verificar. |
 
-1. **Elige la tarea.** Abre [roadmap/README.md](roadmap/README.md) y elige la primera tarea en estado `pendiente` cuyas dependencias estén todas en `hecho`. No saltes fases salvo que el humano lo pida.
-2. **Lee lo necesario.**
-   - La ficha de la tarea, dentro de `roadmap/fase-N-*.md`.
-   - Los documentos de referencia que la ficha cite.
-   - **El código actual de los archivos afectados.** Los documentos describen la intención; el código es la verdad. Si se contradicen, sigue el código, anota la discrepancia en el resumen final y corrige el documento.
-3. **Marca la tarea como `en curso`** en el tablero.
-4. **Crea una rama** desde la rama de integración `rediseno-fase-0` actualizada (allí vive `docs/`; `main` no la tiene), salvo que el humano indique otra base. Nombre: `fase-N/FN-XX-descripcion-corta`, por ejemplo `fase-0/F0-03-recalculo-medias`. Al terminar, se fusiona en `rediseno-fase-0`; a `main` se fusiona por fases y solo con aprobación del humano.
-5. **Implementa con el cambio mínimo** que cumpla los criterios de aceptación. No "aproveches" para refactorizar código ajeno a la tarea.
-6. **Verifica.** Ejecuta las comprobaciones de la ficha y la definición de hecho (§3).
-7. **Actualiza la documentación:**
-   - estado `hecho` en el tablero;
-   - notas de implementación en la ficha: decisiones tomadas y desviaciones respecto al plan;
-   - los documentos de referencia que hayan quedado desactualizados.
-8. **Haz commit siguiendo §4.** No hagas push ni abras un PR sin permiso del humano.
-9. **Escribe un resumen final** con:
-   - qué se ha hecho;
-   - cómo se ha verificado, con la salida real de los tests;
-   - qué ha quedado pendiente;
-   - qué decisiones necesitan validación humana.
+## 2. Flujo de una tarea
 
-Si una tarea resulta inviable o mucho mayor de lo descrito, **para y pregunta** al humano en lugar de improvisar un rediseño.
+1. En [roadmap/README.md](roadmap/README.md), elige la primera tarea `pendiente` con todas sus dependencias en `hecho`. No saltes de fase salvo que el humano lo pida.
+2. Lee su ficha, las secciones que cite en **Lee** y el código actual de los **Archivos**.
+3. Marca la tarea `en curso` en el tablero.
+4. `git switch rediseno-fase-0 && git pull`, y crea `fase-N/FN-XX-descripcion-corta` (ej. `fase-0/F0-03-recalculo-medias`). Cuando la tarea esté hecha, se fusiona en `rediseno-fase-0`. A `main` solo se fusiona por fases y con aprobación.
+5. Implementa.
+6. Verifica la definición de hecho (§3).
+7. Actualiza la documentación: estado `hecho` en el tablero, una sección **Notas** en la ficha con las decisiones y desviaciones, y los documentos de referencia que hayan quedado desfasados.
+8. Haz commit (§4).
+9. Escribe el resumen final: qué se ha hecho, cómo se ha verificado (pegando la salida real de los tests), qué queda pendiente y qué decisiones necesitan validación humana.
 
-## 2. Entorno
+Si la tarea no puede avanzar, márcala `bloqueada` y explica el motivo en su ficha.
 
-- **Linux con Docker.** El backend se ejecuta con Laravel Sail y el frontend con su propio `docker compose`. Instrucciones en [infra/entorno-local.md](infra/entorno-local.md).
-- **Todo comando PHP o Artisan va dentro del contenedor.** El PHP del host puede ser de otra versión o no existir. Se usa `./vendor/bin/sail artisan …` (o el alias `sail`), nunca `php artisan` en el host.
+## 3. Definición de "hecho"
 
-## 3. Definición de "hecho" (OBLIGATORIO)
-
-Una tarea solo está hecha si se cumple todo lo siguiente:
-
-- [ ] Se cumplen **todos** los criterios de aceptación de la ficha.
-- [ ] **Si toca el backend:**
-  - `sail test` pasa en verde contra PostgreSQL (nunca SQLite);
-  - hay tests nuevos que cubren el cambio. Un bug corregido lleva un test que fallaba antes del arreglo.
-- [ ] **Si toca el frontend:** `pnpm build` termina sin errores (se ejecuta en el contenedor del frontend; ver el documento de entorno).
-- [ ] **Si hay migraciones:**
-  - son **nuevas**: no se editan las migraciones ya existentes;
-  - su `down()` funciona;
-  - `sail artisan migrate:fresh --seed` funciona en local.
-- [ ] **Ningún test llama a una API externa real.** Se usa `Http::fake()` con fixtures; ver [backend/testing.md](backend/testing.md).
-- [ ] No se añaden secretos al repositorio. Las variables nuevas se documentan en `.env.example`, en `.env.production.example` y en [infra/produccion.md](infra/produccion.md).
+- [ ] Se cumplen todos los puntos de **Hecho cuando** de la ficha.
+- [ ] **Backend tocado:** `sail test` en verde y tests nuevos que cubren el cambio. Un bug corregido lleva un test que fallaba antes del arreglo.
+- [ ] **Frontend tocado:** `docker compose run --rm kudos-frontend pnpm build` (desde `Frontend/`) termina sin errores, y has hecho una prueba manual del flujo tocado.
+- [ ] **Migraciones:** el `down()` funciona y `sail artisan migrate:fresh --seed` funciona.
+- [ ] Se cumplen R4 y R9.
 - [ ] El tablero y la ficha están actualizados.
 
-## 4. Git
+## 4. Commits
 
-- **Mensajes de commit en español**, con el formato `Área: descripción en imperativo o nominal`, como los existentes:
-  - `Seguridad: PHP 8.5.12 en las imágenes (corrige PHP2Shell)`
-  - `General: interruptor para la verificación de email (apagada por defecto)`
-  - `Despliegue: imagen y stack de producción para el VPS`
-- **Áreas sugeridas:** `Votos`, `Catálogo`, `Ranking`, `Tests`, `Frontend`, `Infra`, `Despliegue`, `Legal`, `Docs`.
-- **Un commit por unidad lógica.** Incluye el ID de la tarea en el cuerpo del mensaje, por ejemplo `Tarea: F0-03`.
-- **Nunca:** `push --force`, reescribir el historial de `main`, `--no-verify` ni hacer merge a `main` sin aprobación.
+- Formato `Área: descripción`, en español. Por ejemplo: `Votos: medias exactas con AVG`.
+- Áreas: `Votos`, `Catálogo`, `Ranking`, `Tests`, `Frontend`, `Infra`, `Despliegue`, `Legal`, `Docs`, `Seguridad`, `General`.
+- Un commit por unidad lógica, con `Tarea: FX-YY` en el cuerpo.
 
-## 5. Convenciones de código
+## 5. Convenciones
 
 **Backend** (detalle en [backend/arquitectura.md](backend/arquitectura.md)):
-- **Arquitectura:**
-  - Controller → Form Request → Action (una escritura transaccional) / Service (lógica reutilizable) → Model.
-  - No se usan repositorios.
-- **Nombres:** en inglés en el código; comentarios y docblocks en español.
-- **Formato:**
-  - **Imita el estilo del archivo que edites**, también la indentación: hay archivos con tabuladores y otros con espacios.
-  - **No ejecutes Pint sobre archivos que no hayas modificado** ni sobre el repositorio completo: generaría diffs enormes.
-- **Respuestas JSON:**
-  - siempre a través de `app/Http/Resources`;
-  - los errores siguen el formato `{"error": {"code", "message", "details?"}}` definido en `bootstrap/app.php`.
-- **Configuración:**
-  - los parámetros ajustables (pesos, umbrales, recompensas) van en `config/*.php`, nunca como números mágicos;
-  - `env()` solo se llama dentro de `config/`.
-- **Mensajes al usuario** (validación, errores) en español.
+- Controller → Form Request → Action (una escritura transaccional) o Service (lógica reutilizable) → Model. Sin repositorios.
+- Toda respuesta JSON pasa por `app/Http/Resources`. Los errores siguen el formato `{"error": {"code", "message", "details?"}}` de `bootstrap/app.php`.
+- Los parámetros ajustables (pesos, umbrales, recompensas) van en `config/*.php`, con un comentario. `env()` solo se usa dentro de `config/`.
+- Nombres en inglés. Comentarios, docblocks y mensajes al usuario, en español.
 
 **Frontend** (detalle en [frontend/arquitectura.md](frontend/arquitectura.md)):
-- **Organización:**
-  - cada página tiene un hook `hooks/pages/useXPage.js` que devuelve `{ state, actions }`;
-  - las consultas y mutaciones van en `hooks/<dominio>/` con React Query.
-- **Estilos:**
-  - Tailwind con clases que existan: no inventes utilidades sin definirlas en `tailwind.config.js`;
-  - para unir clases condicionales usa `clsx`/`tailwind-merge` importándolos directamente, como hacen los componentes actuales (no existe una utilidad `cn()` en `lib/`).
-- **Textos de la interfaz** en español.
+- Cada página tiene un hook `hooks/pages/useXPage.js` que devuelve `{ state, actions }`. Las llamadas a la API van solo en `hooks/<dominio>/`, con React Query.
+- Solo se usan clases Tailwind que existan; lo nuevo se define en `tailwind.config.js`. `clsx`/`tailwind-merge` se importan directamente (no hay `cn()`).
+- Textos de la interfaz en español, tuteando.
 
-**Dependencias nuevas:**
-- solo si la ficha lo prevé o está justificado en el resumen final;
-- con la versión fijada;
-- sin servicios de pago.
+**Dependencias nuevas:** solo si la ficha las prevé o lo justificas en el resumen; con versión fijada y sin servicios de pago.
 
-## 6. Prohibido sin permiso explícito del humano
+## 6. Pregunta al humano antes de…
 
-- **Producción:**
-  - conectarse al VPS o ejecutar `deploy.sh`;
-  - ejecutar cualquier comando contra producción, incluido `migrate:fresh`.
-
-  Para producción se escriben *runbooks* que ejecuta el humano.
-- **APIs:**
-  - usar APIs de pago o planes de prueba que caduquen;
-  - incumplir los términos de una API ([legal/cumplimiento.md](legal/cumplimiento.md)). En particular, no guardar datos de TMDB más de 6 meses y no usar las portadas de iTunes.
-- **Comunicaciones:** enviar correos reales, publicar en servicios externos o crear cuentas en ellos.
-- **Seguridad:** desactivar validaciones, *policies* o middlewares de seguridad para "hacer pasar" un test.
-- **Tests:** borrar tests existentes. Si uno deja de tener sentido, explica por qué en el resumen.
-- **Alcance:** implementar funciones de la lista de **aplazados** de [producto/vision.md](producto/vision.md).
-
-## 7. Cuándo preguntar al humano
-
-- Cuando haya que decidir algo de producto que no esté en los documentos (textos legales, pesos de recomendación más allá de los valores por defecto, diseño visual nuevo).
-- Antes de cambiar un contrato de la API usado por el frontend, si la ficha no lo prevé.
-- Si los términos de uso de una API han cambiado respecto a lo documentado.
-- Si una verificación no puede hacerse en el entorno disponible. En ese caso, nunca se da la tarea por hecha.
+- decidir algo de producto que no esté documentado: textos legales, pesos por encima de los valores por defecto, diseño visual nuevo;
+- cambiar un contrato de la API que la ficha no prevea;
+- integrar una API cuyos términos hayan cambiado respecto a lo documentado.

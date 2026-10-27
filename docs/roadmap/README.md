@@ -1,13 +1,10 @@
-# Hoja de ruta: tablero de tareas
+# Tablero de tareas
 
-**Cómo usarlo:**
-- Coge la primera tarea `pendiente` cuyas dependencias estén en `hecho`.
-- Cámbiala a `en curso` al empezar y a `hecho` al terminar. Si no puede avanzar, márcala como `bloqueada` y explica el motivo en su ficha.
-- Las reglas de trabajo están en [../guia-agentes.md](../guia-agentes.md).
+Estados: `pendiente` · `en curso` · `hecho` · `bloqueada` (con el motivo en la ficha). Coge la primera `pendiente` con todas sus dependencias en `hecho` ([../guia-agentes.md](../guia-agentes.md) §2).
 
-**Responsabilidades:** `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integraciones · `QA` tests · `LEGAL` cumplimiento · `DOCS` documentación · `HUMANO` lo decide o ejecuta el humano.
+Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integraciones · `QA` tests · `LEGAL` cumplimiento · `DOCS` documentación · `HUMANO` lo hace o decide el humano.
 
-## Fase 0: higiene y base (~1,5–2 semanas). [Fichas](fase-0-higiene.md)
+## Fase 0: higiene y base. [Fichas](fase-0-higiene.md)
 
 | ID | Tarea | Resp. | Depende de | Estado |
 |---|---|---|---|---|
@@ -19,13 +16,13 @@
 | F0-06 | *Placeholder* generativo para ítems sin imagen | FE | — | pendiente |
 | F0-07 | Ocultar secciones vacías en la ficha | FE | — | pendiente |
 | F0-08 | Corregir las clases CSS sin definir | FE | — | pendiente |
-| F0-09 | Búsqueda global (cabecera y página `/buscar`) | FE, BE | F0-01 | pendiente |
+| F0-09 | Búsqueda global (cabecera y página `/buscar`) y slugs reservados | FE, BE | F0-01 | pendiente |
 | F0-10 | Servicio `scheduler`, cola `catalog` y memoria del worker en producción | INFRA | — | pendiente |
 | F0-11 | Copia de seguridad del volumen de imágenes | INFRA | — | pendiente |
 | F0-12 | Corregir el README (PostgreSQL, tests, estructura) | DOCS | F0-01 | pendiente |
 | F0-13 | CI de GitHub Actions que ejecute los tests con PostgreSQL | INFRA | F0-02 | pendiente |
 
-## Fase 1: catálogo vivo de películas y series (~3 semanas). [Fichas](fase-1-catalogo-vivo.md)
+## Fase 1: catálogo vivo de películas y series. [Fichas](fase-1-catalogo-vivo.md)
 
 | ID | Tarea | Resp. | Depende de | Estado |
 |---|---|---|---|---|
@@ -42,7 +39,7 @@
 | F1-10 | Sembrado nuevo y *runbook* del reset de producción | BE, INFRA | F1-05 | pendiente |
 | F1-11 | Ejecutar el reset en producción | HUMANO | F1-10 | pendiente |
 
-## Fase 2: descubrimiento (~2–3 semanas). [Fichas](fase-2-descubrimiento.md)
+## Fase 2: descubrimiento. [Fichas](fase-2-descubrimiento.md)
 
 | ID | Tarea | Resp. | Depende de | Estado |
 |---|---|---|---|---|
@@ -58,7 +55,7 @@
 | F2-10 | SEO: meta tags y OG de las fichas servidos desde Vercel | FE, INFRA | F1-06 | pendiente |
 | F2-11 | Comando de métricas de uso | BE | F2-01 | pendiente |
 
-## Fase 3: comunidad mínima (~2–3 semanas). [Fichas](fase-3-comunidad.md)
+## Fase 3: comunidad mínima. [Fichas](fase-3-comunidad.md)
 
 | ID | Tarea | Resp. | Depende de | Estado |
 |---|---|---|---|---|
@@ -72,7 +69,7 @@
 | F3-08 | Borrado de cuenta y exportación de datos | BE, FE | — | pendiente |
 | F3-09 | OG de listas y perfiles | FE | F2-10, F3-01 | pendiente |
 
-## Fase 4: más categorías (~2 semanas). [Fichas](fase-4-mas-categorias.md)
+## Fase 4: más categorías. [Fichas](fase-4-mas-categorias.md)
 
 | ID | Tarea | Resp. | Depende de | Estado |
 |---|---|---|---|---|
@@ -82,6 +79,6 @@
 | F4-03 | Ficha de destinos con mapa (Leaflet y OSM) | FE | F4-02 | pendiente |
 | F4-04 | Atribuciones de Commons, RAWG o IGDB en la interfaz | FE, LEGAL | F4-01, F4-02 | pendiente |
 
-## Aplazado (no implementar sin orden del humano)
+## Aplazado
 
-Ver [../producto/vision.md](../producto/vision.md) §4: filtrado colaborativo, compatibilidad, tendencias, follows y feed, Elo global, reputación, insignias, trivia, edición tipo wiki, libros, álbumes, anime, modo oscuro e `item_relations`.
+No se implementa sin orden del humano: ver [../producto/vision.md](../producto/vision.md) §3.

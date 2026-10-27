@@ -1,87 +1,79 @@
-# Producción: cambios de infraestructura del rediseño
+# Producción
 
-**Responsable:** infraestructura. **Los agentes NO ejecutan nada en producción.** Preparan los cambios en el repositorio y redactan los *runbooks*; el humano los ejecuta en el VPS.
-
-La guía de despliegue existente está en [../../deploy/README.md](../../deploy/README.md).
+**Los agentes no ejecutan nada en producción (R10).** Preparan los cambios en el repositorio y redactan *runbooks* que ejecuta el humano. La guía de despliegue existente está en [../../deploy/README.md](../../deploy/README.md).
 
 ## 1. Situación actual
 
-- **Servidor:** VPS de 4 GB compartido con otros proyectos. Kudos dispone de unos 2–2,5 GB. Tiene 2 vCores y 40 GB de disco.
-- **Stack** (`Backend/compose.prod.yml`):
+- VPS (OVH) de 4 GB compartido; Kudos dispone de ~2–2,5 GB, 2 vCores y 40 GB de disco.
+- Frontend en Vercel (`kudos.dcerdan.es`); API en el VPS (`api.kudos.dcerdan.es`).
+- `Backend/compose.prod.yml` (proyecto `kudos`; ancla `x-laravel: &laravel` compartida por `app` y `worker`):
 
-  | Servicio | Función | Límite de memoria |
-  |---|---|---|
-  | `nginx` | Servidor web interno | 64M |
-  | `app` | PHP-FPM | 1G |
-  | `worker` | `queue:work` | 256M |
-  | `postgres` | Base de datos | 512M |
-  | `redis` | Caché y sesiones (`maxmemory 64mb`, `allkeys-lru`; la cola **no** va en Redis, va en la base de datos) | 128M |
+| Servicio | Función | Memoria |
+|---|---|---|
+| `nginx` | Servidor web interno | 64M |
+| `app` | PHP-FPM (`memory_limit` 512M, hasta 5 procesos) | 1G |
+| `worker` | `queue:work` (cola en la **base de datos**: `QUEUE_CONNECTION=database`) | 256M |
+| `postgres` | Base de datos | 512M |
+| `redis` | Caché y sesiones; `maxmemory 64mb`, `allkeys-lru` | 128M |
 
-- **Frontend:** está en **Vercel**, en `kudos.dcerdan.es`. La API está en el VPS, en `api.kudos.dcerdan.es`.
-- **Carencias detectadas:**
-  - **No hay scheduler:** ni servicio `schedule:work` ni cron que llame a `schedule:run`.
-  - **El worker se queda corto:** tiene 256M, pero `memory_limit` de PHP es 512M y los jobs de imagen pueden necesitarlos.
-  - **Las imágenes no tienen copia de seguridad:** `deploy/backup-db.sh` solo vuelca PostgreSQL, no el volumen `storage-public`.
+- **Problemas:**
+  - no hay scheduler;
+  - el worker (256M) se queda corto para jobs de imagen con 512M de `memory_limit`;
+  - `deploy/backup-db.sh` no copia el volumen de imágenes.
+- **Redis con LRU:** la caché de Wikidata y Wikipedia (7 días, F1-04) puede expulsarse. Es aceptable, porque solo es caché.
 
-## 2. Cambios en `compose.prod.yml` (tarea F0-10)
+## 2. Cambios en `compose.prod.yml` (F0-10)
 
 - **Servicio `scheduler` nuevo:**
-  - misma imagen y configuración que `worker` (ancla `*laravel`);
+  - `<<: *laravel`;
   - `command: ["php", "artisan", "schedule:work"]`;
-  - límite de memoria de 128M. **`schedule:work` ejecuta cada comando programado dentro de este contenedor**, así que los comandos programados deben limitarse a encolar jobs (`Schedule::job(...)` o un comando que solo recorra IDs y despache). El trabajo pesado va al worker;
-  - `stop_grace_period: 30s`.
+  - 128M y `stop_grace_period: 30s`.
+
+  `schedule:work` ejecuta cada tarea **dentro de este contenedor**, así que las tareas programadas solo encolan jobs (`Schedule::job(...)`, o comandos que recorren IDs y despachan). El trabajo va al worker.
 - **Worker:**
-  - `command: ["php", "artisan", "queue:work", "--queue=default,catalog", "--tries=3", "--backoff=60", "--max-time=3600"]`. La cola `default` (correos, avatares) tiene prioridad sobre `catalog` (importaciones);
-  - límite de memoria de **512M**.
-- **Actualizar el comentario de presupuesto de memoria** de la cabecera: postgres 512M + app 1G + worker 512M + scheduler 128M + redis 128M + nginx 64M ≈ **2,3 GB**.
-  - Si el humano indica que no cabe, se baja `app` a 768M y `pm.max_children` en `docker/prod/` en proporción. Esto se consulta, no se decide por cuenta propia.
-- **Nada de LibreTranslate ni de otros servicios pesados.**
+  - `command: ["php", "artisan", "queue:work", "--queue=default,catalog", "--tries=3", "--backoff=60", "--max-time=3600"]`. `default` (correos, avatares) tiene prioridad sobre `catalog` (importaciones y recálculos);
+  - 512M.
+- **Comentario de presupuesto en la cabecera:** postgres 512M + app 1G + worker 512M + scheduler 128M + redis 128M + nginx 64M ≈ 2,3 GB. Si el humano dice que no cabe, se propone bajar `app` a 768M y `pm.max_children` (`docker/prod/`) en proporción, pero **se consulta**, no se decide.
+- Nada de LibreTranslate ni de otros servicios pesados.
 
 ## 3. Variables de entorno nuevas
 
-Se añaden a `Backend/.env.example`, a `Backend/.env.production.example` y a `config/catalog.php`.
+Van vacías en `Backend/.env.example` y `Backend/.env.production.example`, y se leen en `config/catalog.php`.
 
 | Variable | Fase | Uso |
 |---|---|---|
-| `CATALOG_USER_AGENT` | 1 | User-Agent identificativo para Wikimedia, MusicBrainz y OSM. Ejemplo: `KudosBot/1.0 (+https://kudos.dcerdan.es; contacto@dominio)` |
-| `TMDB_API_TOKEN` | 1 | Token de lectura v4 (Bearer) de TMDB. Lo da de alta el humano en themoviedb.org |
-| `CATALOG_IMPORT_LIMIT` | 1 | Máximo de ítems por categoría en `catalog:fetch-new` (por defecto 50 en local, 300 en producción) |
-| `IGDB_CLIENT_ID`, `IGDB_CLIENT_SECRET` | 4 | Credenciales de Twitch para IGDB, si se elige IGDB |
-| `RAWG_API_KEY` | 4 | Solo si se elige RAWG en vez de IGDB |
+| `CATALOG_USER_AGENT` | 1 | User-Agent identificativo (Wikimedia, OSM). Por ejemplo, `KudosBot/1.0 (+https://kudos.dcerdan.es; contacto@dominio)` |
+| `TMDB_API_TOKEN` | 1 | Token v4 (Bearer); lo da de alta el humano |
+| `CATALOG_IMPORT_LIMIT` | 1 | Máximo por categoría en `catalog:fetch-new` (50 en local, 300 en producción) |
+| `IGDB_CLIENT_ID`, `IGDB_CLIENT_SECRET` | 4 | Twitch/IGDB, si se elige IGDB |
+| `RAWG_API_KEY` | 4 | Si se elige RAWG |
 
-Los secretos **nunca** se suben al repositorio. En los `.example` van vacíos.
+## 4. Copia de seguridad de imágenes (F0-11)
 
-## 4. Copias de seguridad de imágenes (tarea F0-11)
+Crea `deploy/backup-storage.sh` (o amplía `backup-db.sh`): un `tar` del volumen `kudos_storage-public` con la misma rotación que los volcados, documentado en `deploy/README.md` junto con la línea de cron para el humano. Tiene prioridad baja (tras el reset todo se puede volver a descargar), pero conviene tenerlo antes de abrir listas y avatares.
 
-`deploy/backup-db.sh` vuelca solo la base de datos. Hay que añadir un script `deploy/backup-storage.sh`, o ampliar el existente, que:
-- haga un `tar` del volumen `kudos_storage-public` con la misma rotación que los volcados de la base de datos;
-- se documente en `deploy/README.md`, junto con la línea de cron que debe añadir el humano.
+## 5. *Runbook*: reset de producción (F1-10 lo revisa, F1-11 lo ejecuta el humano)
 
-Tras el reset de la Fase 1, todas las imágenes se pueden volver a descargar de las fuentes, así que esta tarea es de prioridad baja. Aun así conviene tenerla antes de abrir listas y avatares a usuarios reales.
-
-## 5. *Runbook*: reset de producción (Fase 1, tarea F1-10)
-
-**Lo ejecuta el humano.** Los datos actuales son de prueba, y eso está confirmado.
+Los datos actuales son de prueba, y eso está confirmado.
 
 ```bash
 # En el VPS
-cd ~/apps/kudos && git pull                       # rama con la Fase 1 ya fusionada en main
-~/apps/kudos/deploy/backup-db.sh                  # copia de seguridad por si acaso
-./deploy.sh                                       # construye la imagen y aplica las migraciones nuevas
+cd ~/apps/kudos && git pull                       # main con la Fase 1 fusionada
+~/apps/kudos/deploy/backup-db.sh                  # copia por si acaso
+./deploy.sh                                       # imagen nueva y migraciones
 
 cd Backend
-# 1. Esquema limpio, más categorías, roles y admin (el seeder nuevo NO importa el catálogo)
+# 1. Esquema limpio, categorías, roles y admin (el seeder nuevo NO importa el catálogo)
 docker compose -f compose.prod.yml --env-file .env.production run --rm app php artisan migrate:fresh --seed --force
-
-# 2. Vaciar las imágenes del catálogo antiguo (la ruta exacta la confirma la tarea F1-10)
+# 2. Vaciar las imágenes del catálogo antiguo (la F1-10 confirma la ruta)
 docker compose -f compose.prod.yml --env-file .env.production run --rm app sh -c 'rm -rf storage/app/public/items/*'
-
-# 3. Importación inicial (larga; se lanza con nohup como la siembra original)
+# 3. Importación inicial (larga)
 nohup docker compose -f compose.prod.yml --env-file .env.production run --rm -T app \
   php artisan catalog:fetch-new --all --limit=300 > ~/kudos-import.log 2>&1 &
 tail -f ~/kudos-import.log
 ```
 
-Comprobaciones posteriores:
+**Comprobaciones:**
 - `GET https://api.kudos.dcerdan.es/api/categories` devuelve solo las categorías vivas.
-- Los logs del contenedor `scheduler` muestran las tareas programadas: `docker logs kudos-scheduler-1`.
+- `docker logs kudos-scheduler-1` muestra las tareas programadas.
+- Como `fetch-new` solo encola, el worker tiene que ir vaciando la cola: `docker logs -f kudos-worker-1`.
