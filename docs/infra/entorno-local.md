@@ -30,6 +30,8 @@ sail artisan migrate
 
 - `WWWUSER`/`WWWGROUP` = 1000 en `.env.example`. Si `id -u`/`id -g` dan otro valor, cámbialos antes de `sail up`.
 - `APP_SERVICE=kudos-app` en `.env`: el servicio de la app no se llama `laravel.test` (el nombre que Sail usa por defecto). Sin esa variable, `sail artisan` y `sail test` fallan con `service "laravel.test" is not running`.
+- **Versión de PHP.** `docker/8.5/Dockerfile` fija `php:8.5.12-cli-bookworm`. Tras cambiar el Dockerfile (o si `sail php -v` no da 8.5.12), ejecuta `sail build --no-cache && sail up -d` y comprueba con `sail php -v`. Solo toca la imagen `sail-8.5/app` (la antigua queda sin etiqueta); no afecta a la imagen `kudos-api` ni al stack `kudos` (`compose.prod.yml`).
+- **`composer.lock`.** Si cambias `composer.json` (también `config.platform`), regenera el lock: `sail composer update --lock` si solo cambia la configuración o el `content-hash`, y `sail composer update <paquete>` para actualizar un paquete. Comprueba con `sail composer validate --no-check-publish` (sin errores del lock) y `sail composer install` (sin aviso).
 - **Sembrado.** `sail artisan db:seed` siembra el catálogo **antiguo** (~4.400 ítems, descargando imágenes: tarda mucho). En la Fase 0 no hace falta: los tests usan factories. Desde la F1-10, la secuencia es:
   ```bash
   sail artisan migrate:fresh --seed
@@ -71,6 +73,8 @@ docker compose run --rm kudos-frontend pnpm build      # comprobación de la def
 docker compose run --rm kudos-frontend pnpm add <paquete>@<versión-exacta>   # después, up --build (node_modules vive en un volumen)
 ```
 
+La versión de pnpm está fijada en `Frontend/package.json` (`"packageManager": "pnpm@12.15.0"`): la imagen la activa con corepack y el CI lee la versión de ahí. Para cambiarla, edita ese campo, deja que pnpm actualice `pnpm-lock.yaml` (el lock incluye la sección `packageManagerDependencies`; sin ella, `--frozen-lockfile` falla) y ejecuta `docker compose up --build`.
+
 CORS: `FRONTEND_URL` en `Backend/.env` ya incluye `http://localhost:5174`.
 
 ## 6. Comandos frecuentes (desde `Backend/`)
@@ -90,6 +94,7 @@ CORS: `FRONTEND_URL` en `Backend/.env` ya incluye `http://localhost:5174`.
 |---|---|
 | `permission denied` en `storage/` o `bootstrap/cache` | Ajusta `WWWUSER`/`WWWGROUP` y ejecuta `sail build --no-cache && sail up -d` |
 | `database "testing" does not exist` | §4 |
+| `sail php -v` no da 8.5.12 | `sail build --no-cache && sail up -d` |
 | `could not find driver` en los tests | Estás usando el PHP del host: usa `sail test` |
 | `extension "pg_trgm" is not available` | El servicio debe ser `postgres:18-alpine` |
 | CORS en el frontend | Revisa `FRONTEND_URL` y ejecuta `sail artisan config:clear` |

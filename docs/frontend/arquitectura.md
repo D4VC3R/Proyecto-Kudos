@@ -4,7 +4,7 @@
 - React 18.3 + Vite 6, JSX sin TypeScript, React Router 7.
 - TanStack React Query 5 + axios; Zustand para la sesión; react-hook-form + zod.
 - Tailwind 3, clsx, tailwind-merge, framer-motion, lucide-react y react-hot-toast.
-- pnpm y Node 22.
+- pnpm 12.15.0 (fijado con `packageManager` en `package.json`) y Node 22.
 
 **Despliegue:** Vercel, en `kudos.dcerdan.es`. Es una SPA: `vercel.json` reescribe todo a `index.html` y tiene un `ignoreCommand` que solo construye si cambia `Frontend/`.
 

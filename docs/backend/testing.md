@@ -125,6 +125,7 @@ Http::fake([
   - Sin Redis: `phpunit.xml` pone caché y sesión en array.
   - No crea `storage/framework/*`: aunque no está versionado, `AppServiceProvider::ensureFrameworkDirectoriesExist()` lo crea al arrancar la app (ya lo hace el `package:discover` de `composer install`).
   - Ejecuta `php artisan test`.
-- **`frontend`:** Node 22, pnpm fijado (12.15.0) y `pnpm install --frozen-lockfile && pnpm build`.
+  - `composer install` ya no avisa de que `composer.lock` esté desfasado (F0-19).
+- **`frontend`:** Node 22, pnpm fijado en `Frontend/package.json` (`packageManager`, 12.15.0; el workflow lee la versión de ahí y lo instala con `npm install -g`) y `pnpm install --frozen-lockfile && pnpm build`.
 
 Sin secretos. La protección de `tests/TestCase.php` (§3) también actúa en CI.
