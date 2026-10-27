@@ -25,7 +25,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 
 **Votos**
 - `app/Models/Vote.php`: `TYPE_VOTE='vote'` y `TYPE_SKIP='skip'`; `score` es un float (`decimal(4,1)`) y se valida con `multiple_of:0.5`.
-- Actions `EmitVoteAction`, `ChangeVoteAction` y `DeleteVoteAction`. Las tres recalculan con `ItemStatsService::recalculate()` (`COUNT`/`AVG` de `type = 'vote'`, con `Item::lockForUpdate()`). `ChangeVoteAction` guarda la nota como float. Un `skip` no recalcula en `EmitVoteAction`.
+- Actions `EmitVoteAction`, `ChangeVoteAction` y `DeleteVoteAction`. Las tres recalculan con `ItemStatsService::recalculate()` (`COUNT`/`AVG` de `type = 'vote'`, con `Item::lockForUpdate()`), que también calcula `bayes_score`. El servicio tiene además `bayesScore()`, `categoryMean()` (C, cacheada 1 h en `category-mean:{id}`) y `refreshCategoryMean()`. `ChangeVoteAction` guarda la nota como float. Un `skip` no recalcula en `EmitVoteAction`.
 - `app/Http/Requests/Votes/`: `StoreVoteRequest`, `UpdateVoteRequest`, `DeleteVoteRequest`, `ListMyVotesRequest` y `GetNextCategoryItemRequest`.
 - `app/Http/Controllers/Vote/`, `app/Policies/VotePolicy.php` y `app/Http/Resources/VoteResource.php`.
 - `app/Services/NextCategoryItemService.php`: cola de 50 ítems, cacheada 6 h en `next-item-queue:{user}:{category}`.
@@ -33,19 +33,19 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 **Ítems y categorías**
 - `app/Models/Item.php`:
   - `applyFilters`: `ilike` sobre `name`;
-  - `applySorting`: `vote_avg|recent|name|random`;
+  - `applySorting`: `vote_avg|recent|name|random`; con `vote_avg` ordena por `bayes_score desc`, `vote_count desc` (y `id`);
   - `adminApplyFilters` y `adminApplySorting`;
   - `STATUS_ACTIVE` y `STATUS_INACTIVE`.
-- `app/Models/Category.php`: `getRankingPaginator()` ordena por `vote_avg` y `vote_count`; la clave de ruta es `slug`.
+- `app/Models/Category.php`: `getRankingPaginator()` ordena por `bayes_score`, `vote_count` y `name`; la clave de ruta es `slug`.
 - `app/Http/Controllers/Item/ItemController.php`: `index` usa `ListItemsRequest`, la categoría es opcional y ya hace *eager loading* de `category`.
 - Resources: `ItemListResource`, `ItemDetailResource`, `ItemMinimalResource`, `CategoryResource`, `CategoryRankingResource` y `CategoryWithItemsResource`. `user_vote` (`id`, `score`, `voted_at`) y `can_vote` (false si existe cualquier voto) salen de la relación `userVote`.
 - `items.creator_id` es nullable: los ítems importados no tienen creador.
 
 **Kudos**
 - `app/Services/KudosService.php`: `processDailyLogin(User)`, `processFirstTimeVote(User, itemId)` y `processProposalAccepted(User, proposalId)`. Todos pasan por `awardIfFirst`, que garantiza la idempotencia con un `action_key` único en `kudos_transactions`.
-- `config/kudos.php`: `voting.*` (recompensa, rendimiento decreciente y tope diario; es lo que usa `calculateVoteReward`), `rewards.*` (propuesta y rachas) y `reasons`. `rewards.vote_first_time_item` es una clave muerta.
+- `config/kudos.php`: `voting.*` (recompensa, rendimiento decreciente y tope diario; es lo que usa `calculateVoteReward`), `rewards.*` (propuesta y rachas) y `reasons`. `rewards.vote_first_time_item` es una clave muerta. La sección `ranking.*` (`bayes_min_votes`, `category_mean_fallback`) ajusta el ranking bayesiano.
 - `kudos:audit-consistency [--fix]` es un *closure* en `routes/console.php`.
-- `items:recalculate-stats {--category=slug} {--chunk=200}` (`app/Console/Commands/RecalculateItemStatsCommand.php`) encola un `RecalculateItemStatsJob` por bloque en la cola `catalog`. Está programado a diario a las 03:00 en `routes/console.php`.
+- `items:recalculate-stats {--category=slug} {--chunk=200}` (`app/Console/Commands/RecalculateItemStatsCommand.php`) primero refresca C de las categorías afectadas (`refreshCategoryMean`) y después encola un `RecalculateItemStatsJob` por bloque en la cola `catalog`. Está programado a diario a las 03:00 en `routes/console.php`.
 
 **Propuestas y moderación**
 - `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`. No existe un `ProposalService`.

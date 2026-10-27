@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Recalcula vote_count y vote_avg de un bloque de ítems. Lo encola items:recalculate-stats en la cola 'catalog'.
+ * Recalcula vote_count, vote_avg y bayes_score de un bloque de ítems. Lo encola items:recalculate-stats en la cola 'catalog'.
  */
 class RecalculateItemStatsJob implements ShouldQueue
 {
