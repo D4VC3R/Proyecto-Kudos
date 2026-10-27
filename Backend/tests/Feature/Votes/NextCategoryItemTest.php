@@ -82,4 +82,81 @@ class NextCategoryItemTest extends TestCase
         // La ficha dice "null o vacío", pero el código responde 204 No Content (sin cuerpo).
         $this->getJson('/api/categories/peliculas/next-item')->assertNoContent();
     }
+
+    public function test_la_cola_no_ofrece_un_item_del_lote_votado_desde_la_ficha(): void
+    {
+        [$votedId, $otherId] = $this->cachedQueueAfterFirstItem();
+
+        $this->postJson('/api/votes', ['item_id' => $votedId, 'type' => 'vote', 'score' => 7])
+            ->assertCreated();
+
+        $this->getJson('/api/categories/peliculas/next-item')
+            ->assertOk()
+            ->assertJsonPath('data.id', $otherId)
+            ->assertJsonPath('meta.remaining', 0);
+    }
+
+    public function test_la_cola_no_ofrece_un_item_del_lote_omitido_desde_la_ficha(): void
+    {
+        [$votedId, $otherId] = $this->cachedQueueAfterFirstItem();
+
+        $this->postJson('/api/votes', ['item_id' => $votedId, 'type' => 'skip'])
+            ->assertCreated();
+
+        $this->getJson('/api/categories/peliculas/next-item')
+            ->assertOk()
+            ->assertJsonPath('data.id', $otherId)
+            ->assertJsonPath('meta.remaining', 0);
+    }
+
+    public function test_la_cola_no_ofrece_un_item_del_lote_que_pasa_a_inactivo(): void
+    {
+        [$changedId, $otherId] = $this->cachedQueueAfterFirstItem();
+
+        Item::findOrFail($changedId)->update(['status' => Item::STATUS_INACTIVE]);
+
+        $this->getJson('/api/categories/peliculas/next-item')
+            ->assertOk()
+            ->assertJsonPath('data.id', $otherId)
+            ->assertJsonPath('meta.remaining', 0);
+    }
+
+    public function test_la_cola_no_ofrece_un_item_del_lote_que_pasa_a_ficha_pobre(): void
+    {
+        [$changedId, $otherId] = $this->cachedQueueAfterFirstItem();
+
+        $item = Item::findOrFail($changedId);
+        $item->update(['images' => [], 'description' => 'Item importado.']);
+
+        $this->assertLessThan((int) config('catalog.min_quality_for_discovery'), $item->fresh()->quality_score);
+
+        $this->getJson('/api/categories/peliculas/next-item')
+            ->assertOk()
+            ->assertJsonPath('data.id', $otherId)
+            ->assertJsonPath('meta.remaining', 0);
+    }
+
+    /**
+     * Crea tres ítems elegibles, pide el primero de la cola y devuelve el lote que queda en la caché (2 IDs, en orden).
+     */
+    private function cachedQueueAfterFirstItem(): array
+    {
+        $user = $this->actingAsUser();
+        $peliculas = $this->createCategory('peliculas', 'Películas');
+
+        foreach (range(1, 3) as $n) {
+            $this->createItem($peliculas, ['name' => "Elegible {$n}"]);
+        }
+
+        Cache::flush();
+
+        $this->getJson('/api/categories/peliculas/next-item')
+            ->assertOk()
+            ->assertJsonPath('meta.remaining', 2);
+
+        $queue = Cache::get("next-item-queue:{$user->id}:{$peliculas->id}");
+        $this->assertCount(2, $queue);
+
+        return $queue;
+    }
 }

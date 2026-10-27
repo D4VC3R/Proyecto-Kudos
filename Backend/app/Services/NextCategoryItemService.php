@@ -20,7 +20,7 @@ class NextCategoryItemService
     /**
      * Obtiene el siguiente ítem de una categoría para un usuario, asegurando que no haya votado por él.
      * Si el usuario ya ha votado por todos los ítems de la categoría, retorna null.
-     * Utiliza caché para almacenar una cola de ítems pendientes de votar por el usuario en esa categoría, y la va actualizando a medida que se van obteniendo ítems.
+     * Utiliza caché para almacenar una cola de ítems pendientes de votar por el usuario en esa categoría, y la va actualizando a medida que se van obteniendo ítems; antes de servir descarta los ítems del lote que ya no sean elegibles (F0-17).
      *
      * @param User $user Usuario para el que se obtiene el ítem.
      * @param Category $category Categoría de la que se obtiene el ítem.
@@ -33,10 +33,17 @@ class NextCategoryItemService
 
 		$queue = Cache::get($cacheKey, []);
 
+		// Descarta los ítems del lote que ya no son elegibles: votados u omitidos por otra vía (p. ej. desde la ficha),
+		// desactivados, con ficha pobre o borrados mientras estaban en la caché (F0-17)
+		if (!empty($queue)) {
+			$queue = $this->stillEligibleItemIds($user, $category, $queue);
+		}
+
 		if (empty($queue)) {
 			$queue = $this->generateNewBatch($user, $category);
-			// No queda nada por votar
+			// No queda nada por votar: borra el lote antiguo, que ya no tenía ítems elegibles
 			if (empty($queue)) {
+				Cache::forget($cacheKey);
 				return null;
 			}
 		}
@@ -65,6 +72,33 @@ class NextCategoryItemService
 		];
 	}
 
+
+    /**
+     * Filtra la cola cacheada con los mismos criterios que generateNewBatch(): solo deja los ítems de la categoría
+     * que siguen activos, descubribles (quality_score suficiente), sin borrar y sin voto (ni skip) del usuario.
+     * Así la cola no ofrece ítems votados desde la ficha ni ítems desactivados o empobrecidos después de generarse el lote (F0-17).
+     * Mantiene el orden del lote.
+     *
+     * @param User $user Usuario dueño de la cola.
+     * @param Category $category Categoría de la cola.
+     * @param array $queue IDs de los ítems pendientes en la caché.
+     * @return array Retorna los IDs que siguen siendo elegibles, en el mismo orden.
+     */
+	private function stillEligibleItemIds(User $user, Category $category, array $queue): array
+	{
+		$eligibleIds = Item::query()
+			->whereIn('id', $queue)
+			->where('category_id', $category->id)
+			->where('status', Item::STATUS_ACTIVE)
+			->discoverable()
+			->whereDoesntHave('votes', function ($query) use ($user) {
+				$query->where('user_id', $user->id);
+			})
+			->pluck('id')
+			->all();
+
+		return array_values(array_intersect($queue, $eligibleIds));
+	}
 
     /**
      * Genera un nuevo lote de ítems elegibles para votar por el usuario en la categoría, excluyendo aquellos por los que ya ha votado.
