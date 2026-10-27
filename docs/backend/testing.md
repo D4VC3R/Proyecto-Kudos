@@ -12,7 +12,7 @@
   <env name="MAIL_MAILER" value="array"/>
   <env name="SESSION_DRIVER" value="array"/>
   ```
-  `DB_HOST`, `DB_USERNAME` y `DB_PASSWORD` se heredan de `.env` (`pgsql` / `sail` / `password`).
+  `DB_HOST`, `DB_USERNAME` y `DB_PASSWORD` se heredan de `.env` (el servicio `pgsql` y las credenciales con las que se creó el volumen).
 - Cómo crear la base de datos y ejecutar los tests: [../infra/entorno-local.md](../infra/entorno-local.md) §4.
 
 ## 2. Estructura
@@ -28,15 +28,25 @@ Backend/tests/
 
 ## 3. `tests/TestCase.php` (obligatorio, R3)
 
-`RefreshDatabase` se ejecuta **dentro** de `parent::setUp()`. Por eso la protección va en su hook `beforeRefreshingDatabase()`: si estuviera en `setUp()`, comprobaría cuando la base de datos ya se ha borrado.
+La protección tiene que comprobarse **antes** de que `RefreshDatabase` (o `DatabaseMigrations`, o `DatabaseTruncation`) borre la base de datos, y en un punto que ningún trait pueda tapar:
+
+- En `setUp()` llegaría tarde: `RefreshDatabase` se ejecuta dentro de `parent::setUp()`.
+- En `beforeRefreshingDatabase()` **no funciona**: en PHP, el método de un trait tiene prioridad sobre el heredado, así que el `beforeRefreshingDatabase()` vacío de `RefreshDatabase`, que usa cada test, taparía el de `TestCase` (o daría un error fatal de firma si se declara con `: void`).
+- Por eso va en `setUpTraits()`, que se ejecuta con la configuración ya cargada y justo antes de los traits de base de datos.
 
 ```php
 abstract class TestCase extends BaseTestCase
 {
-    /**
-     * Protección: RefreshDatabase borra la base de datos. Nunca contra la de desarrollo o producción.
-     */
-    protected function beforeRefreshingDatabase(): void
+    use InteractsWithUsers;
+
+    protected function setUpTraits()
+    {
+        $this->ensureTestingDatabase();
+
+        return parent::setUpTraits();
+    }
+
+    protected function ensureTestingDatabase(): void
     {
         $database = config('database.connections.' . config('database.default') . '.database');
         if ($database !== 'testing') {
@@ -46,10 +56,12 @@ abstract class TestCase extends BaseTestCase
 }
 ```
 
-**Helpers** (`tests/Concerns/`):
-- `seedRolesAndPermissions()`: ejecuta `PermissionSeeder` y `RoleSeeder`; las rutas de admin y algunas *policies* los necesitan.
-- `actingAsUser(array $attrs = [])`: crea un usuario verificado y sin ban y hace `Sanctum::actingAs`.
-- `actingAsAdmin()`.
+`tests/Feature/DatabaseProtectionTest.php` comprueba que la protección sigue funcionando.
+
+**Helpers** (`tests/Concerns/InteractsWithUsers.php`, incluido en `TestCase`):
+- `seedRolesAndPermissions()`: ejecuta `PermissionSeeder` y `RoleSeeder` (una vez por test); las rutas de admin y algunas *policies* los necesitan. Crea los roles con el guard `web` aunque `Sanctum::actingAs()` haya cambiado el guard por defecto a `sanctum`.
+- `actingAsUser(array $attrs = [])`: crea un usuario verificado y sin ban, hace `Sanctum::actingAs` y lo devuelve. No le asigna rol, igual que el registro de la app.
+- `actingAsAdmin(array $attrs = [])`: igual, con el rol `admin` (siembra los roles si hace falta).
 
 ## 4. Convenciones
 
