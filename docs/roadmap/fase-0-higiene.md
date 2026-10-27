@@ -640,6 +640,19 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 
 **Hecho cuando:** `pnpm build` pasa, la comprobación con Node de la navegación pasa y la revisión manual en el navegador queda anotada como pendiente para el humano.
 
+**Notas:**
+- **Patrón.** El `<input type="search">` es el *combobox* (`role="combobox"`, `aria-autocomplete="list"`, `aria-expanded`, `aria-controls` solo cuando el listbox existe); el `<ul role="listbox">` y sus `<li role="option" aria-selected>` no reciben foco propio. El foco se queda en el input y la opción activa se indica con `aria-activedescendant`. El listbox solo existe con resultados (no en carga, error ni vacío).
+- **Teclado.** ↑/↓ mueven la opción activa y dan la vuelta en los extremos; desde "ninguna", ↓ va a la primera y ↑ a la última. Enter abre la opción activa o, sin ninguna, deja que el formulario envíe a `/buscar?q=`. Escape cierra el desplegable sin vaciar el campo (un segundo Escape, con el desplegable ya cerrado, deja el comportamiento nativo de `type="search"`). Se ignoran las teclas mientras se compone con un IME.
+- **Desenfoque.** `onBlur` pasa del input al `<form>` y solo cierra si `relatedTarget` queda fuera del formulario: Tab desde el input a "Ver todos los resultados" ya no cierra el desplegable. "Ver todos los resultados" sigue siendo `type="submit"`, fuera del listbox, con estilo de foco (`focus-visible:bg-slate-50`).
+- **Resultados.** Dejan de ser `<button>` y pasan a `<li role="option">` (clic con `onClick`, activa con `bg-slate-100`). Las miniaturas van en un contenedor `aria-hidden` para que el nombre accesible no repita el del ítem. Los `id` son únicos con `useId` (el buscador está en `MainHeader` y `NavBarMobile`, que pueden coexistir en el DOM).
+- **Arreglo del campo vacío.** `handleChange` hace `setIsOpen(e.target.value.trim() !== '')`: en Chrome, Escape en `type="search"` vacía el campo y el evento `input` reabría el desplegable con el término antiguo del debounce durante ~300 ms.
+- **Código.** Nuevo `Frontend/src/lib/combobox.js` (lógica pura: `NO_ACTIVE_OPTION`, `getNextActiveIndex`, `getActiveOption`, `getOptionId`); `useGlobalSearch.js` expone `isListboxOpen`, `listboxId`, `activeIndex` y `activeOptionId`; `GlobalSearch.jsx` los pinta. No se tocan `MainHeader.jsx`, `NavBarMobile.jsx`, `useFilters.js` ni `lib/search.js`.
+- **`pnpm build`** (desde `Frontend/`): `✓ 2373 modules transformed.` … `✓ built in 3.22s`.
+- **Comprobación con Node** (`docker compose run --rm -T kudos-frontend node --input-type=module -e "…"` sobre `./src/lib/combobox.js`, con los casos ↓/↑ desde ninguna, vueltas, 0 opciones, índices fuera de rango, otras teclas, `getActiveOption` y `getOptionId`): `OK combobox`.
+- **Sin dependencias nuevas.** `git diff --stat rediseno-fase-0 -- Frontend/package.json Frontend/pnpm-lock.yaml` → vacío.
+- **Revisión manual en el navegador: pendiente para el humano.** Comprobar: Tab desde el input a "Ver todos los resultados" sin que se cierre el desplegable; ↑/↓ resaltan la opción; Enter con y sin opción activa; Escape cierra sin vaciar el campo; clic y toque en el menú móvil; y con lector de pantalla (NVDA u Orca) que anuncia el combobox y las opciones.
+- **Fuera de alcance.** No hay región `aria-live` para "Buscando…" / "Sin resultados", y Escape no hace nada cuando el foco está en "Ver todos los resultados".
+
 ---
 
 ## F0-21 · Limpieza menor de la Fase 0
