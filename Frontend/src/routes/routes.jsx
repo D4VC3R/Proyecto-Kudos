@@ -10,6 +10,7 @@ import VerifyEmailPage from "../pages/auth/VerifyEmailPage.jsx";
 import VotePage from "../pages/VotePage.jsx";
 import CategoryPage from "../pages/CategoryPage.jsx";
 import RankingPage from "../pages/RankingPage.jsx";
+import SearchPage from "../pages/SearchPage.jsx";
 import NewProposalPage from "../pages/NewProposalPage.jsx";
 import AuthPage from "../pages/auth/AuthPage.jsx";
 import AdminLayout from "../pages/admin/AdminLayout.jsx";
@@ -41,6 +42,7 @@ const AppRoutes = () => {
       </Route>
 
       <Route path="/ranking" element={<RankingPage/>}/>
+      <Route path="/buscar" element={<SearchPage/>}/>
       <Route path="/:categorySlug" element={<CategoryPage/>}/>
       <Route path="/:categorySlug/explore" element={<ExplorePage/>}/>
       <Route path="/:categorySlug/item/:itemId" element={<ItemDetailPage/>}/>

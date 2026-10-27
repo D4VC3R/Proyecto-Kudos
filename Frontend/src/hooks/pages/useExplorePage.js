@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useFilters } from '../common/useFilters.js';
 import { useInfiniteItems } from '../items/useItemQueries.js';
 import { useInfiniteScroll } from '../common/useInfiniteScroll.js';
+import { MIN_SEARCH_LENGTH } from '../../lib/search.js';
 
 /**
  * Hook personalizado para manejar la lógica de la página de exploración.
@@ -24,7 +25,7 @@ export const useExplorePage = () => {
     handleSortChange,
     sortBy,
     sortOrder,
-  } = useFilters({ initialSort: 'vote_avg|desc' });
+  } = useFilters({ initialSort: 'vote_avg|desc', minSearchLength: MIN_SEARCH_LENGTH });
 
   const {
     data,
