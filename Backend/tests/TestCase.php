@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Http;
 use Tests\Concerns\InteractsWithUsers;
 
 abstract class TestCase extends BaseTestCase
@@ -30,5 +31,17 @@ abstract class TestCase extends BaseTestCase
         if ($database !== 'testing') {
             throw new \RuntimeException("Los tests deben ejecutarse contra la base de datos 'testing', no '{$database}'.");
         }
+    }
+
+    /**
+     * R4: ningún test hace peticiones HTTP reales. Toda petición que no case con un Http::fake()
+     * lanza StrayRequestException. Va en setUp() porque cada test arranca una aplicación nueva;
+     * parent::setUp() ya ha pasado por setUpTraits(), así que la protección de la base de datos va antes.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Http::preventStrayRequests();
     }
 }
