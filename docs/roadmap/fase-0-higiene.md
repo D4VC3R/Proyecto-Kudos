@@ -484,3 +484,123 @@
     ```
   - Limpieza: contenedor `kudos-ci-f0-13-pg`, imagen `kudos-ci-f0-13-php:8.5.12` y copia temporal eliminados; los contenedores `kudos-*` y `backend-*` siguen igual.
 - **Aviso al instalar con Composer (anterior a la tarea, sin tocar):** `composer install` avisa de que "the lock file is not up to date with the latest changes in composer.json" (el `content-hash`). `composer.json` cambió por última vez en `5f4a40d` (PHP 8.5.12) sin regenerar `composer.lock`. No rompe la instalación ni los tests; conviene un `composer update --lock` en otra tarea.
+
+---
+
+## Correcciones de la Fase 0
+
+Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen antes de empezar la Fase 1. Decisiones del humano: artistas y políticos sin cola se dejan así; `scrollbar-hide` se quita; licencia MIT a nombre de David Cerdán; el backend no se despliega hasta terminar todas las fases.
+
+---
+
+## F0-14 · Los invitados no ven el detalle de los ítems inactivos
+
+**Depende:** F0-02 · **Archivos:** `Backend/app/Http/Requests/Items/ShowItemRequest.php`, `Backend/tests/Feature/Items/ItemDetailTest.php`
+
+**Pasos:**
+1. `ShowItemRequest::authorize()` (l.16) devuelve `$this->user()?->can('view', …) ?? true`: un invitado recibe `true` y se salta `ItemPolicy::view()`, que niega los ítems inactivos (Notas de F0-02). Haz que la *policy* se evalúe también sin usuario (p. ej. `Gate::forUser($this->user())->allows('view', $this->route('item'))`, comprobando que `ItemPolicy::view` acepta `?User`).
+2. Quita el `markTestIncomplete` condicional de `test_un_invitado_no_ve_el_detalle_de_un_item_inactivo` (deja el `assertForbidden()`).
+
+**Hecho cuando:** ese test pasa en verde (falla antes del arreglo), un invitado sigue viendo los ítems activos y `sail test` no tiene ningún *incomplete*.
+
+---
+
+## F0-15 · Escapar `%`, `_` y `\` en las búsquedas `ilike`
+
+**Depende:** F0-09 · **Archivos:** `Backend/app/Models/{Item,Vote,Proposal,User}.php`, un helper nuevo (p. ej. `Backend/app/Support/`), tests
+
+**Pasos:**
+1. Las búsquedas usan `ilike "%{$search}%"` sin escapar los comodines (Notas de F0-09): buscar `%` devuelve todo. Aparecen en `Item.php` (l.83 y l.113), `Vote.php` (l.48), `Proposal.php` (l.61-62) y `User.php` (l.130-131).
+2. Crea un helper reutilizable que escape `\`, `%` y `_` (PostgreSQL usa `\` como escape por defecto en `LIKE`/`ILIKE`) y úsalo en todas.
+
+**Hecho cuando:** hay tests de que `?search=%` y `?search=_` en `/api/items` y en al menos un listado de admin solo devuelven ítems que contienen ese carácter literal, y la batería sigue en verde.
+
+---
+
+## F0-16 · Evitar el *deadlock* al votar el mismo ítem
+
+**Depende:** F0-03 · **Archivos:** `Backend/app/Actions/EmitVoteAction.php`, tests
+
+**Pasos:**
+1. `EmitVoteAction` inserta el voto (el `INSERT` en `votes` toma `KEY SHARE` sobre el ítem por la FK) y después `ItemStatsService::recalculate()` hace `lockForUpdate` del ítem: dos votos simultáneos al mismo ítem pueden acabar en *deadlock* y en un 500 (Notas de F0-03).
+2. Bloquea el ítem (`Item::lockForUpdate()`) al principio de la transacción, antes de comprobar el voto existente y de `Vote::create`. El `lockForUpdate` posterior de `recalculate()` es inocuo dentro de la misma transacción.
+
+**Hecho cuando:** un test comprueba en el *query log* que el `select … for update` sobre `items` va antes del `insert into "votes"`, el orden queda documentado en `docs/backend/arquitectura.md` y la batería sigue en verde.
+
+---
+
+## F0-17 · La cola de votación no ofrece ítems ya votados
+
+**Depende:** F0-05 · **Archivos:** `Backend/app/Services/NextCategoryItemService.php` (y, si se elige invalidar, las Actions de voto), tests
+
+**Pasos:**
+1. La cola se cachea 6 h en `next-item-queue:{user}:{category}`. Si el usuario vota un ítem del lote por otra vía (desde la ficha), la cola puede volver a ofrecérselo (Notas de F0-02).
+2. Al servir el siguiente ítem, descarta los que el usuario ya ha votado (o invalida la clave al votar). Elige la opción más simple y anótala.
+
+**Hecho cuando:** hay un test en el que, con el lote ya cacheado, el usuario vota por `POST /api/votes` un ítem del lote y `GET /api/categories/{slug}/next-item` ya no lo devuelve; la batería sigue en verde.
+
+---
+
+## F0-18 · `Http::preventStrayRequests()` para todos los tests
+
+**Depende:** F0-02 · **Archivos:** `Backend/tests/TestCase.php`, `docs/backend/testing.md`, `README.md`
+
+**Pasos:**
+1. Hoy `Http::preventStrayRequests()` solo está en el `setUp()` de los tests nuevos; R4 debe valer para todos. Llámalo desde `TestCase` sin tocar la protección de base de datos de `setUpTraits()`.
+2. Quitar las llamadas redundantes de cada clase es opcional; no se borra ningún test (R8).
+3. Actualiza `docs/backend/testing.md` y, si hace falta, la frase del `README.md` raíz sobre APIs externas.
+
+**Hecho cuando:** está en `TestCase`, `Backend/scripts/verify-test-db-guard.sh` pasa (se toca `TestCase`), un test demuestra que una petición HTTP no simulada falla en cualquier clase de test y `sail test` sigue en verde.
+
+---
+
+## F0-19 · Herramientas: `composer.lock`, Sail en PHP 8.5.12 y pnpm fijado
+
+**Depende:** F0-13 · **Archivos:** `Backend/composer.lock`, `Frontend/package.json`, `.github/workflows/tests.yml` (si hace falta), docs
+
+**Pasos:**
+1. `composer install` avisa de que `composer.lock` no está al día con `composer.json` (Notas de F0-13). Regenera solo el hash con `sail composer update --lock` (sin actualizar paquetes; revisa el diff).
+2. La imagen local de Sail tiene PHP 8.4.26 aunque `docker/8.5/Dockerfile` pide 8.5.12. Reconstrúyela (`sail build --no-cache`, `sail up -d`) hasta que `sail php -v` dé 8.5.12. **No toques** la imagen `kudos-api` ni el stack `kudos` (producción local).
+3. Añade `"packageManager": "pnpm@12.15.0"` a `Frontend/package.json` y deja `tests.yml` coherente (misma versión, o que la lea de ahí).
+
+**Hecho cuando:** `composer install` no avisa del lock, `sail test` en verde con PHP 8.5.12, `pnpm build` pasa, actionlint sigue sin avisos y los docs (entorno local, testing §7) están al día.
+
+---
+
+## F0-20 · Accesibilidad del buscador global
+
+**Depende:** F0-09 · **Archivos:** `Frontend/src/components/layout/GlobalSearch.jsx`, `Frontend/src/hooks/common/useGlobalSearch.js`, `Frontend/src/lib/`
+
+**Pasos:**
+1. El desplegable se cierra al perder el foco, así que con Tab no se llega a los resultados y no hay navegación con flechas (Notas de F0-09).
+2. Aplica el patrón *combobox* ARIA: `role="combobox"`, `aria-expanded`, `aria-controls`, `role="listbox"`/`option`, `aria-activedescendant`; ↑/↓ mueven la opción activa, Enter abre la activa (o `/buscar` si no hay), Escape cierra. Que el desplegable no se cierre al mover el foco dentro de él.
+3. La lógica de la opción activa va en una función pura en `lib/`, probada con Node (como `lib/search.js`).
+
+**Hecho cuando:** `pnpm build` pasa, la comprobación con Node de la navegación pasa y la revisión manual en el navegador queda anotada como pendiente para el humano.
+
+---
+
+## F0-21 · Limpieza menor de la Fase 0
+
+**Depende:** F0-08 · **Archivos:** `Frontend/src/components/profile/ProfileTabs.jsx`, `Frontend/src/components/votes/MyVotesHeader.jsx`, `Frontend/src/components/admin/AdminItemCard.jsx`, `Frontend/README.md`, `Backend/app/Http/Requests/Votes/StoreVoteRequest.php`, docs
+
+**Pasos:**
+1. Quita `scrollbar-hide` (sin definir, no tiene efecto) de `ProfileTabs.jsx` (l.6) y `MyVotesHeader.jsx` (l.38), y su nota de pendiente en `docs/frontend/arquitectura.md` §3 (Notas de F0-08).
+2. `AdminItemCard.jsx` (l.18) pinta `item.description` sin comprobarlo: usa `hasText` de `lib/text.js` (Notas de F0-07).
+3. `Frontend/README.md` dice `VITE_STORAGE_URL=http://localhost:8095/api/storage`; corrígelo según `Frontend/.env.example` (Notas de F0-12).
+4. Elimina el 422 inalcanzable de `StoreVoteRequest::withValidator` ("No se puede votar un item inactivo."): la *policy* en `authorize()` ya responde 403 (Notas de F0-02). `EmitVoteTest::test_no_se_puede_votar_un_item_inactivo` debe seguir en verde.
+
+**Hecho cuando:** `grep -rn "scrollbar-" Frontend/src` sale vacío, `sail test` y `pnpm build` en verde, y los docs están al día.
+
+---
+
+## F0-22 · Licencia MIT
+
+**Depende:** — · **Archivos:** `LICENSE`, `README.md`, `Frontend/package.json`
+
+**Pasos:**
+1. Crea `LICENSE` en la raíz con el texto MIT estándar y `Copyright (c) 2026 David Cerdán`.
+2. Añade una sección "📄 Licencia" al `README.md` raíz que enlace a `LICENSE` (sin insignia).
+3. Añade `"license": "MIT"` a `Frontend/package.json` (`Backend/composer.json` ya lo tiene).
+
+**Hecho cuando:** el archivo existe, los dos manifiestos declaran MIT y los enlaces del README son válidos.

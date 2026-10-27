@@ -21,6 +21,15 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-11 | Copia de seguridad del volumen de imágenes | INFRA | — | hecho |
 | F0-12 | Corregir el README (PostgreSQL, tests, estructura) | DOCS | F0-01 | hecho |
 | F0-13 | CI de GitHub Actions que ejecute los tests con PostgreSQL | INFRA | F0-02 | hecho |
+| F0-14 | Los invitados no ven el detalle de los ítems inactivos (`ShowItemRequest`) | BE | F0-02 | pendiente |
+| F0-15 | Escapar `%`, `_` y `\` en las búsquedas `ilike` | BE | F0-09 | pendiente |
+| F0-16 | Evitar el *deadlock* al votar el mismo ítem | BE | F0-03 | pendiente |
+| F0-17 | La cola de votación no ofrece ítems ya votados | BE | F0-05 | pendiente |
+| F0-18 | `Http::preventStrayRequests()` para todos los tests | QA | F0-02 | pendiente |
+| F0-19 | Herramientas: `composer.lock`, Sail en PHP 8.5.12 y pnpm fijado | INFRA | F0-13 | pendiente |
+| F0-20 | Accesibilidad del buscador global | FE | F0-09 | pendiente |
+| F0-21 | Limpieza menor de la Fase 0 | FE, BE, DOCS | F0-08 | pendiente |
+| F0-22 | Licencia MIT | DOCS | — | pendiente |
 
 ## Fase 1: catálogo vivo de películas y series. [Fichas](fase-1-catalogo-vivo.md)
 
