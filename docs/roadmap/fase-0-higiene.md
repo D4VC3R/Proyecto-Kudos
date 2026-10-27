@@ -582,6 +582,26 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 
 **Hecho cuando:** está en `TestCase`, `Backend/scripts/verify-test-db-guard.sh` pasa (se toca `TestCase`), un test demuestra que una petición HTTP no simulada falla en cualquier clase de test y `sail test` sigue en verde.
 
+**Notas:**
+- `Backend/tests/TestCase.php` tiene ahora un `setUp()` que llama a `parent::setUp()` y después a `Http::preventStrayRequests()`. Va en `setUp()` y no en `setUpTraits()` porque cada test arranca una aplicación nueva. `setUpTraits()` y `ensureTestingDatabase()` no se han tocado: la protección de la base de datos sigue corriendo antes (dentro de `parent::setUp()`).
+- No se han quitado las llamadas redundantes a `Http::preventStrayRequests()` del `setUp()` de las 17 clases que ya la tenían (R6; era opcional en la ficha). Son inocuas.
+- Test nuevo: `tests/Feature/StrayRequestsTest.php`, sin `setUp()` propio ni `RefreshDatabase`. Comprueba que `Http::preventingStrayRequests()` es verdadero y que `Http::get('http://kudos.invalid/')` lanza `StrayRequestException` (dominio `.invalid`, sin red, R4); y que una petición con `Http::fake()` sigue funcionando.
+- Antes del arreglo (`sail test --filter=StrayRequestsTest`):
+  ```
+  ⨯ una peticion http no simulada falla en cualquier clase de test
+  ✓ una peticion simulada con http fake sigue funcionando
+  Failed asserting that false is true.  (tests/Feature/StrayRequestsTest.php:18)
+  Tests:    1 failed, 1 passed (4 assertions)
+  ```
+  Después: `Tests:    2 passed (6 assertions)`. Batería completa: `Tests:    98 passed (542 assertions)` (antes, 96), sin incomplete.
+- `Backend/scripts/verify-test-db-guard.sh`:
+  ```
+  Filas en kudos_guard_canary.items: antes=3 después=3
+  OK: los tests abortan con "Los tests deben ejecutarse contra la base de datos 'testing', no 'kudos_guard_canary'." y el señuelo sigue intacto.
+  ```
+- Los tests `Unit` que extienden `PHPUnit\Framework\TestCase` (p. ej. `LikeTest`) no arrancan la aplicación y no heredan la protección; tampoco pueden usar `Http`. Si alguno lo necesita, tiene que extender `Tests\TestCase`.
+- Documentación: `docs/backend/testing.md` §2, §3 y §5, y `README.md` (frase sobre APIs externas).
+
 ---
 
 ## F0-19 · Herramientas: `composer.lock`, Sail en PHP 8.5.12 y pnpm fijado

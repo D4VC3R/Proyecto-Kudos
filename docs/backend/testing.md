@@ -19,7 +19,7 @@
 
 ```
 Backend/tests/
-├── TestCase.php     # protección de la base de datos (§3)
+├── TestCase.php     # protección de la base de datos (§3) y Http::preventStrayRequests() (§5)
 ├── Concerns/        # helpers: seedRolesAndPermissions, actingAsUser, actingAsAdmin, CreatesItems
 ├── Feature/         # Votes/, Ranking/, Items/, Kudos/, Catalog/…
 ├── Unit/            # lógica pura: fórmulas, mapeadores, normalizadores
@@ -53,8 +53,17 @@ abstract class TestCase extends BaseTestCase
             throw new \RuntimeException("Los tests deben ejecutarse contra la base de datos 'testing', no '{$database}'.");
         }
     }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Http::preventStrayRequests();
+    }
 }
 ```
+
+El `setUp()` llama a `parent::setUp()` primero (donde corre `setUpTraits()`), así que no cambia el orden de la protección de la base de datos; `verify-test-db-guard.sh` lo comprueba.
 
 `tests/Feature/DatabaseProtectionTest.php` comprueba que la protección sigue funcionando. La prueba de extremo a extremo es `Backend/scripts/verify-test-db-guard.sh`: crea una base de datos señuelo, ejecuta los tests forzándola y comprueba que abortan sin tocarla. Ejecútalo siempre que cambies `TestCase.php`, `phpunit.xml` o los traits de base de datos.
 
@@ -80,7 +89,7 @@ abstract class TestCase extends BaseTestCase
 ## 5. APIs externas: siempre falseadas (R4)
 
 ```php
-Http::preventStrayRequests();
+// Http::preventStrayRequests() ya lo activa tests/TestCase.php.
 Http::fake([
     'api.themoviedb.org/3/movie/603*' => Http::response($this->fixture('catalog/tmdb/movie-603-es.json')),
     'www.wikidata.org/*'              => Http::response($this->fixture('catalog/wikidata/Q83495.json')),
@@ -89,6 +98,7 @@ Http::fake([
 ]);
 ```
 
+- **Protección global:** `tests/TestCase.php::setUp()` activa `Http::preventStrayRequests()` para toda clase que extienda `Tests\TestCase`; cada test solo declara sus `Http::fake()`. La llamada en el `setUp()` de cada clase es redundante pero inocua. Los tests `Unit` que extienden `PHPUnit\Framework\TestCase` no arrancan la app ni pueden usar `Http` (si lo necesitan, que extiendan `Tests\TestCase`). `tests/Feature/StrayRequestsTest.php` comprueba la protección.
 - **Fixtures:** capturadas una vez a mano con `curl` y recortadas. **Sin tokens**, ni en las URLs ni en el contenido.
 - **Casos de error en cada proveedor:** 404, 429, campo vacío (por ejemplo, sinopsis es-ES vacía) y *timeout*.
 - **Imágenes:** `Storage::fake('public')` y `Storage::fake('local')`. `RemoteImageDownloader` hace primero un `HEAD` y luego un `GET`; el *fake* responde a ambos.

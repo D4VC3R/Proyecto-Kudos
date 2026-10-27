@@ -97,7 +97,7 @@ El paso a paso está en [docs/infra/entorno-local.md](docs/infra/entorno-local.m
 
 ## 🧪 Tests
 
-Los tests del backend son de PHPUnit y se ejecutan **siempre con Sail**, contra una base de datos PostgreSQL aparte llamada `testing`: nunca SQLite ni la base de datos de desarrollo (`tests/TestCase.php` aborta si la base de datos no es `testing`). Ninguno hace peticiones a APIs externas reales.
+Los tests del backend son de PHPUnit y se ejecutan **siempre con Sail**, contra una base de datos PostgreSQL aparte llamada `testing`: nunca SQLite ni la base de datos de desarrollo (`tests/TestCase.php` aborta si la base de datos no es `testing`). Ninguno hace peticiones a APIs externas reales: `tests/TestCase.php` activa `Http::preventStrayRequests()` y cada petición tiene que estar simulada con `Http::fake()`.
 
 Desde `Backend/`, con los servicios levantados:
 
