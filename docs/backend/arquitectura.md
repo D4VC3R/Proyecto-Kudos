@@ -10,11 +10,11 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 | Controller | `app/Http/Controllers/<Dominio>/` | HTTP de entrada y salida; sin lógica de negocio |
 | Form Request | `app/Http/Requests/<Dominio>/` | Validación y `authorize()` con *policies*; mensajes en español |
 | Action | `app/Actions/` (en la raíz, sin subcarpetas) | Un caso de uso de escritura transaccional con `execute(...)`: `EmitVoteAction`, `ChangeVoteAction`, `DeleteVoteAction`, `ReviewProposalAction` |
-| Service | `app/Services/` | Lógica reutilizable: `KudosService`, `NextCategoryItemService`, `ItemStatsService`, `ModerationAuditLogger`, `Media/*` |
+| Service | `app/Services/` | Lógica reutilizable: `KudosService`, `NextCategoryItemService`, `ItemStatsService`, `ItemQualityScorer`, `ModerationAuditLogger`, `Media/*` |
 | Model | `app/Models/` | Relaciones, *scopes* (`scopeApplyFilters`, `scopeApplySorting`, `scopeAdminApply*`) y *casts* |
 | Resource | `app/Http/Resources/` | Toda respuesta JSON |
 | Policy | `app/Policies/` | Autorización por modelo |
-| Job | `app/Jobs/` | `ProcessProposalImagesJob`, `ProcessUserAvatarJob`, `RecalculateItemStatsJob` (cola `catalog`) |
+| Job | `app/Jobs/` | `ProcessProposalImagesJob`, `ProcessUserAvatarJob`, `RecalculateItemStatsJob`, `RecalculateItemQualityJob` (cola `catalog`) |
 | Catálogo (F1) | `app/Catalog/` | Proveedores, enriquecimiento e importación: ver [../integraciones/pipeline-catalogo.md](../integraciones/pipeline-catalogo.md) |
 
 - Todos los modelos usan UUID (`HasUuids`).
@@ -28,11 +28,12 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 - Actions `EmitVoteAction`, `ChangeVoteAction` y `DeleteVoteAction`. Las tres recalculan con `ItemStatsService::recalculate()` (`COUNT`/`AVG` de `type = 'vote'`, con `Item::lockForUpdate()`), que también calcula `bayes_score`. El servicio tiene además `bayesScore()`, `categoryMean()` (C, cacheada 1 h en `category-mean:{id}`) y `refreshCategoryMean()`. `ChangeVoteAction` guarda la nota como float. Un `skip` no recalcula en `EmitVoteAction`.
 - `app/Http/Requests/Votes/`: `StoreVoteRequest`, `UpdateVoteRequest`, `DeleteVoteRequest`, `ListMyVotesRequest` y `GetNextCategoryItemRequest`.
 - `app/Http/Controllers/Vote/`, `app/Policies/VotePolicy.php` y `app/Http/Resources/VoteResource.php`.
-- `app/Services/NextCategoryItemService.php`: cola de 50 ítems, cacheada 6 h en `next-item-queue:{user}:{category}`.
+- `app/Services/NextCategoryItemService.php`: cola de 50 ítems, cacheada 6 h en `next-item-queue:{user}:{category}`. Excluye los ítems con `quality_score` por debajo de `catalog.min_quality_for_discovery` (`discoverable()`).
 
 **Ítems y categorías**
 - `app/Models/Item.php`:
-  - `applyFilters`: `ilike` sobre `name`;
+  - `applyFilters`: `ilike` sobre `name`; acepta `discoverable` (`scopeDiscoverable`, umbral `catalog.min_quality_for_discovery`);
+  - el hook `saving` (`booted()`) recalcula `quality_score` con `ItemQualityScorer` si cambian `images`, `description`, `released_at` o `attributes`;
   - `applySorting`: `vote_avg|recent|name|random`; con `vote_avg` ordena por `bayes_score desc`, `vote_count desc` (y `id`);
   - `adminApplyFilters` y `adminApplySorting`;
   - `STATUS_ACTIVE` y `STATUS_INACTIVE`.
@@ -46,6 +47,8 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 - `config/kudos.php`: `voting.*` (recompensa, rendimiento decreciente y tope diario; es lo que usa `calculateVoteReward`), `rewards.*` (propuesta y rachas) y `reasons`. `rewards.vote_first_time_item` es una clave muerta. La sección `ranking.*` (`bayes_min_votes`, `category_mean_fallback`) ajusta el ranking bayesiano.
 - `kudos:audit-consistency [--fix]` es un *closure* en `routes/console.php`.
 - `items:recalculate-stats {--category=slug} {--chunk=200}` (`app/Console/Commands/RecalculateItemStatsCommand.php`) primero refresca C de las categorías afectadas (`refreshCategoryMean`) y después encola un `RecalculateItemStatsJob` por bloque en la cola `catalog`. Está programado a diario a las 03:00 en `routes/console.php`.
+- `items:recalculate-quality {--category=slug} {--chunk=200}` (`app/Console/Commands/RecalculateItemQualityCommand.php`) encola un `RecalculateItemQualityJob` por bloque en la cola `catalog`; el job escribe con `DB::table` (sin eventos ni `updated_at`). Programado los lunes a las 03:30.
+- `config/catalog.php`: `min_quality_for_discovery` (40) y `template_description_patterns`; la F0-09 y la F1-02 lo amplían.
 
 **Propuestas y moderación**
 - `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`. No existe un `ProposalService`.

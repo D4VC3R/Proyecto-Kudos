@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ItemQualityScorer;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,7 @@ class Item extends Model
 		'vote_avg' => 0,
 		'vote_count' => 0,
 		'bayes_score' => 0,
+		'quality_score' => 0,
 	];
 
 	protected $fillable = [
@@ -47,16 +49,31 @@ class Item extends Model
 		'vote_avg' => 'float',
 		'vote_count' => 'integer',
 		'bayes_score' => 'float',
+		'quality_score' => 'integer',
 		'created_at' => 'datetime',
 		'updated_at' => 'datetime',
 		'deleted_at' => 'datetime',
 	];
+
+    /*
+     * Recalcula quality_score al guardar si cambian los campos que lo determinan (F0-05).
+     * released_at y attributes llegan en la F1-01; hasta entonces isDirty() simplemente no los ve.
+     */
+	protected static function booted(): void
+	{
+		static::saving(function (Item $item) {
+			if ($item->isDirty(['images', 'description', 'released_at', 'attributes'])) {
+				$item->quality_score = app(ItemQualityScorer::class)->score($item);
+			}
+		});
+	}
 
     // Filtrado y ordenamiento
 
     /*
      * Aplica filtros a la consulta de ítems según los parámetros proporcionados.
      * Permite filtrar por categoría (ID o slug), búsqueda por nombre y exclusión de ítems votados por un usuario específico.
+     * Con 'discoverable' excluye además los ítems con ficha pobre (quality_score por debajo del umbral, F0-05).
      */
 	public function scopeApplyFilters($query, array $filters)
 	{
@@ -64,7 +81,8 @@ class Item extends Model
 			->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
 			->when(!empty($filters['category_slug']), fn($q) => $q->whereHas('category', fn($qCat) => $qCat->where('slug', $filters['category_slug'])))
 			->when(!empty($filters['search']), fn($q) => $q->where('name', 'ilike', "%{$filters['search']}%"))
-			->when(!empty($filters['exclude_voted_by']), fn($q) => $q->whereDoesntHave('votes', fn($v) => $v->where('user_id', $filters['exclude_voted_by'])));
+			->when(!empty($filters['exclude_voted_by']), fn($q) => $q->whereDoesntHave('votes', fn($v) => $v->where('user_id', $filters['exclude_voted_by'])))
+			->when(!empty($filters['discoverable']), fn($q) => $q->discoverable());
 	}
 
     /*
@@ -189,5 +207,14 @@ class Item extends Model
 	public function scopeInactive($query)
 	{
 		return $query->where('status', self::STATUS_INACTIVE);
+	}
+
+    /*
+     * Scope para filtrar los ítems con ficha suficientemente completa (F0-05).
+     * Excluye los que tienen quality_score por debajo de config('catalog.min_quality_for_discovery').
+     */
+	public function scopeDiscoverable($query)
+	{
+		return $query->where('quality_score', '>=', (int) config('catalog.min_quality_for_discovery', 40));
 	}
 }

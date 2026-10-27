@@ -35,11 +35,11 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 
 Índice: `(category_id, status, bayes_score)`.
 
-**Migración de `quality_score`** (F0-05, la crea esa tarea):
+**`add_quality_score_to_items_table`** (F0-05, hecha):
 
 | Columna | Tipo | Notas |
 |---|---|---|
-| `quality_score` | smallInteger, default 0 | 0–100; reglas en la F0-05 |
+| `quality_score` | smallInteger, default 0 | 0–100; reglas en la F0-05; la calcula `ItemQualityScorer` |
 
 Índice: `(category_id, status, quality_score)`.
 

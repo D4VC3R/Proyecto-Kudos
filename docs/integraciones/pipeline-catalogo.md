@@ -113,7 +113,7 @@ final readonly class CatalogItemData
 | Comando | Frecuencia | Notas |
 |---|---|---|
 | `items:recalculate-stats` | Diaria, 03:00 | Medias y `bayes_score` (F0-03, F0-04) |
-| `items:recalculate-quality` | Semanal | Por si cambian las reglas (F0-05) |
+| `items:recalculate-quality` | Semanal, lunes 03:30 | Por si cambian las reglas (F0-05) |
 | `catalog:fetch-new --all` | Diaria, 04:00 | `CATALOG_IMPORT_LIMIT` por categoría |
 | `catalog:refresh` | Diaria, 05:00 | |
 | `catalog:purge-stale` | Semanal | |
@@ -133,6 +133,8 @@ Todas llevan `withoutOverlapping()`.
   - `creator_id` queda `null` (lo crea el sistema); en el log se registra quién lo pidió.
 
 ## 8. `config/catalog.php`
+
+> La F0-05 ya creó el archivo, solo con `min_quality_for_discovery` y `template_description_patterns`. La F0-09 (`reserved_slugs`) y la F1-02 (el resto) lo amplían hasta llegar a lo que sigue.
 
 ```php
 return [

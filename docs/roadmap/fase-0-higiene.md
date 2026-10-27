@@ -185,6 +185,38 @@
 - Tests: un ítem sin imagen y con "Item importado." puntúa menos de 40; no aparece en la cola ni con `?discoverable=1`; **sí** aparece en Explorar y en la búsqueda.
 - Tras `migrate:fresh --seed`, `quality_score` está calculado (no todo a 0).
 
+**Notas:**
+- **Archivos creados** (`Backend/`):
+  - `config/catalog.php` (solo `min_quality_for_discovery` y `template_description_patterns`);
+  - `database/migrations/2026_10_27_100000_add_quality_score_to_items_table.php`;
+  - `app/Services/ItemQualityScorer.php`, `app/Jobs/RecalculateItemQualityJob.php` y `app/Console/Commands/RecalculateItemQualityCommand.php`;
+  - `tests/Feature/Items/{ItemQualityScoreTest,DiscoverableItemsTest,RecalculateItemQualityCommandTest}.php` (19 tests).
+- **Archivos modificados:** `app/Models/Item.php` (`$attributes`, `$casts`, hook `saving`, `scopeDiscoverable` y `discoverable` en `applyFilters`), `app/Services/NextCategoryItemService.php`, `app/Http/Requests/Items/ListItemsRequest.php`, `app/Http/Controllers/Item/ItemController.php` (pasa `discoverable` a `$filters`), `routes/console.php`, `database/seeders/DatabaseSeeder.php`, `tests/Concerns/CreatesItems.php`, `Frontend/src/hooks/pages/useCategoryPage.js` y docs (`base-de-datos.md`, `arquitectura.md`, `pipeline-catalogo.md` §6 y §8).
+- **Puntos como constantes:** los puntos (40/40/20) y los 60 caracteres son constantes privadas de `ItemQualityScorer`, no `config`: la ficha limita `config/catalog.php` a dos claves.
+- **El hook vigila también `released_at` y `attributes`** para que la F1-01 no tenga que tocarlo; hasta entonces `isDirty()` no los ve y el scorer los lee con `getAttribute()` (devuelve `null`, no suma). `quality_score` no está en `$fillable`.
+- **Una imagen cuenta** si tiene `path` o `variants` no vacíos (formato nuevo y formato antiguo de `ProposalSeeder`/`StoreItemRequest`). Los patrones de plantilla **no distinguen mayúsculas**.
+- **El job escribe con `DB::table`**: sin eventos y sin tocar `updated_at`, porque es un recálculo y no una edición.
+- **Programación:** lunes a las 03:30 (`weeklyOn(1, '03:30')`, `withoutOverlapping`). `--chunk=200` por defecto y `--category=slug`. La F0-10 solo tiene que verificarla.
+- **`CreatesItems::createItem()`** da por defecto una imagen y una descripción larga (puntuación 80). Motivo: `ItemFactory` crea `images => []` y descripciones de 40–70 caracteres al azar; sin esto el hook puntuaría 0, 40 u 80 al azar y `NextCategoryItemTest` fallaría de forma intermitente. Así sigue en verde sin tocarlo (R8), y no se toca la factory (R6). Los tests de fichas pobres pasan `images => []` y su propia descripción.
+- **Caché de la cola:** la cola de 50 ítems se cachea 6 h, así que una ficha que se vuelva pobre puede seguir sirviéndose hasta que caduque la cola.
+- **Sembrado:** `DatabaseSeeder` llama a `Artisan::call('items:recalculate-quality')` al final de `run()` (con `QUEUE_CONNECTION=sync` se calcula en el momento). Reparto tras `migrate:fresh --seed` contra `testing` (0, 40 y 80):
+  ```
+  array:3 [
+    0 => 349
+    40 => 1389
+    80 => 2611
+  ]
+  ```
+  Por categoría: álbumes 217×80; artistas 298×0; ciudades 995×40 (sin imágenes, pero su descripción "importada automaticamente" no coincide con los patrones); libros 435×80, 137×40 y 1×0; países 25×80, 219×40 y 1×0; películas 696×80; políticos 49×0; series 688×80 y 3×40; videojuegos 550×80 y 35×40. Artistas y políticos quedan fuera de la cola y de los destacados porque no tienen imagen y su descripción es de plantilla.
+- **Pendiente de producción (no se ha tocado, R10):** los ítems existentes tienen `quality_score = 0`, así que en cuanto se despliegue esto **todas las colas quedan vacías y los destacados desaparecen** hasta ejecutar `items:recalculate-quality` con un worker de `catalog` (F0-10).
+- **Test de la cola:** el plan decía que la segunda llamada a `next-item` daba 204 sin más, pero la cola no consume el ítem hasta que se vota; el test vota la ficha buena entre las dos llamadas (como `NextCategoryItemTest`) y entonces da 204.
+- **Verificación:**
+  - `sail test --filter='ItemQualityScoreTest|DiscoverableItemsTest|RecalculateItemQualityCommandTest'` → `Tests: 19 passed`;
+  - `sail test` → `Tests: 1 incomplete, 67 passed (414 assertions)` (el incompleto es el de `ShowItemRequest`, anterior);
+  - contra `testing`: `migrate:fresh` (OK), `migrate:rollback --step=1` (OK, `hasColumn` = `false`) y `migrate` (OK, `hasColumn` = `true`);
+  - `sail artisan schedule:list` muestra `30 3 * * 1  php artisan items:recalculate-quality`;
+  - `pnpm build` sin errores; `discoverable` solo aparece en `useCategoryPage.js`.
+
 ---
 
 ## F0-06 · *Placeholder* generativo

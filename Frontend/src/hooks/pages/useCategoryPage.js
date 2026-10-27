@@ -35,7 +35,9 @@ export const useCategoryPage = () => {
       category_slug: categorySlug,
       sort_by: 'vote_avg',
       sort_order: 'desc',
-      per_page: 20
+      per_page: 20,
+      // Destacados: solo fichas con calidad suficiente (F0-05)
+      discoverable: 1
     },
     { enabled: !!categorySlug }
   );

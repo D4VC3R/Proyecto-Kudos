@@ -21,6 +21,7 @@ class ListItemsRequest extends FormRequest
      * - El campo 'sort_by' es opcional, pero si se proporciona, debe ser una cadena que coincida con uno de los valores permitidos: 'vote_avg', 'recent', 'name', o 'random'.
      * - El campo 'sort_order' es opcional, pero si se proporciona, debe ser una cadena que coincida con uno de los valores permitidos: 'asc' o 'desc'.
      * - El campo 'per_page' es opcional, pero si se proporciona, debe ser un entero entre 1 y 100.
+     * - El campo 'discoverable' es opcional; si es verdadero, excluye los ítems con quality_score por debajo del umbral (F0-05).
      */
     public function rules(): array
     {
@@ -31,6 +32,7 @@ class ListItemsRequest extends FormRequest
             'sort_by' => ['nullable', 'string', 'in:vote_avg,recent,name,random'],
             'sort_order' => ['nullable', 'string', 'in:asc,desc'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'discoverable' => ['nullable', 'boolean'],
         ];
     }
 /**
@@ -52,6 +54,7 @@ class ListItemsRequest extends FormRequest
             'per_page.integer' => 'El campo resultados por página debe ser un número entero.',
             'per_page.min' => 'El campo resultados por página debe tener al menos 1 caracteres/elementos.',
             'per_page.max' => 'El campo resultados por página no puede superar los 100 caracteres/elementos.',
+            'discoverable.boolean' => 'El campo descubrible debe ser verdadero o falso.',
         ];
     }
 }
