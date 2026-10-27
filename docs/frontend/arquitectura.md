@@ -25,7 +25,7 @@ Las rutas son relativas a `Frontend/src/`.
 | `components/items/` | `ItemCard`, `ItemImage` (16:9, fondo del color dominante; muestra `ItemPlaceholder` si no hay imagen o falla), `ItemDetailColumn`, `InfiniteItemSlider` |
 | `components/votes/` | `VoteStars` (10 estrellas con medios puntos), botones de voto, "Mis votos" |
 | `components/layout/` | `MainHeader`, `NavBar`, `NavBarMobile`, `Footer` |
-| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
+| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `text.js` (`hasText`, para no pintar secciones vacías). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
 
 ## 2. Rutas
 
