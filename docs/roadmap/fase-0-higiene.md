@@ -18,14 +18,14 @@
 
 **Pasos:**
 1. En `Backend/phpunit.xml`, sustituye `DB_CONNECTION=sqlite` / `DB_DATABASE=:memory:` por `pgsql` / `testing`, ambos con `force="true"`. Ver [../backend/testing.md](../backend/testing.md) §1.
-2. En `Backend/compose.yml`, servicio `pgsql`, añade el volumen `./docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql`.
+2. En `Backend/compose.yml`, servicio `pgsql`, añade el volumen (el script `docker/pgsql/create-testing-database.sql` ya existe) `./docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql`.
 3. Crea `tests/TestCase.php` con la protección de nombre de base de datos ([../backend/testing.md](../backend/testing.md) §3) y `tests/Feature/`, `tests/Unit/` y `tests/Fixtures/`.
 4. Crea los helpers `actingAsUser()`, `actingAsAdmin()` y `seedRolesAndPermissions()`.
 5. Escribe un *smoke test*: `GET /up` devuelve 200 y `GET /api/categories` devuelve 200 con un JSON válido.
 
 **Criterios de aceptación:**
 - `sail test` pasa, con al menos el *smoke test*.
-- Si se fuerza `DB_DATABASE=kudos_db`, los tests abortan con el mensaje de protección. Pruébalo a mano y no lo dejes así.
+- Si se fuerza `DB_DATABASE=kudos_db`, los tests abortan con el mensaje de protección **antes** de borrar nada (la protección va en `beforeRefreshingDatabase()`, ver testing §3). Pruébalo a mano y no lo dejes así.
 - La base de datos de desarrollo `kudos_db` no se toca al ejecutar los tests: comprueba que el número de filas de `items` es el mismo antes y después.
 
 **Archivos:** `Backend/phpunit.xml`, `Backend/compose.yml`, `Backend/tests/**`
@@ -73,7 +73,7 @@
    - `ChangeVoteAction` guarda la nota como float.
 4. **En `StoreVoteRequest` y `UpdateVoteRequest`,** añade la regla `multiple_of:0.5` a `score`, con un mensaje en español.
 5. **Crea el comando `items:recalculate-stats {--category=}`:**
-   - recorre los ítems por bloques (`chunkById`) y llama al servicio;
+   - recorre los ítems por bloques (`chunkById`) y encola un job por bloque en la cola `catalog` que llama al servicio (ver F0-10: el scheduler tiene poca memoria);
    - se registra en `routes/console.php` con una frecuencia diaria a las 03:00 (`withoutOverlapping`).
 
 **Criterios de aceptación:**
@@ -212,8 +212,9 @@ bayes = 0                          si v = 0   (los ítems sin votos van al final
 
 **Backend:**
 1. Verifica que `GET /api/items?search=…&per_page=…` sin categoría funciona y que `ItemListResource` incluye la categoría (`slug`, `name`). Si no la incluye, añádela con *eager loading*, sin consultas N+1.
-2. Exige un mínimo de 2 caracteres en `search` (regla `min:2`).
-3. Escribe un test.
+2. Exige un mínimo de 2 caracteres en `search` (regla `min:2`). `ListItemsRequest` también lo usa Explorar: comprueba que `useFilters` no envía búsquedas de 1 carácter (darían 422).
+3. Añade `reserved_slugs` a `config/catalog.php` (créalo si la F0-05 aún no lo ha hecho) y valídalo en `StoreCategoryRequest` y `UpdateCategoryRequest` (ver [../frontend/arquitectura.md](../frontend/arquitectura.md) §2).
+4. Escribe los tests.
 
 **Frontend:**
 1. **Componente `GlobalSearch`** en `MainHeader` y `NavBarMobile`:
@@ -246,7 +247,7 @@ bayes = 0                          si v = 0   (los ítems sin votos van al final
 2. **En `deploy/README.md`:**
    - explica el servicio nuevo;
    - explica cómo comprobarlo: `kudos-dc logs scheduler`, `kudos-dc exec app php artisan schedule:list`.
-3. **En `routes/console.php`,** deja programadas las tareas que ya existen en esta fase: `items:recalculate-stats` e `items:recalculate-quality`.
+3. **En `routes/console.php`,** deja programadas las tareas que ya existen en esta fase: `items:recalculate-stats` e `items:recalculate-quality`. El scheduler ejecuta los comandos **dentro de su contenedor de 128M**: los comandos programados solo recorren IDs y **encolan jobs** en la cola `catalog`; el trabajo pesado lo hace el worker (512M).
 4. **Valida la sintaxis** con `docker compose -f compose.prod.yml --env-file .env.production.example config > /dev/null`. Usa un `.env` temporal si hace falta y **no lo subas**.
 
 **Criterios de aceptación:**
@@ -295,7 +296,7 @@ bayes = 0                          si v = 0   (los ítems sin votos van al final
    - servicio `postgres:18-alpine` con la base de datos `testing`;
    - `shivammathur/setup-php@v2` con PHP 8.5 y las extensiones `pdo_pgsql`, `pgsql`, `gd`, `intl`, `mbstring` y `redis`;
    - `composer install`, `cp .env.example .env`, `php artisan key:generate`;
-   - variables `DB_HOST=127.0.0.1`, `DB_USERNAME`, `DB_PASSWORD` y `REDIS_CLIENT=predis`, o redis desactivado: la configuración de tests usa caché en array y sesión en array;
+   - variables `DB_HOST=127.0.0.1`, `DB_USERNAME` y `DB_PASSWORD`. No hace falta servicio Redis: los tests usan caché y sesión en array (no uses `predis`, no está en `composer.json`);
    - `php artisan test`.
 2. **Job adicional** con Node 22 y pnpm que ejecute `pnpm install --frozen-lockfile && pnpm build` en `Frontend/`.
 

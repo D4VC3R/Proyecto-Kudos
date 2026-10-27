@@ -41,11 +41,13 @@ Backend/tests/
 ```php
 abstract class TestCase extends BaseTestCase
 {
-    protected function setUp(): void
+    /**
+     * Protección: RefreshDatabase borra la base de datos. Nunca contra la de desarrollo o producción.
+     * Debe ir en este hook: RefreshDatabase se ejecuta DENTRO de parent::setUp(), así que una
+     * comprobación en setUp() llegaría cuando la base de datos ya se ha borrado.
+     */
+    protected function beforeRefreshingDatabase(): void
     {
-        parent::setUp();
-
-        // Protección: RefreshDatabase borra la base de datos. Nunca contra la de desarrollo o producción.
         $database = config('database.connections.' . config('database.default') . '.database');
         if ($database !== 'testing') {
             throw new \RuntimeException("Los tests deben ejecutarse contra la base de datos 'testing', no '{$database}'.");
@@ -53,6 +55,8 @@ abstract class TestCase extends BaseTestCase
     }
 }
 ```
+
+Para comprobar que funciona, fuerza `DB_DATABASE=kudos_db` y verifica que los tests abortan **y** que `kudos_db` mantiene sus filas.
 
 **Helpers recomendados**, como métodos o traits en `tests/Concerns/`:
 - `seedRolesAndPermissions()`: llama a `PermissionSeeder` y `RoleSeeder`. Las rutas de admin y algunas *policies* los necesitan.
@@ -90,6 +94,7 @@ Http::fake([
   - **sin tokens** en las URLs ni en el contenido.
 - **Casos de error que hay que probar** en cada proveedor: 404, 429 (límite de peticiones), un campo vacío (por ejemplo, sinopsis en español vacía) y un *timeout*.
 - **Imágenes:** `Storage::fake('public')` y `Storage::fake('local')`.
+- **DNS:** `RemoteImageDownloader::assertSafeUrl()` resuelve el host con `gethostbyname()` (protección anti-SSRF), y `Http::fake()` no lo evita. La F1-04 extrae esa resolución a un método o colaborador inyectable para poder falsearla en los tests. Sin eso, los tests de imágenes dependen de la red.
 
 ## 6. Cobertura mínima por fase
 

@@ -3,7 +3,7 @@
 Esta carpeta contiene todo lo necesario para que una persona o un agente de IA ejecute el rediseño de Kudos sin necesitar el contexto de la conversación en la que se diseñó.
 
 > **Estado del documento:** plan aprobado el 26-10-2026. Nada de este plan está implementado todavía.
-> La rama `rediseno-fase-0` se creó en local a partir de `php-8.5-php2shell` y aún no tiene cambios de código.
+> La rama `rediseno-fase-0` es la **rama de integración** del rediseño: contiene `docs/` (que no está en `main`). Las ramas de tarea salen de ella y se fusionan en ella; a `main` se fusiona por fases con aprobación del humano.
 
 ## Orden de lectura
 

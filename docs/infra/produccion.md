@@ -15,7 +15,7 @@ La guía de despliegue existente está en [../../deploy/README.md](../../deploy/
   | `app` | PHP-FPM | 1G |
   | `worker` | `queue:work` | 256M |
   | `postgres` | Base de datos | 512M |
-  | `redis` | Caché y sesiones | 128M |
+  | `redis` | Caché y sesiones (`maxmemory 64mb`, `allkeys-lru`; la cola **no** va en Redis, va en la base de datos) | 128M |
 
 - **Frontend:** está en **Vercel**, en `kudos.dcerdan.es`. La API está en el VPS, en `api.kudos.dcerdan.es`.
 - **Carencias detectadas:**
@@ -28,7 +28,7 @@ La guía de despliegue existente está en [../../deploy/README.md](../../deploy/
 - **Servicio `scheduler` nuevo:**
   - misma imagen y configuración que `worker` (ancla `*laravel`);
   - `command: ["php", "artisan", "schedule:work"]`;
-  - límite de memoria de 128M;
+  - límite de memoria de 128M. **`schedule:work` ejecuta cada comando programado dentro de este contenedor**, así que los comandos programados deben limitarse a encolar jobs (`Schedule::job(...)` o un comando que solo recorra IDs y despache). El trabajo pesado va al worker;
   - `stop_grace_period: 30s`.
 - **Worker:**
   - `command: ["php", "artisan", "queue:work", "--queue=default,catalog", "--tries=3", "--backoff=60", "--max-time=3600"]`. La cola `default` (correos, avatares) tiene prioridad sobre `catalog` (importaciones);

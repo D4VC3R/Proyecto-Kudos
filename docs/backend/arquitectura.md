@@ -11,7 +11,7 @@
 | Rutas | `routes/api.php`, `routes/auth.php`, `routes/console.php` (comandos y, desde la F0, *schedule*) | Middleware: `auth:sanctum`, `verified`, `not_banned`, `admin` |
 | Controller | `app/Http/Controllers/<Dominio>/` | Entrada y salida HTTP. Delega en Actions y Services. Sin lógica de negocio |
 | Form Request | `app/Http/Requests/<Dominio>/` | Validación y `authorize()`, que usa las *policies*. Mensajes en español |
-| Action | `app/Actions/` (y `Actions/Admin/...`) | **Un caso de uso de escritura transaccional**, con `execute(...)`. Ejemplos: `EmitVoteAction`, `ReviewProposalAction` |
+| Action | `app/Actions/` | **Un caso de uso de escritura transaccional**, con `execute(...)`. Ejemplos: `EmitVoteAction`, `ReviewProposalAction` (ambas en la raíz de `app/Actions/`) |
 | Service | `app/Services/` | Lógica reutilizable u orquestación: `KudosService`, `NextCategoryItemService`, `ModerationAuditLogger`, `Media/*` |
 | Model | `app/Models/` | Eloquent: relaciones, *scopes* (`scopeApplyFilters`, `scopeApplySorting`, `scopeAdminApply*`) y *casts* |
 | Resource | `app/Http/Resources/` | Toda respuesta JSON pasa por un Resource |
@@ -54,7 +54,7 @@ Los códigos son `unauthenticated`, `forbidden`, `not_found`, `route_not_found`,
 - `routes/console.php` contiene `kudos:audit-consistency [--fix]`.
 
 ### Propuestas y moderación
-- `app/Services/ProposalService.php` y `app/Actions/Admin/Proposals/ReviewProposalAction.php`.
+- `app/Actions/ReviewProposalAction.php` (no existe un `ProposalService`; la lógica está en la Action y en `ProposalController`).
 - `app/Services/ModerationAuditLogger.php`, que escribe en el canal de log `moderation`.
 - Comentarios: `app/Models/ItemComment.php`, con `is_hidden`, `hidden_reason` y `hidden_by`.
 

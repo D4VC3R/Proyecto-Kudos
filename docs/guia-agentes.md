@@ -10,7 +10,7 @@ Lee este documento entero antes de empezar cualquier tarea. Las reglas marcadas 
    - Los documentos de referencia que la ficha cite.
    - **El código actual de los archivos afectados.** Los documentos describen la intención; el código es la verdad. Si se contradicen, sigue el código, anota la discrepancia en el resumen final y corrige el documento.
 3. **Marca la tarea como `en curso`** en el tablero.
-4. **Crea una rama** desde `main` actualizado, salvo que el humano indique otra base. Nombre: `fase-N/FN-XX-descripcion-corta`, por ejemplo `fase-0/F0-03-recalculo-medias`.
+4. **Crea una rama** desde la rama de integración `rediseno-fase-0` actualizada (allí vive `docs/`; `main` no la tiene), salvo que el humano indique otra base. Nombre: `fase-N/FN-XX-descripcion-corta`, por ejemplo `fase-0/F0-03-recalculo-medias`. Al terminar, se fusiona en `rediseno-fase-0`; a `main` se fusiona por fases y solo con aprobación del humano.
 5. **Implementa con el cambio mínimo** que cumpla los criterios de aceptación. No "aproveches" para refactorizar código ajeno a la tarea.
 6. **Verifica.** Ejecuta las comprobaciones de la ficha y la definición de hecho (§3).
 7. **Actualiza la documentación:**
@@ -82,7 +82,7 @@ Una tarea solo está hecha si se cumple todo lo siguiente:
   - las consultas y mutaciones van en `hooks/<dominio>/` con React Query.
 - **Estilos:**
   - Tailwind con clases que existan: no inventes utilidades sin definirlas en `tailwind.config.js`;
-  - para unir clases condicionales usa `clsx`/`tailwind-merge` a través de las utilidades existentes en `lib/`.
+  - para unir clases condicionales usa `clsx`/`tailwind-merge` importándolos directamente, como hacen los componentes actuales (no existe una utilidad `cn()` en `lib/`).
 - **Textos de la interfaz** en español.
 
 **Dependencias nuevas:**

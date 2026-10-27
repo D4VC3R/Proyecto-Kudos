@@ -42,7 +42,7 @@
    - `Item`: `fillable` y `casts` (`attributes` como array, `released_at` como date, `last_synced_at` como datetime) y la relación `sources()`;
    - nuevo `ItemSource` con su relación `item()`;
    - `Category`: `attribute_schema` como array e `is_active` como bool.
-3. **Generación de `slug`** al crear (`Str::slug(name)` más el año si existe, con sufijo si colisiona) en `Item::booted()` → `creating`.
+3. **Generación de `slug`** al crear (`Str::slug(name)` más el año si existe, con sufijo si colisiona) en `Item::booted()` → `creating`. Ojo: `DatabaseSeeder` usa `WithoutModelEvents`, así que el hook no se ejecuta en los seeders.
 4. **`ItemQualityScorer`** añade la regla de +20 puntos (`released_at` o `attributes`). El hook `saving` vigila también esos campos.
 5. **Búsqueda:** `Item::scopeApplyFilters` y `scopeAdminApplyFilters` buscan en `name` **o** `original_title`. `Vote::scopeApplyFilters` también.
 6. **Factories:** `ItemFactory` con *states* para los campos nuevos.
@@ -118,7 +118,8 @@
 1. **`DescriptionResolver::resolve(CatalogItemData): CatalogItemData`** aplica la cadena de prioridades de [../integraciones/pipeline-catalogo.md](../integraciones/pipeline-catalogo.md) §4, paso 2:
    - rellena `description`, `descriptionSource` y `descriptionUrl`;
    - **cachea** en Redis 7 días las respuestas de Wikidata y Wikipedia por QID y título.
-2. **`CatalogImporter::import(CatalogItemData): Item`:** los pasos 1–6 del §4, todo en una transacción excepto la descarga de imágenes. Reutiliza `RemoteImageDownloader` y `MediaManager::processItemVariants`.
+2. **`CatalogImporter::import(CatalogItemData): Item`:** los pasos 1–6 del §4, todo en una transacción excepto la descarga de imágenes. Reutiliza `RemoteImageDownloader` y `MediaManager::processItemVariants`. El cruce por `wikidata_id` se limita a la misma categoría.
+   - **Testabilidad:** extrae la resolución DNS de `RemoteImageDownloader::assertSafeUrl()` (hoy `gethostbyname()`) a un colaborador inyectable y falséalo en los tests (ver [../backend/testing.md](../backend/testing.md) §5). Mantén la protección anti-SSRF intacta.
 3. **`ImportCatalogItemJob`** en la cola `catalog`:
    - recibe `(providerKey, externalId)`, llama a `provider->fetch()`, luego al *resolver* y luego al *importer*;
    - si `fetch()` devuelve `null`, desactiva el ítem existente.
@@ -144,7 +145,9 @@
 
 Están descritos en [../integraciones/pipeline-catalogo.md](../integraciones/pipeline-catalogo.md) §5–§6.
 
-**Programación:** en `routes/console.php`, con las frecuencias de la tabla del §6 y `withoutOverlapping()`.
+**Programación:** en `routes/console.php`, con las frecuencias de la tabla del §6 y `withoutOverlapping()`. Los comandos solo encolan `ImportCatalogItemJob`; no importan en el propio proceso (el scheduler tiene 128M).
+
+`purge-stale` también borra las imágenes de TMDB descargadas.
 
 **Criterios de aceptación:**
 - **Tests:**
@@ -191,7 +194,7 @@ Están descritos en [../integraciones/pipeline-catalogo.md](../integraciones/pip
 - los usuarios sin sesión ven "Inicia sesión para añadir".
 
 **Criterios de aceptación:**
-- Tests de autorización, de límite de peticiones, de "ya existe" (devuelve `item_id` y no duplica) y de importación correcta.
+- Tests de autorización, de límite de peticiones, de "ya existe" (devuelve `item_id` y no duplica) y de importación correcta (201, con la descarga de imágenes encolada).
 - Flujo manual completo con el token.
 - `pnpm build` termina sin errores.
 

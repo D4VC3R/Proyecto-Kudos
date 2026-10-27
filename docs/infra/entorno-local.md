@@ -53,6 +53,7 @@ Notas:
   - Mailpit: `http://localhost:8025`
   - PostgreSQL: `localhost:5432` (usuario `sail`, contraseña `password`, base de datos `kudos_db`)
 - **Colas:** en local `QUEUE_CONNECTION=sync`, así que los jobs se ejecutan en la misma petición. Para probar colas reales, pon `QUEUE_CONNECTION=database` y ejecuta `sail artisan queue:work --queue=default,catalog`.
+- **Stack de producción local:** en la máquina del desarrollador puede estar levantado `compose.prod.yml` (contenedores `kudos-*`, nginx en `127.0.0.1:8001`). No choca con Sail (no publica 5432 ni 8095), pero no lo confundas: los comandos de desarrollo van siempre con `sail`.
 - **Tareas programadas:** para probarlas, `sail artisan schedule:list` y `sail artisan schedule:work`. Para lanzar una sola vez: `sail artisan schedule:run`.
 
 ## 4. Base de datos de tests (PostgreSQL)
@@ -63,7 +64,7 @@ Notas:
 - `phpunit.xml` apunta a `DB_CONNECTION=pgsql` y `DB_DATABASE=testing`.
 - `compose.yml` monta `docker/pgsql/create-testing-database.sql` en `/docker-entrypoint-initdb.d/`. Ese script **solo se ejecuta al crear el volumen por primera vez**.
 
-**Si el volumen `sail-pgsql` ya existía**, crea la base de datos de tests a mano, una sola vez:
+**Si el volumen `backend_sail-pgsql` ya existía** (es el caso en la máquina del desarrollador), crea la base de datos de tests a mano, una sola vez:
 
 ```bash
 sail exec pgsql psql -U sail -d kudos_db -c "CREATE DATABASE testing;"

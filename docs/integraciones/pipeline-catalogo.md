@@ -38,7 +38,7 @@ app/Catalog/
 
 app/Jobs/Catalog/
 ├── ImportCatalogItemJob.php         # cola "catalog": importa o refresca un único ítem
-└── DownloadItemImagesJob.php        # opcional: separa la descarga de imágenes
+└── DownloadItemImagesJob.php        # descarga de imágenes separada (obligatorio para la importación bajo demanda)
 
 app/Console/Commands/Catalog/
 ├── FetchNewCommand.php              # catalog:fetch-new {--category=} {--all} {--limit=}
@@ -93,7 +93,7 @@ final readonly class CatalogItemData
 
 1. **Buscar si ya existe:**
    1. por `item_sources (provider, external_id)`;
-   2. si no aparece, por `items.wikidata_id`;
+   2. si no aparece, por `items.wikidata_id` **dentro de la misma categoría** (un QID erróneo de TMDB no debe fusionar ítems de categorías distintas; si el QID existe en otra categoría, se registra un aviso y se importa sin `wikidata_id`);
    3. si tampoco, se crea.
 
    **Nunca** se busca por nombre: es lo que causaba duplicados en el seeder antiguo.
@@ -120,7 +120,8 @@ final readonly class CatalogItemData
   - encola un `ImportCatalogItemJob` por cada uno.
 - **El tamaño del lote** debe garantizar que todo el catálogo de TMDB se recorra en menos de 150 días. Con unos 3.000 ítems, 200 al día bastan. El comando avisa en el log si el número de pendientes crece.
 - **Si el proveedor devuelve 404,** el ítem pasa a `status = inactive` y se registra en el log. No se borra, porque puede tener votos.
-- **Ítems de TMDB sin refrescar en más de 180 días:** el comando `catalog:purge-stale` los marca como inactivos y vacía sus campos procedentes de TMDB. Se ejecuta cada semana como red de seguridad.
+- **Ítems de TMDB sin refrescar en más de 180 días:** el comando `catalog:purge-stale` los marca como inactivos, vacía sus campos procedentes de TMDB **y borra sus imágenes descargadas de TMDB** del disco y de `images`. Se ejecuta cada semana como red de seguridad.
+- **Memoria:** los comandos programados solo encolan `ImportCatalogItemJob` (el scheduler tiene 128M; ver [../infra/produccion.md](../infra/produccion.md) §2).
 
 ## 6. Tareas programadas (`routes/console.php`)
 
@@ -140,8 +141,8 @@ final readonly class CatalogItemData
   - Cachea la respuesta en Redis 10 minutos por `(categoría, q)`.
 - **`POST /api/catalog/import`** con `{category, external_id}`
   - Mismos requisitos, con un límite de 5 peticiones por minuto.
-  - Importa **de forma síncrona** con un *timeout* corto y devuelve el ítem con `ItemDetailResource`.
-  - Si tarda, encola el job y devuelve 202 con `{status: "queued"}`.
+  - Guarda la ficha **de forma síncrona** (una llamada a `provider->fetch()` con *timeout* corto, más el `DescriptionResolver`) y **encola siempre** la descarga de imágenes (`DownloadItemImagesJob`). Devuelve 201 con `ItemDetailResource`; el frontend muestra el *placeholder* hasta que lleguen las imágenes.
+  - Si el ítem ya existe, devuelve 200 con su `item_id` sin duplicar.
   - El `creator_id` del ítem queda vacío, porque lo crea el sistema. Se registra en el log quién lo pidió.
 
 ## 8. Configuración (`config/catalog.php`)

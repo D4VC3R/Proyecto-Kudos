@@ -38,7 +38,7 @@
 | `/admin/*` | Administración | Admin |
 | `/login`, `/register`… | Autenticación | Solo invitados |
 
-> **Cuidado con el orden:** `/:categorySlug` captura cualquier primer segmento. Las rutas nuevas de primer nivel (`/buscar`, `/wishlist`, `/u/:username`, `/listas/...`, `/privacidad`) deben declararse **antes** que `/:categorySlug` en `routes.jsx`. Además, ningún slug de categoría debe coincidir con ellas.
+> **Slugs reservados:** React Router 7 elige la ruta por especificidad, así que `/buscar` gana a `/:categorySlug` sin importar el orden. El riesgo real es que una categoría tenga un slug igual a una ruta de primer nivel (`buscar`, `wishlist`, `u`, `listas`, `ranking`, `admin`, `privacidad`, `aviso-legal`, `login`, `register`, `profile`…), porque quedaría inaccesible. Mantén esa lista en `config/catalog.php` → `reserved_slugs` y valídala en `StoreCategoryRequest`/`UpdateCategoryRequest` (se añade en la F0-09). Declarar las rutas nuevas antes de `/:categorySlug` sigue siendo buena costumbre.
 
 ## 3. Estilos y tema
 

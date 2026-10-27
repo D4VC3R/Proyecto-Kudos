@@ -28,6 +28,7 @@
    - `ItemStatsService` y los kudos siguen contando solo `type = 'vote'`;
    - `NextCategoryItemService` excluye cualquier tipo de voto del usuario, como ahora.
 6. **Revisa `User::getProfileStatistics()`** y los paneles de estadísticas que cuentan `skip`, y añade los tipos nuevos.
+7. **Contrato de `user_vote`:** `ItemListResource` e `ItemDetailResource` devuelven `user_vote` sin `type` y `can_vote = false` en cuanto hay cualquier voto. Añade `type` a `user_vote` (campo nuevo, no rompe el contrato) para que el frontend distinga una valoración de un `want`/`not_interested`.
 
 **Criterios de aceptación:**
 - Tests: crear un voto de cada tipo; `skip` se guarda como `not_interested`; `want` con `score` da 422; las medias no cambian con `want` ni con `not_interested`.
@@ -72,6 +73,7 @@
 | `voting.daily_cap` | 50 | 20 |
 
 - Se mantienen la recompensa por propuesta aceptada y las rachas.
+- Ojo: `rewards.vote_first_time_item` (5) es una clave muerta; `KudosService::calculateVoteReward` usa `voting.*`. Cambia `voting.*` y elimina la clave muerta.
 - Comenta en el config el motivo: no premiar el voto masivo.
 - Actualiza los tests de kudos de la F0-02 a los valores nuevos.
 
@@ -95,6 +97,7 @@
 4. **Componentes heredados:** `VoteStars` deja de usarse en el flujo de voto. Puede quedarse para editar votos antiguos en "Mis votos", o sustituirse por los 5 niveles.
 5. **`ActionMenu`:** quita "Cara a cara" y "Trivia".
 6. **Invalidaciones de React Query** tras votar: la cola, la *wishlist*, la ficha y el perfil.
+7. **Estado del ítem:** usa `user_vote.type` (F2-01) para mostrar "En tu wishlist" o "No te interesa" en lugar de "ya votado".
 
 **Criterios de aceptación:**
 - El flujo completo funciona con ratón, táctil y teclado.
@@ -108,7 +111,7 @@
 - **Responsabilidad:** BE, FE
 - **Depende de:** F2-01
 
-**Backend:** `GET /api/votes/my-votes?type=want`, que ya existe con el filtro. Comprueba que ordena por fecha y que incluye `released_at` del ítem.
+**Backend:** `GET /api/votes/my-votes?type=want`, que ya existe con el filtro. Comprueba que ordena por fecha y que incluye `released_at` del ítem. La transición "valorar" usa `PUT /api/votes/{id}` (F2-02).
 
 **Frontend:**
 - **Página `/wishlist`,** declarada antes de `/:categorySlug`:
@@ -169,7 +172,7 @@
 **Backend:**
 1. **`GET /api/items/{id}/similar`:**
    - misma categoría;
-   - puntuación = número de géneros en común (`attributes->'genres'`, con el operador jsonb `?|` o normalizando en PHP) + 2 si comparte dirección o creador + 1 si es de la misma década;
+   - puntuación = número de géneros en común (`attributes->'genres'`, con `jsonb_exists_any(...)` o normalizando en PHP; **no uses el operador `?|`** en SQL crudo: PDO confunde `?` con un *placeholder*, salvo que lo escapes como `??|`) + 2 si comparte dirección o creador + 1 si es de la misma década;
    - desempate por `bayes_score` y luego por `popularity`;
    - devuelve 12, excluye el propio ítem y los de baja calidad;
    - caché de 24 h.
