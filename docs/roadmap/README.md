@@ -30,6 +30,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-20 | Accesibilidad del buscador global | FE | F0-09 | pendiente |
 | F0-21 | Limpieza menor de la Fase 0 | FE, BE, DOCS | F0-08 | pendiente |
 | F0-22 | Licencia MIT | DOCS | — | pendiente |
+| F0-23 | Vulnerabilidad de `symfony/yaml` y versión mínima de PHP | BE, INFRA | F0-19 | pendiente |
 
 ## Fase 1: catálogo vivo de películas y series. [Fichas](fase-1-catalogo-vivo.md)
 

@@ -667,3 +667,15 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 3. Añade `"license": "MIT"` a `Frontend/package.json` (`Backend/composer.json` ya lo tiene).
 
 **Hecho cuando:** el archivo existe, los dos manifiestos declaran MIT y los enlaces del README son válidos.
+
+---
+
+## F0-23 · Vulnerabilidad de `symfony/yaml` y versión mínima de PHP
+
+**Depende:** F0-19 · **Archivos:** `Backend/composer.json`, `Backend/composer.lock`, docs
+
+**Pasos:**
+1. `sail composer audit` avisa de una vulnerabilidad en `symfony/yaml` (CVE-2026-109413; Notas de F0-19). Actualiza solo ese paquete y lo mínimo que arrastre (`sail composer update symfony/yaml --with-dependencies`), revisando el diff del lock.
+2. `composer.json` declara `"php": "^8.4"` aunque la plataforma y la imagen son 8.5.12: súbelo a `^8.5` y regenera el `content-hash` (`sail composer update --lock`), sin cambiar otras versiones.
+
+**Hecho cuando:** `sail composer audit` no da avisos, `sail composer validate` es válido, `sail test` en verde y la simulación del job `backend` del CI (o `composer install` limpio con PHP 8.5.12) pasa.
