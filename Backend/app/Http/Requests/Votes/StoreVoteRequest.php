@@ -49,6 +49,7 @@ class StoreVoteRequest extends FormRequest
 				'numeric',
 				'min:0',
 				'max:10',
+				'multiple_of:0.5',
 				Rule::requiredIf(fn () => $this->input('type') === Vote::TYPE_VOTE),
 				Rule::prohibitedIf(fn () => $this->input('type') === Vote::TYPE_SKIP),
 			],
@@ -61,6 +62,7 @@ class StoreVoteRequest extends FormRequest
 	public function messages(): array
 	{
 		return [
+			'score.multiple_of' => 'La puntuación debe ir en pasos de medio punto (por ejemplo, 7 o 7,5).',
 			'score.required' => 'No se ha registrado puntuación asociada al voto.',
 			'score.prohibited' => 'No se ha registrado la puntuación: votación omitida.',
 		];

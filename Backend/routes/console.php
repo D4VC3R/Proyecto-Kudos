@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -55,3 +56,7 @@ Artisan::command('kudos:audit-consistency {--fix : Reconciliar users.total_kudos
     $this->info('Kudos restaurados correctamente.');
 })->purpose('Audita y reconcilia users.total_kudos con kudos_transactions');
 
+/**
+ * Recálculo diario de las medias de los ítems. El comando solo encola jobs en la cola 'catalog'.
+ */
+Schedule::command('items:recalculate-stats')->dailyAt('03:00')->withoutOverlapping();

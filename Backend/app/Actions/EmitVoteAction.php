@@ -2,9 +2,9 @@
 
 namespace App\Actions;
 
-use App\Models\Item;
 use App\Models\User;
 use App\Models\Vote;
+use App\Services\ItemStatsService;
 use App\Services\KudosService;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
  */
 class EmitVoteAction
 {
-	public function __construct(protected KudosService $kudosService) {}
+	public function __construct(protected KudosService $kudosService, protected ItemStatsService $itemStatsService) {}
 
 	/**
 	 * Emite un voto para un ítem, manejando condiciones de carrera y otorgando kudos si es el primer voto del usuario para ese ítem.
@@ -55,7 +55,7 @@ class EmitVoteAction
 			if ($voteData['type'] === Vote::TYPE_VOTE) {
 				$kudosAwarded = $this->kudosService->processFirstTimeVote($user, $voteData['item_id']);
 
-				$this->updateItemAverages($voteData['item_id'], (int) $voteData['score']);
+				$this->itemStatsService->recalculate($voteData['item_id']);
 			}
 
 			$vote->setAttribute('was_existing', false);
@@ -63,23 +63,5 @@ class EmitVoteAction
 
 			return $vote;
 		});
-	}
-	/**
-	 * Actualiza el conteo de votos y la puntuación media.
-	 *
-	 * @param string $itemId El ID del ítem a actualizar
-	 * @param int $newScore La nueva puntuación a incluir en el cálculo del promedio
-	 */
-
-	private function updateItemAverages(string $itemId, int $newScore): void
-	{
-		$item = Item::lockForUpdate()->findOrFail($itemId);
-		$newCount = $item->vote_count + 1;
-		$newAvg = (($item->vote_avg * $item->vote_count) + $newScore) / $newCount;
-
-		$item->update([
-			'vote_count' => $newCount,
-			'vote_avg' => round($newAvg, 2),
-		]);
 	}
 }

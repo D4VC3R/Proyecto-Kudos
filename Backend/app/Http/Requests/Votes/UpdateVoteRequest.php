@@ -30,6 +30,7 @@ class UpdateVoteRequest extends FormRequest
 				'numeric',
 				'min:0',
 				'max:10',
+				'multiple_of:0.5',
 			],
 		];
 	}
@@ -63,6 +64,7 @@ class UpdateVoteRequest extends FormRequest
             'score.numeric' => 'El campo puntuación debe ser numérico.',
             'score.min' => 'El campo puntuación debe tener al menos 0 caracteres/elementos.',
             'score.max' => 'El campo puntuación no puede superar los 10 caracteres/elementos.',
+            'score.multiple_of' => 'La puntuación debe ir en pasos de medio punto (por ejemplo, 7 o 7,5).',
         ];
     }
 }
