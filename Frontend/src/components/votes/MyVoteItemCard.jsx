@@ -3,6 +3,7 @@ import { Star, Trash2, Clock } from 'lucide-react';
 import { formatDate } from '../../lib/formatters';
 import Button from '../ui/Button.jsx';
 import StorageImage from "../ui/StorageImage.jsx";
+import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 
 const MyVoteItemCard = ({ vote, isDeleting, onDeleteClick }) => {
   const isSkip = vote.type === 'skip';
@@ -17,6 +18,15 @@ const MyVoteItemCard = ({ vote, isDeleting, onDeleteClick }) => {
             src={imageUrl}
             alt={item?.name || 'Ítem'}
             className="h-full w-full"
+            fallback={
+              <ItemPlaceholder
+                name={item?.name}
+                categorySlug={item?.category?.slug}
+                categoryIcon={item?.category?.icon}
+                variant="thumb"
+                className="h-full w-full"
+              />
+            }
           />
         </div>
 

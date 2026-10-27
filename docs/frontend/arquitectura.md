@@ -21,11 +21,11 @@ Las rutas son relativas a `Frontend/src/`.
 | `hooks/pages/useXPage.js` | Cada página tiene su hook, que devuelve `{ state, actions }`; la página solo pinta |
 | `hooks/<dominio>/` | Consultas y mutaciones de React Query: `items/useItemQueries.js`, `votes/useVoteMutations.js`, `useVoteQueries.js`… |
 | `hooks/common/` | `useFilters` (búsqueda con *debounce*), `useInfiniteScroll`, `useModal`, `usePointerScore`, `useBaseMutation` |
-| `components/ui/` | `Button`, `Modal`, `StorageImage` (prop `fallbackIcon` y `onError`), `ActionMenu`, `SearchFilter`, `SelectFilter`, `Pagination`, `FeedbackState`, `skeletons/`, `ranking/` |
-| `components/items/` | `ItemCard`, `ItemImage` (16:9, fondo del color dominante), `ItemDetailColumn`, `InfiniteItemSlider` |
+| `components/ui/` | `Button`, `Modal`, `StorageImage` (props `fallbackIcon`, `fallback` y `onError`), `ItemPlaceholder` (degradado, icono e iniciales; variantes `card`/`banner`/`thumb`), `ActionMenu`, `SearchFilter`, `SelectFilter`, `Pagination`, `FeedbackState`, `skeletons/`, `ranking/` |
+| `components/items/` | `ItemCard`, `ItemImage` (16:9, fondo del color dominante; muestra `ItemPlaceholder` si no hay imagen o falla), `ItemDetailColumn`, `InfiniteItemSlider` |
 | `components/votes/` | `VoteStars` (10 estrellas con medios puntos), botones de voto, "Mis votos" |
 | `components/layout/` | `MainHeader`, `NavBar`, `NavBarMobile`, `Footer` |
-| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`. **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
+| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
 
 ## 2. Rutas
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ImageOff } from 'lucide-react';
 import { getStorageUrl } from '../../lib/formatters.js';
 
-const StorageImage = ({src, alt = "Imagen", className = "", fallbackIcon: FallbackIcon = ImageOff, ...props}) => {
+const StorageImage = ({src, alt = "Imagen", className = "", fallbackIcon: FallbackIcon = ImageOff, fallback, onError, ...props}) => {
   const initialSrc = getStorageUrl(src);
   // Si de entrada no hay un src válido, marcamos el error como true directamente
   const [hasError, setHasError] = useState(!initialSrc);
@@ -17,6 +17,8 @@ const StorageImage = ({src, alt = "Imagen", className = "", fallbackIcon: Fallba
 
 
   if (hasError) {
+    // Si quien llama aporta su propio fallback (p. ej. el placeholder de un ítem), lo usamos en lugar del icono.
+    if (fallback) return fallback;
     return (
       <div
         className={`flex items-center justify-center bg-slate-100 text-slate-400 ${className}`}
@@ -32,7 +34,10 @@ const StorageImage = ({src, alt = "Imagen", className = "", fallbackIcon: Fallba
       src={imgSrc}
       alt={alt}
       className={`object-cover ${className}`}
-      onError={() => setHasError(true)}
+      onError={(event) => {
+        setHasError(true);
+        onError?.(event);
+      }}
       {...props}
     />
   );
