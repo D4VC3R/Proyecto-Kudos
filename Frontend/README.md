@@ -25,7 +25,7 @@ Copia el archivo de ejemplo `.env.example` a `.env` y ajusta los valores si hace
 
 ```env
 VITE_API_URL=http://localhost:8095/api
-VITE_STORAGE_URL=http://localhost:8095/api/storage
+VITE_STORAGE_URL=http://localhost:8095/storage/
 ```
 
 ---
