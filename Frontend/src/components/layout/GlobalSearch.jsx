@@ -17,6 +17,7 @@ const GlobalSearch = ({ className = '', onNavigate }) => {
         className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
       />
       <input
+        ref={state.inputRef}
         type="search"
         value={state.searchInput}
         onChange={actions.handleChange}
@@ -33,6 +34,8 @@ const GlobalSearch = ({ className = '', onNavigate }) => {
         enterKeyHint="search"
         className="w-full rounded-2xl border border-border bg-background py-2 pl-10 pr-3 text-sm font-medium focus:bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
+      {/* Región viva: anuncia "Buscando…", "Sin resultados" o el número de resultados al lector de pantalla (F0-21). */}
+      <p role="status" aria-live="polite" aria-atomic="true" className="sr-only">{state.statusMessage}</p>
 
       {state.isOpen && (
         // El preventDefault evita que el input pierda el foco al hacer clic en el desplegable (el foco se queda en el combobox).
@@ -92,6 +95,7 @@ const GlobalSearch = ({ className = '', onNavigate }) => {
 
           <button
             type="submit"
+            onKeyDown={actions.handleSeeAllKeyDown}
             className="block w-full border-t border-border px-4 py-2.5 text-left text-sm font-bold text-primary hover:bg-slate-50 focus-visible:bg-slate-50 focus-visible:outline-none"
           >
             Ver todos los resultados
