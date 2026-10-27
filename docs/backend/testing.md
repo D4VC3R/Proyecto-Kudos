@@ -20,7 +20,7 @@
 ```
 Backend/tests/
 ├── TestCase.php     # protección de la base de datos (§3)
-├── Concerns/        # helpers: seedRolesAndPermissions, actingAsUser, actingAsAdmin
+├── Concerns/        # helpers: seedRolesAndPermissions, actingAsUser, actingAsAdmin, CreatesItems
 ├── Feature/         # Votes/, Ranking/, Items/, Kudos/, Catalog/…
 ├── Unit/            # lógica pura: fórmulas, mapeadores, normalizadores
 └── Fixtures/catalog/  # respuestas reales recortadas de TMDB, Wikidata y Wikipedia
@@ -63,12 +63,17 @@ abstract class TestCase extends BaseTestCase
 - `actingAsUser(array $attrs = [])`: crea un usuario verificado y sin ban, hace `Sanctum::actingAs` y lo devuelve. No le asigna rol, igual que el registro de la app.
 - `actingAsAdmin(array $attrs = [])`: igual, con el rol `admin` (siembra los roles si hace falta).
 
+**Helpers de catálogo** (`tests/Concerns/CreatesItems.php`, **no** está en `TestCase`: cada clase lo usa con `use CreatesItems;`):
+- `createCategory(string $slug = 'peliculas', string $name = 'Películas')`: crea una categoría con `name` y `slug` explícitos.
+- `createItem(Category $category, array $attrs = [])`: crea un ítem activo y sin votos en la categoría (y un usuario si no hay ninguno, porque `ItemFactory` lo necesita). Los `$attrs` pisan los valores por defecto.
+
 ## 4. Convenciones
 
 - **Feature:** contra endpoints reales (`$this->postJson('/api/votes', …)`) con `RefreshDatabase`. Comprueba el estado HTTP, el JSON (`assertJsonPath`, `assertJsonStructure`) y la base de datos (`assertDatabaseHas`).
 - **Unit:** solo lógica pura.
 - **Nombres:** `test_<comportamiento_en_snake_case>` o `#[Test]`. Por ejemplo, `test_cambiar_un_voto_mantiene_los_medios_puntos`.
 - **Factories:** existen `Category`, `Item`, `User`, `Vote`, `Proposal` y `Profile`. `UserFactory` crea usuarios verificados por defecto. Añade *states* (`->rated(7.5)`, `->want()`) en lugar de repetir arrays.
+- **Trampa de las factories:** `ItemFactory::definition()` elige categoría (`Category::inRandomOrder()`) y creador (`User::inRandomOrder()`), y `VoteFactory::definition()` elige usuario e ítem activo, **siempre**, aunque pases *overrides*. Antes de crear un ítem o un voto tiene que existir en la base de datos al menos un usuario (y una categoría, o un ítem activo). `CategoryFactory` elige el nombre de una lista corta que se reinicia, así que pasa siempre `name` y `slug` explícitos o dos categorías del mismo test pueden chocar. Usa `CreatesItems`.
 - **Tiempo:** `$this->travelTo(...)` o `Carbon::setTestNow`.
 - **Caché:** `Cache::flush()` al probar `NextCategoryItemService`.
 

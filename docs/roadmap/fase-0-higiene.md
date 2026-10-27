@@ -48,6 +48,20 @@
 
 **Hecho cuando:** todos los casos están implementados y en verde.
 
+**Notas:**
+- **Archivos creados** (todos en `Backend/tests/`, 24 tests nuevos: 23 en verde y 1 *incomplete*):
+  - `Feature/Votes/EmitVoteTest.php` (6), `ChangeVoteTest.php` (2), `DeleteVoteTest.php` (2) y `NextCategoryItemTest.php` (2): 12 tests de votos y cola;
+  - `Feature/Kudos/VoteKudosTest.php` (6);
+  - `Feature/Ranking/CategoryRankingTest.php` (2);
+  - `Feature/Items/ItemSearchTest.php` (1) y `ItemDetailTest.php` (3);
+  - `Concerns/CreatesItems.php`: trait con `createCategory()` y `createItem()`. No se añadió a `TestCase`: cada clase lo usa con `use CreatesItems;`. Existe porque `ItemFactory` y `VoteFactory` eligen usuario, categoría o ítem al azar de la base de datos en `definition()` (que se ejecuta aunque haya *overrides*), así que antes de crear un ítem tiene que haber un usuario y una categoría; y porque `CategoryFactory` puede repetir `name`/`slug` (únicos) entre dos categorías del mismo test.
+- **Desviación R1 (cola):** cuando no queda nada por votar, `GET /api/categories/{slug}/next-item` responde **204 No Content** sin cuerpo, no "null o vacío".
+- **Desviación R1 (ítem inactivo):** votar un ítem inactivo responde **403** (`VotePolicy::create()` en `StoreVoteRequest::authorize()`, que va antes de la validación), no 422. El 422 "No se puede votar un item inactivo." de `StoreVoteRequest::withValidator()` es inalcanzable por `POST /api/votes`. No se ha tocado.
+- **Bug encontrado (sin arreglar):** `ShowItemRequest::authorize()` devuelve `$this->user()?->can('view', …) ?? true`, así que un invitado recibe `true` y se salta `ItemPolicy::view()`, que niega los ítems inactivos a los invitados. Un invitado ve el detalle de un ítem inactivo (200 en lugar de 403). El test `ItemDetailTest::test_un_invitado_no_ve_el_detalle_de_un_item_inactivo` queda *incomplete* (`markTestIncomplete` condicional) y pasará solo cuando se arregle.
+- **Ranking:** los datos (A 9/10, B 9/4, C 7/10, D sin votos) se eligieron para que el orden no cambie con el ranking bayesiano de la F0-04 (m=5, C=5 de *fallback*).
+- **Kudos:** los importes salen de `config('kudos.voting')`, no están escritos a mano, porque la F2-03 los reajustará. El tiempo se congela con `travelTo()` para que el TTL `endOfDay()` del contador diario no caduque a mitad de los bucles de 21 y 51 votos.
+- `can_edit` del detalle es `true` para el creador del ítem (no solo para admins): el test del detalle crea el ítem antes de autenticar al usuario para que el creador sea otro.
+
 ---
 
 ## F0-03 · Medias exactas (bug del truncado)
