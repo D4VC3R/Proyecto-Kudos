@@ -10,11 +10,11 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 | Controller | `app/Http/Controllers/<Dominio>/` | HTTP de entrada y salida; sin lógica de negocio |
 | Form Request | `app/Http/Requests/<Dominio>/` | Validación y `authorize()` con *policies*; mensajes en español |
 | Action | `app/Actions/` (en la raíz, sin subcarpetas) | Un caso de uso de escritura transaccional con `execute(...)`: `EmitVoteAction`, `ChangeVoteAction`, `DeleteVoteAction`, `ReviewProposalAction` |
-| Service | `app/Services/` | Lógica reutilizable: `KudosService`, `NextCategoryItemService`, `ModerationAuditLogger`, `Media/*` |
+| Service | `app/Services/` | Lógica reutilizable: `KudosService`, `NextCategoryItemService`, `ItemStatsService`, `ModerationAuditLogger`, `Media/*` |
 | Model | `app/Models/` | Relaciones, *scopes* (`scopeApplyFilters`, `scopeApplySorting`, `scopeAdminApply*`) y *casts* |
 | Resource | `app/Http/Resources/` | Toda respuesta JSON |
 | Policy | `app/Policies/` | Autorización por modelo |
-| Job | `app/Jobs/` | `ProcessProposalImagesJob`, `ProcessUserAvatarJob` |
+| Job | `app/Jobs/` | `ProcessProposalImagesJob`, `ProcessUserAvatarJob`, `RecalculateItemStatsJob` (cola `catalog`) |
 | Catálogo (F1) | `app/Catalog/` | Proveedores, enriquecimiento e importación: ver [../integraciones/pipeline-catalogo.md](../integraciones/pipeline-catalogo.md) |
 
 - Todos los modelos usan UUID (`HasUuids`).
@@ -24,8 +24,8 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 ## 2. Mapa por dominio
 
 **Votos**
-- `app/Models/Vote.php`: `TYPE_VOTE='vote'` y `TYPE_SKIP='skip'`; `score` es un float (`decimal(4,1)`).
-- Actions `EmitVoteAction`, `ChangeVoteAction` y `DeleteVoteAction`.
+- `app/Models/Vote.php`: `TYPE_VOTE='vote'` y `TYPE_SKIP='skip'`; `score` es un float (`decimal(4,1)`) y se valida con `multiple_of:0.5`.
+- Actions `EmitVoteAction`, `ChangeVoteAction` y `DeleteVoteAction`. Las tres recalculan con `ItemStatsService::recalculate()` (`COUNT`/`AVG` de `type = 'vote'`, con `Item::lockForUpdate()`). `ChangeVoteAction` guarda la nota como float. Un `skip` no recalcula en `EmitVoteAction`.
 - `app/Http/Requests/Votes/`: `StoreVoteRequest`, `UpdateVoteRequest`, `DeleteVoteRequest`, `ListMyVotesRequest` y `GetNextCategoryItemRequest`.
 - `app/Http/Controllers/Vote/`, `app/Policies/VotePolicy.php` y `app/Http/Resources/VoteResource.php`.
 - `app/Services/NextCategoryItemService.php`: cola de 50 ítems, cacheada 6 h en `next-item-queue:{user}:{category}`.
@@ -45,6 +45,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 - `app/Services/KudosService.php`: `processDailyLogin(User)`, `processFirstTimeVote(User, itemId)` y `processProposalAccepted(User, proposalId)`. Todos pasan por `awardIfFirst`, que garantiza la idempotencia con un `action_key` único en `kudos_transactions`.
 - `config/kudos.php`: `voting.*` (recompensa, rendimiento decreciente y tope diario; es lo que usa `calculateVoteReward`), `rewards.*` (propuesta y rachas) y `reasons`. `rewards.vote_first_time_item` es una clave muerta.
 - `kudos:audit-consistency [--fix]` es un *closure* en `routes/console.php`.
+- `items:recalculate-stats {--category=slug} {--chunk=200}` (`app/Console/Commands/RecalculateItemStatsCommand.php`) encola un `RecalculateItemStatsJob` por bloque en la cola `catalog`. Está programado a diario a las 03:00 en `routes/console.php`.
 
 **Propuestas y moderación**
 - `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`. No existe un `ProposalService`.
@@ -68,8 +69,8 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 
 | # | Problema | Dónde | Lo resuelve |
 |---|---|---|---|
-| 1 | Las notas de medio punto se truncan. `EmitVoteAction` hace `(int)` sobre la nota al actualizar la media. `ChangeVoteAction` hace `(int)` sobre la nota nueva y la antigua, y **guarda la truncada**. `DeleteVoteAction` usa el float | `app/Actions/*Vote*` | F0-03 |
-| 2 | Las medias son incrementales (`avg*count ± score`) y acumulan error | Las mismas | F0-03 |
+| 1 | Las notas de medio punto se truncan. `EmitVoteAction` hace `(int)` sobre la nota al actualizar la media. `ChangeVoteAction` hace `(int)` sobre la nota nueva y la antigua, y **guarda la truncada**. `DeleteVoteAction` usa el float | `app/Actions/*Vote*` | F0-03 (resuelta) |
+| 2 | Las medias son incrementales (`avg*count ± score`) y acumulan error | Las mismas | F0-03 (resuelta) |
 | 3 | `skip` es permanente: `UpdateVoteRequest::withValidator` solo permite editar si `type === 'vote'`, y `EmitVoteAction` devuelve el voto existente sin tocarlo | — | F2-02 |
 | 4 | `$table->enum()` en PostgreSQL crea un `varchar` + CHECK (`votes_type_check`). Para añadir valores hay que borrar y recrear la restricción con SQL | Migración de `votes` | F2-01 |
 | 5 | `CheckMinimumKudos` existe pero no está registrado | `app/Http/Middleware/` | Aplazado: no usar |
@@ -85,6 +86,6 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 
 - **Escritura sobre un ítem:** dentro de `DB::transaction`, con `Item::lockForUpdate()` y transacciones cortas.
 - **Kudos:** siempre a través de `KudosService`, nunca escribiendo `users.total_kudos` directamente. Cada recompensa nueva necesita un `reason` en `config/kudos.php` y un `action_key` determinista.
-- **Comandos:** los pequeños, como *closures* en `routes/console.php`; los grandes, como clases en `app/Console/Commands/` (se descubren solas). **Los del catálogo son clases.**
+- **Comandos:** los pequeños, como *closures* en `routes/console.php`; los grandes, como clases en `app/Console/Commands/` (se descubren solas; la carpeta ya existe, con `RecalculateItemStatsCommand`). **Los del catálogo son clases.**
 - **Tareas programadas:** `Schedule::command(...)` o `Schedule::job(...)` en `routes/console.php`, con `withoutOverlapping()` (y `onOneServer()` cuando aplique). Se ejecutan en el contenedor `scheduler` (128M): **solo encolan**, el trabajo pesado va en jobs ([../infra/produccion.md](../infra/produccion.md) §2).
 - **Contrato JSON:** si cambia la columna que hay detrás de un campo (por ejemplo, ordenar por `bayes_score`), el Resource sigue devolviendo los mismos campos (R7).

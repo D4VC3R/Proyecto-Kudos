@@ -72,7 +72,7 @@ abstract class TestCase extends BaseTestCase
 - **Feature:** contra endpoints reales (`$this->postJson('/api/votes', …)`) con `RefreshDatabase`. Comprueba el estado HTTP, el JSON (`assertJsonPath`, `assertJsonStructure`) y la base de datos (`assertDatabaseHas`).
 - **Unit:** solo lógica pura.
 - **Nombres:** `test_<comportamiento_en_snake_case>` o `#[Test]`. Por ejemplo, `test_cambiar_un_voto_mantiene_los_medios_puntos`.
-- **Factories:** existen `Category`, `Item`, `User`, `Vote`, `Proposal` y `Profile`. `UserFactory` crea usuarios verificados por defecto. Añade *states* (`->rated(7.5)`, `->want()`) en lugar de repetir arrays.
+- **Factories:** existen `Category`, `Item`, `User`, `Vote`, `Proposal` y `Profile`. `UserFactory` crea usuarios verificados por defecto. `VoteFactory` ya tiene `->rated(float)` (nota decimal, tipo `vote`; `->withScore(int)` trunca los medios puntos). Añade *states* (`->want()`, …) en lugar de repetir arrays.
 - **Trampa de las factories:** `ItemFactory::definition()` elige categoría (`Category::inRandomOrder()`) y creador (`User::inRandomOrder()`), y `VoteFactory::definition()` elige usuario e ítem activo, **siempre**, aunque pases *overrides*. Antes de crear un ítem o un voto tiene que existir en la base de datos al menos un usuario (y una categoría, o un ítem activo). `CategoryFactory` elige el nombre de una lista corta que se reinicia, así que pasa siempre `name` y `slug` explícitos o dos categorías del mismo test pueden chocar. Usa `CreatesItems`.
 - **Tiempo:** `$this->travelTo(...)` o `Carbon::setTestNow`.
 - **Caché:** `Cache::flush()` al probar `NextCategoryItemService`.

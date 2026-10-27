@@ -77,6 +77,34 @@
 
 **Hecho cuando:** el test del paso 1 pasa, la F0-02 sigue en verde y `grep -rn "(int)" Backend/app/Actions` no devuelve ningún cast sobre notas.
 
+**Notas:**
+- **Archivos creados** (`Backend/`):
+  - `app/Services/ItemStatsService.php`, `app/Jobs/RecalculateItemStatsJob.php` y `app/Console/Commands/RecalculateItemStatsCommand.php` (la carpeta `Commands` es nueva y Laravel la descubre sola);
+  - tests: `tests/Feature/Votes/ExactAverageTest.php` (4), `tests/Feature/Votes/VoteScoreValidationTest.php` (3) y `tests/Feature/Items/RecalculateItemStatsCommandTest.php` (5).
+- **Archivos modificados:**
+  - `app/Actions/{Emit,Change,Delete}VoteAction.php`: usan `ItemStatsService`; desaparecen `updateItemAverages` y los `(int)`;
+  - `app/Http/Requests/Votes/{Store,Update}VoteRequest.php`: `multiple_of:0.5` con mensaje en español;
+  - `routes/console.php`: `Schedule::command('items:recalculate-stats')->dailyAt('03:00')->withoutOverlapping()`;
+  - `database/factories/VoteFactory.php`: *state* `rated(float)`.
+- **Test fallando antes del arreglo** (`sail test --filter=ExactAverageTest`, `Tests: 4 failed (11 assertions)`):
+  - `Failed asserting that 7.5 matches expected 7.75` (votar 8.0 y 7.5: la media incremental truncaba 7.5 a 7);
+  - `Failed asserting that 6 matches expected 6.5` (`PUT` con 6.5 guardaba `score = 6`);
+  - `Failed asserting that 7.0 matches expected 7.33` (tres votos 7.5, 8.0 y 6.5);
+  - el cuarto fallaba porque aún no existía `VoteFactory::rated()` (`BadMethodCallException`).
+  - Después del arreglo: `Tests: 4 passed (23 assertions)`.
+- **Decisiones:**
+  - `--category` recibe el **slug** (la clave de ruta de `Category`);
+  - `--chunk` (200 por defecto) se añade a la ficha para poder probar "un job por bloque" sin crear 200 ítems;
+  - el job abre una transacción corta por ítem, para que el bloqueo de la fila dure solo su recálculo, y ignora los ítems borrados (soft delete) entre el encolado y la ejecución;
+  - `EmitVoteAction` solo recalcula cuando `type === 'vote'`: un `skip` no cambia la media ni el contador (lo exige `EmitVoteTest`);
+  - el recálculo se hace **después** de escribir o borrar el voto, para que `COUNT`/`AVG` lo incluyan o excluyan;
+  - `ChangeVoteAction` ya no hace `lockForUpdate` por su cuenta: lo hace el servicio;
+  - `VoteFactory::rated(float)` es el *state* que recomendaba `testing.md` §4; `withScore(int)` se deja igual.
+- **Programación:** `items:recalculate-stats` ya queda programado aquí. La F0-10 solo tiene que verificarlo con `schedule:list` (`0 3 * * *`).
+- **Cola `catalog`:** hasta la F0-10 el worker de producción (`compose.prod.yml`) solo escucha la cola `default`, así que los jobs de `catalog` no se procesarían allí. No se ha desplegado nada.
+- **Riesgo conocido (no corregido, R6):** el `INSERT` de `votes` toma un `KEY SHARE` sobre la fila del ítem (por la FK) y después el servicio hace `FOR UPDATE`. Dos votos simultáneos al mismo ítem pueden acabar en *deadlock*: Postgres aborta uno y ese usuario recibe un 500. Ya ocurría con `EmitVoteAction` antes de la F0-03. `ChangeVoteAction` no tiene este riesgo (actualizar el voto no bloquea al padre).
+- El frontend ya envía múltiplos de 0.5 entre 0.5 y 10, así que `multiple_of:0.5` no cambia la interfaz.
+
 ---
 
 ## F0-04 · Ranking bayesiano
@@ -191,7 +219,7 @@
 **Pasos:**
 1. En `compose.prod.yml`, aplica produccion §2: servicio `scheduler`, worker con `--queue=default,catalog` y 512M, y el comentario de presupuesto de memoria.
 2. En `deploy/README.md`, documenta el servicio y cómo comprobarlo: `kudos-dc logs scheduler` y `kudos-dc exec app php artisan schedule:list`.
-3. En `routes/console.php`, programa las tareas ya existentes en esta fase (`items:recalculate-stats`, `items:recalculate-quality`). Esos comandos solo encolan.
+3. En `routes/console.php`, programa las tareas ya existentes en esta fase (`items:recalculate-stats` ya se programa en la F0-03, solo hay que verificarlo; `items:recalculate-quality`). Esos comandos solo encolan.
 4. Valida con `docker compose -f compose.prod.yml --env-file .env.production.example config > /dev/null`. Si hace falta un `.env` temporal, no lo subas.
 
 **Hecho cuando:** `config` es válido, `sail artisan schedule:list` muestra las tareas y **no se ha desplegado nada**.
