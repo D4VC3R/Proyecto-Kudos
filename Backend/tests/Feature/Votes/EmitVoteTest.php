@@ -4,6 +4,7 @@ namespace Tests\Feature\Votes;
 
 use App\Models\Item;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Tests\Concerns\CreatesItems;
 use Tests\TestCase;
@@ -138,5 +139,81 @@ class EmitVoteTest extends TestCase
             ->assertJsonPath('error.code', 'forbidden');
 
         $this->assertDatabaseCount('votes', 0);
+    }
+
+    public function test_el_voto_bloquea_el_item_antes_de_comprobar_e_insertar_el_voto(): void
+    {
+        $this->actingAsUser();
+        $item = $this->createItem($this->createCategory());
+
+        DB::flushQueryLog();
+        DB::enableQueryLog();
+
+        $this->postJson('/api/votes', ['item_id' => $item->id, 'type' => 'vote', 'score' => 8])
+            ->assertCreated();
+
+        $queries = array_column(DB::getQueryLog(), 'query');
+
+        [$lockIndex, $existingIndex, $insertIndex] = $this->voteQueryIndexes($queries);
+
+        $this->assertNotNull($lockIndex);
+        $this->assertNotNull($existingIndex);
+        $this->assertNotNull($insertIndex);
+        $this->assertLessThan($existingIndex, $lockIndex);
+        $this->assertLessThan($insertIndex, $lockIndex);
+
+        $item = $item->fresh();
+        $this->assertSame(1, (int) $item->vote_count);
+        $this->assertEquals(8.0, (float) $item->vote_avg);
+    }
+
+    public function test_un_skip_tambien_bloquea_el_item_antes_de_insertar(): void
+    {
+        $this->actingAsUser();
+        $item = $this->createItem($this->createCategory());
+
+        DB::flushQueryLog();
+        DB::enableQueryLog();
+
+        $this->postJson('/api/votes', ['item_id' => $item->id, 'type' => 'skip'])
+            ->assertCreated();
+
+        $queries = array_column(DB::getQueryLog(), 'query');
+
+        [$lockIndex, $existingIndex, $insertIndex] = $this->voteQueryIndexes($queries);
+
+        $this->assertNotNull($lockIndex);
+        $this->assertNotNull($existingIndex);
+        $this->assertNotNull($insertIndex);
+        $this->assertLessThan($insertIndex, $lockIndex);
+        $this->assertLessThan($existingIndex, $lockIndex);
+    }
+
+    /**
+     * Índices (en el query log) del bloqueo del ítem, de la comprobación del voto existente y del INSERT del voto.
+     *
+     * @return array{0: ?int, 1: ?int, 2: ?int}
+     */
+    private function voteQueryIndexes(array $queries): array
+    {
+        return [
+            $this->firstQueryIndex($queries, fn (string $sql) => str_starts_with($sql, 'select')
+                && str_contains($sql, 'from "items"')
+                && str_ends_with(rtrim($sql), 'for update')),
+            $this->firstQueryIndex($queries, fn (string $sql) => str_contains($sql, 'from "votes"')
+                && str_contains($sql, '"user_id" = ?')),
+            $this->firstQueryIndex($queries, fn (string $sql) => str_starts_with($sql, 'insert into "votes"')),
+        ];
+    }
+
+    private function firstQueryIndex(array $queries, callable $matches): ?int
+    {
+        foreach ($queries as $index => $sql) {
+            if ($matches(strtolower($sql))) {
+                return $index;
+            }
+        }
+
+        return null;
     }
 }
