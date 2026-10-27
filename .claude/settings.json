@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./vendor/bin/sail test)", "Bash(./vendor/bin/sail test *)",
+      "Bash(./vendor/bin/sail up -d)", "Bash(./vendor/bin/sail ps *)",
+      "Bash(Backend/scripts/verify-test-db-guard.sh)",
+      "Bash(docker compose run --rm kudos-frontend pnpm build)",
+      "Bash(git status *)", "Bash(git diff *)", "Bash(git log *)", "Bash(git show *)",
+      "Bash(git branch *)", "Bash(git switch *)", "Bash(git add *)",
+      "Bash(git commit *)", "Bash(git merge --no-ff *)"
+    ],
+    "deny": ["Bash(git push)", "Bash(git push *)", "Bash(*deploy.sh*)", "Bash(ssh *)"]
+  }
+}
