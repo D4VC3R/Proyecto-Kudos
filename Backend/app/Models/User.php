@@ -10,6 +10,7 @@ namespace App\Models;
  *
  *  */
 
+use App\Support\Like;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -127,8 +128,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $query
             ->when(!empty($filters['search']), function ($q) use ($filters) {
-                $q->where(fn($sub) => $sub->where('name', 'ilike', "%{$filters['search']}%")
-                    ->orWhere('email', 'ilike', "%{$filters['search']}%"));
+                $pattern = Like::contains($filters['search']);
+                $q->where(fn($sub) => $sub->where('name', 'ilike', $pattern)
+                    ->orWhere('email', 'ilike', $pattern));
             })
             ->when(isset($filters['is_banned']), fn($q) => $q->where('is_banned', filter_var($filters['is_banned'], FILTER_VALIDATE_BOOLEAN)))
             ->when(isset($filters['is_verified']), function ($q) use ($filters) {

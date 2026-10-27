@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Like;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -58,8 +59,9 @@ class Proposal extends Model
 			->when(!empty($filters['reviewed_by']), fn($q) => $q->where('reviewed_by', $filters['reviewed_by']))
 			->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
 			->when(!empty($filters['search']), function ($q) use ($filters) {
-				$q->where(fn($sub) => $sub->where('name', 'ilike', "%{$filters['search']}%")
-					->orWhere('description', 'ilike', "%{$filters['search']}%"));
+				$pattern = Like::contains($filters['search']);
+				$q->where(fn($sub) => $sub->where('name', 'ilike', $pattern)
+					->orWhere('description', 'ilike', $pattern));
 			});
 	}
 
