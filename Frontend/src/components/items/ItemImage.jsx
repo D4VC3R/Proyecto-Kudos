@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import StorageImage from '../ui/StorageImage.jsx';
+import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 
 const ItemImage = ({item, showTitle = true, variant = 'banner'}) => {
   const image = item.images?.[0];
   const imageVariant = image?.variants?.[variant] || image?.variants?.[variant];
+
+  // Si no hay imagen o falla su carga, mostramos el placeholder generativo.
+  const [imageFailed, setImageFailed] = useState(false);
+  useEffect(() => {
+    setImageFailed(false);
+  }, [imageVariant]);
+  const showPlaceholder = !imageVariant || imageFailed;
 
   // Extraemos la metadata o definimos valores seguros por defecto
   const metaColor = image?.meta?.color || 'f1f5f9';
@@ -35,19 +43,31 @@ const ItemImage = ({item, showTitle = true, variant = 'banner'}) => {
           aspectRatio: aspectRatio
         }}
       >
+        {showPlaceholder ? (
+          <ItemPlaceholder
+            name={item.name}
+            categorySlug={item.category?.slug}
+            categoryIcon={item.category?.icon}
+            variant="banner"
+            className="absolute inset-0 w-full h-full"
+          />
+        ) : (
+          <>
+            <StorageImage
+              src={imageVariant}
+              className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-50 scale-110"
+            />
 
-        <StorageImage
-          src={imageVariant}
-          className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-50 scale-110"
-        />
+            <div className="absolute inset-0 bg-black/5 mix-blend-multiply"/>
 
-        <div className="absolute inset-0 bg-black/5 mix-blend-multiply"/>
-
-        <StorageImage
-          src={imageVariant}
-          alt={item.name || 'Imagen del ítem'}
-          className="relative z-10 w-full h-full object-contain drop-shadow-xl"
-        />
+            <StorageImage
+              src={imageVariant}
+              alt={item.name || 'Imagen del ítem'}
+              className="relative z-10 w-full h-full object-contain drop-shadow-xl"
+              onError={() => setImageFailed(true)}
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import { Star } from 'lucide-react';
 import  BouncyCard  from '../animations/BouncyCard';
 import StorageImage from "../ui/StorageImage.jsx";
+import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 
 const ItemCard = ({ item, onClick }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
@@ -17,6 +18,15 @@ const ItemCard = ({ item, onClick }) => {
           src={imagePath}
           alt={item.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          fallback={
+            <ItemPlaceholder
+              name={item.name}
+              categorySlug={item.category?.slug}
+              categoryIcon={item.category?.icon}
+              variant="card"
+              className="h-full w-full transition-transform duration-500 group-hover:scale-110"
+            />
+          }
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
       </div>

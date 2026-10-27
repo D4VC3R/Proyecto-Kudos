@@ -8,7 +8,7 @@ import {
   Disc,
   Mic2,
   Clapperboard, Tv, Gamepad2, Book, Plane, Users, FileText, LayoutGrid, Target, User as UserIcon, List, ThumbsUp,
-  BarChart3, Trophy, Medal
+  BarChart3, Trophy, Medal, MapPin
 } from 'lucide-react';
 
 
@@ -97,6 +97,37 @@ export const categoryIcons = {
   'videojuegos': Gamepad2,
   'libros': Book,
 };
+
+// Iconos por slug de categoría para el placeholder de los ítems sin imagen.
+export const CATEGORY_SLUG_ICONS = {
+  'videojuegos': Gamepad2,
+  'albumes-musicales': Disc,
+  'artistas-musicales': Mic2,
+  'libros': Book,
+  'peliculas': Clapperboard,
+  'series': Tv,
+  'ciudades': Building2,
+  'politicos': Landmark,
+  'paises': Plane,
+};
+
+// Iconos lucide admitidos en `category.icon` (llega en la F1, en kebab-case).
+export const CATEGORY_ICONS_BY_NAME = {
+  'gamepad-2': Gamepad2,
+  'disc': Disc,
+  'mic-2': Mic2,
+  'book': Book,
+  'clapperboard': Clapperboard,
+  'tv': Tv,
+  'building-2': Building2,
+  'landmark': Landmark,
+  'plane': Plane,
+  'map-pin': MapPin,
+  'layout-grid': LayoutGrid,
+};
+
+// Icono por defecto cuando la categoría no tiene uno asociado.
+export const DEFAULT_CATEGORY_ICON = LayoutGrid;
 
 // Objeto con la configuración de las pestañas para el panel de administración.
 export const adminTabs = [
