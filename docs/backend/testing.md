@@ -56,7 +56,7 @@ abstract class TestCase extends BaseTestCase
 }
 ```
 
-`tests/Feature/DatabaseProtectionTest.php` comprueba que la protección sigue funcionando.
+`tests/Feature/DatabaseProtectionTest.php` comprueba que la protección sigue funcionando. La prueba de extremo a extremo es `Backend/scripts/verify-test-db-guard.sh`: crea una base de datos señuelo, ejecuta los tests forzándola y comprueba que abortan sin tocarla. Ejecútalo siempre que cambies `TestCase.php`, `phpunit.xml` o los traits de base de datos.
 
 **Helpers** (`tests/Concerns/InteractsWithUsers.php`, incluido en `TestCase`):
 - `seedRolesAndPermissions()`: ejecuta `PermissionSeeder` y `RoleSeeder` (una vez por test); las rutas de admin y algunas *policies* los necesitan. Crea los roles con el guard `web` aunque `Sanctum::actingAs()` haya cambiado el guard por defecto a `sanctum`.
