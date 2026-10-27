@@ -375,6 +375,25 @@
 
 **Hecho cuando:** existe un script con rotación, sin avisos de `shellcheck` (si está disponible), documentado en `deploy/README.md` con su línea de cron.
 
+**Notas:**
+- **Archivos:** `deploy/backup-storage.sh` (nuevo, modo 755), `deploy/README.md` (tabla de ficheros, §8 con la prueba manual, las dos líneas de cron, el espacio y la restauración de imágenes, y el párrafo "Ojo con las horas") y `docs/infra/produccion.md` (§1 tachado, §4 describe lo implementado, §5 con la copia de imágenes antes del vaciado).
+- **Script nuevo en vez de ampliar `backup-db.sh` (R6):** `backup-db.sh` no se ha tocado. Cada script rota solo lo suyo: `kudos-storage-*.tar.gz` frente a `kudos-*.dump` (los patrones no se solapan).
+- **`docker run` con `kudos-api:latest` en vez de `compose exec`:** no depende de que el stack esté levantado, monta el volumen en solo lectura y sin red, usa el mismo uid (`www-data`, 82) para copiar y para restaurar, y se puede probar con volúmenes temporales sin tocar los reales. `--entrypoint tar` salta el entrypoint de Laravel (que necesita el `.env`).
+- **`--pull never`:** la imagen `kudos-api` se construye en local con `deploy.sh`; nunca debe intentar descargarse de un registro.
+- **Comprobación del volumen:** sin ella, `docker run -v` crearía un volumen vacío con ese nombre y la copia saldría "bien" sin imágenes. Verificado: con un volumen inexistente sale con `exit=1` y no lo crea.
+- **Hora del cron:** 03:45, después de `backup-db.sh` (03:30). La instalación en el VPS la hace el humano.
+- **Espacio:** unos 200 MB de imágenes (medidos tras la siembra) dan unos 1,6 GB para ~8 copias, porque gzip apenas reduce. Se puede bajar la retención solo para esta línea con `RETENTION_DAYS=3`.
+- **R9 no aplica:** `STORAGE_VOLUME` y `BACKUP_IMAGE` son variables del shell del cron, no de la aplicación, así que no van a `.env.example` ni a `.env.production.example`. R4 tampoco aplica (no hay PHP ni tests de PHPUnit).
+- **shellcheck:** no está instalado en el host; se ha pasado con la imagen `koalaman/shellcheck:v0.10.0` (sin avisos).
+- **No se ha desplegado nada (R10):** ni `deploy.sh`, ni `compose.prod.yml` con `up`, `run`, `build`, `down` o `restart`, ni conexión al VPS. El script solo se ha ejecutado contra volúmenes temporales `f011-prueba-*` (borrados al final); `kudos_storage-public` y el resto de `kudos_*` siguen intactos y no se ha creado ningún `kudos_*` nuevo.
+- **Verificación** (bloque literal del plan, en una sola llamada):
+  - `bash -n` → `SINTAXIS_OK`; permisos `-rwxr-xr-x`; shellcheck → `SHELLCHECK_OK` (sin avisos).
+  - Caso normal: `OK .../kudos-storage-20261027-153613.tar.gz (4,0K)`, `exit=0`; directorio `700`, copia `600`; 1 copia (la de hace 10 días borrada); `tar -tzf` → `./items/1/a.webp` y `./avatars/b.webp`; `DUMP_INTACTO`.
+  - Volumen inexistente: `ERROR no existe el volumen f011-prueba-no-existe`, `exit=1`, y el volumen no se crea (`0`).
+  - Imagen inexistente: `docker: Error response from daemon: No such image: f011-imagen-inexistente:0`, `exit=125`; 0 ficheros `.tmp` y 1 `.tar.gz`.
+  - Restauración en volumen temporal: `imagen`, `avatar` y `-rw-r--r-- 1 82 82 ... a.webp` (uid 82).
+  - `git status --short` → `deploy/README.md`, `docs/infra/produccion.md`, `docs/roadmap/README.md` (tablero, lo cambia el orquestador) y `deploy/backup-storage.sh` (nuevo); esta ficha se suma al guardar estas notas.
+
 ---
 
 ## F0-12 · Corregir el README

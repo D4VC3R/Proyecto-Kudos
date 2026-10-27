@@ -20,7 +20,7 @@
 - **Problemas:**
   - ~~no hay scheduler~~ (resuelto en F0-10);
   - ~~el worker (256M) se queda corto para jobs de imagen con 512M de `memory_limit`~~ (resuelto en F0-10: 512M);
-  - `deploy/backup-db.sh` no copia el volumen de imágenes.
+  - ~~`deploy/backup-db.sh` no copia el volumen de imágenes~~ (resuelto en F0-11: `deploy/backup-storage.sh`).
 - **Redis con LRU:** la caché de Wikidata y Wikipedia (7 días, F1-04) puede expulsarse. Es aceptable, porque solo es caché.
 
 ## 2. Cambios en `compose.prod.yml` (F0-10)
@@ -49,9 +49,9 @@ Van vacías en `Backend/.env.example` y `Backend/.env.production.example`, y se 
 | `IGDB_CLIENT_ID`, `IGDB_CLIENT_SECRET` | 4 | Twitch/IGDB, si se elige IGDB |
 | `RAWG_API_KEY` | 4 | Si se elige RAWG |
 
-## 4. Copia de seguridad de imágenes (F0-11)
+## 4. Copia de seguridad de imágenes (F0-11, hecha)
 
-Crea `deploy/backup-storage.sh` (o amplía `backup-db.sh`): un `tar` del volumen `kudos_storage-public` con la misma rotación que los volcados, documentado en `deploy/README.md` junto con la línea de cron para el humano. Tiene prioridad baja (tras el reset todo se puede volver a descargar), pero conviene tenerlo antes de abrir listas y avatares.
+`deploy/backup-storage.sh` hace un `tar.gz` del volumen `kudos_storage-public` en `~/backups/kudos`, con la misma rotación que los volcados (`RETENTION_DAYS`, 7 días). El `tar` corre en un contenedor efímero de `kudos-api:latest` (`--pull never`, `--network none`, volumen `:ro`, `--entrypoint tar`). Antes de copiar comprueba que el volumen existe, y después que el gzip está entero. La instalación, la línea de cron (03:45, después de `backup-db.sh`) y la restauración están en `deploy/README.md` §8; en el VPS lo instala el humano.
 
 ## 5. *Runbook*: reset de producción (F1-10 lo revisa, F1-11 lo ejecuta el humano)
 
@@ -61,6 +61,7 @@ Los datos actuales son de prueba, y eso está confirmado.
 # En el VPS
 cd ~/apps/kudos && git pull                       # main con la Fase 1 fusionada
 ~/apps/kudos/deploy/backup-db.sh                  # copia por si acaso
+~/apps/kudos/deploy/backup-storage.sh             # imágenes, antes de vaciarlas en el paso 2
 ./deploy.sh                                       # imagen nueva y migraciones
 
 cd Backend
