@@ -5,7 +5,7 @@
 | # | Regla |
 |---|---|
 | R1 | Los documentos describen la intención; **el código es la verdad**. Si se contradicen, sigue el código, corrige el documento y anótalo en el resumen. |
-| R2 | Todo PHP y Artisan se ejecuta **dentro de Sail**: `sail artisan …`, `sail test`. Nunca `php` en el host. Entorno: [infra/entorno-local.md](infra/entorno-local.md). |
+| R2 | Todo PHP y Artisan se ejecuta **dentro de Sail**: `sail artisan …`, `sail test` (en la shell de un agente no hay alias: `./vendor/bin/sail …` desde `Backend/`). Nunca `php` en el host. Entorno: [infra/entorno-local.md](infra/entorno-local.md). |
 | R3 | Los tests van contra PostgreSQL `testing`. Nunca SQLite. No quites la protección de `tests/TestCase.php`. |
 | R4 | Ningún test hace peticiones reales: `Http::preventStrayRequests()` + `Http::fake()` con fixtures ([backend/testing.md](backend/testing.md) §5). |
 | R5 | Migraciones siempre **nuevas** y con un `down()` que funcione. No edites las existentes. |
@@ -18,6 +18,18 @@
 | R12 | Si la tarea es inviable o mucho mayor de lo descrito, o una verificación no se puede hacer en tu entorno: **para y pregunta**. Nunca des por hecha una tarea sin verificar. |
 
 ## 2. Flujo de una tarea
+
+**Automatizado:** la skill `/ciclo-tareas` ([../.claude/skills/ciclo-tareas/SKILL.md](../.claude/skills/ciclo-tareas/SKILL.md)) recorre el roadmap tarea a tarea con tres agentes ([../.claude/agents/](../.claude/agents/)):
+
+| Fase | Agente | Hace los pasos |
+|---|---|---|
+| Inicio | `kudos-planificador` (Opus, esfuerzo alto, modo plan, solo lectura) | 1–2: elige la tarea, lee y devuelve un plan detallado |
+| Ejecución | `kudos-ejecutor` (Sonnet, esfuerzo alto) | 5–7: implementa el plan, verifica y documenta, sin commits |
+| Fin | `kudos-verificador` (Opus, esfuerzo alto) | 6–9: verifica de forma independiente; si todo está bien, marca `hecho`, hace los commits y fusiona en `rediseno-fase-0`; si no, devuelve correcciones al ejecutor (máximo 3 rondas) |
+
+El orquestador (la sesión principal) crea la rama y marca `en curso` (pasos 3–4), y para y pregunta al humano ante cualquier punto de §6, R10, R11 o R12. Cada agente arranca con contexto limpio: entre tareas solo pasa un resumen.
+
+Los pasos, hagas la tarea a mano o con los agentes:
 
 1. En [roadmap/README.md](roadmap/README.md), elige la primera tarea `pendiente` con todas sus dependencias en `hecho`. No saltes de fase salvo que el humano lo pida.
 2. Lee su ficha, las secciones que cite en **Lee** y el código actual de los **Archivos**.
@@ -36,7 +48,7 @@ Si la tarea no puede avanzar, márcala `bloqueada` y explica el motivo en su fic
 - [ ] Se cumplen todos los puntos de **Hecho cuando** de la ficha.
 - [ ] **Backend tocado:** `sail test` en verde y tests nuevos que cubren el cambio. Un bug corregido lleva un test que fallaba antes del arreglo.
 - [ ] **Frontend tocado:** `docker compose run --rm kudos-frontend pnpm build` (desde `Frontend/`) termina sin errores, y has hecho una prueba manual del flujo tocado.
-- [ ] **Migraciones:** el `down()` funciona y `sail artisan migrate:fresh --seed` funciona.
+- [ ] **Migraciones:** el `down()` funciona y `migrate:fresh` funciona, probados **contra `testing`** (desde `Backend/`: `docker compose exec -T -e DB_DATABASE=testing kudos-app php artisan migrate:fresh`, `… migrate:rollback --step=N`, `… migrate`). `--seed` solo cuando la ficha lo pida.
 - [ ] Se cumplen R4 y R9.
 - [ ] El tablero y la ficha están actualizados.
 

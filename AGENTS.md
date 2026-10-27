@@ -4,6 +4,7 @@ Repositorio en pleno rediseño ("Kudos 2.0"). Antes de tocar nada:
 
 1. [docs/guia-agentes.md](docs/guia-agentes.md): reglas R1–R12, definición de "hecho" y flujo de trabajo. **Obligatoria.**
 2. [docs/roadmap/README.md](docs/roadmap/README.md): elige la tarea y lee **solo** su ficha y las secciones que cite.
+3. Para avanzar en el roadmap de forma automática, usa la skill `/ciclo-tareas`: planificador (Opus), ejecutor (Sonnet) y verificador (Opus). Ver la guía §2.
 
 Las reglas esenciales (el detalle está en la guía):
 - Rama base: `rediseno-fase-0`. Nunca hagas push ni merge a `main` sin permiso.
