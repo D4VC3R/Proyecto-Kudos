@@ -20,7 +20,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-10 | Servicio `scheduler`, cola `catalog` y memoria del worker en producción | INFRA | — | hecho |
 | F0-11 | Copia de seguridad del volumen de imágenes | INFRA | — | hecho |
 | F0-12 | Corregir el README (PostgreSQL, tests, estructura) | DOCS | F0-01 | hecho |
-| F0-13 | CI de GitHub Actions que ejecute los tests con PostgreSQL | INFRA | F0-02 | pendiente |
+| F0-13 | CI de GitHub Actions que ejecute los tests con PostgreSQL | INFRA | F0-02 | hecho |
 
 ## Fase 1: catálogo vivo de películas y series. [Fichas](fase-1-catalogo-vivo.md)
 

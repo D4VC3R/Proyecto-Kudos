@@ -1,0 +1,92 @@
+# CI de tests (F0-13): tests del backend contra PostgreSQL y compilación del frontend.
+# Las credenciales de la base de datos son de usar y tirar: solo existen dentro del job (no son secretos).
+name: Tests
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (PHPUnit sobre PostgreSQL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: Backend
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: testing
+          POSTGRES_USER: sail
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        # Por TCP: durante la inicialización el servidor temporal solo escucha en el socket.
+        options: >-
+          --health-cmd "pg_isready -h 127.0.0.1 -U sail -d testing"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # Pisan los valores de .env (Dotenv no sobrescribe variables ya definidas). phpunit.xml fuerza
+      # DB_CONNECTION=pgsql y DB_DATABASE=testing, y pone caché y sesión en array: no hace falta Redis.
+      DB_HOST: 127.0.0.1
+      DB_PORT: '5432'
+      DB_USERNAME: sail
+      DB_PASSWORD: password
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+
+      - name: Instalar PHP 8.5
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_pgsql, pgsql, gd, intl, mbstring, redis
+          coverage: none
+
+      - name: Instalar las dependencias de Composer
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Preparar .env
+        run: |
+          cp .env.example .env
+          php artisan key:generate --ansi
+
+      - name: Ejecutar los tests
+        run: php artisan test
+
+  frontend:
+    name: Frontend (build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: Frontend
+    env:
+      # La misma versión que usa la imagen local del frontend (Frontend/Dockerfile, con corepack).
+      PNPM_VERSION: 12.15.0
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+
+      - name: Instalar Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Instalar pnpm
+        run: npm install -g "pnpm@$PNPM_VERSION"
+
+      - name: Instalar las dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Compilar
+        run: pnpm build

@@ -113,7 +113,7 @@ Si el volumen de PostgreSQL ya existía antes de añadir la base de datos `testi
 ./vendor/bin/sail exec pgsql sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /docker-entrypoint-initdb.d/10-create-testing-database.sql'
 ```
 
-Más detalle en [docs/infra/entorno-local.md](docs/infra/entorno-local.md) §4 y [docs/backend/testing.md](docs/backend/testing.md). El frontend no tiene tests; se comprueba que compila con `docker compose run --rm kudos-frontend pnpm build` desde `Frontend/`.
+Más detalle en [docs/infra/entorno-local.md](docs/infra/entorno-local.md) §4 y [docs/backend/testing.md](docs/backend/testing.md). El frontend no tiene tests; se comprueba que compila con `docker compose run --rm kudos-frontend pnpm build` desde `Frontend/`. En GitHub, `.github/workflows/tests.yml` ejecuta estos tests contra PostgreSQL y compila el frontend en cada push y pull request ([docs/backend/testing.md](docs/backend/testing.md) §7).
 
 ---
 
