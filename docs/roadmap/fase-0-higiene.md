@@ -130,6 +130,31 @@
 - Test: los ítems sin votos quedan al final.
 - El JSON del ranking sigue incluyendo `vote_avg` y `vote_count`.
 
+**Notas:**
+- **Archivos creados** (`Backend/`):
+  - `database/migrations/2026_10_27_000000_add_bayes_score_to_items_table.php`;
+  - `tests/Feature/Ranking/BayesianRankingTest.php` (8 tests).
+- **Archivos modificados:**
+  - `app/Services/ItemStatsService.php`: `recalculate()` guarda `bayes_score`; nuevos `bayesScore()`, `categoryMean()`, `refreshCategoryMean()`, `categoryMeanCacheKey()` y la constante `CATEGORY_MEAN_TTL`;
+  - `app/Console/Commands/RecalculateItemStatsCommand.php` y `app/Jobs/RecalculateItemStatsJob.php` (solo el texto);
+  - `app/Models/Item.php` (`$attributes`, `$fillable`, `$casts` y rama `vote_avg` de `applySorting`) y `app/Models/Category.php` (`getRankingPaginator`);
+  - `config/kudos.php`: sección `ranking`;
+  - `tests/Concerns/CreatesItems.php` y `database/seeders/VoteSeeder.php`;
+  - docs: `base-de-datos.md` (§2 y §3) y `arquitectura.md` (§2).
+- **Migración:** se llama `add_bayes_score_to_items_table` y no `add_ranking_and_quality_to_items_table` (como decía `base-de-datos.md` §3), porque la F0-05 crea su propia migración con `quality_score` y R5 impide editar migraciones existentes. El documento ya está corregido (R1).
+- **`CreatesItems::createItem()` calcula `bayes_score`** a partir de `vote_avg`/`vote_count` con C igual al *fallback* (5.0), salvo que el test lo pase. Motivo: `CategoryRankingTest` escribe `vote_avg`/`vote_count` sin votos reales; con `bayes_score = 0` el orden saldría [A, C, B, D] en vez de [A, B, C, D]. Con C = 5 salen A = 7.667, B = 6.778, C = 6.333 y D = 0, y el test pasa sin tocarlo (R8).
+- **`VoteSeeder` calcula `bayes_score`:** escribe `vote_avg`/`vote_count` con `update()` directo, sin pasar por el servicio; sin este cambio, `migrate:fresh --seed` dejaría todos los `bayes_score` a 0. Lo cubre `test_el_seeder_de_votos_calcula_bayes_score`.
+- **C** excluye los votos de ítems borrados (soft delete) e incluye los de ítems inactivos. `bayes_score` se redondea a 4 decimales y el TTL de la caché es una constante del servicio (`CATEGORY_MEAN_TTL`, 3600 s), no una opción de `config`.
+- **Retraso de C:** como C se cachea 1 h, los votos en vivo usan una C con hasta 1 h de retraso; `items:recalculate-stats` la refresca antes de encolar.
+- **`sort_order=asc`** sigue respetándose: en ese caso los ítems sin votos (`bayes_score = 0`) salen primero.
+- **Pendiente de producción (no se ha tocado, R10):** los ítems existentes tienen `bayes_score = 0` hasta ejecutar `items:recalculate-stats` al desplegar, y eso necesita el worker de la cola `catalog` (F0-10).
+- **Test antes del arreglo:** `sail test --filter=BayesianRankingTest` daba `Tests: 8 failed (13 assertions)`; los fallos eran `Call to undefined method ItemStatsService::bayesScore()` / `categoryMeanCacheKey()` (los métodos aún no existían), así que no llegó a mostrar el orden [X, Y, Z] antiguo.
+- **Verificación:**
+  - `sail test --filter=BayesianRankingTest` → `Tests: 8 passed (53 assertions)`;
+  - `sail test` → `Tests: 1 incomplete, 48 passed (362 assertions)` (el incompleto es el `markTestIncomplete` de `ShowItemRequest`, anterior a esta tarea);
+  - contra `testing`: `migrate:fresh` (OK), `migrate:rollback --step=1` (OK, `hasColumn` = `false`) y `migrate` (OK, `hasColumn` = `true`);
+  - `grep -rn "orderByDesc('vote_avg')\|orderBy('vote_avg'" app/Models` → sin resultados.
+
 ---
 
 ## F0-05 · `quality_score` y exclusión de fichas pobres

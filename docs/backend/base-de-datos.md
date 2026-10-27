@@ -16,7 +16,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | `users` | `name` (no único), `email`, `email_verified_at`, `total_kudos`, `creations_accepted`, rachas, `is_banned`, `banned_until`, `ban_reason`, `banned_by` |
 | `profiles` | 1:1 con `users`: `avatar`, `biography`, `social_links` (jsonb), `city`, `birthdate` |
 | `categories` | `name` (único), `description` (NOT NULL), `slug` (único, clave de ruta), `image` |
-| `items` | `name`, `description` (text, **NOT NULL**), `images` (jsonb), `status` (`active`/`inactive`), `vote_avg` (float), `vote_count`, `creator_id` (nullable), `category_id`, borrado suave. Índices: `(status, vote_avg, vote_count)`, `(category_id, status)` y GIN trigram `items_name_trgm_idx(name)` |
+| `items` | `name`, `description` (text, **NOT NULL**), `images` (jsonb), `status` (`active`/`inactive`), `vote_avg` (float), `vote_count`, `bayes_score` (float, default 0), `creator_id` (nullable), `category_id`, borrado suave. Índices: `(status, vote_avg, vote_count)`, `(category_id, status)`, `(category_id, status, bayes_score)` y GIN trigram `items_name_trgm_idx(name)` |
 | `votes` | `type` (`vote`/`skip`, CHECK `votes_type_check`), `score` decimal(4,1) nullable, `user_id`, `item_id`. Único `votes_user_item_unique(user_id, item_id)`; índice `(item_id, type)` |
 | `item_comments` | `content`, `is_hidden`, `hidden_reason`, `hidden_by`, borrado suave |
 | `proposals` | La misma forma que `items` + `status`, `reviewed_by`, `admin_notes` |
@@ -25,14 +25,23 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 
 ## 3. Cambios por fase
 
-### Fase 0 (F0-04, F0-05): migración `add_ranking_and_quality_to_items_table`
+### Fase 0 (F0-04, F0-05): dos migraciones (R5 impide editar una migración ya creada)
+
+**`add_bayes_score_to_items_table`** (F0-04, hecha):
 
 | Columna | Tipo | Notas |
 |---|---|---|
-| `bayes_score` | float, default 0 | Fórmula en la F0-04 |
+| `bayes_score` | float, default 0 | Fórmula en la F0-04; la calcula `ItemStatsService` |
+
+Índice: `(category_id, status, bayes_score)`.
+
+**Migración de `quality_score`** (F0-05, la crea esa tarea):
+
+| Columna | Tipo | Notas |
+|---|---|---|
 | `quality_score` | smallInteger, default 0 | 0–100; reglas en la F0-05 |
 
-Índices: `(category_id, status, bayes_score)` y `(category_id, status, quality_score)`.
+Índice: `(category_id, status, quality_score)`.
 
 ### Fase 1 (F1-01)
 
