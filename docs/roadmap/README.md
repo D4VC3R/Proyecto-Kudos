@@ -14,7 +14,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-04 | Ranking bayesiano (`bayes_score`) | BE | F0-03 | hecho |
 | F0-05 | `quality_score` y excluir las fichas pobres de la cola y de los destacados | BE | F0-01 | hecho |
 | F0-06 | *Placeholder* generativo para ítems sin imagen | FE | — | hecho |
-| F0-07 | Ocultar secciones vacías en la ficha | FE | — | pendiente |
+| F0-07 | Ocultar secciones vacías en la ficha | FE | — | hecho |
 | F0-08 | Corregir las clases CSS sin definir | FE | — | pendiente |
 | F0-09 | Búsqueda global (cabecera y página `/buscar`) y slugs reservados | FE, BE | F0-01 | pendiente |
 | F0-10 | Servicio `scheduler`, cola `catalog` y memoria del worker en producción | INFRA | — | pendiente |

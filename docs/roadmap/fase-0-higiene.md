@@ -256,6 +256,18 @@
 
 **Hecho cuando:** una ficha sin descripción no muestra una caja vacía.
 
+**Notas:**
+- **Criterio:** el bloque "Acerca de…" solo se pinta si `hasText(item.description)` (string no vacío tras `trim()`); se muestra el texto recortado, para que `whitespace-pre-line` no deje líneas en blanco al principio y al final.
+- **Desviación: `lib/text.js`.** Es nuevo y no estaba en *Archivos*. Es lógica pura, sin React ni lucide, para poder probarla con `node` (no hay tests de frontend), como `lib/placeholder.js` en la F0-06.
+- **Revisión del resto de secciones:** la imagen nunca queda vacía (el *placeholder* de la F0-06 en `ItemImage`); el creador sigue protegido con `item.creator &&`; la insignia de nota siempre tiene contenido (`0.0 (0 votos)`); `ItemCard` no tiene secciones que puedan quedar vacías (imagen con *placeholder* como `fallback`, nota con `-.-`, nombre obligatorio en base de datos), así que **no se ha tocado**.
+- **Fuera de alcance (R6):** `AdminItemCard` pinta `item.description` sin comprobarlo, pero es del panel de administración.
+- **Sin cambios de JSON (R7)** ni de backend.
+- **Verificación:**
+  - `docker compose run --rm kudos-frontend pnpm build` → `✓ built in 2.99s`, sin errores;
+  - comprobación en Node de `hasText` (nulo, `undefined`, `''`, espacios, tabuladores y saltos de línea, número, objeto, texto con y sin espacios exteriores): `OK hasText 9`;
+  - `grep` estático: el import, la constante `description`, `{description && (` y `{item.creator && (` aparecen en `ItemDetailColumn.jsx`, y `{item.description}` ya no.
+- **Sin prueba manual en el navegador:** el entorno del agente no la permite; la comprobación visual de una ficha sin descripción queda para la revisión humana.
+
 ---
 
 ## F0-08 · Clases CSS sin definir

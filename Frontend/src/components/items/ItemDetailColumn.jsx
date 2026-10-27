@@ -1,8 +1,12 @@
 import React from 'react';
 import { Star, Info } from 'lucide-react';
 import ItemImage from './ItemImage.jsx';
+import { hasText } from '../../lib/text.js';
 
 const ItemDetailColumn = ({ item }) => {
+  // Los ítems sin descripción (p. ej. importados) no muestran la caja "Acerca de…".
+  const description = hasText(item.description) ? item.description.trim() : null;
+
   return (
     <div className="flex flex-col h-full w-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 p-6 md:p-8 lg:overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
 
@@ -30,14 +34,16 @@ const ItemDetailColumn = ({ item }) => {
         <ItemImage item={item} showTitle={false} />
       </div>
 
-      <div className="prose prose-slate max-w-none mt-auto shrink-0">
-        <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6">
-          <h3 className="text-lg font-bold text-slate-800 mb-3">Acerca de {item.name}:</h3>
-          <p className="whitespace-pre-line text-lg text-slate-700 font-medium leading-relaxed">
-            {item.description}
-          </p>
+      {description && (
+        <div className="prose prose-slate max-w-none mt-auto shrink-0">
+          <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6">
+            <h3 className="text-lg font-bold text-slate-800 mb-3">Acerca de {item.name}:</h3>
+            <p className="whitespace-pre-line text-lg text-slate-700 font-medium leading-relaxed">
+              {description}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
