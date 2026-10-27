@@ -29,6 +29,7 @@ sail artisan migrate
 ```
 
 - `WWWUSER`/`WWWGROUP` = 1000 en `.env.example`. Si `id -u`/`id -g` dan otro valor, cámbialos antes de `sail up`.
+- `APP_SERVICE=kudos-app` en `.env`: el servicio de la app no se llama `laravel.test` (el nombre que Sail usa por defecto). Sin esa variable, `sail artisan` y `sail test` fallan con `service "laravel.test" is not running`.
 - **Sembrado.** `sail artisan db:seed` siembra el catálogo **antiguo** (~4.400 ítems, descargando imágenes: tarda mucho). En la Fase 0 no hace falta: los tests usan factories. Desde la F1-10, la secuencia es:
   ```bash
   sail artisan migrate:fresh --seed
@@ -38,7 +39,7 @@ sail artisan migrate
 - **URLs:**
   - API: `http://localhost:8095/api`;
   - Mailpit: `http://localhost:8025`;
-  - PostgreSQL: `localhost:5432` (`sail` / `password` / `kudos_db`).
+  - PostgreSQL: `localhost:5432`, base de datos `kudos_db`, con el `DB_USERNAME`/`DB_PASSWORD` de tu `.env`.
 - **Colas:** `QUEUE_CONNECTION=sync` en local, así que los jobs se ejecutan en la misma petición. Para probar colas reales: `QUEUE_CONNECTION=database` + `sail artisan queue:work --queue=default,catalog`.
 - **Tareas programadas:** `sail artisan schedule:list`, `schedule:work` o `schedule:run`.
 - **Verificación de email:** `AUTH_EMAIL_VERIFICATION=false` por defecto. Las cuentas nuevas nacen verificadas.
@@ -48,9 +49,9 @@ sail artisan migrate
 
 La configuración de `phpunit.xml` está en [../backend/testing.md](../backend/testing.md) §1.
 
-- `compose.yml` monta `docker/pgsql/create-testing-database.sql` (F0-01), pero ese script **solo se ejecuta al crear el volumen**. El volumen `backend_sail-pgsql` ya existe, así que crea la base de datos a mano una vez:
+- `compose.yml` monta `docker/pgsql/create-testing-database.sql` (F0-01), pero ese script **solo se ejecuta al crear el volumen**. Si el volumen `backend_sail-pgsql` ya existía, ejecútalo a mano una vez (es idempotente y usa el usuario con el que se creó el volumen):
   ```bash
-  sail exec pgsql psql -U sail -d kudos_db -c "CREATE DATABASE testing;"
+  sail exec pgsql sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /docker-entrypoint-initdb.d/10-create-testing-database.sql'
   ```
 - Ejecución:
   ```bash

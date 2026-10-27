@@ -37,6 +37,8 @@ services:
     volumes:
       # PostgreSQL 18+ guarda los datos en /var/lib/postgresql/<versión>/docker: el volumen va en el directorio padre.
       - 'sail-pgsql:/var/lib/postgresql'
+      # Crea la base de datos 'testing' (solo se ejecuta al crear el volumen).
+      - './docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
     networks:
       - sail
     healthcheck:

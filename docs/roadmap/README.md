@@ -8,7 +8,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 
 | ID | Tarea | Resp. | Depende de | Estado |
 |---|---|---|---|---|
-| F0-01 | Tests sobre PostgreSQL: configuración, `TestCase` con protección | INFRA, QA | — | pendiente |
+| F0-01 | Tests sobre PostgreSQL: configuración, `TestCase` con protección | INFRA, QA | — | hecho |
 | F0-02 | Batería base de tests de votos, kudos, ranking e ítems | QA, BE | F0-01 | pendiente |
 | F0-03 | Medias exactas: corregir el truncado de medios puntos y recalcular con `AVG` | BE | F0-01 | pendiente |
 | F0-04 | Ranking bayesiano (`bayes_score`) | BE | F0-03 | pendiente |

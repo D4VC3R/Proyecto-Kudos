@@ -13,13 +13,21 @@
 **Pasos:**
 1. `phpunit.xml`: sustituye `DB_CONNECTION=sqlite` / `DB_DATABASE=:memory:` por `pgsql` / `testing`, ambos con `force="true"` (bloque completo en testing §1).
 2. `compose.yml`, servicio `pgsql`: monta `./docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql` (el script ya existe).
-3. Crea `tests/TestCase.php` **exactamente** con la protección de testing §3 (en `beforeRefreshingDatabase()`, no en `setUp()`), y las carpetas `tests/Unit/`, `tests/Fixtures/` y `tests/Concerns/` (`tests/Feature/` ya existe, vacía).
+3. Crea `tests/TestCase.php` **exactamente** con la protección de testing §3 (en `setUpTraits()`, ni en `setUp()` ni en `beforeRefreshingDatabase()`), y las carpetas `tests/Unit/`, `tests/Fixtures/` y `tests/Concerns/` (`tests/Feature/` ya existe, vacía).
 4. Crea los helpers `seedRolesAndPermissions()`, `actingAsUser()` y `actingAsAdmin()` (testing §3).
 5. Escribe un *smoke test*: `GET /up` → 200; `GET /api/categories` → 200 con un JSON válido.
 
 **Hecho cuando:**
 - `sail test` pasa.
-- Con `DB_DATABASE=kudos_db` forzado, los tests abortan con el mensaje de protección **y** el número de filas de `items` en `kudos_db` es el mismo antes y después. Pruébalo a mano y deshaz el cambio.
+- `Backend/scripts/verify-test-db-guard.sh` termina en `OK`: con otra base de datos forzada (un señuelo con una tabla `items`), los tests abortan con el mensaje de protección **y** el número de filas del señuelo es el mismo antes y después.
+
+**Notas:**
+- **Protección en `setUpTraits()`, no en `beforeRefreshingDatabase()`.** El código original de testing §3 no funcionaba: el método de un trait tiene prioridad sobre el heredado, así que el `beforeRefreshingDatabase()` vacío de `RefreshDatabase` tapaba el de `TestCase`. Con `: void` daba un error fatal de firma, y sin él la protección no se habría ejecutado nunca. `setUpTraits()` corre con la configuración cargada y antes de `RefreshDatabase`, `DatabaseMigrations` y `DatabaseTruncation`. testing §3 queda corregido.
+- **`DatabaseProtectionTest`:** test extra que comprueba que los tests usan `testing` y que la protección lanza la excepción con otra base de datos (solo cambia la configuración en memoria, sin conectarse a `kudos_db`).
+- **Helpers** en `tests/Concerns/InteractsWithUsers.php`. `actingAsUser()` no asigna rol porque el registro tampoco lo hace (solo `UserSeeder` asigna `user`). `seedRolesAndPermissions()` fuerza el guard `web` al sembrar: tras `Sanctum::actingAs()` el guard por defecto es `sanctum` y los roles se creaban con ese guard, así que `assignRole('admin')` fallaba.
+- **`APP_SERVICE=kudos-app`:** no estaba en `.env.example`, y sin esa variable `sail test` y `sail artisan` fallan (`service "laravel.test" is not running`). Se añade con valor porque no es un secreto ni se usa en producción. entorno-local §3 queda actualizado.
+- **Credenciales:** el `.env` local puede no usar `sail`/`password` (el volumen existente se creó con otro usuario). entorno-local §4 ahora crea `testing` con el script montado y `$POSTGRES_USER`.
+- **Prueba de la protección automatizada:** en lugar de forzar `kudos_db` (arriesga los datos de desarrollo y el entorno de permisos del agente lo bloquea), `scripts/verify-test-db-guard.sh` usa una base de datos señuelo desechable. Es equivalente, porque la protección rechaza cualquier nombre distinto de `testing`. Control negativo: con la protección comentada, el señuelo pasa de 3 filas a 0 y el script devuelve `FALLO`.
 
 ---
 

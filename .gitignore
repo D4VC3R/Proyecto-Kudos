@@ -9,6 +9,7 @@
 /Backend/.env.production
 /Backend/storage/*.key
 /Backend/.phpunit.result.cache
+/Backend/phpunit.guard.xml
 /Backend/auth.json
 /Backend/storage/framework/cache/data/*
 /Backend/storage/framework/sessions/*
