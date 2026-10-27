@@ -1,17 +1,10 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
 # ⚙️ Proyecto Kudos - Backend
 
-<img src="https://skillicons.dev/icons?i=laravel,php,mysql,redis,docker" alt="Backend Stack" />
+<img src="https://skillicons.dev/icons?i=laravel,php,postgres,redis,docker" alt="Backend Stack" />
 
-> Backend API de Kudos construido con Laravel 12. Gestiona la autenticación por token (Sanctum), autorización por roles (Spatie), verificación de email, votación, creación de ítems, el sistema de puntos (Kudos) y el panel de administración con moderación y baneos.
+> Backend API de Kudos construido con Laravel 12 (PHP 8.5) sobre PostgreSQL 18 y Redis. Gestiona la autenticación por token (Sanctum), autorización por roles (Spatie), verificación de email, votación, creación de ítems, el sistema de puntos (Kudos) y el panel de administración con moderación y baneos.
 
 ## Objetivo de arquitectura
 
@@ -29,30 +22,36 @@ No se utilizan Repositorios ni Query objects; Eloquent y los Models se usan de f
 
 ```text
 app/
-  Actions/               # operaciones transaccionales únicas (ej: EmitVoteAction)
+  Actions/               # operaciones transaccionales únicas (ej: EmitVoteAction, ReviewProposalAction)
+  Console/Commands/      # comandos de Artisan (items:recalculate-stats, items:recalculate-quality)
+  Contracts/Media/       # interfaces de almacenamiento y procesado de imágenes
   Http/
-    Controllers/         # capa HTTP
+    Controllers/         # capa HTTP, agrupada por dominio (Admin, Auth, Category, Item, Proposal, User, Vote)
     Requests/            # validación de entrada
     Middleware/          # políticas transversales (admin, verified, not_banned)
     Resources/           # serialización y formato de respuestas JSON
+  Jobs/                  # trabajos en cola (imágenes, recálculo de medias y de calidad)
   Models/                # entidades Eloquent
+  Notifications/         # notificaciones de autenticación
   Policies/              # autorización detallada por modelo
   Providers/             # configuración de servicios de Laravel
-  Services/              # dominio/orquestación y reglas de negocio reutilizables
+  Rules/                 # reglas de validación propias
+  Services/              # dominio/orquestación y reglas de negocio reutilizables (Media/ para imágenes)
 routes/
   api.php                # rutas de la api (públicas, autenticadas y admin)
   auth.php               # login/register/logout/verificación
+  console.php            # comandos de consola y tareas programadas
 ```
 
 ## Módulos de negocio
 
-### 0) Metadatos por categoria y comentarios
+### 0) Comentarios
 
 - Comentarios de usuarios en items con moderación admin (`hide` / `unhide`).
 
 Piezas clave:
 - `app/Models/ItemComment.php`
-- `app/Http/Controllers/ItemCommentController.php`
+- `app/Http/Controllers/Item/ItemCommentController.php`
 
 ### 1) Autenticación y sesiones
 
@@ -93,8 +92,8 @@ Piezas clave:
 - Auditoría de moderación por logs.
 
 Piezas clave:
-- `app/Services/ProposalService.php`
-- `app/Actions/Admin/Proposals/ReviewProposalAction.php`
+- `app/Actions/ReviewProposalAction.php`
+- `app/Http/Controllers/Proposal/ProposalController.php`
 - `app/Services/ModerationAuditLogger.php`
 
 ### 4) Administración
@@ -117,9 +116,9 @@ Incluye gestión de usuarios, items y propuestas:
   - ocultar / restaurar comentarios de items
 
 Piezas clave:
-- `app/Http/Controllers/AdminUserController.php`
-- `app/Http/Controllers/AdminItemController.php`
-- `app/Http/Controllers/ProposalController.php` (bloque admin)
+- `app/Http/Controllers/Admin/AdminUserController.php`
+- `app/Http/Controllers/Admin/AdminItemController.php`
+- `app/Http/Controllers/Proposal/ProposalController.php` (bloque admin)
 
 ## Estándares de Arquitectura y Patrones Implementados
 
@@ -203,11 +202,30 @@ Categorías cubiertas por snapshots locales:
 
 ### Entorno local (Docker)
 
+Todo se ejecuta con Laravel Sail, desde `Backend/` (sin alias, con `./vendor/bin/sail`). El paso a paso está en [../docs/infra/entorno-local.md](../docs/infra/entorno-local.md).
+
 ```bash
-php artisan migrate:fresh --seed
-php artisan storage:link
-php artisan route:list
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan migrate:fresh --seed
+./vendor/bin/sail artisan storage:link
+./vendor/bin/sail artisan route:list
+./vendor/bin/sail artisan kudos:audit-consistency   # audita users.total_kudos frente al ledger (--fix para reconciliar)
 ```
+
+`migrate:fresh --seed` siembra el catálogo antiguo y descarga imágenes, así que tarda (entorno-local §3).
+
+### Tests
+
+Los tests son de PHPUnit y se ejecutan siempre con Sail, contra la base de datos PostgreSQL `testing`: nunca SQLite ni la base de datos de desarrollo.
+
+```bash
+./vendor/bin/sail up -d
+./vendor/bin/sail test                          # todos los tests
+./vendor/bin/sail test --filter=EmitVoteTest    # un archivo o un test
+```
+
+- `scripts/verify-test-db-guard.sh` (desde `Backend/`) comprueba la protección de `tests/TestCase.php`; ejecútalo si cambias `TestCase.php`, `phpunit.xml` o los traits de base de datos.
+- Más detalle en [../docs/backend/testing.md](../docs/backend/testing.md).
 
 ## Convención de desarrollo del proyecto
 
@@ -224,4 +242,4 @@ Para el desarrollo de nuevas funcionalidades:
 
 - Contrato JSON de respuestas y errores: `docs/api-contract.md`
 - Referencia completa de endpoints y flujos: `docs/api-reference.md`
-- Colección Postman: `docs/postman/Proyecto-Kudos.postman_collection.json`
+- Documentación del rediseño (Kudos 2.0): [../docs/README.md](../docs/README.md)

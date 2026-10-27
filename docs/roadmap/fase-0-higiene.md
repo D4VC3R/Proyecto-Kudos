@@ -404,6 +404,34 @@
 
 **Hecho cuando:** cada afirmación coincide con `composer.json`, `package.json` y la estructura real.
 
+**Notas:**
+- **Archivos tocados:** `README.md`, `Backend/README.md` y esta ficha. No se ha tocado `docs/infra/entorno-local.md` ni `docs/backend/testing.md` (ya estaban al día), ni código, ni variables (R9).
+- **`README.md` (raíz), afirmaciones corregidas:**
+  - Pila: Laravel 12 (`composer.json` `^12.0`), PHP 8.5 (imagen `docker/8.5`), PostgreSQL 18 (`postgres:18-alpine` en `compose.yml` y `compose.prod.yml`), Redis, React 18, Vite 6, Tailwind 3 y pnpm con Node 22 (`Frontend/package.json` y `Frontend/Dockerfile`). El icono `mysql` pasa a `postgres`.
+  - Librerías: se quitan "Spatie Media Library" y "Laravel Telescope", que no están en `composer.json`; se añaden Spatie Laravel Permission, las herramientas de desarrollo (Breeze, Sail, Pint, PHPUnit 11) y las dependencias del frontend que faltaban (TanStack Query, clsx, tailwind-merge).
+  - Árbol: se quita `storage/media-library` (no existe) y se añaden `.github/workflows/`, `docs/`, `deploy/`, `deploy.sh`, `Backend/scripts/`, `Backend/docker/prod`, `Backend/routes`, `app/Console`, `app/Jobs`, `app/Notifications`, `tests/Concerns`, `tests/Unit` y `tests/Fixtures`.
+  - Secciones nuevas: aviso de Kudos 2.0, "Puesta en marcha", "Tests" (Sail contra PostgreSQL `testing`) y "Documentación" (enlaces a `docs/`, `Backend/docs/`, `Frontend/README.md` y `deploy/README.md`).
+- **Insignias quitadas, por qué:** "build passing" era falsa (el único workflow es `docs.yml`; el CI de tests es la F0-13); "version 1.0.0" no coincide con `Frontend/package.json` (0.1.0); "license MIT" no tiene respaldo (no hay archivo `LICENSE`). En `Backend/README.md` se quita el bloque de insignias de `laravel/framework` (el "Build Status" era el CI del framework, no el de Kudos); se conserva el logo de Laravel.
+- **Postman quitado:** la referencia a la colección (`docs/postman/Proyecto-Kudos.postman_collection.json`) y el icono de Postman, porque la colección no existe.
+- **`Backend/README.md`, afirmaciones corregidas:**
+  - Icono `mysql` → `postgres` y la introducción cita PHP 8.5, PostgreSQL 18 y Redis.
+  - "Estructura principal" con el árbol real (`Console/Commands`, `Contracts/Media`, `Jobs`, `Notifications`, `Rules`, `Services/Media` y `routes/console.php`).
+  - Módulo 0: "Metadatos por categoria y comentarios" → "Comentarios" (`Category` solo tiene `name`, `description`, `slug` e `image`).
+  - `app/Services/ProposalService.php` **no existe**: se quita de las piezas clave del módulo 3.
+  - Rutas de controladores corregidas: `Item/ItemCommentController.php`, `app/Actions/ReviewProposalAction.php`, `Admin/AdminUserController.php`, `Admin/AdminItemController.php` y `Proposal/ProposalController.php`.
+  - "Entorno local": los comandos pasan de `php artisan` en el host a `./vendor/bin/sail artisan …` (R2); se añaden `sail up -d` y `kudos:audit-consistency`, y la nota de que `migrate:fresh --seed` tarda.
+  - Sección nueva "Tests" (con `scripts/verify-test-db-guard.sh`) y enlace a `../docs/README.md` en "Documentación de contrato API".
+- **Fuera de alcance (R6), sin tocar:** `Frontend/README.md` dice `VITE_STORAGE_URL=http://localhost:8095/api/storage`, pero `Frontend/.env.example` tiene `http://localhost:8095/storage/`. Conviene corregirlo en otra tarea.
+- **Sin CI de tests:** el README no afirma que exista; lo trae la F0-13.
+- **Verificación:**
+  - `grep -niE "mysql|media library|media-library|telescope|postman|ProposalService|Actions/Admin/Proposals|badge/build|version-1\.0\.0|php artisan" README.md Backend/README.md` → sin salida (exit 1).
+  - Enlaces relativos de ambos README → 18 líneas, todas `OK`.
+  - Rutas citadas en `Backend/README.md` (15) → sin `FALTA`.
+  - Manifiestos: `composer.json` → 3 (sanctum, permission, intervention); `package.json` → 11.
+  - Directorios del árbol raíz (incluido `deploy.sh`, comprobado con `git ls-files`) → todos existen.
+  - `sail test` → `Tests: 1 incomplete, 80 passed (476 assertions)` (el incompleto es el de `ShowItemRequest`, anterior a la tarea).
+  - `git status --short` → `README.md`, `Backend/README.md`, `docs/roadmap/fase-0-higiene.md` y el tablero `docs/roadmap/README.md`.
+
 ---
 
 ## F0-13 · CI con GitHub Actions
