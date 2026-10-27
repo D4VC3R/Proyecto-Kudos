@@ -319,6 +319,26 @@
 
 **Hecho cuando:** buscar "mat" encuentra "Matrix" desde cualquier página; `/buscar` no se trata como categoría; una categoría con slug `buscar` da 422.
 
+**Notas:**
+- **`reserved_slugs`** (`Backend/config/catalog.php`): `buscar`, `ranking`, `admin`, `profile`, `my-proposals`, `forbidden`, `404`, `login`, `register`, `verify-email`, `forgot-password`, `password-reset` (rutas de primer nivel actuales, `404` incluido) y `wishlist`, `u`, `listas`, `privacidad`, `aviso-legal` (previstas en frontend §2). La comparación no distingue mayúsculas (React Router tampoco las distingue). Al añadir una ruta de primer nivel hay que añadirla a la lista.
+- **Desviación: `App\Rules\NotReservedSlug`.** Archivo nuevo, no previsto en *Archivos*: una regla reutilizable (patrón de `FileOrUrlRule`) que usan `StoreCategoryRequest` y `UpdateCategoryRequest`. Como `prepareForValidation` genera el slug a partir del nombre, un nombre como "Buscar" o "Admin" también da 422 con `error.details.slug`. Los requests conservan su indentación (tabulador + 8 espacios en `Store`, tabuladores en `Update`).
+- **`search` con `min:2`** en `ListItemsRequest`, con el mensaje "La búsqueda debe tener al menos 2 caracteres." No cambia el JSON (R7): solo se añade una validación.
+- **`useFilters`:** parámetro nuevo `minSearchLength` (por defecto 1) y `setSearchInput` añadido al objeto devuelto. Con el valor por defecto, las páginas de admin se comportan igual (salvo que el término se recorta; Laravel ya lo recortaba en el servidor con `TrimStrings`). Explorar y la búsqueda global usan `MIN_SEARCH_LENGTH` (2), así que no envían búsquedas de 1 carácter (que ahora darían 422 y mostrarían "Problemas de conexión").
+- **Desviación: `lib/search.js`.** Archivo nuevo. Lógica pura, sin React, para probarla con `node` (no hay tests de frontend), como `lib/placeholder.js` y `lib/text.js`: `MIN_SEARCH_LENGTH`, `normalizeSearchTerm` (cuenta puntos de código, como `mb_strlen`), `buildSearchUrl`, `buildItemUrl` y `groupItemsByCategory`.
+- **`GlobalSearch`** (`components/layout/`, lógica en `hooks/common/useGlobalSearch.js`): *debounce* de 300 ms, vista previa de 6 resultados (`useItems` con `per_page: 6`, `keepPreviousData`, `staleTime` de 1 min), Enter → `/buscar?q=` con el texto actual (sin esperar al *debounce*) y "Ver todos los resultados" al final del desplegable. Escape y el `blur` lo cierran; `onMouseDown` con `preventDefault` evita que el `blur` lo cierre antes del clic. Posición: en `MainHeader` a la derecha de la navegación, solo desde `md` (`hidden md:block`, `md:max-w-[14rem] lg:max-w-xs`, `min-w-0` para que encoja antes que la navegación); en móvil, como primer elemento del menú de `NavBarMobile` (al navegar lo cierra).
+- **`SearchPage` / `useSearchPage`:** consulta infinita de 24 por página, agrupada por categoría **en el orden en que aparece cada una por primera vez**. El orden dentro de `/api/items` es el de siempre (`bayes_score`), sin relevancia por coincidencia. Estados: sin término (o menor de 2 caracteres), carga (`Skeleton`), error, sin resultados y resultados. Ruta pública `/buscar` entre `/ranking` y `/:categorySlug`.
+- **Tests que fallaban antes del cambio** (7 de 14): 6 de los 8 de slug reservado (los dos que ya pasaban son "un slug no reservado se sigue aceptando" y "actualizar sin tocar el slug") y `test_una_busqueda_de_un_caracter_da_422` (200 en vez de 422). Los de búsqueda global sin categoría, `per_page` y *eager loading* (1 sola consulta a `categories`) ya pasaban antes: la ficha solo pedía verificarlo.
+- **Hallazgo fuera de alcance (R6):** `scopeApplyFilters` (`Item.php`) no escapa `%` ni `_` en el `ilike`, así que buscar `%` o `_` devuelve todos los ítems. Candidato a una tarea posterior.
+- **Sin migraciones (R5), sin variables de entorno (R9), sin dependencias nuevas** (`package.json` y `pnpm-lock.yaml` sin tocar) y sin cambios de JSON (R7).
+- **Sin prueba manual en el navegador:** el entorno del agente no la permite. Queda para la revisión humana: cabecera en `md` y `lg` (invitado y con sesión iniciada, por si el buscador aprieta a `UserInfo`), menú móvil, desplegable de resultados y `/buscar` (con resultados, sin resultados y sin término).
+- **Verificación:**
+  - antes del arreglo, `sail test --filter='ItemSearchTest|ReservedCategorySlugTest'` → `Tests: 7 failed, 7 passed (27 assertions)`;
+  - después, `Tests: 14 passed (66 assertions)`;
+  - `sail test` → `Tests: 1 incomplete, 80 passed (476 assertions)` (antes: `1 incomplete, 67 passed`; el *incomplete* es el de `ItemDetailTest` anotado en la F0-02);
+  - `docker compose run --rm kudos-frontend pnpm build` → `✓ 2372 modules transformed … ✓ built in 2.97s`, sin errores;
+  - comprobación en Node de `lib/search.js` → `OK search`; `matchRoutes` con `/:categorySlug` antes de `/buscar` → `OK ruta /buscar {}`;
+  - `grep`: `GlobalSearch` en `MainHeader.jsx` y `NavBarMobile.jsx`; `MainHeader` montado en `App.jsx` (todas las páginas); `minSearchLength` en `useExplorePage.js`; `git diff --stat rediseno-fase-0 -- Frontend/package.json Frontend/pnpm-lock.yaml` → sin salida.
+
 ---
 
 ## F0-10 · Scheduler, colas y memoria en producción

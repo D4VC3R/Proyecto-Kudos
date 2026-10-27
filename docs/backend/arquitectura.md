@@ -38,7 +38,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
   - `adminApplyFilters` y `adminApplySorting`;
   - `STATUS_ACTIVE` y `STATUS_INACTIVE`.
 - `app/Models/Category.php`: `getRankingPaginator()` ordena por `bayes_score`, `vote_count` y `name`; la clave de ruta es `slug`.
-- `app/Http/Controllers/Item/ItemController.php`: `index` usa `ListItemsRequest`, la categoría es opcional y ya hace *eager loading* de `category`.
+- `app/Http/Controllers/Item/ItemController.php`: `index` usa `ListItemsRequest` (que valida `search` con `min:2`, F0-09), la categoría es opcional y ya hace *eager loading* de `category`.
 - Resources: `ItemListResource`, `ItemDetailResource`, `ItemMinimalResource`, `CategoryResource`, `CategoryRankingResource` y `CategoryWithItemsResource`. `user_vote` (`id`, `score`, `voted_at`) y `can_vote` (false si existe cualquier voto) salen de la relación `userVote`.
 - `items.creator_id` es nullable: los ítems importados no tienen creador.
 
@@ -48,7 +48,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 - `kudos:audit-consistency [--fix]` es un *closure* en `routes/console.php`.
 - `items:recalculate-stats {--category=slug} {--chunk=200}` (`app/Console/Commands/RecalculateItemStatsCommand.php`) primero refresca C de las categorías afectadas (`refreshCategoryMean`) y después encola un `RecalculateItemStatsJob` por bloque en la cola `catalog`. Está programado a diario a las 03:00 en `routes/console.php`.
 - `items:recalculate-quality {--category=slug} {--chunk=200}` (`app/Console/Commands/RecalculateItemQualityCommand.php`) encola un `RecalculateItemQualityJob` por bloque en la cola `catalog`; el job escribe con `DB::table` (sin eventos ni `updated_at`). Programado los lunes a las 03:30.
-- `config/catalog.php`: `min_quality_for_discovery` (40) y `template_description_patterns`; la F0-09 y la F1-02 lo amplían.
+- `config/catalog.php`: `min_quality_for_discovery` (40), `template_description_patterns` y `reserved_slugs` (F0-09: slugs de categoría prohibidos por coincidir con rutas de primer nivel del frontend; se valida con `App\Rules\NotReservedSlug` en `StoreCategoryRequest` y `UpdateCategoryRequest`); la F1-02 lo amplía.
 
 **Propuestas y moderación**
 - `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`. No existe un `ProposalService`.

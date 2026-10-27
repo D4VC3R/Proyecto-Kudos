@@ -17,15 +17,15 @@ Las rutas son relativas a `Frontend/src/`.
 | `core/` | `axiosClient.js` (`VITE_API_URL`, token Bearer), `queryClient.js`, `AppErrorBoundary.jsx` |
 | `store/useSessionStore.js` | Sesión (Zustand) |
 | `routes/routes.jsx`, `routes/guards/` | Rutas y guardas: invitado, autenticado + verificado, admin |
-| `pages/` | Una página por ruta: `HomePage`, `CategoryPage`, `ExplorePage`, `ItemDetailPage`, `VotePage`, `RankingPage`, `NewProposalPage`, `auth/`, `profile/`, `admin/` |
+| `pages/` | Una página por ruta: `HomePage`, `CategoryPage`, `ExplorePage`, `ItemDetailPage`, `VotePage`, `RankingPage`, `SearchPage`, `NewProposalPage`, `auth/`, `profile/`, `admin/` |
 | `hooks/pages/useXPage.js` | Cada página tiene su hook, que devuelve `{ state, actions }`; la página solo pinta |
 | `hooks/<dominio>/` | Consultas y mutaciones de React Query: `items/useItemQueries.js`, `votes/useVoteMutations.js`, `useVoteQueries.js`… |
-| `hooks/common/` | `useFilters` (búsqueda con *debounce*), `useInfiniteScroll`, `useModal`, `usePointerScore`, `useBaseMutation` |
+| `hooks/common/` | `useFilters` (búsqueda con *debounce*; `minSearchLength` fija la longitud mínima que se envía), `useGlobalSearch` (buscador de la cabecera), `useInfiniteScroll`, `useModal`, `usePointerScore`, `useBaseMutation` |
 | `components/ui/` | `Button`, `Modal`, `StorageImage` (props `fallbackIcon`, `fallback` y `onError`), `ItemPlaceholder` (degradado, icono e iniciales; variantes `card`/`banner`/`thumb`), `ActionMenu`, `SearchFilter`, `SelectFilter`, `Pagination`, `FeedbackState`, `skeletons/`, `ranking/` |
 | `components/items/` | `ItemCard`, `ItemImage` (16:9, fondo del color dominante; muestra `ItemPlaceholder` si no hay imagen o falla), `ItemDetailColumn`, `InfiniteItemSlider` |
 | `components/votes/` | `VoteStars` (10 estrellas con medios puntos), botones de voto, "Mis votos" |
-| `components/layout/` | `MainHeader`, `NavBar`, `NavBarMobile`, `Footer` |
-| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `text.js` (`hasText`, para no pintar secciones vacías). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
+| `components/layout/` | `MainHeader`, `NavBar`, `NavBarMobile`, `GlobalSearch` (buscador de la cabecera y del menú móvil), `Footer` |
+| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `text.js` (`hasText`, para no pintar secciones vacías), `search.js` (`MIN_SEARCH_LENGTH`, `normalizeSearchTerm`, `buildSearchUrl`, `buildItemUrl`, `groupItemsByCategory`). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
 
 ## 2. Rutas
 
@@ -38,10 +38,11 @@ Las rutas son relativas a `Frontend/src/`.
 | `/:categorySlug/vote` | Votación de un ítem cada vez | Login y verificado |
 | `/:categorySlug/proposals/...`, `/profile`, `/my-proposals` | Propuestas y perfil | Login y verificado |
 | `/ranking` | Ranking global de kudos | Público |
+| `/buscar` | Resultados de búsqueda agrupados por categoría | Público |
 | `/admin/*` | Administración | Admin |
 | `/login`, `/register`, `/verify-email`, `/forgot-password`, `/password-reset/:token` | Autenticación | Invitados |
 
-**Slugs reservados.** React Router 7 elige la ruta por especificidad: `/buscar` gana a `/:categorySlug` sin importar el orden. El riesgo real es una categoría cuyo slug coincida con una ruta de primer nivel, porque quedaría inaccesible. La lista vive en `config/catalog.php` → `reserved_slugs` y se valida en `StoreCategoryRequest`/`UpdateCategoryRequest` (F0-09). Al añadir una ruta de primer nivel (`/buscar`, `/wishlist`, `/u/:username`, `/listas/...`, `/privacidad`, `/aviso-legal`), añádela a esa lista.
+**Slugs reservados.** React Router 7 elige la ruta por especificidad: `/buscar` gana a `/:categorySlug` sin importar el orden. El riesgo real es una categoría cuyo slug coincida con una ruta de primer nivel, porque quedaría inaccesible. La lista ya existe (F0-09): vive en `config/catalog.php` → `reserved_slugs` y se valida en `StoreCategoryRequest`/`UpdateCategoryRequest` con `App\Rules\NotReservedSlug`. Incluye las rutas de primer nivel actuales (`buscar`, `ranking`, `admin`, `profile`, `login`…) y las previstas (`wishlist`, `u`, `listas`, `privacidad`, `aviso-legal`), y la comparación no distingue mayúsculas. Al añadir una ruta de primer nivel, añádela a esa lista.
 
 ## 3. Estilos
 
