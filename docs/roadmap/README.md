@@ -26,7 +26,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-16 | Evitar el *deadlock* al votar el mismo ítem | BE | F0-03 | hecho |
 | F0-17 | La cola de votación no ofrece ítems ya votados | BE | F0-05 | hecho |
 | F0-18 | `Http::preventStrayRequests()` para todos los tests | QA | F0-02 | hecho |
-| F0-19 | Herramientas: `composer.lock`, Sail en PHP 8.5.12 y pnpm fijado | INFRA | F0-13 | pendiente |
+| F0-19 | Herramientas: `composer.lock`, Sail en PHP 8.5.12 y pnpm fijado | INFRA | F0-13 | hecho |
 | F0-20 | Accesibilidad del buscador global | FE | F0-09 | pendiente |
 | F0-21 | Limpieza menor de la Fase 0 | FE, BE, DOCS | F0-08 | pendiente |
 | F0-22 | Licencia MIT | DOCS | — | pendiente |
