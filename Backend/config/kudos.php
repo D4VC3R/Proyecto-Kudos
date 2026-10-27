@@ -22,6 +22,16 @@ return [
 		'daily_cap' => 50,
 	],
 
+    // Ranking bayesiano (F0-04): bayes = (v·R + m·C) / (v + m) si v > 0; 0 si v = 0.
+    // v = vote_count, R = vote_avg, C = media de los votos de la categoría (cacheada 1 h en category-mean:{id}).
+    'ranking' => [
+        // m: votos "virtuales" con la media de la categoría que se suman a cada ítem.
+        // Cuanto mayor es, más votos necesita un ítem para separarse de la media de su categoría.
+        'bayes_min_votes' => 5,
+        // C que se usa cuando la categoría todavía no tiene ningún voto.
+        'category_mean_fallback' => 5.0,
+    ],
+
     'rules' => [
         'daily_login_streak_cap' => 5,
     ],

@@ -82,7 +82,7 @@ class Category extends Model
     }
 
     /**
-     * Obtiene el ranking paginado de los ítems de esta categoría.
+     * Obtiene el ranking paginado de los ítems de esta categoría, ordenado por bayes_score, vote_count y nombre.
      */
 	public function getRankingPaginator(int $perPage = 10): LengthAwarePaginator
 	{
@@ -95,7 +95,7 @@ class Category extends Model
 				'vote_count'
 			])
 			->where('status', Item::STATUS_ACTIVE)
-			->orderByDesc('vote_avg')
+			->orderByDesc('bayes_score')
 			->orderByDesc('vote_count')
 			->orderBy('name')
 			->paginate($perPage);

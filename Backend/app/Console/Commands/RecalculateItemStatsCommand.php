@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\RecalculateItemStatsJob;
 use App\Models\Category;
 use App\Models\Item;
+use App\Services\ItemStatsService;
 use Illuminate\Console\Command;
 
 /**
@@ -17,9 +18,9 @@ class RecalculateItemStatsCommand extends Command
         {--category= : Slug de la categoría (por defecto, todas)}
         {--chunk=200 : Número de ítems por job}';
 
-    protected $description = 'Encola el recálculo de vote_count y vote_avg de los ítems en la cola catalog';
+    protected $description = 'Encola el recálculo de vote_count, vote_avg y bayes_score de los ítems en la cola catalog';
 
-    public function handle(): int
+    public function handle(ItemStatsService $itemStatsService): int
     {
         $category = null;
         $slug = $this->option('category');
@@ -30,6 +31,12 @@ class RecalculateItemStatsCommand extends Command
 
                 return self::FAILURE;
             }
+        }
+
+        // Invalida y recalcula la media de cada categoría (C del ranking bayesiano) antes de encolar nada.
+        $categoryIds = $category ? [$category->id] : Category::query()->pluck('id')->all();
+        foreach ($categoryIds as $categoryId) {
+            $itemStatsService->refreshCategoryMean($categoryId);
         }
 
         $chunkSize = max(1, (int) $this->option('chunk'));

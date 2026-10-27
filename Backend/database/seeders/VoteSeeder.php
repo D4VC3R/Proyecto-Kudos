@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Vote;
+use App\Services\ItemStatsService;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -97,6 +99,24 @@ class VoteSeeder extends Seeder
 					'vote_count' => (int) $stat->total_votes,
 				]);
 			}
+		});
+
+		// bayes_score (F0-04): los update() directos de arriba no pasan por ItemStatsService, así que se calcula aquí.
+		$itemStatsService = app(ItemStatsService::class);
+		$categoryMeans = Category::query()->pluck('id')
+			->mapWithKeys(fn ($id) => [$id => $itemStatsService->refreshCategoryMean($id)]);
+
+		DB::transaction(function () use ($itemStatsService, $categoryMeans) {
+			Item::query()
+				->where('vote_count', '>', 0)
+				->get(['id', 'category_id', 'vote_avg', 'vote_count'])
+				->each(fn (Item $item) => Item::whereKey($item->id)->update([
+					'bayes_score' => $itemStatsService->bayesScore(
+						(int) $item->vote_count,
+						(float) $item->vote_avg,
+						(float) ($categoryMeans[$item->category_id] ?? config('kudos.ranking.category_mean_fallback'))
+					),
+				]));
 		});
 
 		$this->command->info(count($voteRows) . ' votos generados.');

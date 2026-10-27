@@ -27,6 +27,7 @@ class Item extends Model
 		'status' => self::STATUS_ACTIVE,
 		'vote_avg' => 0,
 		'vote_count' => 0,
+		'bayes_score' => 0,
 	];
 
 	protected $fillable = [
@@ -36,6 +37,7 @@ class Item extends Model
 		'status',
 		'vote_avg',
 		'vote_count',
+		'bayes_score',
 		'creator_id',
 		'category_id',
 	];
@@ -44,6 +46,7 @@ class Item extends Model
 		'images' => 'array',
 		'vote_avg' => 'float',
 		'vote_count' => 'integer',
+		'bayes_score' => 'float',
 		'created_at' => 'datetime',
 		'updated_at' => 'datetime',
 		'deleted_at' => 'datetime',
@@ -66,7 +69,7 @@ class Item extends Model
 
     /*
      * Para ordenar la consulta de ítems según los parámetros proporcionados.
-     * Permite ordenar por fecha de creación, nombre, promedio de votos o de forma aleatoria.
+     * Permite ordenar por fecha de creación, nombre, puntuación bayesiana o de forma aleatoria.
      */
 	public function scopeApplySorting($query, string $sortBy = 'vote_avg', string $sortOrder = 'desc')
 	{
@@ -74,7 +77,8 @@ class Item extends Model
 			'recent' => $query->orderBy('created_at', $sortOrder)->orderBy('id', 'desc'),
 			'name' => $query->orderBy('name', $sortOrder)->orderBy('id', 'asc'),
 			'random' => $query->inRandomOrder(),
-			default => $query->orderBy('vote_avg', $sortOrder)->orderBy('vote_count', $sortOrder)->orderBy('id', 'desc'),
+			// 'vote_avg' (destacados y "Mejor valorados") ordena por la puntuación bayesiana (F0-04); el parámetro no cambia.
+			default => $query->orderBy('bayes_score', $sortOrder)->orderBy('vote_count', $sortOrder)->orderBy('id', 'desc'),
 		};
 	}
 
