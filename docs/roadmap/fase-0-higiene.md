@@ -198,7 +198,7 @@
 - **El job escribe con `DB::table`**: sin eventos y sin tocar `updated_at`, porque es un recálculo y no una edición.
 - **Programación:** lunes a las 03:30 (`weeklyOn(1, '03:30')`, `withoutOverlapping`). `--chunk=200` por defecto y `--category=slug`. La F0-10 solo tiene que verificarla.
 - **`CreatesItems::createItem()`** da por defecto una imagen y una descripción larga (puntuación 80). Motivo: `ItemFactory` crea `images => []` y descripciones de 40–70 caracteres al azar; sin esto el hook puntuaría 0, 40 u 80 al azar y `NextCategoryItemTest` fallaría de forma intermitente. Así sigue en verde sin tocarlo (R8), y no se toca la factory (R6). Los tests de fichas pobres pasan `images => []` y su propia descripción.
-- **Caché de la cola:** la cola de 50 ítems se cachea 6 h, así que una ficha que se vuelva pobre puede seguir sirviéndose hasta que caduque la cola.
+- **Caché de la cola:** la cola de 50 ítems se cachea 6 h, así que una ficha que se vuelva pobre puede seguir sirviéndose hasta que caduque la cola. Resuelto en la F0-17: al servir se vuelve a filtrar el lote.
 - **Sembrado:** `DatabaseSeeder` llama a `Artisan::call('items:recalculate-quality')` al final de `run()` (con `QUEUE_CONNECTION=sync` se calcula en el momento). Reparto tras `migrate:fresh --seed` contra `testing` (0, 40 y 80):
   ```
   array:3 [
@@ -559,6 +559,15 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 2. Al servir el siguiente ítem, descarta los que el usuario ya ha votado (o invalida la clave al votar). Elige la opción más simple y anótala.
 
 **Hecho cuando:** hay un test en el que, con el lote ya cacheado, el usuario vota por `POST /api/votes` un ítem del lote y `GET /api/categories/{slug}/next-item` ya no lo devuelve; la batería sigue en verde.
+
+**Notas:**
+- **Opción elegida:** volver a filtrar la cola al servir (`stillEligibleItemIds()` en `NextCategoryItemService`), con los mismos criterios que `generateNewBatch()` (misma categoría, `status = active`, `discoverable()`, sin voto ni *skip* del usuario) y en una sola consulta que conserva el orden del lote. No se invalida la caché al votar: tiraría el lote en cada voto desde la cola, forzaría otro `ORDER BY random()`, acoplaría la Action a la clave del servicio y no cubriría los cambios de estado o calidad hechos por un admin.
+- **Ampliación pedida por el humano:** además de votos y *skips*, la cola deja de ofrecer ítems que pasan a inactivos, a ficha pobre (`quality_score` bajo el umbral), borrados o movidos de categoría. Resuelve la nota "Caché de la cola" de la F0-05.
+- `meta.remaining` queda exacto (cuenta solo ítems elegibles). Si el filtro y la regeneración salen vacíos, se hace `Cache::forget` del lote antiguo. El `find()` y la recursión por ítem borrado se mantienen como red de seguridad. Contrato JSON, Actions y controlador sin tocar (R7).
+- **Tests nuevos** (`NextCategoryItemTest`): votado desde la ficha, omitido (*skip*) desde la ficha, pasa a inactivo y pasa a ficha pobre, con el helper `cachedQueueAfterFirstItem()`.
+- **Salida antes del arreglo** (`sail test --filter=no_ofrece_un_item_del_lote`, sin tocar el servicio): `Tests: 4 failed (23 assertions)`.
+- **Salida después:** `--filter=no_ofrece_un_item_del_lote` -> `Tests: 4 passed (27 assertions)`; `--filter=NextCategoryItemTest` -> `Tests: 6 passed (41 assertions)`; `--filter=DiscoverableItemsTest` -> `Tests: 5 passed (19 assertions)`; `sail test` -> `Tests: 96 passed (536 assertions)`, sin *incomplete*.
+- **Desviaciones (R1):** `DiscoverableItemsTest.php` está en `tests/Feature/Items/`, no se ha tocado. La nota de la F0-05 y el comentario de `DiscoverableItemsTest.php:41` dicen que "la cola no consume el ítem hasta que se vota", pero en realidad cada GET hace `array_shift`: es la regeneración la que lo vuelve a ofrecer. Se anota aquí y no se toca ese comentario (R6).
 
 ---
 
