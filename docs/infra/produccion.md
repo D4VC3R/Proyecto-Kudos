@@ -6,19 +6,20 @@
 
 - VPS (OVH) de 4 GB compartido; Kudos dispone de ~2–2,5 GB, 2 vCores y 40 GB de disco.
 - Frontend en Vercel (`kudos.dcerdan.es`); API en el VPS (`api.kudos.dcerdan.es`).
-- `Backend/compose.prod.yml` (proyecto `kudos`; ancla `x-laravel: &laravel` compartida por `app` y `worker`):
+- `Backend/compose.prod.yml` (proyecto `kudos`; ancla `x-laravel: &laravel` compartida por `app`, `worker` y `scheduler`):
 
 | Servicio | Función | Memoria |
 |---|---|---|
 | `nginx` | Servidor web interno | 64M |
 | `app` | PHP-FPM (`memory_limit` 512M, hasta 5 procesos) | 1G |
-| `worker` | `queue:work` (cola en la **base de datos**: `QUEUE_CONNECTION=database`) | 256M |
+| `worker` | `queue:work --queue=default,catalog` (cola en la **base de datos**: `QUEUE_CONNECTION=database`) | 512M |
+| `scheduler` | `schedule:work` (solo encola) | 128M |
 | `postgres` | Base de datos | 512M |
 | `redis` | Caché y sesiones; `maxmemory 64mb`, `allkeys-lru` | 128M |
 
 - **Problemas:**
-  - no hay scheduler;
-  - el worker (256M) se queda corto para jobs de imagen con 512M de `memory_limit`;
+  - ~~no hay scheduler~~ (resuelto en F0-10);
+  - ~~el worker (256M) se queda corto para jobs de imagen con 512M de `memory_limit`~~ (resuelto en F0-10: 512M);
   - `deploy/backup-db.sh` no copia el volumen de imágenes.
 - **Redis con LRU:** la caché de Wikidata y Wikipedia (7 días, F1-04) puede expulsarse. Es aceptable, porque solo es caché.
 

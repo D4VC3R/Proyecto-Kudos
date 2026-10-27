@@ -353,6 +353,20 @@
 
 **Hecho cuando:** `config` es válido, `sail artisan schedule:list` muestra las tareas y **no se ha desplegado nada**.
 
+**Notas:**
+- **Archivos modificados:** `Backend/compose.prod.yml` (servicio `scheduler`, worker con `--queue=default,catalog` y 512M, comentario de presupuesto), `Backend/docker/prod/entrypoint.sh` (solo comentarios), `deploy/README.md` (diagrama, tabla de ficheros, operación diaria y sección "Tareas programadas y colas"), `docs/infra/produccion.md` §1 y `docs/backend/arquitectura.md` (trampa 8, resuelta).
+- **`routes/console.php` sin cambios (discrepancia con el paso 3, R1):** las dos tareas ya las programaron F0-03 (`items:recalculate-stats`, `dailyAt('03:00')`) y F0-05 (`items:recalculate-quality`, `weeklyOn(1, '03:30')`). Solo se ha verificado con `schedule:list`. Las horas son UTC (`config/app.php`).
+- **Validación de la ficha:** el comando literal falla con la plantilla porque `DB_PASSWORD` está vacío y `${DB_PASSWORD:?}` lo rechaza (`required variable DB_PASSWORD is missing a value`). Se valida con `DB_PASSWORD=solo-para-validar` delante, sin crear ningún `.env` en el repo. Además, `env_file: .env.production` exige que ese archivo exista: en un checkout limpio hay que validar en una copia temporal fuera del repo. Desde `Backend/` usa siempre `> /dev/null`, porque `config` imprime las variables del `env_file` real.
+- **Memoria del scheduler:** hereda `memory_limit = 512M` de `docker/prod/php.ini` aunque el contenedor tiene 128M. Si una tarea lo superase, Docker mataría el proceso (OOM) en vez de dar un error de PHP. Hoy las tareas solo encolan.
+- **Presupuesto:** ~2,3 GB de límites (postgres 512M + app 1G + worker 512M + scheduler 128M + redis 128M + nginx 64M). Pendiente de que el humano confirme que cabe; si no, la propuesta es bajar `app` a 768M y `pm.max_children`.
+- **No se ha desplegado nada (R10):** solo `docker compose config`; ni `up`, `run`, `build`, `down`, `restart`, `deploy.sh` ni conexión al VPS. `deploy.sh` hace `up -d --remove-orphans`, así que levantará el servicio nuevo sin cambios.
+- **Verificación:**
+  - `DB_PASSWORD=solo-para-validar docker compose -f compose.prod.yml --env-file .env.production.example config > /dev/null && echo CONFIG_OK` → `CONFIG_OK`.
+  - `config --services` → `postgres, redis, app, nginx, scheduler, worker`.
+  - Inspección JSON en copia fuera del repo: scheduler `command` = `["php","artisan","schedule:work"]`, `mem` = `134217728`, `stop_grace_period` = `30s`, `depends_on` = `["postgres","redis"]`; worker con `--queue=default,catalog` y `mem` = `536870912`.
+  - `sail artisan schedule:list` → `0 3 * * *  php artisan items:recalculate-stats` y `30 3 * * 1  php artisan items:recalculate-quality`.
+  - `sail test` → `Tests: 1 incomplete, 80 passed (476 assertions)` (el incompleto es el de `ShowItemRequest`, anterior a la tarea).
+
 ---
 
 ## F0-11 · Copia de seguridad de imágenes (prioridad baja)

@@ -79,7 +79,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 | 5 | `CheckMinimumKudos` existe pero no está registrado | `app/Http/Middleware/` | Aplazado: no usar |
 | 6 | `Vote::kudosTransactions()` es código muerto | `app/Models/Vote.php` | No tocar |
 | 7 | `phpunit.xml` usa SQLite en memoria, que no puede ejecutar las migraciones | `phpunit.xml` | F0-01 |
-| 8 | No hay scheduler en producción | `compose.prod.yml` | F0-10 |
+| 8 | No hay scheduler en producción | `compose.prod.yml` | F0-10 (resuelta) |
 | 9 | `users.name` no es único | Migración de `users` | F3-03 (`username`) |
 | 10 | La búsqueda (`ilike '%…%'`) depende del índice GIN trigram `items_name_trgm_idx`. Cada campo de búsqueda nuevo necesita su propio índice trigram | `Item`, `Vote::scopeApplyFilters` | F1-01 |
 | 11 | `DatabaseSeeder` usa `WithoutModelEvents`: los hooks de `Item` (`saving`, `creating`) no se ejecutan al sembrar | `database/seeders/` | Se tiene en cuenta en F0-05 y F1-01 |

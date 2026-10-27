@@ -8,12 +8,14 @@
 # Despliegue completo:   ./deploy.sh (en la raíz del repositorio)
 #
 # Presupuesto de memoria (VPS de 4 GB compartido; Kudos dispone de 2-2,5 GB):
-#   postgres 512M + app 1G + worker 256M + redis 128M + nginx 64M = ~2 GB
+#   postgres 512M + app 1G + worker 512M + scheduler 128M + redis 128M + nginx 64M = ~2,3 GB
+# Si no cabe, la propuesta es bajar app a 768M y pm.max_children (docker/prod/php-fpm.conf) en
+# proporción, pero lo decide el humano (docs/infra/produccion.md §2).
 
 # Sin esto el proyecto se llamaría "backend" (la carpeta) y podría chocar con otros proyectos del VPS.
 name: kudos
 
-# Configuración común de app y worker: misma imagen, mismas variables y mismos volúmenes.
+# Configuración común de app, worker y scheduler: misma imagen, mismas variables y mismos volúmenes.
 x-laravel: &laravel
   image: kudos-api:latest
   build:
@@ -40,17 +42,32 @@ services:
         limits:
           memory: 1G
 
-  # Procesa la cola (tabla jobs de PostgreSQL): los correos de reset de contraseña y de verificación.
+  # Procesa las colas (tabla jobs de PostgreSQL) por orden de prioridad: primero default (correos,
+  # avatares) y después catalog (recálculos de medias y de quality_score; importaciones en la Fase 1).
   # --max-time recicla el proceso cada hora (restart lo vuelve a levantar) para no acumular memoria.
   worker:
     <<: *laravel
-    command: ["php", "artisan", "queue:work", "--tries=3", "--backoff=60", "--max-time=3600"]
+    command: ["php", "artisan", "queue:work", "--queue=default,catalog", "--tries=3", "--backoff=60", "--max-time=3600"]
     # Tiempo para terminar el job en curso antes de que Docker mate el proceso al desplegar.
     stop_grace_period: 60s
+    # 512M: el memory_limit de PHP es 512M y los jobs de imagen pueden necesitarlo entero.
     deploy:
       resources:
         limits:
-          memory: 256M
+          memory: 512M
+
+  # Lanza las tareas de routes/console.php a su hora (schedule:work comprueba cada minuto). Cada tarea
+  # se ejecuta DENTRO de este contenedor, así que solo debe encolar jobs: el trabajo lo hace el worker.
+  # Las horas son UTC (config/app.php). withoutOverlapping usa la caché (Redis) como bloqueo.
+  scheduler:
+    <<: *laravel
+    command: ["php", "artisan", "schedule:work"]
+    # Margen para que una tarea que esté encolando termine antes de que Docker mate el proceso.
+    stop_grace_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 128M
 
   # Nginx interno. ÚNICO puerto publicado, y solo en 127.0.0.1: Docker escribe sus propias reglas
   # de iptables y se salta ufw, así que "8001:80" quedaría abierto a internet.
@@ -87,7 +104,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME:?Falta DB_USERNAME en .env.production}
       POSTGRES_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en .env.production}
     # Memoria ajustada al límite de 512M: caché compartida de 128MB y pocas conexiones (PHP-FPM
-    # tiene 5 procesos como máximo, más el worker).
+    # tiene 5 procesos como máximo, más el worker y el scheduler).
     command:
       - postgres
       - -c

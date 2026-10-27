@@ -6,7 +6,7 @@ Guía para poner en marcha `api.kudos.dcerdan.es` y mantenerla. El frontend sigu
 Navegador ─► kudos.dcerdan.es ─────► Vercel (React)
           └► api.kudos.dcerdan.es ─► Nginx del host (80/443, TLS)
                                         └► 127.0.0.1:8001 ─► nginx (Docker) ─► app (PHP-FPM)
-                                                                 worker (cola) · postgres · redis
+                                                                 worker (cola) · scheduler · postgres · redis
 ```
 
 Solo el Nginx del host escucha en internet. Ningún contenedor publica puertos salvo el Nginx
@@ -16,7 +16,7 @@ ufw, así que un puerto publicado sin `127.0.0.1:` quedaría abierto aunque el f
 | Fichero | Para qué sirve |
 |---|---|
 | `Backend/Dockerfile` | Imagen multietapa: `app` (PHP-FPM + código) y `web` (Nginx interno) |
-| `Backend/compose.prod.yml` | Stack de producción: nginx, app, worker, postgres, redis |
+| `Backend/compose.prod.yml` | Stack de producción: nginx, app, worker, scheduler, postgres, redis |
 | `Backend/.env.production.example` | Plantilla del `.env.production` (el real nunca se sube) |
 | `Backend/docker/prod/` | `php.ini`, pool de PHP-FPM, Nginx interno y entrypoint |
 | `deploy.sh` | Despliegue en una orden: pull, build, migraciones, arranque |
@@ -187,7 +187,7 @@ y ejecuta `kudos-dc up -d`. El primer valor es el que se usa en los enlaces de l
 ```bash
 sudo ss -tulpn                    # nada nuevo en 0.0.0.0 salvo 22, 80 y 443
 kudos-dc ps                       # todo arriba, nada reiniciándose
-docker stats --no-stream          # dentro del presupuesto (~2 GB de límites)
+docker stats --no-stream          # dentro del presupuesto (~2,3 GB de límites)
 free -h
 curl -I https://api.kudos.dcerdan.es/up
 curl -I https://api.kudos.dcerdan.es/.env       # 404
@@ -206,12 +206,14 @@ Desde el navegador, en `https://kudos.dcerdan.es`:
 | Tarea | Orden |
 |---|---|
 | Desplegar una versión nueva | `cd ~/apps/kudos && ./deploy.sh` |
-| Ver logs | `kudos-dc logs -f --tail=100 app worker nginx` |
+| Ver logs | `kudos-dc logs -f --tail=100 app worker scheduler nginx` |
 | Estado | `kudos-dc ps` |
 | Aplicar un cambio en `.env.production` | `kudos-dc up -d` (recrea los contenedores afectados) |
 | Comando de artisan | `kudos-dc exec app php artisan <comando>` |
 | Log de auditoría de moderación | `kudos-dc exec app sh -c 'tail -n 50 storage/logs/moderation/*.log'` |
 | Reintentar jobs fallidos | `kudos-dc exec app php artisan queue:retry all` |
+| Ver las tareas programadas | `kudos-dc exec app php artisan schedule:list` |
+| Logs del scheduler | `kudos-dc logs -f --tail=100 scheduler` |
 
 Nunca edites ficheros del repositorio en el servidor: el cambio se hace en local, se sube a
 `main` y se despliega con `./deploy.sh` (que usa `git pull --ff-only` y falla si encuentra
@@ -219,6 +221,39 @@ cambios locales).
 
 `POSTGRES_PASSWORD` solo se aplica la primera vez que se crea el volumen. Si cambias
 `DB_PASSWORD` más adelante, hay que cambiarla también dentro de PostgreSQL (`ALTER USER`).
+
+## Tareas programadas y colas
+
+El servicio `scheduler` ejecuta `php artisan schedule:work` (128M) y lanza las tareas de
+`Backend/routes/console.php`, que solo encolan jobs en la cola `catalog`. El `worker` (512M)
+escucha `--queue=default,catalog` y atiende siempre antes `default` (correos, avatares).
+
+Tareas actuales, en UTC:
+
+- `items:recalculate-stats`: cada día a las 03:00.
+- `items:recalculate-quality`: los lunes a las 03:30.
+
+Cómo comprobarlo:
+
+```bash
+kudos-dc ps                                         # scheduler y worker "Up"
+kudos-dc exec app php artisan schedule:list         # las dos tareas con su próxima ejecución
+kudos-dc logs scheduler                             # una línea por tarea lanzada
+kudos-dc logs -f worker                             # los jobs de catalog procesándose
+```
+
+Recálculo manual. Tras desplegar la Fase 0 por primera vez, `bayes_score` y `quality_score`
+están a 0, y hasta el primer recálculo las colas de votación y los destacados quedan vacíos:
+
+```bash
+kudos-dc exec app php artisan items:recalculate-stats
+kudos-dc exec app php artisan items:recalculate-quality
+```
+
+Los dos comandos solo encolan; el worker hace el trabajo.
+
+Ojo con las horas: el `crontab` del host lanza `backup-db.sh` a las 03:30 en la hora del host,
+mientras que las tareas de Laravel van en UTC.
 
 ## Duración de la siembra
 
