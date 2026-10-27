@@ -610,8 +610,9 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 2. `AdminItemCard.jsx` (l.18) pinta `item.description` sin comprobarlo: usa `hasText` de `lib/text.js` (Notas de F0-07).
 3. `Frontend/README.md` dice `VITE_STORAGE_URL=http://localhost:8095/api/storage`; corrígelo según `Frontend/.env.example` (Notas de F0-12).
 4. Elimina el 422 inalcanzable de `StoreVoteRequest::withValidator` ("No se puede votar un item inactivo."): la *policy* en `authorize()` ya responde 403 (Notas de F0-02). `EmitVoteTest::test_no_se_puede_votar_un_item_inactivo` debe seguir en verde.
+5. `StoreVoteRequest` valida `item_id` con `Rule::exists('items','id')`, que no mira `deleted_at`: un `skip` sobre un ítem borrado con *soft delete* responde 201 (Notas de F0-16). Haz que un ítem borrado se rechace igual para `vote` y `skip` (p. ej. `->withoutTrashed()` en la regla), con test.
 
-**Hecho cuando:** `grep -rn "scrollbar-" Frontend/src` sale vacío, `sail test` y `pnpm build` en verde, y los docs están al día.
+**Hecho cuando:** `grep -rn "scrollbar-" Frontend/src` sale vacío, votar o saltar un ítem borrado da error (test), `sail test` y `pnpm build` en verde, y los docs están al día.
 
 ---
 
