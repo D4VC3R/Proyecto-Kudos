@@ -22,6 +22,7 @@ ufw, así que un puerto publicado sin `127.0.0.1:` quedaría abierto aunque el f
 | `deploy.sh` | Despliegue en una orden: pull, build, migraciones, arranque |
 | `deploy/nginx/api.kudos.dcerdan.es.conf` | Bloque del Nginx del host (se copia a `/etc/nginx`) |
 | `deploy/backup-db.sh` | Volcado diario de PostgreSQL con rotación |
+| `deploy/backup-storage.sh` | Copia diaria del volumen de imágenes con rotación |
 
 Todas las órdenes de Compose llevan `-f compose.prod.yml --env-file .env.production`. Para no
 escribirlo cada vez, añade este alias a `~/.bashrc` en el servidor (y `source ~/.bashrc`):
@@ -149,22 +150,44 @@ encima.
 
 ### 8. Copias de seguridad
 
+Hay dos scripts y los dos dejan las copias en `~/backups/kudos`, con 7 días de rotación:
+
+- `backup-db.sh`: volcado de PostgreSQL (`kudos-AAAAMMDD-HHMMSS.dump`).
+- `backup-storage.sh`: `tar.gz` del volumen `kudos_storage-public`, es decir, los avatares y las
+  imágenes de ítems y propuestas (`kudos-storage-AAAAMMDD-HHMMSS.tar.gz`). Usa la imagen
+  `kudos-api:latest` que deja `deploy.sh`, monta el volumen en solo lectura y no necesita el
+  stack levantado.
+
 ```bash
 mkdir -p ~/backups/kudos
 ~/apps/kudos/deploy/backup-db.sh          # prueba manual: debe imprimir "OK ... .dump"
+~/apps/kudos/deploy/backup-storage.sh     # prueba manual: debe imprimir "OK ... .tar.gz"
 crontab -e
 ```
 
-Añade esta línea (cada día a las 03:30; se conservan 7 días):
+Añade estas líneas (cada día a las 03:30 y a las 03:45; se conservan 7 días):
 
 ```
 30 3 * * * $HOME/apps/kudos/deploy/backup-db.sh >> $HOME/backups/kudos/backup.log 2>&1
+45 3 * * * $HOME/apps/kudos/deploy/backup-storage.sh >> $HOME/backups/kudos/backup.log 2>&1
 ```
+
+Espacio: con unos 200 MB de imágenes (medido tras la siembra, ver "Duración de la siembra") son
+unos 1,6 GB para unas 8 copias, porque gzip apenas reduce. Si el disco va justo, se baja la
+retención solo en esa línea: `45 3 * * * RETENTION_DAYS=3 $HOME/apps/kudos/deploy/backup-storage.sh >> …`.
 
 Restaurar un volcado (borra y recrea las tablas que contiene):
 
 ```bash
 kudos-dc exec -T postgres sh -c 'pg_restore -U "$POSTGRES_USER" -d "$POSTGRES_DB" --clean --if-exists --no-owner' < ~/backups/kudos/kudos-AAAAMMDD-HHMMSS.dump
+```
+
+Restaurar las imágenes. Sobrescribe y añade ficheros, pero no borra los que no estén en la copia,
+y el volumen tiene que existir ya (lo crea `deploy.sh`). tar corre como `www-data`, así que los
+ficheros quedan con el dueño correcto:
+
+```bash
+docker run --rm -i --pull never --network none -v kudos_storage-public:/data --entrypoint tar kudos-api:latest -xzf - -C /data < ~/backups/kudos/kudos-storage-AAAAMMDD-HHMMSS.tar.gz
 ```
 
 ### 9. Vercel
@@ -252,8 +275,8 @@ kudos-dc exec app php artisan items:recalculate-quality
 
 Los dos comandos solo encolan; el worker hace el trabajo.
 
-Ojo con las horas: el `crontab` del host lanza `backup-db.sh` a las 03:30 en la hora del host,
-mientras que las tareas de Laravel van en UTC.
+Ojo con las horas: el `crontab` del host lanza `backup-db.sh` a las 03:30 y `backup-storage.sh` a las 03:45,
+en la hora del host, mientras que las tareas de Laravel van en UTC.
 
 ## Duración de la siembra
 
