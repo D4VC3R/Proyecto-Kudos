@@ -45,20 +45,20 @@ Las rutas son relativas a `Frontend/src/`.
 
 ## 3. Estilos
 
-- `tailwind.config.js`: `primary` `#2563eb` y `accent` `#facc15`; los colores de superficie, texto y navegación son variables CSS de `index.css`. `plugins: []`.
+- `tailwind.config.js`: `primary` `#2563eb` y `accent` `#facc15`; los colores de superficie, texto y navegación son variables CSS de `index.css`. Utilidades propias en `theme.extend`: `animate-fade-in` (`keyframes.fadeIn`, 0,5 s), `h-page-content` (`calc(100dvh - 9rem)`) y `min-h-state` (`60vh`). No hay utilidades de scroll propias ni `prose`. `plugins: []`.
 - Estética: `rounded-3xl`, `shadow-xl`, `ring-1`; titulares `font-black` en Inter.
 
-**Clases usadas que no existen** (F0-08):
+**Clases sin definir:** resuelto en la F0-08. Solución aplicada a cada clase:
 
-| Clase | Solución |
+| Clase | Solución aplicada |
 |---|---|
-| `animate-fade-in` | `keyframes.fadeIn` + `animation['fade-in']` en `theme.extend` |
-| `animate-in fade-in` (sintaxis de `tailwindcss-animate`) | Sustituir por `animate-fade-in` |
-| `h-page-content`, `min-h-state` | Definirlas en `theme.extend` (`height`/`minHeight`), deduciendo el valor de su uso (`min-h-state` ≈ `50vh` para estados vacíos o de error) |
-| `prose` | Clases explícitas (`text-base leading-relaxed text-text-normal`…); no instalar `@tailwindcss/typography` |
-| `scrollbar-thin` | Quitarla, o definirla en `index.css` con `@layer utilities` |
+| `animate-fade-in` | Definida: `keyframes.fadeIn` + `animation['fade-in']` (0,5 s, `ease-out`) en `theme.extend` |
+| `animate-in fade-in duration-500` (sintaxis de `tailwindcss-animate`, no instalado) | Sustituido por `animate-fade-in` (`CategoryPage`) |
+| `h-page-content`, `min-h-state` | Definidas en `theme.extend` (`height`: `calc(100dvh - 9rem)`; `minHeight`: `60vh`, el valor que usaba el código original) |
+| `prose` | Quitado de `ItemDetailColumn`: los hijos ya llevan la tipografía explícita; no se instala `@tailwindcss/typography` |
+| `scrollbar-thin`, `scrollbar-thumb-slate-200` | Quitadas (no se aplicaban; sin plugin `tailwind-scrollbar`) |
 
-Comprobación: `grep -rn "h-page-content\|min-h-state\|animate-in\|prose\|scrollbar-thin" Frontend/src` no debe devolver nada.
+Comprobación: `grep -rn "animate-in\|prose\|scrollbar-thin\|scrollbar-thumb" Frontend/src` no debe devolver nada (las clases que se definen, `animate-fade-in`, `h-page-content` y `min-h-state`, se comprueban en el CSS generado). Pendiente fuera de la F0-08: `scrollbar-hide` (`ProfileTabs`, `MyVotesHeader`) tampoco está definida.
 
 **Modo oscuro:** aplazado. Existen `darkMode: 'class'` y las variables `.dark`, pero nada activa la clase y hay muchas clases `slate-*` fijas (`grep -rc "slate-" Frontend/src`). **No lo actives a medias.**
 

@@ -42,6 +42,24 @@ export default {
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
+      // Animación de entrada de las páginas (antes `animate-in fade-in` de tailwindcss-animate, que no está instalado).
+      keyframes: {
+        fadeIn: {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-out',
+      },
+      // Alto del contenido a pantalla completa: 100dvh menos la cabecera (80px + borde ≈ 5rem) y el py-8 del <main> (4rem).
+      height: {
+        'page-content': 'calc(100dvh - 9rem)',
+      },
+      // Alto mínimo de los estados de carga, vacío o error.
+      minHeight: {
+        state: '60vh',
+      },
     },
   },
   plugins: [],

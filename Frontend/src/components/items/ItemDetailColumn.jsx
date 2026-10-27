@@ -8,7 +8,7 @@ const ItemDetailColumn = ({ item }) => {
   const description = hasText(item.description) ? item.description.trim() : null;
 
   return (
-    <div className="flex flex-col h-full w-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 p-6 md:p-8 lg:overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
+    <div className="flex flex-col h-full w-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 p-6 md:p-8 lg:overflow-y-auto">
 
       <div className="flex flex-col gap-6 mb-8 shrink-0">
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-text-highlight leading-tight">
@@ -35,7 +35,7 @@ const ItemDetailColumn = ({ item }) => {
       </div>
 
       {description && (
-        <div className="prose prose-slate max-w-none mt-auto shrink-0">
+        <div className="mt-auto shrink-0">
           <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6">
             <h3 className="text-lg font-bold text-slate-800 mb-3">Acerca de {item.name}:</h3>
             <p className="whitespace-pre-line text-lg text-slate-700 font-medium leading-relaxed">

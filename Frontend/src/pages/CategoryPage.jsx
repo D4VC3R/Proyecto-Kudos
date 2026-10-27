@@ -54,7 +54,7 @@ const CategoryPage = () => {
           <p className="text-text-normal text-sm">No se pudieron cargar los ítems destacados.</p>
         </div>
       ) : state.sliderItems.length > 0 && (
-        <div className="mb-8 flex w-full flex-col justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border animate-in fade-in duration-500">
+        <div className="mb-8 flex w-full flex-col justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border animate-fade-in">
           <div className="mt-6 px-8 border-b border-border pb-4">
             <h3 className=" text-2xl md:text-3xl font-black text-text-highlight">Destacados de <span className="text-primary">esta semana</span></h3>
           </div>
@@ -77,7 +77,7 @@ const CategoryPage = () => {
               <p className="text-text-normal">Error al cargar el ranking: {state.rankingError?.message}</p>
             </div>
           ) : (
-            <div className="animate-in fade-in duration-500">
+            <div className="animate-fade-in">
               <Ranking
                 title={state.category?.name}
                 items={state.rankingItems}
