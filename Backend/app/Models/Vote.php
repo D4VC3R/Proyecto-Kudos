@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Like;
 use Database\Factories\VoteFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,7 +46,7 @@ class Vote extends Model
 				$q->whereHas('item.category', fn($catQuery) => $catQuery->where('slug', $filters['category_slug']));
 			})
 			->when(!empty($filters['search']), function ($q) use ($filters) {
-				$q->whereHas('item', fn($itemQuery) => $itemQuery->where('name', 'ilike', "%{$filters['search']}%"));
+				$q->whereHas('item', fn($itemQuery) => $itemQuery->where('name', 'ilike', Like::contains($filters['search'])));
 			});
 	}
 

@@ -521,6 +521,14 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 
 **Hecho cuando:** hay tests de que `?search=%` y `?search=_` en `/api/items` y en al menos un listado de admin solo devuelven ítems que contienen ese carácter literal, y la batería sigue en verde.
 
+**Notas:**
+- **Helper:** `App\Support\Like` (`Backend/app/Support/Like.php`, carpeta nueva; el autoload PSR-4 `App\` la cubre). `escape()` sustituye `\`, `%` y `_` por `\\`, `\%` y `\_` (la barra invertida primero, para no duplicar los escapes añadidos) y `contains()` devuelve `'%' . escape($valor) . '%'`. No hace falta `ESCAPE` en la consulta: PostgreSQL toma `\` como escape por defecto en `LIKE`/`ILIKE` y las consultas usan parámetros enlazados.
+- **Dónde se usa** (`Like::contains()`): `Item::scopeApplyFilters` y `Item::scopeAdminApplyFilters` (`name`), `Vote::scopeApplyFilters` (`name` del ítem), `Proposal::scopeAdminApplyFilters` (`name` y `description`) y `User::scopeAdminApplyFilters` (`name` y `email`). `grep -rn "ilike" Backend/app` solo muestra esas llamadas (con `Like::contains(...)` o con `$pattern` calculado con él).
+- **Desviación de la ficha (R1):** `ListItemsRequest` valida `search` con `min:2` (F0-09), así que `GET /api/items?search=%` y `?search=_` devuelven 422. En `/api/items` se prueba con `0%` y `_1`; los comodines sueltos (`%`, `_` y `\`) se prueban en `GET /api/admin/items`, cuyo Form Request no tiene `min`. La validación no se toca (R8).
+- **Tests nuevos:** `tests/Unit/Support/LikeTest.php` (3 tests, PHPUnit puro) y `tests/Feature/Items/ItemSearchWildcardsTest.php` (5 tests: `0%` y `_1` en `/api/items`; `%`, `_` y `\` en `/api/admin/items`).
+- **Salida antes del arreglo** (`sail test --filter=ItemSearchWildcardsTest`): `Tests: 5 failed (10 assertions)` (p. ej. buscar `\` en admin devolvía `Rebajas 100%` en lugar de `C:\Juegos`).
+- **Salida después:** `--filter=ItemSearchWildcardsTest` -> `Tests: 5 passed (10 assertions)`; `--filter=LikeTest` -> `Tests: 3 passed (6 assertions)`; `sail test` -> `Tests: 90 passed (495 assertions)`, sin *incomplete*.
+
 ---
 
 ## F0-16 · Evitar el *deadlock* al votar el mismo ítem

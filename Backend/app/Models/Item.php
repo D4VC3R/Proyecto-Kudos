@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\ItemQualityScorer;
+use App\Support\Like;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -80,7 +81,7 @@ class Item extends Model
 		return $query
 			->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
 			->when(!empty($filters['category_slug']), fn($q) => $q->whereHas('category', fn($qCat) => $qCat->where('slug', $filters['category_slug'])))
-			->when(!empty($filters['search']), fn($q) => $q->where('name', 'ilike', "%{$filters['search']}%"))
+			->when(!empty($filters['search']), fn($q) => $q->where('name', 'ilike', Like::contains($filters['search'])))
 			->when(!empty($filters['exclude_voted_by']), fn($q) => $q->whereDoesntHave('votes', fn($v) => $v->where('user_id', $filters['exclude_voted_by'])))
 			->when(!empty($filters['discoverable']), fn($q) => $q->discoverable());
 	}
@@ -110,7 +111,7 @@ class Item extends Model
 			->when(!empty($filters['status']), fn($q) => $q->where('status', $filters['status']))
 			->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
 			->when(!empty($filters['creator_id']), fn($q) => $q->where('creator_id', $filters['creator_id']))
-			->when(!empty($filters['search']), fn($q) => $q->where('name', 'ilike', '%' . $filters['search'] . '%'));
+			->when(!empty($filters['search']), fn($q) => $q->where('name', 'ilike', Like::contains($filters['search'])));
 	}
 
     /*

@@ -15,6 +15,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 | Resource | `app/Http/Resources/` | Toda respuesta JSON |
 | Policy | `app/Policies/` | Autorización por modelo |
 | Job | `app/Jobs/` | `ProcessProposalImagesJob`, `ProcessUserAvatarJob`, `RecalculateItemStatsJob`, `RecalculateItemQualityJob` (cola `catalog`) |
+| Support | `app/Support/` | Utilidades sin estado: `Like` (escapa los comodines de `LIKE`/`ILIKE`, F0-15) |
 | Catálogo (F1) | `app/Catalog/` | Proveedores, enriquecimiento e importación: ver [../integraciones/pipeline-catalogo.md](../integraciones/pipeline-catalogo.md) |
 
 - Todos los modelos usan UUID (`HasUuids`).
@@ -32,7 +33,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 
 **Ítems y categorías**
 - `app/Models/Item.php`:
-  - `applyFilters`: `ilike` sobre `name`; acepta `discoverable` (`scopeDiscoverable`, umbral `catalog.min_quality_for_discovery`);
+  - `applyFilters`: `ilike` sobre `name` (el texto se escapa con `App\Support\Like::contains()`, F0-15; igual en `adminApplyFilters` de Item, Proposal y User y en `Vote::applyFilters`; toda búsqueda nueva debe usar `Like::contains()`); acepta `discoverable` (`scopeDiscoverable`, umbral `catalog.min_quality_for_discovery`);
   - el hook `saving` (`booted()`) recalcula `quality_score` con `ItemQualityScorer` si cambian `images`, `description`, `released_at` o `attributes`;
   - `applySorting`: `vote_avg|recent|name|random`; con `vote_avg` ordena por `bayes_score desc`, `vote_count desc` (y `id`);
   - `adminApplyFilters` y `adminApplySorting`;
