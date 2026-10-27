@@ -12,7 +12,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-02 | Batería base de tests de votos, kudos, ranking e ítems | QA, BE | F0-01 | hecho |
 | F0-03 | Medias exactas: corregir el truncado de medios puntos y recalcular con `AVG` | BE | F0-01 | hecho |
 | F0-04 | Ranking bayesiano (`bayes_score`) | BE | F0-03 | hecho |
-| F0-05 | `quality_score` y excluir las fichas pobres de la cola y de los destacados | BE | F0-01 | pendiente |
+| F0-05 | `quality_score` y excluir las fichas pobres de la cola y de los destacados | BE | F0-01 | hecho |
 | F0-06 | *Placeholder* generativo para ítems sin imagen | FE | — | pendiente |
 | F0-07 | Ocultar secciones vacías en la ficha | FE | — | pendiente |
 | F0-08 | Corregir las clases CSS sin definir | FE | — | pendiente |
