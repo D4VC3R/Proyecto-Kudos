@@ -103,3 +103,18 @@ Http::fake([
 | 2 | `want`/`not_interested`; normalización de `skip`; de `want` a valoración (kudos una sola vez); *wishlist*; cola ponderada; similares; listas editoriales en la portada |
 | 3 | CRUD de listas y visibilidad (privada → 404); reseñas y respuestas (un nivel); reportes y su resolución con aviso; borrado de cuenta (cascada y anonimización); notificaciones |
 | 4 | Mapeadores de IGDB/RAWG y de destinos en Wikidata; licencia de las imágenes de Commons |
+
+## 7. CI (GitHub Actions)
+
+`.github/workflows/tests.yml` se ejecuta en cada `push` y `pull_request`, con dos jobs:
+
+- **`backend`:**
+  - Servicio `postgres:18-alpine` con la base de datos `testing` (usuario `sail` y contraseña `password`, solo del CI).
+  - PHP 8.5 con `shivammathur/setup-php`.
+  - `DB_HOST=127.0.0.1`, `DB_USERNAME` y `DB_PASSWORD` van en el `env` del job y pisan los de `.env` (en local salen de `.env`, ver §1).
+  - Sin Redis: `phpunit.xml` pone caché y sesión en array.
+  - No crea `storage/framework/*`: aunque no está versionado, `AppServiceProvider::ensureFrameworkDirectoriesExist()` lo crea al arrancar la app (ya lo hace el `package:discover` de `composer install`).
+  - Ejecuta `php artisan test`.
+- **`frontend`:** Node 22, pnpm fijado (12.15.0) y `pnpm install --frozen-lockfile && pnpm build`.
+
+Sin secretos. La protección de `tests/TestCase.php` (§3) también actúa en CI.

@@ -449,3 +449,38 @@
 2. Job de frontend: Node 22 y pnpm, `pnpm install --frozen-lockfile && pnpm build` en `Frontend/`.
 
 **Hecho cuando:** el workflow pasa en una rama de prueba. **Pide permiso antes del push** (R11).
+
+**Notas:**
+- **Archivos tocados:** `.github/workflows/tests.yml` (nuevo), `docs/backend/testing.md` (§7 nueva), `README.md` (sección "Tests") y esta ficha. `docs.yml` queda intacto. Sin tests nuevos (R8), sin secretos, sin variables nuevas en la app (R9) y sin peticiones reales (R4).
+- **El workflow NO se ha ejecutado en GitHub.** El humano decidió cerrar la tarea con validación local; la ejecución real en GitHub queda pendiente de su `push` (R11). Hasta entonces el "Hecho cuando" ("el workflow pasa en una rama de prueba") solo está cubierto por la reproducción local.
+- **Decisiones:**
+  - Tags de las acciones: `actions/checkout@v7`, `actions/setup-node@v7` y `shivammathur/setup-php@v2` (comprobados con `git ls-remote --tags`; actionlint 1.7.12 los acepta, así que no hizo falta bajar a `@v6`).
+  - pnpm: `package.json` no tiene `packageManager` y no se toca. El workflow fija pnpm **12.15.0** (variable `PNPM_VERSION` del job), la versión que trae la imagen local del frontend, instalada con `npm install -g`.
+  - Sin `mkdir` de `storage/framework`: aunque `Backend/storage/framework/` no está versionado, `AppServiceProvider::ensureFrameworkDirectoriesExist()` (llamado en `boot()`) crea `views`, `cache/data` y `sessions` al arrancar la app, y ya lo hace el `package:discover` de `composer install`. El verificador lo comprobó borrando la carpeta en la copia limpia y ejecutando solo `php artisan test` (`1 incomplete, 80 passed`). No se añaden `.gitignore` en `storage/framework` (R6). (Una primera versión del workflow llevaba ese `mkdir` con una justificación errónea; se quitó.)
+  - `pg_isready -h 127.0.0.1` en el *healthcheck*: durante la inicialización de la imagen el servidor temporal solo escucha en el socket, y así no se da por listo antes de tiempo.
+  - `concurrency` por referencia con `cancel-in-progress` (cancela ejecuciones obsoletas) y `permissions: contents: read` (mínimo privilegio).
+  - Sin servicio Redis: `phpunit.xml` pone caché y sesión en array y `predis` no está instalado. La extensión `redis` de PHP se instala igualmente porque `.env.example` usa `REDIS_CLIENT=phpredis`.
+- **Discrepancias (R1):**
+  1. `Backend/storage/framework/` no está versionado, pero no afecta al CI porque la app lo crea al arrancar.
+  2. **Las imágenes locales de Sail llevan PHP 8.4.26, no 8.5.12** (`sail-8.5/app` y `kudos-api` no se han reconstruido aunque los Dockerfiles piden 8.5.12). El CI con PHP 8.5 es la primera ejecución real en 8.5; la reproducción local construyó una imagen 8.5.12 aparte (y temporal). El humano debería reconstruir Sail (`sail build --no-cache`) fuera de esta tarea.
+  3. pnpm no está fijado en el repositorio (`Frontend/Dockerfile` usa `corepack enable` sin versión); el CI lo fija a 12.15.0.
+  4. `docs/backend/testing.md` §1 dice que `DB_HOST`, `DB_USERNAME` y `DB_PASSWORD` se heredan de `.env`; en CI vienen del `env` del job. Se documenta en la §7 nueva.
+- **Validación local** (script en el *scratchpad*, no en el repo; los pasos `run` y las variables se extraen del propio YAML, en una copia limpia del repo sin `vendor`, `node_modules`, `.env` ni `storage/framework`):
+  - `python3 -c "import yaml; …"` → `YAML OK`.
+  - `docker run --rm -v "$PWD":/repo:ro -w /repo rhysd/actionlint:1.7.12 -color .github/workflows/tests.yml` → sin avisos, `actionlint OK` (la imagen trae shellcheck 0.11.0).
+  - `git ls-remote --tags` → `refs/tags/v7` de `actions/checkout` y `actions/setup-node`, y `refs/tags/v2` de `shivammathur/setup-php`.
+  - Backend (imagen `php:8.5.12-cli-bookworm` con las extensiones de Sail, contra `postgres:18-alpine` efímero):
+    ```
+    Checkout limpio: storage/framework no existe
+    PHP 8.5.12 (cli) (built: Oct 21 2026 15:49:43) (NTS)
+    Tests:    1 incomplete, 80 passed (476 assertions)
+    Duration: 3.71s
+    ```
+    El incompleto es `ItemDetailTest::test_un_invitado_no_ve_el_detalle_de_un_item_inactivo`, anterior a la tarea.
+  - Frontend (`node:22-alpine`, pnpm 12.15.0):
+    ```
+    Done in 1.6s using pnpm v12.15.0
+    ✓ built in 3.00s
+    ```
+  - Limpieza: contenedor `kudos-ci-f0-13-pg`, imagen `kudos-ci-f0-13-php:8.5.12` y copia temporal eliminados; los contenedores `kudos-*` y `backend-*` siguen igual.
+- **Aviso al instalar con Composer (anterior a la tarea, sin tocar):** `composer install` avisa de que "the lock file is not up to date with the latest changes in composer.json" (el `content-hash`). `composer.json` cambió por última vez en `5f4a40d` (PHP 8.5.12) sin regenerar `composer.lock`. No rompe la instalación ni los tests; conviene un `composer update --lock` en otra tarea.
