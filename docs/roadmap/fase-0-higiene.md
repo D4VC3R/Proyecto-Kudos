@@ -278,6 +278,30 @@
 
 **Hecho cuando:** el `grep` de frontend §3 no devuelve nada y no se ha añadido ningún plugin de Tailwind.
 
+**Notas:**
+- **Valores elegidos y origen:** `lg:h-page-content` = `calc(100dvh - 9rem)` y `min-h-state` = `60vh`, tomados del commit `b54835a`, que sustituyó `lg:h-[calc(100dvh-9rem)]` y `min-h-[60vh]` por estas clases. `9rem` cuadra con la maqueta actual: cabecera `h-[80px]` + borde (≈ 5rem) y `py-8` de `<main>` (4rem). `animate-fade-in` = `fadeIn 0.5s ease-out` (0 → 1 de opacidad), definida en `theme.extend` (`keyframes` + `animation`); `plugins: []` sigue igual.
+- **Discrepancia (R1): 60vh y no 50vh.** frontend §3 decía `min-h-state` ≈ `50vh`, pero el código original y `CategoryPage.jsx:20` (`min-h-[60vh]`, que no se toca, R6) usan 60vh.
+- **`scrollbar-thin` y `scrollbar-thumb-slate-200` quitadas** de `Ranking`, `ItemDetailColumn` y `CommentBox`. No cambia nada a la vista (hoy no se aplicaban; la segunda es sintaxis del plugin `tailwind-scrollbar`, que no está instalado y la tabla no mencionaba). Definirlas en `index.css` dejaría usos que encuentra el `grep` del "Hecho cuando".
+- **`prose` sustituido sin añadir clases:** los hijos de `ItemDetailColumn` (`h3` y `p`) ya llevan tipografía explícita; basta con quitar `prose prose-slate max-w-none`.
+- **`duration-500` quitado** de los dos usos de `CategoryPage` (`animate-in fade-in duration-500` → `animate-fade-in`): sin el plugin solo afectaba a `transition-duration` y esos elementos no tienen transición; la duración va en `animation['fade-in']`. El `transition-opacity duration-500` de la línea 35 no se toca.
+- **Discrepancia del `grep` del "Hecho cuando" con la tabla:** la tabla manda *definir* `h-page-content` y `min-h-state`, pero el `grep` las incluye, así que tras definirlas seguirá encontrando sus usos (`ItemDetailPage.jsx:21,25,33` y `VotePage.jsx:21`, ahora válidos). `animate-fade-in` se dejó fuera del `grep` por el mismo motivo. Se sigue la tabla y se corrige la comprobación en frontend §3. El "Hecho cuando" no se ha reescrito: lo decide el humano.
+- **Hallazgo: `scrollbar-hide`** (`ProfileTabs.jsx:6`, `MyVotesHeader.jsx:38`) tampoco está definida (sin plugin ni `index.css`). No estaba en la tabla ni en el `grep` de la ficha, así que no se toca (R6). Por eso la comprobación de frontend §3 usa `scrollbar-thin\|scrollbar-thumb` y no `scrollbar-`. Candidata a una tarea posterior.
+- **Efecto visual nuevo:** la animación de entrada (`animate-fade-in`) pasa a verse de verdad en Explorar, ficha, categoría y páginas de admin (antes la clase no existía y no hacía nada).
+- **Sin cambios de JSON (R7)** ni de backend; `package.json`, `pnpm-lock.yaml` e `index.css` sin tocar.
+- **Verificación:**
+  - `grep -rn "animate-in\|prose\|scrollbar-thin\|scrollbar-thumb" Frontend/src` → sin salida;
+  - `grep -rn "h-page-content\|min-h-state\|animate-in\|prose\|scrollbar-thin" Frontend/src` (el de la ficha) → solo:
+    ```
+    Frontend/src/pages/VotePage.jsx:21:    ... lg:h-page-content
+    Frontend/src/pages/ItemDetailPage.jsx:21:      ... animate-fade-in ... lg:h-page-content
+    Frontend/src/pages/ItemDetailPage.jsx:25:        ... min-h-state ...
+    Frontend/src/pages/ItemDetailPage.jsx:33:          ... min-h-state ...
+    ```
+  - `docker compose run --rm kudos-frontend pnpm build` → `✓ 2367 modules transformed … ✓ built in 2.96s`, sin errores;
+  - CSS generado (`dist/assets/*.css`): `@keyframes fadeIn{0%{opacity:0}to{opacity:1}}`, `.animate-fade-in{animation:fadeIn .5s ease-out}`, `h-page-content{height:calc(100dvh - 9rem)}` (en la media query `lg`), `.min-h-state{min-height:60vh}`; `grep -c "scrollbar-thin\|prose"` → `0`;
+  - `grep -n plugins Frontend/tailwind.config.js` → `65:  plugins: [],`; `git diff --stat rediseno-fase-0 -- package.json pnpm-lock.yaml src/index.css` → sin salida.
+- **Sin prueba manual en el navegador:** el entorno del agente no la permite; la revisión visual de ficha, votación, categoría, Explorar y admin queda para la revisión humana.
+
 ---
 
 ## F0-09 · Búsqueda global y slugs reservados
