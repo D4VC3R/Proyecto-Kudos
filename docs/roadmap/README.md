@@ -21,7 +21,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-11 | Copia de seguridad del volumen de imágenes | INFRA | — | hecho |
 | F0-12 | Corregir el README (PostgreSQL, tests, estructura) | DOCS | F0-01 | hecho |
 | F0-13 | CI de GitHub Actions que ejecute los tests con PostgreSQL | INFRA | F0-02 | hecho |
-| F0-14 | Los invitados no ven el detalle de los ítems inactivos (`ShowItemRequest`) | BE | F0-02 | pendiente |
+| F0-14 | Los invitados no ven el detalle de los ítems inactivos (`ShowItemRequest`) | BE | F0-02 | hecho |
 | F0-15 | Escapar `%`, `_` y `\` en las búsquedas `ilike` | BE | F0-09 | pendiente |
 | F0-16 | Evitar el *deadlock* al votar el mismo ítem | BE | F0-03 | pendiente |
 | F0-17 | La cola de votación no ofrece ítems ya votados | BE | F0-05 | pendiente |

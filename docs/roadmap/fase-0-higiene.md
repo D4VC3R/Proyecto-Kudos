@@ -57,7 +57,7 @@
   - `Concerns/CreatesItems.php`: trait con `createCategory()` y `createItem()`. No se añadió a `TestCase`: cada clase lo usa con `use CreatesItems;`. Existe porque `ItemFactory` y `VoteFactory` eligen usuario, categoría o ítem al azar de la base de datos en `definition()` (que se ejecuta aunque haya *overrides*), así que antes de crear un ítem tiene que haber un usuario y una categoría; y porque `CategoryFactory` puede repetir `name`/`slug` (únicos) entre dos categorías del mismo test.
 - **Desviación R1 (cola):** cuando no queda nada por votar, `GET /api/categories/{slug}/next-item` responde **204 No Content** sin cuerpo, no "null o vacío".
 - **Desviación R1 (ítem inactivo):** votar un ítem inactivo responde **403** (`VotePolicy::create()` en `StoreVoteRequest::authorize()`, que va antes de la validación), no 422. El 422 "No se puede votar un item inactivo." de `StoreVoteRequest::withValidator()` es inalcanzable por `POST /api/votes`. No se ha tocado.
-- **Bug encontrado (sin arreglar):** `ShowItemRequest::authorize()` devuelve `$this->user()?->can('view', …) ?? true`, así que un invitado recibe `true` y se salta `ItemPolicy::view()`, que niega los ítems inactivos a los invitados. Un invitado ve el detalle de un ítem inactivo (200 en lugar de 403). El test `ItemDetailTest::test_un_invitado_no_ve_el_detalle_de_un_item_inactivo` queda *incomplete* (`markTestIncomplete` condicional) y pasará solo cuando se arregle.
+- **Bug encontrado (sin arreglar):** `ShowItemRequest::authorize()` devuelve `$this->user()?->can('view', …) ?? true`, así que un invitado recibe `true` y se salta `ItemPolicy::view()`, que niega los ítems inactivos a los invitados. Un invitado ve el detalle de un ítem inactivo (200 en lugar de 403). El test `ItemDetailTest::test_un_invitado_no_ve_el_detalle_de_un_item_inactivo` queda *incomplete* (`markTestIncomplete` condicional) y pasará solo cuando se arregle. Corregido en F0-14.
 - **Ranking:** los datos (A 9/10, B 9/4, C 7/10, D sin votos) se eligieron para que el orden no cambie con el ranking bayesiano de la F0-04 (m=5, C=5 de *fallback*).
 - **Kudos:** los importes salen de `config('kudos.voting')`, no están escritos a mano, porque la F2-03 los reajustará. El tiempo se congela con `travelTo()` para que el TTL `endOfDay()` del contador diario no caduque a mitad de los bucles de 21 y 51 votos.
 - `can_edit` del detalle es `true` para el creador del ítem (no solo para admins): el test del detalle crea el ítem antes de autenticar al usuario para que el creador sea otro.
@@ -502,6 +502,12 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 2. Quita el `markTestIncomplete` condicional de `test_un_invitado_no_ve_el_detalle_de_un_item_inactivo` (deja el `assertForbidden()`).
 
 **Hecho cuando:** ese test pasa en verde (falla antes del arreglo), un invitado sigue viendo los ítems activos y `sail test` no tiene ningún *incomplete*.
+
+**Notas:**
+- **Desviación de la ficha (R1):** la ficha proponía `Gate::forUser($this->user())`, pero `GET /api/items/{item}` es una ruta pública sin `auth:sanctum` (`routes/api.php:27`), el guard por defecto es `web` (`config/auth.php:17`) y el frontend envía `Authorization: Bearer`. Con `$this->user()` el usuario sería `null` en producción aunque llegue el token y un admin recibiría 403 en los ítems inactivos (en los tests no se nota porque `Sanctum::actingAs()` cambia el guard por defecto). Se usa `Gate::forUser($this->user('sanctum'))->allows('view', $this->route('item'))`, igual que `ItemController::show()`. `ItemPolicy::view()` ya aceptaba `?User` y no se ha tocado; el JSON del 403 es el mismo de `bootstrap/app.php`.
+- **Test nuevo:** `ItemDetailTest::test_un_admin_con_token_ve_el_detalle_de_un_item_inactivo` usa un token Bearer real (`createToken()` + `withToken()`, sin `Sanctum::actingAs`). Comprobación: con `$this->user()` en lugar de `$this->user('sanctum')` este test falla; se revirtió después.
+- **Salida antes del arreglo** (`sail test --filter=test_un_invitado_no_ve_el_detalle_de_un_item_inactivo`, sin el `markTestIncomplete`): `Expected response status code [403] but received 200.` -> `Tests: 1 failed (1 assertions)`.
+- **Salida después** (`sail test`): `Tests: 82 passed (479 assertions)`, sin *incomplete*.
 
 ---
 
