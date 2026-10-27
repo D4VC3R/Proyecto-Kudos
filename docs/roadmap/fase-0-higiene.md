@@ -665,6 +665,8 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 3. `Frontend/README.md` dice `VITE_STORAGE_URL=http://localhost:8095/api/storage`; corrígelo según `Frontend/.env.example` (Notas de F0-12).
 4. Elimina el 422 inalcanzable de `StoreVoteRequest::withValidator` ("No se puede votar un item inactivo."): la *policy* en `authorize()` ya responde 403 (Notas de F0-02). `EmitVoteTest::test_no_se_puede_votar_un_item_inactivo` debe seguir en verde.
 5. `StoreVoteRequest` valida `item_id` con `Rule::exists('items','id')`, que no mira `deleted_at`: un `skip` sobre un ítem borrado con *soft delete* responde 201 (Notas de F0-16). Haz que un ítem borrado se rechace igual para `vote` y `skip` (p. ej. `->withoutTrashed()` en la regla), con test.
+6. Corrige el comentario de `Backend/tests/Feature/Items/DiscoverableItemsTest.php:41` y la nota de F0-05 que dicen que "la cola no consume el ítem hasta que se vota": cada GET lo consume y es la regeneración la que lo vuelve a ofrecer (Notas de F0-17).
+7. Remates de accesibilidad del buscador global (Notas de F0-20): una región `aria-live="polite"` que anuncie "Buscando…", "Sin resultados" o el número de resultados; Escape también cierra cuando el foco está en "Ver todos los resultados"; y Enter no abre un resultado antiguo mientras llegan los del término nuevo (la opción activa se anula mientras `isFetching` o al cambiar `debouncedSearch`). Lógica pura en `lib/` probada con Node si hace falta.
 
 **Hecho cuando:** `grep -rn "scrollbar-" Frontend/src` sale vacío, votar o saltar un ítem borrado da error (test), `sail test` y `pnpm build` en verde, y los docs están al día.
 
