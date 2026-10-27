@@ -42,7 +42,8 @@ class StoreVoteRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'item_id' => ['required', 'uuid', Rule::exists('items', 'id')],
+			// withoutTrashed(): un ítem borrado (soft delete) se rechaza igual para vote y skip (F0-21)
+			'item_id' => ['required', 'uuid', Rule::exists('items', 'id')->withoutTrashed()],
 			'type' => ['required', Rule::in([Vote::TYPE_VOTE, Vote::TYPE_SKIP])],
 			'score' => [
 				'nullable',
@@ -62,29 +63,10 @@ class StoreVoteRequest extends FormRequest
 	public function messages(): array
 	{
 		return [
+			'item_id.exists' => 'El ítem no existe o ya no está disponible.',
 			'score.multiple_of' => 'La puntuación debe ir en pasos de medio punto (por ejemplo, 7 o 7,5).',
 			'score.required' => 'No se ha registrado puntuación asociada al voto.',
 			'score.prohibited' => 'No se ha registrado la puntuación: votación omitida.',
 		];
-	}
-
-    /**
-     * Agrega validación personalizada para asegurar que el ítem votado esté activo.
-     * Esto se hace después de las validaciones básicas para evitar consultas innecesarias.
-     */
-	public function withValidator($validator): void
-	{
-		$validator->after(function ($validator) {
-			$itemId = $this->input('item_id');
-			if (!$itemId) {
-				return;
-			}
-
-			$item = Item::find($itemId);
-
-			if ($item && $item->status !== Item::STATUS_ACTIVE) {
-				$validator->errors()->add('item_id', 'No se puede votar un item inactivo.');
-			}
-		});
 	}
 }

@@ -35,7 +35,7 @@ const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams }) => 
       highlight="Votaciones"
       subtitle="Echa un vistazo a tu historial de votaciones."
     >
-      <div className="flex gap-2 mr-auto mb-2 md:mb-0 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
+      <div className="flex gap-2 mr-auto mb-2 md:mb-0 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
         <Button
           onClick={() => setView('all')}
           variant="solid"

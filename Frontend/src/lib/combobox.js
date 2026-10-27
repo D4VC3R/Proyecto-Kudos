@@ -24,3 +24,18 @@ export const getActiveOption = (options, activeIndex) => {
 
 // id de la opción `index` del listbox, para aria-activedescendant.
 export const getOptionId = (listboxId, index) => `${listboxId}-option-${index}`;
+
+// Indica si las opciones del desplegable son del texto escrito y se pueden activar con ↑/↓ (y abrir con Enter).
+// No lo son mientras llegan las de un término nuevo (isFetching: con keepPreviousData se siguen viendo las antiguas)
+// ni mientras el texto escrito no ha pasado el debounce. Así Enter no abre un resultado antiguo (F0-21).
+export const areOptionsCurrent = ({ isFetching, inputTerm, resultsTerm }) =>
+  !isFetching && resultsTerm !== undefined && inputTerm === resultsTerm;
+
+// Texto de la región aria-live del buscador (F0-21). Vacío con el desplegable cerrado.
+export const getSearchStatusMessage = ({ isOpen, isFetching, isError, resultCount }) => {
+  if (!isOpen) return '';
+  if (isFetching) return 'Buscando…';
+  if (isError) return 'No se ha podido buscar. Inténtalo de nuevo.';
+  if (!Number.isInteger(resultCount) || resultCount <= 0) return 'Sin resultados';
+  return resultCount === 1 ? '1 resultado' : `${resultCount} resultados`;
+};

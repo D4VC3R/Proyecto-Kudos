@@ -56,7 +56,7 @@
   - `Feature/Items/ItemSearchTest.php` (1) y `ItemDetailTest.php` (3);
   - `Concerns/CreatesItems.php`: trait con `createCategory()` y `createItem()`. No se añadió a `TestCase`: cada clase lo usa con `use CreatesItems;`. Existe porque `ItemFactory` y `VoteFactory` eligen usuario, categoría o ítem al azar de la base de datos en `definition()` (que se ejecuta aunque haya *overrides*), así que antes de crear un ítem tiene que haber un usuario y una categoría; y porque `CategoryFactory` puede repetir `name`/`slug` (únicos) entre dos categorías del mismo test.
 - **Desviación R1 (cola):** cuando no queda nada por votar, `GET /api/categories/{slug}/next-item` responde **204 No Content** sin cuerpo, no "null o vacío".
-- **Desviación R1 (ítem inactivo):** votar un ítem inactivo responde **403** (`VotePolicy::create()` en `StoreVoteRequest::authorize()`, que va antes de la validación), no 422. El 422 "No se puede votar un item inactivo." de `StoreVoteRequest::withValidator()` es inalcanzable por `POST /api/votes`. No se ha tocado.
+- **Desviación R1 (ítem inactivo):** votar un ítem inactivo responde **403** (`VotePolicy::create()` en `StoreVoteRequest::authorize()`, que va antes de la validación), no 422. El 422 "No se puede votar un item inactivo." de `StoreVoteRequest::withValidator()` es inalcanzable por `POST /api/votes`. No se ha tocado. Resuelto en la F0-21.
 - **Bug encontrado (sin arreglar):** `ShowItemRequest::authorize()` devuelve `$this->user()?->can('view', …) ?? true`, así que un invitado recibe `true` y se salta `ItemPolicy::view()`, que niega los ítems inactivos a los invitados. Un invitado ve el detalle de un ítem inactivo (200 en lugar de 403). El test `ItemDetailTest::test_un_invitado_no_ve_el_detalle_de_un_item_inactivo` queda *incomplete* (`markTestIncomplete` condicional) y pasará solo cuando se arregle. Corregido en F0-14.
 - **Ranking:** los datos (A 9/10, B 9/4, C 7/10, D sin votos) se eligieron para que el orden no cambie con el ranking bayesiano de la F0-04 (m=5, C=5 de *fallback*).
 - **Kudos:** los importes salen de `config('kudos.voting')`, no están escritos a mano, porque la F2-03 los reajustará. El tiempo se congela con `travelTo()` para que el TTL `endOfDay()` del contador diario no caduque a mitad de los bucles de 21 y 51 votos.
@@ -209,7 +209,7 @@
   ```
   Por categoría: álbumes 217×80; artistas 298×0; ciudades 995×40 (sin imágenes, pero su descripción "importada automaticamente" no coincide con los patrones); libros 435×80, 137×40 y 1×0; países 25×80, 219×40 y 1×0; películas 696×80; políticos 49×0; series 688×80 y 3×40; videojuegos 550×80 y 35×40. Artistas y políticos quedan fuera de la cola y de los destacados porque no tienen imagen y su descripción es de plantilla.
 - **Pendiente de producción (no se ha tocado, R10):** los ítems existentes tienen `quality_score = 0`, así que en cuanto se despliegue esto **todas las colas quedan vacías y los destacados desaparecen** hasta ejecutar `items:recalculate-quality` con un worker de `catalog` (F0-10).
-- **Test de la cola:** el plan decía que la segunda llamada a `next-item` daba 204 sin más, pero la cola no consume el ítem hasta que se vota; el test vota la ficha buena entre las dos llamadas (como `NextCategoryItemTest`) y entonces da 204.
+- **Test de la cola:** el plan decía que la segunda llamada a `next-item` daba 204 sin más, pero cada GET consume el ítem de la cola y, al vaciarse, la regeneración lo vuelve a ofrecer mientras no se vote; el test vota la ficha buena entre las dos llamadas (como `NextCategoryItemTest`) y entonces da 204 (redacción corregida en la F0-21).
 - **Verificación:**
   - `sail test --filter='ItemQualityScoreTest|DiscoverableItemsTest|RecalculateItemQualityCommandTest'` → `Tests: 19 passed`;
   - `sail test` → `Tests: 1 incomplete, 67 passed (414 assertions)` (el incompleto es el de `ShowItemRequest`, anterior);
@@ -285,7 +285,7 @@
 - **`prose` sustituido sin añadir clases:** los hijos de `ItemDetailColumn` (`h3` y `p`) ya llevan tipografía explícita; basta con quitar `prose prose-slate max-w-none`.
 - **`duration-500` quitado** de los dos usos de `CategoryPage` (`animate-in fade-in duration-500` → `animate-fade-in`): sin el plugin solo afectaba a `transition-duration` y esos elementos no tienen transición; la duración va en `animation['fade-in']`. El `transition-opacity duration-500` de la línea 35 no se toca.
 - **Discrepancia del `grep` del "Hecho cuando" con la tabla:** la tabla manda *definir* `h-page-content` y `min-h-state`, pero el `grep` las incluye, así que tras definirlas seguirá encontrando sus usos (`ItemDetailPage.jsx:21,25,33` y `VotePage.jsx:21`, ahora válidos). `animate-fade-in` se dejó fuera del `grep` por el mismo motivo. Se sigue la tabla y se corrige la comprobación en frontend §3. El "Hecho cuando" no se ha reescrito: lo decide el humano.
-- **Hallazgo: `scrollbar-hide`** (`ProfileTabs.jsx:6`, `MyVotesHeader.jsx:38`) tampoco está definida (sin plugin ni `index.css`). No estaba en la tabla ni en el `grep` de la ficha, así que no se toca (R6). Por eso la comprobación de frontend §3 usa `scrollbar-thin\|scrollbar-thumb` y no `scrollbar-`. Candidata a una tarea posterior.
+- **Hallazgo: `scrollbar-hide`** (`ProfileTabs.jsx:6`, `MyVotesHeader.jsx:38`) tampoco está definida (sin plugin ni `index.css`). No estaba en la tabla ni en el `grep` de la ficha, así que no se toca (R6). Por eso la comprobación de frontend §3 usa `scrollbar-thin\|scrollbar-thumb` y no `scrollbar-`. Candidata a una tarea posterior. Resuelto en la F0-21.
 - **Efecto visual nuevo:** la animación de entrada (`animate-fade-in`) pasa a verse de verdad en Explorar, ficha, categoría y páginas de admin (antes la clase no existía y no hacía nada).
 - **Sin cambios de JSON (R7)** ni de backend; `package.json`, `pnpm-lock.yaml` e `index.css` sin tocar.
 - **Verificación:**
@@ -421,7 +421,7 @@
   - Rutas de controladores corregidas: `Item/ItemCommentController.php`, `app/Actions/ReviewProposalAction.php`, `Admin/AdminUserController.php`, `Admin/AdminItemController.php` y `Proposal/ProposalController.php`.
   - "Entorno local": los comandos pasan de `php artisan` en el host a `./vendor/bin/sail artisan …` (R2); se añaden `sail up -d` y `kudos:audit-consistency`, y la nota de que `migrate:fresh --seed` tarda.
   - Sección nueva "Tests" (con `scripts/verify-test-db-guard.sh`) y enlace a `../docs/README.md` en "Documentación de contrato API".
-- **Fuera de alcance (R6), sin tocar:** `Frontend/README.md` dice `VITE_STORAGE_URL=http://localhost:8095/api/storage`, pero `Frontend/.env.example` tiene `http://localhost:8095/storage/`. Conviene corregirlo en otra tarea.
+- **Fuera de alcance (R6), sin tocar:** `Frontend/README.md` dice `VITE_STORAGE_URL=http://localhost:8095/api/storage`, pero `Frontend/.env.example` tiene `http://localhost:8095/storage/`. Conviene corregirlo en otra tarea. Resuelto en la F0-21.
 - **Sin CI de tests:** el README no afirma que exista; lo trae la F0-13.
 - **Verificación:**
   - `grep -niE "mysql|media library|media-library|telescope|postman|ProposalService|Actions/Admin/Proposals|badge/build|version-1\.0\.0|php artisan" README.md Backend/README.md` → sin salida (exit 1).
@@ -543,7 +543,7 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 
 **Notas:**
 - **Cambio:** `EmitVoteAction::execute()` hace ahora `Item::withTrashed()->lockForUpdate()->findOrFail($voteData['item_id'])` como primera consulta de la transacción. La comprobación del voto existente, que estaba fuera de la transacción, pasa dentro, después del bloqueo. El bloqueo se hace también en `skip` (aunque no recalcule), porque su `INSERT` en `votes` toma el mismo `KEY SHARE`. El `try/catch QueryException` de la carrera se mantiene sin cambios (R6/R8).
-- **`withTrashed()`:** hueco preexistente. `StoreVoteRequest` valida `item_id` con `Rule::exists('items','id')`, que no mira `deleted_at`, así que un `skip` sobre un ítem borrado con *soft delete* ya daba 201 (y un `vote` daba 404 por `authorize()`/`withValidator()`). Para no cambiar qué ítems se pueden votar (R6), el bloqueo usa `withTrashed()` y solo bloquea la fila.
+- **`withTrashed()`:** hueco preexistente. `StoreVoteRequest` valida `item_id` con `Rule::exists('items','id')`, que no mira `deleted_at`, así que un `skip` sobre un ítem borrado con *soft delete* ya daba 201 (y un `vote` daba 404 por `authorize()`/`withValidator()`). Para no cambiar qué ítems se pueden votar (R6), el bloqueo usa `withTrashed()` y solo bloquea la fila. Resuelto en la F0-21.
 - **Test:** `EmitVoteTest` suma `test_el_voto_bloquea_el_item_antes_de_comprobar_e_insertar_el_voto` y `test_un_skip_tambien_bloquea_el_item_antes_de_insertar`. Comprueban el orden en el *query log* (`select … from "items" … for update` antes de la consulta del voto existente y del `insert into "votes"`), no la concurrencia real: con `RefreshDatabase` (una sola transacción) no se puede reproducir el *deadlock*.
 - **Salida antes del arreglo** (`sail test --filter=bloquea_el_item`): `Tests: 2 failed (7 assertions)`.
 - **Salida después:** `--filter=bloquea_el_item` -> `Tests: 2 passed (14 assertions)`; `--filter=EmitVoteTest` -> `Tests: 8 passed (49 assertions)`; `sail test` -> `Tests: 92 passed (509 assertions)`, sin *incomplete*.
@@ -567,7 +567,7 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 - **Tests nuevos** (`NextCategoryItemTest`): votado desde la ficha, omitido (*skip*) desde la ficha, pasa a inactivo y pasa a ficha pobre, con el helper `cachedQueueAfterFirstItem()`.
 - **Salida antes del arreglo** (`sail test --filter=no_ofrece_un_item_del_lote`, sin tocar el servicio): `Tests: 4 failed (23 assertions)`.
 - **Salida después:** `--filter=no_ofrece_un_item_del_lote` -> `Tests: 4 passed (27 assertions)`; `--filter=NextCategoryItemTest` -> `Tests: 6 passed (41 assertions)`; `--filter=DiscoverableItemsTest` -> `Tests: 5 passed (19 assertions)`; `sail test` -> `Tests: 96 passed (536 assertions)`, sin *incomplete*.
-- **Desviaciones (R1):** `DiscoverableItemsTest.php` está en `tests/Feature/Items/`, no se ha tocado. La nota de la F0-05 y el comentario de `DiscoverableItemsTest.php:41` dicen que "la cola no consume el ítem hasta que se vota", pero en realidad cada GET hace `array_shift`: es la regeneración la que lo vuelve a ofrecer. Se anota aquí y no se toca ese comentario (R6).
+- **Desviaciones (R1):** `DiscoverableItemsTest.php` está en `tests/Feature/Items/`, no se ha tocado. La nota de la F0-05 y el comentario de `DiscoverableItemsTest.php:41` dicen que "la cola no consume el ítem hasta que se vota", pero en realidad cada GET hace `array_shift`: es la regeneración la que lo vuelve a ofrecer. Se anota aquí y no se toca ese comentario (R6). Resuelto en la F0-21.
 
 ---
 
@@ -651,7 +651,7 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 - **Comprobación con Node** (`docker compose run --rm -T kudos-frontend node --input-type=module -e "…"` sobre `./src/lib/combobox.js`, con los casos ↓/↑ desde ninguna, vueltas, 0 opciones, índices fuera de rango, otras teclas, `getActiveOption` y `getOptionId`): `OK combobox`.
 - **Sin dependencias nuevas.** `git diff --stat rediseno-fase-0 -- Frontend/package.json Frontend/pnpm-lock.yaml` → vacío.
 - **Revisión manual en el navegador: pendiente para el humano.** Comprobar: Tab desde el input a "Ver todos los resultados" sin que se cierre el desplegable; ↑/↓ resaltan la opción; Enter con y sin opción activa; Escape cierra sin vaciar el campo; clic y toque en el menú móvil; y con lector de pantalla (NVDA u Orca) que anuncia el combobox y las opciones.
-- **Fuera de alcance.** No hay región `aria-live` para "Buscando…" / "Sin resultados", y Escape no hace nada cuando el foco está en "Ver todos los resultados".
+- **Fuera de alcance.** No hay región `aria-live` para "Buscando…" / "Sin resultados", y Escape no hace nada cuando el foco está en "Ver todos los resultados". Resuelto en la F0-21.
 
 ---
 
@@ -669,6 +669,28 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 7. Remates de accesibilidad del buscador global (Notas de F0-20): una región `aria-live="polite"` que anuncie "Buscando…", "Sin resultados" o el número de resultados; Escape también cierra cuando el foco está en "Ver todos los resultados"; y Enter no abre un resultado antiguo mientras llegan los del término nuevo (la opción activa se anula mientras `isFetching` o al cambiar `debouncedSearch`). Lógica pura en `lib/` probada con Node si hace falta.
 
 **Hecho cuando:** `grep -rn "scrollbar-" Frontend/src` sale vacío, votar o saltar un ítem borrado da error (test), `sail test` y `pnpm build` en verde, y los docs están al día.
+
+**Notas:**
+- **Paso 5 (ítems borrados), el primero:** `StoreVoteRequest::rules()` usa `Rule::exists('items', 'id')->withoutTrashed()` y `messages()` suma `item_id.exists` = "El ítem no existe o ya no está disponible." (no hay carpeta `lang/`, así que sin él saldría el mensaje en inglés). `EmitVoteAction` no se ha tocado. Tests nuevos en `EmitVoteTest`: `test_no_se_puede_votar_un_item_borrado` y `test_no_se_puede_omitir_un_item_borrado` (422 `validation_error`, `details.item_id`, sin voto en la tabla).
+  - **Salida antes del arreglo** (`sail test --filter=item_borrado`): `Tests: 2 failed (2 assertions)`; `vote` daba 404 ("El item no existe", no el 422 esperado) y `skip` daba 201, porque `Rule::exists` no mira `deleted_at`.
+  - **Salida después:** `--filter=item_borrado` -> `Tests: 2 passed (14 assertions)`.
+  - El 422 sustituye al 201 de `skip` y al error anterior de `vote` (404 genérico "El item no existe").
+  - **Decisión (para el humano):** volver a enviar un voto o *skip* que ya existía sobre un ítem borrado después da ahora 422 en vez del 200 idempotente, porque la validación va antes de `EmitVoteAction`. También quedan para revisión el texto del mensaje nuevo y que `Frontend/.env.example` se ha tocado aunque no está en **Archivos** (paso 3).
+- **Paso 4 (`withValidator()`):** borrado entero (su 422 "No se puede votar un item inactivo." era inalcanzable: `authorize()` responde 403 vía `VotePolicy::create()`). `use App\Models\Item;` se queda porque lo usa `authorize()`. `test_no_se_puede_votar_un_item_inactivo` sigue en verde (403) y su comentario ya no menciona el 422.
+- **Paso 1 (`scrollbar-hide`):** quitada de `ProfileTabs.jsx` y `MyVotesHeader.jsx`; `grep -rn "scrollbar-" Frontend/src` vacío.
+- **Paso 2 (`AdminItemCard`):** el `<p>` de la descripción solo se pinta con `hasText(item.description)` (y se muestra recortado con `trim()`).
+- **Paso 3 (R1, discrepancia del `;`):** el README decía `http://localhost:8095/api/storage` (mal) y `Frontend/.env.example` tenía `http://localhost:8095/storage/;` con un `;` de más (Vite no lo trata como comentario y `getStorageUrl` generaba `…/storage/;/ruta`) y sin salto de línea final. Valor correcto en ambos: `VITE_STORAGE_URL=http://localhost:8095/storage/` (coincide con el `.env` local, `Backend/public/storage` y `deploy/README.md`).
+- **Paso 6:** comentario de `DiscoverableItemsTest.php:41` y nota de F0-05 reescritos: cada GET consume el ítem de la cola (`array_shift`) y, al vaciarse, la regeneración lo vuelve a ofrecer mientras no se vote. También se ha actualizado el comentario de `EmitVoteTest` sobre el 403 del ítem inactivo.
+- **Paso 7 (buscador global):** `combobox.js` suma `areOptionsCurrent` y `getSearchStatusMessage`; `useGlobalSearch.js` expone `inputRef`, `statusMessage` y `handleSeeAllKeyDown`; `GlobalSearch.jsx` pinta una región `<p role="status" aria-live="polite" aria-atomic="true" class="sr-only">` siempre en el DOM, pone el `ref` al input y `onKeyDown` en "Ver todos los resultados" (Escape: primero `focus()` en el input y después `close()`, porque `handleFocus` reabre). Textos visibles sin cambios.
+  - **Decisión (anular la activa):** no hay opción activa ni se activa ninguna con ↑/↓ mientras `isFetching` o mientras el texto escrito (`normalizeSearchTerm(searchInput)`) no coincide con `debouncedSearch` (debounce pendiente). Así Enter no abre un resultado antiguo y va a `/buscar`. `handleChange` ya anulaba la activa y `debouncedSearch` solo cambia tras un `handleChange`, así que eso cubre "anularla al cambiar `debouncedSearch`" sin un `useEffect`. Consecuencia: en un refetch de fondo del mismo término (`staleTime` de 1 min), ↑/↓ no hacen nada durante ese momento.
+- **R7:** la forma del JSON no cambia. Solo cambian códigos de estado en `POST /api/votes` con ítems borrados (201/404/200 → 422 `validation_error`). Sin dependencias nuevas (`package.json` y `pnpm-lock.yaml` sin tocar), sin Pint.
+- **Documentos actualizados:** `docs/frontend/arquitectura.md` y `docs/backend/arquitectura.md`. `Backend/docs/api-contract.md` (`POST /api/votes`) se ha actualizado solo en local: no está versionado porque `Backend/.gitignore` ignora `/docs`. Decidir si ese contrato se versiona le toca al humano.
+- **Verificación:**
+  - `sail test --filter=EmitVoteTest` -> `Tests: 10 passed (63 assertions)`; `--filter=DiscoverableItemsTest` -> `Tests: 5 passed (19 assertions)`;
+  - `sail test` -> `Tests: 100 passed (556 assertions)`, sin *incomplete* (98 -> 100); `git diff --stat rediseno-fase-0 -- tests/TestCase.php phpunit.xml` vacío;
+  - `pnpm build` en verde; Node sobre `./src/lib/combobox.js` -> `OK combobox F0-21`;
+  - `grep -n "STORAGE_URL" Frontend/README.md Frontend/.env.example` -> ambos `http://localhost:8095/storage/`.
+- **Revisión manual en el navegador: pendiente para el humano.** Comprobar: el lector de pantalla anuncia "Buscando…", "Sin resultados" o "N resultados"; Escape con el foco en "Ver todos los resultados" cierra y devuelve el foco al input; escribir, pulsar ↓ durante la carga y Enter no abre un resultado antiguo; la ficha del panel de administración no deja hueco cuando no hay descripción; las pestañas del perfil y el filtro de Mis votos hacen scroll horizontal en móvil.
 
 ---
 

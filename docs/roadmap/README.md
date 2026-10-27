@@ -28,7 +28,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-18 | `Http::preventStrayRequests()` para todos los tests | QA | F0-02 | hecho |
 | F0-19 | Herramientas: `composer.lock`, Sail en PHP 8.5.12 y pnpm fijado | INFRA | F0-13 | hecho |
 | F0-20 | Accesibilidad del buscador global | FE | F0-09 | hecho |
-| F0-21 | Limpieza menor de la Fase 0 | FE, BE, DOCS | F0-08 | pendiente |
+| F0-21 | Limpieza menor de la Fase 0 | FE, BE, DOCS | F0-08 | hecho |
 | F0-22 | Licencia MIT | DOCS | — | pendiente |
 | F0-23 | Vulnerabilidad de `symfony/yaml` y versión mínima de PHP | BE, INFRA | F0-19 | pendiente |
 

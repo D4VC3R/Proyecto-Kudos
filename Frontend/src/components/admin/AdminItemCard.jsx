@@ -2,6 +2,7 @@ import React from 'react';
 import { Trash2 } from 'lucide-react';
 import {statusColors} from "../../lib/constants.js";
 import {formatStatus} from "../../lib/formatters.js";
+import { hasText } from '../../lib/text.js';
 import { clsx } from 'clsx';
 import AnimatedCard from '../animations/AnimatedCard.jsx';
 import Button from '../ui/Button.jsx';
@@ -15,7 +16,9 @@ const AdminItemCard = ({ item, onModerate, onDelete }) => {
           {formatStatus(item.status)}
         </span>
       </div>
-      <p className="text-sm text-text-normal line-clamp-2 mt-1">{item.description}</p>
+      {hasText(item.description) && (
+        <p className="text-sm text-text-normal line-clamp-2 mt-1">{item.description.trim()}</p>
+      )}
 
       <div className="flex flex-col gap-1 mt-2 text-xs font-medium text-text-normal">
         <div>Puntuación: <span className="font-bold text-yellow-600">{item.vote_avg} ({item.vote_count} votos)</span></div>
