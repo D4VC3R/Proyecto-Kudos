@@ -17,7 +17,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-07 | Ocultar secciones vacías en la ficha | FE | — | hecho |
 | F0-08 | Corregir las clases CSS sin definir | FE | — | hecho |
 | F0-09 | Búsqueda global (cabecera y página `/buscar`) y slugs reservados | FE, BE | F0-01 | hecho |
-| F0-10 | Servicio `scheduler`, cola `catalog` y memoria del worker en producción | INFRA | — | pendiente |
+| F0-10 | Servicio `scheduler`, cola `catalog` y memoria del worker en producción | INFRA | — | hecho |
 | F0-11 | Copia de seguridad del volumen de imágenes | INFRA | — | pendiente |
 | F0-12 | Corregir el README (PostgreSQL, tests, estructura) | DOCS | F0-01 | pendiente |
 | F0-13 | CI de GitHub Actions que ejecute los tests con PostgreSQL | INFRA | F0-02 | pendiente |
