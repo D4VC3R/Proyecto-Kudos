@@ -102,7 +102,7 @@
   - `VoteFactory::rated(float)` es el *state* que recomendaba `testing.md` §4; `withScore(int)` se deja igual.
 - **Programación:** `items:recalculate-stats` ya queda programado aquí. La F0-10 solo tiene que verificarlo con `schedule:list` (`0 3 * * *`).
 - **Cola `catalog`:** hasta la F0-10 el worker de producción (`compose.prod.yml`) solo escucha la cola `default`, así que los jobs de `catalog` no se procesarían allí. No se ha desplegado nada.
-- **Riesgo conocido (no corregido, R6):** el `INSERT` de `votes` toma un `KEY SHARE` sobre la fila del ítem (por la FK) y después el servicio hace `FOR UPDATE`. Dos votos simultáneos al mismo ítem pueden acabar en *deadlock*: Postgres aborta uno y ese usuario recibe un 500. Ya ocurría con `EmitVoteAction` antes de la F0-03. `ChangeVoteAction` no tiene este riesgo (actualizar el voto no bloquea al padre).
+- **Riesgo conocido (no corregido, R6):** el `INSERT` de `votes` toma un `KEY SHARE` sobre la fila del ítem (por la FK) y después el servicio hace `FOR UPDATE`. Dos votos simultáneos al mismo ítem pueden acabar en *deadlock*: Postgres aborta uno y ese usuario recibe un 500. Ya ocurría con `EmitVoteAction` antes de la F0-03. `ChangeVoteAction` no tiene este riesgo (actualizar el voto no bloquea al padre). Corregido en F0-16.
 - El frontend ya envía múltiplos de 0.5 entre 0.5 y 10, así que `multiple_of:0.5` no cambia la interfaz.
 
 ---
@@ -540,6 +540,13 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 2. Bloquea el ítem (`Item::lockForUpdate()`) al principio de la transacción, antes de comprobar el voto existente y de `Vote::create`. El `lockForUpdate` posterior de `recalculate()` es inocuo dentro de la misma transacción.
 
 **Hecho cuando:** un test comprueba en el *query log* que el `select … for update` sobre `items` va antes del `insert into "votes"`, el orden queda documentado en `docs/backend/arquitectura.md` y la batería sigue en verde.
+
+**Notas:**
+- **Cambio:** `EmitVoteAction::execute()` hace ahora `Item::withTrashed()->lockForUpdate()->findOrFail($voteData['item_id'])` como primera consulta de la transacción. La comprobación del voto existente, que estaba fuera de la transacción, pasa dentro, después del bloqueo. El bloqueo se hace también en `skip` (aunque no recalcule), porque su `INSERT` en `votes` toma el mismo `KEY SHARE`. El `try/catch QueryException` de la carrera se mantiene sin cambios (R6/R8).
+- **`withTrashed()`:** hueco preexistente. `StoreVoteRequest` valida `item_id` con `Rule::exists('items','id')`, que no mira `deleted_at`, así que un `skip` sobre un ítem borrado con *soft delete* ya daba 201 (y un `vote` daba 404 por `authorize()`/`withValidator()`). Para no cambiar qué ítems se pueden votar (R6), el bloqueo usa `withTrashed()` y solo bloquea la fila.
+- **Test:** `EmitVoteTest` suma `test_el_voto_bloquea_el_item_antes_de_comprobar_e_insertar_el_voto` y `test_un_skip_tambien_bloquea_el_item_antes_de_insertar`. Comprueban el orden en el *query log* (`select … from "items" … for update` antes de la consulta del voto existente y del `insert into "votes"`), no la concurrencia real: con `RefreshDatabase` (una sola transacción) no se puede reproducir el *deadlock*.
+- **Salida antes del arreglo** (`sail test --filter=bloquea_el_item`): `Tests: 2 failed (7 assertions)`.
+- **Salida después:** `--filter=bloquea_el_item` -> `Tests: 2 passed (14 assertions)`; `--filter=EmitVoteTest` -> `Tests: 8 passed (49 assertions)`; `sail test` -> `Tests: 92 passed (509 assertions)`, sin *incomplete*.
 
 ---
 

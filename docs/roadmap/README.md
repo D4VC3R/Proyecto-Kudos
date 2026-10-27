@@ -23,7 +23,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-13 | CI de GitHub Actions que ejecute los tests con PostgreSQL | INFRA | F0-02 | hecho |
 | F0-14 | Los invitados no ven el detalle de los ítems inactivos (`ShowItemRequest`) | BE | F0-02 | hecho |
 | F0-15 | Escapar `%`, `_` y `\` en las búsquedas `ilike` | BE | F0-09 | hecho |
-| F0-16 | Evitar el *deadlock* al votar el mismo ítem | BE | F0-03 | pendiente |
+| F0-16 | Evitar el *deadlock* al votar el mismo ítem | BE | F0-03 | hecho |
 | F0-17 | La cola de votación no ofrece ítems ya votados | BE | F0-05 | pendiente |
 | F0-18 | `Http::preventStrayRequests()` para todos los tests | QA | F0-02 | pendiente |
 | F0-19 | Herramientas: `composer.lock`, Sail en PHP 8.5.12 y pnpm fijado | INFRA | F0-13 | pendiente |

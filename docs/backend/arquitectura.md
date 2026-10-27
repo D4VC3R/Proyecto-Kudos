@@ -26,7 +26,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 
 **Votos**
 - `app/Models/Vote.php`: `TYPE_VOTE='vote'` y `TYPE_SKIP='skip'`; `score` es un float (`decimal(4,1)`) y se valida con `multiple_of:0.5`.
-- Actions `EmitVoteAction`, `ChangeVoteAction` y `DeleteVoteAction`. Las tres recalculan con `ItemStatsService::recalculate()` (`COUNT`/`AVG` de `type = 'vote'`, con `Item::lockForUpdate()`), que también calcula `bayes_score`. El servicio tiene además `bayesScore()`, `categoryMean()` (C, cacheada 1 h en `category-mean:{id}`) y `refreshCategoryMean()`. `ChangeVoteAction` guarda la nota como float. Un `skip` no recalcula en `EmitVoteAction`.
+- Actions `EmitVoteAction`, `ChangeVoteAction` y `DeleteVoteAction`. Las tres recalculan con `ItemStatsService::recalculate()` (`COUNT`/`AVG` de `type = 'vote'`, con `Item::lockForUpdate()`), que también calcula `bayes_score`. El servicio tiene además `bayesScore()`, `categoryMean()` (C, cacheada 1 h en `category-mean:{id}`) y `refreshCategoryMean()`. `ChangeVoteAction` guarda la nota como float. Un `skip` no recalcula en `EmitVoteAction`. `EmitVoteAction` bloquea el ítem (`Item::withTrashed()->lockForUpdate()`) al **principio** de la transacción, antes de comprobar el voto existente y de insertarlo: el `INSERT` en `votes` toma un `KEY SHARE` sobre el ítem por la FK y, si el `FOR UPDATE` de `recalculate()` llegara después, dos votos simultáneos al mismo ítem podrían bloquearse mutuamente (F0-16).
 - `app/Http/Requests/Votes/`: `StoreVoteRequest`, `UpdateVoteRequest`, `DeleteVoteRequest`, `ListMyVotesRequest` y `GetNextCategoryItemRequest`.
 - `app/Http/Controllers/Vote/`, `app/Policies/VotePolicy.php` y `app/Http/Resources/VoteResource.php`.
 - `app/Services/NextCategoryItemService.php`: cola de 50 ítems, cacheada 6 h en `next-item-queue:{user}:{category}`. Excluye los ítems con `quality_score` por debajo de `catalog.min_quality_for_discovery` (`discoverable()`).
@@ -88,7 +88,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redi
 
 ## 4. Patrones
 
-- **Escritura sobre un ítem:** dentro de `DB::transaction`, con `Item::lockForUpdate()` y transacciones cortas.
+- **Escritura sobre un ítem:** dentro de `DB::transaction`, con `Item::lockForUpdate()` como **primera** consulta (antes de insertar filas que referencien el ítem por FK, como `votes`) y transacciones cortas.
 - **Kudos:** siempre a través de `KudosService`, nunca escribiendo `users.total_kudos` directamente. Cada recompensa nueva necesita un `reason` en `config/kudos.php` y un `action_key` determinista.
 - **Comandos:** los pequeños, como *closures* en `routes/console.php`; los grandes, como clases en `app/Console/Commands/` (se descubren solas; la carpeta ya existe, con `RecalculateItemStatsCommand`). **Los del catálogo son clases.**
 - **Tareas programadas:** `Schedule::command(...)` o `Schedule::job(...)` en `routes/console.php`, con `withoutOverlapping()` (y `onOneServer()` cuando aplique). Se ejecutan en el contenedor `scheduler` (128M): **solo encolan**, el trabajo pesado va en jobs ([../infra/produccion.md](../infra/produccion.md) §2).
