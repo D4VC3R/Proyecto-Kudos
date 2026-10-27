@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
-use App\Models\Item;
 use App\Models\Vote;
+use App\Services\ItemStatsService;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\DB;
  */
 class ChangeVoteAction
 {
+	public function __construct(protected ItemStatsService $itemStatsService) {}
+
 	/**
-	 * Cambia la puntuación de un voto existente y actualiza la puntuación media del ítem asociado.
+	 * Cambia la puntuación de un voto existente y recalcula la media del ítem asociado con AVG sobre los votos reales.
 	 *
 	 * @param Vote $vote El voto a actualizar
 	 * @param array $payload Los datos de la nueva puntuación.
@@ -21,15 +23,12 @@ class ChangeVoteAction
 	public function execute(Vote $vote, array $payload): Vote
 	{
 		return DB::transaction(function () use ($vote, $payload) {
-			$item = Item::lockForUpdate()->findOrFail($vote->item_id);
-
-			$newScore = (int) ($payload['score'] ?? $vote->score);
-			$oldScore = (int) $vote->score;
+			// La nota se guarda como float: los medios puntos no se truncan.
+			$newScore = isset($payload['score']) ? (float) $payload['score'] : $vote->score;
 
 			$vote->update(['score' => $newScore]);
 
-			$newAvg = (($item->vote_avg * $item->vote_count) - $oldScore + $newScore) / $item->vote_count;
-			$item->update(['vote_avg' => round($newAvg, 2)]);
+			$this->itemStatsService->recalculate($vote->item_id);
 
 			return $vote->fresh();
 		});

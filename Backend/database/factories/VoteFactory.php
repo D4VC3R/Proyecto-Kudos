@@ -69,4 +69,18 @@ class VoteFactory extends Factory
             'score' => max(0, min(10, $score)),
         ]);
     }
+
+    /**
+     * Define un estado para un voto con una puntuación decimal (admite medios puntos).
+     *
+     * @param float $score La puntuación del voto (entre 0 y 10).
+     * @return static La instancia de la fábrica con el estado actualizado.
+     */
+    public function rated(float $score): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'type' => Vote::TYPE_VOTE,
+            'score' => max(0, min(10, $score)),
+        ]);
+    }
 }

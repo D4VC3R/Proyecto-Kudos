@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
-use App\Models\Item;
 use App\Models\Vote;
+use App\Services\ItemStatsService;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\DB;
  */
 class DeleteVoteAction
 {
+	public function __construct(protected ItemStatsService $itemStatsService) {}
+
 	/**
-	 * Elimina un voto y actualiza la puntuación media del ítem asociado.
+	 * Elimina un voto y recalcula la media del ítem asociado con AVG sobre los votos reales.
 	 *
 	 * @param Vote $vote El voto a eliminar
 	 * @return bool Resultado de la transacción
@@ -24,25 +26,12 @@ class DeleteVoteAction
 				return (bool) $vote->delete();
 			}
 
-			$score = $vote->score;
-			$item = Item::lockForUpdate()->findOrFail($vote->item_id);
+			$deleted = (bool) $vote->delete();
 
-			if ($item->vote_count > 1) {
-				$newCount = $item->vote_count - 1;
-				$newAvg = (($item->vote_avg * $item->vote_count) - $score) / $newCount;
+			// Se recalcula después de borrar: AVG ya no incluye el voto eliminado.
+			$this->itemStatsService->recalculate($vote->item_id);
 
-				$item->update([
-					'vote_count' => $newCount,
-					'vote_avg' => round($newAvg, 2),
-				]);
-			} else {
-				$item->update([
-					'vote_count' => 0,
-					'vote_avg' => 0,
-				]);
-			}
-
-			return (bool) $vote->delete();
+			return $deleted;
 		});
 	}
 }
