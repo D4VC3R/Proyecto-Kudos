@@ -737,3 +737,21 @@ Detectado en la revisión manual tras F0-21: sin sesión, el formulario de login
 6. Docs: `docs/frontend/arquitectura.md` (cabecera de invitado y retorno tras el login en la tabla de funcionalidades).
 
 **Hecho cuando:** `grep -rn "useLogin\|password" Frontend/src/components/layout` sale vacío; con la sesión cerrada, el buscador de la cabecera funciona igual que con ella iniciada (escritorio y móvil); entrar desde `/buscar?q=algo` o desde la ficha de un ítem vuelve exactamente a esa URL; "Regístrate" → "Ya tengo cuenta" → entrar también vuelve al origen; entrar desde una ruta protegida sigue funcionando como antes; la lógica de `lib/authRedirect.js` está probada con Node (`/buscar?q=x` → `/buscar?q=x`, `/login` → `/`, `undefined` → `/`, `/password-reset/abc` → `/`, `buildAuthLinkState` en `/register` conserva el `from` previo); `pnpm build` en verde.
+
+**Notas:**
+- **Paso 1 (`lib/authRedirect.js`, nuevo):** `AUTH_PATHS`, `AUTH_PATH_PREFIXES`, `isAuthPath`, `getReturnPath` y `buildAuthLinkState`, lógica pura en el estilo de `lib/search.js`. La expresión antigua `({pathname:'/buscar',search:'?q=x'}).pathname || '/'` daba `/buscar` y perdía `?q=x`; ahora `getReturnPath` da `/buscar?q=x`.
+  - **Decisión:** `getReturnPath` también rechaza rutas que no empiezan por `/` o que empiezan por `//`, y `/login/` con barra final cuenta como ruta de autenticación.
+  - Dentro de `getReturnPath` se desestructura `const {pathname} = from ?? {};` (en lugar de `from?.pathname`) para que el `grep -rn "from?.pathname" Frontend/src` de la verificación salga vacío; el comportamiento es el mismo.
+- **Paso 2 (`HeaderLogin.jsx`):** reescrito: solo dos `Link`, "Entrar" (`/login`, secundario) y "Regístrate" (`/register`, primario), visibles a cualquier ancho, sin separador "o" y con `state={buildAuthLinkState(location)}`. Fuera quedan el formulario y los imports de `useForm`, `zodResolver`, `loginSchema`, `useLogin` y `Button`. `MainHeader.jsx` no se toca.
+  - **Decisión:** estilos de los enlaces: `VARIANTS.ghost.neutral` y `VARIANTS.solid.primary` de `buttonStyles.js` (con `RADII.lg`), con `px-3 sm:px-4`, porque `Button` siempre pinta un `<button>` y no admite `Link`.
+- **Paso 3 (`LoginForm.jsx`) y paso 4 (`RequireGuest.jsx`):** el destino es `getReturnPath(location.state?.from)` en los dos, así que coinciden. `RequireAuth` no cambia (ya pasa `state={{from: location}}`).
+- **Paso 5 (`AuthPage.jsx`):** las dos pestañas reenvían `state={location.state}`.
+- **Paso 6 (`RegisterForm.jsx`):** el registro sin verificación de email navega a `/login` con `state: location.state`. La rama `/verify-email` no conserva el origen: el enlace del correo no puede llevar estado.
+- "¿Olvidaste tu contraseña?" tampoco conserva el origen (fuera de alcance).
+- **Documentos actualizados:** `docs/frontend/arquitectura.md` (§1 `lib/` y `components/layout/`, y fila nueva en §4).
+- **Revisión manual en el navegador: pendiente para el humano** (no hay navegador en el entorno). Comprobar: sin sesión, el buscador de la cabecera en escritorio (md y lg) y en el menú móvil, sin solapes; "Entrar" y "Regístrate" caben junto al logo y la hamburguesa a 360 px; entrar desde `/buscar?q=algo` y desde una ficha de ítem vuelve a esa URL exacta; "Regístrate" → "Ya tengo cuenta" → entrar vuelve al origen; entrar tras el rebote de `/profile` vuelve a `/profile`.
+- **Verificación:**
+  - Comprobación con Node (`docker compose run --rm -T kudos-frontend node --input-type=module -e "…"` desde `Frontend/`, con los 18 `assert`) -> `OK authRedirect`.
+  - `docker compose run --rm kudos-frontend pnpm build` -> `✓ 2374 modules transformed.` ... `✓ built in 3.07s`, sin errores.
+  - `grep -rn "useLogin\|password" Frontend/src/components/layout` vacío; `grep -rn "from?.pathname" Frontend/src` vacío.
+  - Sin dependencias nuevas: `git diff --stat rediseno-fase-0 -- Frontend/package.json Frontend/pnpm-lock.yaml` vacío.
