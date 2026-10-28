@@ -84,7 +84,7 @@ class ItemQualityScorer
     }
 
     /**
-     * Las columnas released_at y attributes llegan en la F1-01; hasta entonces getAttribute() devuelve null y no suma.
+     * Suma si hay fecha de estreno (released_at) o atributos (attributes), columnas del catálogo (F1-01).
      * No se usa $item->attributes: choca con la propiedad interna de Eloquent.
      */
     private function hasMetadata(Item $item): bool

@@ -24,7 +24,17 @@ class Category extends Model
         'name',
         'description',
         'slug',
-        'image'
+        'image',
+        'attribute_schema',
+        'is_active',
+        'sort_order',
+        'icon',
+    ];
+
+    protected $casts = [
+        'attribute_schema' => 'array',
+        'is_active' => 'boolean',
+        'sort_order' => 'integer',
     ];
 
     /**
