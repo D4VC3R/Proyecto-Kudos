@@ -24,7 +24,8 @@ interface CatalogProvider
     public function fetch(string $externalId): ?CatalogItemData;
 
     /**
-     * Novedades y populares para la importación periódica.
+     * Novedades y populares para la importación periódica. Pueden ser parciales, como los de search():
+     * la ficha completa la da fetch().
      *
      * @return iterable<CatalogItemData>
      */

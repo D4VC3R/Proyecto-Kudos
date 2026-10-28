@@ -45,7 +45,7 @@ return [
         'retry_sleep_ms' => 500,
     ],
 
-    // Proveedor de cada categoría (CatalogProviderRegistry). Las clases llegan en la F1-03.
+    // Proveedor de cada categoría (CatalogProviderRegistry), en app/Catalog/Providers (F1-03).
     'categories' => [
         'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
         'series' => ['provider' => \App\Catalog\Providers\TmdbTvProvider::class],
@@ -57,6 +57,8 @@ return [
         'tmdb' => [
             'token' => env('TMDB_API_TOKEN') ?: null,
             'rate_per_second' => 20,
+            // Días que se cachean las listas de géneros en español (/genre/{movie|tv}/list).
+            'genres_cache_days' => 7,
         ],
         // Wikidata y Wikipedia comparten límite (200/min con User-Agent en Wikipedia).
         'wikimedia' => [

@@ -5,6 +5,9 @@ namespace Tests\Unit\Catalog;
 use App\Catalog\CatalogProviderRegistry;
 use App\Catalog\Contracts\CatalogProvider;
 use App\Catalog\Data\CatalogItemData;
+use App\Catalog\Providers\TmdbMovieProvider;
+use App\Catalog\Providers\TmdbTvProvider;
+use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 use stdClass;
 use Tests\TestCase;
@@ -73,5 +76,16 @@ class CatalogProviderRegistryTest extends TestCase
     public function test_lista_las_categorias_configuradas(): void
     {
         $this->assertSame(['peliculas', 'series'], app(CatalogProviderRegistry::class)->categorySlugs());
+    }
+
+    public function test_resuelve_los_proveedores_de_tmdb_de_peliculas_y_series(): void
+    {
+        Http::fake();
+
+        $registry = app(CatalogProviderRegistry::class);
+
+        $this->assertInstanceOf(TmdbMovieProvider::class, $registry->forCategory('peliculas'));
+        $this->assertInstanceOf(TmdbTvProvider::class, $registry->forCategory('series'));
+        Http::assertNothingSent();
     }
 }

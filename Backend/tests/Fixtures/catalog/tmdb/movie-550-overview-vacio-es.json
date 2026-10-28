@@ -1,0 +1,24 @@
+{
+  "adult": false,
+  "backdrop_path": null,
+  "genres": [{ "id": 18, "name": "Drama" }],
+  "id": 550,
+  "original_language": "en",
+  "original_title": "Fight Club",
+  "overview": "",
+  "popularity": 61.4,
+  "poster_path": "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+  "production_countries": [
+    { "iso_3166_1": "US", "name": "United States of America" },
+    { "iso_3166_1": "DE", "name": "Germany" }
+  ],
+  "release_date": "1999-10-15",
+  "runtime": 139,
+  "status": "Released",
+  "title": "El club de la lucha",
+  "external_ids": { "imdb_id": "tt0137523", "wikidata_id": null },
+  "credits": {
+    "cast": [],
+    "crew": [{ "id": 7467, "name": "David Fincher", "job": "Director", "department": "Directing" }]
+  }
+}
