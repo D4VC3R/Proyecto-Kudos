@@ -4,6 +4,7 @@ namespace App\Catalog\Providers;
 
 use App\Catalog\Clients\TmdbClient;
 use App\Catalog\Contracts\CatalogProvider;
+use App\Catalog\Contracts\RecognizesExternalIds;
 use App\Catalog\Data\CatalogItemData;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -16,7 +17,7 @@ use UnexpectedValueException;
  * español cacheados y paginación de los listados. Nunca devuelve el payload en bruto (términos de TMDB)
  * ni la sinopsis en inglés: TmdbClient pide siempre es-ES y un overview vacío se queda en null.
  */
-abstract class AbstractTmdbProvider implements CatalogProvider
+abstract class AbstractTmdbProvider implements CatalogProvider, RecognizesExternalIds
 {
     public const PROVIDER_KEY = 'tmdb';
 
@@ -75,6 +76,18 @@ abstract class AbstractTmdbProvider implements CatalogProvider
     public function key(): string
     {
         return self::PROVIDER_KEY;
+    }
+
+    /** true si el external_id lleva el prefijo de este proveedor ('movie:{id}' o 'tv:{id}'). No hace peticiones. */
+    public function recognizes(string $externalId): bool
+    {
+        try {
+            $this->tmdbId($externalId);
+        } catch (InvalidArgumentException) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -65,3 +65,19 @@ Schedule::command('items:recalculate-stats')->dailyAt('03:00')->withoutOverlappi
  * Recálculo semanal de quality_score (por si cambian las reglas o los patrones de config/catalog.php). Solo encola en 'catalog'.
  */
 Schedule::command('items:recalculate-quality')->weeklyOn(1, '03:30')->withoutOverlapping();
+
+/**
+ * Catálogo (F1-05, pipeline-catalogo §6). Los tres comandos solo encolan jobs en 'catalog': el scheduler tiene 128M.
+ * Novedades de todas las categorías con proveedor (CATALOG_IMPORT_LIMIT por categoría).
+ */
+Schedule::command('catalog:fetch-new --all')->dailyAt('04:00')->withoutOverlapping();
+
+/**
+ * Refresco de los ítems sincronizados hace más de catalog.refresh_older_than_days días (200 al día).
+ */
+Schedule::command('catalog:refresh')->dailyAt('05:00')->withoutOverlapping();
+
+/**
+ * Red de seguridad semanal de los términos de TMDB (domingo): desactiva y limpia lo que lleva más de 180 días sin refrescar.
+ */
+Schedule::command('catalog:purge-stale')->weeklyOn(0, '05:30')->withoutOverlapping();

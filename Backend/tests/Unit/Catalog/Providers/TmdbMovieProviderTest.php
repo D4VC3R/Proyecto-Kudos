@@ -379,4 +379,17 @@ class TmdbMovieProviderTest extends TestCase
             array_keys($data->attributes)
         );
     }
+
+    public function test_reconoce_solo_sus_external_ids(): void
+    {
+        Http::fake();
+        $provider = $this->provider();
+
+        $this->assertTrue($provider->recognizes('movie:603'));
+        $this->assertFalse($provider->recognizes('tv:1399'));
+        $this->assertFalse($provider->recognizes('movie:0'));
+        $this->assertFalse($provider->recognizes('603'));
+
+        Http::assertNothingSent();
+    }
 }

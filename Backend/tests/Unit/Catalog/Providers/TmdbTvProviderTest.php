@@ -199,4 +199,17 @@ class TmdbTvProviderTest extends TestCase
             array_keys($data->attributes)
         );
     }
+
+    public function test_reconoce_solo_sus_external_ids(): void
+    {
+        Http::fake();
+        $provider = $this->provider();
+
+        $this->assertTrue($provider->recognizes('tv:1399'));
+        $this->assertFalse($provider->recognizes('movie:603'));
+        $this->assertFalse($provider->recognizes('tv:0'));
+        $this->assertFalse($provider->recognizes('1399'));
+
+        Http::assertNothingSent();
+    }
 }
