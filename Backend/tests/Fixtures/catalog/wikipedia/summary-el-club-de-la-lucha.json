@@ -1,0 +1,10 @@
+{
+  "type": "standard",
+  "title": "El club de la lucha",
+  "lang": "es",
+  "extract": "El club de la lucha es una película estadounidense de 1999 dirigida por David Fincher. Un oficinista insomne y un vendedor de jabón fundan un club de peleas clandestino que acaba convirtiéndose en algo mucho más peligroso.",
+  "content_urls": {
+    "desktop": { "page": "https://es.wikipedia.org/wiki/El_club_de_la_lucha" },
+    "mobile": { "page": "https://es.m.wikipedia.org/wiki/El_club_de_la_lucha" }
+  }
+}

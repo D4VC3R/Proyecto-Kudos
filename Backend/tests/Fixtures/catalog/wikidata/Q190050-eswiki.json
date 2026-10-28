@@ -1,0 +1,13 @@
+{
+  "entities": {
+    "Q190050": {
+      "type": "item",
+      "id": "Q190050",
+      "labels": { "es": { "language": "es", "value": "El club de la lucha" } },
+      "descriptions": { "es": { "language": "es", "value": "película de 1999 dirigida por David Fincher" } },
+      "sitelinks": { "eswiki": { "site": "eswiki", "title": "El club de la lucha", "badges": [] } },
+      "claims": {}
+    }
+  },
+  "success": 1
+}

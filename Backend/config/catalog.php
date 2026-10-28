@@ -65,6 +65,8 @@ return [
             'rate_per_minute' => 150,
             // Una consulta SPARQL puede tardar hasta 60 s en el servidor de Wikidata.
             'sparql_timeout_seconds' => 60,
+            // Días que el DescriptionResolver cachea las respuestas de Wikidata (por QID) y de Wikipedia (por título).
+            'cache_days' => 7,
         ],
     ],
 

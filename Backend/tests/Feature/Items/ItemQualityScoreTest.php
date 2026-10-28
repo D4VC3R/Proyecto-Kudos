@@ -119,4 +119,60 @@ class ItemQualityScoreTest extends TestCase
 
         $this->assertSame(0, $item->fresh()->quality_score);
     }
+
+    public function test_sin_descripcion_no_llega_al_umbral_aunque_tenga_imagen_y_atributos(): void
+    {
+        $category = $this->createCategory();
+
+        foreach ([null, '', '   '] as $description) {
+            $item = $this->createItem($category, [
+                'description' => $description,
+                'images' => $this->image(),
+                'released_at' => '2020-01-01',
+                'attributes' => ['year' => 2020],
+            ]);
+
+            $item = $item->fresh();
+            $this->assertSame(39, $item->quality_score);
+            $this->assertLessThan((int) config('catalog.min_quality_for_discovery'), $item->quality_score);
+            $this->assertFalse(Item::query()->discoverable()->whereKey($item->id)->exists());
+        }
+    }
+
+    public function test_el_tope_sin_descripcion_sigue_al_umbral_configurado(): void
+    {
+        config(['catalog.min_quality_for_discovery' => 60]);
+        $item = $this->poorItem([
+            'description' => null,
+            'images' => $this->image(),
+            'released_at' => '2020-01-01',
+            'attributes' => ['year' => 2020],
+        ]);
+        $this->assertSame(59, $item->fresh()->quality_score);
+
+        config(['catalog.min_quality_for_discovery' => 0]);
+        $this->assertSame(0, app(ItemQualityScorer::class)->score($item->fresh()));
+    }
+
+    public function test_con_descripcion_imagen_y_atributos_puntua_100(): void
+    {
+        $item = $this->poorItem([
+            'description' => 'Una descripción real, escrita a mano y con longitud más que suficiente.',
+            'images' => $this->image(),
+            'released_at' => '2020-01-01',
+            'attributes' => ['year' => 2020],
+        ]);
+
+        $this->assertSame(100, $item->fresh()->quality_score);
+    }
+
+    public function test_al_quitar_la_descripcion_la_ficha_baja_del_umbral(): void
+    {
+        $item = $this->createItem($this->createCategory());
+        $this->assertSame(80, $item->fresh()->quality_score);
+
+        $item->update(['description' => null]);
+
+        $this->assertSame(39, $item->fresh()->quality_score);
+    }
 }

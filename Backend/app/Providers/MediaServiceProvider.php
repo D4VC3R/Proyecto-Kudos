@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\Media\HostResolverInterface;
 use App\Contracts\Media\ImageProcessorInterface;
 use App\Contracts\Media\MediaStorageInterface;
+use App\Services\Media\DnsHostResolver;
 use App\Services\Media\InterventionImageProcessor;
 use App\Services\Media\LaravelMediaStorage;
 use Illuminate\Support\ServiceProvider;
@@ -19,6 +21,7 @@ class MediaServiceProvider extends ServiceProvider
         // Uso singleton para asegurar que solo haya una instancia de cada servicio durante el ciclo de vida de la aplicación.
         $this->app->singleton(ImageProcessorInterface::class, InterventionImageProcessor::class);
         $this->app->singleton(MediaStorageInterface::class, LaravelMediaStorage::class);
+        $this->app->singleton(HostResolverInterface::class, DnsHostResolver::class);
     }
 }
 

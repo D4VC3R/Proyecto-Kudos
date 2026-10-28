@@ -2,6 +2,7 @@
 
 namespace App\Services\Media;
 
+use App\Contracts\Media\HostResolverInterface;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -12,6 +13,8 @@ use RuntimeException;
  */
 class RemoteImageDownloader
 {
+    public function __construct(private readonly HostResolverInterface $hostResolver) {}
+
     /**
      * Descarga una imagen desde una URL remota a un almacenamiento temporal, validando su formato y tamaño.
      *
@@ -141,6 +144,7 @@ class RemoteImageDownloader
 
     /**
      * Valida que una URL sea segura para su uso, verificando su esquema, host y dirección IP.
+     * La resolución del host la hace el HostResolverInterface inyectado (DnsHostResolver en producción).
      *
      * @param string $url La URL a validar.
      * @throws RuntimeException Si la URL es inválida, tiene un esquema no permitido, o si el host remoto no es accesible o pertenece a una red privada.
@@ -154,7 +158,7 @@ class RemoteImageDownloader
             throw new RuntimeException('URL inválida o esquema no permitido.');
         }
 
-        $ip = gethostbyname($host);
+        $ip = $this->hostResolver->resolve($host);
 
         if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
             throw new RuntimeException('El host remoto no es accesible o es una red privada.');
