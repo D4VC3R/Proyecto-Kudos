@@ -36,3 +36,7 @@ Thumbs.db
 .vscode/
 .idea/
 *.log
+
+# --- AGENTES (/ciclo-tareas) ---
+# Planes, informes y correcciones que se pasan los agentes entre sí
+/.claude/ciclo/

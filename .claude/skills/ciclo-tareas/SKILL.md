@@ -1,12 +1,14 @@
 ---
 name: ciclo-tareas
-description: Avanza el roadmap de Kudos 2.0 de forma automática. Cada tarea pasa por kudos-planificador (Opus, modo plan), kudos-ejecutor (Sonnet) y kudos-verificador (Opus), que hace el commit y la fusión; si algo falla, se corrige y se vuelve a verificar. Úsala cuando el humano pida avanzar, empezar o continuar con las tareas del roadmap.
+description: Avanza el roadmap de Kudos 2.0 de forma automática. Cada tarea pasa por kudos-planificador (Opus, solo lectura), kudos-ejecutor (Sonnet) y kudos-verificador (Opus), que hace el commit y la fusión; si algo falla, se corrige y se vuelve a verificar. Úsala cuando el humano pida avanzar, empezar o continuar con las tareas del roadmap.
 argument-hint: "[FX-YY | número de tareas]"
 ---
 
 # Ciclo de tareas de Kudos 2.0
 
 Tú eres el **orquestador**: no planificas, no implementas y no verificas; coordinas a los tres agentes y mantienes tu contexto pequeño. Flujo y reglas de fondo: `docs/guia-agentes.md` §2.
+
+**Contexto pequeño:** el plan, el informe y las correcciones viajan en archivos de `.claude/ciclo/FX-YY/` (ignorada por git), no en los mensajes. A los agentes les pasas **rutas**, y ellos te devuelven resúmenes de pocas líneas. No leas esos archivos tú salvo que tengas que enseñarle algo al humano.
 
 Argumento: un ID (`F0-02`) hace solo esa tarea; un número (`3`) hace como máximo esas tareas; sin argumento, sigue tarea tras tarea hasta una condición de parada.
 
@@ -22,7 +24,7 @@ En `docs/roadmap/README.md`, la primera `pendiente` con todas sus dependencias e
 
 ## 2. Planificar
 
-Lanza `kudos-planificador` con: el ID de la tarea y la ruta de su ficha. Si devuelve `## BLOQUEO`, pregunta al humano con `AskUserQuestion`, pásale la respuesta en un planificador nuevo, y si sigue bloqueada márcala `bloqueada` en el tablero con el motivo en la ficha, haz commit (`Docs: FX-YY bloqueada`) y pasa a la siguiente.
+Lanza `kudos-planificador` con: el ID de la tarea y la ruta de su ficha. Escribe el plan en `.claude/ciclo/FX-YY/plan.md` y te devuelve la ruta, la rama, un resumen corto y las decisiones para validar. Si devuelve `## BLOQUEO`, pregunta al humano con `AskUserQuestion`, pásale la respuesta en un planificador nuevo, y si sigue bloqueada márcala `bloqueada` en el tablero con el motivo en la ficha, haz commit (`Docs: FX-YY bloqueada`) y pasa a la siguiente.
 
 ## 3. Preparar la rama
 
@@ -30,20 +32,20 @@ Desde `rediseno-fase-0`: `git switch -c <rama del plan>` y cambia la tarea a `en
 
 ## 4. Ejecutar
 
-Lanza `kudos-ejecutor` con `name: "ejecutor-FX-YY"` y el plan **completo y literal** en el prompt (el ejecutor no ve esta conversación). Espera su informe.
+Lanza `kudos-ejecutor` con `name: "ejecutor-FX-YY"`, el ID de la tarea, la rama y la ruta del plan (el ejecutor no ve esta conversación; no le copies el plan). Escribe su informe en `.claude/ciclo/FX-YY/informe.md` y te devuelve un resumen de 3 líneas.
 
 ## 5. Verificar y corregir
 
-Lanza `kudos-verificador` con `name: "verificador-FX-YY"`, el plan completo y el informe del ejecutor.
+Lanza `kudos-verificador` con `name: "verificador-FX-YY"`, el ID de la tarea, la rama y las rutas del plan y del informe.
 
 - `VEREDICTO: APROBADO` → el verificador ya ha hecho los commits y la fusión. Compruébalo con `git log --oneline -5` y `git branch --show-current` (debe ser `rediseno-fase-0`).
-- `VEREDICTO: CORRECCIONES` → reenvía las correcciones al ejecutor con `SendMessage` (`to: "ejecutor-FX-YY"`), y su nuevo informe al verificador con `SendMessage` (`to: "verificador-FX-YY"`). Máximo **3 rondas**; a la cuarta, para y pregunta al humano con el último informe.
+- `VEREDICTO: CORRECCIONES` → el verificador las deja en `.claude/ciclo/FX-YY/correcciones-N.md`. Pásale esa ruta al ejecutor con `SendMessage` (`to: "ejecutor-FX-YY"`) y, cuando responda, avisa al verificador con `SendMessage` (`to: "verificador-FX-YY"`) de que `informe.md` está actualizado. Máximo **3 rondas**; a la cuarta, para y pregunta al humano señalándole el último informe y las últimas correcciones.
 - `VEREDICTO: BLOQUEADA` → pregunta al humano y actúa como en el paso 2.
 
 ## 6. Cerrar la tarea y seguir
 
 1. Escribe al humano un resumen de 5–10 líneas: tarea, resultado de los tests (las cifras reales del verificador), commits, desviaciones y decisiones para validar.
-2. **Compactación:** cada agente arranca con contexto limpio y lo pierdes al terminar, así que de cada tarea solo guardas ese resumen. No arrastres planes ni informes viejos a la siguiente tarea. Tú no puedes ejecutar `/compact`: la compactación automática actúa cuando hace falta.
+2. **Compactación:** cada agente arranca con contexto limpio, y de cada tarea solo guardas ese resumen; no arrastres planes ni informes viejos a la siguiente. Tú no puedes ejecutar `/compact` (solo lo puede lanzar el humano); la compactación automática actúa cuando hace falta y no se pierde nada, porque el estado vive en el tablero, en git y en `.claude/ciclo/`. Tras una compactación, vuelve al paso 1 leyendo el tablero.
 3. Vuelve al paso 1 con la siguiente tarea.
 
 ## Condiciones de parada (avisa al humano y termina)

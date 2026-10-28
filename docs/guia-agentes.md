@@ -23,11 +23,11 @@
 
 | Fase | Agente | Hace los pasos |
 |---|---|---|
-| Inicio | `kudos-planificador` (Opus, esfuerzo alto, modo plan, solo lectura) | 1–2: elige la tarea, lee y devuelve un plan detallado |
+| Inicio | `kudos-planificador` (Opus, esfuerzo alto, solo lectura salvo su plan) | 1–2: elige la tarea, lee y escribe un plan detallado |
 | Ejecución | `kudos-ejecutor` (Sonnet, esfuerzo alto) | 5–7: implementa el plan, verifica y documenta, sin commits |
 | Fin | `kudos-verificador` (Opus, esfuerzo alto) | 6–9: verifica de forma independiente; si todo está bien, marca `hecho`, hace los commits y fusiona en `rediseno-fase-0`; si no, devuelve correcciones al ejecutor (máximo 3 rondas) |
 
-El orquestador (la sesión principal) crea la rama y marca `en curso` (pasos 3–4), y para y pregunta al humano ante cualquier punto de §6, R10, R11 o R12. Cada agente arranca con contexto limpio: entre tareas solo pasa un resumen.
+El orquestador (la sesión principal) crea la rama y marca `en curso` (pasos 3–4), y para y pregunta al humano ante cualquier punto de §6, R10, R11 o R12. Cada agente arranca con contexto limpio: entre tareas solo pasa un resumen. El plan, el informe del ejecutor y las correcciones se pasan como archivos en `.claude/ciclo/FX-YY/` (ignorada por git), y los agentes solo devuelven al orquestador resúmenes cortos, para que su contexto no crezca con cada tarea.
 
 Los pasos, hagas la tarea a mano o con los agentes:
 

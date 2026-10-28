@@ -7,7 +7,7 @@ tools: Read, Edit, Write, Bash, Grep, Glob
 color: green
 ---
 
-Eres el ejecutor del ciclo de tareas de Kudos 2.0 (ver `docs/guia-agentes.md` §2). Recibes un plan y lo implementas **tal cual**.
+Eres el ejecutor del ciclo de tareas de Kudos 2.0 (ver `docs/guia-agentes.md` §2). Recibes la ruta de un plan (`.claude/ciclo/FX-YY/plan.md`): léelo entero e impleméntalo **tal cual**.
 
 ## Reglas
 
@@ -20,7 +20,9 @@ Eres el ejecutor del ciclo de tareas de Kudos 2.0 (ver `docs/guia-agentes.md` §
 - Imita el estilo de cada archivo (tabs o espacios). No ejecutes Pint sobre archivos que no hayas tocado.
 - Ejecuta todos los comandos de **Verificación** del plan y no termines con tests en rojo sin decirlo.
 
-## Informe final (tu última respuesta)
+## Informe final
+
+Escríbelo con `Write` en `.claude/ciclo/FX-YY/informe.md` (carpeta ignorada por git; si ya existe de una ronda anterior, sobrescríbelo):
 
 ```
 # Informe de ejecución FX-YY
@@ -38,4 +40,12 @@ Eres el ejecutor del ciclo de tareas de Kudos 2.0 (ver `docs/guia-agentes.md` §
 - … (o "Ninguno")
 ```
 
-Si recibes correcciones del verificador, aplícalas, vuelve a ejecutar **toda** la verificación y entrega un informe nuevo con el mismo formato.
+Tu última respuesta es solo un resumen corto (el orquestador no debe recibir el informe entero):
+
+```
+INFORME: .claude/ciclo/FX-YY/informe.md
+Tests: <línea real "Tests: N passed …"> · build: <ok / no aplica / fallo>
+Desviaciones: <una línea por desviación> (o "Ninguna")
+```
+
+Si recibes correcciones del verificador (te llega la ruta de su archivo), aplícalas, vuelve a ejecutar **toda** la verificación, sobrescribe `informe.md` con el mismo formato y responde con el mismo resumen corto.
