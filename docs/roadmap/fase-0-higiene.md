@@ -705,6 +705,13 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 
 **Hecho cuando:** el archivo existe, los dos manifiestos declaran MIT y los enlaces del README son válidos.
 
+**Notas:**
+- `LICENSE` en la raíz con el texto MIT estándar (SPDX) a nombre de "David Cerdán", según la decisión del humano registrada en la introducción de F0-21 a F0-24. D4VC3R es solo el usuario de git.
+- La sección "📄 Licencia" va al final del `README.md` raíz, tras `## 📚 Documentación`, sin insignia.
+- `"license": "MIT"` añadido a `Frontend/package.json`, tras `version`. `pnpm-lock.yaml` no cambia.
+- `Backend/composer.json` ya declaraba MIT y no se ha tocado; conserva `name: laravel/laravel` y la `description` del esqueleto, fuera de alcance.
+- Verificación real: `head -3 LICENSE` da `MIT License`, línea en blanco y `Copyright (c) 2026 David Cerdán`; `file LICENSE` da `Unicode text, UTF-8 text` (sin CRLF); `jq -r .license` devuelve `MIT` en `Frontend/package.json` y en `Backend/composer.json`; la comprobación de enlaces del README da `OK LICENSE` y ningún `ROTO`; `git diff --stat rediseno-fase-0 -- Frontend/pnpm-lock.yaml Backend/` sale vacío; `docker compose run --rm kudos-frontend pnpm build` termina sin errores (`✓ built in 3.04s`).
+
 ---
 
 ## F0-23 · Vulnerabilidad de `symfony/yaml` y versión mínima de PHP
