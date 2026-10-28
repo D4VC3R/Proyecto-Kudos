@@ -127,3 +127,9 @@ Más detalle en [docs/infra/entorno-local.md](docs/infra/entorno-local.md) §4 y
 - [Backend/docs/api-reference.md](Backend/docs/api-reference.md): referencia de endpoints.
 - [Frontend/README.md](Frontend/README.md): frontend.
 - [deploy/README.md](deploy/README.md): despliegue en producción.
+
+---
+
+## 📄 Licencia
+
+Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE).
