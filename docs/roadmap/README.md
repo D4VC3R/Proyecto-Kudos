@@ -30,7 +30,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F0-20 | Accesibilidad del buscador global | FE | F0-09 | hecho |
 | F0-21 | Limpieza menor de la Fase 0 | FE, BE, DOCS | F0-08 | hecho |
 | F0-22 | Licencia MIT | DOCS | — | hecho |
-| F0-23 | Vulnerabilidad de `symfony/yaml` y versión mínima de PHP | BE, INFRA | F0-19 | pendiente |
+| F0-23 | Vulnerabilidad de `symfony/yaml` y versión mínima de PHP | BE, INFRA | F0-19 | hecho |
 | F0-24 | Cabecera sin login rápido y vuelta a la página de origen tras el login | FE | F0-09 | hecho |
 
 ## Fase 1: catálogo vivo de películas y series. [Fichas](fase-1-catalogo-vivo.md)

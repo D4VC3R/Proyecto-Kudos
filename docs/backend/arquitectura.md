@@ -1,6 +1,6 @@
 # Backend: arquitectura
 
-Stack: Laravel 12, PHP 8.5 (mínimo 8.4 en `composer.json`), PostgreSQL 18, Redis, Sanctum (tokens Bearer), spatie/laravel-permission e intervention/image v3. Las rutas son relativas a `Backend/`.
+Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redis, Sanctum (tokens Bearer), spatie/laravel-permission e intervention/image v3. Las rutas son relativas a `Backend/`.
 
 ## 1. Capas
 

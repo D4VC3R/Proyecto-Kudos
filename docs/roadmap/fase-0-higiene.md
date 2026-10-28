@@ -724,6 +724,31 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 
 **Hecho cuando:** `sail composer audit` no da avisos, `sail composer validate` es válido, `sail test` en verde y la simulación del job `backend` del CI (o `composer install` limpio con PHP 8.5.12) pasa.
 
+**Notas:**
+- **`symfony/yaml` `v8.0.12` -> `v8.1.9`.** Toda la rama 8.0 está afectada por PKSA-xz3r-9gp4-4m1z (CVE-2026-109413, severidad alta: recursión sin límite en el *lexer* inline que permite tumbar el proceso con un único documento); se corrige en `>=8.1.6`. `sail composer update symfony/yaml --with-dependencies --no-interaction` dio `Lock file operations: 0 installs, 1 update, 0 removals` (`Upgrading symfony/yaml (v8.0.12 => v8.1.9)`) y ningún otro paquete. Lo pide solo `laravel/sail` (require-dev): la app no lo usa y la imagen de producción (`composer install --no-dev`) no lo instala.
+- **Ningún otro paquete cambia.** `git diff -U0 -- composer.lock | grep -E '^[+-] +"version"'` -> solo `-            "version": "v8.0.12",` / `+            "version": "v8.1.9",`. El resto del diff del paquete es su `reference`/`url`/`time`, `php: >=8.4.1` y el `conflict`/`require-dev` propios de la 8.1.
+- **`composer.json` y lock.** `"php": "^8.4"` -> `"php": "^8.5"` (solo esa línea; `config.platform.php` sigue en `8.5.12`). `sail composer update --lock --no-interaction` -> `0 installs, 0 updates, 0 removals`: cambian `content-hash` `9775fd0fff6ef009a04993b6a8ef93a5` -> `99279ece6cefd22c6402e65fd6dd9eed` y `"platform": {"php": "^8.4"}` -> `{"php": "^8.5"}`.
+- **`composer audit` antes** (en `v8.0.12`, exit 1):
+  ```
+  Found 1 security vulnerability advisory affecting 1 package:
+  | Package           | symfony/yaml                                                              |
+  | Severity          | high                                                                      |
+  | Advisory ID       | PKSA-xz3r-9gp4-4m1z                                                       |
+  | CVE               | CVE-2026-109413                                                           |
+  | Title             | CVE-2026-109413: Unbounded Recursion in the YAML Inline Lexer Lets a Single Document Crash the Process |
+  | Affected versions | ... >=8.0.0,<8.1.0|>=8.1.0,<8.1.6                                         |
+  Found 2 abandoned packages: sebastian/code-unit, sebastian/code-unit-reverse-lookup
+  ```
+- **`composer audit` después:** `sail composer audit` -> `No security vulnerability advisories found.` (más la tabla de abandonados, exit 1); `sail composer audit --locked --abandoned=report; echo "exit=$?"` -> `No security vulnerability advisories found.` y `exit=0`.
+- **Discrepancia (R1) con "Hecho cuando":** `sail composer audit` sigue saliendo con **exit 1** por los paquetes abandonados `sebastian/code-unit` y `sebastian/code-unit-reverse-lookup` (dependencias de PHPUnit 11, sin sustituto sugerido), no por avisos de seguridad, porque Composer 2.10 trae `audit.abandoned = fail` por defecto. No se silencian (sin `config.audit` en `composer.json`) ni se sube PHPUnit (fuera de alcance): queda para una tarea futura (subir PHPUnit) y decisión del humano. El criterio se ha leído como "sin avisos de **seguridad**".
+- **Otras comprobaciones.** `sail composer validate --no-check-publish` -> `./composer.json is valid` (sin "Lock file errors"). `sail composer install --no-interaction` -> `Nothing to install, update or remove` (sin aviso de lock desfasado; solo el aviso de los dos abandonados). `sail composer show symfony/yaml | grep versions` -> `versions : * v8.1.9`.
+- **`sail test`** -> `Tests: 100 passed (556 assertions)` (los 98 -> 100 vienen de la F0-21; sin tests borrados ni saltados). R4: sin cambios.
+- **Simulación del job `backend` del CI** (copia de `HEAD` con el `composer.json`/`composer.lock` nuevos, `sail-8.5/app:latest`, `composer install --no-interaction --prefer-dist --no-progress`): `exit=0`, con "Discovering packages ... DONE".
+- **Comprobación opcional con PHP 8.4** (`laravelsail/php84-composer:latest`, `composer install --ignore-platform-reqs`): `exit=0`. Por eso `docs/infra/entorno-local.md` §3 no cambia.
+- **Incidencia de entorno (no afecta al repo).** Al actualizar, Composer no pudo reemplazar `Backend/vendor/symfony/yaml` (`Could not delete .../composer.json`) porque esa carpeta pertenecía a `root` (instalada en su día con permisos de root; `vendor/` está en `.gitignore`). Se resolvió con `chown -R 1000:1000` solo de `vendor/symfony/yaml` desde un contenedor y se repitió `sail composer install`. Si ocurre en otro equipo, basta con arreglar el propietario de `vendor/`.
+- **Impacto en producción:** ninguno. La imagen ya usa PHP 8.5.12 y `composer install --no-dev` no instala `symfony/yaml`; no hace falta desplegar.
+- **Documentos actualizados:** `docs/backend/arquitectura.md` (mínimo de PHP en `composer.json`: 8.4 -> 8.5). Sin variables nuevas (R9), sin Pint, sin frontend.
+
 ---
 
 ## F0-24 · Cabecera sin login rápido y vuelta a la página de origen tras el login
