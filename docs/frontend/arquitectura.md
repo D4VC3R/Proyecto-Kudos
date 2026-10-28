@@ -73,7 +73,7 @@ Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe d
 | Búsqueda global | Campo en `MainHeader` y `NavBarMobile` → `/buscar?q=`, con resultados agrupados por categoría; patrón *combobox* de ARIA: ↑/↓, Enter y Escape; región `aria-live`; Escape también desde "Ver todos"; Enter no abre resultados antiguos | F0-09, F0-20, F0-21 |
 | Cabecera de invitado y retorno tras el login | Sin formulario de login rápido: solo "Entrar" y "Regístrate". Al entrar (también "Regístrate" → "Ya tengo cuenta" y registro sin verificación de email) se vuelve a la URL de origen completa (`pathname + search + hash`), nunca a una ruta de autenticación (`lib/authRedirect.js`). Tras verificar el email no hay retorno: el enlace del correo no lleva estado | F0-24 |
 | Importación bajo demanda | En `/buscar`, con pocos resultados: "¿No lo encuentras? Búscalo en TMDB" → "Añadir a Kudos" | F1-07 |
-| Atribución | Logo y aviso de TMDB en el pie; en la ficha, "Datos: TMDB · Descripción: Wikipedia (CC BY-SA)" con enlaces | F1-08 |
+| Atribución | Logo y aviso de TMDB en el pie; en la ficha, "Datos: TMDB · Descripción: Wikipedia (CC BY-SA)" con enlaces, a partir de `attribution` de `ItemDetailResource` (F1-06) | F1-08 |
 | Chips de atributos | Genéricos a partir de `attribute_schema` (`show_in_card` en las tarjetas; todos en la ficha) | F1-09 |
 | Votar en dos pasos | "¿Lo conoces?". Sí → Me encantó / Muy bien / Bien / Flojo / No me gustó = 10/8/6/4/2. No → Me interesa / No me interesa. Móvil: tarjeta deslizable; escritorio: botones y teclado. Sustituye a `VoteStars` en el flujo de voto | F2-04 |
 | Notas antiguas | Media numérica con un decimal | — |
