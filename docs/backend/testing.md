@@ -20,10 +20,10 @@
 ```
 Backend/tests/
 ├── TestCase.php     # protección de la base de datos (§3) y Http::preventStrayRequests() (§5)
-├── Concerns/        # helpers: seedRolesAndPermissions, actingAsUser, actingAsAdmin, CreatesItems
+├── Concerns/        # helpers: seedRolesAndPermissions, actingAsUser, actingAsAdmin, CreatesItems, LoadsFixtures
 ├── Feature/         # Votes/, Ranking/, Items/, Kudos/, Catalog/…
 ├── Unit/            # lógica pura: fórmulas, mapeadores, normalizadores
-└── Fixtures/catalog/  # respuestas reales recortadas de TMDB, Wikidata y Wikipedia
+└── Fixtures/catalog/  # respuestas recortadas de TMDB, Wikidata y Wikipedia (las de TMDB de la F1-03, escritas a mano con la forma de la API)
 ```
 
 ## 3. `tests/TestCase.php` (obligatorio, R3)
@@ -99,7 +99,7 @@ Http::fake([
 ```
 
 - **Protección global:** `tests/TestCase.php::setUp()` activa `Http::preventStrayRequests()` para toda clase que extienda `Tests\TestCase`; cada test solo declara sus `Http::fake()`. La llamada en el `setUp()` de cada clase es redundante pero inocua. Los tests `Unit` que extienden `PHPUnit\Framework\TestCase` no arrancan la app ni pueden usar `Http` (si lo necesitan, que extiendan `Tests\TestCase`). `tests/Feature/StrayRequestsTest.php` comprueba la protección.
-- **Fixtures:** capturadas una vez a mano con `curl` y recortadas. **Sin tokens**, ni en las URLs ni en el contenido.
+- **Fixtures:** capturadas una vez a mano con `curl` y recortadas. **Sin tokens**, ni en las URLs ni en el contenido. `Tests\Concerns\LoadsFixtures::fixture('catalog/tmdb/…')` devuelve el JSON decodificado.
 - **Casos de error en cada proveedor:** 404, 429, campo vacío (por ejemplo, sinopsis es-ES vacía) y *timeout*.
 - **Reintentos y límites:** los clientes de `app/Catalog/Clients` reintentan con esperas y limitan con `RateLimiter`; en sus tests usa `Sleep::fake()` (o `Sleep::fake(syncWithCarbon: true)` con `freezeTime()` para probar el límite) y `Http::sequence()` para encadenar 429/5xx.
 - **Imágenes:** `Storage::fake('public')` y `Storage::fake('local')`. `RemoteImageDownloader` hace primero un `HEAD` y luego un `GET`; el *fake* responde a ambos.

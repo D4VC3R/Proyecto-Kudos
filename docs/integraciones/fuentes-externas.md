@@ -43,7 +43,7 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales. **Ante
 ## 4. Endpoints
 
 **TMDB** (`https://api.themoviedb.org/3`, `Authorization: Bearer {TMDB_API_TOKEN}`):
-- Detalle: `GET /movie/{id}` y `GET /tv/{id}`, con `?language=es-ES&append_to_response=external_ids,credits`. `external_ids.wikidata_id` da el QID.
+- Detalle: `GET /movie/{id}` y `GET /tv/{id}`, con `?language=es-ES&append_to_response=external_ids,credits` (las series solo necesitan `external_ids`: creadores y cadenas vienen en el propio detalle). `external_ids.wikidata_id` da el QID.
 - Novedades y populares: `/movie/now_playing`, `/movie/upcoming`, `/movie/popular`, `/tv/on_the_air` y `/tv/popular`, con `language=es-ES&region=ES`.
 - Búsqueda: `/search/movie` y `/search/tv`, con `?query=…&language=es-ES`.
 - Géneros: `/genre/movie/list` y `/genre/tv/list`, con `?language=es-ES`.

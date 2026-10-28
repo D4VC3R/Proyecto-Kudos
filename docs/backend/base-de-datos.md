@@ -99,6 +99,31 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 ]
 ```
 
+**`attribute_schema` de `peliculas` y `series`** (acordado en la F1-03; lo siembra la F1-10 desde las constantes `ATTRIBUTE_SCHEMA` de `TmdbMovieProvider` y `TmdbTvProvider`).
+
+`peliculas`:
+
+| key | label | type | filterable | show_in_card |
+|---|---|---|---|---|
+| `year` | Año | `integer` | sí | sí |
+| `genres` | Géneros | `tags` | sí | sí |
+| `runtime` | Duración | `minutes` | no | no |
+| `directors` | Dirección | `tags` | no | no |
+| `countries` | Países | `tags` | no | no |
+| `original_language` | Idioma original | `string` | no | no |
+
+`series`:
+
+| key | label | type | filterable | show_in_card |
+|---|---|---|---|---|
+| `year` | Año | `integer` | sí | sí |
+| `genres` | Géneros | `tags` | sí | sí |
+| `seasons` | Temporadas | `integer` | no | no |
+| `episodes` | Episodios | `integer` | no | no |
+| `creators` | Creación | `tags` | no | no |
+| `networks` | Cadenas | `tags` | no | no |
+| `status` | Estado | `string` | no | no |
+
 **`items.images`:** cada entrada añade `license` (`"© titular de derechos"`, `"CC BY-SA 4.0"`, `"Dominio público"`…), `author` (nullable) y `source_url`. No necesita migración.
 
 ### Fase 2 (F2-01, F2-07, F2-09)
