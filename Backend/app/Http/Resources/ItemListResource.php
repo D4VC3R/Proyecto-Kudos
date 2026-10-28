@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
  * Resource para representar un ítem en listados.
  * Incluye información básica del ítem, su categoría, estado de votación del usuario, y permisos de edición/eliminación.
  * Se utiliza para mostrar ítems en vistas de listado, proporcionando la información esencial y acciones disponibles según el rol del usuario.
+ * Desde la F1-06 incluye original_title, released_at y los atributos de tarjeta (show_in_card).
  */
 class ItemListResource extends JsonResource
 {
@@ -38,6 +39,9 @@ class ItemListResource extends JsonResource
 		    'status' => $item->status,
 		    'vote_avg' => (float) $item->vote_avg,
 		    'vote_count' => (int) $item->vote_count,
+		    'original_title' => $item->original_title,
+		    'released_at' => $item->released_at?->toDateString(),
+		    'attributes' => (object) $this->cardAttributes($item),
             'user_vote' => $this->when(
                 $user && $item->relationLoaded('userVote') && $item->userVote,
                 fn () => [
@@ -70,6 +74,31 @@ class ItemListResource extends JsonResource
         }
 
         return false;
+    }
+
+    /**
+     * Atributos que muestra la tarjeta: solo las claves con show_in_card del attribute_schema de la categoría,
+     * en el orden del esquema (F1-06). Si la categoría no está cargada o no tiene esquema, ninguno.
+     * Se lee con getAttribute() porque $item->attributes es la propiedad interna de Eloquent.
+     */
+    protected function cardAttributes(Item $item): array
+    {
+        $attributes = $item->getAttribute('attributes');
+        $schema = $item->relationLoaded('category') ? $item->category?->attribute_schema : null;
+
+        if (!is_array($attributes) || $attributes === [] || !is_array($schema)) {
+            return [];
+        }
+
+        $card = [];
+        foreach ($schema as $field) {
+            $key = is_array($field) ? ($field['key'] ?? null) : null;
+            if ($key !== null && !empty($field['show_in_card']) && array_key_exists($key, $attributes)) {
+                $card[$key] = $attributes[$key];
+            }
+        }
+
+        return $card;
     }
 
     protected function resolveViewer(Request $request): ?User

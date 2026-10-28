@@ -13,6 +13,7 @@ use App\Http\Resources\CategoryWithItemsResource;
 use App\Http\Resources\ItemDetailResource;
 use App\Models\Category;
 use App\Services\NextCategoryItemService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -32,18 +33,24 @@ class CategoryController extends Controller
     public function index(): JsonResponse
     {
     // Usamos withItemCount() a nivel de BD para evitar el problema N+1 al iterar sobre las categorías.
-        $categories = Category::withItemCount()->orderBy('name')->get();
+    // Solo las categorías activas, por sort_order y después por nombre (F1-06).
+        $categories = Category::withItemCount()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
         return $this->respondData(CategoryResource::collection($categories));
     }
 
     public function store(StoreCategoryRequest $request): JsonResponse
     {
         $category = Category::create($request->validated());
-        return $this->respondMutation('Categoría creada con éxito.', new CategoryResource($category), status: 201);
+        return $this->respondMutation('Categoría creada con éxito.', new CategoryResource($category->fresh()), status: 201);
     }
 
     public function show(Category $category): JsonResponse
     {
+        $this->ensureActive($category);
 
         $category->loadCount('items');
         return $this->respondData(new CategoryWithItemsResource($category));
@@ -74,6 +81,8 @@ class CategoryController extends Controller
 		// El ranking se obtiene a través de una consulta optimizada en el modelo Category, que calcula el puntaje total de cada ítem y los ordena.
     public function ranking(Request $request, Category $category): JsonResponse
     {
+        $this->ensureActive($category);
+
         $perPage = (int) $request->query('per_page', 10);
         $items = $category->getRankingPaginator($perPage);
 
@@ -91,6 +100,8 @@ class CategoryController extends Controller
 		// El siguiente ítem se obtiene a través de un servicio que selecciona el ítem más adecuado para el usuario, teniendo en cuenta su historial de votos y el estado de los ítems en la categoría.
     public function nextItem(GetNextCategoryItemRequest $request, Category $category): JsonResponse|Response
     {
+        $this->ensureActive($category);
+
         $result = $this->nextCategoryItemService->getNextItem($request->user(), $category);
 
         if ($result === null) {
@@ -101,5 +112,16 @@ class CategoryController extends Controller
             data: new ItemDetailResource($result['item']),
             meta: ['remaining' => $result['remaining']],
         );
+    }
+
+    /**
+     * Una categoría inactiva no existe para las rutas públicas (F1-06): 404 con el mismo formato que un slug inexistente.
+     * Las rutas de administración (update, destroy) no la llaman: el admin sigue pudiendo editarla o borrarla.
+     */
+    private function ensureActive(Category $category): void
+    {
+        if (! $category->is_active) {
+            throw (new ModelNotFoundException())->setModel(Category::class, [$category->getKey()]);
+        }
     }
 }

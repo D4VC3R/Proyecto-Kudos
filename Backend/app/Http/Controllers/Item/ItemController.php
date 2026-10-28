@@ -31,7 +31,7 @@ class ItemController extends Controller
 
 		$items = Item::query()
 			->active()
-			->with(['category:id,name,slug,image,description,created_at,updated_at', 'creator:id,name'])
+			->with(['category:id,name,slug,image,description,attribute_schema,icon,sort_order,created_at,updated_at', 'creator:id,name'])
 			->when($user, fn($q) => $q->with(['userVote' => fn($vQ) => $vQ->where('user_id', $user->id)]))
 			->applyFilters($filters)
 			->applySorting($validated['sort_by'] ?? 'vote_avg', $validated['sort_order'] ?? 'desc')
@@ -94,7 +94,7 @@ class ItemController extends Controller
 
 		$items = Item::query()
 			->where('creator_id', $user->id)
-			->with(['category:id,name,slug,image,description,created_at,updated_at'])
+			->with(['category:id,name,slug,image,description,attribute_schema,icon,sort_order,created_at,updated_at'])
 			->when(!$user->hasRole('admin'), fn($q) => $q->active())
 			->when($user, fn($q) => $q->with(['userVote' => fn($vQ) => $vQ->where('user_id', $user->id)]))
 			->latest()
