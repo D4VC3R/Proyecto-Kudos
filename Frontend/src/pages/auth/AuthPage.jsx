@@ -41,6 +41,7 @@ const AuthPage = () => {
           <div className="mb-8 flex rounded-xl bg-slate-100 p-1">
             <Link
                 to="/login"
+                state={location.state}
                 className={clsx(
                     "flex-1 rounded-lg py-2.5 text-center text-sm font-bold transition-all",
                     isLogin ? "bg-surface text-primary shadow-sm" : "text-text-normal hover:text-slate-700"
@@ -50,6 +51,7 @@ const AuthPage = () => {
             </Link>
             <Link
                 to="/register"
+                state={location.state}
                 className={clsx(
                     "flex-1 rounded-lg py-2.5 text-center text-sm font-bold transition-all",
                     !isLogin ? "bg-surface text-primary shadow-sm" : "text-text-normal hover:text-slate-700"

@@ -1,59 +1,27 @@
 import React from 'react';
-import {useForm} from 'react-hook-form';
-import {Link} from 'react-router-dom';
-import {useLogin} from '../../hooks/auth/useAuthMutations.js';
-import Button from '../ui/Button.jsx';
-import {zodResolver} from "@hookform/resolvers/zod";
-import {loginSchema} from "../../lib/schemas.js";
+import {Link, useLocation} from 'react-router-dom';
+import clsx from 'clsx';
+import {VARIANTS, RADII} from '../../lib/buttonStyles.js';
+import {buildAuthLinkState} from '../../lib/authRedirect.js';
 
+// Enlaces con aspecto de botón (los estilos base de Button no se exportan y Button siempre es un <button>).
+// Padding algo menor en móvil para que quepan junto al logo y el menú.
+const linkBaseStyles = 'inline-flex items-center justify-center whitespace-nowrap font-bold text-sm py-1.5 px-3 sm:px-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200';
+
+// Cabecera sin sesión: solo "Entrar" y "Regístrate" (F0-24). Los dos guardan la página actual
+// para volver a ella tras el login.
 const HeaderLogin = () => {
-  const {mutate: login, isPending} = useLogin();
-  const {register, handleSubmit} = useForm({
-    resolver: zodResolver(loginSchema)
-  });
-
-  const onSubmit = (data) => {
-    login(data);
-  };
+  const location = useLocation();
+  const linkState = buildAuthLinkState(location);
 
   return (
-    <div className="flex items-center gap-4">
-      <form onSubmit={handleSubmit(onSubmit)} className="hidden md:flex items-center gap-2">
-        <input
-          type="email"
-          {...register('email', {required: true})}
-          placeholder="Email"
-          disabled={isPending}
-          className="rounded-lg border border-border px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
-        />
-        <input
-          type="password"
-          {...register('password', {required: true})}
-          placeholder="Contraseña"
-          disabled={isPending}
-          className="rounded-lg border border-border px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
-        />
-        <Button
-          type="submit"
-          isLoading={isPending}
-          variant="solid"
-          color="primary"
-          size="sm"
-          radius="lg"
-        >
-          Entrar
-        </Button>
-      </form>
-      <div className="flex items-center gap-2 text-sm font-medium">
-        <Link to="/login"
-              className="md:hidden text-slate-700 hover:text-nav-hover-text font-bold whitespace-nowrap px-3">
-          Entrar
-        </Link>
-        <span className="hidden md:block text-slate-400">o</span>
-        <Link to="/register" className="text-primary hover:text-blue-700 font-bold whitespace-nowrap">
-          Regístrate
-        </Link>
-      </div>
+    <div className="flex items-center gap-2">
+      <Link to="/login" state={linkState} className={clsx(linkBaseStyles, VARIANTS.ghost.neutral, RADII.lg)}>
+        Entrar
+      </Link>
+      <Link to="/register" state={linkState} className={clsx(linkBaseStyles, VARIANTS.solid.primary, RADII.lg)}>
+        Regístrate
+      </Link>
     </div>
   );
 };

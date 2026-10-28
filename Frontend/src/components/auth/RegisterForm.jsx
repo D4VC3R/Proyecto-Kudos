@@ -1,5 +1,5 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {Mail, Lock, User} from 'lucide-react';
 import {registerSchema} from '../../lib/schemas';
@@ -12,6 +12,7 @@ import {requiresEmailVerification, useRegister} from '../../hooks/auth/useAuthMu
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {mutate: registerUser, isPending} = useRegister();
 
   const {register, handleSubmit, formState: {errors}} = useForm({
@@ -24,7 +25,7 @@ const RegisterForm = () => {
         if (requiresEmailVerification(response)) {
           navigate('/verify-email', {replace: true, state: {registered: true}});
         } else {
-          navigate('/login', {replace: true});
+          navigate('/login', {replace: true, state: location.state});
         }
       }
     });

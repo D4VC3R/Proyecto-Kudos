@@ -24,8 +24,8 @@ Las rutas son relativas a `Frontend/src/`.
 | `components/ui/` | `Button`, `Modal`, `StorageImage` (props `fallbackIcon`, `fallback` y `onError`), `ItemPlaceholder` (degradado, icono e iniciales; variantes `card`/`banner`/`thumb`), `ActionMenu`, `SearchFilter`, `SelectFilter`, `Pagination`, `FeedbackState`, `skeletons/`, `ranking/` |
 | `components/items/` | `ItemCard`, `ItemImage` (16:9, fondo del color dominante; muestra `ItemPlaceholder` si no hay imagen o falla), `ItemDetailColumn`, `InfiniteItemSlider` |
 | `components/votes/` | `VoteStars` (10 estrellas con medios puntos), botones de voto, "Mis votos" |
-| `components/layout/` | `MainHeader`, `NavBar`, `NavBarMobile`, `GlobalSearch` (buscador de la cabecera y del menú móvil), `Footer` |
-| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `text.js` (`hasText`, para no pintar secciones vacías), `search.js` (`MIN_SEARCH_LENGTH`, `normalizeSearchTerm`, `buildSearchUrl`, `buildItemUrl`, `groupItemsByCategory`), `combobox.js` (`NO_ACTIVE_OPTION`, `getNextActiveIndex`, `getActiveOption`, `getOptionId`, `areOptionsCurrent`, `getSearchStatusMessage`; patrón *combobox* de ARIA). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
+| `components/layout/` | `MainHeader`, `NavBar`, `NavBarMobile`, `GlobalSearch` (buscador de la cabecera y del menú móvil), `HeaderLogin` (enlaces "Entrar" y "Regístrate" sin sesión), `Footer` |
+| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `text.js` (`hasText`, para no pintar secciones vacías), `search.js` (`MIN_SEARCH_LENGTH`, `normalizeSearchTerm`, `buildSearchUrl`, `buildItemUrl`, `groupItemsByCategory`), `combobox.js` (`NO_ACTIVE_OPTION`, `getNextActiveIndex`, `getActiveOption`, `getOptionId`, `areOptionsCurrent`, `getSearchStatusMessage`; patrón *combobox* de ARIA), `authRedirect.js` (`isAuthPath`, `getReturnPath`, `buildAuthLinkState`; destino tras el login). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
 
 ## 2. Rutas
 
@@ -71,6 +71,7 @@ Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe d
 | *Placeholder* generativo | Degradado a partir del hash del nombre, con el icono de la categoría (`categories.icon`) y las iniciales. Sustituye a `ImageOff` en `StorageImage` e `ItemImage` | F0-06 |
 | Sin secciones vacías | Sin datos, no hay bloque (empezando por "Acerca de…" en `ItemDetailColumn`; también la descripción de `AdminItemCard`) | F0-07, F0-21 |
 | Búsqueda global | Campo en `MainHeader` y `NavBarMobile` → `/buscar?q=`, con resultados agrupados por categoría; patrón *combobox* de ARIA: ↑/↓, Enter y Escape; región `aria-live`; Escape también desde "Ver todos"; Enter no abre resultados antiguos | F0-09, F0-20, F0-21 |
+| Cabecera de invitado y retorno tras el login | Sin formulario de login rápido: solo "Entrar" y "Regístrate". Al entrar (también "Regístrate" → "Ya tengo cuenta" y registro sin verificación de email) se vuelve a la URL de origen completa (`pathname + search + hash`), nunca a una ruta de autenticación (`lib/authRedirect.js`). Tras verificar el email no hay retorno: el enlace del correo no lleva estado | F0-24 |
 | Importación bajo demanda | En `/buscar`, con pocos resultados: "¿No lo encuentras? Búscalo en TMDB" → "Añadir a Kudos" | F1-07 |
 | Atribución | Logo y aviso de TMDB en el pie; en la ficha, "Datos: TMDB · Descripción: Wikipedia (CC BY-SA)" con enlaces | F1-08 |
 | Chips de atributos | Genéricos a partir de `attribute_schema` (`show_in_card` en las tarjetas; todos en la ficha) | F1-09 |
