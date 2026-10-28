@@ -88,4 +88,29 @@ class CatalogProviderRegistryTest extends TestCase
         $this->assertInstanceOf(TmdbTvProvider::class, $registry->forCategory('series'));
         Http::assertNothingSent();
     }
+
+    public function test_traduce_el_proveedor_y_el_external_id_a_su_categoria(): void
+    {
+        Http::fake();
+        config(['catalog.categories' => [
+            'peliculas' => ['provider' => TmdbMovieProvider::class],
+            'series' => ['provider' => TmdbTvProvider::class],
+        ]]);
+
+        $registry = app(CatalogProviderRegistry::class);
+
+        $this->assertSame(['peliculas'], $registry->categoriesFor('tmdb', 'movie:603'));
+        $this->assertSame(['series'], $registry->categoriesFor('tmdb', 'tv:1399'));
+        $this->assertSame([], $registry->categoriesFor('tmdb', 'person:1'));
+        $this->assertSame([], $registry->categoriesFor('igdb', '1'));
+        Http::assertNothingSent();
+    }
+
+    public function test_un_proveedor_sin_recognizes_acepta_cualquier_external_id(): void
+    {
+        $this->app->instance('tests.catalog.fake-provider', $this->fakeProvider());
+        config(['catalog.categories' => ['libros' => ['provider' => 'tests.catalog.fake-provider']]]);
+
+        $this->assertSame(['libros'], app(CatalogProviderRegistry::class)->categoriesFor('fake', 'lo-que-sea'));
+    }
 }

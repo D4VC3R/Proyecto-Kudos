@@ -3,6 +3,7 @@
 namespace App\Catalog;
 
 use App\Catalog\Contracts\CatalogProvider;
+use App\Catalog\Contracts\RecognizesExternalIds;
 use Illuminate\Contracts\Container\Container;
 use InvalidArgumentException;
 use UnexpectedValueException;
@@ -44,5 +45,36 @@ final class CatalogProviderRegistry
         }
 
         return $provider;
+    }
+
+    /**
+     * Categorías cuyo proveedor tiene la clave $providerKey y reconoce $externalId (catalog:import).
+     * Con 'tmdb', 'movie:603' da ['peliculas'] y 'tv:1399' da ['series'].
+     *
+     * @return list<string>
+     */
+    public function categoriesFor(string $providerKey, string $externalId): array
+    {
+        $slugs = [];
+
+        foreach ($this->categorySlugs() as $slug) {
+            if (! $this->has($slug)) {
+                continue;
+            }
+
+            $provider = $this->forCategory($slug);
+
+            if ($provider->key() !== $providerKey) {
+                continue;
+            }
+
+            if ($provider instanceof RecognizesExternalIds && ! $provider->recognizes($externalId)) {
+                continue;
+            }
+
+            $slugs[] = $slug;
+        }
+
+        return $slugs;
     }
 }
