@@ -716,3 +716,24 @@ Fallos y deuda detectados durante F0-01…F0-13 (ver sus **Notas**). Se corrigen
 2. `composer.json` declara `"php": "^8.4"` aunque la plataforma y la imagen son 8.5.12: súbelo a `^8.5` y regenera el `content-hash` (`sail composer update --lock`), sin cambiar otras versiones.
 
 **Hecho cuando:** `sail composer audit` no da avisos, `sail composer validate` es válido, `sail test` en verde y la simulación del job `backend` del CI (o `composer install` limpio con PHP 8.5.12) pasa.
+
+---
+
+## F0-24 · Cabecera sin login rápido y vuelta a la página de origen tras el login
+
+**Depende:** F0-09 · **Archivos:** `Frontend/src/components/layout/HeaderLogin.jsx`, `Frontend/src/lib/authRedirect.js` (nuevo), `Frontend/src/components/auth/LoginForm.jsx`, `Frontend/src/components/auth/RegisterForm.jsx`, `Frontend/src/pages/auth/AuthPage.jsx`, `Frontend/src/routes/guards/RequireGuest.jsx`, `docs/frontend/arquitectura.md`
+
+Detectado en la revisión manual tras F0-21: sin sesión, el formulario de login rápido de la cabecera (`HeaderLogin`, email + contraseña + Entrar, visible desde `md`) choca con el buscador global (`GlobalSearch`) y lo rompe. Con sesión iniciada funciona bien. Decisión del humano: quitar el formulario y dejar solo los botones Entrar y Regístrate; tras el login, el usuario vuelve a la página donde estaba.
+
+**Pasos:**
+1. Helper puro `Frontend/src/lib/authRedirect.js` (estilo de `lib/search.js`):
+   - Rutas de autenticación: `/login`, `/register`, `/verify-email`, `/forgot-password` y el prefijo `/password-reset/`.
+   - `getReturnPath(from)`: `pathname + search + hash` de un objeto *location*, o `'/'` si falta o si es una ruta de autenticación (no se vuelve a una página solo para invitados).
+   - `buildAuthLinkState(location)`: `{ from: location.state?.from ?? location }` si la página actual es de autenticación (conserva el origen anterior) y `{ from: location }` si no.
+2. `HeaderLogin.jsx`: quita el formulario y los imports que solo usaba él (`useForm`, `zodResolver`, `loginSchema`, `useLogin`, `Button` si sobra). Deja dos enlaces a cualquier ancho, "Entrar" (secundario, → `/login`) y "Regístrate" (primario, → `/register`), con `state={buildAuthLinkState(location)}`. Reutiliza los estilos de `lib/buttonStyles.js` si encajan con un `Link`. En móvil deben caber junto al logo y el menú sin desbordar.
+3. `LoginForm.jsx` y `RequireGuest.jsx`: el destino pasa a ser `getReturnPath(location.state?.from)` en los dos (hoy usan solo `from.pathname` y pierden, p. ej., el `?q=` de `/buscar`). Los dos deben dar el mismo destino, porque `RequireGuest` también redirige en cuanto `setSession` marca la sesión.
+4. `AuthPage.jsx`: las pestañas "Ya tengo cuenta" / "No tengo cuenta" reenvían `state={location.state}`.
+5. `RegisterForm.jsx`: el `navigate('/login', …)` sin verificación de email conserva `state: location.state`. La rama `/verify-email` no cambia (el enlace del correo no puede llevar estado; anótalo en Notas).
+6. Docs: `docs/frontend/arquitectura.md` (cabecera de invitado y retorno tras el login en la tabla de funcionalidades).
+
+**Hecho cuando:** `grep -rn "useLogin\|password" Frontend/src/components/layout` sale vacío; con la sesión cerrada, el buscador de la cabecera funciona igual que con ella iniciada (escritorio y móvil); entrar desde `/buscar?q=algo` o desde la ficha de un ítem vuelve exactamente a esa URL; "Regístrate" → "Ya tengo cuenta" → entrar también vuelve al origen; entrar desde una ruta protegida sigue funcionando como antes; la lógica de `lib/authRedirect.js` está probada con Node (`/buscar?q=x` → `/buscar?q=x`, `/login` → `/`, `undefined` → `/`, `/password-reset/abc` → `/`, `buildAuthLinkState` en `/register` conserva el `from` previo); `pnpm build` en verde.
