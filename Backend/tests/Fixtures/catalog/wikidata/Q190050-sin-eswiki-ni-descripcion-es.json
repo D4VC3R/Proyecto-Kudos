@@ -1,0 +1,13 @@
+{
+  "entities": {
+    "Q190050": {
+      "type": "item",
+      "id": "Q190050",
+      "labels": { "en": { "language": "en", "value": "Fight Club" } },
+      "descriptions": { "en": { "language": "en", "value": "1999 film directed by David Fincher" } },
+      "sitelinks": {},
+      "claims": {}
+    }
+  },
+  "success": 1
+}

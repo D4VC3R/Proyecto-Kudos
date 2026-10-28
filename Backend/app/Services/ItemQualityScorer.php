@@ -12,6 +12,8 @@ use App\Models\Item;
  * - +40 si la descripción tiene 60 caracteres o más y no es de plantilla
  *   (no contiene ninguno de config('catalog.template_description_patterns'), sin distinguir mayúsculas).
  * - +20 si tiene fecha de estreno (`released_at`) o atributos (`attributes`) no vacíos.
+ * - Sin descripción (null, vacía o solo espacios), la puntuación se limita a min_quality_for_discovery − 1 (F1-04):
+ *   esas fichas nunca salen en la cola ni en los destacados.
  *
  * Los ítems por debajo de config('catalog.min_quality_for_discovery') no salen en la cola de votación
  * ni en los destacados, pero siguen en Explorar y en la búsqueda.
@@ -42,7 +44,24 @@ class ItemQualityScorer
             $score += self::METADATA_POINTS;
         }
 
-        return min(100, $score);
+        $score = min(100, $score);
+
+        // F1-04: sin descripción (null, vacía o solo espacios) la ficha nunca llega al umbral de la cola y los
+        // destacados, tenga lo que tenga. El tope sigue al umbral configurado; si el umbral cambia,
+        // items:recalculate-quality (semanal) lo vuelve a aplicar a los ítems guardados.
+        if ($this->isBlankDescription($item->description)) {
+            $score = min($score, max(0, (int) config('catalog.min_quality_for_discovery', 40) - 1));
+        }
+
+        return $score;
+    }
+
+    /**
+     * Una descripción null, vacía o solo con espacios cuenta como "sin descripción".
+     */
+    private function isBlankDescription(?string $description): bool
+    {
+        return trim((string) $description) === '';
     }
 
     /**

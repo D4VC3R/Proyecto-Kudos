@@ -40,7 +40,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 
 | Columna | Tipo | Notas |
 |---|---|---|
-| `quality_score` | smallInteger, default 0 | 0–100; reglas en la F0-05; la calcula `ItemQualityScorer` |
+| `quality_score` | smallInteger, default 0 | 0–100; reglas en la F0-05 (sin descripción, como máximo `min_quality_for_discovery` − 1, F1-04); la calcula `ItemQualityScorer` |
 
 Índice: `(category_id, status, quality_score)`.
 
@@ -60,7 +60,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | `description_url` | string, nullable | Obligatoria si el texto viene de Wikipedia (CC BY-SA) |
 | `last_synced_at` | timestampTz, nullable | Última sincronización con el proveedor principal |
 
-- `description` pasa a nullable. "Sin descripción" es válido: baja `quality_score` y nunca se rellena con plantillas.
+- `description` pasa a nullable. "Sin descripción" es válido, pero la ficha nunca llega al umbral de la cola y los destacados (tope de `ItemQualityScorer`, F1-04), y nunca se rellena con plantillas.
 - `CREATE INDEX items_original_title_trgm_idx ON items USING GIN (original_title gin_trgm_ops);`
 - Índice `(category_id, status, released_at)`.
 
@@ -124,7 +124,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | `networks` | Cadenas | `tags` | no | no |
 | `status` | Estado | `string` | no | no |
 
-**`items.images`:** cada entrada añade `license` (`"© titular de derechos"`, `"CC BY-SA 4.0"`, `"Dominio público"`…), `author` (nullable) y `source_url`. No necesita migración.
+**`items.images`:** cada entrada añade `role` (`poster`/`banner`), `license` (`"© titular de derechos"`, `"CC BY-SA 4.0"`, `"Dominio público"`…), `author` (nullable) y `source_url`. No necesita migración.
 
 ### Fase 2 (F2-01, F2-07, F2-09)
 

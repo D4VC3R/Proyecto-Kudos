@@ -94,16 +94,18 @@ Http::fake([
     'api.themoviedb.org/3/movie/603*' => Http::response($this->fixture('catalog/tmdb/movie-603-es.json')),
     'www.wikidata.org/*'              => Http::response($this->fixture('catalog/wikidata/Q83495.json')),
     'es.wikipedia.org/*'              => Http::response($this->fixture('catalog/wikipedia/matrix-summary.json')),
-    'image.tmdb.org/*'                => Http::response($this->fakePng(), 200, ['Content-Type' => 'image/png']),
+    'image.tmdb.org/*'                => fn () => Http::response($this->fakePng(), 200, ['Content-Type' => 'image/png']),
 ]);
 ```
+
+`fakePng()` es de `Tests\Concerns\FakesRemoteImages`. Si el job descarga varias imágenes, la respuesta va en un *closure*: el cuerpo en streaming de una respuesta reutilizada ya estaría consumido en la segunda descarga.
 
 - **Protección global:** `tests/TestCase.php::setUp()` activa `Http::preventStrayRequests()` para toda clase que extienda `Tests\TestCase`; cada test solo declara sus `Http::fake()`. La llamada en el `setUp()` de cada clase es redundante pero inocua. Los tests `Unit` que extienden `PHPUnit\Framework\TestCase` no arrancan la app ni pueden usar `Http` (si lo necesitan, que extiendan `Tests\TestCase`). `tests/Feature/StrayRequestsTest.php` comprueba la protección.
 - **Fixtures:** capturadas una vez a mano con `curl` y recortadas. **Sin tokens**, ni en las URLs ni en el contenido. `Tests\Concerns\LoadsFixtures::fixture('catalog/tmdb/…')` devuelve el JSON decodificado.
 - **Casos de error en cada proveedor:** 404, 429, campo vacío (por ejemplo, sinopsis es-ES vacía) y *timeout*.
 - **Reintentos y límites:** los clientes de `app/Catalog/Clients` reintentan con esperas y limitan con `RateLimiter`; en sus tests usa `Sleep::fake()` (o `Sleep::fake(syncWithCarbon: true)` con `freezeTime()` para probar el límite) y `Http::sequence()` para encadenar 429/5xx.
 - **Imágenes:** `Storage::fake('public')` y `Storage::fake('local')`. `RemoteImageDownloader` hace primero un `HEAD` y luego un `GET`; el *fake* responde a ambos.
-- **DNS:** `RemoteImageDownloader::assertSafeUrl()` llama a `gethostbyname()` y `Http::fake()` no lo evita. La F1-04 lo extrae a un colaborador inyectable; en los tests, falséalo. Si no, los tests dependen de la red.
+- **DNS:** `RemoteImageDownloader` resuelve el host con `App\Contracts\Media\HostResolverInterface` (por defecto `DnsHostResolver`, con `gethostbyname()`); en los tests, `FakesRemoteImages::fakeHostResolver()`. Si no, los tests dependen de la red.
 
 ## 6. Cobertura mínima por fase
 

@@ -41,7 +41,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F1-01 | Migraciones del catálogo: `items`, `item_sources`, `categories` | BE | F0-05 | hecho |
 | F1-02 | Módulo `app/Catalog`: contratos, DTO, `config/catalog.php` y clientes HTTP | INT | F1-01 | hecho |
 | F1-03 | Proveedores de TMDB (películas y series) | INT | F1-02 | hecho |
-| F1-04 | `DescriptionResolver` (Wikidata y Wikipedia ES) y `CatalogImporter` | INT, BE | F1-02 | pendiente |
+| F1-04 | `DescriptionResolver` (Wikidata y Wikipedia ES) y `CatalogImporter` | INT, BE | F1-02 | hecho |
 | F1-05 | Comandos `fetch-new`, `refresh`, `purge-stale` e `import`, y su programación | BE | F1-03, F1-04, F0-10 | pendiente |
 | F1-06 | La API expone los campos nuevos; las categorías inactivas quedan ocultas | BE | F1-01 | pendiente |
 | F1-07 | Importación bajo demanda (API y la interfaz en `/buscar`) | BE, FE | F1-05, F0-09 | pendiente |

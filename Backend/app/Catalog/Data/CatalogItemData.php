@@ -27,4 +27,25 @@ final readonly class CatalogItemData
         public ?string $sourceUrl,         // ficha pública en la fuente
         public array $images,            // [['url', 'role' => 'poster'|'banner', 'license', 'author', 'source_url']]
     ) {}
+
+    /** Copia del DTO con otra descripción (DescriptionResolver, F1-04); el resto de campos no cambia. */
+    public function withDescription(?string $description, ?string $descriptionSource, ?string $descriptionUrl): self
+    {
+        return new self(
+            provider: $this->provider,
+            externalId: $this->externalId,
+            categorySlug: $this->categorySlug,
+            name: $this->name,
+            originalTitle: $this->originalTitle,
+            description: $description,
+            descriptionSource: $descriptionSource,
+            descriptionUrl: $descriptionUrl,
+            releasedAt: $this->releasedAt,
+            attributes: $this->attributes,
+            popularity: $this->popularity,
+            wikidataId: $this->wikidataId,
+            sourceUrl: $this->sourceUrl,
+            images: $this->images,
+        );
+    }
 }
