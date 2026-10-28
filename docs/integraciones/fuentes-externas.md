@@ -85,7 +85,7 @@ Estimación a partir de unas 12 muestras; no está medida.
 | Destinos: ciudades del mundo / municipios españoles | ~90 % / ~100 % | — |
 | Libros y álbumes (aplazados) | 40–60 % | < 10 % |
 
-Lo que no tiene descripción en español se importa igualmente, pero con un `quality_score` bajo, y queda fuera de la portada y de la cola.
+Lo que no tiene descripción en español se importa igualmente, pero su `quality_score` nunca llega al umbral (`catalog.min_quality_for_discovery`), tenga imagen o atributos, así que queda fuera de la portada y de la cola (F1-04).
 
 ## 6. Pendiente de verificar
 

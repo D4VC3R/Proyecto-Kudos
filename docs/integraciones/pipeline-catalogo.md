@@ -29,8 +29,8 @@ Backend/app/Catalog/
 └── CatalogProviderRegistry.php        # proveedor por categoría, según config
 
 Backend/app/Jobs/Catalog/
-├── ImportCatalogItemJob.php           # cola "catalog": importa o refresca un ítem
-└── DownloadItemImagesJob.php          # cola "catalog": descarga las imágenes de un ítem
+├── ImportCatalogItemJob.php           # cola "catalog": ImportCatalogItemJob(categorySlug, externalId); importa o refresca un ítem
+└── DownloadItemImagesJob.php          # cola "catalog": DownloadItemImagesJob(itemId, images); descarga las imágenes de un ítem
 
 Backend/app/Console/Commands/Catalog/
 ├── FetchNewCommand.php                # catalog:fetch-new {--category=} {--all} {--limit=}
@@ -41,7 +41,9 @@ Backend/app/Console/Commands/Catalog/
 
 El macro `Http::catalog()` (User-Agent, JSON, *timeout* y reintentos) se registra en `app/Providers/CatalogServiceProvider.php`.
 
-La calidad la calcula `app/Services/ItemQualityScorer.php` (F0-05; la regla de +20 por `released_at` o `attributes` ya existía desde la F0-05 y en la F1-01 entran las columnas).
+La calidad la calcula `app/Services/ItemQualityScorer.php` (F0-05; la regla de +20 por `released_at` o `attributes` ya existía desde la F0-05 y en la F1-01 entran las columnas). Desde la F1-04, una ficha sin descripción nunca llega al umbral (tope de `min_quality_for_discovery` − 1).
+
+El job de importación recibe la **categoría** y no la clave del proveedor: películas y series comparten la clave `tmdb`, y es la categoría (`CatalogProviderRegistry::forCategory()`) la que elige el proveedor. `DownloadItemImagesJob` recibe las URL de las imágenes porque el DTO no se persiste.
 
 ## 3. Contratos
 
@@ -86,24 +88,29 @@ final readonly class CatalogItemData
 
 1. **Buscar si existe:**
    1. por `item_sources (provider, external_id)`;
-   2. si no, por `items.wikidata_id` **dentro de la misma categoría**. Si el QID existe en otra categoría, registra un aviso en el log e importa sin `wikidata_id`;
+   2. si no, por `items.wikidata_id` **dentro de la misma categoría**. Si el QID existe en otra categoría, o ya lo tiene un ítem borrado o un ítem con otra ficha primaria del mismo proveedor, registra un aviso en el log e importa sin `wikidata_id` ni fuente `wikidata`: nunca se fusiona ni se quita el QID al otro ítem;
    3. si tampoco, se crea.
 
-   **Nunca** se busca por nombre: es lo que causaba duplicados en el seeder antiguo.
+   **Nunca** se busca por nombre: es lo que causaba duplicados en el seeder antiguo. Un ítem borrado (soft delete) cuya fuente se vuelve a importar **no se resucita ni se actualiza**.
 2. **Descripción** (`DescriptionResolver`), por este orden:
    1. `data.description` (del proveedor, en español);
    2. Wikipedia ES a través del *sitelink* `eswiki` del `wikidataId`;
-   3. la descripción `es` de Wikidata más un resumen de atributos ("Película de 1999 dirigida por …"). Una plantilla con datos reales vale; "Item importado." no;
+   3. la descripción `es` de Wikidata (nunca `mul` ni `en`) más un resumen de atributos: la frase con mayúscula inicial y punto final, y después `Géneros`, `Dirección`, `Creación`, `Cadenas`, `Países`, `Duración` (`139 min`) y `Temporadas`, en ese orden y solo los que existan. Por ejemplo: "Película de 1999 dirigida por David Fincher. Géneros: Drama. Dirección: David Fincher. Duración: 139 min.". Una plantilla con datos reales vale; "Item importado." no;
    4. `null`.
+
+   Las respuestas de Wikidata (por QID) y de Wikipedia (por título) se cachean 7 días (`providers.wikimedia.cache_days`) en el *store* por defecto, también "no existe". Si Wikimedia falla, no se aborta la importación: se deja un aviso en el log y se pasa al siguiente paso (el fallo no se cachea, así que el siguiente refresco lo reintenta).
 3. **Guardar en una transacción:**
-   - `items`: `name`, `original_title`, `description` + fuente + URL, `released_at`, `attributes`, `popularity`, `wikidata_id`, `slug` (solo al crear), `last_synced_at = now()` y `status = active`;
-   - `item_sources`: el proveedor principal (`is_primary = true`) y, si lo hay, Wikidata.
+   - `items`: `name`, `original_title`, `description` + fuente + URL, `released_at`, `attributes`, `popularity`, `wikidata_id`, `slug` (solo al crear), `last_synced_at = now()` y `creator_id = null`;
+   - `status = active` **solo al crear**. Al refrescar un ítem existente se actualizan los datos pero su `status` no se toca: un ítem desactivado a mano o por un 404 sigue inactivo (lo reactiva un admin) y los borrados nunca vuelven;
+   - si el proveedor ya no trae descripción, se conserva la de otra fuente (Wikipedia, Wikidata, manual) en lugar de borrarla; la del propio proveedor sí se borra (términos de TMDB);
+   - `item_sources`: el proveedor principal (`is_primary = true`, y es la única primaria del ítem) y, si lo hay, Wikidata (`is_primary = false`).
 4. **Imágenes**, fuera de la transacción:
-   - solo si cambian o faltan;
+   - las hace `DownloadItemImagesJob(itemId, images)`; solo se descargan si cambian o faltan (la ruta lleva el hash de la URL: `items/{categoría}/{id}/{md5(url)}-{thumb|banner}.webp`);
    - con `RemoteImageDownloader::downloadToTemp()` + `MediaManager::processItemVariants()` (patrón de `database/seeders/Trait/DownloadsSeedImages.php`);
-   - cada entrada guarda `license`, `author` y `source_url`;
-   - si una falla, se registra un aviso y se sigue.
-5. **`quality_score`** lo recalcula el hook `saving` del modelo.
+   - cada entrada guarda `role` (`poster`/`banner`), `license`, `author` y `source_url`;
+   - si una falla, se registra un aviso y se sigue; si fallan todas, se conservan las actuales;
+   - las imágenes que ya no están en la lista se borran del disco (solo las de `items/{categoría}/{id}/`).
+5. **`quality_score`** lo recalcula el hook `saving` del modelo; sin descripción nunca llega al umbral.
 6. **Idempotente:** el mismo DTO dos veces no crea filas ni vuelve a descargar.
 
 ## 5. Refresco y cumplimiento de TMDB
@@ -133,7 +140,7 @@ Todas llevan `withoutOverlapping()`.
   - caché en Redis de 10 minutos por `(categoría, q)`.
 - **`POST /api/catalog/import`** con `{category, external_id}`:
   - mismos requisitos; límite de 5 por minuto;
-  - de forma síncrona, `provider->fetch()` (*timeout* corto) + `DescriptionResolver` + guardar la ficha, y **se encola siempre** `DownloadItemImagesJob`;
+  - de forma síncrona, `provider->fetch()` (*timeout* corto) + `DescriptionResolver` + guardar la ficha, y **se encola siempre** `DownloadItemImagesJob($itemId, $images)`;
   - responde 201 con `ItemDetailResource` (el frontend muestra el *placeholder* hasta que llegan las imágenes). Si ya existía, responde 200 con su `item_id`, sin duplicar;
   - `creator_id` queda `null` (lo crea el sistema); en el log se registra quién lo pidió.
 
@@ -162,7 +169,7 @@ return [
     ],
     'providers' => [
         'tmdb' => ['token' => env('TMDB_API_TOKEN') ?: null, 'rate_per_second' => 20, 'genres_cache_days' => 7],
-        'wikimedia' => ['rate_per_minute' => 150, 'sparql_timeout_seconds' => 60],
+        'wikimedia' => ['rate_per_minute' => 150, 'sparql_timeout_seconds' => 60, 'cache_days' => 7],
     ],
     // F2-06: 'queue_weights'; F4-01: 'genre_translations'
 ];

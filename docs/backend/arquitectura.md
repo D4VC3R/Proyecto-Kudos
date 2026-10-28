@@ -38,7 +38,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
   - el hook `creating` (`booted()`) genera el `slug` si viene vacío con `generateUniqueSlug()` (`Str::slug(name)` + año de `released_at` o `attributes.year`, sufijo `-2`, `-3`… si colisiona, contando los borrados; no cambia al renombrar; los seeders con `WithoutModelEvents` lo dejan en `null`, F1-10);
   - la columna `attributes` choca con `Model::$attributes`: dentro del modelo se lee con `getAttribute('attributes')`;
   - relación `sources()` (hasMany `ItemSource`);
-  - el hook `saving` (`booted()`) recalcula `quality_score` con `ItemQualityScorer` si cambian `images`, `description`, `released_at` o `attributes`;
+  - el hook `saving` (`booted()`) recalcula `quality_score` con `ItemQualityScorer` si cambian `images`, `description`, `released_at` o `attributes`; sin descripción, `ItemQualityScorer` limita la puntuación a `min_quality_for_discovery` − 1 (F1-04);
   - `applySorting`: `vote_avg|recent|name|random`; con `vote_avg` ordena por `bayes_score desc`, `vote_count desc` (y `id`);
   - `adminApplyFilters` y `adminApplySorting`;
   - `STATUS_ACTIVE` y `STATUS_INACTIVE`.
@@ -62,11 +62,11 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 - `app/Models/ItemComment.php`: `is_hidden`, `hidden_reason` y `hidden_by`.
 
 **Media**
-- `app/Services/Media/RemoteImageDownloader.php`: `downloadToTemp(url)` valida la URL (anti-SSRF con `gethostbyname()`), el MIME y el tamaño; también `isRemoteUrl()`.
+- `app/Services/Media/RemoteImageDownloader.php`: `downloadToTemp(url)` valida la URL (anti-SSRF: resuelve el host con `HostResolverInterface`, cuya implementación `DnsHostResolver` usa `gethostbyname()`), el MIME y el tamaño; también `isRemoteUrl()`.
 - `app/Services/Media/MediaManager.php`: `processItemVariants(absTempPath, targetDir, ?filename)` genera las variantes `thumb` y `banner`; también `processAvatar` y `processCategory`.
 - `database/seeders/Trait/DownloadsSeedImages.php` es el **patrón de referencia** para combinar los dos anteriores. No se reutiliza el trait: es de seeders.
 
-`items.images` (jsonb, array). Desde la F1, cada entrada añade `license`, `author` y `source_url`:
+`items.images` (jsonb, array). Desde la F1, cada entrada añade `role` (`poster`/`banner`), `license`, `author` y `source_url`:
 
 ```json
 [{ "disk": "public", "alt": "…", "order": 0,
