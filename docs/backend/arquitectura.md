@@ -34,12 +34,16 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 
 **Ítems y categorías**
 - `app/Models/Item.php`:
-  - `applyFilters`: `ilike` sobre `name` (el texto se escapa con `App\Support\Like::contains()`, F0-15; igual en `adminApplyFilters` de Item, Proposal y User y en `Vote::applyFilters`; toda búsqueda nueva debe usar `Like::contains()`); acepta `discoverable` (`scopeDiscoverable`, umbral `catalog.min_quality_for_discovery`);
+  - `applyFilters`: `ilike` sobre `name` u `original_title`, con el OR agrupado (el texto se escapa con `App\Support\Like::contains()`, F0-15; igual en `adminApplyFilters` de Item, Proposal y User y en `Vote::applyFilters`; Item (ambos scopes) y `Vote::applyFilters` buscan en `name` u `original_title`; toda búsqueda nueva debe usar `Like::contains()`); acepta `discoverable` (`scopeDiscoverable`, umbral `catalog.min_quality_for_discovery`);
+  - el hook `creating` (`booted()`) genera el `slug` si viene vacío con `generateUniqueSlug()` (`Str::slug(name)` + año de `released_at` o `attributes.year`, sufijo `-2`, `-3`… si colisiona, contando los borrados; no cambia al renombrar; los seeders con `WithoutModelEvents` lo dejan en `null`, F1-10);
+  - la columna `attributes` choca con `Model::$attributes`: dentro del modelo se lee con `getAttribute('attributes')`;
+  - relación `sources()` (hasMany `ItemSource`);
   - el hook `saving` (`booted()`) recalcula `quality_score` con `ItemQualityScorer` si cambian `images`, `description`, `released_at` o `attributes`;
   - `applySorting`: `vote_avg|recent|name|random`; con `vote_avg` ordena por `bayes_score desc`, `vote_count desc` (y `id`);
   - `adminApplyFilters` y `adminApplySorting`;
   - `STATUS_ACTIVE` y `STATUS_INACTIVE`.
-- `app/Models/Category.php`: `getRankingPaginator()` ordena por `bayes_score`, `vote_count` y `name`; la clave de ruta es `slug`.
+- `app/Models/ItemSource.php` (F1-01): fuente externa de un ítem (`provider`, `external_id`, `is_primary`…); relación `item()`.
+- `app/Models/Category.php`: casts `attribute_schema` (array), `is_active` (bool) y `sort_order` (int); `getRankingPaginator()` ordena por `bayes_score`, `vote_count` y `name`; la clave de ruta es `slug`.
 - `app/Http/Controllers/Item/ItemController.php`: `index` usa `ListItemsRequest` (que valida `search` con `min:2`, F0-09), la categoría es opcional y ya hace *eager loading* de `category`.
 - Resources: `ItemListResource`, `ItemDetailResource`, `ItemMinimalResource`, `CategoryResource`, `CategoryRankingResource` y `CategoryWithItemsResource`. `user_vote` (`id`, `score`, `voted_at`) y `can_vote` (false si existe cualquier voto) salen de la relación `userVote`.
 - `items.creator_id` es nullable: los ítems importados no tienen creador.

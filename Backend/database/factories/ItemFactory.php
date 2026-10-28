@@ -165,4 +165,72 @@ class ItemFactory extends Factory
 		});
 	}
 
+    /**
+     * Estado con fecha de estreno (released_at). Si no se indica, se genera una al azar.
+     */
+	public function released(?string $date = null): static
+	{
+		return $this->state(fn() => ['released_at' => $date ?? fake()->date()]);
+	}
+
+    /**
+     * Estado con título original (original_title). Si no se indica, se genera uno al azar.
+     */
+	public function withOriginalTitle(?string $title = null): static
+	{
+		return $this->state(fn() => ['original_title' => $title ?? fake()->words(3, true)]);
+	}
+
+    /**
+     * Estado con atributos de catálogo (columna attributes). Si no se indican, se usan año y género de ejemplo.
+     * No se llama withAttributes() para no chocar con la propiedad interna de Eloquent.
+     */
+	public function withCatalogAttributes(array $attributes = []): static
+	{
+		return $this->state(fn() => [
+			'attributes' => $attributes ?: ['year' => (int) fake()->year(), 'genres' => ['Drama']],
+		]);
+	}
+
+    /**
+     * Estado de ítem sin descripción ni procedencia de la descripción.
+     */
+	public function withoutDescription(): static
+	{
+		return $this->state(fn() => [
+			'description' => null,
+			'description_source' => null,
+			'description_url' => null,
+		]);
+	}
+
+    /**
+     * Estado de ítem sincronizado por última vez hace $days días.
+     */
+	public function syncedDaysAgo(int $days): static
+	{
+		return $this->state(fn() => ['last_synced_at' => now()->subDays($days)]);
+	}
+
+    /**
+     * Estado de ítem importado del catálogo: sin creador y con todos los campos del catálogo rellenos.
+     */
+	public function imported(): static
+	{
+		return $this->state(function () {
+			$releasedAt = fake()->date();
+
+			return [
+				'creator_id' => null,
+				'original_title' => fake()->words(3, true),
+				'released_at' => $releasedAt,
+				'attributes' => ['year' => (int) substr($releasedAt, 0, 4), 'genres' => ['Drama']],
+				'popularity' => fake()->randomFloat(2, 0, 500),
+				'wikidata_id' => 'Q' . fake()->unique()->numberBetween(1, 99999999),
+				'description_source' => 'tmdb',
+				'last_synced_at' => now(),
+			];
+		});
+	}
+
 }

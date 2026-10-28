@@ -36,6 +36,19 @@ Los agentes desarrollan con fixtures; el token solo hace falta para la verificac
 - Los tests existentes siguen en verde.
 - Tests nuevos: un ítem se encuentra por su `original_title`; dos ítems con el mismo nombre y año tienen slugs distintos.
 
+**Notas:**
+- **Archivos creados** (`Backend/`): migraciones `2026_10_28_000000_add_catalog_fields_to_items_table.php`, `2026_10_28_000100_create_item_sources_table.php` y `2026_10_28_000200_add_catalog_fields_to_categories_table.php`; `app/Models/ItemSource.php`; tests `Feature/Items/ItemOriginalTitleSearchTest.php` (5), `ItemSlugTest.php` (6) y `ItemCatalogFieldsTest.php` (8).
+- **Archivos modificados:** `app/Models/{Item,Category,Vote}.php`, `app/Services/ItemQualityScorer.php` (solo un comentario) y `database/factories/ItemFactory.php` (*states* `released`, `withOriginalTitle`, `withCatalogAttributes`, `withoutDescription`, `syncedDaysAgo` e `imported`; `definition()` sin cambios).
+- **Desviación R1 (paso 4 ya hecho):** la regla de +20 de `ItemQualityScorer` y el hook `saving` que vigila `released_at` y `attributes` ya los dejó hechos la F0-05 (con su test en `ItemQualityScoreTest`). En la F1-01 solo se actualizaron los comentarios "llegan en la F1-01"; la lógica no se tocó.
+- **Slug:** se genera en `creating` solo si viene vacío (`Item::generateUniqueSlug()`), cuenta también los ítems borrados, no cambia al renombrar, y los ítems sembrados con `WithoutModelEvents` quedan con `slug = null` (lo resolverá la F1-10; los ítems existentes tampoco se rellenan en la migración). El slug no se expone aún en la API (F1-06).
+- **`attributes` choca con `Model::$attributes`:** dentro del modelo se usa `getAttribute('attributes')`; la *state* de la factory se llama `withCatalogAttributes()` por lo mismo.
+- **`down()` de items** convierte las descripciones `null` en `''` para poder restaurar `NOT NULL`.
+- **Índice GIN de `attributes`** con nombre `items_attributes_gin_idx`; el trigram de `original_title` es `items_original_title_trgm_idx`. `attributes` y `attribute_schema` se declaran con `default('{}')` / `default('[]')` y PostgreSQL los guarda como `'{}'::jsonb` y `'[]'::jsonb` (comprobado con `\d`).
+- **`Category::$fillable` ampliado** (`attribute_schema`, `is_active`, `sort_order`, `icon`) sin exponerlo aún en Form Requests ni Resources (R7: contrato JSON sin cambios).
+- **Búsqueda:** `Item::scopeApplyFilters`, `Item::scopeAdminApplyFilters` y `Vote::scopeApplyFilters` buscan en `name` u `original_title` con el OR agrupado y `Like::contains()`.
+- **Tests:** jsonb no conserva el orden de las claves de un objeto, así que los tests de `attributes` y `attribute_schema` comparan con `assertEquals`.
+- **Verificación:** `sail test --filter=...` 19 passed (48 assertions); `sail test` 119 passed (604 assertions), también tras el ciclo `migrate:fresh` / `migrate:rollback --step=3` / `migrate:status` (las tres en `Pending`) / `migrate` contra `testing`.
+
 ---
 
 ## F1-02 · Esqueleto de `app/Catalog`

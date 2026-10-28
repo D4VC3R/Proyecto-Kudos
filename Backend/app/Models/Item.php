@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /*
  * Representa un ítem dentro de una categoría.
@@ -43,6 +44,15 @@ class Item extends Model
 		'bayes_score',
 		'creator_id',
 		'category_id',
+		'slug',
+		'original_title',
+		'released_at',
+		'attributes',
+		'popularity',
+		'wikidata_id',
+		'description_source',
+		'description_url',
+		'last_synced_at',
 	];
 
 	protected $casts = [
@@ -51,17 +61,28 @@ class Item extends Model
 		'vote_count' => 'integer',
 		'bayes_score' => 'float',
 		'quality_score' => 'integer',
+		'attributes' => 'array',
+		'released_at' => 'date',
+		'last_synced_at' => 'datetime',
+		'popularity' => 'float',
 		'created_at' => 'datetime',
 		'updated_at' => 'datetime',
 		'deleted_at' => 'datetime',
 	];
 
     /*
-     * Recalcula quality_score al guardar si cambian los campos que lo determinan (F0-05).
-     * released_at y attributes llegan en la F1-01; hasta entonces isDirty() simplemente no los ve.
+     * Al crear genera el slug (F1-01) si no viene informado; WithoutModelEvents impide que se ejecute en los seeders.
+     * Recalcula quality_score al guardar si cambian los campos que lo determinan (F0-05):
+     * imágenes, descripción, released_at o attributes.
      */
 	protected static function booted(): void
 	{
+		static::creating(function (Item $item) {
+			if (blank($item->getAttribute('slug'))) {
+				$item->setAttribute('slug', static::generateUniqueSlug((string) $item->name, static::slugYear($item)));
+			}
+		});
+
 		static::saving(function (Item $item) {
 			if ($item->isDirty(['images', 'description', 'released_at', 'attributes'])) {
 				$item->quality_score = app(ItemQualityScorer::class)->score($item);
@@ -69,11 +90,59 @@ class Item extends Model
 		});
 	}
 
+    /*
+     * Genera un slug único: el nombre en slug más el año, si lo hay, y un sufijo -2, -3… si ya existe.
+     * Cuenta también los ítems borrados (el índice único los incluye).
+     */
+	public static function generateUniqueSlug(string $name, ?int $year = null): string
+	{
+		$base = rtrim(mb_substr(Str::slug($name), 0, 200), '-');
+		if ($base === '') {
+			$base = 'item';
+		}
+		if ($year !== null) {
+			$base .= '-' . $year;
+		}
+
+		// El slug solo contiene [a-z0-9-], así que el patrón LIKE no necesita escaparse.
+		$taken = static::withTrashed()
+			->where(fn($q) => $q->where('slug', $base)->orWhere('slug', 'like', $base . '-%'))
+			->pluck('slug')
+			->all();
+
+		if (!in_array($base, $taken, true)) {
+			return $base;
+		}
+
+		$suffix = 2;
+		while (in_array($base . '-' . $suffix, $taken, true)) {
+			$suffix++;
+		}
+
+		return $base . '-' . $suffix;
+	}
+
+    /*
+     * Año para el slug: el de released_at o, si no hay, attributes.year.
+     * Se usa getAttribute('attributes') porque $item->attributes es la propiedad interna de Eloquent.
+     */
+	private static function slugYear(Item $item): ?int
+	{
+		if ($item->released_at !== null) {
+			return (int) $item->released_at->format('Y');
+		}
+
+		$attrs = $item->getAttribute('attributes');
+		$year = is_array($attrs) ? ($attrs['year'] ?? null) : null;
+
+		return is_numeric($year) ? (int) $year : null;
+	}
+
     // Filtrado y ordenamiento
 
     /*
      * Aplica filtros a la consulta de ítems según los parámetros proporcionados.
-     * Permite filtrar por categoría (ID o slug), búsqueda por nombre y exclusión de ítems votados por un usuario específico.
+     * Permite filtrar por categoría (ID o slug), búsqueda por nombre o título original y exclusión de ítems votados por un usuario específico.
      * Con 'discoverable' excluye además los ítems con ficha pobre (quality_score por debajo del umbral, F0-05).
      */
 	public function scopeApplyFilters($query, array $filters)
@@ -81,7 +150,11 @@ class Item extends Model
 		return $query
 			->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
 			->when(!empty($filters['category_slug']), fn($q) => $q->whereHas('category', fn($qCat) => $qCat->where('slug', $filters['category_slug'])))
-			->when(!empty($filters['search']), fn($q) => $q->where('name', 'ilike', Like::contains($filters['search'])))
+			->when(!empty($filters['search']), function ($q) use ($filters) {
+				$pattern = Like::contains($filters['search']);
+				$q->where(fn($sub) => $sub->where('name', 'ilike', $pattern)
+					->orWhere('original_title', 'ilike', $pattern));
+			})
 			->when(!empty($filters['exclude_voted_by']), fn($q) => $q->whereDoesntHave('votes', fn($v) => $v->where('user_id', $filters['exclude_voted_by'])))
 			->when(!empty($filters['discoverable']), fn($q) => $q->discoverable());
 	}
@@ -103,7 +176,7 @@ class Item extends Model
 
     /*
      * Aplica filtros específicos para el panel de administración.
-     * Permite filtrar por estado, categoría, creador y búsqueda por nombre.
+     * Permite filtrar por estado, categoría, creador y búsqueda por nombre o título original.
      */
 	public function scopeAdminApplyFilters($query, array $filters)
 	{
@@ -111,7 +184,11 @@ class Item extends Model
 			->when(!empty($filters['status']), fn($q) => $q->where('status', $filters['status']))
 			->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
 			->when(!empty($filters['creator_id']), fn($q) => $q->where('creator_id', $filters['creator_id']))
-			->when(!empty($filters['search']), fn($q) => $q->where('name', 'ilike', Like::contains($filters['search'])));
+			->when(!empty($filters['search']), function ($q) use ($filters) {
+				$pattern = Like::contains($filters['search']);
+				$q->where(fn($sub) => $sub->where('name', 'ilike', $pattern)
+					->orWhere('original_title', 'ilike', $pattern));
+			});
 	}
 
     /*
@@ -181,6 +258,14 @@ class Item extends Model
 	public function comments(): HasMany
 	{
 		return $this->hasMany(ItemComment::class);
+	}
+
+    /*
+     * Fuentes externas del ítem (TMDB, Wikidata…), F1-01.
+     */
+	public function sources(): HasMany
+	{
+		return $this->hasMany(ItemSource::class);
 	}
 
     /*

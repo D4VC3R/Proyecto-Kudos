@@ -46,7 +46,9 @@ class Vote extends Model
 				$q->whereHas('item.category', fn($catQuery) => $catQuery->where('slug', $filters['category_slug']));
 			})
 			->when(!empty($filters['search']), function ($q) use ($filters) {
-				$q->whereHas('item', fn($itemQuery) => $itemQuery->where('name', 'ilike', Like::contains($filters['search'])));
+				$pattern = Like::contains($filters['search']);
+				$q->whereHas('item', fn($itemQuery) => $itemQuery->where(fn($sub) => $sub->where('name', 'ilike', $pattern)
+					->orWhere('original_title', 'ilike', $pattern)));
 			});
 	}
 

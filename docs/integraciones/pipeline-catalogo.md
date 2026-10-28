@@ -36,7 +36,7 @@ Backend/app/Console/Commands/Catalog/
 └── ImportOneCommand.php               # catalog:import {provider} {externalId}
 ```
 
-La calidad la calcula `app/Services/ItemQualityScorer.php` (F0-05, ampliado en la F1-01).
+La calidad la calcula `app/Services/ItemQualityScorer.php` (F0-05; la regla de +20 por `released_at` o `attributes` ya existía desde la F0-05 y en la F1-01 entran las columnas).
 
 ## 3. Contratos
 
