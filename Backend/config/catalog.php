@@ -20,5 +20,51 @@ return [
         'wishlist', 'u', 'listas', 'privacidad', 'aviso-legal',
     ],
 
-    // La F1-02 añade el resto (proveedores, límites…).
+    // Las variables de entorno van vacías en los .env*.example (R9) y env() devuelve '' si existen vacías:
+    // por eso se usa "?:" en lugar del segundo argumento de env().
+
+    // User-Agent identificativo de todas las peticiones a fuentes externas (fuentes-externas §1.3).
+    // Sin él, Wikimedia baja a 10 peticiones por minuto. En producción, con un correo de contacto real.
+    'user_agent' => env('CATALOG_USER_AGENT') ?: 'KudosBot/1.0 (+https://kudos.dcerdan.es)',
+
+    // Máximo de ítems por categoría en cada catalog:fetch-new (50 en local, 300 en producción).
+    'import_limit' => (int) (env('CATALOG_IMPORT_LIMIT') ?: 50),
+
+    // catalog:refresh vuelve a pedir los ítems sincronizados hace más de estos días.
+    'refresh_older_than_days' => 150,
+
+    // Términos de TMDB: nada de TMDB se guarda más de 6 meses sin refrescar (catalog:purge-stale).
+    'tmdb_max_age_days' => 180,
+
+    // Cliente HTTP común (macro Http::catalog(), App\Providers\CatalogServiceProvider).
+    'http' => [
+        'timeout_seconds' => 10,
+        // Intentos en total (el primero incluido); solo se reintenta ante 429, 5xx o fallo de conexión.
+        'retry_times' => 3,
+        // Espera antes del reintento N: N × este valor (500 ms, 1000 ms…).
+        'retry_sleep_ms' => 500,
+    ],
+
+    // Proveedor de cada categoría (CatalogProviderRegistry). Las clases llegan en la F1-03.
+    'categories' => [
+        'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
+        'series' => ['provider' => \App\Catalog\Providers\TmdbTvProvider::class],
+        // F4: 'videojuegos' => [...], 'destinos' => [...]
+    ],
+
+    'providers' => [
+        // Token v4 (Bearer); lo da de alta el humano (F1-00). Límite propio por debajo de los ~40/s de TMDB.
+        'tmdb' => [
+            'token' => env('TMDB_API_TOKEN') ?: null,
+            'rate_per_second' => 20,
+        ],
+        // Wikidata y Wikipedia comparten límite (200/min con User-Agent en Wikipedia).
+        'wikimedia' => [
+            'rate_per_minute' => 150,
+            // Una consulta SPARQL puede tardar hasta 60 s en el servidor de Wikidata.
+            'sparql_timeout_seconds' => 60,
+        ],
+    ],
+
+    // F2-06: 'queue_weights'; F4-01: 'genre_translations'
 ];
