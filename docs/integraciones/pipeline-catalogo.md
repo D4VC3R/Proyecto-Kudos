@@ -11,6 +11,7 @@ Importar novedades, enriquecer la descripción en español y los IDs cruzados, r
 ```
 Backend/app/Catalog/
 ├── Contracts/CatalogProvider.php
+├── Contracts/RecognizesExternalIds.php # interfaz opcional (F1-05): el proveedor reconoce un external_id sin peticiones; la usa catalog:import
 ├── Data/CatalogItemData.php           # DTO readonly normalizado
 ├── Providers/
 │   ├── AbstractTmdbProvider.php       # F1: base común (mapeo, imágenes, géneros, paginación)
@@ -30,11 +31,13 @@ Backend/app/Catalog/
 
 Backend/app/Jobs/Catalog/
 ├── ImportCatalogItemJob.php           # cola "catalog": ImportCatalogItemJob(categorySlug, externalId); importa o refresca un ítem
-└── DownloadItemImagesJob.php          # cola "catalog": DownloadItemImagesJob(itemId, images); descarga las imágenes de un ítem
+├── DownloadItemImagesJob.php          # cola "catalog": DownloadItemImagesJob(itemId, images); descarga las imágenes de un ítem
+├── FetchNewCatalogItemsJob.php        # cola "catalog": FetchNewCatalogItemsJob(categorySlug, limit); fetchNew() y un ImportCatalogItemJob por ítem
+└── PurgeStaleCatalogItemsJob.php      # cola "catalog": PurgeStaleCatalogItemsJob(itemIds); desactiva y limpia los datos de TMDB caducados
 
 Backend/app/Console/Commands/Catalog/
 ├── FetchNewCommand.php                # catalog:fetch-new {--category=} {--all} {--limit=}
-├── RefreshCommand.php                 # catalog:refresh {--older-than=150} {--batch=200}
+├── RefreshCommand.php                 # catalog:refresh {--older-than=} {--batch=200}   (por defecto, catalog.refresh_older_than_days = 150)
 ├── PurgeStaleCommand.php              # catalog:purge-stale
 └── ImportOneCommand.php               # catalog:import {provider} {externalId}
 ```
@@ -115,9 +118,10 @@ final readonly class CatalogItemData
 
 ## 5. Refresco y cumplimiento de TMDB
 
-- **`catalog:refresh`** (diario): toma hasta `--batch` ítems con `last_synced_at` anterior a `--older-than` días (150 por defecto, con margen frente a los 180 de TMDB) y encola un `ImportCatalogItemJob` por cada uno. El lote debe recorrer todo el catálogo de TMDB en menos de 150 días (con ~3.000 ítems, 200 al día bastan). Registra un aviso si crecen los pendientes.
+- **`catalog:fetch-new`** (diario): encola un `FetchNewCatalogItemsJob` por categoría (el comando no llama a TMDB); el job pide `fetchNew()` y encola un `ImportCatalogItemJob` por cada `external_id`, incluidos los ítems que ya existen (se refrescan sin duplicar). `--limit` cuenta candidatos de `fetchNew()`, no ítems nuevos.
+- **`catalog:refresh`** (diario): toma hasta `--batch` ítems con `last_synced_at` anterior a `--older-than` días (150 por defecto, con margen frente a los 180 de TMDB), los más antiguos primero, y encola un `ImportCatalogItemJob` por cada uno. Incluye los inactivos (siguen inactivos) y excluye los borrados. El lote debe recorrer todo el catálogo de TMDB en menos de 150 días (con ~3.000 ítems, 200 al día bastan). Registra un aviso en el log si quedan pendientes tras el lote.
 - **404 del proveedor:** `status = inactive` y aviso en el log. No se borra, porque puede tener votos.
-- **`catalog:purge-stale`** (semanal, red de seguridad): los ítems de TMDB sin refrescar en más de 180 días pasan a inactivos, se vacían sus campos procedentes de TMDB y **se borran sus imágenes de TMDB** del disco y de `images`.
+- **`catalog:purge-stale`** (semanal, red de seguridad): encola `PurgeStaleCatalogItemsJob` por bloques. Los ítems de TMDB (con fuente `tmdb`) sin refrescar en más de 180 días, **incluidos los borrados**, pasan a inactivos, se vacían sus campos procedentes de TMDB (la sinopsis si su `description_source` es `tmdb`, `attributes` y `popularity`) y **se borran sus imágenes de TMDB** del disco y de `images`. Conserva el nombre, el título original, la fecha, el slug y las fuentes, y lo que no viene de TMDB (descripción de Wikipedia/Wikidata o manual, imágenes propias). Un ítem purgado vuelve a refrescarse con `catalog:refresh`, pero sigue `inactive` hasta que lo reactive un admin.
 - **Memoria:** los comandos programados solo encolan. El scheduler tiene 128M ([../infra/produccion.md](../infra/produccion.md) §2).
 
 ## 6. Tareas programadas (`routes/console.php`)
@@ -128,7 +132,7 @@ final readonly class CatalogItemData
 | `items:recalculate-quality` | Semanal, lunes 03:30 | Por si cambian las reglas (F0-05) |
 | `catalog:fetch-new --all` | Diaria, 04:00 | `CATALOG_IMPORT_LIMIT` por categoría |
 | `catalog:refresh` | Diaria, 05:00 | |
-| `catalog:purge-stale` | Semanal | |
+| `catalog:purge-stale` | Semanal, domingo 05:30 | |
 
 Todas llevan `withoutOverlapping()`.
 
