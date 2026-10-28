@@ -1,5 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { selectIsAuthenticated, useSessionStore } from '../../store/useSessionStore';
+import { getReturnPath } from '../../lib/authRedirect.js';
 
 /**
  * Componente de guardia que protege las rutas que solo deben ser accesibles para usuarios no autenticados (invitados).
@@ -11,8 +12,8 @@ const RequireGuest = () => {
   const location = useLocation();
 
   if (isAuthenticated) {
-    // Si venía rebotado de una ruta protegida, lo devolvemos allí, si no, al lobby.
-    const destination = location.state?.from?.pathname || '/';
+    // Lo devolvemos a la página de origen (ruta protegida o enlace de la cabecera); si no hay, al lobby.
+    const destination = getReturnPath(location.state?.from);
     return <Navigate replace to={destination} />;
   }
 

@@ -9,6 +9,7 @@ import Button from '../ui/Button.jsx';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLogin } from '../../hooks/auth/useAuthMutations';
+import { getReturnPath } from '../../lib/authRedirect.js';
 
 const LoginForm = () => {
   const navigate = useNavigate(); // Para redirigir al usuario después del inicio de sesión.
@@ -22,7 +23,7 @@ const LoginForm = () => {
   const onSubmit = (data) => {
     login(data, {
       onSuccess: () => {
-        const destination = location.state?.from?.pathname || '/';
+        const destination = getReturnPath(location.state?.from);
         navigate(destination, { replace: true });
       }
     });
