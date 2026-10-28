@@ -103,6 +103,21 @@ Los agentes desarrollan con fixtures; el token solo hace falta para la verificac
 
 **Hecho cuando:** hay tests con fixtures recortadas (película completa, película con `overview` vacío, serie, `search` y 404) y `fetch()` de un 404 devuelve `null`.
 
+**Notas:**
+- **Archivos creados:** `Backend/app/Catalog/Providers/{AbstractTmdbProvider,TmdbMovieProvider,TmdbTvProvider}.php`, `Backend/tests/Concerns/LoadsFixtures.php`, `Backend/tests/Fixtures/catalog/tmdb/*.json` (7 fixtures) y `Backend/tests/Unit/Catalog/Providers/{TmdbMovieProviderTest,TmdbTvProviderTest}.php`. **Modificados:** `Backend/config/catalog.php` (comentario de `categories` y `providers.tmdb.genres_cache_days = 7`), el docblock de `fetchNew()` en `CatalogProvider.php` y `CatalogProviderRegistryTest.php` (un test nuevo).
+- **Base común:** `AbstractTmdbProvider` concentra el mapeo al DTO, las imágenes, la caché de géneros y la paginación de `fetchNew()`; los dos proveedores solo declaran sus campos, rutas y `detailAttributes()`.
+- **Discrepancias con la documentación (R1):**
+  1. La ficha no lista **Archivos**: salen de pipeline §2, más la base abstracta.
+  2. Las series piden solo `append_to_response=external_ids` (fuentes-externas §4 pedía también `credits`): creadores y cadenas vienen en el propio detalle.
+  3. Los géneros del detalle (`genres[].name`) ya vienen en es-ES; la lista cacheada 7 días (`/genre/{movie|tv}/list`) solo traduce los `genre_ids` de los listados (`search`, `fetchNew`).
+  4. `fetchNew()` devuelve DTO **parciales** (los de los listados, como `search()`) e intercala los listados por página para que las novedades no tapen a las populares. La ficha completa la da `fetch()`: la F1-05 debe encolar un `ImportCatalogItemJob` por `externalId`.
+  5. Las fixtures están escritas a mano con la forma documentada de la API (ningún agente puede llamar a TMDB), no capturadas con `curl`. El humano puede sustituirlas por capturas reales recortadas manteniendo los valores que comprueban los tests.
+- **Errores:** `fetch()` de un 404 devuelve `null` (una sola petición); cualquier otro error (429/5xx tras los reintentos, 401…) lanza `RequestException`, para que un fallo temporal no se confunda con "ya no existe" (lo que desactivaría el ítem en la F1-04). El `external_id` se valida con su prefijo (`movie:{id}` / `tv:{id}`): uno ajeno lanza `InvalidArgumentException` sin hacer peticiones.
+- **Aviso para F1-04/F1-05:** la clave `tmdb` es común a los dos proveedores, así que hay que resolver el proveedor por categoría (o por el prefijo `movie:`/`tv:` del `external_id`), no solo por `item_sources.provider`.
+- **Textos en español:** países e idioma original traducidos con `intl` (si intl no conoce el código, se omite; nunca el nombre en inglés de TMDB); el estado de las series se traduce con `TmdbTvProvider::STATUS_LABELS` (uno desconocido no se guarda). Máximo de 3 para dirección, creadores y cadenas. Los géneros de series de TMDB es-ES vienen a veces en inglés ("Sci-Fi & Fantasy") y se guardan tal cual.
+- **`attribute_schema`:** el acordado vive en `TmdbMovieProvider::ATTRIBUTE_SCHEMA` y `TmdbTvProvider::ATTRIBUTE_SCHEMA` (en tarjeta solo `year` y `genres`); la F1-10 lo siembra desde ahí. Documentado en base-de-datos §3.
+- **Verificación:** `sail test --filter=Tmdb` 36 passed (145 assertions; 9 de `TmdbClientTest`, 26 de los proveedores y el del registro); `sail test --filter=Catalog` 67 passed (226 assertions); `sail test` 176 passed (794 assertions; antes 149). Pint sin cambios pendientes en los archivos nuevos; sin tokens en las fixtures; ninguna petición real.
+
 ---
 
 ## F1-04 · `DescriptionResolver` y `CatalogImporter`

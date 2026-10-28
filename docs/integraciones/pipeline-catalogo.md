@@ -13,6 +13,7 @@ Backend/app/Catalog/
 ├── Contracts/CatalogProvider.php
 ├── Data/CatalogItemData.php           # DTO readonly normalizado
 ├── Providers/
+│   ├── AbstractTmdbProvider.php       # F1: base común (mapeo, imágenes, géneros, paginación)
 │   ├── TmdbMovieProvider.php          # F1
 │   ├── TmdbTvProvider.php             # F1 (comparte TmdbClient)
 │   ├── IgdbGameProvider.php           # F4 (o RawgGameProvider)
@@ -56,7 +57,7 @@ interface CatalogProvider
     /** Ficha completa en español. null si la fuente devuelve 404. */
     public function fetch(string $externalId): ?CatalogItemData;
 
-    /** Novedades y populares para la importación periódica. */
+    /** Novedades y populares para la importación periódica (pueden ser parciales, como los de search(); la ficha completa la da fetch()). */
     public function fetchNew(int $limit): iterable;            // de CatalogItemData
 }
 
@@ -160,7 +161,7 @@ return [
         // F4: 'videojuegos' => [...], 'destinos' => [...]
     ],
     'providers' => [
-        'tmdb' => ['token' => env('TMDB_API_TOKEN') ?: null, 'rate_per_second' => 20],
+        'tmdb' => ['token' => env('TMDB_API_TOKEN') ?: null, 'rate_per_second' => 20, 'genres_cache_days' => 7],
         'wikimedia' => ['rate_per_minute' => 150, 'sparql_timeout_seconds' => 60],
     ],
     // F2-06: 'queue_weights'; F4-01: 'genre_translations'
