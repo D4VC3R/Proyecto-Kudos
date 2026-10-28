@@ -65,6 +65,19 @@ Los agentes desarrollan con fixtures; el token solo hace falta para la verificac
 
 **Hecho cuando:** hay tests unitarios con `Http::fake` que comprueban que se envían el User-Agent y el token, que se reintenta ante 429 y no ante 404, y que `WikipediaClient` recurre a la Action API si REST falla.
 
+**Notas:**
+- **Archivos creados** (`Backend/`): `app/Catalog/Contracts/CatalogProvider.php`, `app/Catalog/Data/CatalogItemData.php`, `app/Catalog/CatalogProviderRegistry.php`, `app/Catalog/Clients/{TmdbClient,WikidataClient,WikipediaClient,RetryPolicy}.php`, `app/Catalog/Clients/Concerns/ThrottlesRequests.php` y `app/Providers/CatalogServiceProvider.php`; tests en `tests/Unit/Catalog/`: `Clients/TmdbClientTest.php` (9), `Clients/WikidataClientTest.php` (6), `Clients/WikipediaClientTest.php` (6), `Clients/RetryPolicyTest.php` (3), `CatalogProviderRegistryTest.php` (4), `CatalogConfigTest.php` (1) y `Data/CatalogItemDataTest.php` (1).
+- **Archivos modificados:** `config/catalog.php` (claves previas intactas), `bootstrap/providers.php`, `.env.example` y `.env.production.example` (las tres variables, vacías, R9; `docs/infra/produccion.md` §3 ya las documentaba).
+- **`Http::catalog()`** centraliza User-Agent, `acceptJson`, *timeout* de 10 s y `retry(3, …, throw: false)` para **todos** los clientes (no solo TMDB, por fuentes-externas §1.5); la política está en `App\Catalog\Clients\RetryPolicy`.
+- **Qué devuelve cada cliente:** `Response`/`?array`. Un 404 nunca lanza (lo interpreta el proveedor; en la F1-03 `fetch()` → `null`); 429/5xx persistentes devuelven la última respuesta (TMDB) o lanzan `RequestException` (Wikidata/Wikipedia tras `throw()`); un fallo de conexión persistente lanza `ConnectionException`.
+- **Limitación:** `ThrottlesRequests` va en `beforeSending()`, así que cuenta también los reintentos. Wikidata y Wikipedia comparten la clave `catalog:wikimedia` (150/min), también para SPARQL, cuyo *timeout* sube a 60 s.
+- **`WikidataClient::getEntity()`** usa `wbgetentities` (con `props`, `languages=es|mul|en` y `sitefilter=eswiki`) en lugar de `Special:EntityData`, porque el payload es mucho menor.
+- **`WikipediaClient::summary()`** recurre a la Action API ante cualquier respuesta REST no 2xx (incluido 404) o fallo de conexión; usa `formatversion=2` e `inprop=url`.
+- **`TmdbClient::get()`** fuerza `language=es-ES` y lanza `RuntimeException` si falta `TMDB_API_TOKEN` (F1-00 pendiente). Los métodos de alto nivel son de la F1-03.
+- **Desviación R1:** `env('X') ?: defecto` en `config/catalog.php` en lugar de `env('X', defecto)` (pipeline §8): las variables van vacías en los `.env*.example` y `env()` devuelve `''` si existen vacías (User-Agent vacío y límite 0). Lo cubre `CatalogConfigTest`.
+- **`CatalogServiceProvider`** registrado en `bootstrap/providers.php` (no en `withProviders()` de `bootstrap/app.php`, donde está `MediaServiceProvider`).
+- **Verificación:** `sail test --filter=Catalog` 40 passed (101 assertions; incluye los 8 de `ItemCatalogFieldsTest`); `sail test` 149 passed (669 assertions; antes 119).
+
 ---
 
 ## F1-03 · Proveedores de TMDB

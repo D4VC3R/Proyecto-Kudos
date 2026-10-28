@@ -101,6 +101,7 @@ Http::fake([
 - **Protección global:** `tests/TestCase.php::setUp()` activa `Http::preventStrayRequests()` para toda clase que extienda `Tests\TestCase`; cada test solo declara sus `Http::fake()`. La llamada en el `setUp()` de cada clase es redundante pero inocua. Los tests `Unit` que extienden `PHPUnit\Framework\TestCase` no arrancan la app ni pueden usar `Http` (si lo necesitan, que extiendan `Tests\TestCase`). `tests/Feature/StrayRequestsTest.php` comprueba la protección.
 - **Fixtures:** capturadas una vez a mano con `curl` y recortadas. **Sin tokens**, ni en las URLs ni en el contenido.
 - **Casos de error en cada proveedor:** 404, 429, campo vacío (por ejemplo, sinopsis es-ES vacía) y *timeout*.
+- **Reintentos y límites:** los clientes de `app/Catalog/Clients` reintentan con esperas y limitan con `RateLimiter`; en sus tests usa `Sleep::fake()` (o `Sleep::fake(syncWithCarbon: true)` con `freezeTime()` para probar el límite) y `Http::sequence()` para encadenar 429/5xx.
 - **Imágenes:** `Storage::fake('public')` y `Storage::fake('local')`. `RemoteImageDownloader` hace primero un `HEAD` y luego un `GET`; el *fake* responde a ambos.
 - **DNS:** `RemoteImageDownloader::assertSafeUrl()` llama a `gethostbyname()` y `Http::fake()` no lo evita. La F1-04 lo extrae a un colaborador inyectable; en los tests, falséalo. Si no, los tests dependen de la red.
 

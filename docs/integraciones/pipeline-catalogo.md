@@ -20,7 +20,9 @@ Backend/app/Catalog/
 ├── Clients/
 │   ├── TmdbClient.php                 # token, rate limit, idioma
 │   ├── WikidataClient.php             # wbgetentities y SPARQL
-│   └── WikipediaClient.php            # resumen ES con respaldo en la Action API
+│   ├── WikipediaClient.php            # resumen ES con respaldo en la Action API
+│   ├── RetryPolicy.php                # cuándo reintentar (429, 5xx, conexión) y la espera
+│   └── Concerns/ThrottlesRequests.php # RateLimiter por proveedor
 ├── Enrichment/DescriptionResolver.php
 ├── CatalogImporter.php                # upsert idempotente: DTO → Item + ItemSource
 └── CatalogProviderRegistry.php        # proveedor por categoría, según config
@@ -35,6 +37,8 @@ Backend/app/Console/Commands/Catalog/
 ├── PurgeStaleCommand.php              # catalog:purge-stale
 └── ImportOneCommand.php               # catalog:import {provider} {externalId}
 ```
+
+El macro `Http::catalog()` (User-Agent, JSON, *timeout* y reintentos) se registra en `app/Providers/CatalogServiceProvider.php`.
 
 La calidad la calcula `app/Services/ItemQualityScorer.php` (F0-05; la regla de +20 por `released_at` o `attributes` ya existía desde la F0-05 y en la F1-01 entran las columnas).
 
@@ -134,25 +138,30 @@ Todas llevan `withoutOverlapping()`.
 
 ## 8. `config/catalog.php`
 
-> La F0-05 creó el archivo con `min_quality_for_discovery` y `template_description_patterns`, y la F0-09 añadió `reserved_slugs`; la F1-02 lo amplía hasta llegar a lo que sigue.
+> La F0-05 creó el archivo con `min_quality_for_discovery` y `template_description_patterns`, y la F0-09 añadió `reserved_slugs`; la F1-02 lo amplió hasta lo que sigue. Se usa `env('X') ?: defecto` y no `env('X', defecto)`: las variables van vacías en los `.env*.example` (R9) y `env()` devuelve `''`, no el valor por defecto, cuando la variable existe vacía.
 
 ```php
 return [
-    'user_agent' => env('CATALOG_USER_AGENT', 'KudosBot/1.0 (+https://kudos.dcerdan.es)'),
-    'import_limit' => (int) env('CATALOG_IMPORT_LIMIT', 50),
+    'user_agent' => env('CATALOG_USER_AGENT') ?: 'KudosBot/1.0 (+https://kudos.dcerdan.es)',
+    'import_limit' => (int) (env('CATALOG_IMPORT_LIMIT') ?: 50),
     'refresh_older_than_days' => 150,
     'tmdb_max_age_days' => 180,
     'min_quality_for_discovery' => 40,          // F0-05: por debajo, fuera de la portada y la cola
     'template_description_patterns' => ['Item importado', 'importado desde'],   // F0-05
     'reserved_slugs' => ['buscar', 'ranking', 'admin', /* … lista completa en config/catalog.php */],   // F0-09
+    'http' => [                                 // macro Http::catalog()
+        'timeout_seconds' => 10,
+        'retry_times' => 3,                     // intentos en total; solo ante 429, 5xx o fallo de conexión
+        'retry_sleep_ms' => 500,                // espera del reintento N: N × este valor
+    ],
     'categories' => [
         'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
         'series'    => ['provider' => \App\Catalog\Providers\TmdbTvProvider::class],
         // F4: 'videojuegos' => [...], 'destinos' => [...]
     ],
     'providers' => [
-        'tmdb' => ['token' => env('TMDB_API_TOKEN'), 'rate_per_second' => 20],
-        'wikimedia' => ['rate_per_minute' => 150],
+        'tmdb' => ['token' => env('TMDB_API_TOKEN') ?: null, 'rate_per_second' => 20],
+        'wikimedia' => ['rate_per_minute' => 150, 'sparql_timeout_seconds' => 60],
     ],
     // F2-06: 'queue_weights'; F4-01: 'genre_translations'
 ];
