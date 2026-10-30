@@ -37,7 +37,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 
 | ID | Tarea | Resp. | Depende de | Estado |
 |---|---|---|---|---|
-| F1-00 | Dar de alta el token de TMDB y la variable `CATALOG_USER_AGENT` | HUMANO | — | pendiente |
+| F1-00 | Dar de alta el token de TMDB y la variable `CATALOG_USER_AGENT` | HUMANO | — | hecho |
 | F1-01 | Migraciones del catálogo: `items`, `item_sources`, `categories` | BE | F0-05 | hecho |
 | F1-02 | Módulo `app/Catalog`: contratos, DTO, `config/catalog.php` y clientes HTTP | INT | F1-01 | hecho |
 | F1-03 | Proveedores de TMDB (películas y series) | INT | F1-02 | hecho |

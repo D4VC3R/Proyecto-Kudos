@@ -14,6 +14,8 @@ El humano crea una cuenta en themoviedb.org (uso "no comercial / proyecto educat
 
 Los agentes desarrollan con fixtures; el token solo hace falta para la verificación manual.
 
+**Hecho (2026-10-30):** el humano confirma que `TMDB_API_TOKEN` y `CATALOG_USER_AGENT` están en el `.env.production` del VPS. El cliente ya pide siempre `language=es-ES` a TMDB (F1-02), así que no se traduce nada en Kudos.
+
 ---
 
 ## F1-01 · Migraciones del catálogo
