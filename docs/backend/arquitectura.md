@@ -10,7 +10,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 | Controller | `app/Http/Controllers/<Dominio>/` | HTTP de entrada y salida; sin lógica de negocio |
 | Form Request | `app/Http/Requests/<Dominio>/` | Validación y `authorize()` con *policies*; mensajes en español |
 | Action | `app/Actions/` (en la raíz, sin subcarpetas) | Un caso de uso de escritura transaccional con `execute(...)`: `EmitVoteAction`, `ChangeVoteAction`, `DeleteVoteAction`, `ReviewProposalAction`, `ImportCatalogItemOnDemandAction` (F1-07; llama a la fuente externa y usa un candado, no una transacción única) |
-| Service | `app/Services/` | Lógica reutilizable: `KudosService`, `NextCategoryItemService`, `ItemStatsService`, `ItemQualityScorer`, `ModerationAuditLogger`, `Media/*` |
+| Service | `app/Services/` | Lógica reutilizable: `KudosService`, `NextCategoryItemService`, `ItemStatsService`, `ItemQualityScorer`, `OnboardingItemsService`, `ModerationAuditLogger`, `Media/*` |
 | Model | `app/Models/` | Relaciones, *scopes* (`scopeApplyFilters`, `scopeApplySorting`, `scopeAdminApply*`) y *casts* |
 | Resource | `app/Http/Resources/` | Toda respuesta JSON |
 | Policy | `app/Policies/` | Autorización por modelo |
@@ -58,6 +58,10 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 - `items:recalculate-stats {--category=slug} {--chunk=200}` (`app/Console/Commands/RecalculateItemStatsCommand.php`) primero refresca C de las categorías afectadas (`refreshCategoryMean`) y después encola un `RecalculateItemStatsJob` por bloque en la cola `catalog`. Está programado a diario a las 03:00 en `routes/console.php`.
 - `items:recalculate-quality {--category=slug} {--chunk=200}` (`app/Console/Commands/RecalculateItemQualityCommand.php`) encola un `RecalculateItemQualityJob` por bloque en la cola `catalog`; el job escribe con `DB::table` (sin eventos ni `updated_at`). Programado los lunes a las 03:30.
 - `config/catalog.php`: `min_quality_for_discovery` (40), `template_description_patterns` y `reserved_slugs` (F0-09: slugs de categoría prohibidos por coincidir con rutas de primer nivel del frontend; se valida con `App\Rules\NotReservedSlug` en `StoreCategoryRequest` y `UpdateCategoryRequest`); la F1-02 lo amplía.
+
+**Perfil y onboarding** (F2-07)
+- `PUT /api/profile` acepta `interests`: lista de slugs de categorías activas (máx. 20, sin repetidos, vacía permitida) en `UpdateProfileRequest`. Sin la clave no se toca. `ProfileResource` y el login (`data.user.interests`) devuelven `interests`. Casts: `Profile::$casts['interests'] = 'array'`.
+- `GET /api/onboarding/items?categories=a,b` (`OnboardingController` + `OnboardingItemsRequest` + `OnboardingItemsService::popularItems()`): hasta `catalog.onboarding_items` (10) ítems populares (`popularity desc`, `id`), activos, `discoverable()` y sin voto de ningún tipo del usuario, repartidos por turnos entre las categorías (`sort_order`, `name`). `ItemListResource` con `can_vote = true`. 422 si falta una categoría válida; 401 sin sesión.
 
 **Propuestas y moderación**
 - `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`. No existe un `ProposalService`.
