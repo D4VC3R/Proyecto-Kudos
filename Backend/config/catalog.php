@@ -85,5 +85,29 @@ return [
         'lock_wait_seconds' => 10,
     ],
 
-    // F2-06: 'queue_weights'; F4-01: 'genre_translations'
+    // Cola de votación ponderada (F2-06, NextCategoryItemService::generateNewBatch()).
+    // Peso de cada candidato: pop·popularidad normalizada (escala logarítmica, 0–1, respecto a la más alta
+    // de los candidatos) + new·recencia (0–1) + qual·quality_score/100 + rand·azar (0–1). Suman 1.
+    'queue_weights' => [
+        'pop' => 0.45,
+        'new' => 0.2,
+        'qual' => 0.15,
+        'rand' => 0.2,
+    ],
+
+    // Candidatos que se puntúan antes de quedarse con los 50 de más peso, en una sola consulta (UNION):
+    // los más populares más unos cuantos al azar, para que la cola no se limite al top.
+    'queue_candidates' => [
+        'popular' => 300,
+        'random' => 100,
+    ],
+
+    // Recencia: 1 si el lanzamiento es de los últimos full_days días o futuro; baja en línea recta
+    // hasta 0 a los zero_years años. Sin released_at vale 0.
+    'queue_recency' => [
+        'full_days' => 90,
+        'zero_years' => 5,
+    ],
+
+    // F4-01: 'genre_translations'
 ];
