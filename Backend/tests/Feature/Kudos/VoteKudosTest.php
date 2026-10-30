@@ -33,6 +33,23 @@ class VoteKudosTest extends TestCase
         return $this->postJson('/api/votes', ['item_id' => $item->id, 'type' => 'vote', 'score' => $score]);
     }
 
+    public function test_los_valores_de_recompensa_por_voto_son_los_de_la_f2_03(): void
+    {
+        // F2-03: recompensas bajas para no premiar el voto masivo.
+        $this->assertSame(2, config('kudos.voting.reward'));
+        $this->assertSame(20, config('kudos.voting.diminishing_returns.threshold'));
+        $this->assertSame(1, config('kudos.voting.diminishing_returns.new_reward'));
+        $this->assertSame(20, config('kudos.voting.daily_cap'));
+
+        // La clave muerta se ha eliminado.
+        $this->assertNull(config('kudos.rewards.vote_first_time_item'));
+
+        // Se mantienen la recompensa por propuesta aceptada y las rachas.
+        $this->assertSame(1000, config('kudos.rewards.proposal_accepted'));
+        $this->assertSame(10, config('kudos.rewards.daily_login_streak.1.base'));
+        $this->assertSame(200, config('kudos.rewards.daily_login_streak.5.base'));
+    }
+
     public function test_el_primer_voto_a_un_item_da_kudos(): void
     {
         $reward = config('kudos.voting.reward');
@@ -82,6 +99,10 @@ class VoteKudosTest extends TestCase
 
     public function test_por_encima_de_20_votos_diarios_la_recompensa_decrece(): void
     {
+        // Con los valores por defecto (umbral 20 = tope 20) el tramo decreciente no se alcanza:
+        // se sube el tope solo en este test para comprobar el mecanismo.
+        config(['kudos.voting.daily_cap' => 50]);
+
         $reward = config('kudos.voting.reward');
         $threshold = config('kudos.voting.diminishing_returns.threshold');
         $newReward = config('kudos.voting.diminishing_returns.new_reward');
@@ -102,12 +123,10 @@ class VoteKudosTest extends TestCase
         $this->assertSame($threshold * $reward + $newReward, (int) $user->fresh()->total_kudos);
     }
 
-    public function test_el_tope_diario_de_votos_con_kudos_es_50(): void
+    public function test_el_tope_diario_de_votos_con_kudos_es_20(): void
     {
-        $reward = config('kudos.voting.reward');
-        $threshold = config('kudos.voting.diminishing_returns.threshold');
-        $newReward = config('kudos.voting.diminishing_returns.new_reward');
         $cap = config('kudos.voting.daily_cap');
+        $this->assertSame(20, $cap);
 
         $user = $this->actingAsUser();
         $category = $this->createCategory();
@@ -123,7 +142,8 @@ class VoteKudosTest extends TestCase
             ->assertCreated()
             ->assertJsonPath('meta.kudos_awarded', 0);
 
-        $this->assertSame($threshold * $reward + ($cap - $threshold) * $newReward, (int) $user->fresh()->total_kudos);
+        // 20 votos × 2 kudos; el voto 21 supera el tope antes de llegar al tramo decreciente.
+        $this->assertSame(40, (int) $user->fresh()->total_kudos);
         $this->assertSame($cap, KudosTransaction::where('user_id', $user->id)->count());
         $this->assertSame(1, (int) $last->fresh()->vote_count);
     }

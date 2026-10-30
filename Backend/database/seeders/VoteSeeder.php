@@ -45,7 +45,8 @@ class VoteSeeder extends Seeder
 		$kudosRows = [];
 		$kudosByUser = [];
 
-		$reward = (int) config('kudos.rewards.vote_first_time_item');
+		// Recompensa base por voto (F2-03). El seeder no simula el rendimiento decreciente ni el tope diario.
+		$reward = (int) config('kudos.voting.reward');
 		$reason = (string) config('kudos.reasons.vote_first_time_item');
 
 		foreach ($itemIds as $itemId) {
