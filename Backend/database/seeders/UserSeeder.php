@@ -10,15 +10,14 @@ use RuntimeException;
 
 /**
  * Seeder para poblar la tabla de usuarios con datos de prueba.
- * Crea 50 usuarios regulares y el administrador del sistema,
- * asignándoles los roles correspondientes.
+ * Crea el administrador del sistema (config('kudos.seed_admin')) y, solo en local, 50 usuarios de prueba
+ * con una contraseña que nadie conoce.
  */
 class UserSeeder extends Seeder
 {
     /**
-     * Ejecuta el seeder para crear usuarios de prueba.
-     * Los usuarios de prueba reciben una contraseña aleatoria que nadie conoce, para que no se pueda
-     * iniciar sesión con ellos en la demo pública. El administrador se toma de config('kudos.seed_admin').
+     * Crea el administrador del sistema (config('kudos.seed_admin')) y, solo en local, 50 usuarios de prueba
+     * con una contraseña que nadie conoce, para que no se pueda iniciar sesión con ellos.
      *
      * @return void
      * @throws RuntimeException Si no están definidos el email o la contraseña del administrador.
@@ -31,13 +30,16 @@ class UserSeeder extends Seeder
             throw new RuntimeException('Define SEED_ADMIN_EMAIL y SEED_ADMIN_PASSWORD en el .env antes de ejecutar los seeders.');
         }
 
-        // Un único hash para todos: calcular 50 hashes bcrypt distintos solo haría el seeding más lento.
-        $unusablePassword = Hash::make(Str::random(40));
+        // Los 50 usuarios de prueba, solo en local: en producción solo se crea el admin (F1-10).
+        if (app()->isLocal()) {
+            // Un único hash para todos: calcular 50 hashes bcrypt distintos solo haría el seeding más lento.
+            $unusablePassword = Hash::make(Str::random(40));
 
-        User::factory()
-            ->count(50)
-            ->create(['password' => $unusablePassword])
-            ->each(fn ($user) => $user->syncRoles(['user']));
+            User::factory()
+                ->count(50)
+                ->create(['password' => $unusablePassword])
+                ->each(fn ($user) => $user->syncRoles(['user']));
+        }
 
         User::factory()
             ->create([

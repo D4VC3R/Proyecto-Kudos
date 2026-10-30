@@ -4,11 +4,11 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Artisan;
 
 /**
- * Seeder principal que orquesta la ejecución de todos los seeders específicos.
- * Asegura que se ejecuten en el orden correcto para mantener la integridad referencial.
+ * Seeder principal que orquesta la ejecución de los seeders específicos.
+ * Orden: categorías, permisos, roles, usuarios y, solo en local, votos de prueba. No siembra ítems ni
+ * propuestas: el catálogo lo importa catalog:fetch-new (F1-10).
  */
 
 class DatabaseSeeder extends Seeder
@@ -16,27 +16,27 @@ class DatabaseSeeder extends Seeder
 	use WithoutModelEvents;
 
     /**
-     * Ejecuta los seeders en el orden correcto para poblar la base de datos con datos de prueba.
-     * Primero se crean las categorías, luego los permisos, roles y usuarios, seguidos de los ítems, propuestas y finalmente los votos.
-     * Después calcula quality_score de los ítems (WithoutModelEvents desactiva el hook saving del modelo).
+     * Ejecuta los seeders en el orden correcto: categorías, permisos, roles, usuarios y votos (solo en local).
+     * No crea ítems ni propuestas; la secuencia de desarrollo está en docs/infra/entorno-local.md §3.
      * Al finalizar, muestra un mensaje indicando que el seeding ha sido completado.
      * @return void
      */
 	public function run(): void
 	{
-		$this->call([
+		$seeders = [
 			CategorySeeder::class,  // Primero las categorías
 			PermissionSeeder::class,
 			RoleSeeder::class,
 			UserSeeder::class,      // Luego los usuarios
-			ItemSeeder::class,      // Items base del sistema
-			ProposalSeeder::class,  // Simulación de moderación de propuestas
-			VoteSeeder::class,      // Finalmente los votos
-		]);
+		];
 
-		// WithoutModelEvents desactiva el hook saving de Item, así que quality_score se calcula aquí (F0-05).
-		// En local la cola es 'sync' y se calcula en el momento; con otra conexión solo se encola en 'catalog'.
-		Artisan::call('items:recalculate-quality');
+		// El catálogo ya no se siembra: lo importa catalog:fetch-new (F1-10). ItemSeeder y ProposalSeeder
+		// son heredados. Los votos de prueba, solo en local: en producción los votos son de usuarios reales.
+		if (app()->isLocal()) {
+			$seeders[] = VoteSeeder::class;
+		}
+
+		$this->call($seeders);
 
 		$this->command->info("Seeding completado.");
 	}

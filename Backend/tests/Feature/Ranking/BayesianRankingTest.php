@@ -192,6 +192,8 @@ class BayesianRankingTest extends TestCase
             $this->createItem($category, ['name' => "Ítem {$n}"]);
         }
 
+        // VoteSeeder solo se ejecuta en local (F1-10).
+        $this->app['env'] = 'local';
         $this->seed(VoteSeeder::class);
 
         $service = app(ItemStatsService::class);

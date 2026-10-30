@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\File;
 use RuntimeException;
 
 /**
- * Seeder para cargar items de ejemplo en la base de datos a partir de snapshots locales.
+ * HEREDADO (F1-10): ya no lo ejecuta DatabaseSeeder. Cargaba el catálogo antiguo a partir de los snapshots
+ * locales de database/seed-data/, que se conservan como referencia. Necesita las categorías antiguas
+ * (países, ciudades, políticos, álbumes, artistas y libros), que CategorySeeder ya no crea, así que hoy
+ * falla a mitad si se ejecuta. Los ítems salen ahora de catalog:fetch-new (docs/infra/entorno-local.md §3).
  */
 class ItemSeeder extends Seeder
 {
