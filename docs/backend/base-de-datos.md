@@ -14,7 +14,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | Tabla | Columnas relevantes |
 |---|---|
 | `users` | `name` (no único), `email`, `email_verified_at`, `total_kudos`, `creations_accepted`, rachas, `is_banned`, `banned_until`, `ban_reason`, `banned_by` |
-| `profiles` | 1:1 con `users`: `avatar`, `biography`, `social_links` (jsonb), `city`, `birthdate` |
+| `profiles` | 1:1 con `users`: `avatar`, `biography`, `social_links` (jsonb), `city`, `birthdate`, `interests` (jsonb, default `'[]'`: slugs de categoría elegidos en el onboarding; F2-07) |
 | `categories` | `name` (único), `description` (NOT NULL), `slug` (único, clave de ruta), `image`, `attribute_schema` (jsonb, default `'[]'`), `is_active` (default true), `sort_order` (smallInteger, default 0), `icon` (string(32), nullable) |
 | `items` | `name`, `description` (text, **nullable** desde la F1-01), `images` (jsonb), `status` (`active`/`inactive`), `vote_avg` (float), `vote_count`, `bayes_score` (float, default 0), `quality_score` (smallInteger, default 0), `creator_id` (nullable), `category_id`, borrado suave. Desde la F1-01: `slug` (único, nullable), `original_title`, `released_at` (date), `attributes` (jsonb, default `'{}'`), `popularity` (float, default 0), `wikidata_id` (string(16), único, nullable), `description_source`, `description_url` y `last_synced_at` (timestampTz). Índices: `(status, vote_avg, vote_count)`, `(category_id, status)`, `(category_id, status, bayes_score)`, `(category_id, status, quality_score)`, `(category_id, status, released_at)`, únicos `items_slug_unique` e `items_wikidata_id_unique`, y GIN: trigram `items_name_trgm_idx(name)`, trigram `items_original_title_trgm_idx(original_title)` y `items_attributes_gin_idx(attributes)` |
 | `item_sources` | `item_id` (FK, cascade), `provider`, `external_id`, `url`, `is_primary`, `last_synced_at`, timestamps. Único `(provider, external_id)` e índice `(item_id)` |
@@ -144,7 +144,7 @@ ALTER TABLE votes ADD CONSTRAINT votes_type_check
   - `not_interested` = no me interesa;
   - `skip` = valor heredado que la API normaliza a `not_interested`.
 
-**`profiles.interests`:** jsonb, default `'[]'`, con slugs de categoría.
+**`profiles.interests`:** jsonb, default `'[]'`, con slugs de categoría. Hecha en la F2-07 (migración `2026_10_30_100000_add_interests_to_profiles_table`).
 
 **Listas** (se crean en la F2 para las editoriales):
 

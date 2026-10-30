@@ -20,6 +20,20 @@ export const useUpdateProfile = () => {
   });
 };
 
+// Guarda los intereses del onboarding (F2-07) sin toast y los copia a la sesión.
+export const useUpdateInterests = () => {
+  return useBaseMutation({
+    mutationFn: (interests) => axiosClient.put('/profile', { interests }),
+    invalidateKeys: [USER_KEYS.profile],
+    onSuccessExtra: (response) => {
+      const { token, user, setSession } = useSessionStore.getState();
+      if (user) {
+        setSession({ token, user: { ...user, interests: response.data?.interests ?? [] } });
+      }
+    },
+  });
+};
+
 export const useClaimDailyReward = () => {
   const setSession = useSessionStore((state) => state.setSession);
   const token = useSessionStore((state) => state.token);

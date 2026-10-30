@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLogin } from '../../hooks/auth/useAuthMutations';
 import { getReturnPath } from '../../lib/authRedirect.js';
+import { ONBOARDING_PATH } from '../../lib/onboarding.js';
+import { useSessionStore } from '../../store/useSessionStore';
 
 const LoginForm = () => {
   const navigate = useNavigate(); // Para redirigir al usuario después del inicio de sesión.
@@ -23,6 +25,11 @@ const LoginForm = () => {
   const onSubmit = (data) => {
     login(data, {
       onSuccess: () => {
+        // Cuenta verificada sin intereses: primero el onboarding (F2-07), que recuerda la página de origen.
+        if (useSessionStore.getState().onboardingPending) {
+          navigate(ONBOARDING_PATH, { replace: true, state: { from: location.state?.from } });
+          return;
+        }
         const destination = getReturnPath(location.state?.from);
         navigate(destination, { replace: true });
       }

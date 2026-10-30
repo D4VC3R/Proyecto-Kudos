@@ -128,4 +128,19 @@ class ReservedCategorySlugTest extends TestCase
         $response->assertOk();
         $this->assertDatabaseHas('categories', ['slug' => 'peliculas', 'description' => 'Nueva descripción']);
     }
+
+    public function test_el_slug_onboarding_esta_reservado(): void
+    {
+        $this->actingAsAdmin();
+
+        $response = $this->postJson('/api/categories', [
+            'name' => 'Onboarding',
+            'description' => 'Descripción',
+            'slug' => 'onboarding',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonStructure(['error' => ['details' => ['slug']]]);
+        $this->assertDatabaseMissing('categories', ['slug' => 'onboarding']);
+    }
 }

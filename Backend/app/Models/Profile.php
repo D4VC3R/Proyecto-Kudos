@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /*
  * Representa el perfil de un usuario en la aplicación.
  * Cada perfil pertenece a un usuario y contiene información adicional como avatar, biografía, enlaces sociales, ciudad y fecha de nacimiento.
+ * También guarda los intereses del usuario (slugs de categoría elegidos en el onboarding, F2-07).
  * Proporciona una relación de pertenencia con el modelo User para acceder al usuario asociado a este perfil.
  */
 class Profile extends Model
@@ -21,12 +22,14 @@ class Profile extends Model
         'biography',
         'social_links',
         'city',
-        'birthdate'
+        'birthdate',
+        'interests'
     ];
 
     protected $casts = [
         'social_links' => 'array',
-        'birthdate' => 'date'
+        'birthdate' => 'date',
+        'interests' => 'array'
     ];
 
     /*

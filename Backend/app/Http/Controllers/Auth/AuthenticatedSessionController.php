@@ -68,6 +68,8 @@ class AuthenticatedSessionController extends Controller
                 'last_login_streak_date' => $user->last_login_streak_date,
                 'role' => $role,
                 'is_admin' => $role === 'admin',
+                // El frontend decide con él si muestra el onboarding (F2-07).
+                'interests' => $user->profile?->interests ?? [],
             ],
         ]);
     }

@@ -14,7 +14,7 @@ return [
     // Al añadir una ruta de primer nivel en Frontend/src/routes/routes.jsx, añádela aquí.
     'reserved_slugs' => [
         // Rutas actuales
-        'buscar', 'ranking', 'admin', 'profile', 'my-proposals', 'forbidden', '404',
+        'buscar', 'ranking', 'admin', 'profile', 'my-proposals', 'forbidden', '404', 'onboarding',
         'login', 'register', 'verify-email', 'forgot-password', 'password-reset',
         // Rutas previstas (docs/frontend/arquitectura.md §2)
         'wishlist', 'u', 'listas', 'privacidad', 'aviso-legal',
@@ -108,6 +108,10 @@ return [
         'full_days' => 90,
         'zero_years' => 5,
     ],
+
+    // Onboarding (F2-07, GET /api/onboarding/items): número máximo de ítems del speed-rating, repartidos
+    // por turnos entre las categorías elegidas (los más populares de cada una, activos, descubribles y sin voto del usuario).
+    'onboarding_items' => 10,
 
     // F4-01: 'genre_translations'
 ];
