@@ -26,3 +26,9 @@ export const groupItemsByCategory = (items = []) => {
   }
   return [...groups.values()];
 };
+
+// Con menos resultados locales que este número, /buscar ofrece buscar en el catálogo externo (F1-07).
+export const MIN_LOCAL_RESULTS_FOR_CATALOG = 5;
+
+// Id del ítem tras POST /catalog/import: 201 devuelve la ficha (data.id); 200, { item_id }.
+export const getImportedItemId = (response) => response?.data?.id ?? response?.data?.item_id ?? null;

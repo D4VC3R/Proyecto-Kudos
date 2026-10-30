@@ -95,4 +95,16 @@ class CategoryResourceTest extends TestCase
             ->assertJsonPath('data.sort_order', 0)
             ->assertJsonPath('data.icon', null);
     }
+
+    public function test_el_listado_indica_si_la_categoria_tiene_proveedor_de_catalogo(): void
+    {
+        $this->createMovieCategory();
+        Category::factory()->create(['slug' => 'libros', 'name' => 'Libros', 'is_active' => true]);
+
+        $response = $this->getJson('/api/categories')->assertOk();
+
+        $porSlug = collect($response->json('data'))->keyBy('slug');
+        $this->assertTrue($porSlug['peliculas']['has_catalog_provider']);
+        $this->assertFalse($porSlug['libros']['has_catalog_provider']);
+    }
 }

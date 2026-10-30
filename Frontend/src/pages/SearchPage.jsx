@@ -5,6 +5,7 @@ import SectionHeader from '../components/ui/SectionHeader.jsx';
 import FeedbackState from '../components/ui/FeedbackState.jsx';
 import ItemCard from '../components/items/ItemCard';
 import Skeleton from '../components/ui/skeletons/Skeleton.jsx';
+import CatalogImportPanel from '../components/catalog/CatalogImportPanel.jsx';
 // Hooks
 import { useSearchPage } from '../hooks/pages/useSearchPage.js';
 
@@ -66,6 +67,8 @@ const SearchPage = () => {
           </section>
         ))
       )}
+
+      {state.catalog.isVisible && <CatalogImportPanel catalog={state.catalog} term={state.term} actions={actions} />}
 
       {state.isFetchingNextPage && (
         <div className="py-4">
