@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminItemController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Item\ItemCommentController;
 use App\Http\Controllers\Item\ItemController;
@@ -36,6 +37,12 @@ Route::get('/users/ranking', [UserRankingController::class, 'index']);
  */
 Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function () {
     Route::get('/categories/{category}/next-item', [CategoryController::class, 'nextItem']);
+
+    // Importación bajo demanda desde /buscar (F1-07): límites con nombre en AppServiceProvider.
+    Route::prefix('catalog')->group(function () {
+        Route::get('/search', [CatalogController::class, 'search'])->middleware('throttle:catalog-search');
+        Route::post('/import', [CatalogController::class, 'import'])->middleware('throttle:catalog-import');
+    });
 
     Route::prefix('profile')->group(function () {
         Route::get('/minimal', [ProfileController::class, 'minimal']);

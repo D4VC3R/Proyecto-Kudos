@@ -12,11 +12,15 @@ use App\Policies\ItemPolicy;
 use App\Policies\ItemCommentPolicy;
 use App\Policies\ProposalPolicy;
 use App\Policies\VotePolicy;
+use Closure;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -68,6 +72,30 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Category::class, CategoryPolicy::class);
         Gate::policy(Proposal::class, ProposalPolicy::class);
         Gate::policy(Vote::class, VotePolicy::class);
+
+        $this->configureRateLimiting();
+    }
+
+    /**
+     * Límites con nombre de la importación bajo demanda (F1-07), por usuario y por minuto.
+     * Responden 429 con el formato de error de la API (bootstrap/app.php no da formato a los 429).
+     */
+    private function configureRateLimiting(): void
+    {
+        RateLimiter::for('catalog-search', fn (Request $request) => Limit::perMinute((int) config('catalog.on_demand.search_per_minute', 10))
+            ->by((string) ($request->user()?->id ?? $request->ip()))
+            ->response($this->tooManyRequests('Has hecho demasiadas búsquedas en el catálogo externo. Espera un minuto y vuelve a intentarlo.')));
+
+        RateLimiter::for('catalog-import', fn (Request $request) => Limit::perMinute((int) config('catalog.on_demand.import_per_minute', 5))
+            ->by((string) ($request->user()?->id ?? $request->ip()))
+            ->response($this->tooManyRequests('Has añadido demasiados títulos seguidos. Espera un minuto y vuelve a intentarlo.')));
+    }
+
+    private function tooManyRequests(string $message): Closure
+    {
+        return fn (Request $request, array $headers) => response()->json([
+            'error' => ['code' => 'too_many_requests', 'message' => $message],
+        ], 429, $headers);
     }
 
     /**

@@ -70,5 +70,20 @@ return [
         ],
     ],
 
+    // Importación bajo demanda desde /buscar (F1-07, pipeline-catalogo §7). La petición del usuario
+    // espera a la fuente externa, así que el timeout es corto y no hay reintentos.
+    'on_demand' => [
+        // Peticiones por minuto y usuario (RateLimiter 'catalog-search' y 'catalog-import', AppServiceProvider).
+        'search_per_minute' => 10,
+        'import_per_minute' => 5,
+        // Minutos que se cachea cada búsqueda por (categoría, texto).
+        'search_cache_minutes' => 10,
+        // Sustituyen a http.timeout_seconds y http.retry_times durante la petición (1 = un solo intento).
+        'timeout_seconds' => 5,
+        'retry_times' => 1,
+        // Segundos que se espera a otra importación simultánea del mismo título antes de responder 503.
+        'lock_wait_seconds' => 10,
+    ],
+
     // F2-06: 'queue_weights'; F4-01: 'genre_translations'
 ];
