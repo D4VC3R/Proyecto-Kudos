@@ -162,6 +162,14 @@
 
 **Hecho cuando:** los tests confirman que nunca salen ítems votados, inactivos ni de baja calidad, y que con una semilla fija el orden favorece la popularidad. El rendimiento es aceptable con 5.000 ítems.
 
+**Notas (F2-06):**
+- Candidatos en una sola consulta `UNION`: 300 por `popularity desc` (con `id` como desempate) + 100 con `ORDER BY random()`, ambos sobre los ítems activos, descubribles y sin voto de ningún tipo del usuario. Cada parte se pasa por `toBase()` (aplica el *scope* de `SoftDeletes` y deja un `Query\Builder`) y lleva su `orderBy`/`limit` antes del `union()`. Los candidatos se ordenan por `id` antes de repartir el azar con `mt_rand()`, así que con `mt_srand()` el lote es reproducible aunque PostgreSQL devuelva el `UNION` en otro orden.
+- Normalización de la popularidad: `log1p(p) / log1p(máx. de los candidatos)`, en 0–1. **Decisión pendiente de validar:** la ficha no definía `norm()`; la popularidad de TMDB tiene cola larga y en escala lineal casi todo quedaría cerca de 0.
+- Recencia: sin `released_at` vale 0 (**decisión pendiente de validar**). Los límites (90 días / 5 años) están en `catalog.queue_recency`, el número de candidatos en `catalog.queue_candidates` y los pesos en `catalog.queue_weights`.
+- Sin migración ni índice nuevo: con 5.000 ítems el `ORDER BY popularity DESC LIMIT 300` es una ordenación trivial. Tiempo medido en el test de rendimiento (5.000 ítems, una petición a `next-item` con la caché vacía): ≈30 ms (umbral del test: 2 s).
+- Paso 4 (intereses de F2-07): sin código; la cola de una categoría no depende de los intereses.
+- `stillEligibleItemIds()` no cambia: conserva el orden ponderado del lote al filtrar la caché.
+
 ---
 
 ## F2-07 · Onboarding

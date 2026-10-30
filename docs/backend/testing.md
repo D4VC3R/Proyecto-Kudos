@@ -84,7 +84,7 @@ El `setUp()` llama a `parent::setUp()` primero (donde corre `setUpTraits()`), as
 - **Factories:** existen `Category`, `Item`, `User`, `Vote`, `Proposal` y `Profile`. `UserFactory` crea usuarios verificados por defecto. `VoteFactory` ya tiene `->rated(float)` (nota decimal, tipo `vote`; `->withScore(int)` trunca los medios puntos). Añade *states* (`->want()`, …) en lugar de repetir arrays.
 - **Trampa de las factories:** `ItemFactory::definition()` elige categoría (`Category::inRandomOrder()`) y creador (`User::inRandomOrder()`), y `VoteFactory::definition()` elige usuario e ítem activo, **siempre**, aunque pases *overrides*. Antes de crear un ítem o un voto tiene que existir en la base de datos al menos un usuario (y una categoría, o un ítem activo). `CategoryFactory` elige el nombre de una lista corta que se reinicia, así que pasa siempre `name` y `slug` explícitos o dos categorías del mismo test pueden chocar. Usa `CreatesItems`.
 - **Tiempo:** `$this->travelTo(...)` o `Carbon::setTestNow`.
-- **Caché:** `Cache::flush()` al probar `NextCategoryItemService`.
+- **Caché:** `Cache::flush()` al probar `NextCategoryItemService`. El azar de la cola usa `mt_rand()`: para un orden reproducible, `mt_srand(semilla)` **después** de crear los datos (Faker también consume `mt_rand`) y `mt_srand()` al terminar para no dejar la semilla fijada.
 
 ## 5. APIs externas: siempre falseadas (R4)
 

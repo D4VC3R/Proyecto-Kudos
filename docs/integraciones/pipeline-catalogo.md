@@ -161,7 +161,7 @@ Las dos rutas están en el grupo `auth:sanctum` + `verified` + `not_banned`. Los
 
 ## 8. `config/catalog.php`
 
-> La F0-05 creó el archivo con `min_quality_for_discovery` y `template_description_patterns`, y la F0-09 añadió `reserved_slugs`; la F1-02 lo amplió hasta lo que sigue. Se usa `env('X') ?: defecto` y no `env('X', defecto)`: las variables van vacías en los `.env*.example` (R9) y `env()` devuelve `''`, no el valor por defecto, cuando la variable existe vacía.
+> La F0-05 creó el archivo con `min_quality_for_discovery` y `template_description_patterns`, y la F0-09 añadió `reserved_slugs`; la F1-02 lo amplió hasta lo que sigue y la F2-06 añadió `queue_weights`, `queue_candidates` y `queue_recency`. Se usa `env('X') ?: defecto` y no `env('X', defecto)`: las variables van vacías en los `.env*.example` (R9) y `env()` devuelve `''`, no el valor por defecto, cuando la variable existe vacía.
 
 ```php
 return [
@@ -194,7 +194,10 @@ return [
         'retry_times' => 1,                     // sustituye a http.retry_times (1 = un solo intento)
         'lock_wait_seconds' => 10,              // espera a otra importación del mismo título antes del 503
     ],
-    // F2-06: 'queue_weights'; F4-01: 'genre_translations'
+    'queue_weights' => ['pop' => 0.45, 'new' => 0.2, 'qual' => 0.15, 'rand' => 0.2],   // F2-06: cola de votación ponderada
+    'queue_candidates' => ['popular' => 300, 'random' => 100],   // F2-06: candidatos por popularidad + al azar (una consulta UNION)
+    'queue_recency' => ['full_days' => 90, 'zero_years' => 5],   // F2-06: recencia 1 hasta 90 días, lineal hasta 0 a los 5 años
+    // F4-01: 'genre_translations'
 ];
 ```
 
