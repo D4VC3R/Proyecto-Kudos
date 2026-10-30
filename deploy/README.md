@@ -97,20 +97,18 @@ cd ~/apps/kudos
 ./deploy.sh
 ```
 
-La siembra crea unos 4.400 ítems y descarga sus imágenes, así que tarda bastante (ver
-"Duración de la siembra" al final). Se lanza con `nohup` para que siga aunque se corte la
-conexión SSH. Detrás de `nohup` va la orden completa, porque los alias de bash no se expanden
-ahí:
+Desde la F1-10 la siembra ya no crea ítems y es rápida: solo categorías, permisos, roles y el
+admin (los 50 usuarios de prueba y los votos solo se siembran en local). Después de `./deploy.sh`
+(sin `nohup`):
 
 ```bash
-cd ~/apps/kudos/Backend
-nohup docker compose -f compose.prod.yml --env-file .env.production run --rm -T app php artisan db:seed --force > ~/kudos-seed.log 2>&1 &
-tail -f ~/kudos-seed.log        # Ctrl+C solo deja de mirar; la siembra sigue
+kudos-dc run --rm app php artisan db:seed --force                # categorías, roles y el admin
+kudos-dc run --rm app php artisan catalog:fetch-new --all        # solo encola; el worker importa
+kudos-dc logs -f worker                                          # Ctrl+C solo deja de mirar
 ```
 
-Los avisos "No se pudo descargar o procesar la imagen" son normales: algunas imágenes de las
-fuentes superan los 5 MB o ya no existen, y el seeder las salta. Si la siembra se interrumpe
-a mitad, se repite desde cero con `migrate:fresh --seed --force`. Los datos son desechables,
+Para resetear una base que ya tiene datos de prueba, sigue el *runbook* de
+[../docs/infra/produccion.md](../docs/infra/produccion.md) §5. Los datos son desechables,
 pero no lo hagas cuando ya haya usuarios reales.
 
 Comprobación local, antes de tocar Nginx:
@@ -255,12 +253,15 @@ Tareas actuales, en UTC:
 
 - `items:recalculate-stats`: cada día a las 03:00.
 - `items:recalculate-quality`: los lunes a las 03:30.
+- `catalog:fetch-new --all`: cada día a las 04:00.
+- `catalog:refresh`: cada día a las 05:00.
+- `catalog:purge-stale`: los domingos a las 05:30.
 
 Cómo comprobarlo:
 
 ```bash
 kudos-dc ps                                         # scheduler y worker "Up"
-kudos-dc exec app php artisan schedule:list         # las dos tareas con su próxima ejecución
+kudos-dc exec app php artisan schedule:list         # las cinco tareas con su próxima ejecución
 kudos-dc logs scheduler                             # una línea por tarea lanzada
 kudos-dc logs -f worker                             # los jobs de catalog procesándose
 ```
@@ -279,6 +280,8 @@ Ojo con las horas: el `crontab` del host lanza `backup-db.sh` a las 03:30 y `bac
 en la hora del host, mientras que las tareas de Laravel van en UTC.
 
 ## Duración de la siembra
+
+Esta medición es de la siembra antigua (anterior a la F1-10); la duración de la importación nueva se anotará en la F1-11.
 
 Medido en local (2026-10-03) con el stack de producción: **unos 17 minutos**. Crea 51 usuarios,
 4.349 ítems, 54.558 votos y 30 propuestas, y deja unos 200 MB de imágenes en el volumen

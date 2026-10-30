@@ -11,15 +11,25 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use RuntimeException;
 
+/**
+ * Votos y kudos de prueba (5–20 votos por ítem activo). Solo para desarrollo: fuera de local se niega a
+ * ejecutarse (F1-10), porque en producción los votos son de usuarios reales.
+ */
 class VoteSeeder extends Seeder
 {
 	public function run(): void
 	{
+		// Votos y kudos falsos: nunca fuera de local, ni siquiera con db:seed --class=VoteSeeder --force (F1-10).
+		if (! app()->isLocal()) {
+			throw new RuntimeException('VoteSeeder solo se ejecuta en local (APP_ENV=local): genera votos y kudos falsos. Entorno actual: ' . app()->environment() . '.');
+		}
+
 		$itemIds = Item::where('status', Item::STATUS_ACTIVE)->pluck('id');
 
 		if ($itemIds->isEmpty()) {
-			$this->command->error('No hay items aprobados. Ejecuta ItemSeeder primero.');
+			$this->command->error('No hay ítems activos. Importa antes el catálogo con catalog:fetch-new.');
 			return;
 		}
 
