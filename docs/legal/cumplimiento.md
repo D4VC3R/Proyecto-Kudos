@@ -10,7 +10,7 @@ Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en b
 
 | Fuente | Qué mostrar | Dónde | Tarea |
 |---|---|---|---|
-| TMDB | Logo de TMDB + "This product uses the TMDB API but is not endorsed or certified by TMDB." (se puede añadir la traducción) | Pie o "Acerca de", y enlace a TMDB en cada ficha con sus datos | F1-08 |
+| TMDB | Logo de TMDB, menos prominente que el de Kudos (`Frontend/public/tmdb-logo.svg`, descargado sin modificar de https://www.themoviedb.org/about/logos-attribution) + "This website uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB." (literal de los [términos](https://www.themoviedb.org/api-terms-of-use) §3; traducción: "Esta web usa TMDB y sus API, pero TMDB no la respalda, certifica ni aprueba.") | Pie o "Acerca de", y enlace a TMDB en cada ficha con sus datos | F1-08 |
 | Wikipedia ES | "Descripción: Wikipedia, licencia CC BY-SA 4.0", con enlace a `description_url` y a la licencia | Cada ficha con `description_source = wikipedia_es` | F1-08 |
 | Wikimedia Commons | Autor, licencia y enlace a la página del archivo | Pie de la imagen | F4-04 |
 | OpenStreetMap | "© OpenStreetMap contributors" con enlace | En el mapa (Leaflet lo hace por defecto) | F4-03 |

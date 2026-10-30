@@ -45,7 +45,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F1-05 | Comandos `fetch-new`, `refresh`, `purge-stale` e `import`, y su programación | BE | F1-03, F1-04, F0-10 | hecho |
 | F1-06 | La API expone los campos nuevos; las categorías inactivas quedan ocultas | BE | F1-01 | hecho |
 | F1-07 | Importación bajo demanda (API y la interfaz en `/buscar`) | BE, FE | F1-05, F0-09 | hecho |
-| F1-08 | Atribución en la interfaz (TMDB y Wikipedia) | FE, LEGAL | F1-06 | pendiente |
+| F1-08 | Atribución en la interfaz (TMDB y Wikipedia) | FE, LEGAL | F1-06 | hecho |
 | F1-09 | Chips de atributos genéricos a partir de `attribute_schema` | FE | F1-06 | pendiente |
 | F1-10 | Sembrado nuevo y *runbook* del reset de producción | BE, INFRA | F1-05 | pendiente |
 | F1-11 | Ejecutar el reset en producción | HUMANO | F1-10 | pendiente |
