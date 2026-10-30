@@ -29,9 +29,11 @@ class VoteController extends Controller
 
 		$votes = Vote::query()
 			->where('user_id', $request->user()->id)
-			->with(['item:id,name,images,category_id,status', 'item.category:id,name,slug'])
+			->with(['item:id,name,images,category_id,status,released_at', 'item.category:id,name,slug'])
 			->applyFilters($validated)
 			->latest()
+			// Desempate estable: created_at tiene precisión de segundos y la paginación no debe repetir ni saltar filas (F2-05)
+			->orderByDesc('id')
 			->paginate($perPage);
 
 		return $this->respondList(
