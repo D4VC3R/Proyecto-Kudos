@@ -50,6 +50,15 @@
 
 **Hecho cuando:** hay un test por cada fila y `kudos:audit-consistency` no encuentra desajustes.
 
+**Notas (ejecución):**
+- Se amplía `ChangeVoteAction` (no hay `TransitionVoteAction`) y recibe `KudosService`.
+- `type` es opcional en `PUT /api/votes/{id}`; si falta, se mantiene el tipo actual. `skip` se normaliza a `not_interested` (también las filas heredadas al editarlas). Enviar solo `score` sobre un `want` da 422 (no se infiere `vote`): puntuar un `want` exige `type: "vote"`.
+- `vote` → `want`/`not_interested`/`skip` da 422 con el error en `vote` (antes `vote` → `skip` pasaba y solo cambiaba la nota).
+- `PUT /api/votes/{id}` devuelve ahora `meta` con `total_kudos`, `kudos_awarded` y `vote_type` (R7: solo se añade); mensajes nuevos para `want` y `not_interested`; desaparece el mensaje de `skip`.
+- Un ítem en papelera da 422 en `PUT` (antes 404 accidental desde `recalculate()`).
+- `vote` → `vote` no llama a `KudosService` (no consume el contador diario).
+- Tests nuevos en `Backend/tests/Feature/Votes/VoteTransitionsTest.php`, incluida la salida de `kudos:audit-consistency` (`Desajustes detectados: 0`).
+
 ---
 
 ## F2-03 · Reajuste de las recompensas de kudos
