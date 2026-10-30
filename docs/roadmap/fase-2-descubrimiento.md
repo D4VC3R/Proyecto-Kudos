@@ -133,6 +133,18 @@
 
 **Pendiente de la F2-01/F2-04:** "Mis votos" no tiene vista de `want`; decide si basta con `/wishlist` o se añade una pestaña en `MyVotesHeader`. La caché de la wishlist debe colgar de `VOTE_KEYS.myVotesList()` para que la invalide `VOTE_INVALIDATE_KEYS`.
 
+**Notas (F2-05):**
+- R1: `my-votes` **no** incluía `released_at` (ni el `select` del `with` ni `VoteResource`). Se añade `item.released_at` (`YYYY-MM-DD` o `null`, como `ItemListResource`; solo se añade un campo, R7) y un desempate `orderByDesc('id')` tras `latest()`: `created_at` tiene precisión de segundos y la paginación por *offset* del *scroll* infinito podía repetir u omitir filas con votos del mismo segundo.
+- "Quitar" = `PUT /api/votes/{id}` con `{type: 'not_interested'}`: el ítem no vuelve a la cola de votación y se deshace borrando el voto en "Mis votos" → "No me interesan". No se ofrece "borrar" en la *wishlist*. Sin modal de confirmación (es reversible).
+- Agrupación (`lib/wishlist.js`): sin `released_at` o con fecha de hoy o anterior → "Ya disponible" (orden de alta, el de la API); fecha futura → "Próximamente" (fecha más cercana primero). Se agrupa en el cliente sobre las páginas cargadas (50 por página, *scroll* infinito). Sin secciones vacías. Los ítems en la papelera (llegan con `item.id === null`) no se pintan; el contador "En tu lista" usa `meta.total` de la API, así que sí los cuenta.
+- "Ya lo conozco" (en vez de "Ya lo he visto/jugado", que no encaja con libros o lugares) abre un modal con `VoteScoreLevels`, que gana las props `showKeys` (oculta los `<kbd>`, aquí no hay atajos) y `stacked` (mantiene la columna también en escritorio); `VotePage` usa los valores por defecto. `useUpdateVote` muestra ahora el mensaje del backend (`'Voto actualizado correctamente.'` / `'Ítem marcado como "no me interesa".'`).
+- La caché es `useInfiniteMyVotes({ type: 'want' }, 50)`, que cuelga de `VOTE_KEYS.myVotesList()` y la invalida `VOTE_INVALIDATE_KEYS`.
+- "Mis votos": sin pestaña de `want` (la vista "Todos" ya los muestra con "En tu wishlist" y la lista propia es `/wishlist`).
+- Enlace "Wishlist" en la navegación (`NavBar`, y por tanto en el menú móvil) solo con sesión verificada. `/wishlist` va dentro de `RequireAuth` → `RequireVerified`.
+- Borrados `VoteStars`, `StarItem`, `usePointerScore` y `STAR_SIZE_CLASSES` (sin uso desde la F2-04).
+- Tests nuevos: `Backend/tests/Feature/Votes/WishlistTest.php` (7). Antes del arreglo fallaron `test_la_wishlist_incluye_la_fecha_de_lanzamiento_del_item` (falta `item.released_at`) y también `test_la_wishlist_desempata_por_id_con_la_misma_fecha`. `sail test`: 378 passed (371 + 7). Sin migraciones ni variables de entorno nuevas.
+- Prueba del flujo (automatizada: Chrome 124 en Docker + `puppeteer-core` 22.15 desde una carpeta ignorada por git, API **simulada**, sin peticiones externas): **46/46 comprobaciones OK**. Escritorio con ratón (secciones y orden, ítem de la papelera oculto, `type=want`, enlace de la navegación, "Ya lo conozco" → modal sin `<kbd>` → "Muy bien" → `PUT` `{type: 'vote', score: 8}`, *toast*, el ítem desaparece tras el nuevo `GET my-votes`; "Quitar" → `PUT` `{type: 'not_interested'}` sin `score`, *toast*, y la sección "Ya disponible" vacía deja de pintarse; ningún `POST` ni `DELETE`); móvil 375x740 táctil (menú → "Wishlist", sin desbordamiento, 5 niveles apilados en el modal, "Bien" → `score` 6); lista vacía; sin sesión (no hay enlace y `/wishlist` redirige a `/login`); regresión F2-04 (`/peliculas/vote`, tecla `s`: las 5 teclas `<kbd>` siguen visibles en cinco columnas). Capturas revisadas. No se ha probado en un dispositivo táctil real ni con paginación de más de una página.
+
 ---
 
 ## F2-06 · Cola de votación ponderada

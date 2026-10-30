@@ -145,9 +145,6 @@ export const profileTabs = [
   { id: 'stats', name: 'Estadísticas', icon: BarChart3 },
 ];
 
-// Clases de Tailwind para el tamaño de las estrellas en la sección de votación..
-export const STAR_SIZE_CLASSES = "w-6 h-6 min-[400px]:w-7 min-[400px]:h-7 sm:w-8 sm:h-8 md:w-10 md:h-10";
-
 // Pasos de la votación en dos pasos (F2-04): "¿Lo conoces?", valorar o interés.
 export const VOTE_STEPS = {
   KNOW: 'know',

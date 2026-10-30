@@ -20,6 +20,7 @@ class VoteResource extends JsonResource
                 'name' => $this->item?->name,
                 'images' => $this->item?->images,
                 'category_id' => $this->item?->category_id,
+                'released_at' => $this->item?->released_at?->toDateString(),
                 'category' => $this->when($this->item?->relationLoaded('category'), [
                     'id' => $this->item?->category?->id,
                     'name' => $this->item?->category?->name,

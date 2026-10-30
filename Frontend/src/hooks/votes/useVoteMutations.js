@@ -48,7 +48,8 @@ export const useUpdateVote = () => {
   return useBaseMutation({
     mutationFn: ({ id, data }) => axiosClient.put(`/votes/${id}`, data),
     invalidateKeys: VOTE_INVALIDATE_KEYS,
-    successMessage: 'Voto actualizado',
+    // El backend devuelve un mensaje distinto al valorar y al marcar "no me interesa" (F2-05).
+    successMessage: (response) => response?.message || 'Voto actualizado',
   });
 };
 

@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Grid, Trophy, Menu, X, ShieldPlus } from 'lucide-react';
+import { Grid, Trophy, Menu, X, ShieldPlus, Bookmark } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
 import Button from '../ui/Button.jsx';
 import { VARIANTS } from "../../lib/buttonStyles.js";
 import NavBarMobile from "./NavBarMobile.jsx";
-import { selectIsAdmin, useSessionStore } from "../../store/useSessionStore.js";
+import { selectIsAdmin, selectIsAuthenticated, selectIsVerified, useSessionStore } from "../../store/useSessionStore.js";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isAdmin = useSessionStore(selectIsAdmin);
+  const isAuthenticated = useSessionStore(selectIsAuthenticated);
+  const isVerified = useSessionStore(selectIsVerified);
 
   const navItems = [
     { name: 'Categorías', path: '/', icon: Grid },
     { name: 'Ranking', path: '/ranking', icon: Trophy },
+    { name: 'Wishlist', path: '/wishlist', icon: Bookmark, requiresVerified: true },
     { name: 'Administración', path: '/admin', icon: ShieldPlus, requiresAdmin: true }
   ];
 
-  const visibleNavItems = navItems.filter((item) => !item.requiresAdmin || isAdmin);
+  const visibleNavItems = navItems.filter(
+    (item) => (!item.requiresAdmin || isAdmin) && (!item.requiresVerified || (isAuthenticated && isVerified))
+  );
   const desktopBaseStyles = "flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-all";
 
 
