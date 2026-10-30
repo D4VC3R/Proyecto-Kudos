@@ -2,7 +2,6 @@
 
 return [
     'rewards' => [
-        'vote_first_time_item' => 5,
         'proposal_accepted' => 1000,
 	    'daily_login_streak' => [
 		    1 => ['base' => 10,  'bonus_chance' => 50,  'bonus_multiplier' => 2],
@@ -13,13 +12,17 @@ return [
 	    ],
     ],
 
+	// Recompensa por votar un ítem por primera vez (F2-03). Valores bajos a propósito: los kudos no deben
+	// premiar el voto masivo, sino valorar lo que de verdad se conoce. Hasta 'threshold' votos al día se
+	// da 'reward'; por encima, 'new_reward'; a partir del voto daily_cap + 1 el voto ya no da kudos.
+	// Con threshold = daily_cap (20 y 20) el tramo de 'new_reward' no se alcanza: el voto 21 supera el tope.
 	'voting' => [
-		'reward' => 5,
+		'reward' => 2,
 		'diminishing_returns' => [
 			'threshold' => 20,
-			'new_reward' => 2,
+			'new_reward' => 1,
 		],
-		'daily_cap' => 50,
+		'daily_cap' => 20,
 	],
 
     // Ranking bayesiano (F0-04): bayes = (v·R + m·C) / (v + m) si v > 0; 0 si v = 0.

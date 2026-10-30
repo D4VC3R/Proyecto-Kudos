@@ -130,6 +130,25 @@ class DatabaseSeederTest extends TestCase
         $this->assertGreaterThan(0, $item->fresh()->vote_count);
     }
 
+    public function test_vote_seeder_da_la_recompensa_de_voting_reward_por_voto(): void
+    {
+        $category = $this->createCategory('peliculas', 'Películas');
+        $this->createItem($category);
+        User::factory()->count(5)->create();
+        $this->actAsLocal();
+
+        $this->seed(VoteSeeder::class);
+
+        // F2-03: el seeder usa kudos.voting.reward (rewards.vote_first_time_item ya no existe).
+        $amounts = DB::table('kudos_transactions')->pluck('kudos_amount')
+            ->map(fn ($amount) => (int) $amount)->unique()->values()->all();
+        $this->assertSame([(int) config('kudos.voting.reward')], $amounts);
+
+        $this->artisan('kudos:audit-consistency')
+            ->expectsOutputToContain('Desajustes detectados: 0')
+            ->assertSuccessful();
+    }
+
     public function test_vote_seeder_se_niega_a_ejecutarse_fuera_de_local(): void
     {
         $category = $this->createCategory('peliculas', 'Películas');

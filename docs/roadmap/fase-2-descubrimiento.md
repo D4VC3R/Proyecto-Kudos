@@ -78,6 +78,13 @@
 
 **Hecho cuando:** los tests de kudos están actualizados a los valores nuevos y en verde.
 
+**Notas (ejecución):**
+- Valores aplicados: `voting.reward` 2, `diminishing_returns.threshold` 20, `new_reward` 1 y `daily_cap` 20. `config/kudos.php` lleva un comentario con el motivo (no premiar el voto masivo).
+- R1: `rewards.vote_first_time_item` no estaba del todo muerta: la leía `VoteSeeder`. Se ha eliminado la clave y el seeder usa ahora `kudos.voting.reward` (sin rendimiento decreciente ni tope diario, como antes). `reasons.vote_first_time_item` se mantiene. `VoteSeeder` está fuera de **Archivos** (consecuencia directa).
+- Con umbral = tope (20 y 20) el tramo de `new_reward` no se alcanza con los valores por defecto: el voto 21 supera el tope y no da kudos (máximo 40 kudos al día por votar). El test del rendimiento decreciente sube el tope a 50 en su propio `config()` para seguir comprobando el mecanismo. Decisión para validar: si se quería un tramo decreciente real, habría que bajar el umbral (p. ej. 10) o subir el tope.
+- Test renombrado `test_el_tope_diario_de_votos_con_kudos_es_50` -> `test_el_tope_diario_de_votos_con_kudos_es_20` (R8: no se borra, se actualiza al valor nuevo: 20 votos dan 40 kudos y el 21.º da 0).
+- Tests nuevos: `VoteKudosTest::test_los_valores_de_recompensa_por_voto_son_los_de_la_f2_03` y `DatabaseSeederTest::test_vote_seeder_da_la_recompensa_de_voting_reward_por_voto` (falló al borrar la clave sin cambiar el seeder y pasa con el arreglo).
+
 ---
 
 ## F2-04 · Votación en dos pasos (interfaz)
