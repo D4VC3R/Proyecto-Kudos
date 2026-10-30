@@ -19,13 +19,14 @@ Las rutas son relativas a `Frontend/src/`.
 | `routes/routes.jsx`, `routes/guards/` | Rutas y guardas: invitado, autenticado + verificado, admin |
 | `pages/` | Una página por ruta: `HomePage`, `CategoryPage`, `ExplorePage`, `ItemDetailPage`, `VotePage`, `RankingPage`, `SearchPage`, `NewProposalPage`, `auth/`, `profile/`, `admin/` |
 | `hooks/pages/useXPage.js` | Cada página tiene su hook, que devuelve `{ state, actions }`; la página solo pinta |
-| `hooks/<dominio>/` | Consultas y mutaciones de React Query: `items/useItemQueries.js`, `votes/useVoteMutations.js`, `useVoteQueries.js`… |
+| `hooks/<dominio>/` | Consultas y mutaciones de React Query: `items/useItemQueries.js`, `votes/useVoteMutations.js`, `useVoteQueries.js`, `catalog/useCatalogQueries.js` y `useCatalogMutations.js` (búsqueda e importación bajo demanda, F1-07)… |
 | `hooks/common/` | `useFilters` (búsqueda con *debounce*; `minSearchLength` fija la longitud mínima que se envía), `useGlobalSearch` (buscador de la cabecera), `useInfiniteScroll`, `useModal`, `usePointerScore`, `useBaseMutation` |
 | `components/ui/` | `Button`, `Modal`, `StorageImage` (props `fallbackIcon`, `fallback` y `onError`), `ItemPlaceholder` (degradado, icono e iniciales; variantes `card`/`banner`/`thumb`), `ActionMenu`, `SearchFilter`, `SelectFilter`, `Pagination`, `FeedbackState`, `skeletons/`, `ranking/` |
 | `components/items/` | `ItemCard`, `ItemImage` (16:9, fondo del color dominante; muestra `ItemPlaceholder` si no hay imagen o falla), `ItemDetailColumn`, `InfiniteItemSlider` |
+| `components/catalog/` | `CatalogImportPanel` (F1-07): panel de `/buscar` para buscar en TMDB y añadir un título a Kudos; solo pinta |
 | `components/votes/` | `VoteStars` (10 estrellas con medios puntos), botones de voto, "Mis votos" |
 | `components/layout/` | `MainHeader`, `NavBar`, `NavBarMobile`, `GlobalSearch` (buscador de la cabecera y del menú móvil), `HeaderLogin` (enlaces "Entrar" y "Regístrate" sin sesión), `Footer` |
-| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `text.js` (`hasText`, para no pintar secciones vacías), `search.js` (`MIN_SEARCH_LENGTH`, `normalizeSearchTerm`, `buildSearchUrl`, `buildItemUrl`, `groupItemsByCategory`), `combobox.js` (`NO_ACTIVE_OPTION`, `getNextActiveIndex`, `getActiveOption`, `getOptionId`, `areOptionsCurrent`, `getSearchStatusMessage`; patrón *combobox* de ARIA), `authRedirect.js` (`isAuthPath`, `getReturnPath`, `buildAuthLinkState`; destino tras el login). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
+| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `text.js` (`hasText`, para no pintar secciones vacías), `search.js` (`MIN_SEARCH_LENGTH`, `normalizeSearchTerm`, `buildSearchUrl`, `buildItemUrl`, `groupItemsByCategory`, `MIN_LOCAL_RESULTS_FOR_CATALOG`, `getImportedItemId`), `combobox.js` (`NO_ACTIVE_OPTION`, `getNextActiveIndex`, `getActiveOption`, `getOptionId`, `areOptionsCurrent`, `getSearchStatusMessage`; patrón *combobox* de ARIA), `authRedirect.js` (`isAuthPath`, `getReturnPath`, `buildAuthLinkState`; destino tras el login). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
 
 ## 2. Rutas
 
@@ -38,7 +39,7 @@ Las rutas son relativas a `Frontend/src/`.
 | `/:categorySlug/vote` | Votación de un ítem cada vez | Login y verificado |
 | `/:categorySlug/proposals/...`, `/profile`, `/my-proposals` | Propuestas y perfil | Login y verificado |
 | `/ranking` | Ranking global de kudos | Público |
-| `/buscar` | Resultados de búsqueda agrupados por categoría | Público |
+| `/buscar` | Resultados de búsqueda agrupados por categoría; con menos de 5 resultados locales, importación bajo demanda desde TMDB (F1-07, requiere sesión verificada para añadir) | Público |
 | `/admin/*` | Administración | Admin |
 | `/login`, `/register`, `/verify-email`, `/forgot-password`, `/password-reset/:token` | Autenticación | Invitados |
 

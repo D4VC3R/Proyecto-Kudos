@@ -13,6 +13,10 @@ Backend/app/Catalog/
 ├── Contracts/CatalogProvider.php
 ├── Contracts/RecognizesExternalIds.php # interfaz opcional (F1-05): el proveedor reconoce un external_id sin peticiones; la usa catalog:import
 ├── Data/CatalogItemData.php           # DTO readonly normalizado
+├── Data/OnDemandImportResult.php      # F1-07: resultado de la importación bajo demanda (created, existing, unavailable, not_found)
+├── Concerns/CallsProvidersOnDemand.php # F1-07: timeout corto y un solo intento (catalog.on_demand) y traducción de fallos a CatalogUnavailableException
+├── Exceptions/CatalogUnavailableException.php # F1-07: la fuente falla, no responde o no está configurada
+├── CatalogSearch.php                  # F1-07: candidatos de la fuente, cacheados, marcados con exists e item_id
 ├── Providers/
 │   ├── AbstractTmdbProvider.php       # F1: base común (mapeo, imágenes, géneros, paginación)
 │   ├── TmdbMovieProvider.php          # F1
@@ -28,6 +32,8 @@ Backend/app/Catalog/
 ├── Enrichment/DescriptionResolver.php
 ├── CatalogImporter.php                # upsert idempotente: DTO → Item + ItemSource
 └── CatalogProviderRegistry.php        # proveedor por categoría, según config
+
+Backend/app/Actions/ImportCatalogItemOnDemandAction.php   # F1-07: importación síncrona bajo demanda, con candado por título
 
 Backend/app/Jobs/Catalog/
 ├── ImportCatalogItemJob.php           # cola "catalog": ImportCatalogItemJob(categorySlug, externalId); importa o refresca un ítem
@@ -138,15 +144,20 @@ Todas llevan `withoutOverlapping()`.
 
 ## 7. Importación bajo demanda (F1-07)
 
-- **`GET /api/catalog/search?category={slug}&q={texto}`**:
-  - con sesión y verificado; límite de 10 por minuto y usuario;
-  - llama a `provider->search()` y marca cada resultado con `exists` (y `item_id` si ya está);
-  - caché en Redis de 10 minutos por `(categoría, q)`.
-- **`POST /api/catalog/import`** con `{category, external_id}`:
-  - mismos requisitos; límite de 5 por minuto;
-  - de forma síncrona, `provider->fetch()` (*timeout* corto) + `DescriptionResolver` + guardar la ficha, y **se encola siempre** `DownloadItemImagesJob($itemId, $images)`;
-  - responde 201 con `ItemDetailResource` (el frontend muestra el *placeholder* hasta que llegan las imágenes). Si ya existía, responde 200 con su `item_id`, sin duplicar;
-  - `creator_id` queda `null` (lo crea el sistema); en el log se registra quién lo pidió.
+Las dos rutas están en el grupo `auth:sanctum` + `verified` + `not_banned`. Los límites son `RateLimiter::for()` con nombre en `AppServiceProvider` (por usuario y minuto) y responden 429 con `{"error": {"code": "too_many_requests", "message"}}` y las cabeceras `Retry-After` y `X-RateLimit-*`.
+
+- **`GET /api/catalog/search?category={slug}&q={texto}`** (`throttle:catalog-search`, 10 por minuto):
+  - `category` debe ser una categoría activa con proveedor; `q`, de 2 a 100 caracteres (422 si no);
+  - llama a `provider->search()` y devuelve `{"data": [...], "meta": {"category", "query"}}`; cada candidato lleva `external_id`, `name`, `original_title`, `released_at`, `year`, `description`, `source_url`, `exists` e `item_id`;
+  - `exists` es true si hay un ítem de Kudos (aunque esté inactivo o borrado) enlazado a `item_sources (provider, external_id)`; `item_id` es su id solo si está activo y sin borrar (si no, `null`: el frontend muestra "No disponible");
+  - los candidatos se cachean 10 minutos por `(categoría, q normalizada)` en el store por defecto (Redis en producción); `exists` e `item_id` **no** se cachean (se calculan en cada petición); un fallo de la fuente no se cachea.
+- **`POST /api/catalog/import`** con `{category, external_id}` (`throttle:catalog-import`, 5 por minuto; `external_id` debe ser reconocido por el proveedor de la categoría, p. ej. `movie:603`):
+  - un candado por `(proveedor, external_id)` (`catalog:on-demand-import:…`) serializa las importaciones simultáneas del mismo título; si la espera (`lock_wait_seconds`) se agota, 503;
+  - si ya hay una fuente `(provider, external_id)`, no se llama al proveedor; si no, de forma síncrona `provider->fetch()` + `DescriptionResolver` + `CatalogImporter::import()`, y **se encola siempre** `DownloadItemImagesJob($itemId, $images)`;
+  - **201** `{"message", "data": <ItemDetailResource>}` si se ha creado (el frontend muestra el *placeholder* hasta que llegan las imágenes); **200** `{"message", "data": {"item_id"}}` si ya existía y está activo, sin duplicar (también si coincide por QID con un ítem existente);
+  - **409** `conflict` si existe pero está inactivo o borrado (su ficha daría 403 a un usuario normal); **404** `not_found` si la fuente no tiene el título; **503** `catalog_unavailable` si la fuente falla (error HTTP, sin conexión, sin token) o hay otra importación del mismo título en curso (la búsqueda usa el mismo 503);
+  - `creator_id` queda `null` (lo crea el sistema); en el log (`Catálogo: importación bajo demanda.`) se registra `user_id`, categoría, `external_id`, resultado e `item_id`.
+- **Timeout corto:** durante la petición, `catalog.on_demand.timeout_seconds` (5) y `retry_times` (1, un solo intento) sustituyen a `catalog.http.*`, que se restauran al terminar. Como la macro `Http::catalog()` los lee en cada llamada, afecta a TMDB, Wikidata y Wikipedia. Solo se envuelven las llamadas al proveedor y al resolver, nunca `CatalogImporter::import()`. En los tests, una petición sin falsear sigue lanzando `StrayRequestException` (no se convierte en 503).
 
 ## 8. `config/catalog.php`
 
@@ -174,6 +185,14 @@ return [
     'providers' => [
         'tmdb' => ['token' => env('TMDB_API_TOKEN') ?: null, 'rate_per_second' => 20, 'genres_cache_days' => 7],
         'wikimedia' => ['rate_per_minute' => 150, 'sparql_timeout_seconds' => 60, 'cache_days' => 7],
+    ],
+    'on_demand' => [                            // F1-07: importación bajo demanda desde /buscar
+        'search_per_minute' => 10,              // RateLimiter 'catalog-search' (por usuario)
+        'import_per_minute' => 5,               // RateLimiter 'catalog-import' (por usuario)
+        'search_cache_minutes' => 10,           // caché de cada búsqueda por (categoría, texto)
+        'timeout_seconds' => 5,                 // sustituye a http.timeout_seconds durante la petición
+        'retry_times' => 1,                     // sustituye a http.retry_times (1 = un solo intento)
+        'lock_wait_seconds' => 10,              // espera a otra importación del mismo título antes del 503
     ],
     // F2-06: 'queue_weights'; F4-01: 'genre_translations'
 ];
