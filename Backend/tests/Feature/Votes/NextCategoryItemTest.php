@@ -109,6 +109,19 @@ class NextCategoryItemTest extends TestCase
             ->assertJsonPath('meta.remaining', 0);
     }
 
+    public function test_la_cola_no_ofrece_un_item_del_lote_marcado_como_want(): void
+    {
+        [$votedId, $otherId] = $this->cachedQueueAfterFirstItem();
+
+        $this->postJson('/api/votes', ['item_id' => $votedId, 'type' => 'want'])
+            ->assertCreated();
+
+        $this->getJson('/api/categories/peliculas/next-item')
+            ->assertOk()
+            ->assertJsonPath('data.id', $otherId)
+            ->assertJsonPath('meta.remaining', 0);
+    }
+
     public function test_la_cola_no_ofrece_un_item_del_lote_que_pasa_a_inactivo(): void
     {
         [$changedId, $otherId] = $this->cachedQueueAfterFirstItem();

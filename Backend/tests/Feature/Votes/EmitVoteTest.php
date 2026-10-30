@@ -77,8 +77,9 @@ class EmitVoteTest extends TestCase
 
         $response = $this->postJson('/api/votes', ['item_id' => $item->id, 'type' => 'skip']);
 
+        // Desde la F2-01, skip se guarda como not_interested.
         $response->assertCreated()
-            ->assertJsonPath('meta.vote_type', 'skip')
+            ->assertJsonPath('meta.vote_type', 'not_interested')
             ->assertJsonPath('meta.kudos_awarded', 0);
 
         $item = $item->fresh();
@@ -88,7 +89,7 @@ class EmitVoteTest extends TestCase
         $this->assertDatabaseHas('votes', [
             'user_id' => $user->id,
             'item_id' => $item->id,
-            'type'    => 'skip',
+            'type'    => 'not_interested',
             'score'   => null,
         ]);
         $this->assertDatabaseCount('kudos_transactions', 0);

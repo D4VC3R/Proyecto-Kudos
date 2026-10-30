@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
  * Incluye información completa del ítem, su categoría, creador, estado de votación del usuario, y permisos de edición/eliminación.
  * Se utiliza para mostrar la vista detallada de un ítem, proporcionando toda la información relevante y acciones disponibles según el rol del usuario.
  * Desde la F1-06 incluye los campos del catálogo (original_title, released_at, attributes, slug) y la atribución de las fuentes.
+ * Desde la F2-01, user_vote incluye type.
  */
 class ItemDetailResource extends JsonResource
 {
@@ -63,6 +64,7 @@ class ItemDetailResource extends JsonResource
 				$user && $item->relationLoaded('userVote') && $item->userVote,
 				fn() => [
 					'id' => $item->userVote->id,
+					'type' => $item->userVote->type,
 					'score' => $item->userVote->score,
 					'voted_at' => $item->userVote->created_at->toIso8601String(),
 				]

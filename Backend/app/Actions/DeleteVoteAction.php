@@ -22,7 +22,8 @@ class DeleteVoteAction
 	public function execute(Vote $vote): bool
 	{
 		return DB::transaction(function () use ($vote) {
-			if ($vote->type === Vote::TYPE_SKIP) {
+			// want, not_interested y skip no cuentan para las medias: no hace falta recalcular (F2-01)
+			if (!in_array($vote->type, Vote::RATED_TYPES, true)) {
 				return (bool) $vote->delete();
 			}
 

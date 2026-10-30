@@ -53,6 +53,7 @@ class ItemDetailTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('data.user_vote.id', $voteId)
+            ->assertJsonPath('data.user_vote.type', 'vote')
             ->assertJsonPath('data.can_vote', false)
             ->assertJsonPath('data.can_edit', false)
             ->assertJsonPath('data.can_delete', false);

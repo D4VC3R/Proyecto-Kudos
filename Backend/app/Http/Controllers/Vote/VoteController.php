@@ -53,14 +53,17 @@ class VoteController extends Controller
 		$vote = $this->emitVoteAction->execute($user, $validated);
 		$user->refresh();
 
-		$isSkip = ($validated['type'] ?? Vote::TYPE_VOTE) === Vote::TYPE_SKIP;
 		$wasExisting = (bool) ($vote->getAttribute('was_existing') ?? false);
 		$kudosAwarded = (int) ($vote->getAttribute('kudos_awarded') ?? 0); 
 
 		return $this->respondMutation(
 			message: $wasExisting
 				? 'La interacción ya estaba registrada para este item.'
-				: ($isSkip ? 'Item pasado correctamente.' : 'Voto registrado correctamente.'),
+				: match ($vote->type) {
+					Vote::TYPE_VOTE => 'Voto registrado correctamente.',
+					Vote::TYPE_WANT => 'Ítem añadido a tu wishlist.',
+					default => 'Item pasado correctamente.', // not_interested (y skip normalizado)
+				},
 			data: new VoteResource($vote),
 			meta: [
 				'total_kudos' => $user->total_kudos,
@@ -68,7 +71,13 @@ class VoteController extends Controller
 				'vote_type' => $vote->type,
 				'was_existing' => $wasExisting,
 				'idempotent_hit' => $wasExisting,
-				'reason' => $wasExisting ? ($vote->type === Vote::TYPE_SKIP ? 'already_skipped' : 'already_voted') : null,
+				'reason' => $wasExisting
+					? match ($vote->type) {
+						Vote::TYPE_VOTE => 'already_voted',
+						Vote::TYPE_WANT => 'already_wanted',
+						default => 'already_skipped', // not_interested y skip: se mantiene el valor heredado (R7)
+					}
+					: null,
 			],
 			status: $wasExisting ? 200 : 201,
 		);
