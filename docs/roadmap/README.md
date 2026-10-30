@@ -57,7 +57,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F2-01 | Tipos de voto `want` y `not_interested`; normalizar `skip` | BE | F1-10 | hecho |
 | F2-02 | Transiciones entre tipos de voto (`want` → valoración), con kudos una sola vez | BE | F2-01 | hecho |
 | F2-03 | Reajuste de las recompensas de kudos | BE | — | hecho |
-| F2-04 | Votación en dos pasos (interfaz) y limpieza de `ActionMenu` | FE | F2-02 | pendiente |
+| F2-04 | Votación en dos pasos (interfaz) y limpieza de `ActionMenu` | FE | F2-02 | hecho |
 | F2-05 | *Wishlist* (API y página) | BE, FE | F2-01 | pendiente |
 | F2-06 | Cola de votación ponderada | BE | F2-01 | pendiente |
 | F2-07 | Onboarding: intereses y *speed-rating* | BE, FE | F2-04 | pendiente |

@@ -105,6 +105,17 @@
 
 **Hecho cuando:** el flujo funciona con ratón, táctil y teclado. Describe la prueba manual en el resumen.
 
+**Notas (F2-04):**
+- Discrepancias con el código (R1): (1) el paso 7 dice "en lugar de 'ya votado'", pero el frontend no mostraba nada de `user_vote`; se muestra el estado en la ficha (`ItemDetailColumn`) y en "Mis votos" (`MyVoteItemCard`) con `VOTE_TYPE_BADGES`. (2) La página `/wishlist` no existe aún (F2-05): su caché será `GET /votes/my-votes?type=want`, que cuelga de `VOTE_KEYS.myVotesList()`; solo faltaba invalidar el perfil. (3) `MyVoteItemCard`, `MyStatsPage` y `MyVotesHeader` (pendientes de la F2-01) se han resuelto aquí: etiquetas de `want`/`not_interested`, nota solo en los `vote`, tarjetas "No me interesan" (`total_not_interested ?? total_skips`) y "En tu wishlist" (`total_want`), y filtro "No me interesan" (`type=not_interested`, el backend devuelve también los `skip` heredados). **No** se ha añadido una vista de `want` en "Mis votos" (la cubre `/wishlist`, F2-05).
+- Teclas: S/N en el paso 1; 1 = "No me gustó" (2) … 5 = "Me encantó" (10) en el paso 2a; 1 = "Me interesa", 2 = "No me interesa" en el paso 2b; Esc vuelve al paso 1. Los atajos no actúan mientras se escribe en un campo ni mientras se envía el voto o llega el siguiente ítem (`isBusy`).
+- Orden de los botones de `VoteScoreLevels`: de peor a mejor de izquierda a derecha en escritorio (alineados con las teclas); "Me encantó" arriba en móvil (`flex-col-reverse`). El componente es reutilizable (F2-05 "valorar", F2-07 *speed-rating*).
+- Deslizamiento (`SwipeVoteCard`): 100 px de desplazamiento o 500 px/s de velocidad; los arrastres cortos no hacen nada. Los botones siguen visibles como alternativa.
+- `VOTE_INVALIDATE_KEYS` (`useVoteMutations.js`): añade `USER_KEYS.profile` (incluye perfil mínimo y estadísticas) y lo usan `useCreateVote`, `useUpdateVote` y `useDeleteVote`. El *toast* sale también con `want`.
+- `ActionMenu` sin "Cara a cara" ni "Trivia". `VoteActionButtons` ya no tiene "No me interesa" (vive en el paso 2b y ya no se envía `skip`).
+- `VoteStars`, `StarItem`, `usePointerScore` y `STAR_SIZE_CLASSES` se quedan sin uso (cambio mínimo); se propone borrarlos en la F2-05 si "valorar" desde la *wishlist* usa `VoteScoreLevels`.
+- Sin tests de frontend en el repositorio ni dependencias nuevas. Verificado con `pnpm build` y `sail test` (371 passed).
+- Prueba del flujo (automatizada: Chrome 124 sin interfaz en Docker + `puppeteer-core` 22.15 desde una carpeta ignorada por git, con la API **simulada**; ninguna petición real, las fuentes de Google se abortan): **38/38 comprobaciones OK**. Escritorio con teclado (S, 5, N, Esc, 2; el paso se reinicia con cada ítem; tras cada voto hay un nuevo `GET next-item` y `GET profile/minimal`; escribir "s" en el campo de comentarios no cambia de paso; no se envía ningún `skip`); escritorio con ratón (Sí, Flojo → `score` 4; No, Me interesa → `want` sin `score`, con *toast*); móvil 375x740 táctil (arrastre de 30 px sin efecto, de 160 px a la derecha → valorar → "Bien" = `score` 6, de 160 px a la izquierda → interés → "No me interesa"; sin desbordamiento horizontal); ficha de los ítems 7, 8 y 9: "En tu wishlist", "No te interesa" y "Tu nota: 8". Se han revisado las capturas (en móvil los 5 niveles se apilan y la página hace *scroll* vertical). No se ha probado en un dispositivo táctil real ni en otros navegadores. El navegador de prueba necesitó `--shm-size=1g` (con los 64 MB por defecto de Docker, Chrome dejaba de cargar módulos de Vite con `ERR_INSUFFICIENT_RESOURCES`).
+
 ---
 
 ## F2-05 · *Wishlist*
@@ -119,6 +130,8 @@
 - Enlace en la navegación.
 
 **Hecho cuando:** las transiciones desde la *wishlist* funcionan.
+
+**Pendiente de la F2-01/F2-04:** "Mis votos" no tiene vista de `want`; decide si basta con `/wishlist` o se añade una pestaña en `MyVotesHeader`. La caché de la wishlist debe colgar de `VOTE_KEYS.myVotesList()` para que la invalide `VOTE_INVALIDATE_KEYS`.
 
 ---
 
