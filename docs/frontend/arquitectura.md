@@ -20,13 +20,13 @@ Las rutas son relativas a `Frontend/src/`.
 | `pages/` | Una página por ruta: `HomePage`, `CategoryPage`, `ExplorePage`, `ItemDetailPage`, `VotePage`, `RankingPage`, `SearchPage`, `NewProposalPage`, `auth/`, `profile/`, `admin/` |
 | `hooks/pages/useXPage.js` | Cada página tiene su hook, que devuelve `{ state, actions }`; la página solo pinta |
 | `hooks/<dominio>/` | Consultas y mutaciones de React Query: `items/useItemQueries.js`, `votes/useVoteMutations.js`, `useVoteQueries.js`, `catalog/useCatalogQueries.js` y `useCatalogMutations.js` (búsqueda e importación bajo demanda, F1-07)… |
-| `hooks/common/` | `useFilters` (búsqueda con *debounce*; `minSearchLength` fija la longitud mínima que se envía), `useGlobalSearch` (buscador de la cabecera), `useInfiniteScroll`, `useModal`, `usePointerScore`, `useBaseMutation` |
+| `hooks/common/` | `useFilters` (búsqueda con *debounce*; `minSearchLength` fija la longitud mínima que se envía), `useGlobalSearch` (buscador de la cabecera), `useInfiniteScroll`, `useModal`, `usePointerScore` (sin uso desde la F2-04), `useBaseMutation` |
 | `components/ui/` | `Button`, `Modal`, `StorageImage` (props `fallbackIcon`, `fallback` y `onError`), `ItemPlaceholder` (degradado, icono e iniciales; variantes `card`/`banner`/`thumb`), `ActionMenu`, `SearchFilter`, `SelectFilter`, `Pagination`, `FeedbackState`, `skeletons/`, `ranking/` |
 | `components/items/` | `ItemCard`, `ItemImage` (16:9, fondo del color dominante; muestra `ItemPlaceholder` si no hay imagen o falla), `ItemDetailColumn`, `ItemAttribution` (línea "Datos · Descripción, licencia" de la ficha a partir de `attribution`; enlaces externos con `target="_blank" rel="noopener noreferrer"`), `AttributeChips` (chips genéricos a partir de `attribute_schema`; `variant="card"` solo `show_in_card`), `InfiniteItemSlider` |
 | `components/catalog/` | `CatalogImportPanel` (F1-07): panel de `/buscar` para buscar en TMDB y añadir un título a Kudos; solo pinta |
-| `components/votes/` | `VoteStars` (10 estrellas con medios puntos), botones de voto, "Mis votos" |
+| `components/votes/` | `VoteKnowStep`, `VoteScoreLevels` (5 niveles, reutilizable), `VoteInterestStep` y `SwipeVoteCard` (votación en dos pasos, F2-04); `VoteStars` (10 estrellas, sin uso desde la F2-04); botones de voto, "Mis votos" |
 | `components/layout/` | `MainHeader`, `NavBar`, `NavBarMobile`, `GlobalSearch` (buscador de la cabecera y del menú móvil), `HeaderLogin` (enlaces "Entrar" y "Regístrate" sin sesión), `Footer` |
-| `lib/` | `constants.js`, `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `text.js` (`hasText`, para no pintar secciones vacías), `attribution.js` (`hasAttribution`), `attributes.js` (`formatMinutes`, `formatAttributeDate`, `getAttributeEntries`), `search.js` (`MIN_SEARCH_LENGTH`, `normalizeSearchTerm`, `buildSearchUrl`, `buildItemUrl`, `groupItemsByCategory`, `MIN_LOCAL_RESULTS_FOR_CATALOG`, `getImportedItemId`), `combobox.js` (`NO_ACTIVE_OPTION`, `getNextActiveIndex`, `getActiveOption`, `getOptionId`, `areOptionsCurrent`, `getSearchStatusMessage`; patrón *combobox* de ARIA), `authRedirect.js` (`isAuthPath`, `getReturnPath`, `buildAuthLinkState`; destino tras el login). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
+| `lib/` | `constants.js` (incluye `VOTE_STEPS`, `VOTE_LEVELS` y `VOTE_TYPE_BADGES`), `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `text.js` (`hasText`, para no pintar secciones vacías), `attribution.js` (`hasAttribution`), `attributes.js` (`formatMinutes`, `formatAttributeDate`, `getAttributeEntries`), `search.js` (`MIN_SEARCH_LENGTH`, `normalizeSearchTerm`, `buildSearchUrl`, `buildItemUrl`, `groupItemsByCategory`, `MIN_LOCAL_RESULTS_FOR_CATALOG`, `getImportedItemId`), `combobox.js` (`NO_ACTIVE_OPTION`, `getNextActiveIndex`, `getActiveOption`, `getOptionId`, `areOptionsCurrent`, `getSearchStatusMessage`; patrón *combobox* de ARIA), `authRedirect.js` (`isAuthPath`, `getReturnPath`, `buildAuthLinkState`; destino tras el login). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
 
 ## 2. Rutas
 
@@ -76,7 +76,7 @@ Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe d
 | Importación bajo demanda | En `/buscar`, con pocos resultados: "¿No lo encuentras? Búscalo en TMDB" → "Añadir a Kudos" | F1-07 |
 | Atribución | En la ficha, "Datos: TMDB · Descripción: Wikipedia, licencia CC BY-SA 4.0" bajo la descripción, con enlaces, a partir de `attribution` de `ItemDetailResource` (F1-06); sin `attribution` no se pinta nada. Logo de TMDB y aviso en inglés con traducción en el pie de todas las páginas | F1-08 |
 | Chips de atributos | Genéricos a partir de `attribute_schema`. Ficha: todos los atributos con valor, con etiqueta, bajo la nota. Tarjeta: `show_in_card`, máximo 2 valores por atributo, una fila bajo el título. `coordinates` y `url` sin pintar hasta la F4 | F1-09 |
-| Votar en dos pasos | "¿Lo conoces?". Sí → Me encantó / Muy bien / Bien / Flojo / No me gustó = 10/8/6/4/2. No → Me interesa / No me interesa. Móvil: tarjeta deslizable; escritorio: botones y teclado. Sustituye a `VoteStars` en el flujo de voto | F2-04 |
+| Votar en dos pasos | "¿Lo conoces?". Sí → Me encantó / Muy bien / Bien / Flojo / No me gustó = 10/8/6/4/2. No → Me interesa / No me interesa. Móvil: tarjeta deslizable; escritorio: botones y teclado. Teclas: S/N, 1–5 (de peor a mejor), 1/2 en el paso 2b y Esc para volver. Sustituye a `VoteStars` en el flujo de voto. El estado del usuario se muestra en la ficha y en Mis votos con `user_vote.type` | F2-04 |
 | Notas antiguas | Media numérica con un decimal | — |
 | *Wishlist* | Página `/wishlist` | F2-05 |
 | Onboarding | Intereses + *speed-rating* de unos 10 ítems populares | F2-07 |
@@ -86,7 +86,7 @@ Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe d
 ## 5. Convenciones
 
 - La lógica va en hooks; los componentes solo pintan. Las llamadas a la API, solo en `hooks/<dominio>/` con `axiosClient`.
-- Claves de React Query: arrays con el dominio primero (`['items', 'search', q]`). Invalida con precisión tras cada mutación (votar invalida la cola, la *wishlist* y la ficha).
+- Claves de React Query: arrays con el dominio primero (`['items', 'search', q]`). Invalida con precisión tras cada mutación (votar invalida la cola, la *wishlist*, la ficha y el perfil: `VOTE_INVALIDATE_KEYS` en `hooks/votes/useVoteMutations.js`).
 - Textos en español, tuteando y cortos.
 - Accesibilidad: `aria-label` en los botones que solo tienen icono; el voto se puede usar con teclado; contraste AA.
 - *Mobile-first*: prueba a 360 px.

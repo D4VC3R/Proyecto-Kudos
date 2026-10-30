@@ -2,7 +2,7 @@ import React from "react";
 import StaggerGrid from "../animations/StaggerGrid.jsx";
 import StaggerItem from "../animations/StaggerItem.jsx";
 import ActionButton from "./ActionButton.jsx";
-import { BookOpenCheckIcon, PlayCircle, PlusCircle, SquareSplitHorizontalIcon, Telescope } from 'lucide-react';
+import { PlayCircle, PlusCircle, Telescope } from 'lucide-react';
 
 const ActionMenu = ({ categorySlug, name, className = "" }) => {
     return (
@@ -36,24 +36,6 @@ const ActionMenu = ({ categorySlug, name, className = "" }) => {
                     icon={Telescope}
                     to={`/${categorySlug}/explore`}
                     color="green"
-                  />
-              </StaggerItem>
-
-              <StaggerItem>
-                  <ActionButton
-                    title="Cara a cara (En desarrollo...)"
-                    description="Elige tu favorito entre dos opciones al azar."
-                    icon={SquareSplitHorizontalIcon}
-                    color="yellow"
-                  />
-              </StaggerItem>
-
-              <StaggerItem>
-                  <ActionButton
-                    title="Trivia (En desarrollo...)"
-                    description="Pon a prueba tus conocimientos."
-                    icon={BookOpenCheckIcon}
-                    color="purple"
                   />
               </StaggerItem>
           </StaggerGrid>

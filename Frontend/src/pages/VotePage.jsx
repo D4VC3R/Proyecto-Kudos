@@ -2,16 +2,20 @@ import React from 'react';
 import { AnimatePresence } from "framer-motion";
 import { Loader2 } from 'lucide-react';
 // Componentes
-import VoteStars from '../components/votes/VoteStars.jsx';
 import CommentBox from '../components/comments/CommentBox';
 import ItemImage from '../components/items/ItemImage.jsx';
 import VoteActionButtons from '../components/votes/VoteActionButtons.jsx';
+import SwipeVoteCard from '../components/votes/SwipeVoteCard.jsx';
+import VoteKnowStep from '../components/votes/VoteKnowStep.jsx';
+import VoteScoreLevels from '../components/votes/VoteScoreLevels.jsx';
+import VoteInterestStep from '../components/votes/VoteInterestStep.jsx';
 import EmptyVoteState from "../components/votes/EmptyVoteState.jsx";
 import AnimatedItem from "../components/animations/AnimatedItem.jsx";
 import BackButton from "../components/ui/BackButton.jsx";
 import FeedbackState from "../components/ui/FeedbackState.jsx";
 // Hooks
 import { useVotePage } from '../hooks/pages/useVotePage.js';
+import { VOTE_STEPS } from '../lib/constants.js';
 
 export const VotePage = () => {
   const { state, actions } = useVotePage();
@@ -45,20 +49,46 @@ export const VotePage = () => {
                   itemKey={state.item.id}
                   className="w-full h-full flex justify-center items-center"
                 >
-                  <ItemImage item={state.item} />
+                  <SwipeVoteCard
+                    enabled={state.step === VOTE_STEPS.KNOW && !state.isBusy}
+                    onSwipeRight={actions.handleKnown}
+                    onSwipeLeft={actions.handleUnknown}
+                  >
+                    <ItemImage item={state.item} />
+                  </SwipeVoteCard>
                 </AnimatedItem>
               </AnimatePresence>
             )}
           </div>
           {showControls && (
             <>
-              <div className="shrink-0 mb-1 z-10 relative">
-                <VoteStars onVote={actions.handleVote} isPending={state.isPending} />
+              <div className="shrink-0 mb-1 z-10 relative" aria-live="polite">
+                {state.step === VOTE_STEPS.KNOW && (
+                  <VoteKnowStep
+                    onYes={actions.handleKnown}
+                    onNo={actions.handleUnknown}
+                    isPending={state.isBusy}
+                  />
+                )}
+                {state.step === VOTE_STEPS.RATE && (
+                  <VoteScoreLevels
+                    onRate={actions.handleVote}
+                    onBack={actions.handleBack}
+                    isPending={state.isBusy}
+                  />
+                )}
+                {state.step === VOTE_STEPS.INTEREST && (
+                  <VoteInterestStep
+                    onWant={actions.handleWant}
+                    onNotInterested={actions.handleNotInterested}
+                    onBack={actions.handleBack}
+                    isPending={state.isBusy}
+                  />
+                )}
               </div>
 
               <div className="shrink-0">
                 <VoteActionButtons
-                  onSkip={actions.handleSkip}
                   showComments={state.showComments}
                   onToggleComments={actions.toggleComments}
                 />

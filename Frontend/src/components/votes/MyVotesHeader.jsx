@@ -53,12 +53,12 @@ const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams }) => 
           Votados
         </Button>
         <Button
-          onClick={() => setView('skip')}
+          onClick={() => setView('not_interested')}
           variant="solid"
-          color={currentView === 'skip' ? 'primary' : 'neutral'}
-          className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${currentView === 'skip' ? 'shadow-md' : 'bg-slate-100 text-nav-item hover:bg-slate-200'}`}
+          color={currentView === 'not_interested' ? 'primary' : 'neutral'}
+          className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${currentView === 'not_interested' ? 'shadow-md' : 'bg-slate-100 text-nav-item hover:bg-slate-200'}`}
         >
-          Pasados
+          No me interesan
         </Button>
       </div>
 
