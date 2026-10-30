@@ -1,19 +1,10 @@
 import React from 'react';
-import { SkipForward, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import Button from '../ui/Button.jsx';
 
-const VoteActionButtons = ({ onSkip, showComments, onToggleComments }) => {
+const VoteActionButtons = ({ showComments, onToggleComments }) => {
   return (
-    <div className="flex items-center justify-between">
-      <Button
-        onClick={onSkip}
-        variant="outline"
-        color="neutral"
-        icon={SkipForward}
-      >
-        No me interesa
-      </Button>
-
+    <div className="flex items-center justify-end">
       <Button
         onClick={onToggleComments}
         variant="ghost"

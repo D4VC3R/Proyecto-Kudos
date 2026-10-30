@@ -8,7 +8,7 @@ import {
   Disc,
   Mic2,
   Clapperboard, Tv, Gamepad2, Book, Plane, Users, FileText, LayoutGrid, Target, User as UserIcon, List, ThumbsUp,
-  BarChart3, Trophy, Medal, MapPin
+  BarChart3, Trophy, Medal, MapPin, BookmarkPlus, EyeOff
 } from 'lucide-react';
 
 
@@ -147,3 +147,27 @@ export const profileTabs = [
 
 // Clases de Tailwind para el tamaño de las estrellas en la sección de votación..
 export const STAR_SIZE_CLASSES = "w-6 h-6 min-[400px]:w-7 min-[400px]:h-7 sm:w-8 sm:h-8 md:w-10 md:h-10";
+
+// Pasos de la votación en dos pasos (F2-04): "¿Lo conoces?", valorar o interés.
+export const VOTE_STEPS = {
+  KNOW: 'know',
+  RATE: 'rate',
+  INTEREST: 'interest',
+};
+
+// Niveles de valoración (F2-04): texto, nota que se envía y tecla. De peor a mejor, para que 1–5 sigan la fila de números.
+export const VOTE_LEVELS = [
+  { key: '1', score: 2, label: 'No me gustó' },
+  { key: '2', score: 4, label: 'Flojo' },
+  { key: '3', score: 6, label: 'Bien' },
+  { key: '4', score: 8, label: 'Muy bien' },
+  { key: '5', score: 10, label: 'Me encantó' },
+];
+
+// Etiqueta, colores e icono de cada tipo de voto del usuario (F2-04). `skip` es el nombre heredado de `not_interested`.
+export const VOTE_TYPE_BADGES = {
+  vote: { label: 'Votado', color: 'bg-yellow-50 text-yellow-700 border-yellow-200', icon: CheckCircle },
+  want: { label: 'En tu wishlist', color: 'bg-blue-50 text-blue-700 border-blue-200', icon: BookmarkPlus },
+  not_interested: { label: 'No te interesa', color: 'bg-background text-nav-item border-border', icon: EyeOff },
+  skip: { label: 'No te interesa', color: 'bg-background text-nav-item border-border', icon: EyeOff },
+};

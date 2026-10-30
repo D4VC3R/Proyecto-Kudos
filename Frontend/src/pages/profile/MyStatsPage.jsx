@@ -1,5 +1,5 @@
 import React from 'react';
-import {Loader2, AlertCircle, BarChart3, Star, Award, MessageSquare, ThumbsUp, SkipForward, Flame} from 'lucide-react';
+import {Loader2, AlertCircle, BarChart3, Star, Award, MessageSquare, ThumbsUp, EyeOff, BookmarkPlus, Flame} from 'lucide-react';
 // Componentes
 import StatCard from '../../components/profile/StatCard.jsx';
 import SectionHeader from "../../components/ui/SectionHeader.jsx";
@@ -64,39 +64,46 @@ const MyStatsPage = () => {
                 delay={0.4}
               />
               <StatCard
-                title="Skips Realizados"
-                value={stats.total_skips}
-                icon={SkipForward}
+                title="No me interesan"
+                value={stats.total_not_interested ?? stats.total_skips}
+                icon={EyeOff}
                 colorClass="bg-slate-100 text-text-normal"
                 delay={0.5}
+              />
+              <StatCard
+                title="En tu wishlist"
+                value={stats.total_want ?? 0}
+                icon={BookmarkPlus}
+                colorClass="bg-sky-100 text-sky-500"
+                delay={0.6}
               />
               <StatCard
                 title="Puntuación Media"
                 value={stats.average_score !== null ? stats.average_score : '-'}
                 icon={Star}
                 colorClass="bg-amber-100 text-amber-500"
-                delay={0.6}
+                delay={0.7}
               />
               <StatCard
                 title="Propuestas Aceptadas"
                 value={stats.accepted_proposals}
                 icon={BarChart3}
                 colorClass="bg-emerald-100 text-emerald-500"
-                delay={0.7}
+                delay={0.8}
               />
               <StatCard
                 title="Comentarios"
                 value={stats.total_comments}
                 icon={MessageSquare}
                 colorClass="bg-purple-100 text-purple-500"
-                delay={0.8}
+                delay={0.9}
               />
               <StatCard
                 title="Categoría Favorita"
                 value={stats.favorite_category || '-'}
                 icon={Star}
                 colorClass="bg-pink-100 text-pink-500"
-                delay={0.9}
+                delay={1.0}
               />
             </>
           )}

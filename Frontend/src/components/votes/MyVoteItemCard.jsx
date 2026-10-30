@@ -4,9 +4,11 @@ import { formatDate } from '../../lib/formatters';
 import Button from '../ui/Button.jsx';
 import StorageImage from "../ui/StorageImage.jsx";
 import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
+import { VOTE_TYPE_BADGES } from '../../lib/constants.js';
 
 const MyVoteItemCard = ({ vote, isDeleting, onDeleteClick }) => {
-  const isSkip = vote.type === 'skip';
+  const badge = VOTE_TYPE_BADGES[vote.type] ?? VOTE_TYPE_BADGES.vote;
+  const isRated = vote.type === 'vote';
   const item = vote.item;
   const imageUrl = item.images?.[0]?.variants?.thumb || item.images?.[0]?.variants?.banner;
 
@@ -35,10 +37,8 @@ const MyVoteItemCard = ({ vote, isDeleting, onDeleteClick }) => {
             <h4 className="text-lg font-bold text-text-highlight line-clamp-1">
               {item?.name || 'Ítem desconocido'}
             </h4>
-            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold border ${
-              isSkip ? 'bg-background text-nav-item border-border' : 'bg-yellow-50 text-yellow-700 border-yellow-200'
-            }`}>
-              {isSkip ? 'Pasado' : 'Votado'}
+            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold border ${badge.color}`}>
+              {badge.label}
             </span>
           </div>
 
@@ -48,7 +48,7 @@ const MyVoteItemCard = ({ vote, isDeleting, onDeleteClick }) => {
             <span className="flex items-center gap-1"><Clock size={14} /> {formatDate(vote.voted_at)}</span>
           </div>
 
-          {!isSkip && (
+          {isRated && (
             <div className="mt-3 flex items-center gap-1 bg-background rounded-xl px-3 py-2 w-fit border border-slate-100">
               <span className="text-text-normal text-sm font-bold mr-1">Puntuación:</span>
               <span className="text-lg font-black text-slate-800">{vote.score}</span>

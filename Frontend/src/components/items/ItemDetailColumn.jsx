@@ -5,11 +5,16 @@ import ItemAttribution from './ItemAttribution.jsx';
 import AttributeChips from './AttributeChips.jsx';
 import { hasText } from '../../lib/text.js';
 import { hasAttribution } from '../../lib/attribution.js';
+import { VOTE_TYPE_BADGES } from '../../lib/constants.js';
 
 const ItemDetailColumn = ({ item }) => {
   // Los ítems sin descripción (p. ej. importados) no muestran la caja "Acerca de…".
   const description = hasText(item.description) ? item.description.trim() : null;
   const showAttribution = hasAttribution(item.attribution);
+  // Estado del usuario con este ítem (F2-04): nota, wishlist o "no me interesa". Sin sesión no llega user_vote.
+  const userVote = item.user_vote;
+  const userVoteBadge = userVote ? (VOTE_TYPE_BADGES[userVote.type] ?? null) : null;
+  const userVoteText = userVote?.type === 'vote' && userVote.score != null ? `Tu nota: ${userVote.score}` : userVoteBadge?.label;
 
   return (
     <div className="flex flex-col h-full w-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 p-6 md:p-8 lg:overflow-y-auto">
@@ -24,6 +29,13 @@ const ItemDetailColumn = ({ item }) => {
             <Star size={18} className="text-yellow-600 fill-yellow-500" />
             {item.vote_avg?.toFixed(1) || '0.0'} ({item.vote_count ?? 0} votos)
           </span>
+
+          {userVoteBadge && (
+            <span className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold ${userVoteBadge.color}`}>
+              <userVoteBadge.icon size={16} />
+              {userVoteText}
+            </span>
+          )}
 
           {item.creator && (
             <span className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 ring-1 ring-slate-200">
