@@ -30,7 +30,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 - `app/Http/Requests/Votes/`: `StoreVoteRequest`, `UpdateVoteRequest`, `DeleteVoteRequest`, `ListMyVotesRequest` y `GetNextCategoryItemRequest`.
   - `StoreVoteRequest` acepta `vote`, `want`, `not_interested` y `skip`; en `prepareForValidation()` convierte `skip` en `not_interested` (la API ya no guarda `skip`), exige `score` con `vote` y lo prohíbe con `want`/`not_interested` (F2-01).
   - `StoreVoteRequest` rechaza con 422 los ítems borrados (`exists` con `withoutTrashed()`), con cualquier tipo, incluso si ya había una interacción (antes daba 200 idempotente); los inactivos dan 403 por `VotePolicy::create()` en `authorize()` (F0-21).
-- `app/Http/Controllers/Vote/`, `app/Policies/VotePolicy.php` y `app/Http/Resources/VoteResource.php`.
+- `app/Http/Controllers/Vote/`, `app/Policies/VotePolicy.php` y `app/Http/Resources/VoteResource.php`. `GET /api/votes/my-votes` ordena por `created_at desc, id desc` e incluye `item.released_at` (F2-05; la *wishlist* es `?type=want`).
 - `app/Services/NextCategoryItemService.php`: cola de 50 ítems, cacheada 6 h en `next-item-queue:{user}:{category}`. Excluye los ítems con `quality_score` por debajo de `catalog.min_quality_for_discovery` (`discoverable()`). Al servir cada ítem vuelve a filtrar el lote con los mismos criterios (activo, `discoverable()`, sin borrar y sin voto de ningún tipo del usuario: `vote`, `want` o `not_interested`), así que no ofrece ítems votados desde la ficha ni ítems desactivados o empobrecidos después de generarse el lote (F0-17).
 
 **Ítems y categorías**
