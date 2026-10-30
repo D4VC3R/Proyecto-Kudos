@@ -3,6 +3,7 @@ import { Star } from 'lucide-react';
 import  BouncyCard  from '../animations/BouncyCard';
 import StorageImage from "../ui/StorageImage.jsx";
 import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
+import AttributeChips from './AttributeChips.jsx';
 
 const ItemCard = ({ item, onClick }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
@@ -38,10 +39,11 @@ const ItemCard = ({ item, onClick }) => {
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 p-4">
+      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-4">
         <h3 className="line-clamp-2 text-lg font-black tracking-tight text-text-btn drop-shadow-md">
           {item.name}
         </h3>
+        <AttributeChips schema={item.category?.attribute_schema} attributes={item.attributes} variant="card" />
       </div>
     </BouncyCard>
   );

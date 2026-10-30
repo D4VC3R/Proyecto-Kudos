@@ -2,6 +2,7 @@ import React from 'react';
 import { Star, Info } from 'lucide-react';
 import ItemImage from './ItemImage.jsx';
 import ItemAttribution from './ItemAttribution.jsx';
+import AttributeChips from './AttributeChips.jsx';
 import { hasText } from '../../lib/text.js';
 import { hasAttribution } from '../../lib/attribution.js';
 
@@ -31,6 +32,8 @@ const ItemDetailColumn = ({ item }) => {
             </span>
           )}
         </div>
+
+        <AttributeChips schema={item.category?.attribute_schema} attributes={item.attributes} />
       </div>
 
       <div className="w-full flex justify-center mb-8 shrink-0">
