@@ -85,13 +85,23 @@ class VoteController extends Controller
 
 	public function update(UpdateVoteRequest $request, Vote $vote): JsonResponse
 	{
+		$user = $request->user();
+
 		$updatedVote = $this->changeVoteAction->execute($vote, $request->validated());
+		$user->refresh();
 
 		return $this->respondMutation(
-			message: $updatedVote->type === Vote::TYPE_SKIP
-				? 'Interacción actualizada a skip correctamente.'
-				: 'Voto actualizado correctamente.',
+			message: match ($updatedVote->type) {
+				Vote::TYPE_VOTE => 'Voto actualizado correctamente.',
+				Vote::TYPE_WANT => 'Ítem añadido a tu wishlist.',
+				default => 'Ítem marcado como "no me interesa".',
+			},
 			data: new VoteResource($updatedVote),
+			meta: [
+				'total_kudos' => $user->total_kudos,
+				'kudos_awarded' => (int) ($updatedVote->getAttribute('kudos_awarded') ?? 0),
+				'vote_type' => $updatedVote->type,
+			],
 		);
 	}
 
