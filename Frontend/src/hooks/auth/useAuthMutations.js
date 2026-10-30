@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../core/axiosClient.js';
 import { useSessionStore } from '../../store/useSessionStore';
 import { useBaseMutation } from '../common/useBaseMutation';
+import { needsOnboarding } from '../../lib/onboarding.js';
 /** Hooks personalizados para manejar las mutaciones relacionadas con la autenticación.
  *
  * Cada hook utiliza `useBaseMutation` para manejar la lógica común de las mutaciones, como mostrar mensajes de éxito y manejar errores.
@@ -21,6 +22,8 @@ export const useLogin = () => {
     successMessage: 'Sesión iniciada correctamente',
     onSuccessExtra: (response) => {
       const { access_token, user } = response.data;
+      // Antes de setSession: así RequireGuest ya lo ve cuando se vuelve a pintar con el token (F2-07).
+      useSessionStore.getState().setOnboardingPending(needsOnboarding(user));
       setSession({ token: access_token, user });
       queryClient.clear();
     }

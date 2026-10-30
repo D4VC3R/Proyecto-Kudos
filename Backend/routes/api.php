@@ -6,6 +6,7 @@ use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Item\ItemCommentController;
 use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Proposal\ProposalController;
 use App\Http\Controllers\User\DailyRewardController;
 use App\Http\Controllers\User\ProfileController;
@@ -51,6 +52,9 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
         Route::put('/', [ProfileController::class, 'update']);
         Route::post('/daily-claim', [DailyRewardController::class, 'claim']);
     });
+
+    // Onboarding (F2-07): ítems populares de las categorías elegidas para el speed-rating.
+    Route::get('/onboarding/items', [OnboardingController::class, 'items']);
 
     // Proposals de usuario
     Route::prefix('proposals')->group(function () {

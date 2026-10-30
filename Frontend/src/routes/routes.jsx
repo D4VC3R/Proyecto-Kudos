@@ -12,6 +12,7 @@ import CategoryPage from "../pages/CategoryPage.jsx";
 import RankingPage from "../pages/RankingPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
 import WishlistPage from "../pages/WishlistPage.jsx";
+import OnboardingPage from "../pages/OnboardingPage.jsx";
 import NewProposalPage from "../pages/NewProposalPage.jsx";
 import AuthPage from "../pages/auth/AuthPage.jsx";
 import AdminLayout from "../pages/admin/AdminLayout.jsx";
@@ -54,6 +55,7 @@ const AppRoutes = () => {
         <Route element={<RequireVerified/>}>
           <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/wishlist" element={<WishlistPage/>}/>
+          <Route path="/onboarding" element={<OnboardingPage/>}/>
           <Route path="/my-proposals" element={<ProfilePage tab={'proposals'}/>}/>
           <Route path="/:categorySlug/proposals/new" element={<NewProposalPage/>}/>
           <Route path="/:categorySlug/proposals/:proposalId/edit" element={<NewProposalPage isEdit={true}/>}/>

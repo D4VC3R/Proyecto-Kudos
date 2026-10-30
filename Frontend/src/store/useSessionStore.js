@@ -23,17 +23,20 @@ export const useSessionStore = create(
     (set) => ({ // Actualizar el estado. Los componentes dependientes de token o user se vuelven a renderizar si cambia.
       token: null,
       user: null,
+      // Onboarding (F2-07): el aviso dura lo que la sesión. Saltar o terminar lo apaga y no vuelve hasta el siguiente login.
+      onboardingPending: false,
+      setOnboardingPending: (value) => set({ onboardingPending: Boolean(value) }),
       setSession: ({ token, user }) => { // Iniciar sesión.
         set({ token: token ?? null, user: user ?? null });
       },
       clearSession: () => { // Cerrar sesión.
-        set({ token: null, user: null });
+        set({ token: null, user: null, onboardingPending: false });
       },
     }),
     { // Sesión persistente en localStorage con la clave 'kudos_session'.
       name: STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ token: state.token, user: state.user }),
+      partialize: (state) => ({ token: state.token, user: state.user, onboardingPending: state.onboardingPending }),
     },
   ),
 );
