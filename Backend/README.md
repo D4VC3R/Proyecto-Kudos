@@ -184,21 +184,9 @@ Grupos de rutas:
 - `users.total_kudos` es un caché acumulado.
 - `kudos_transactions` funciona como ledger (fuente de la verdad).
 
-### Seed de items desde snapshots locales
+### Seed de items (heredado)
 
-`ItemSeeder` carga directamente JSONs en `database/seed-data/`.
-
-Categorías cubiertas por snapshots locales:
-
-- videojuegos
-- películas
-- series
-- países
-- ciudades
-- politicos
-- álbumes musicales
-- artistas musicales
-- libros
+`ItemSeeder` es heredado desde la F1-10: ya no lo ejecuta `DatabaseSeeder` y los JSON de `database/seed-data/` se conservan como referencia. El catálogo se importa con `catalog:fetch-new` (ver [../docs/infra/entorno-local.md](../docs/infra/entorno-local.md) §3).
 
 ### Entorno local (Docker)
 
@@ -212,7 +200,7 @@ Todo se ejecuta con Laravel Sail, desde `Backend/` (sin alias, con `./vendor/bin
 ./vendor/bin/sail artisan kudos:audit-consistency   # audita users.total_kudos frente al ledger (--fix para reconciliar)
 ```
 
-`migrate:fresh --seed` siembra el catálogo antiguo y descarga imágenes, así que tarda (entorno-local §3).
+`migrate:fresh --seed` siembra las categorías, los roles y los usuarios (los 50 de prueba, solo en local), pero no el catálogo: la secuencia completa está en entorno-local §3.
 
 ### Tests
 

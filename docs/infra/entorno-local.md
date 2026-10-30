@@ -32,12 +32,13 @@ sail artisan migrate
 - `APP_SERVICE=kudos-app` en `.env`: el servicio de la app no se llama `laravel.test` (el nombre que Sail usa por defecto). Sin esa variable, `sail artisan` y `sail test` fallan con `service "laravel.test" is not running`.
 - **Versión de PHP.** `docker/8.5/Dockerfile` fija `php:8.5.12-cli-bookworm`. Tras cambiar el Dockerfile (o si `sail php -v` no da 8.5.12), ejecuta `sail build --no-cache && sail up -d` y comprueba con `sail php -v`. Solo toca la imagen `sail-8.5/app` (la antigua queda sin etiqueta); no afecta a la imagen `kudos-api` ni al stack `kudos` (`compose.prod.yml`).
 - **`composer.lock`.** Si cambias `composer.json` (también `config.platform`), regenera el lock: `sail composer update --lock` si solo cambia la configuración o el `content-hash`, y `sail composer update <paquete>` para actualizar un paquete. Comprueba con `sail composer validate --no-check-publish` (sin errores del lock) y `sail composer install` (sin aviso).
-- **Sembrado.** `sail artisan db:seed` siembra el catálogo **antiguo** (~4.400 ítems, descargando imágenes: tarda mucho). En la Fase 0 no hace falta: los tests usan factories. Desde la F1-10, la secuencia es:
+- **Sembrado (F1-10).** `sail artisan migrate:fresh --seed` **borra la base de desarrollo** y crea las categorías (`peliculas` y `series` activas, con su `attribute_schema`; `videojuegos` y `destinos` inactivas hasta la F4), los permisos y roles, el admin (`SEED_ADMIN_*`) y, solo en local, 50 usuarios de prueba. **No crea ítems.** El catálogo se importa de TMDB (hace falta `TMDB_API_TOKEN`, F1-00; con `QUEUE_CONNECTION=sync` el comando hace todo el trabajo, imágenes incluidas, y tarda unos minutos) y después se siembran los votos de prueba:
   ```bash
   sail artisan migrate:fresh --seed
   sail artisan catalog:fetch-new --all --limit=50
   sail artisan db:seed --class=VoteSeeder
   ```
+  - En local, `migrate:fresh --seed` también ejecuta `VoteSeeder`, pero sin ítems solo avisa ("No hay ítems activos…"). `VoteSeeder` se niega a ejecutarse fuera de local (lanza una excepción). `ItemSeeder` y `ProposalSeeder` son heredados y no se ejecutan, y los JSON de `database/seed-data/` se conservan. Sin token, la secuencia la cubre `tests/Feature/Seeders/DatabaseSeederTest.php` con un proveedor falso.
 - **URLs:**
   - API: `http://localhost:8095/api`;
   - Mailpit: `http://localhost:8025`;
@@ -83,7 +84,7 @@ CORS: `FRONTEND_URL` en `Backend/.env` ya incluye `http://localhost:5174`.
 |---|---|
 | Ver los logs | `sail logs -f kudos-app` o `sail artisan pail` |
 | Abrir un *shell*, `psql` o Tinker | `sail shell`, `sail psql`, `sail artisan tinker` |
-| Resetear la base de datos de desarrollo | `sail artisan migrate:fresh --seed` |
+| Resetear la base de datos de desarrollo | `sail artisan migrate:fresh --seed` (y después la secuencia de §3) |
 | Auditar los kudos | `sail artisan kudos:audit-consistency` |
 | Listar las rutas | `sail artisan route:list --path=api` |
 | Parar los servicios | `sail down` (`-v` borra también los volúmenes) |

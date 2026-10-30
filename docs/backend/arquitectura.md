@@ -35,7 +35,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 **Ítems y categorías**
 - `app/Models/Item.php`:
   - `applyFilters`: `ilike` sobre `name` u `original_title`, con el OR agrupado (el texto se escapa con `App\Support\Like::contains()`, F0-15; igual en `adminApplyFilters` de Item, Proposal y User y en `Vote::applyFilters`; Item (ambos scopes) y `Vote::applyFilters` buscan en `name` u `original_title`; toda búsqueda nueva debe usar `Like::contains()`); acepta `discoverable` (`scopeDiscoverable`, umbral `catalog.min_quality_for_discovery`);
-  - el hook `creating` (`booted()`) genera el `slug` si viene vacío con `generateUniqueSlug()` (`Str::slug(name)` + año de `released_at` o `attributes.year`, sufijo `-2`, `-3`… si colisiona, contando los borrados; no cambia al renombrar; los seeders con `WithoutModelEvents` lo dejan en `null`, F1-10);
+  - el hook `creating` (`booted()`) genera el `slug` si viene vacío con `generateUniqueSlug()` (`Str::slug(name)` + año de `released_at` o `attributes.year`, sufijo `-2`, `-3`… si colisiona, contando los borrados; no cambia al renombrar; desde la F1-10 los seeders no crean ítems; los del `ItemSeeder` heredado quedaban con `slug = null`);
   - la columna `attributes` choca con `Model::$attributes`: dentro del modelo se lee con `getAttribute('attributes')`;
   - relación `sources()` (hasMany `ItemSource`);
   - el hook `saving` (`booted()`) recalcula `quality_score` con `ItemQualityScorer` si cambian `images`, `description`, `released_at` o `attributes`; sin descripción, `ItemQualityScorer` limita la puntuación a `min_quality_for_discovery` − 1 (F1-04);
