@@ -204,10 +204,11 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getProfileStatistics(): array
     {
-        // Estadísticas de votos
-        $totalVotes = $this->votes()->where('type', 'vote')->count();
-        $totalSkips = $this->votes()->where('type', 'skip')->count();
-        $averageScore = $this->votes()->where('type', 'vote')->avg('score');
+        // Estadísticas de votos (F2-01: want y not_interested; skip cuenta como not_interested)
+        $totalVotes = $this->votes()->where('type', Vote::TYPE_VOTE)->count();
+        $totalWant = $this->votes()->where('type', Vote::TYPE_WANT)->count();
+        $totalNotInterested = $this->votes()->whereIn('type', Vote::NOT_INTERESTED_TYPES)->count();
+        $averageScore = $this->votes()->where('type', Vote::TYPE_VOTE)->avg('score');
 
         $favoriteCategoryId = $this->votes()
             ->where('type', 'vote')
@@ -222,7 +223,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return [
             'total_votes' => $totalVotes,
-            'total_skips' => $totalSkips,
+            'total_skips' => $totalNotInterested, // alias heredado de total_not_interested (R7)
+            'total_want' => $totalWant,
+            'total_not_interested' => $totalNotInterested,
             'average_score' => $averageScore ? round((float)$averageScore, 1) : null,
             'favorite_category' => $favoriteCategoryName,
             'accepted_proposals' => $this->proposals()->accepted()->count(),

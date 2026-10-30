@@ -14,6 +14,16 @@ use Illuminate\Validation\Rule;
 class StoreVoteRequest extends FormRequest
 {
     /**
+     * Normaliza el valor heredado skip a not_interested antes de validar (F2-01).
+     */
+	protected function prepareForValidation(): void
+	{
+		if ($this->input('type') === Vote::TYPE_SKIP) {
+			$this->merge(['type' => Vote::TYPE_NOT_INTERESTED]);
+		}
+	}
+
+    /**
      * Autoriza la petición de creación de voto asegurando que el usuario esté autenticado y tenga permiso para votar en el ítem especificado.
      */
 	public function authorize(): bool
@@ -42,9 +52,10 @@ class StoreVoteRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			// withoutTrashed(): un ítem borrado (soft delete) se rechaza igual para vote y skip (F0-21)
+			// withoutTrashed(): un ítem borrado (soft delete) se rechaza igual para cualquier tipo (F0-21)
 			'item_id' => ['required', 'uuid', Rule::exists('items', 'id')->withoutTrashed()],
-			'type' => ['required', Rule::in([Vote::TYPE_VOTE, Vote::TYPE_SKIP])],
+			// skip también se acepta: prepareForValidation() lo convierte en not_interested
+			'type' => ['required', Rule::in([Vote::TYPE_VOTE, Vote::TYPE_WANT, Vote::TYPE_NOT_INTERESTED])],
 			'score' => [
 				'nullable',
 				'numeric',
@@ -52,7 +63,7 @@ class StoreVoteRequest extends FormRequest
 				'max:10',
 				'multiple_of:0.5',
 				Rule::requiredIf(fn () => $this->input('type') === Vote::TYPE_VOTE),
-				Rule::prohibitedIf(fn () => $this->input('type') === Vote::TYPE_SKIP),
+				Rule::prohibitedIf(fn () => in_array($this->input('type'), [Vote::TYPE_WANT, Vote::TYPE_NOT_INTERESTED], true)),
 			],
 		];
 	}
@@ -66,7 +77,8 @@ class StoreVoteRequest extends FormRequest
 			'item_id.exists' => 'El ítem no existe o ya no está disponible.',
 			'score.multiple_of' => 'La puntuación debe ir en pasos de medio punto (por ejemplo, 7 o 7,5).',
 			'score.required' => 'No se ha registrado puntuación asociada al voto.',
-			'score.prohibited' => 'No se ha registrado la puntuación: votación omitida.',
+			'score.prohibited' => 'Solo se puntúa al valorar: "me interesa" y "no me interesa" no llevan puntuación.',
+			'type.in' => 'El tipo de voto no es válido.',
 		];
 	}
 }

@@ -18,7 +18,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | `categories` | `name` (único), `description` (NOT NULL), `slug` (único, clave de ruta), `image`, `attribute_schema` (jsonb, default `'[]'`), `is_active` (default true), `sort_order` (smallInteger, default 0), `icon` (string(32), nullable) |
 | `items` | `name`, `description` (text, **nullable** desde la F1-01), `images` (jsonb), `status` (`active`/`inactive`), `vote_avg` (float), `vote_count`, `bayes_score` (float, default 0), `quality_score` (smallInteger, default 0), `creator_id` (nullable), `category_id`, borrado suave. Desde la F1-01: `slug` (único, nullable), `original_title`, `released_at` (date), `attributes` (jsonb, default `'{}'`), `popularity` (float, default 0), `wikidata_id` (string(16), único, nullable), `description_source`, `description_url` y `last_synced_at` (timestampTz). Índices: `(status, vote_avg, vote_count)`, `(category_id, status)`, `(category_id, status, bayes_score)`, `(category_id, status, quality_score)`, `(category_id, status, released_at)`, únicos `items_slug_unique` e `items_wikidata_id_unique`, y GIN: trigram `items_name_trgm_idx(name)`, trigram `items_original_title_trgm_idx(original_title)` y `items_attributes_gin_idx(attributes)` |
 | `item_sources` | `item_id` (FK, cascade), `provider`, `external_id`, `url`, `is_primary`, `last_synced_at`, timestamps. Único `(provider, external_id)` e índice `(item_id)` |
-| `votes` | `type` (`vote`/`skip`, CHECK `votes_type_check`), `score` decimal(4,1) nullable, `user_id`, `item_id`. Único `votes_user_item_unique(user_id, item_id)`; índice `(item_id, type)` |
+| `votes` | `type` (`vote`/`want`/`not_interested`, y `skip` heredado; CHECK `votes_type_check`), `score` decimal(4,1) nullable, `user_id`, `item_id`. Único `votes_user_item_unique(user_id, item_id)`; índices `(item_id, type)` y `(user_id, type)` |
 | `item_comments` | `content`, `is_hidden`, `hidden_reason`, `hidden_by`, borrado suave |
 | `proposals` | La misma forma que `items` + `status`, `reviewed_by`, `admin_notes` |
 | `kudos_transactions` | `kudos_amount`, `reason`, `action_key` (único), referencia polimórfica |
@@ -128,7 +128,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 
 ### Fase 2 (F2-01, F2-07, F2-09)
 
-**`extend_votes_type_check`** (antes, verifica el nombre con `SELECT conname FROM pg_constraint WHERE conrelid = 'votes'::regclass;`):
+**`extend_votes_type_check`** (hecha en la F2-01; antes, verifica el nombre con `SELECT conname FROM pg_constraint WHERE conrelid = 'votes'::regclass;`):
 
 ```sql
 ALTER TABLE votes DROP CONSTRAINT votes_type_check;

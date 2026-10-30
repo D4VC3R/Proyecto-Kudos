@@ -23,6 +23,16 @@
 
 **Hecho cuando:** hay tests de un voto de cada tipo; `skip` se guarda como `not_interested`; `want` con `score` da 422; las medias no cambian con `want` ni con `not_interested`; `user_vote.type` está presente.
 
+**Notas:**
+- Migración `2026_10_30_000000_extend_votes_type_check.php`: la restricción real es `votes_type_check` (verificada en la BD) y el índice nuevo es `votes_user_id_type_index`. Probada con `migrate:fresh`, `migrate:rollback --step=1` y `migrate` contra `testing`.
+- La migración no convierte las filas `skip` existentes (no las hay: local 0, y producción hará `migrate:fresh` en la F1-11). Las lecturas tratan `skip` como `not_interested` (`Vote::NOT_INTERESTED_TYPES`): el filtro `type=skip` o `type=not_interested` de `my-votes` devuelve ambos.
+- `GET /api/profile/statistics`: `total_skips` se conserva como alias de `total_not_interested` (R7); campos nuevos `total_want` y `total_not_interested`.
+- `meta.reason` de `POST /api/votes`: valor nuevo `already_wanted`; `not_interested` mantiene `already_skipped`. `meta.vote_type` con un `skip` de entrada vale ahora `not_interested`.
+- `DeleteVoteAction` ya no recalcula al borrar `want`/`not_interested`/`skip` (usa `Vote::RATED_TYPES`; está fuera de **Archivos**, cambio mínimo).
+- Test adaptado: `EmitVoteTest::test_un_skip_no_cambia_la_media_ni_el_contador` (ahora espera `not_interested`, R8). Tests nuevos en `VoteTypesTest`, ampliación de `ItemDetailTest` y `NextCategoryItemTest`.
+- `votes_count` del panel de administración sigue contando todas las interacciones, como ya hacía con `skip`.
+- Pendiente para el frontend (F2-04/F2-05): `MyVoteItemCard` pinta un `not_interested` como "Votado" sin nota; `MyStatsPage` no muestra `total_want` ni `total_not_interested`; `MyVotesHeader` no tiene vista de `want`.
+
 ---
 
 ## F2-02 · Transiciones entre tipos

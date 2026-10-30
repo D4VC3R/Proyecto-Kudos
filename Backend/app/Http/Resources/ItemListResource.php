@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
  * Incluye información básica del ítem, su categoría, estado de votación del usuario, y permisos de edición/eliminación.
  * Se utiliza para mostrar ítems en vistas de listado, proporcionando la información esencial y acciones disponibles según el rol del usuario.
  * Desde la F1-06 incluye original_title, released_at y los atributos de tarjeta (show_in_card).
+ * Desde la F2-01, user_vote incluye type.
  */
 class ItemListResource extends JsonResource
 {
@@ -46,6 +47,7 @@ class ItemListResource extends JsonResource
                 $user && $item->relationLoaded('userVote') && $item->userVote,
                 fn () => [
                     'id' => $item->userVote->id,
+                    'type' => $item->userVote->type,
                     'score' => $item->userVote->score,
                     'voted_at' => $item->userVote->created_at?->toIso8601String(),
                 ]
