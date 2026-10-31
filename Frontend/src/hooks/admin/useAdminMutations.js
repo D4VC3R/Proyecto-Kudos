@@ -2,7 +2,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../core/axiosClient.js';
 import { useBaseMutation } from '../common/useBaseMutation';
 import { ITEM_KEYS } from '../items/useItemQueries';
-import { ADMIN_ITEM_KEYS, ADMIN_PROPOSAL_KEYS, ADMIN_USER_KEYS } from './useAdminQueries';
+import { HOME_KEYS } from '../home/useHomeQueries';
+import { LIST_KEYS } from '../lists/useListQueries';
+import { ADMIN_ITEM_KEYS, ADMIN_LIST_KEYS, ADMIN_PROPOSAL_KEYS, ADMIN_USER_KEYS } from './useAdminQueries';
 
 // --- CATEGORIAS ---
 export const useCreateCategory = () => {
@@ -126,5 +128,50 @@ export const useRevokeUserSessions = () => {
   return useBaseMutation({
     mutationFn: (userId) => axiosClient.post(`/admin/users/${userId}/sessions/revoke`),
     successMessage: 'Sesiones revocadas correctamente',
+  });
+};
+
+// --- LISTAS EDITORIALES ---
+const LIST_INVALIDATE_KEYS = [ADMIN_LIST_KEYS.all, HOME_KEYS.all, LIST_KEYS.all];
+export const useAdminCreateList = () => {
+  return useBaseMutation({
+    mutationFn: (data) => axiosClient.post('/admin/lists', data),
+    invalidateKeys: LIST_INVALIDATE_KEYS,
+    successMessage: 'Lista creada',
+  });
+};
+export const useAdminUpdateList = () => {
+  return useBaseMutation({
+    mutationFn: ({ id, data }) => axiosClient.put(`/admin/lists/${id}`, data),
+    invalidateKeys: LIST_INVALIDATE_KEYS,
+    successMessage: 'Lista actualizada',
+  });
+};
+export const useAdminDeleteList = () => {
+  return useBaseMutation({
+    mutationFn: (id) => axiosClient.delete(`/admin/lists/${id}`),
+    invalidateKeys: LIST_INVALIDATE_KEYS,
+    successMessage: 'Lista eliminada',
+  });
+};
+export const useAdminAddListItem = () => {
+  return useBaseMutation({
+    mutationFn: ({ listId, itemId, note }) => axiosClient.post(`/admin/lists/${listId}/items`, { item_id: itemId, note }),
+    invalidateKeys: LIST_INVALIDATE_KEYS,
+    successMessage: 'Añadido a la lista',
+  });
+};
+export const useAdminRemoveListItem = () => {
+  return useBaseMutation({
+    mutationFn: ({ listId, itemId }) => axiosClient.delete(`/admin/lists/${listId}/items/${itemId}`),
+    invalidateKeys: LIST_INVALIDATE_KEYS,
+    successMessage: 'Quitado de la lista',
+  });
+};
+// Sin mensaje de éxito: se reordena a menudo.
+export const useAdminReorderListItems = () => {
+  return useBaseMutation({
+    mutationFn: ({ listId, itemIds }) => axiosClient.put(`/admin/lists/${listId}/items/order`, { item_ids: itemIds }),
+    invalidateKeys: LIST_INVALIDATE_KEYS,
   });
 };

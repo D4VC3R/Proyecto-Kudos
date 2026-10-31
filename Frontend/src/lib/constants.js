@@ -8,7 +8,7 @@ import {
   Disc,
   Mic2,
   Clapperboard, Tv, Gamepad2, Book, Plane, Users, FileText, LayoutGrid, Target, User as UserIcon, List, ThumbsUp,
-  BarChart3, Trophy, Medal, MapPin, BookmarkPlus, EyeOff
+  BarChart3, Trophy, Medal, MapPin, BookmarkPlus, EyeOff, ListOrdered
 } from 'lucide-react';
 
 
@@ -135,6 +135,7 @@ export const adminTabs = [
   { name: 'Propuestas', to: '/admin/proposals', icon: FileText },
   { name: 'Categorías', to: '/admin/categories', icon: LayoutGrid },
   { name: 'Items', to: '/admin/items', icon: Target },
+  { name: 'Listas', to: '/admin/lists', icon: ListOrdered },
 ];
 
 // Objeto con la configuración de las pestañas para el panel de perfil.

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useModal } from '../common/useModal';
 import {
   useCreateCategory, useUpdateCategory, useDeleteCategory,
+  useAdminCreateList, useAdminUpdateList, useAdminDeleteList,
   useAdminModerateItem, useAdminDeleteItem,
   useReviewProposal,
   useBanUser, useUnbanUser, useRevokeUserSessions
@@ -45,6 +46,49 @@ export const useAdminCategoryActions = () => {
 
   return {
     isOpen, modalType, selectedCat, handleCloseModal,
+    handleOpenAction, executeAction,
+    isPending: isCreating || isUpdating || isDeleting,
+    formData, setFormData,
+  };
+};
+
+
+// --- LISTAS EDITORIALES (F2-09) ---
+const EMPTY_LIST_FORM = { title: '', description: '', is_ranked: false };
+
+export const useAdminListActions = () => {
+  const { isOpen, modalType, modalData: selectedList, openModal, closeModal } = useModal();
+  const [formData, setFormData] = useState(EMPTY_LIST_FORM);
+
+  const { mutate: createList, isPending: isCreating } = useAdminCreateList();
+  const { mutate: updateList, isPending: isUpdating } = useAdminUpdateList();
+  const { mutate: deleteList, isPending: isDeleting } = useAdminDeleteList();
+
+  const handleOpenAction = (list, type) => {
+    openModal(type, list);
+    if (type === 'edit') {
+      setFormData({ title: list.title, description: list.description ?? '', is_ranked: Boolean(list.is_ranked) });
+    }
+    if (type === 'create') setFormData(EMPTY_LIST_FORM);
+  };
+
+  const handleCloseModal = () => {
+    closeModal();
+    setFormData(EMPTY_LIST_FORM);
+  };
+
+  const executeAction = () => {
+    if (modalType === 'create') {
+      createList(formData, { onSuccess: handleCloseModal });
+    } else if (modalType === 'edit') {
+      updateList({ id: selectedList.id, data: formData }, { onSuccess: handleCloseModal });
+    } else if (modalType === 'delete') {
+      deleteList(selectedList.id, { onSuccess: handleCloseModal });
+    }
+  };
+
+  return {
+    isOpen, modalType, selectedList, handleCloseModal,
     handleOpenAction, executeAction,
     isPending: isCreating || isUpdating || isDeleting,
     formData, setFormData,

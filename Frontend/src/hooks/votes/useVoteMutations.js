@@ -4,12 +4,14 @@ import toast from 'react-hot-toast';
 import { VOTE_KEYS } from './useVoteQueries';
 import { ITEM_KEYS } from '../items/useItemQueries';
 import { USER_KEYS } from '../users/useUserQueries';
+import { HOME_KEYS } from '../home/useHomeQueries';
+import { LIST_KEYS } from '../lists/useListQueries';
 import { useSessionStore } from '../../store/useSessionStore';
 import { useBaseMutation } from '../common/useBaseMutation';
 
 // Cachés que cambian al votar (F2-04): la cola y las categorías, "Mis votos" y la wishlist (my-votes?type=want),
-// las fichas, el ranking de usuarios y el perfil (incluye las estadísticas y el perfil mínimo).
-const VOTE_INVALIDATE_KEYS = [VOTE_KEYS.myVotesList(), ['categories'], ITEM_KEYS.all, USER_KEYS.ranking, USER_KEYS.profile];
+// las fichas, el ranking de usuarios, el perfil (incluye las estadísticas y el perfil mínimo), la portada y las listas (F2-09).
+const VOTE_INVALIDATE_KEYS = [VOTE_KEYS.myVotesList(), ['categories'], ITEM_KEYS.all, USER_KEYS.ranking, USER_KEYS.profile, HOME_KEYS.all, LIST_KEYS.all];
 
 // showSuccessToast = false lo usa el speed-rating del onboarding (F2-07), que vota de seguido sin avisos.
 export const useCreateVote = ({ showSuccessToast = true } = {}) => {

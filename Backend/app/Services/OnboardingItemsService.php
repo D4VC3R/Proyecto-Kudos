@@ -18,12 +18,12 @@ class OnboardingItemsService
      * sin voto de ningún tipo del usuario. Se reparten por turnos entre las categorías (orden sort_order, name):
      * el 1.º de cada una, después el 2.º… Si una categoría se queda sin ítems, las demás completan el cupo.
      *
-     * @param User $user Usuario que hace el onboarding.
+     * @param User|null $user Usuario que hace el onboarding, o null (portada sin sesión, F2-09): sin usuario no se excluye nada.
      * @param array<int, string> $categorySlugs Slugs de las categorías elegidas.
      * @param int|null $limit Máximo de ítems (por defecto catalog.onboarding_items).
      * @return Collection<int, Item>
      */
-    public function popularItems(User $user, array $categorySlugs, ?int $limit = null): Collection
+    public function popularItems(?User $user, array $categorySlugs, ?int $limit = null): Collection
     {
         $limit ??= (int) config('catalog.onboarding_items', 10);
 
@@ -47,11 +47,12 @@ class OnboardingItemsService
             ->where('category_id', $category->id)
             ->where('status', Item::STATUS_ACTIVE)
             ->discoverable()
-            ->whereDoesntHave('votes', fn ($query) => $query->where('user_id', $user->id))
+            ->when($user, fn ($query) => $query->whereDoesntHave('votes', fn ($votes) => $votes->where('user_id', $user->id)))
             ->orderByDesc('popularity')
             ->orderBy('id')
             ->limit($limit)
-            ->with(['category', 'userVote' => fn ($query) => $query->where('user_id', $user->id)])
+            ->with(['category'])
+            ->when($user, fn ($query) => $query->with(['userVote' => fn ($vote) => $vote->where('user_id', $user->id)]))
             ->get()
             ->values());
 

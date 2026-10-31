@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminItemController;
+use App\Http\Controllers\Admin\AdminListController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Item\ItemCommentController;
 use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\Lists\ListController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Proposal\ProposalController;
 use App\Http\Controllers\Recommendation\RecommendationController;
@@ -31,6 +34,10 @@ Route::get('/items/{item}', [ItemController::class, 'show']);
 Route::get('/items/{item}/similar', [ItemController::class, 'similar']);
 Route::get('/items/{item}/comments', [ItemCommentController::class, 'index']);
 Route::get('/users/ranking', [UserRankingController::class, 'index']);
+
+// Portada (F2-09) y listas públicas por slug.
+Route::get('/home', [HomeController::class, 'index']);
+Route::get('/lists/{list:slug}', [ListController::class, 'show']);
 
 /**
  * -------------------------------------------
@@ -127,6 +134,18 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned', 'admin'])->group(fu
     Route::prefix('admin/comments')->group(function () {
         Route::patch('/{comment}/hide', [ItemCommentController::class, 'hide']);
         Route::patch('/{comment}/unhide', [ItemCommentController::class, 'unhide']);
+    });
+
+    // Listas editoriales (F2-09).
+    Route::prefix('admin/lists')->group(function () {
+        Route::get('/', [AdminListController::class, 'index']);
+        Route::post('/', [AdminListController::class, 'store']);
+        Route::get('/{list}', [AdminListController::class, 'show']);
+        Route::put('/{list}', [AdminListController::class, 'update']);
+        Route::delete('/{list}', [AdminListController::class, 'destroy']);
+        Route::post('/{list}/items', [AdminListController::class, 'addItem']);
+        Route::put('/{list}/items/order', [AdminListController::class, 'reorder']);
+        Route::delete('/{list}/items/{itemId}', [AdminListController::class, 'removeItem'])->whereUuid('itemId');
     });
 });
 
