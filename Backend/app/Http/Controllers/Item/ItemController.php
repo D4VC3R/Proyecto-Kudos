@@ -11,6 +11,7 @@ use App\Http\Requests\Items\StoreItemRequest;
 use App\Http\Resources\ItemDetailResource;
 use App\Http\Resources\ItemListResource;
 use App\Models\Item;
+use App\Services\SimilarItemsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -72,6 +73,17 @@ class ItemController extends Controller
 		}
 
 		return $this->respondData(new ItemDetailResource($item));
+	}
+
+	/**
+	 * GET /api/items/{item}/similar (F2-08): hasta catalog.similar.limit ítems de la misma categoría por similitud de contenido.
+	 * Misma autorización que show() (un ítem inactivo solo lo ve un admin). Con sesión, cada ítem lleva user_vote.
+	 */
+	public function similar(ShowItemRequest $request, Item $item, SimilarItemsService $similarItems): JsonResponse
+	{
+		$items = $similarItems->similarTo($item, $request->user('sanctum'));
+
+		return $this->respondData(ItemListResource::collection($items));
 	}
 
 	public function update(UpdateItemRequest $request, Item $item): JsonResponse

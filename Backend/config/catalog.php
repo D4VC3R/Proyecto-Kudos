@@ -113,5 +113,37 @@ return [
     // por turnos entre las categorías elegidas (los más populares de cada una, activos, descubribles y sin voto del usuario).
     'onboarding_items' => 10,
 
+    // "Similares" de la ficha (F2-08, SimilarItemsService). Puntuación de un candidato de la misma categoría:
+    // genre por cada género en común + people si comparte dirección o creación + decade si es de la misma década.
+    // Solo cuentan los candidatos con puntuación > 0; desempate por bayes_score y después por popularity.
+    'similar' => [
+        // Ítems que devuelve GET /api/items/{id}/similar.
+        'limit' => 12,
+        // Horas que se cachea la lista de similares de cada ítem.
+        'cache_hours' => 24,
+        // IDs que se guardan en caché por ítem: más que 'limit' para que las recomendaciones puedan
+        // descartar los ya votados por el usuario y los que hayan dejado de ser elegibles.
+        'cache_size' => 60,
+        'weights' => [
+            'genre' => 1,
+            'people' => 2,
+            'decade' => 1,
+        ],
+    ],
+
+    // "Porque te gustó X" (F2-08, GET /api/recommendations, RecommendationService).
+    'recommendations' => [
+        // Nota mínima (0–10) de una valoración para servir de punto de partida.
+        'min_score' => 8,
+        // Con menos valoraciones así se devuelven populares de sus intereses.
+        'min_liked' => 3,
+        // Últimas valoraciones altas que se usan (una fila por cada una).
+        'seeds' => 5,
+        // Ítems por fila.
+        'items_per_group' => 12,
+        // Ítems de la fila de populares (fallback).
+        'popular_limit' => 12,
+    ],
+
     // F4-01: 'genre_translations'
 ];
