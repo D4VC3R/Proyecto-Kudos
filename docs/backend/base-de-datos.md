@@ -20,6 +20,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | `item_sources` | `item_id` (FK, cascade), `provider`, `external_id`, `url`, `is_primary`, `last_synced_at`, timestamps. Único `(provider, external_id)` e índice `(item_id)` |
 | `lists` | F2-09. `user_id` (FK, cascade), `title` string(120), `slug` (único), `description` (nullable), `visibility` (`public`/`unlisted`/`private`, default `private`), `is_ranked` (default false), `is_editorial` (default false), `cover_item_id` (FK nullable, `nullOnDelete`), `items_count` y `likes_count` (default 0), timestamps, borrado suave. Índices `(user_id)` e `(is_editorial, visibility)` |
 | `list_items` | F2-09. `list_id` (FK, cascade), `item_id` (FK, cascade), `position`, `note` string(280) nullable, timestamps. Único `(list_id, item_id)`; índice `(list_id, position)` |
+| `notifications` | F3-05. `id` (uuid, PK), `type`, `notifiable_type` + `notifiable_id` (uuid; índice `(notifiable_type, notifiable_id)`), `data` (text con JSON), `read_at` (nullable), timestamps. Tabla estándar de Laravel con `uuidMorphs` |
 | `votes` | `type` (`vote`/`want`/`not_interested`, y `skip` heredado; CHECK `votes_type_check`), `score` decimal(4,1) nullable, `user_id`, `item_id`. Único `votes_user_item_unique(user_id, item_id)`; índices `(item_id, type)` y `(user_id, type)` |
 | `item_comments` | `content`, `is_hidden`, `hidden_reason`, `hidden_by`, borrado suave |
 | `proposals` | La misma forma que `items` + `status`, `reviewed_by`, `admin_notes` |
@@ -167,7 +168,7 @@ ALTER TABLE votes ADD CONSTRAINT votes_type_check
   - `status`: `pending`/`resolved`/`dismissed`, default `pending`;
   - `resolved_by` FK nullable, `resolution_note` text nullable, `resolved_at` nullable, timestamps;
   - índices `(status, created_at)` y `(reportable_type, reportable_id)`.
-- `notifications`: la tabla estándar (`sail artisan make:notifications-table`).
+- `notifications`: la tabla estándar (`sail artisan make:notifications-table`) con `uuidMorphs('notifiable')` en lugar de `morphs` (los usuarios son UUID; con `morphs` el `notifiable_id` sería bigint y el INSERT fallaría). Hecha en la F3-05.
 - `users.username`: string(30), único y nullable.
 - `profiles.is_public`: bool, default **false**.
 - `users.privacy_accepted_at`: timestampTz, nullable.
