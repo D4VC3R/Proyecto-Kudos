@@ -8,6 +8,7 @@ use App\Http\Controllers\Item\ItemCommentController;
 use App\Http\Controllers\Item\ItemController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Proposal\ProposalController;
+use App\Http\Controllers\Recommendation\RecommendationController;
 use App\Http\Controllers\User\DailyRewardController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\UserRankingController;
@@ -27,6 +28,7 @@ Route::prefix('categories')->group(function () {
 
 Route::get('/items', [ItemController::class, 'index']);
 Route::get('/items/{item}', [ItemController::class, 'show']);
+Route::get('/items/{item}/similar', [ItemController::class, 'similar']);
 Route::get('/items/{item}/comments', [ItemCommentController::class, 'index']);
 Route::get('/users/ranking', [UserRankingController::class, 'index']);
 
@@ -55,6 +57,9 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
 
     // Onboarding (F2-07): ítems populares de las categorías elegidas para el speed-rating.
     Route::get('/onboarding/items', [OnboardingController::class, 'items']);
+
+    // Recomendaciones por contenido (F2-08): "Porque te gustó X" o populares de sus intereses.
+    Route::get('/recommendations', [RecommendationController::class, 'index']);
 
     // Proposals de usuario
     Route::prefix('proposals')->group(function () {

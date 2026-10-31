@@ -7,7 +7,7 @@ import { hasText } from '../../lib/text.js';
 import { hasAttribution } from '../../lib/attribution.js';
 import { VOTE_TYPE_BADGES } from '../../lib/constants.js';
 
-const ItemDetailColumn = ({ item }) => {
+const ItemDetailColumn = ({ item, children }) => {
   // Los ítems sin descripción (p. ej. importados) no muestran la caja "Acerca de…".
   const description = hasText(item.description) ? item.description.trim() : null;
   const showAttribution = hasAttribution(item.attribution);
@@ -65,6 +65,8 @@ const ItemDetailColumn = ({ item }) => {
           <ItemAttribution attribution={item.attribution} className="px-2" />
         </div>
       )}
+
+      {children && <div className="mt-8 shrink-0">{children}</div>}
     </div>
   );
 };

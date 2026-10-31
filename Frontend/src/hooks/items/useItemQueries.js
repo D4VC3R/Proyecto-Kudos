@@ -10,6 +10,7 @@ export const ITEM_KEYS = {
   infiniteList: (filters) => [...ITEM_KEYS.infiniteLists(), { filters }],
   details: () => [...ITEM_KEYS.all, 'detail'],
   detail: (id) => [...ITEM_KEYS.details(), id],
+  similar: (id) => [...ITEM_KEYS.detail(id), 'similar'],
   myItems: () => [...ITEM_KEYS.all, 'my-items'],
 };
 
@@ -62,5 +63,16 @@ export const useMyItems = () => {
   return useQuery({
     queryKey: ITEM_KEYS.myItems(),
     queryFn: () => axiosClient.get('/items/my-items'),
+  });
+};
+
+// Similares de la ficha (F2-08). El backend los cachea 24 h; aquí basta con 10 minutos.
+export const useSimilarItems = (id) => {
+  return useQuery({
+    queryKey: ITEM_KEYS.similar(id),
+    queryFn: () => axiosClient.get(`/items/${id}/similar`),
+    enabled: !!id,
+    select: (response) => response.data ?? [],
+    staleTime: 1000 * 60 * 10,
   });
 };
