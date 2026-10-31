@@ -83,6 +83,15 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 - `app/Services/UsageMetricsService.php`: `summary($days)` reúne `activeUsers` (usuarios distintos con voto por `updated_at` o comentario por `created_at`, incluidos los comentarios borrados u ocultos), `votesPerDay` (una fila por día natural, con días a 0, por `created_at` y tipo actual; `skip` suma en `not_interested`), `ratingCoverage` (ítems visibles —activos, sin borrar y de categoría activa— con al menos N votos `vote`, contados desde `votes`) y `listCounts` (listas de usuario y editoriales creadas en el periodo, borradas incluidas, y listas con `likes_count > 0`, que será 0 hasta la F3-01). El periodo son N días naturales que terminan ahora (00:00 de hace N-1 días hasta ahora, en UTC).
 - Clave de `config/kudos.php`: `metrics.min_ratings` (5).
 
+**Notificaciones** (F3-05)
+- `app/Notifications/InAppNotification.php`: base abstracta. `via()` devuelve solo `['database']` (nunca correo) y `itemUrl(Item)` da `/:categorySlug/item/:id` (o `null` sin categoría). Sin `ShouldQueue`: se insertan en la misma petición. `toArray()` devuelve siempre `kind`, `title`, `message` y `url` más los campos de cada tipo.
+- Cuatro clases hijas, creadas pero **sin disparador** (lo conectará cada tarea): `ContentRemovedNotification` (F3-04; `contentType`, `contentExcerpt`, `action` hidden/deleted, `reason`, `appealContact`), `CommentRepliedNotification` (F3-02; recibe el `ItemComment` de la respuesta), `ListLikedNotification` (F3-01; lista y autor del *like*) y `WishlistReleasedNotification` (F3-06; el `Item`).
+- `app/Http/Controllers/Notification/NotificationController.php`, tras `auth:sanctum`, `verified` y `not_banned`:
+  - `GET /api/notifications` (`per_page` 1-50, por defecto 15, y `page`): no leídas primero y después `created_at desc`; `meta` con `current_page`, `last_page`, `per_page`, `total` y `unread_count`;
+  - `POST /api/notifications/{id}/read` (`id` UUID): marca una propia como leída (idempotente; la ajena o inexistente da 404) y devuelve `data` y `meta.unread_count`;
+  - `POST /api/notifications/read-all`: marca todas las propias; `meta.updated` y `meta.unread_count = 0`.
+- Form Requests en `app/Http/Requests/Notifications/` (`ListNotificationsRequest`, `MarkNotificationReadRequest`, `MarkAllNotificationsReadRequest`) y `app/Http/Resources/NotificationResource.php` (`id`, `kind`, `data`, `is_read`, `read_at`, `created_at`).
+
 **Propuestas y moderación**
 - `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`. No existe un `ProposalService`.
 - `app/Services/ModerationAuditLogger.php`: canal de log `moderation`.

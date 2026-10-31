@@ -9,6 +9,7 @@ use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Item\ItemCommentController;
 use App\Http\Controllers\Item\ItemController;
 use App\Http\Controllers\Lists\ListController;
+use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Proposal\ProposalController;
 use App\Http\Controllers\Recommendation\RecommendationController;
@@ -60,6 +61,13 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
         Route::post('/daily-claim', [DailyRewardController::class, 'claim']);
+    });
+
+    // Notificaciones dentro de la app (F3-05): solo canal database, sin correo.
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', [NotificationController::class, 'index']);
+        Route::post('/read-all', [NotificationController::class, 'readAll']);
+        Route::post('/{id}/read', [NotificationController::class, 'read'])->whereUuid('id');
     });
 
     // Onboarding (F2-07): ítems populares de las categorías elegidas para el speed-rating.
