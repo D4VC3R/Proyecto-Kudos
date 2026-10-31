@@ -52,3 +52,5 @@ Es responsabilidad del humano. Los agentes lo leen para entender el porqué, per
 - Votos al día y su reparto por tipo (`vote`, `want`, `not_interested`).
 - Porcentaje de ítems con al menos 5 valoraciones.
 - Listas creadas y listas con al menos un "me gusta".
+
+Definiciones exactas: [backend/arquitectura.md](../backend/arquitectura.md) §2 (Métricas).

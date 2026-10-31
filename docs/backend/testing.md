@@ -113,7 +113,7 @@ Http::fake([
 |---|---|
 | 0 | Emitir, cambiar y borrar voto con medias exactas con medios puntos; duplicado; `skip`; kudos del primer voto e idempotencia; tope diario; ranking bayesiano; cola sin baja calidad; búsqueda global; `kudos:audit-consistency` limpio |
 | 1 | Importar de TMDB (ficha es-ES, `item_sources`, reimportar sin duplicar); cadena de la descripción; `quality_score`; refresco (`last_synced_at`; un 404 desactiva); búsqueda e importación bajo demanda (autorización y *throttle*) |
-| 2 | `want`/`not_interested`; normalización de `skip`; de `want` a valoración (kudos una sola vez); *wishlist*; cola ponderada; similares; listas editoriales en la portada |
+| 2 | `want`/`not_interested`; normalización de `skip`; de `want` a valoración (kudos una sola vez); *wishlist*; cola ponderada; similares; listas editoriales en la portada; métricas de uso (`kudos:metrics`) |
 | 3 | CRUD de listas y visibilidad (privada → 404); reseñas y respuestas (un nivel); reportes y su resolución con aviso; borrado de cuenta (cascada y anonimización); notificaciones |
 | 4 | Mapeadores de IGDB/RAWG y de destinos en Wikidata; licencia de las imágenes de Commons |
 

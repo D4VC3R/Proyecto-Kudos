@@ -35,6 +35,12 @@ return [
         'category_mean_fallback' => 5.0,
     ],
 
+    // Métricas de uso (F2-11, comando kudos:metrics; producto/vision.md §4).
+    'metrics' => [
+        // Valoraciones (votos de tipo 'vote') que necesita un ítem para contar como "bien valorado".
+        'min_ratings' => 5,
+    ],
+
     'rules' => [
         'daily_login_streak_cap' => 5,
     ],
