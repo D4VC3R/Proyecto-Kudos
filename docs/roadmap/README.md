@@ -61,7 +61,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F2-05 | *Wishlist* (API y página) | BE, FE | F2-01 | hecho |
 | F2-06 | Cola de votación ponderada | BE | F2-01 | hecho |
 | F2-07 | Onboarding: intereses y *speed-rating* | BE, FE | F2-04 | hecho |
-| F2-08 | "Similares" y "Porque te gustó X" por contenido | BE, FE | F1-09 | pendiente |
+| F2-08 | "Similares" y "Porque te gustó X" por contenido | BE, FE | F1-09 | hecho |
 | F2-09 | Listas editoriales (esquema de listas y administración) y portada nueva | BE, FE | F2-08 | pendiente |
 | F2-10 | SEO: meta tags y OG de las fichas servidos desde Vercel | FE, INFRA | F1-06 | pendiente |
 | F2-11 | Comando de métricas de uso | BE | F2-01 | pendiente |
