@@ -90,3 +90,6 @@ jobs:
 
       - name: Compilar
         run: pnpm build
+
+      - name: Tests de la función SEO (F2-10)
+        run: pnpm test:seo
