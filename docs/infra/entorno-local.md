@@ -98,6 +98,7 @@ docker stop kudos-seo-local
 | Abrir un *shell*, `psql` o Tinker | `sail shell`, `sail psql`, `sail artisan tinker` |
 | Resetear la base de datos de desarrollo | `sail artisan migrate:fresh --seed` (y después la secuencia de §3) |
 | Auditar los kudos | `sail artisan kudos:audit-consistency` |
+| Ver las métricas de uso | `sail artisan kudos:metrics --days=7` |
 | Listar las rutas | `sail artisan route:list --path=api` |
 | Parar los servicios | `sail down` (`-v` borra también los volúmenes) |
 

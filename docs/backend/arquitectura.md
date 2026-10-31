@@ -78,6 +78,11 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 - `OnboardingItemsService::popularItems(?User, …)` admite `null` (portada sin sesión: no excluye votados).
 - Claves de `config/catalog.php`: `home.{cache_minutes, section_limit, new_releases_past_days, new_releases_future_days, editorial_lists, items_per_list, top_rated_min_votes}`.
 
+**Métricas** (F2-11)
+- `kudos:metrics {--days=7}` (`app/Console/Commands/UsageMetricsCommand.php`; `--days` entero de 1 a 365, si no error y código de salida 1): muestra dos tablas, las métricas y los votos por día. Solo lee; no está programado en `routes/console.php`.
+- `app/Services/UsageMetricsService.php`: `summary($days)` reúne `activeUsers` (usuarios distintos con voto por `updated_at` o comentario por `created_at`, incluidos los comentarios borrados u ocultos), `votesPerDay` (una fila por día natural, con días a 0, por `created_at` y tipo actual; `skip` suma en `not_interested`), `ratingCoverage` (ítems visibles —activos, sin borrar y de categoría activa— con al menos N votos `vote`, contados desde `votes`) y `listCounts` (listas de usuario y editoriales creadas en el periodo, borradas incluidas, y listas con `likes_count > 0`, que será 0 hasta la F3-01). El periodo son N días naturales que terminan ahora (00:00 de hace N-1 días hasta ahora, en UTC).
+- Clave de `config/kudos.php`: `metrics.min_ratings` (5).
+
 **Propuestas y moderación**
 - `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`. No existe un `ProposalService`.
 - `app/Services/ModerationAuditLogger.php`: canal de log `moderation`.

@@ -311,3 +311,15 @@ El frontend es una SPA en Vercel y la API está en otro dominio. Los rastreadore
 **Pasos:** comando `kudos:metrics {--days=7}`, que muestra en una tabla las métricas de [../producto/vision.md](../producto/vision.md) §4. Sin analítica externa.
 
 **Hecho cuando:** un test con datos de factories comprueba los conteos.
+
+**Notas (F2-11):**
+- Archivos: `Backend/app/Console/Commands/UsageMetricsCommand.php` (comando `kudos:metrics {--days=7}`), `Backend/app/Services/UsageMetricsService.php` (las consultas), `metrics.min_ratings` en `Backend/config/kudos.php`, `Backend/database/factories/ItemCommentFactory.php` (nueva) y `HasFactory` en `ItemComment` (necesarios para crear comentarios con factories). Tests: `Backend/tests/Feature/Metrics/UsageMetricsCommandTest.php` (8 tests). Sin migraciones, variables de entorno ni cambios de API; el comando solo lee y no está programado.
+- Definiciones exactas:
+  - periodo: `--days=N` (entero 1-365; si no, error y código de salida 1) son N días naturales que terminan ahora, desde las 00:00 de hace N-1 días (UTC). "Usuarios activos por semana" se interpreta como usuarios activos del periodo (con 7 días, semanal);
+  - usuarios activos: usuarios distintos con voto (por `updated_at`: una transición o cambio de nota también es actividad) o comentario (por `created_at`), incluidos los comentarios borrados u ocultos después;
+  - votos por día: una fila por día natural (con los días sin votos a 0) y una de total, por `created_at` y tipo actual de la fila; `skip` (heredado) se suma a `not_interested`;
+  - cobertura: ítems visibles (activos, sin borrar y de categoría activa) con al menos `kudos.metrics.min_ratings` (5) votos `vote`, contados desde `votes` y no desde la caché `vote_count`; foto actual, no depende del periodo;
+  - listas: creadas en el periodo separando las de usuario y las editoriales, con las borradas después; "con al menos un me gusta" por `likes_count > 0` de las listas no borradas. Sale a 0 hasta la F3-01 (`list_likes` y las listas de usuario no existen todavía; la F3-01 debe mantener `likes_count`).
+- Limitaciones: no hay histórico de eventos, así que una transición `want` a valoración cuenta como `vote` el día del primer voto y los votos borrados no aparecen; con catálogos importados grandes el porcentaje de cobertura será bajo (sin desglose por categoría).
+- Verificación: `sail test --filter=UsageMetricsCommandTest`: `Tests: 8 passed (52 assertions)`; `sail test`: `Tests: 470 passed (2244 assertions)`; Pint sin errores en los archivos nuevos. Salida real contra la base de desarrollo (`--days=7`): 18 usuarios activos, 20 ítems visibles con 5+ valoraciones (100,0 %), listas a 0 y 19 votos repartidos en los 7 días; `--days=0` falla con "La opción --days debe ser un número entero entre 1 y 365.".
+- Decisiones para validar: periodo en días naturales y "por semana" como periodo; votos por `updated_at` y comentarios por `created_at` en usuarios activos; votos por día sobre el tipo actual (sin histórico); cobertura sobre ítems visibles; listas de usuario y editoriales por separado; `ItemCommentFactory` y `HasFactory` en `ItemComment`.
