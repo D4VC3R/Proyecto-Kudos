@@ -6,6 +6,7 @@
 
 - VPS (OVH) de 4 GB compartido; Kudos dispone de ~2–2,5 GB, 2 vCores y 40 GB de disco.
 - Frontend en Vercel (`kudos.dcerdan.es`); API en el VPS (`api.kudos.dcerdan.es`).
+- La función `Frontend/api/meta.js` (F2-10) lee `VITE_API_URL` y `VITE_STORAGE_URL` en tiempo de ejecución: deben estar definidas en los entornos *Production* y *Preview* de Vercel.
 - `Backend/compose.prod.yml` (proyecto `kudos`; ancla `x-laravel: &laravel` compartida por `app`, `worker` y `scheduler`):
 
 | Servicio | Función | Memoria |

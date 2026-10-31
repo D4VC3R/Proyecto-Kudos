@@ -6,7 +6,7 @@
 - Tailwind 3, clsx, tailwind-merge, framer-motion, lucide-react y react-hot-toast.
 - pnpm 12.15.0 (fijado con `packageManager` en `package.json`) y Node 22.
 
-**Despliegue:** Vercel, en `kudos.dcerdan.es`. Es una SPA: `vercel.json` reescribe todo a `index.html` y tiene un `ignoreCommand` que solo construye si cambia `Frontend/`.
+**Despliegue:** Vercel, en `kudos.dcerdan.es`. Es una SPA: `vercel.json` reescribe todo a `index.html` y tiene un `ignoreCommand` que solo construye si cambia `Frontend/`. Las fichas (`/:categorySlug/item/:itemId`) se reescriben solo para los *user-agents* de rastreadores a la función `api/meta.js`, que devuelve el `index.html` con `<title>`, `description`, `og:*`, `twitter:*` y JSON-LD (F2-10; lógica en `api/_lib/seo.js`).
 
 Las rutas son relativas a `Frontend/src/`.
 
@@ -97,4 +97,4 @@ Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe d
 - Accesibilidad: `aria-label` en los botones que solo tienen icono; el voto se puede usar con teclado; contraste AA.
 - *Mobile-first*: prueba a 360 px.
 - `item.creator` puede ser `null` (ítems importados): protégelo siempre.
-- No hay linter ni tests de frontend. La verificación es `pnpm build` + prueba manual ([../infra/entorno-local.md](../infra/entorno-local.md) §5).
+- No hay linter ni tests de la SPA. La verificación es `pnpm build` + prueba manual ([../infra/entorno-local.md](../infra/entorno-local.md) §5). La función SEO de `api/` sí tiene tests de Node (`pnpm test:seo`, F2-10).
