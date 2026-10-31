@@ -69,6 +69,15 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 - `RecommendationService::forUser(User)`: las últimas `recommendations.seeds` (5) valoraciones con nota >= `min_score` (8) de ítems visibles; una fila por cada una con hasta `items_per_group` similares sin voto del usuario y sin repetir entre filas (se omiten las vacías). Con menos de `min_liked` (3) valoraciones altas, o sin filas, una fila de populares (`OnboardingItemsService::popularItems`, `popular_limit`) de sus intereses o, sin ellos, de las categorías activas, con `because: null`.
 - Claves de `config/catalog.php`: `similar.{limit, cache_hours, cache_size, weights.{genre, people, decade}}` y `recommendations.{min_score, min_liked, seeds, items_per_group, popular_limit}`.
 
+**Listas y portada** (F2-09)
+- `app/Models/UserList.php` (tabla `lists`; `List` es palabra reservada): scopes `editorial` y `publiclyVisible`, relaciones `listItems` (por `position`) y `visibleListItems` (solo ítems activos, sin borrar y de categoría activa); el `slug` se genera al crear (`generateUniqueSlug`) y no cambia al renombrar. `app/Models/ListItem.php` (tabla `list_items`). `User::lists()`. Factories `UserListFactory` (estado `editorial()`) y `ListItemFactory`.
+- `app/Policies/UserListPolicy.php`: solo el admin; `update` y `delete` solo sobre listas editoriales (la F3-01 añadirá al dueño).
+- Actions `AddItemToListAction`, `RemoveItemFromListAction` y `ReorderListItemsAction`: bloquean la lista (`lockForUpdate`), mantienen las posiciones 1..n y `items_count`.
+- `app/Http/Controllers/Admin/AdminListController.php` (`/api/admin/lists/*`, Form Requests en `app/Http/Requests/Lists/`; cada escritura llama a `HomeFeedService::forgetCache()`), `app/Http/Controllers/Lists/ListController.php` (`GET /api/lists/{list:slug}`, público; `private` da 404) y `app/Http/Controllers/Home/HomeController.php` (`GET /api/home`, público). `UserListResource` sirve a los tres.
+- `app/Services/HomeFeedService.php`: `forViewer(?User)`. La parte anónima (populares, novedades, listas editoriales, mejor valorados) se cachea como **IDs** en `CACHE_KEY = 'home:anonymous'` durante `catalog.home.cache_minutes`, y cada petición hidrata los ítems (con `userVote` del usuario) descartando los no visibles; `forgetCache()` la borra. `for_you` con sesión es `RecommendationService::forUser`. `categories` va sin caché.
+- `OnboardingItemsService::popularItems(?User, …)` admite `null` (portada sin sesión: no excluye votados).
+- Claves de `config/catalog.php`: `home.{cache_minutes, section_limit, new_releases_past_days, new_releases_future_days, editorial_lists, items_per_list, top_rated_min_votes}`.
+
 **Propuestas y moderación**
 - `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`. No existe un `ProposalService`.
 - `app/Services/ModerationAuditLogger.php`: canal de log `moderation`.

@@ -17,15 +17,16 @@ Las rutas son relativas a `Frontend/src/`.
 | `core/` | `axiosClient.js` (`VITE_API_URL`, token Bearer), `queryClient.js`, `AppErrorBoundary.jsx` |
 | `store/useSessionStore.js` | Sesión (Zustand): `token`, `user` y `onboardingPending` (el aviso del onboarding dura lo que la sesión, F2-07) |
 | `routes/routes.jsx`, `routes/guards/` | Rutas y guardas: invitado, autenticado + verificado, admin |
-| `pages/` | Una página por ruta: `HomePage`, `CategoryPage`, `ExplorePage`, `ItemDetailPage`, `VotePage`, `RankingPage`, `WishlistPage`, `OnboardingPage`, `SearchPage`, `NewProposalPage`, `auth/`, `profile/`, `admin/` |
+| `pages/` | Una página por ruta: `HomePage`, `CategoryPage`, `ExplorePage`, `ItemDetailPage`, `VotePage`, `RankingPage`, `WishlistPage`, `OnboardingPage`, `SearchPage`, `ListPage` (lista pública, F2-09), `NewProposalPage`, `auth/`, `profile/`, `admin/` (incluye `AdminLists` y `AdminListDetail`) |
 | `hooks/pages/useXPage.js` | Cada página tiene su hook, que devuelve `{ state, actions }`; la página solo pinta |
-| `hooks/<dominio>/` | Consultas y mutaciones de React Query: `items/useItemQueries.js`, `votes/useVoteMutations.js`, `useVoteQueries.js`, `catalog/useCatalogQueries.js` y `useCatalogMutations.js` (búsqueda e importación bajo demanda, F1-07), `onboarding/useOnboardingQueries.js` (ítems del *speed-rating*, fuera de `['items']` y `['categories']`, F2-07)… |
+| `hooks/<dominio>/` | Consultas y mutaciones de React Query: `items/useItemQueries.js`, `votes/useVoteMutations.js`, `useVoteQueries.js`, `catalog/useCatalogQueries.js` y `useCatalogMutations.js` (búsqueda e importación bajo demanda, F1-07), `onboarding/useOnboardingQueries.js` (ítems del *speed-rating*, fuera de `['items']` y `['categories']`, F2-07), `home/useHomeQueries.js` (`['home', userId|'guest']`) y `lists/useListQueries.js` (`['lists', slug, userId|'guest']`, F2-09); votar invalida `['home']` y `['lists']`… |
 | `hooks/common/` | `useFilters` (búsqueda con *debounce*; `minSearchLength` fija la longitud mínima que se envía), `useGlobalSearch` (buscador de la cabecera), `useInfiniteScroll`, `useModal`, `useBaseMutation` |
 | `components/ui/` | `Button`, `Modal`, `StorageImage` (props `fallbackIcon`, `fallback` y `onError`), `ItemPlaceholder` (degradado, icono e iniciales; variantes `card`/`banner`/`thumb`), `ActionMenu`, `SearchFilter`, `SelectFilter`, `Pagination`, `FeedbackState`, `skeletons/`, `ranking/` |
 | `components/items/` | `ItemCard`, `ItemImage` (16:9, fondo del color dominante; muestra `ItemPlaceholder` si no hay imagen o falla), `ItemDetailColumn`, `ItemAttribution` (línea "Datos · Descripción, licencia" de la ficha a partir de `attribution`; enlaces externos con `target="_blank" rel="noopener noreferrer"`), `AttributeChips` (chips genéricos a partir de `attribute_schema`; `variant="card"` solo `show_in_card`), `InfiniteItemSlider` |
 | `components/catalog/` | `CatalogImportPanel` (F1-07): panel de `/buscar` para buscar en TMDB y añadir un título a Kudos; solo pinta |
 | `components/votes/` | `VoteKnowStep`, `VoteScoreLevels` (5 niveles, reutilizable; props `showKeys` y `stacked`), `VoteInterestStep` y `SwipeVoteCard` (votación en dos pasos, F2-04); `WishlistItemCard` (F2-05); botones de voto, "Mis votos" |
 | `components/onboarding/` | `OnboardingInterestsStep` (paso 1, categorías) y `OnboardingRatingStep` (paso 2, *speed-rating* con `VoteScoreLevels`); solo pintan (F2-07) |
+| `components/home/` | `HomeSection`, `HomeItemRow` (fila horizontal de `ItemCard`), `CategoryShortcuts` y `EditorialListCard`; solo pintan (F2-09) |
 | `components/layout/` | `MainHeader`, `NavBar`, `NavBarMobile`, `GlobalSearch` (buscador de la cabecera y del menú móvil), `HeaderLogin` (enlaces "Entrar" y "Regístrate" sin sesión), `Footer` |
 | `lib/` | `constants.js` (incluye `VOTE_STEPS`, `VOTE_LEVELS` y `VOTE_TYPE_BADGES`), `schemas.js` (zod), `formatters.js`, `animations.js`, `buttonStyles.js`, `placeholder.js` (hash, colores e iniciales del *placeholder*), `wishlist.js` (`getTodayDateString`, `isReleased`, `splitWishlistByRelease`), `text.js` (`hasText`, para no pintar secciones vacías), `attribution.js` (`hasAttribution`), `attributes.js` (`formatMinutes`, `formatAttributeDate`, `getAttributeEntries`), `search.js` (`MIN_SEARCH_LENGTH`, `normalizeSearchTerm`, `buildSearchUrl`, `buildItemUrl`, `groupItemsByCategory`, `MIN_LOCAL_RESULTS_FOR_CATALOG`, `getImportedItemId`), `combobox.js` (`NO_ACTIVE_OPTION`, `getNextActiveIndex`, `getActiveOption`, `getOptionId`, `areOptionsCurrent`, `getSearchStatusMessage`; patrón *combobox* de ARIA), `authRedirect.js` (`isAuthPath`, `getReturnPath`, `buildAuthLinkState`; destino tras el login), `onboarding.js` (`ONBOARDING_PATH`, `ONBOARDING_STEPS`, `needsOnboarding`; F2-07). **No hay `cn()`**: `clsx` y `tailwind-merge` se importan directamente |
 
@@ -33,7 +34,7 @@ Las rutas son relativas a `Frontend/src/`.
 
 | Ruta | Página | Acceso |
 |---|---|---|
-| `/` | Rejilla de categorías | Público |
+| `/` | Portada por secciones: accesos a categorías, "Para ti" ("Populares" sin sesión), "Novedades", "Listas destacadas" y "Mejor valorados" (F2-09) | Público |
 | `/:categorySlug` | Cabecera, destacados (`sort_by: 'vote_avg'` en `useCategoryPage.js`), `ActionMenu` y ranking | Público |
 | `/:categorySlug/explore` | Rejilla con búsqueda y orden | Público |
 | `/:categorySlug/item/:itemId` | Ficha con comentarios | Público |
@@ -42,8 +43,9 @@ Las rutas son relativas a `Frontend/src/`.
 | `/ranking` | Ranking global de kudos | Público |
 | `/wishlist` | *Wishlist* agrupada en "Ya disponible" y "Próximamente"; valorar y quitar | Login y verificado |
 | `/onboarding` | Intereses y *speed-rating*; se muestra tras el login si `interests` está vacío (F2-07) | Login y verificado |
+| `/listas/:slug` | Lista pública con sus ítems en orden (numerada si `is_ranked`); privada o inexistente: "No encontramos esta lista" (F2-09) | Público |
 | `/buscar` | Resultados de búsqueda agrupados por categoría; con menos de 5 resultados locales, importación bajo demanda desde TMDB (F1-07, requiere sesión verificada para añadir) | Público |
-| `/admin/*` | Administración | Admin |
+| `/admin/*` | Administración (incluye `/admin/lists` y `/admin/lists/:listId`, listas editoriales, F2-09) | Admin |
 | `/login`, `/register`, `/verify-email`, `/forgot-password`, `/password-reset/:token` | Autenticación | Invitados |
 
 **Slugs reservados.** React Router 7 elige la ruta por especificidad: `/buscar` gana a `/:categorySlug` sin importar el orden. El riesgo real es una categoría cuyo slug coincida con una ruta de primer nivel, porque quedaría inaccesible. La lista ya existe (F0-09): vive en `config/catalog.php` → `reserved_slugs` y se valida en `StoreCategoryRequest`/`UpdateCategoryRequest` con `App\Rules\NotReservedSlug`. Incluye las rutas de primer nivel actuales (`buscar`, `ranking`, `admin`, `profile`, `login`…) y las previstas (`wishlist`, `u`, `listas`, `privacidad`, `aviso-legal`); `onboarding` se añadió con la F2-07, y la comparación no distingue mayúsculas. Al añadir una ruta de primer nivel, añádela a esa lista.
@@ -84,13 +86,13 @@ Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe d
 | *Wishlist* | Página `/wishlist` (`useWishlistPage`, caché `my-votes?type=want`, 50 por página con *scroll* infinito). "Ya disponible" (sin `released_at` o con fecha de hoy o anterior, por orden de alta) y "Próximamente" (fecha futura, la más cercana primero); sin secciones vacías. "Ya lo conozco" abre un modal con `VoteScoreLevels` (`PUT` a `vote` con nota) y "Quitar" marca `not_interested` sin confirmar. Enlace "Wishlist" en la navegación solo con sesión verificada. "Mis votos" no tiene pestaña de `want` | F2-05 |
 | Onboarding | Página `/onboarding` (`useOnboardingPage`). Aparece tras el login si la cuenta está verificada y `interests` (que llega en `data.user`) está vacío: `useLogin` pone `onboardingPending` en el store y `LoginForm` y `RequireGuest` redirigen a `/onboarding`. Paso 1: categorías (`PUT /profile {interests}`); paso 2: *speed-rating* de hasta 10 ítems (`GET /onboarding/items`) con `VoteScoreLevels`, `useCreateVote({ showSuccessToast: false })`; "No lo conozco" no envía nada. Terminar lleva a `/`; saltar, a la página de origen. Saltar o terminar apaga el aviso hasta el siguiente login | F2-07 |
 | Similares | Fila "Similares" al final de la columna izquierda de la ficha, bajo la descripción: `SimilarItemsRow` con `ItemCard` en *scroll* horizontal (`GET /items/{id}/similar` con `useSimilarItems`, clave bajo `['items', 'detail', id]`, que votar invalida). Sin ítems no hay sección. Al abrir otra ficha desde la fila se sube arriba y se reinicia el *scroll* de la columna | F2-08 |
-| Portada nueva | "Para ti", "Novedades", "Listas destacadas", "Mejor valorados"; las categorías pasan a una fila de accesos | F2-09 |
+| Portada nueva | `HomePage` + `useHomePage` sobre `GET /home`: encabezado "Descubre qué ver", fila de accesos a categorías (`CategoryShortcuts`), "Para ti" con filas "Porque te gustó X" ("Populares" sin sesión), "Novedades", "Listas destacadas" (`EditorialListCard`, 6 ítems y "Ver lista completa") y "Mejor valorados"; filas horizontales como "Similares". Cada sección solo se pinta si tiene datos. `CategoryCard` ya no se usa aquí | F2-09 |
 | `ActionMenu` | Se quitan "Cara a cara" y "Trivia" (aplazados) | F2-04 |
 
 ## 5. Convenciones
 
 - La lógica va en hooks; los componentes solo pintan. Las llamadas a la API, solo en `hooks/<dominio>/` con `axiosClient`.
-- Claves de React Query: arrays con el dominio primero (`['items', 'search', q]`). Invalida con precisión tras cada mutación (votar invalida la cola, la *wishlist*, la ficha y el perfil: `VOTE_INVALIDATE_KEYS` en `hooks/votes/useVoteMutations.js`).
+- Claves de React Query: arrays con el dominio primero (`['items', 'search', q]`). Invalida con precisión tras cada mutación (votar invalida la cola, la *wishlist*, la ficha, el perfil, la portada y las listas: `VOTE_INVALIDATE_KEYS` en `hooks/votes/useVoteMutations.js`).
 - Textos en español, tuteando y cortos.
 - Accesibilidad: `aria-label` en los botones que solo tienen icono; el voto se puede usar con teclado; contraste AA.
 - *Mobile-first*: prueba a 360 px.
