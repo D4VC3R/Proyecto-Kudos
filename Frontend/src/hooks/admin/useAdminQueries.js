@@ -7,7 +7,7 @@ export const ADMIN_ITEM_KEYS = {
   lists: () => [...ADMIN_ITEM_KEYS.all, 'list'],
   list: (filters) => [...ADMIN_ITEM_KEYS.lists(), { filters }],
 };
-export const useAdminItems = (filters = {}) => {
+export const useAdminItems = (filters = {}, options = {}) => {
   const cleanFilters = Object.fromEntries(
     Object.entries(filters).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
   );
@@ -16,6 +16,29 @@ export const useAdminItems = (filters = {}) => {
     queryKey: ADMIN_ITEM_KEYS.list(cleanFilters),
     queryFn: () => axiosClient.get('/admin/items', { params: cleanFilters }),
     placeholderData: keepPreviousData,
+    ...options,
+  });
+};
+
+// --- LISTAS EDITORIALES (F2-09) ---
+export const ADMIN_LIST_KEYS = {
+  all: ['admin-lists'],
+  lists: () => [...ADMIN_LIST_KEYS.all, 'list'],
+  detail: (id) => [...ADMIN_LIST_KEYS.all, 'detail', id],
+};
+export const useAdminLists = () => {
+  return useQuery({
+    queryKey: ADMIN_LIST_KEYS.lists(),
+    queryFn: () => axiosClient.get('/admin/lists'),
+    select: (response) => response.data,
+  });
+};
+export const useAdminList = (id) => {
+  return useQuery({
+    queryKey: ADMIN_LIST_KEYS.detail(id),
+    queryFn: () => axiosClient.get(`/admin/lists/${id}`),
+    enabled: !!id,
+    select: (response) => response.data,
   });
 };
 

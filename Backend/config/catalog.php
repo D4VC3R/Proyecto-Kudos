@@ -145,5 +145,22 @@ return [
         'popular_limit' => 12,
     ],
 
+    // Portada (F2-09, GET /api/home, HomeFeedService). La parte anónima (populares, novedades, listas
+    // editoriales y mejor valorados) se cachea como IDs; con sesión, "Para ti" sale de las recomendaciones.
+    'home' => [
+        // Minutos que se cachea la parte anónima. Se borra al editar una lista editorial.
+        'cache_minutes' => 10,
+        // Ítems de las filas de novedades y mejor valorados (los populares sin sesión usan recommendations.popular_limit).
+        'section_limit' => 12,
+        // Novedades: released_at entre hoy - past_days y hoy + future_days.
+        'new_releases_past_days' => 60,
+        'new_releases_future_days' => 30,
+        // Listas editoriales públicas que salen en la portada y primeros ítems de cada una.
+        'editorial_lists' => 4,
+        'items_per_list' => 6,
+        // Mejor valorados: votos mínimos.
+        'top_rated_min_votes' => 3,
+    ],
+
     // F4-01: 'genre_translations'
 ];

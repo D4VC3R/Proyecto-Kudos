@@ -11,6 +11,7 @@ import VotePage from "../pages/VotePage.jsx";
 import CategoryPage from "../pages/CategoryPage.jsx";
 import RankingPage from "../pages/RankingPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
+import ListPage from "../pages/ListPage.jsx";
 import WishlistPage from "../pages/WishlistPage.jsx";
 import OnboardingPage from "../pages/OnboardingPage.jsx";
 import NewProposalPage from "../pages/NewProposalPage.jsx";
@@ -20,6 +21,8 @@ import AdminUsers from "../pages/admin/AdminUsers.jsx";
 import AdminCategories from "../pages/admin/AdminCategories.jsx";
 import AdminItems from "../pages/admin/AdminItems.jsx";
 import AdminProposals from "../pages/admin/AdminProposals.jsx";
+import AdminLists from "../pages/admin/AdminLists.jsx";
+import AdminListDetail from "../pages/admin/AdminListDetail.jsx";
 import AdminUserDetail from "../pages/admin/AdminUserDetail.jsx";
 import ExplorePage from "../pages/ExplorePage.jsx";
 import ItemDetailPage from "../pages/ItemDetailPage.jsx";
@@ -45,6 +48,7 @@ const AppRoutes = () => {
 
       <Route path="/ranking" element={<RankingPage/>}/>
       <Route path="/buscar" element={<SearchPage/>}/>
+      <Route path="/listas/:slug" element={<ListPage/>}/>
       <Route path="/:categorySlug" element={<CategoryPage/>}/>
       <Route path="/:categorySlug/explore" element={<ExplorePage/>}/>
       <Route path="/:categorySlug/item/:itemId" element={<ItemDetailPage/>}/>
@@ -68,6 +72,8 @@ const AppRoutes = () => {
               <Route path="categories" element={<AdminCategories/>}/>
               <Route path="items" element={<AdminItems/>}/>
               <Route path="proposals" element={<AdminProposals/>}/>
+              <Route path="lists" element={<AdminLists/>}/>
+              <Route path="lists/:listId" element={<AdminListDetail/>}/>
             </Route>
           </Route>
         </Route>
