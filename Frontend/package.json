@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0 --port 4174"
+    "preview": "vite preview --host 0.0.0.0 --port 4174",
+    "test:seo": "node --test \"tests/seo/*.test.js\""
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

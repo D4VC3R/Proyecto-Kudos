@@ -2,6 +2,17 @@
   "ignoreCommand": "git diff --quiet HEAD^ HEAD -- .",
   "rewrites": [
     {
+      "source": "/:categorySlug/item/:itemId",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|meta-externalagent|Twitterbot|LinkedInBot|Slackbot|Slack-ImgProxy|WhatsApp|TelegramBot|Discordbot|Pinterestbot|redditbot|Embedly|Iframely|SkypeUriPreview|vkShare|Mastodon|Bluesky|Applebot|Googlebot|Google-InspectionTool|bingbot|DuckDuckBot|YandexBot).*"
+        }
+      ],
+      "destination": "/api/meta?categorySlug=:categorySlug&itemId=:itemId"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
