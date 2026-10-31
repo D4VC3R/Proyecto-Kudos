@@ -4,12 +4,14 @@ import NavBar from "./NavBar.jsx";
 import UserInfo from "../profile/UserInfo.jsx";
 import LogoutButton from "../auth/LogoutButton.jsx";
 import HeaderLogin from "./HeaderLogin.jsx";
-import { useSessionStore } from "../../store/useSessionStore.js";
+import { useSessionStore, selectIsVerified } from "../../store/useSessionStore.js";
 import LogoKudos from "./LogoKudos.jsx";
 import GlobalSearch from "./GlobalSearch.jsx";
+import NotificationBell from "./NotificationBell.jsx";
 
 const MainHeader = () => {
   const isAuthenticated = useSessionStore((state) => !!state.token);
+  const isVerified = useSessionStore(selectIsVerified);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-surface shadow-sm">
@@ -36,6 +38,7 @@ const MainHeader = () => {
         <div className="flex shrink-0 items-center justify-end gap-2 order-2 md:order-3 min-w-0">
           {isAuthenticated ? (
             <>
+              {isVerified && <NotificationBell />}
               <UserInfo />
               <LogoutButton />
             </>
