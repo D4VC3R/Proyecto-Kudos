@@ -114,6 +114,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     'Item' => 'El item no existe.',
                     'Vote' => 'El voto no existe.',
                     'User' => 'El usuario no existe.',
+                    'DatabaseNotification' => 'La notificación no existe.',
                 ];
 
                 $message = $messages[$model] ?? 'El recurso no existe.';
