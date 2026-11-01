@@ -52,6 +52,13 @@ return [
         'contact_email' => env('LEGAL_CONTACT_EMAIL') ?: null,
     ],
 
+    // Aviso de estreno de la wishlist (F3-06, comando wishlist:notify-releases). Si falta la marca de la
+    // última ejecución en la caché (primera ejecución o desalojo de Redis), se revisan los estrenos de los
+    // últimos N días. No duplica avisos: antes de enviar comprueba si el usuario ya tiene el de ese ítem.
+    'wishlist' => [
+        'release_lookback_days' => 7,
+    ],
+
     'rules' => [
         'daily_login_streak_cap' => 5,
     ],

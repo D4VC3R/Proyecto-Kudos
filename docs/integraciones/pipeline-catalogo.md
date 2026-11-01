@@ -139,6 +139,7 @@ final readonly class CatalogItemData
 | `catalog:fetch-new --all` | Diaria, 04:00 | `CATALOG_IMPORT_LIMIT` por categoría |
 | `catalog:refresh` | Diaria, 05:00 | |
 | `catalog:purge-stale` | Semanal, domingo 05:30 | |
+| `wishlist:notify-releases` | Diaria, 06:00 | Aviso de estreno de la wishlist (F3-06); encola en default |
 
 Todas llevan `withoutOverlapping()`.
 

@@ -172,6 +172,19 @@
 
 **Hecho cuando:** un test con `travelTo` comprueba que el aviso se envía una sola vez.
 
+**Notas (F3-06):**
+- Comando `wishlist:notify-releases {--chunk=200}` (`NotifyWishlistReleasesCommand`) + job `NotifyWishlistReleasesJob` en la cola `default`. El comando solo encola (el scheduler tiene 128M) y el job envía los avisos.
+- Ventana: `released_at` en `(marca, hoy]`. La marca `wishlist:notify-releases:last-run` (Y-m-d) se guarda en la caché por defecto; sin marca se revisan los últimos `kudos.wishlist.release_lookback_days` (7) días. Una segunda ejecución el mismo día no hace nada.
+- **Desviación (R1):** la ficha solo hablaba de una marca en caché, pero en producción Redis tiene `allkeys-lru` y 64 MB, así que la marca puede desaparecer. La idempotencia la garantiza el job: no envía a quien ya tiene la `WishlistReleasedNotification` de ese ítem, filtrando `data::jsonb ->> 'item_id'` porque `data` es `text` (no jsonb).
+- Visible = ítem activo, sin borrar, con `released_at` y de categoría activa. Reciben el aviso solo los usuarios con voto `want` en ese momento (también los baneados).
+- Programado a diario a las 06:00 UTC en `routes/console.php`, después de `catalog:refresh` (05:00), con `withoutOverlapping()`.
+- Limitaciones conocidas: si un refresco del catálogo adelanta `released_at` a un día anterior a la marca, ese ítem no se avisa; quien añade a la wishlist un ítem ya estrenado no recibe aviso; dos ejecuciones manuales simultáneas podrían duplicar (el scheduler usa `withoutOverlapping()`).
+- Verificación:
+  - `sail test --filter=WishlistReleaseNotificationsTest`: `Tests: 10 passed (43 assertions)`.
+  - `sail test`: `Tests: 547 passed (2694 assertions)`.
+  - `sail artisan schedule:list`: `0  6 * * *  php artisan wishlist:notify-releases ..... Next Due: en 16 horas`.
+  - `sail artisan list wishlist`: `wishlist:notify-releases  Avisa a los usuarios de los estrenos de los ítems de su wishlist`.
+
 ---
 
 ## F3-09 · OG de listas y perfiles
