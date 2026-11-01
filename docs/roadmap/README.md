@@ -78,7 +78,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F3-06 | Aviso de estreno de los ítems de la *wishlist* | BE | F3-05, F2-05 | hecho |
 | F3-07 | Páginas legales y requisitos en el registro (casilla, 14 años) | FE, BE, HUMANO | — | hecho |
 | F3-08 | Borrado de cuenta y exportación de datos | BE, FE | — | hecho |
-| F3-09 | OG de listas y perfiles | FE | F2-10, F3-01 | pendiente |
+| F3-09 | OG de listas y perfiles | FE | F2-10, F3-01 | hecho |
 
 ## Fase 4: más categorías. [Fichas](fase-4-mas-categorias.md)
 
