@@ -22,6 +22,10 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Password::defaults()],
+            // RGPD (F3-07): casilla sin marcar de aceptación de la política de privacidad y declaración de edad
+            // (14 años: edad de consentimiento digital en España). "accepted" admite true, 1, "1", "yes", "on".
+            'accept_privacy' => ['required', 'accepted'],
+            'age_confirmation' => ['required', 'accepted'],
         ];
     }
 
@@ -37,6 +41,10 @@ class RegisterRequest extends FormRequest
             'email.email' => 'Debes proporcionar una dirección de correo válida.',
             'password.required' => 'La contraseña es obligatoria.',
             'password.confirmed' => 'Las contraseñas no coinciden.',
+            'accept_privacy.required' => 'Debes aceptar la política de privacidad.',
+            'accept_privacy.accepted' => 'Debes aceptar la política de privacidad.',
+            'age_confirmation.required' => 'Debes confirmar que tienes 14 años o más.',
+            'age_confirmation.accepted' => 'Debes confirmar que tienes 14 años o más.',
         ];
     }
 }

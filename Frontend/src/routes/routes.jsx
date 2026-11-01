@@ -31,6 +31,8 @@ import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "../pages/auth/ResetPasswordPage.jsx";
 import ForbiddenPage from "../pages/auth/ForbiddenPage.jsx";
 import ErrorPage from "../pages/ErrorPage.jsx";
+import PrivacyPage from "../pages/legal/PrivacyPage.jsx";
+import LegalNoticePage from "../pages/legal/LegalNoticePage.jsx";
 
 
 const AppRoutes = () => {
@@ -50,6 +52,8 @@ const AppRoutes = () => {
       <Route path="/ranking" element={<RankingPage/>}/>
       <Route path="/buscar" element={<SearchPage/>}/>
       <Route path="/listas/:slug" element={<ListPage/>}/>
+      <Route path="/privacidad" element={<PrivacyPage/>}/>
+      <Route path="/aviso-legal" element={<LegalNoticePage/>}/>
       <Route path="/:categorySlug" element={<CategoryPage/>}/>
       <Route path="/:categorySlug/explore" element={<ExplorePage/>}/>
       <Route path="/:categorySlug/item/:itemId" element={<ItemDetailPage/>}/>

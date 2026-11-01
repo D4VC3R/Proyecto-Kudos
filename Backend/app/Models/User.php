@@ -59,6 +59,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'is_banned' => 'boolean',
             'banned_at' => 'datetime',
             'banned_until' => 'datetime',
+            'privacy_accepted_at' => 'datetime',
         ];
     }
 
