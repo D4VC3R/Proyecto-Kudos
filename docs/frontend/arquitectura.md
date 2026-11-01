@@ -6,7 +6,7 @@
 - Tailwind 3, clsx, tailwind-merge, framer-motion, lucide-react y react-hot-toast.
 - pnpm 12.15.0 (fijado con `packageManager` en `package.json`) y Node 22.
 
-**Despliegue:** Vercel, en `kudos.dcerdan.es`. Es una SPA: `vercel.json` reescribe todo a `index.html` y tiene un `ignoreCommand` que solo construye si cambia `Frontend/`. Las fichas (`/:categorySlug/item/:itemId`) se reescriben solo para los *user-agents* de rastreadores a la función `api/meta.js`, que devuelve el `index.html` con `<title>`, `description`, `og:*`, `twitter:*` y JSON-LD (F2-10; lógica en `api/_lib/seo.js`).
+**Despliegue:** Vercel, en `kudos.dcerdan.es`. Es una SPA: `vercel.json` reescribe todo a `index.html` y tiene un `ignoreCommand` que solo construye si cambia `Frontend/`. Las fichas (`/:categorySlug/item/:itemId`) se reescriben solo para los *user-agents* de rastreadores a la función `api/meta.js`, que devuelve el `index.html` con `<title>`, `description`, `og:*`, `twitter:*` y JSON-LD (F2-10; lógica en `api/_lib/seo.js`). Igual con las listas (`/listas/:slug`) y los perfiles públicos (`/u/:username`) (F3-09): las listas no listadas llevan `noindex` (`<meta name="robots">` y `X-Robots-Tag`) y las privadas, los perfiles privados y los slugs o nombres inexistentes dan 404 con meta genéricas.
 
 Las rutas son relativas a `Frontend/src/`.
 

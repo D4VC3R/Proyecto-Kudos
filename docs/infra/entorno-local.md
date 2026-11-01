@@ -78,7 +78,7 @@ La versión de pnpm está fijada en `Frontend/package.json` (`"packageManager": 
 
 CORS: `FRONTEND_URL` en `Backend/.env` ya incluye `http://localhost:5174`.
 
-**SEO de las fichas (F2-10), sin la CLI de Vercel** (que exige cuenta). Desde `Frontend/`, con la API local levantada y `pnpm build` hecho:
+**SEO de las fichas, listas y perfiles (F2-10, F3-09), sin la CLI de Vercel** (que exige cuenta). Desde `Frontend/`, con la API local levantada y `pnpm build` hecho:
 
 ```bash
 pnpm test:seo                                          # tests de Node de la función (también en el CI)
@@ -86,6 +86,8 @@ docker run --rm -d --name kudos-seo-local --network host -v "$PWD":/app -w /app 
   -e VITE_API_URL=http://localhost:8095/api -e VITE_STORAGE_URL=http://localhost:8095/storage/ \
   node:22-alpine node scripts/vercel-local.mjs         # emula el enrutado de Vercel sobre dist/ en http://localhost:4175
 curl -s -A "facebookexternalhit/1.1" http://localhost:4175/<slug>/item/<id> | grep -E '<title>|og:|twitter:|ld\+json'   # rastreador: meta tags
+curl -s -A "facebookexternalhit/1.1" http://localhost:4175/listas/<slug> | grep -E '<title>|og:|twitter:|robots|ld\+json'   # lista (las no listadas llevan noindex)
+curl -s -A "facebookexternalhit/1.1" http://localhost:4175/u/<username> | grep -E '<title>|og:|twitter:|ld\+json'   # perfil público
 diff <(curl -s -A "Mozilla/5.0 Chrome/130.0 Safari/537.36" http://localhost:4175/<slug>/item/<id>) dist/index.html && echo SPA_OK   # navegador: la SPA
 docker stop kudos-seo-local
 ```

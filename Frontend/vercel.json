@@ -13,6 +13,28 @@
       "destination": "/api/meta?categorySlug=:categorySlug&itemId=:itemId"
     },
     {
+      "source": "/listas/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|meta-externalagent|Twitterbot|LinkedInBot|Slackbot|Slack-ImgProxy|WhatsApp|TelegramBot|Discordbot|Pinterestbot|redditbot|Embedly|Iframely|SkypeUriPreview|vkShare|Mastodon|Bluesky|Applebot|Googlebot|Google-InspectionTool|bingbot|DuckDuckBot|YandexBot).*"
+        }
+      ],
+      "destination": "/api/meta?type=list&slug=:slug"
+    },
+    {
+      "source": "/u/:username",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|meta-externalagent|Twitterbot|LinkedInBot|Slackbot|Slack-ImgProxy|WhatsApp|TelegramBot|Discordbot|Pinterestbot|redditbot|Embedly|Iframely|SkypeUriPreview|vkShare|Mastodon|Bluesky|Applebot|Googlebot|Google-InspectionTool|bingbot|DuckDuckBot|YandexBot).*"
+        }
+      ],
+      "destination": "/api/meta?type=profile&username=:username"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
