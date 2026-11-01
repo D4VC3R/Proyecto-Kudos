@@ -1,7 +1,6 @@
 /**
- * Meta tags, Open Graph y JSON-LD de las fichas para los rastreadores (F2-10).
+ * Meta tags, Open Graph y JSON-LD de las fichas, las listas y los perfiles públicos para los rastreadores (F2-10, F3-09).
  * La usa `api/meta.js`; la carpeta `_lib` no se publica como función en Vercel.
- * La F3-09 añadirá `/listas/:slug` y `/u/:username`.
  */
 
 /** Nombre del sitio en `og:site_name` y en el sufijo del título. */
@@ -50,6 +49,15 @@ export const FALLBACK_TEMPLATE = `<!doctype html>
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+/** Slugs de las listas: solo [a-z0-9-] (`UserList::generateUniqueSlug`). */
+const LIST_SLUG_PATTERN = /^[a-z0-9-]{1,255}$/;
+
+/** Nombres de usuario que admite `GET /api/users/{username}`. */
+const USERNAME_PATTERN = /^[A-Za-z0-9_]{1,30}$/;
+
+/** Valor de `<meta name="robots">` y `X-Robots-Tag` para las páginas que no deben indexarse. */
+export const ROBOTS_NOINDEX = 'noindex';
+
 /** Escapa un valor para usarlo en HTML o en un atributo entre comillas. */
 export function escapeHtml(value) {
   return String(value ?? '')
@@ -63,6 +71,16 @@ export function escapeHtml(value) {
 /** Indica si el valor es un UUID (los IDs de los ítems lo son). */
 export function isUuid(value) {
   return typeof value === 'string' && UUID_PATTERN.test(value);
+}
+
+/** Indica si el valor tiene el formato de un slug de lista. */
+export function isListSlug(value) {
+  return typeof value === 'string' && LIST_SLUG_PATTERN.test(value);
+}
+
+/** Indica si el valor tiene el formato de un nombre de usuario. */
+export function isUsername(value) {
+  return typeof value === 'string' && USERNAME_PATTERN.test(value);
 }
 
 /** Colapsa los espacios y recorta el texto sin partir palabras, añadiendo «…» si hace falta. */
@@ -183,6 +201,113 @@ export function buildItemMeta(item, { origin, env = {} }) {
   };
 }
 
+/** Número de títulos de una lista: cuenta solo los ítems visibles que devuelve la API. */
+export function getListCount(list) {
+  return Array.isArray(list?.items) ? list.items.length : (Number(list?.items_count) || 0);
+}
+
+/** Imagen de reserva de una lista con los datos de la propia lista: la miniatura de la portada o del primer ítem con imagen. */
+export function getListThumbImage(list, env = {}) {
+  const entries = Array.isArray(list?.items) ? list.items.filter((entry) => entry?.item) : [];
+  const thumbOf = (entry) => entry?.item?.images?.[0]?.variants?.thumb;
+  const entry = [
+    entries.find((candidate) => candidate.item.id === list.cover_item_id) ?? entries[0],
+    ...entries,
+  ].find((candidate) => thumbOf(candidate) && resolveStorageUrl(thumbOf(candidate), env));
+  if (!entry) return null;
+
+  const image = entry.item.images[0];
+  return { url: resolveStorageUrl(image.variants.thumb, env), alt: image.alt || entry.item.name };
+}
+
+/** Metadatos de una lista. */
+export function buildListMeta(list, { origin, image = null }) {
+  const count = getListCount(list);
+  const countText = `${count} ${count === 1 ? 'título' : 'títulos'}`;
+  const fallback = list.author?.name
+    ? `Lista de ${list.author.name} en Kudos con ${countText}.`
+    : list.is_editorial ? `Lista de Kudos con ${countText}.` : `Lista en Kudos con ${countText}.`;
+  const description = truncateText(list.description) || fallback;
+  const url = `${origin}/listas/${encodeURIComponent(list.slug)}`;
+  const entries = (Array.isArray(list.items) ? list.items : []).filter((entry) => entry?.item);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: list.title,
+    url,
+    ...(truncateText(list.description) ? { description: truncateText(list.description) } : {}),
+    numberOfItems: count,
+    itemListOrder: list.is_ranked ? 'https://schema.org/ItemListOrderAscending' : 'https://schema.org/ItemListUnordered',
+    ...(image ? { image: image.url } : {}),
+    ...(list.author?.username ? {
+      author: {
+        '@type': 'Person',
+        name: list.author.name,
+        url: `${origin}/u/${encodeURIComponent(list.author.username)}`,
+      },
+    } : {}),
+    itemListElement: entries.map((entry, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: entry.item.name,
+      ...(entry.item.category?.slug
+        ? { url: `${origin}/${encodeURIComponent(entry.item.category.slug)}/item/${encodeURIComponent(entry.item.id)}` }
+        : {}),
+    })),
+  };
+
+  return {
+    title: `${list.title} · ${SITE_NAME}`,
+    ogTitle: list.title,
+    description,
+    url,
+    image: image?.url ?? null,
+    imageAlt: image?.alt ?? list.title,
+    ogType: 'website',
+    twitterCard: image ? 'summary_large_image' : 'summary',
+    jsonLd,
+    robots: list.visibility === 'unlisted' ? ROBOTS_NOINDEX : null,
+  };
+}
+
+/** Metadatos de un perfil público. Lista blanca: solo `username`, `name`, `avatar`, `biography` y `member_since`. */
+export function buildProfileMeta(profile, { origin, env = {} }) {
+  const ogTitle = `${profile.name} (@${profile.username})`;
+  const biography = truncateText(profile.biography);
+  const description = biography || `Perfil de ${profile.name} en Kudos: sus valoraciones, listas y reseñas.`;
+  const url = `${origin}/u/${encodeURIComponent(profile.username)}`;
+  const imageUrl = resolveStorageUrl(profile.avatar, env);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    url,
+    ...(profile.member_since ? { dateCreated: profile.member_since } : {}),
+    mainEntity: {
+      '@type': 'Person',
+      name: profile.name,
+      alternateName: `@${profile.username}`,
+      url,
+      ...(biography ? { description: biography } : {}),
+      ...(imageUrl ? { image: imageUrl } : {}),
+    },
+  };
+
+  return {
+    title: `${ogTitle} · ${SITE_NAME}`,
+    ogTitle,
+    description,
+    url,
+    image: imageUrl,
+    imageAlt: imageUrl ? `Avatar de ${profile.name}` : null,
+    ogType: 'profile',
+    twitterCard: 'summary', // el avatar es cuadrado
+    jsonLd,
+    robots: null,
+  };
+}
+
 /** Metadatos genéricos del sitio. */
 export function buildDefaultMeta({ origin }) {
   return {
@@ -205,6 +330,7 @@ export function renderMetaTags(meta) {
 
   const tags = [
     name('description', meta.description),
+    ...(meta.robots ? [name('robots', meta.robots)] : []),
     `<link rel="canonical" href="${escapeHtml(meta.url)}">`,
     property('og:site_name', SITE_NAME),
     property('og:locale', 'es_ES'),
@@ -281,6 +407,33 @@ export function parseItemParams(req) {
   return { categorySlug: categorySlug || null, itemId: itemId || null };
 }
 
+/** Decide qué se pide: una lista, un perfil o una ficha de ítem (la query de `vercel.json`, `req.query` o la ruta original). */
+export function parseRoute(req) {
+  const pick = (value) => (Array.isArray(value) ? value[0] : value);
+  const url = new URL(req.url ?? '/', 'http://localhost');
+  const param = (key) => pick(req.query?.[key]) || url.searchParams.get(key) || null;
+  const decode = (value) => {
+    try {
+      return decodeURIComponent(value);
+    } catch {
+      return null; // Ruta con codificación inválida: se ignora.
+    }
+  };
+
+  const type = param('type');
+  if (type === 'list') return { type: 'list', slug: param('slug') };
+  if (type === 'profile') return { type: 'profile', username: param('username') };
+
+  if (!type) {
+    const list = url.pathname.match(/^\/listas\/([^/]+)\/?$/);
+    if (list) return { type: 'list', slug: decode(list[1]) };
+    const profile = url.pathname.match(/^\/u\/([^/]+)\/?$/);
+    if (profile) return { type: 'profile', username: decode(profile[1]) };
+  }
+
+  return { type: 'item', ...parseItemParams(req) };
+}
+
 /** Crea el manejador de la función; la plantilla se cachea en memoria mientras viva la instancia. */
 export function createMetaHandler({
   fetchImpl = (...args) => globalThis.fetch(...args),
@@ -318,12 +471,13 @@ export function createMetaHandler({
     return { html: FALLBACK_TEMPLATE, fromOrigin: false };
   }
 
-  async function fetchItem(itemId) {
+  async function fetchApi(path) {
     const apiUrl = env.VITE_API_URL;
     if (!apiUrl) return { status: 'error' };
 
     try {
-      const response = await fetchImpl(`${apiUrl.replace(/\/+$/, '')}/items/${itemId}`, {
+      // Sin cabeceras de la petición: la API siempre se consulta como visitante anónimo.
+      const response = await fetchImpl(`${apiUrl.replace(/\/+$/, '')}${path}`, {
         headers: { Accept: 'application/json' },
         signal: AbortSignal.timeout(apiTimeoutMs),
       });
@@ -331,35 +485,106 @@ export function createMetaHandler({
       if (!response.ok) return { status: 'error' };
 
       const body = await response.json();
-      return body?.data?.id ? { status: 'ok', item: body.data } : { status: 'error' };
+      return body?.data && typeof body.data === 'object' ? { status: 'ok', data: body.data } : { status: 'error' };
     } catch {
       return { status: 'error' };
     }
   }
 
+  async function fetchItem(itemId) {
+    const result = await fetchApi(`/items/${itemId}`);
+    if (result.status !== 'ok') return result;
+    return result.data.id ? { status: 'ok', item: result.data } : { status: 'error' };
+  }
+
+  async function fetchList(slug) {
+    const result = await fetchApi(`/lists/${encodeURIComponent(slug)}`);
+    if (result.status !== 'ok') return result;
+    return result.data.slug ? result : { status: 'error' };
+  }
+
+  async function fetchProfile(username) {
+    const result = await fetchApi(`/users/${encodeURIComponent(username)}`);
+    if (result.status !== 'ok') return result;
+    return result.data.username ? result : { status: 'error' };
+  }
+
+  /** Banner de la portada o, si no hay o no está disponible, del primer ítem; reserva: la miniatura de la propia lista. */
+  async function resolveListImage(list) {
+    const firstId = (Array.isArray(list.items) ? list.items : []).find((entry) => entry?.item)?.item.id;
+    const candidates = [...new Set([list.cover_item_id, firstId].filter(isUuid))];
+    let failed = false;
+
+    for (const id of candidates) {
+      const result = await fetchItem(id);
+      if (result.status === 'error') failed = true;
+      if (result.status !== 'ok') continue;
+
+      const image = getItemImage(result.item, env);
+      if (image) return { image, failed };
+    }
+
+    return { image: getListThumbImage(list, env), failed };
+  }
+
+  const genericPage = (statusCode, cacheable) => ({ statusCode, meta: null, cacheable });
+
+  async function resolveItemPage(itemId, origin) {
+    if (!isUuid(itemId)) return genericPage(404, true); // sin llamar a la API: un id que no es UUID provoca un 500 en PostgreSQL
+
+    const result = await fetchItem(itemId);
+    if (result.status === 'ok') return { statusCode: 200, meta: buildItemMeta(result.item, { origin, env }), cacheable: true };
+    if (result.status === 'not_found') return genericPage(404, true);
+    return genericPage(200, false); // la API ha fallado: meta genéricas con 200, para no decir a los rastreadores que la ficha no existe
+  }
+
+  async function resolveListPage(slug, origin) {
+    if (!isListSlug(slug)) return genericPage(404, true); // sin llamar a la API
+
+    const result = await fetchList(slug);
+    if (result.status === 'not_found') return genericPage(404, true);
+    if (result.status !== 'ok') return genericPage(200, false);
+
+    const list = result.data;
+    // Defensa en profundidad: sin sesión la API no devuelve listas privadas ni ocultadas, pero no se usa nada de ellas.
+    if (list.visibility === 'private' || list.is_hidden_by_moderation === true) return genericPage(404, true);
+
+    const { image, failed } = await resolveListImage(list);
+    return { statusCode: 200, meta: buildListMeta(list, { origin, image }), cacheable: !failed };
+  }
+
+  async function resolveProfilePage(username, origin) {
+    if (!isUsername(username)) return genericPage(404, true); // sin llamar a la API
+
+    const result = await fetchProfile(username);
+    if (result.status === 'not_found') return genericPage(404, true);
+    if (result.status !== 'ok') return genericPage(200, false);
+
+    // Defensa en profundidad: la API devuelve 404 para los perfiles privados.
+    if (result.data.is_public !== true) return genericPage(404, true);
+
+    return { statusCode: 200, meta: buildProfileMeta(result.data, { origin, env }), cacheable: true };
+  }
+
   return async function handler(req, res) {
     const headers = req.headers ?? {};
     const origin = getSiteOrigin(headers);
-    const { itemId } = parseItemParams(req);
+    const route = parseRoute(req);
     const template = await loadTemplate(origin, headers);
 
-    let statusCode = 200;
-    let meta = buildDefaultMeta({ origin });
-    let cacheable = template.fromOrigin;
+    let page;
+    if (route.type === 'list') page = await resolveListPage(route.slug, origin);
+    else if (route.type === 'profile') page = await resolveProfilePage(route.username, origin);
+    else page = await resolveItemPage(route.itemId, origin);
 
-    if (!isUuid(itemId)) {
-      statusCode = 404; // sin llamar a la API: un id que no es UUID provoca un 500 en PostgreSQL
-    } else {
-      const result = await fetchItem(itemId);
-      if (result.status === 'ok') meta = buildItemMeta(result.item, { origin, env });
-      else if (result.status === 'not_found') statusCode = 404;
-      else cacheable = false; // la API ha fallado: meta genéricas con 200, para no decir a los rastreadores que la ficha no existe
-    }
-
-    res.statusCode = statusCode;
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    const meta = page.meta ?? buildDefaultMeta({ origin });
     // Solo se cachea con la plantilla real: así, aunque el CDN sirviera la respuesta a un navegador, este recibiría la SPA completa.
-    res.setHeader('Cache-Control', cacheable && statusCode === 200 ? CACHE_CONTROL_OK : CACHE_CONTROL_NONE);
+    const cacheable = template.fromOrigin && page.cacheable;
+
+    res.statusCode = page.statusCode;
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', cacheable && page.statusCode === 200 ? CACHE_CONTROL_OK : CACHE_CONTROL_NONE);
+    if (meta.robots) res.setHeader('X-Robots-Tag', meta.robots);
     res.end(injectMeta(template.html, meta));
   };
 }

@@ -1,5 +1,5 @@
 /**
- * Emula en local el enrutado de Vercel para probar la F2-10 sin la CLI de Vercel (que exige una cuenta):
+ * Emula en local el enrutado de Vercel para probar la F2-10 y la F3-09 sin la CLI de Vercel (que exige una cuenta):
  * 1) `/api/meta` → función, 2) archivos de `dist/`, 3) `rewrites` de `vercel.json` en orden, con `has` de cabeceras.
  * Solo admite los patrones que usa `vercel.json` (`:param` y `(.*)`). Uso en `docs/infra/entorno-local.md` §5.
  */
