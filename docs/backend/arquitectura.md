@@ -105,6 +105,9 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 - `app/Http/Controllers/Report/ReportController.php` (`POST /api/reports`, `StoreReportRequest`, `ReportResource`) y `app/Http/Controllers/Admin/AdminReportController.php` (`GET /api/admin/reports` y `POST /api/admin/reports/{report}/resolve`; `ListAdminReportsRequest`, `ResolveReportRequest` y `Admin/AdminReportResource`).
 - Límite con nombre `reports` en `AppServiceProvider::configureRateLimiting()` (`kudos.reports.per_hour` = 10 por usuario y hora). Correo de reclamación: `kudos.legal.contact_email` (variable `LEGAL_CONTACT_EMAIL`, vacía por defecto).
 
+**Legal y registro** (F3-07)
+- `app/Http/Controllers/Legal/LegalInfoController.php` (F3-07; `GET /api/legal`, público, devuelve `kudos.legal.contact_email`). `RegisterRequest` exige `accept_privacy` y `age_confirmation` (`accepted`) y el registro guarda `users.privacy_accepted_at`.
+
 **Media**
 - `app/Services/Media/RemoteImageDownloader.php`: `downloadToTemp(url)` valida la URL (anti-SSRF: resuelve el host con `HostResolverInterface`, cuya implementación `DnsHostResolver` usa `gethostbyname()`), el MIME y el tamaño; también `isRemoteUrl()`.
 - `app/Services/Media/MediaManager.php`: `processItemVariants(absTempPath, targetDir, ?filename)` genera las variantes `thumb` y `banner`; también `processAvatar` y `processCategory`.
