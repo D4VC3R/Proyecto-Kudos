@@ -161,13 +161,14 @@ ALTER TABLE votes ADD CONSTRAINT votes_type_check
 
 - `item_comments.parent_id`: uuid nullable, FK a la propia tabla (`cascadeOnDelete`). Un solo nivel, validado en el Form Request.
 - `item_comments.vote_id`: uuid nullable, FK a `votes` (`nullOnDelete`). Si tiene valor, el comentario es una reseña. Máximo una por usuario e ítem.
-- `reports`:
+- `reports` (hecha en la F3-04 con la migración `2026_10_31_200000_create_reports_table`):
   - `id` uuid, `reporter_id` FK nullable (`nullOnDelete`);
-  - `reportable_type`, `reportable_id` (uuid);
+  - `reportable_type` (string, FQCN: `App\Models\ItemComment`, `UserList` o `User`, sin *morph map*), `reportable_id` (uuid), con `uuidMorphs('reportable')`;
   - `reason`: `spam`/`odio`/`acoso`/`ilegal`/`spoiler`/`otro`; `details` text nullable;
   - `status`: `pending`/`resolved`/`dismissed`, default `pending`;
   - `resolved_by` FK nullable, `resolution_note` text nullable, `resolved_at` nullable, timestamps;
-  - índices `(status, created_at)` y `(reportable_type, reportable_id)`.
+  - índices `(status, created_at)` y `(reportable_type, reportable_id)`;
+  - índice parcial único `reports_pending_unique` sobre `(reporter_id, reportable_type, reportable_id) WHERE status = 'pending'` (un usuario no repite un reporte pendiente del mismo contenido).
 - `notifications`: la tabla estándar (`sail artisan make:notifications-table`) con `uuidMorphs('notifiable')` en lugar de `morphs` (los usuarios son UUID; con `morphs` el `notifiable_id` sería bigint y el INSERT fallaría). Hecha en la F3-05.
 - `users.username`: string(30), único y nullable.
 - `profiles.is_public`: bool, default **false**.

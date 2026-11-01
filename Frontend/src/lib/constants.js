@@ -8,7 +8,7 @@ import {
   Disc,
   Mic2,
   Clapperboard, Tv, Gamepad2, Book, Plane, Users, FileText, LayoutGrid, Target, User as UserIcon, List, ThumbsUp,
-  BarChart3, Trophy, Medal, MapPin, BookmarkPlus, EyeOff, ListOrdered
+  BarChart3, Trophy, Medal, MapPin, BookmarkPlus, EyeOff, ListOrdered, Flag
 } from 'lucide-react';
 
 
@@ -81,7 +81,9 @@ export const statusColors = {
   rejected: 'bg-red-100 text-red-700',
   changes_requested: 'bg-orange-100 text-orange-700',
   active: 'bg-green-100 text-green-700',
-  inactive: 'bg-slate-100 text-slate-700'
+  inactive: 'bg-slate-100 text-slate-700',
+  resolved: 'bg-green-100 text-green-700',
+  dismissed: 'bg-slate-100 text-slate-700'
 };
 
 // Iconos asociados a cada categoría.
@@ -136,6 +138,7 @@ export const adminTabs = [
   { name: 'Categorías', to: '/admin/categories', icon: LayoutGrid },
   { name: 'Items', to: '/admin/items', icon: Target },
   { name: 'Listas', to: '/admin/lists', icon: ListOrdered },
+  { name: 'Reportes', to: '/admin/reports', icon: Flag },
 ];
 
 // Objeto con la configuración de las pestañas para el panel de perfil.

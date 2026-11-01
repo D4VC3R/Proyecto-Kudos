@@ -5,8 +5,9 @@ import { formatDate } from '../../lib/formatters';
 import Button from '../ui/Button.jsx';
 import StorageImage from '../ui/StorageImage.jsx';
 import TextAreaField from '../ui/TextAreaField.jsx';
+import ReportMenu from '../reports/ReportMenu.jsx';
 // Hooks
-import { useSessionStore } from '../../store/useSessionStore';
+import { useSessionStore, selectIsVerified } from '../../store/useSessionStore';
 import { useAdminUnhideComment } from '../../hooks/admin/useAdminMutations';
 import { useUpdateComment } from '../../hooks/items/useItemMutations';
 
@@ -14,6 +15,7 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete }) => {
   const { user } = useSessionStore();
   const isAdmin = user?.role === 'admin';
   const isOwner = user?.id === comment.user?.id;
+  const isVerified = useSessionStore(selectIsVerified);
   const isEdited = comment.updated_at && comment.updated_at !== comment.created_at;
 
   const { mutate: unhideComment, isPending: isUnhiding } = useAdminUnhideComment();
@@ -65,6 +67,9 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete }) => {
             )}
             {isAdmin && (
               <Button onClick={onRequestDelete} variant="ghost" color="danger" size="iconSm" title="Eliminar" icon={Trash2} />
+            )}
+            {isVerified && !isOwner && !isAdmin && !comment.is_hidden && (
+              <ReportMenu type="comment" id={comment.id} label="comentario" />
             )}
           </div>
         </div>

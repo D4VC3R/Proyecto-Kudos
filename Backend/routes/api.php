@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminItemController;
 use App\Http\Controllers\Admin\AdminListController;
+use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Category\CategoryController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Proposal\ProposalController;
 use App\Http\Controllers\Recommendation\RecommendationController;
+use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\User\DailyRewardController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\UserRankingController;
@@ -69,6 +71,9 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
         Route::post('/read-all', [NotificationController::class, 'readAll']);
         Route::post('/{id}/read', [NotificationController::class, 'read'])->whereUuid('id');
     });
+
+    // Reportes de contenido (F3-04, DSA): límite por usuario y hora en AppServiceProvider.
+    Route::post('/reports', [ReportController::class, 'store'])->middleware('throttle:reports');
 
     // Onboarding (F2-07): ítems populares de las categorías elegidas para el speed-rating.
     Route::get('/onboarding/items', [OnboardingController::class, 'items']);
@@ -142,6 +147,12 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned', 'admin'])->group(fu
     Route::prefix('admin/comments')->group(function () {
         Route::patch('/{comment}/hide', [ItemCommentController::class, 'hide']);
         Route::patch('/{comment}/unhide', [ItemCommentController::class, 'unhide']);
+    });
+
+    // Cola de reportes (F3-04).
+    Route::prefix('admin/reports')->group(function () {
+        Route::get('/', [AdminReportController::class, 'index']);
+        Route::post('/{report}/resolve', [AdminReportController::class, 'resolve'])->whereUuid('report');
     });
 
     // Listas editoriales (F2-09).

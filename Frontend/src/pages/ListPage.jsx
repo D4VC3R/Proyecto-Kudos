@@ -6,6 +6,7 @@ import FeedbackState from '../components/ui/FeedbackState.jsx';
 import HeaderSkeleton from '../components/ui/skeletons/HeaderSkeleton.jsx';
 import SliderSkeleton from '../components/ui/skeletons/SliderSkeleton.jsx';
 import ItemCard from '../components/items/ItemCard.jsx';
+import ReportMenu from '../components/reports/ReportMenu.jsx';
 // Hooks
 import { useListPage } from '../hooks/pages/useListPage.js';
 import { hasText } from '../lib/text.js';
@@ -36,7 +37,13 @@ const ListPage = () => {
 
   return (
     <div className="flex w-full flex-col gap-6">
-      <SectionHeader size="large" title={state.list.title} subtitle={state.list.description} />
+      <SectionHeader size="large" title={state.list.title} subtitle={state.list.description}>
+        {state.canReport && (
+          <div className="relative">
+            <ReportMenu type="list" id={state.list.id} label="lista" />
+          </div>
+        )}
+      </SectionHeader>
 
       {state.entries.length === 0 ? (
         <FeedbackState icon={ListX} title="Esta lista todavía está vacía" />

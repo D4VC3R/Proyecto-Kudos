@@ -65,5 +65,16 @@ class ItemComment extends Model
 	{
 		return $this->belongsTo(User::class, 'hidden_by');
 	}
-}
 
+	/**
+	 * Oculta el comentario por moderación (lo usan el ocultado manual del admin y los reportes, F3-04).
+	 */
+	public function hideByModerator(string $moderatorId, ?string $reason): void
+	{
+		$this->update([
+			'is_hidden' => true,
+			'hidden_reason' => $reason,
+			'hidden_by' => $moderatorId,
+		]);
+	}
+}
