@@ -143,7 +143,7 @@ class UsageMetricsService
 
     /**
      * "Creadas" cuenta también las borradas después (mide la actividad del periodo); "con al menos un me gusta"
-     * es una foto actual de las listas no borradas y usa likes_count, que mantendrá la F3-01 (hoy siempre 0).
+     * es una foto actual de las listas no borradas y usa likes_count, que mantiene la F3-01 con los "me gusta".
      *
      * @return array{user_created: int, editorial_created: int, liked: int}
      */

@@ -3,6 +3,7 @@ import MainHeader from "./components/layout/MainHeader.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ScrollToTopButton from "./components/ui/ScrollToTopButton.jsx";
 import DailyRewardChecker from "./components/ui/DailyRewardChecker.jsx";
+import AddToListModal from "./components/lists/AddToListModal.jsx";
 /**
  * Bienvenido a Proyecto Kudos, aquí tienes la estructura del proyecto por si necesitas modificar algo:
  * - app: Contiene los proveedores de la aplicación.
@@ -18,6 +19,7 @@ const App = () => {
     <div className="bg-background text-text-highlight flex flex-col font-sans min-h-[100dvh]">
       <MainHeader />
       <DailyRewardChecker />
+      <AddToListModal />
 
       <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
         <AppRoutes />

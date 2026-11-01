@@ -36,7 +36,7 @@ Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en b
 |---|---|---|
 | Política de privacidad | `/privacidad`: responsable, datos tratados (cuenta, votos, comentarios, listas, IP en los logs), finalidad, base legal (ejecución del servicio), conservación, derechos y contacto. **La aprueba el humano**. *Implementado en la F3-07; texto aprobado por el humano el 2026-11-01. Quedan dos datos del humano marcados como pendientes en la página (correo de contacto y confirmar la rotación de los logs en el VPS)* | F3-07 |
 | Aceptación en el registro | Casilla **sin marcar** + declaración de tener **14 años o más** (edad de consentimiento digital en España). *Implementado en la F3-07 (texto aprobado el 2026-11-01): se guarda `users.privacy_accepted_at`; las cuentas anteriores quedan con `null` sin volver a pedirles la aceptación* | F3-07 |
-| Privacidad por defecto | `profiles.is_public` y `lists.visibility` privados por defecto | F3-01, F3-03 |
+| Privacidad por defecto | `profiles.is_public` y `lists.visibility` privados por defecto. *`lists.visibility` privada por defecto implementado en la F3-01* | F3-01, F3-03 |
 | Supresión | `DELETE /api/profile` con contraseña: borra la cuenta, los votos, las listas, los tokens, los *likes* y las transacciones de kudos; los comentarios con respuestas se **anonimizan** | F3-08 |
 | Acceso y portabilidad | `GET /api/profile/export` (JSON). Deseable, no bloqueante | F3-08 |
 | Correos | Solo transaccionales sin consentimiento expreso; las notificaciones van solo dentro de la app | F3-05 |

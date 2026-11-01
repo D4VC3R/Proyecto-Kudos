@@ -6,6 +6,7 @@ import BackButton from "../components/ui/BackButton.jsx";
 import FeedbackState from "../components/ui/FeedbackState.jsx";
 import ItemDetailColumn from '../components/items/ItemDetailColumn.jsx';
 import SimilarItemsRow from '../components/items/SimilarItemsRow.jsx';
+import AddToListButton from '../components/lists/AddToListButton.jsx';
 // Hooks
 import {useParams, useNavigate} from 'react-router-dom';
 import {useItem, useSimilarItems} from '../hooks/items/useItemQueries';
@@ -31,8 +32,9 @@ const ItemDetailPage = () => {
   return (
     <>
       <div className="flex flex-col w-full relative animate-fade-in pb-6 lg:pb-0 lg:h-page-content">
-        <div className="shrink-0 mb-4 px-2 lg:px-0">
+        <div className="shrink-0 mb-4 px-2 lg:px-0 flex items-center justify-between">
           <BackButton/>
+          {item && <AddToListButton item={item} variant="detail"/>}
         </div>
         {isLoading ? (<div className="flex min-h-state items-center justify-center">
           <FeedbackState

@@ -13,6 +13,8 @@ import RankingPage from "../pages/RankingPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
 import ListPage from "../pages/ListPage.jsx";
 import WishlistPage from "../pages/WishlistPage.jsx";
+import MyListsPage from "../pages/MyListsPage.jsx";
+import MyListEditPage from "../pages/MyListEditPage.jsx";
 import OnboardingPage from "../pages/OnboardingPage.jsx";
 import NewProposalPage from "../pages/NewProposalPage.jsx";
 import AuthPage from "../pages/auth/AuthPage.jsx";
@@ -64,6 +66,8 @@ const AppRoutes = () => {
         <Route element={<RequireVerified/>}>
           <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/wishlist" element={<WishlistPage/>}/>
+          <Route path="/mis-listas" element={<MyListsPage/>}/>
+          <Route path="/mis-listas/:listId" element={<MyListEditPage/>}/>
           <Route path="/onboarding" element={<OnboardingPage/>}/>
           <Route path="/my-proposals" element={<ProfilePage tab={'proposals'}/>}/>
           <Route path="/:categorySlug/proposals/new" element={<NewProposalPage/>}/>

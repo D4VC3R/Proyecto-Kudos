@@ -46,6 +46,13 @@ return [
         'per_hour' => 10,
     ],
 
+    // Listas de usuario (F3-01): máximo de listas vivas por usuario (sin contar editoriales ni borradas)
+    // y de ítems por lista (este también vale para las listas editoriales).
+    'lists' => [
+        'max_per_user' => 50,
+        'max_items' => 100,
+    ],
+
     // Correo de contacto legal (aviso legal, DSA): es la vía de reclamación que reciben los autores
     // cuando se oculta o borra su contenido. Vacío = la notificación no incluye la vía de reclamación.
     'legal' => [

@@ -15,7 +15,7 @@ return [
     'reserved_slugs' => [
         // Rutas actuales
         'buscar', 'ranking', 'admin', 'profile', 'my-proposals', 'forbidden', '404', 'onboarding',
-        'login', 'register', 'verify-email', 'forgot-password', 'password-reset', 'privacidad', 'aviso-legal',
+        'login', 'register', 'verify-email', 'forgot-password', 'password-reset', 'privacidad', 'aviso-legal', 'mis-listas',
         // Rutas previstas (docs/frontend/arquitectura.md §2)
         'wishlist', 'u', 'listas',
     ],
