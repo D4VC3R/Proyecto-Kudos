@@ -9,7 +9,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Resource para representar una lista (F2-09).
  * Se usa igual en la portada, en la página pública /listas/{slug} y en el panel de administración.
- * No expone al autor: llegará con los perfiles de la F3-03. La F3-01 añade `is_hidden_by_moderation`,
+ * Desde la F3-03 añade `author` (solo si se ha cargado `user`): el perfil público del autor, o `null` si es editorial
+ * o el perfil no es público. La F3-01 añade `is_hidden_by_moderation`,
  * `can_edit`, `liked_by_me` y `contains_item`.
  */
 class UserListResource extends JsonResource
@@ -37,6 +38,12 @@ class UserListResource extends JsonResource
             'liked_by_me' => $this->when(array_key_exists('liked_by_me', $this->resource->getAttributes()), fn () => (bool) $this->resource->getAttribute('liked_by_me')),
             // Solo en "Mis listas" con ?item_id=: si la lista ya contiene ese ítem.
             'contains_item' => $this->when(array_key_exists('contains_item', $this->resource->getAttributes()), fn () => (bool) $this->resource->getAttribute('contains_item')),
+            // F3-03. Autor de una lista de usuario, solo con perfil público y nombre de usuario (privacidad por defecto).
+            'author' => $this->whenLoaded('user', fn () => ! $this->is_editorial && $this->user?->hasPublicProfile() ? [
+                'username' => $this->user->username,
+                'name' => $this->user->name,
+                'avatar' => $this->user->profile?->avatar,
+            ] : null),
             // Entradas en orden: posición, nota y el ítem como tarjeta. Solo si se ha cargado listItems.
             'items' => $this->whenLoaded('listItems', fn () => $this->listItems
                 ->filter(fn (ListItem $entry) => $entry->relationLoaded('item') && $entry->item !== null)

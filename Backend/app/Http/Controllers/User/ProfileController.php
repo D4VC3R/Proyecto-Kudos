@@ -7,9 +7,11 @@ use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Http\Resources\MinimalProfileResource;
 use App\Http\Resources\ProfileResource;
 use App\Jobs\ProcessUserAvatarJob;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {
@@ -56,6 +58,15 @@ class ProfileController extends Controller
 		}
 
 		unset($validated['avatar']);
+
+		if (array_key_exists('username', $validated)) {
+			try {
+				$request->user()->forceFill(['username' => $validated['username']])->save();
+			} catch (UniqueConstraintViolationException) {
+				throw ValidationException::withMessages(['username' => 'Ese nombre de usuario ya está en uso.']);
+			}
+			unset($validated['username']);
+		}
 
 		$profile->update($validated);
 

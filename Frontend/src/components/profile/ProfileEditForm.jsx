@@ -1,6 +1,7 @@
 import React from 'react';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {Save, MapPin, Calendar, Image as ImageIcon} from 'lucide-react';
+import {Link} from 'react-router-dom';
+import {Save, MapPin, Calendar, AtSign, Image as ImageIcon} from 'lucide-react';
 import {profileSchema} from '../../lib/schemas';
 //  Componentes
 import InputField from '../ui/InputField.jsx';
@@ -20,6 +21,8 @@ const ProfileEditForm = ({profile}) => {
       biography: profile?.biography || '',
       city: profile?.city || '',
       birthdate: profile?.birthdate || '',
+      username: profile?.username || '',
+      is_public: Boolean(profile?.is_public),
     }
   });
 
@@ -30,6 +33,8 @@ const ProfileEditForm = ({profile}) => {
       biography: data.biography || null,
       city: data.city || null,
       birthdate: data.birthdate || null,
+      username: data.username || null,
+      is_public: data.is_public,
     };
     updateProfile(payload);
   };
@@ -80,6 +85,43 @@ const ProfileEditForm = ({profile}) => {
             disabled={isPending}
           />
         </div>
+
+        <h4 className="text-base font-black text-text-highlight">Perfil público</h4>
+
+        <InputField
+          label="Nombre de usuario"
+          type="text"
+          icon={AtSign}
+          placeholder="tu_nombre"
+          autoComplete="off"
+          registration={register('username')}
+          error={errors.username}
+          disabled={isPending}
+        />
+
+        <div>
+          <label className="flex cursor-pointer items-start gap-2 text-sm text-text-highlight">
+            <input
+              type="checkbox"
+              className="mt-0.5 h-4 w-4 shrink-0 accent-blue-600"
+              disabled={isPending}
+              {...register('is_public')}
+            />
+            <span className="flex flex-col">
+              <span className="font-bold">Hacer público mi perfil</span>
+              <span className="text-text-normal">
+                Cualquiera podrá ver en /u/tu_nombre tu avatar, tu biografía, tus mejores notas por categoría, tus listas públicas y tus reseñas. Tu correo, tu ciudad y tu fecha de nacimiento nunca se muestran.
+              </span>
+            </span>
+          </label>
+          {errors.is_public && <span className="mt-1 text-xs text-red-500">{errors.is_public.message}</span>}
+        </div>
+
+        {profile?.username && (
+          <Link to={`/u/${profile.username}`} className="font-bold text-primary hover:underline">
+            Ver mi perfil público
+          </Link>
+        )}
 
         <div className="flex justify-end mt-4 pt-4 border-t border-slate-100">
           <Button

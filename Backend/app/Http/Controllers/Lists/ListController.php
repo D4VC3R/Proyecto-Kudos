@@ -17,7 +17,7 @@ class ListController extends Controller
 {
     /**
      * GET /api/lists/{slug}: público. Una lista `unlisted` se ve con el enlace; una `private` da 404
-     * a todos salvo a su dueño (F3-01), que la ve. Con sesión añade `liked_by_me`. Solo salen las
+     * a todos salvo a su dueño (F3-01), que la ve. Con sesión añade `liked_by_me`. Desde la F3-03 incluye `author`. Solo salen las
      * entradas con ítem activo de una categoría activa.
      */
     public function show(Request $request, UserList $list): JsonResponse
@@ -37,6 +37,8 @@ class ListController extends Controller
         if ($viewer) {
             $list->loadExists(['likes as liked_by_me' => fn ($q) => $q->where('users.id', $viewer->id)]);
         }
+
+        $list->loadMissing(['user:id,name,username', 'user.profile:id,user_id,avatar,is_public']);
 
         return $this->respondData(new UserListResource($list));
     }

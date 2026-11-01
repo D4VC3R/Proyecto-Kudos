@@ -20,6 +20,7 @@ use App\Http\Controllers\Recommendation\RecommendationController;
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\User\DailyRewardController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\PublicProfileController;
 use App\Http\Controllers\User\UserRankingController;
 use App\Http\Controllers\Vote\VoteController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,8 @@ Route::get('/items/{item}', [ItemController::class, 'show']);
 Route::get('/items/{item}/similar', [ItemController::class, 'similar']);
 Route::get('/items/{item}/comments', [ItemCommentController::class, 'index']);
 Route::get('/users/ranking', [UserRankingController::class, 'index']);
+// Perfil público por nombre de usuario (F3-03). Va después de /users/ranking ("ranking" además está reservado).
+Route::get('/users/{username}', [PublicProfileController::class, 'show'])->where('username', '[A-Za-z0-9_]{1,30}');
 
 // Portada (F2-09) y listas públicas por slug.
 Route::get('/home', [HomeController::class, 'index']);

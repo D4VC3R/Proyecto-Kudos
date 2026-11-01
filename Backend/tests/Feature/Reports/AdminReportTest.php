@@ -360,4 +360,24 @@ class AdminReportTest extends TestCase
 
         app(ModerationAuditLogger::class)->logReportResolution($report, $admin, 'delete', 'Nota');
     }
+
+    public function test_la_cola_enlaza_al_perfil_publico_del_usuario_reportado(): void
+    {
+        $target = User::factory()->create();
+        $target->forceFill(['username' => 'ana_99'])->save();
+        $target->profile->update(['is_public' => true]);
+        $this->reportOf($target);
+
+        $this->actingAsAdmin();
+
+        $this->getJson('/api/admin/reports')
+            ->assertOk()
+            ->assertJsonPath('data.0.content.url', '/u/ana_99');
+
+        $target->profile->update(['is_public' => false]);
+
+        $this->getJson('/api/admin/reports')
+            ->assertOk()
+            ->assertJsonPath('data.0.content.url', null);
+    }
 }

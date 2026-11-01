@@ -12,6 +12,7 @@ import CategoryPage from "../pages/CategoryPage.jsx";
 import RankingPage from "../pages/RankingPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
 import ListPage from "../pages/ListPage.jsx";
+import PublicProfilePage from "../pages/PublicProfilePage.jsx";
 import WishlistPage from "../pages/WishlistPage.jsx";
 import MyListsPage from "../pages/MyListsPage.jsx";
 import MyListEditPage from "../pages/MyListEditPage.jsx";
@@ -54,6 +55,7 @@ const AppRoutes = () => {
       <Route path="/ranking" element={<RankingPage/>}/>
       <Route path="/buscar" element={<SearchPage/>}/>
       <Route path="/listas/:slug" element={<ListPage/>}/>
+      <Route path="/u/:username" element={<PublicProfilePage/>}/>
       <Route path="/privacidad" element={<PrivacyPage/>}/>
       <Route path="/aviso-legal" element={<LegalNoticePage/>}/>
       <Route path="/:categorySlug" element={<CategoryPage/>}/>

@@ -5,6 +5,7 @@ namespace Tests\Feature\Lists;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\ListItem;
+use App\Models\User;
 use App\Models\UserList;
 use App\Models\Vote;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -123,5 +124,38 @@ class PublicListTest extends TestCase
             ->assertJsonPath('data.items.0.item.can_vote', false)
             ->assertJsonMissingPath('data.items.1.item.user_vote')
             ->assertJsonPath('data.items.1.item.can_vote', true);
+    }
+
+    public function test_la_lista_muestra_al_autor_con_perfil_publico(): void
+    {
+        $user = User::factory()->create(['name' => 'Ana']);
+        $user->forceFill(['username' => 'ana_99'])->save();
+        $user->profile->update(['is_public' => true]);
+        $list = UserList::factory()->create(['user_id' => $user->id, 'visibility' => UserList::VISIBILITY_PUBLIC]);
+
+        $this->getJson("/api/lists/{$list->slug}")
+            ->assertOk()
+            ->assertJsonPath('data.author.username', 'ana_99')
+            ->assertJsonPath('data.author.name', 'Ana');
+    }
+
+    public function test_el_autor_es_null_si_su_perfil_es_privado_o_la_lista_es_editorial(): void
+    {
+        $private = User::factory()->create();
+        $private->forceFill(['username' => 'privada_1'])->save();
+        $list = UserList::factory()->create(['user_id' => $private->id, 'visibility' => UserList::VISIBILITY_PUBLIC]);
+
+        $this->getJson("/api/lists/{$list->slug}")
+            ->assertOk()
+            ->assertJsonPath('data.author', null);
+
+        $admin = User::factory()->create();
+        $admin->forceFill(['username' => 'equipo_1'])->save();
+        $admin->profile->update(['is_public' => true]);
+        $editorial = UserList::factory()->editorial()->create(['user_id' => $admin->id]);
+
+        $this->getJson("/api/lists/{$editorial->slug}")
+            ->assertOk()
+            ->assertJsonPath('data.author', null);
     }
 }

@@ -77,6 +77,15 @@ const ListPage = () => {
         )}
       </SectionHeader>
 
+      {state.list.author && (
+        <p className="text-sm font-bold text-text-normal">
+          Por{' '}
+          <Link to={`/u/${state.list.author.username}`} className="text-primary hover:underline">
+            {state.list.author.name}
+          </Link>
+        </p>
+      )}
+
       {state.isOwner && state.list.is_hidden_by_moderation && (
         <p role="alert" className="flex items-center gap-2 text-sm font-bold text-red-600">
           <ShieldAlert size={18} className="shrink-0" />

@@ -79,7 +79,8 @@ class AdminReportResource extends ReportResource
                 'author' => $this->person($reportable),
                 'is_hidden' => false,
                 'is_deleted' => false,
-                'url' => null,
+                // F3-03: enlace al perfil público, si lo es; un perfil privado daría 404 también al admin.
+                'url' => $reportable->hasPublicProfile() ? "/u/{$reportable->username}" : null,
             ];
         }
 
