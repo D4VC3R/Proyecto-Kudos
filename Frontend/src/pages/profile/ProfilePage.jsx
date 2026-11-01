@@ -6,6 +6,7 @@ import ProfileOverview from './ProfileOverview.jsx';
 import MyProposalsPage from './MyProposalsPage.jsx';
 import MyVotesPage from './MyVotesPage.jsx';
 import MyStatsPage from './MyStatsPage.jsx';
+import ProfilePrivacyPage from './ProfilePrivacyPage.jsx';
 import ProfileInfoFormSkeleton from '../../components/ui/skeletons/ProfileInfoFormSkeleton.jsx';
 import SectionHeader from "../../components/ui/SectionHeader.jsx";
 import ProfileTabs from "../../components/profile/ProfileTabs.jsx";
@@ -53,6 +54,9 @@ export const ProfilePage = ({tab = 'info'}) => {
             )}
             {activeTab === 'stats' && (
               <MyStatsPage/>
+            )}
+            {activeTab === 'privacy' && (
+              <ProfilePrivacyPage/>
             )}
           </>
         )}

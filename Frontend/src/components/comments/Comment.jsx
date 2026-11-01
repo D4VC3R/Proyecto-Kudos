@@ -25,6 +25,8 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete, onReply, isR
   const [editContent, setEditContent] = useState(comment.content);
 
   const author = comment.user;
+  // F3-08: el autor borró su cuenta y el comentario se conserva anonimizado (user.id nulo).
+  const isDeletedUser = !author?.id;
 
   const handleUpdate = () => {
     if (editContent.trim() && editContent !== comment.content) {
@@ -43,7 +45,7 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete, onReply, isR
     <div className={`${isReply ? 'p-3' : 'p-4'} rounded-xl border flex gap-3 transition-colors ${comment.is_hidden ? 'bg-background border-border opacity-60' : `bg-background ${isHighlightedReview ? 'border-yellow-300' : 'border-slate-100'}`}`}>
 
       <div className={`shrink-0 flex items-center justify-center ${isReply ? 'w-8 h-8' : 'w-10 h-10'} rounded-full bg-slate-200 text-text-normal overflow-hidden`}>
-        <StorageImage src={author?.avatar || author?.profile?.avatar} alt={author?.name || 'Usuario'} className="w-full h-full object-cover" fallbackIcon={UserCircle} />
+        <StorageImage src={author?.avatar || author?.profile?.avatar} alt={isDeletedUser ? 'Usuario eliminado' : (author?.name || 'Usuario')} className="w-full h-full object-cover" fallbackIcon={UserCircle} />
       </div>
 
       <div className="flex-1 min-w-0">
@@ -51,7 +53,7 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete, onReply, isR
 
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-bold text-sm text-slate-800 truncate">{author?.name || 'Usuario'}</span>
+              <span className="font-bold text-sm text-slate-800 truncate">{isDeletedUser ? 'Usuario eliminado' : (author?.name || 'Usuario')}</span>
               {comment.is_review && (
                 <span className="flex items-center gap-1 rounded-full bg-yellow-50 px-2 py-0.5 text-[11px] font-bold text-yellow-800 ring-1 ring-yellow-300 shrink-0">
                   <Star size={12} className="text-yellow-600 fill-yellow-500" />
@@ -79,7 +81,7 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete, onReply, isR
             {onReply && isVerified && !comment.is_hidden && (
               <Button onClick={onReply} variant="ghost" color="primary" size="iconSm" title="Responder" icon={Reply} />
             )}
-            {isVerified && !isOwner && !isAdmin && !comment.is_hidden && (
+            {isVerified && !isOwner && !isAdmin && !comment.is_hidden && !isDeletedUser && (
               <ReportMenu type="comment" id={comment.id} label="comentario" />
             )}
           </div>

@@ -8,7 +8,7 @@ import {
   Disc,
   Mic2,
   Clapperboard, Tv, Gamepad2, Book, Plane, Users, FileText, LayoutGrid, Target, User as UserIcon, List, ThumbsUp,
-  BarChart3, Trophy, Medal, MapPin, BookmarkPlus, EyeOff, ListOrdered, Flag
+  BarChart3, Trophy, Medal, MapPin, BookmarkPlus, EyeOff, ListOrdered, Flag, ShieldCheck
 } from 'lucide-react';
 
 
@@ -147,6 +147,7 @@ export const profileTabs = [
   { id: 'proposals', name: 'Mis Propuestas', icon: List },
   { id: 'votes', name: 'Historial de Votos', icon: ThumbsUp },
   { id: 'stats', name: 'Estadísticas', icon: BarChart3 },
+  { id: 'privacy', name: 'Privacidad', icon: ShieldCheck },
 ];
 
 // Pasos de la votación en dos pasos (F2-04): "¿Lo conoces?", valorar o interés.
