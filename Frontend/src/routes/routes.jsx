@@ -22,6 +22,7 @@ import AdminCategories from "../pages/admin/AdminCategories.jsx";
 import AdminItems from "../pages/admin/AdminItems.jsx";
 import AdminProposals from "../pages/admin/AdminProposals.jsx";
 import AdminLists from "../pages/admin/AdminLists.jsx";
+import AdminReports from "../pages/admin/AdminReports.jsx";
 import AdminListDetail from "../pages/admin/AdminListDetail.jsx";
 import AdminUserDetail from "../pages/admin/AdminUserDetail.jsx";
 import ExplorePage from "../pages/ExplorePage.jsx";
@@ -74,6 +75,7 @@ const AppRoutes = () => {
               <Route path="proposals" element={<AdminProposals/>}/>
               <Route path="lists" element={<AdminLists/>}/>
               <Route path="lists/:listId" element={<AdminListDetail/>}/>
+              <Route path="reports" element={<AdminReports/>}/>
             </Route>
           </Route>
         </Route>

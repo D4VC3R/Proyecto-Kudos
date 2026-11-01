@@ -53,6 +53,10 @@ export const formatStatus = (status) => {
       return 'ACEPTADA';
     case 'changes_requested':
       return 'CAMBIOS SOLICITADOS';
+    case 'resolved':
+      return 'RESUELTO';
+    case 'dismissed':
+      return 'DESCARTADO';
     default: return status;
   }
 }

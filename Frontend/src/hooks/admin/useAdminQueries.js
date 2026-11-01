@@ -68,6 +68,24 @@ export const useAdminProposals = (filters = {}) => {
   });
 };
 
+// --- REPORTES (F3-04) ---
+export const ADMIN_REPORT_KEYS = {
+  all: ['admin-reports'],
+  lists: () => [...ADMIN_REPORT_KEYS.all, 'list'],
+  list: (filters) => [...ADMIN_REPORT_KEYS.lists(), { filters }],
+};
+export const useAdminReports = (filters = {}) => {
+  const cleanFilters = Object.fromEntries(
+    Object.entries(filters).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
+  );
+
+  return useQuery({
+    queryKey: ADMIN_REPORT_KEYS.list(cleanFilters),
+    queryFn: () => axiosClient.get('/admin/reports', { params: cleanFilters }),
+    placeholderData: keepPreviousData,
+  });
+};
+
 // --- USUARIOS ---
 export const ADMIN_USER_KEYS = {
   all: ['admin-users'],

@@ -4,7 +4,7 @@ import { useBaseMutation } from '../common/useBaseMutation';
 import { ITEM_KEYS } from '../items/useItemQueries';
 import { HOME_KEYS } from '../home/useHomeQueries';
 import { LIST_KEYS } from '../lists/useListQueries';
-import { ADMIN_ITEM_KEYS, ADMIN_LIST_KEYS, ADMIN_PROPOSAL_KEYS, ADMIN_USER_KEYS } from './useAdminQueries';
+import { ADMIN_ITEM_KEYS, ADMIN_LIST_KEYS, ADMIN_PROPOSAL_KEYS, ADMIN_REPORT_KEYS, ADMIN_USER_KEYS } from './useAdminQueries';
 
 // --- CATEGORIAS ---
 export const useCreateCategory = () => {
@@ -81,6 +81,16 @@ export const useAdminDeleteItem = () => {
     mutationFn: (id) => axiosClient.delete(`/items/${id}`),
     invalidateKeys: [ITEM_KEYS.all, ADMIN_ITEM_KEYS.all],
     successMessage: 'Ítem eliminado con éxito',
+  });
+};
+
+// --- REPORTES (F3-04) ---
+// Ocultar o borrar cambia el contenido: se refrescan fichas, listas y portada además de la cola.
+export const useResolveReport = () => {
+  return useBaseMutation({
+    mutationFn: ({ id, action, note }) => axiosClient.post(`/admin/reports/${id}/resolve`, { action, note }),
+    invalidateKeys: [ADMIN_REPORT_KEYS.all, ITEM_KEYS.all, LIST_KEYS.all, HOME_KEYS.all],
+    successMessage: (res) => res?.message ?? 'Reporte resuelto',
   });
 };
 

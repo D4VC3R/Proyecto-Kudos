@@ -4,7 +4,7 @@ import {
   useCreateCategory, useUpdateCategory, useDeleteCategory,
   useAdminCreateList, useAdminUpdateList, useAdminDeleteList,
   useAdminModerateItem, useAdminDeleteItem,
-  useReviewProposal,
+  useReviewProposal, useResolveReport,
   useBanUser, useUnbanUser, useRevokeUserSessions
 } from './useAdminMutations';
 
@@ -156,6 +156,32 @@ export const useAdminProposalActions = () => {
     isOpen, actionType, selectedProposal, closeModal,
     handleOpenAction, executeAction, isPending,
     adminNotes, setAdminNotes,
+  };
+};
+
+// --- REPORT ACTIONS (F3-04) ---
+export const useAdminReportActions = () => {
+  const { isOpen, modalType: actionType, modalData: selectedReport, openModal, closeModal } = useModal();
+  const [note, setNote] = useState('');
+  const { mutate: resolveReport, isPending } = useResolveReport();
+
+  const handleOpenAction = (report, type) => {
+    openModal(type, report);
+    setNote('');
+  };
+
+  const executeAction = () => {
+    if (!selectedReport) return;
+    resolveReport(
+      { id: selectedReport.id, action: actionType, note: note.trim() || null },
+      { onSuccess: closeModal }
+    );
+  };
+
+  return {
+    isOpen, actionType, selectedReport, closeModal,
+    handleOpenAction, executeAction, isPending,
+    note, setNote,
   };
 };
 
