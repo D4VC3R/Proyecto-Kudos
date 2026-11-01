@@ -24,7 +24,7 @@ Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en b
 
 ## 3. DSA (requisito de la Fase 3, antes de abrir listas y reseñas)
 
-1. **Notificación:** botón "Reportar" en comentarios, reseñas, listas y perfiles (`reports`, F3-04), al menos para usuarios registrados, más un correo de contacto público. *Implementado en la F3-04 para comentarios y listas; el botón en perfiles llega con la F3-03 (el backend ya los acepta).*
+1. **Notificación:** botón "Reportar" en comentarios, reseñas, listas y perfiles (`reports`, F3-04), al menos para usuarios registrados, más un correo de contacto público. *Implementado en la F3-04 para comentarios y listas; el botón en perfiles llega con la F3-03 (el backend ya los acepta). Las reseñas y las respuestas (F3-02) usan el mismo componente `Comment` que los comentarios, así que también tienen "Reportar".*
 2. **Cola de revisión** en el panel de admin: `pending`, `resolved` y `dismissed`. *Implementada en la F3-04 (`/admin/reports`).*
 3. **Exposición de motivos:** al retirar u ocultar contenido, se avisa al autor de qué contenido, por qué y cómo reclamar, con una notificación dentro de la app (F3-05). *Implementado en la F3-04 con `ContentRemovedNotification`; no se avisa al denunciante de la decisión.*
 4. **Punto de contacto:** correo visible en el aviso legal. *El correo sale de `LEGAL_CONTACT_EMAIL` (`config('kudos.legal.contact_email')`, F3-04), que elige el humano; la F3-07 debe mostrar el mismo en `/aviso-legal`.*
