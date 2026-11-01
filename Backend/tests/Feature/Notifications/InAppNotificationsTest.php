@@ -111,6 +111,24 @@ class InAppNotificationsTest extends TestCase
         $this->assertNull($data['appeal_contact']);
     }
 
+    public function test_content_removed_de_un_perfil_habla_del_contenido_del_perfil(): void
+    {
+        $user = User::factory()->create();
+
+        $user->notify(new ContentRemovedNotification(
+            'profile',
+            'Mi biografía',
+            ContentRemovedNotification::ACTION_DELETED,
+            'Contenido ofensivo.',
+        ));
+
+        $data = $user->notifications()->first()->data;
+
+        $this->assertSame('profile', $data['content_type']);
+        $this->assertStringStartsWith('El contenido de tu perfil', $data['message']);
+        $this->assertStringContainsString('eliminado', $data['message']);
+    }
+
     public function test_comment_replied_enlaza_a_la_ficha_del_item(): void
     {
         $user = User::factory()->create();

@@ -5,7 +5,7 @@ namespace App\Notifications;
 use Illuminate\Support\Str;
 
 /**
- * Aviso de que un contenido del usuario se ha ocultado o eliminado por moderación (la dispara la F3-04).
+ * Aviso de que un contenido del usuario se ha ocultado o eliminado por moderación (la dispara ResolveReportAction, F3-04).
  */
 class ContentRemovedNotification extends InAppNotification
 {
@@ -41,9 +41,12 @@ class ContentRemovedNotification extends InAppNotification
             default => 'contenido',
         };
 
+        // Borrar un perfil no elimina la cuenta, sino que vacía su contenido público.
+        $subject = $this->contentType === 'profile' ? 'El contenido de tu perfil' : "Tu {$label}";
+
         $message = sprintf(
-            'Tu %s «%s» se ha %s. Motivo: %s.',
-            $label,
+            '%s «%s» se ha %s. Motivo: %s.',
+            $subject,
             $excerpt,
             $hidden ? 'ocultado' : 'eliminado',
             rtrim($this->reason, '. '),

@@ -89,11 +89,7 @@ class ItemCommentController extends Controller
 
         public function hide(HideItemCommentRequest $request, ItemComment $comment): JsonResponse
         {
-                $comment->update([
-                        'is_hidden' => true,
-                        'hidden_reason' => $request->validated()['reason'] ?? null,
-                        'hidden_by' => $request->user()->id,
-                ]);
+                $comment->hideByModerator($request->user()->id, $request->validated()['reason'] ?? null);
 
                 return $this->respondMutation(
                         message: 'Comentario ocultado correctamente.',

@@ -80,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Límites con nombre de la importación bajo demanda (F1-07), por usuario y por minuto.
+     * Límites con nombre: importación bajo demanda (F1-07, por minuto) y reportes (F3-04, por hora), por usuario.
      * Responden 429 con el formato de error de la API (bootstrap/app.php no da formato a los 429).
      */
     private function configureRateLimiting(): void
@@ -92,6 +92,10 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('catalog-import', fn (Request $request) => Limit::perMinute((int) config('catalog.on_demand.import_per_minute', 5))
             ->by((string) ($request->user()?->id ?? $request->ip()))
             ->response($this->tooManyRequests('Has añadido demasiados títulos seguidos. Espera un minuto y vuelve a intentarlo.')));
+
+        RateLimiter::for('reports', fn (Request $request) => Limit::perHour((int) config('kudos.reports.per_hour', 10))
+            ->by((string) ($request->user()?->id ?? $request->ip()))
+            ->response($this->tooManyRequests('Has enviado demasiados reportes. Espera un rato y vuelve a intentarlo.')));
     }
 
     private function tooManyRequests(string $message): Closure

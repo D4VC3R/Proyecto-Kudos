@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Item;
 use App\Models\Proposal;
+use App\Models\Report;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -70,5 +71,28 @@ class ModerationAuditLogger
 			'changed_at' => now()->toIso8601String(),
 		]);
 	}
-}
 
+    /**
+     * Registra la resolución de un reporte de contenido por parte de un administrador (F3-04).
+     *
+     * @param Report $report Reporte resuelto.
+     * @param User $admin Administrador que lo resolvió.
+     * @param string $action Acción tomada ('hide', 'delete' o 'dismiss').
+     * @param string|null $note Nota del administrador (opcional).
+     * @param array $context Información adicional (acción sobre el contenido, reportes cerrados…).
+     */
+	public function logReportResolution(Report $report, User $admin, string $action, ?string $note = null, array $context = []): void
+	{
+		Log::channel('moderation')->info('admin.report.resolve', [
+			'report_id' => $report->id,
+			'reportable_type' => $report->reportableAlias(),
+			'reportable_id' => $report->reportable_id,
+			'reason' => $report->reason,
+			'admin_id' => $admin->id,
+			'action' => $action,
+			'note' => $note,
+			'context' => $context,
+			'resolved_at' => now()->toIso8601String(),
+		]);
+	}
+}

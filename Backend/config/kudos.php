@@ -41,6 +41,17 @@ return [
         'min_ratings' => 5,
     ],
 
+    // Reportes de contenido (F3-04, DSA): máximo de reportes por usuario y hora.
+    'reports' => [
+        'per_hour' => 10,
+    ],
+
+    // Correo de contacto legal (aviso legal, DSA): es la vía de reclamación que reciben los autores
+    // cuando se oculta o borra su contenido. Vacío = la notificación no incluye la vía de reclamación.
+    'legal' => [
+        'contact_email' => env('LEGAL_CONTACT_EMAIL') ?: null,
+    ],
+
     'rules' => [
         'daily_login_streak_cap' => 5,
     ],
