@@ -62,7 +62,7 @@ const ItemDetailPage = () => {
             </div>
             <div
               className="flex flex-col w-full lg:w-1/3 h-[500px] lg:h-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 p-6 overflow-hidden min-h-0">
-              <CommentBox itemId={item.id} className="h-full"/>
+              <CommentBox itemId={item.id} userVote={item.user_vote} className="h-full"/>
             </div>
           </div>
         )}
