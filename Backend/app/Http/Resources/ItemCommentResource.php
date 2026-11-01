@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +23,10 @@ class ItemCommentResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
+            // F3-02: respuesta (parent_id), reseña (is_review + nota del voto) y respuestas anidadas (solo en el listado).
+            'parent_id' => $this->parent_id,
+            'is_review' => $this->vote_id !== null,
+            'score' => $this->vote_id !== null && $this->vote?->type === Vote::TYPE_VOTE ? $this->vote->score : null,
             'is_hidden' => (bool) $this->is_hidden,
             'hidden_reason' => $this->when($isAdmin || $isOwner, $this->hidden_reason),
             'created_at' => $this->created_at?->toIso8601String(),
@@ -33,6 +38,7 @@ class ItemCommentResource extends JsonResource
             ],
             'can_edit' => $this->when($user instanceof User, $isAdmin || $isOwner),
             'can_delete' => $this->when($user instanceof User, $isAdmin || $isOwner),
+            'replies' => ItemCommentResource::collection($this->whenLoaded('replies')),
         ];
     }
 }

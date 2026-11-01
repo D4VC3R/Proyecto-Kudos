@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserCircle, EyeOff, Eye, Trash2, Edit2, Check, X } from 'lucide-react';
+import { UserCircle, EyeOff, Eye, Trash2, Edit2, Check, X, Star, Reply } from 'lucide-react';
 import { formatDate } from '../../lib/formatters';
 // Componentes
 import Button from '../ui/Button.jsx';
@@ -11,7 +11,7 @@ import { useSessionStore, selectIsVerified } from '../../store/useSessionStore';
 import { useAdminUnhideComment } from '../../hooks/admin/useAdminMutations';
 import { useUpdateComment } from '../../hooks/items/useItemMutations';
 
-const Comment = ({ comment, itemId, onRequestHide, onRequestDelete }) => {
+const Comment = ({ comment, itemId, onRequestHide, onRequestDelete, onReply, isReply = false }) => {
   const { user } = useSessionStore();
   const isAdmin = user?.role === 'admin';
   const isOwner = user?.id === comment.user?.id;
@@ -37,10 +37,12 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete }) => {
     }
   };
 
-  return (
-    <div className={`p-4 rounded-xl border flex gap-3 transition-colors ${comment.is_hidden ? 'bg-background border-border opacity-60' : 'bg-background border-slate-100'}`}>
+  const isHighlightedReview = comment.is_review && !comment.is_hidden;
 
-      <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-slate-200 text-text-normal overflow-hidden">
+  return (
+    <div className={`${isReply ? 'p-3' : 'p-4'} rounded-xl border flex gap-3 transition-colors ${comment.is_hidden ? 'bg-background border-border opacity-60' : `bg-background ${isHighlightedReview ? 'border-yellow-300' : 'border-slate-100'}`}`}>
+
+      <div className={`shrink-0 flex items-center justify-center ${isReply ? 'w-8 h-8' : 'w-10 h-10'} rounded-full bg-slate-200 text-text-normal overflow-hidden`}>
         <StorageImage src={author?.avatar || author?.profile?.avatar} alt={author?.name || 'Usuario'} className="w-full h-full object-cover" fallbackIcon={UserCircle} />
       </div>
 
@@ -50,6 +52,12 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete }) => {
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="font-bold text-sm text-slate-800 truncate">{author?.name || 'Usuario'}</span>
+              {comment.is_review && (
+                <span className="flex items-center gap-1 rounded-full bg-yellow-50 px-2 py-0.5 text-[11px] font-bold text-yellow-800 ring-1 ring-yellow-300 shrink-0">
+                  <Star size={12} className="text-yellow-600 fill-yellow-500" />
+                  Reseña{comment.score != null ? ` · ${comment.score}` : ''}
+                </span>
+              )}
               {isEdited && <span className="text-[10px] text-slate-400 italic shrink-0">(editado)</span>}
             </div>
             <span className="text-xs text-slate-400">{formatDate(comment.created_at)}</span>
@@ -67,6 +75,9 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete }) => {
             )}
             {isAdmin && (
               <Button onClick={onRequestDelete} variant="ghost" color="danger" size="iconSm" title="Eliminar" icon={Trash2} />
+            )}
+            {onReply && isVerified && !comment.is_hidden && (
+              <Button onClick={onReply} variant="ghost" color="primary" size="iconSm" title="Responder" icon={Reply} />
             )}
             {isVerified && !isOwner && !isAdmin && !comment.is_hidden && (
               <ReportMenu type="comment" id={comment.id} label="comentario" />

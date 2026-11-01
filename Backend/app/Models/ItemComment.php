@@ -6,16 +6,20 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Representa un comentario realizado por un usuario sobre un ítem.
  * Cada comentario pertenece a un ítem y a un usuario, y puede ser ocultado por moderación.
  * Proporciona relaciones con el ítem, el usuario que lo creó y el usuario que lo ocultó, si hay.
+ * Desde la F3-02 puede ser una respuesta (`parent_id`, un solo nivel) o una reseña (`vote_id`, ligada a la nota del autor).
  */
 class ItemComment extends Model
 {
 	use HasFactory, HasUuids, SoftDeletes;
+
+	public const REVIEW_DUPLICATE_MESSAGE = 'Ya has escrito una reseña de este ítem.';
 
 	protected $attributes = [
 		'is_hidden' => false,
@@ -25,6 +29,8 @@ class ItemComment extends Model
 		'item_id',
 		'user_id',
 		'content',
+		'parent_id',
+		'vote_id',
 		'is_hidden',
 		'hidden_reason',
 		'hidden_by',
@@ -64,6 +70,30 @@ class ItemComment extends Model
 	public function hiddenByUser(): BelongsTo
 	{
 		return $this->belongsTo(User::class, 'hidden_by');
+	}
+
+    /**
+     * Comentario al que responde este (F3-02). Es null si es un comentario principal.
+     */
+	public function parent(): BelongsTo
+	{
+		return $this->belongsTo(self::class, 'parent_id');
+	}
+
+    /**
+     * Respuestas a este comentario (F3-02, un solo nivel).
+     */
+	public function replies(): HasMany
+	{
+		return $this->hasMany(self::class, 'parent_id');
+	}
+
+    /**
+     * Voto del autor al que va ligada la reseña (F3-02). Es null si no es una reseña.
+     */
+	public function vote(): BelongsTo
+	{
+		return $this->belongsTo(Vote::class);
 	}
 
 	/**

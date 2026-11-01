@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Item;
 
+use App\Actions\CreateItemCommentAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Items\DeleteItemCommentRequest;
 use App\Http\Requests\Items\HideItemCommentRequest;
@@ -24,16 +25,36 @@ class ItemCommentController extends Controller
                 $user = $request->user('sanctum');
                 $includeHidden = $user?->hasRole('admin') ?? false;
 
+                // Los ocultos solo los ven el admin y su autor (en los dos niveles).
+                $visible = function ($query) use ($includeHidden, $user) {
+                        if ($includeHidden) {
+                                return;
+                        }
+                        $query->where(function ($q) use ($user) {
+                                $q->where('is_hidden', false);
+                                if ($user) {
+                                        $q->orWhere('user_id', $user->id);
+                                }
+                        });
+                };
+
+                // F3-02: solo comentarios principales; primero las reseñas (con su nota) y dentro de cada grupo los más recientes.
+                // Las respuestas van anidadas, de la más antigua a la más reciente.
                 $comments = ItemComment::query()
                         ->where('item_id', $item->id)
-                        ->with(['user:id,name'])
-                        ->when(!$includeHidden, fn($q) => $q->where(function($query) use ($user) {
-                                $query->where('is_hidden', false);
-                                if ($user) {
-                                    $query->orWhere('user_id', $user->id);
-                                }
-                        }))
+                        ->whereNull('parent_id')
+                        ->with([
+                                'user:id,name',
+                                'vote:id,type,score',
+                                'replies' => function ($query) use ($visible) {
+                                        $visible($query);
+                                        $query->with(['user:id,name'])->oldest()->orderBy('id');
+                                },
+                        ])
+                        ->tap($visible)
+                        ->orderByRaw('vote_id IS NULL')
                         ->latest()
+                        ->orderByDesc('id')
                         ->paginate($perPage);
 
                 return $this->respondList(
@@ -53,15 +74,17 @@ class ItemCommentController extends Controller
                 );
         }
 
-        public function store(StoreItemCommentRequest $request, Item $item): JsonResponse
+        public function store(StoreItemCommentRequest $request, Item $item, CreateItemCommentAction $createComment): JsonResponse
         {
                 $payload = $request->validated();
 
-                $comment = ItemComment::create([
-                        'item_id' => $item->id,
-                        'user_id' => $request->user()->id,
-                        'content' => $payload['content'],
-                ])->load(['user:id,name']);
+                $comment = $createComment->execute(
+                        item: $item,
+                        author: $request->user(),
+                        content: $payload['content'],
+                        parent: $request->parentComment(),
+                        reviewVote: $request->reviewVote(),
+                )->load(['user:id,name', 'vote:id,type,score']);
 
                 return $this->respondMutation(
                         message: 'Comentario registrado correctamente.',

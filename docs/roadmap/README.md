@@ -71,7 +71,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | ID | Tarea | Resp. | Depende de | Estado |
 |---|---|---|---|---|
 | F3-01 | Listas de usuarios: CRUD, visibilidad y *likes* | BE, FE | F2-09, F3-04, F3-07 | pendiente |
-| F3-02 | Reseñas ligadas a una nota y respuestas de un nivel | BE, FE | F3-04 | pendiente |
+| F3-02 | Reseñas ligadas a una nota y respuestas de un nivel | BE, FE | F3-04 | hecho |
 | F3-03 | Perfil público (`username`, `is_public`, `/u/:username`) | BE, FE | F3-07 | pendiente |
 | F3-04 | Reportes (DSA) y cola de revisión del admin | BE, FE | F3-05 | hecho |
 | F3-05 | Notificaciones dentro de la app | BE, FE | — | hecho |

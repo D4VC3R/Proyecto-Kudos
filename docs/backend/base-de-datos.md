@@ -22,7 +22,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | `list_items` | F2-09. `list_id` (FK, cascade), `item_id` (FK, cascade), `position`, `note` string(280) nullable, timestamps. Único `(list_id, item_id)`; índice `(list_id, position)` |
 | `notifications` | F3-05. `id` (uuid, PK), `type`, `notifiable_type` + `notifiable_id` (uuid; índice `(notifiable_type, notifiable_id)`), `data` (text con JSON), `read_at` (nullable), timestamps. Tabla estándar de Laravel con `uuidMorphs` |
 | `votes` | `type` (`vote`/`want`/`not_interested`, y `skip` heredado; CHECK `votes_type_check`), `score` decimal(4,1) nullable, `user_id`, `item_id`. Único `votes_user_item_unique(user_id, item_id)`; índices `(item_id, type)` y `(user_id, type)` |
-| `item_comments` | `content`, `is_hidden`, `hidden_reason`, `hidden_by`, borrado suave |
+| `item_comments` | `content`, `is_hidden`, `hidden_reason`, `hidden_by`, borrado suave; **F3-02:** `parent_id` (FK a la propia tabla, `cascadeOnDelete`; índice `(parent_id, created_at)`) y `vote_id` (FK a `votes`, `nullOnDelete`; índice `(vote_id)`; índice parcial único `item_comments_review_unique`) |
 | `proposals` | La misma forma que `items` + `status`, `reviewed_by`, `admin_notes` |
 | `kudos_transactions` | `kudos_amount`, `reason`, `action_key` (único), referencia polimórfica |
 | Otras | spatie (roles y permisos), `personal_access_tokens`, `cache`, `jobs`, `failed_jobs` |
@@ -159,8 +159,8 @@ ALTER TABLE votes ADD CONSTRAINT votes_type_check
 
 ### Fase 3 (F3-01 a F3-07)
 
-- `item_comments.parent_id`: uuid nullable, FK a la propia tabla (`cascadeOnDelete`). Un solo nivel, validado en el Form Request.
-- `item_comments.vote_id`: uuid nullable, FK a `votes` (`nullOnDelete`). Si tiene valor, el comentario es una reseña. Máximo una por usuario e ítem.
+- `item_comments.parent_id` (hecha en la F3-02 con la migración `2026_11_01_000000_add_parent_and_vote_to_item_comments_table`): uuid nullable, FK a la propia tabla (`cascadeOnDelete`). Un solo nivel, validado en el Form Request.
+- `item_comments.vote_id` (hecha en la F3-02, misma migración): uuid nullable, FK a `votes` (`nullOnDelete`). Si tiene valor, el comentario es una reseña. Máximo una por usuario e ítem: validado en el Form Request y garantizado por el índice parcial único `item_comments_review_unique` sobre `(item_id, user_id) WHERE vote_id IS NOT NULL AND deleted_at IS NULL`.
 - `reports` (hecha en la F3-04 con la migración `2026_10_31_200000_create_reports_table`):
   - `id` uuid, `reporter_id` FK nullable (`nullOnDelete`);
   - `reportable_type` (string, FQCN: `App\Models\ItemComment`, `UserList` o `User`, sin *morph map*), `reportable_id` (uuid), con `uuidMorphs('reportable')`;
