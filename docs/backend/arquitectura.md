@@ -85,7 +85,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 
 **Notificaciones** (F3-05)
 - `app/Notifications/InAppNotification.php`: base abstracta. `via()` devuelve solo `['database']` (nunca correo) y `itemUrl(Item)` da `/:categorySlug/item/:id` (o `null` sin categoría). Sin `ShouldQueue`: se insertan en la misma petición. `toArray()` devuelve siempre `kind`, `title`, `message` y `url` más los campos de cada tipo.
-- Cuatro clases hijas, creadas pero **sin disparador** (lo conectará cada tarea): `ContentRemovedNotification` (F3-04; `contentType`, `contentExcerpt`, `action` hidden/deleted, `reason`, `appealContact`), `CommentRepliedNotification` (F3-02; recibe el `ItemComment` de la respuesta), `ListLikedNotification` (F3-01; lista y autor del *like*) y `WishlistReleasedNotification` (F3-06; el `Item`).
+- Cuatro clases hijas. `ContentRemovedNotification` (`contentType`, `contentExcerpt`, `action` hidden/deleted, `reason`, `appealContact`) ya se dispara desde `ResolveReportAction` (F3-04); las demás siguen **sin disparador** (lo conectará cada tarea): `CommentRepliedNotification` (F3-02; recibe el `ItemComment` de la respuesta), `ListLikedNotification` (F3-01; lista y autor del *like*) y `WishlistReleasedNotification` (F3-06; el `Item`).
 - `app/Http/Controllers/Notification/NotificationController.php`, tras `auth:sanctum`, `verified` y `not_banned`:
   - `GET /api/notifications` (`per_page` 1-50, por defecto 15, y `page`): no leídas primero y después `created_at desc`; `meta` con `current_page`, `last_page`, `per_page`, `total` y `unread_count`;
   - `POST /api/notifications/{id}/read` (`id` UUID): marca una propia como leída (idempotente; la ajena o inexistente da 404) y devuelve `data` y `meta.unread_count`;
@@ -95,7 +95,14 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 **Propuestas y moderación**
 - `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`. No existe un `ProposalService`.
 - `app/Services/ModerationAuditLogger.php`: canal de log `moderation`.
-- `app/Models/ItemComment.php`: `is_hidden`, `hidden_reason` y `hidden_by`.
+- `app/Models/ItemComment.php`: `is_hidden`, `hidden_reason` y `hidden_by`; `hideByModerator($moderatorId, $reason)` oculta el comentario y lo usan `ItemCommentController::hide()` y los reportes (F3-04).
+
+**Reportes** (F3-04)
+- `app/Models/Report.php` (tabla `reports`, polimórfico): `reportable_type` guarda el FQCN (sin *morph map*, por Spatie). Constantes `STATUS_*`, `ACTION_*`, `REASONS`, `REASON_LABELS` y `REPORTABLE_TYPES` (alias `comment`/`list`/`user` → clase). Scopes `pending()` y `withAdminRelations()` (carga ansiosa con `MorphTo::constrain` y `withTrashed` para comentarios y listas). Métodos `reportableAlias()`, `resolveReportable()`, `authorIdOf()` y `reasonLabel()`. Factory `ReportFactory`.
+- `app/Actions/CreateReportAction.php`: 409 (`ConflictHttpException`) si el usuario ya tiene un reporte pendiente del mismo contenido, también ante la carrera contra el índice parcial `reports_pending_unique`.
+- `app/Actions/ResolveReportAction.php`: transacción con `lockForUpdate` sobre el reporte; `dismiss`, o `hide`/`delete` sobre comentario (`hideByModerator` o borrado suave), lista (`private` o borrado suave, más `HomeFeedService::forgetCache()`) y perfil (solo `delete`: vacía biografía, enlaces, ciudad y avatar con `MediaStorageInterface::delete`). Cierra los demás reportes pendientes del mismo contenido, registra con `ModerationAuditLogger::logReportResolution()` y envía `ContentRemovedNotification` al autor con `config('kudos.legal.contact_email')` como `appealContact`.
+- `app/Http/Controllers/Report/ReportController.php` (`POST /api/reports`, `StoreReportRequest`, `ReportResource`) y `app/Http/Controllers/Admin/AdminReportController.php` (`GET /api/admin/reports` y `POST /api/admin/reports/{report}/resolve`; `ListAdminReportsRequest`, `ResolveReportRequest` y `Admin/AdminReportResource`).
+- Límite con nombre `reports` en `AppServiceProvider::configureRateLimiting()` (`kudos.reports.per_hour` = 10 por usuario y hora). Correo de reclamación: `kudos.legal.contact_email` (variable `LEGAL_CONTACT_EMAIL`, vacía por defecto).
 
 **Media**
 - `app/Services/Media/RemoteImageDownloader.php`: `downloadToTemp(url)` valida la URL (anti-SSRF: resuelve el host con `HostResolverInterface`, cuya implementación `DnsHostResolver` usa `gethostbyname()`), el MIME y el tamaño; también `isRemoteUrl()`.

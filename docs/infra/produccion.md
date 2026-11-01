@@ -40,13 +40,14 @@
 
 ## 3. Variables de entorno nuevas
 
-Van vacías en `Backend/.env.example` y `Backend/.env.production.example`, y se leen en `config/catalog.php`.
+Van vacías en `Backend/.env.example` y `Backend/.env.production.example`, y se leen en `config/catalog.php` y `config/kudos.php`.
 
 | Variable | Fase | Uso |
 |---|---|---|
 | `CATALOG_USER_AGENT` | 1 | User-Agent identificativo (Wikimedia, OSM). Por ejemplo, `KudosBot/1.0 (+https://kudos.dcerdan.es; contacto@dominio)` |
 | `TMDB_API_TOKEN` | 1 | Token v4 (Bearer); lo da de alta el humano |
 | `CATALOG_IMPORT_LIMIT` | 1 | Máximo por categoría en `catalog:fetch-new` (50 en local, 300 en producción) |
+| `LEGAL_CONTACT_EMAIL` | 3 | Correo de contacto legal (se lee en `config/kudos.php`): se muestra en el aviso legal y es la vía de reclamación que reciben los autores cuando se oculta o borra su contenido (F3-04). **Lo elige el humano**: debe ser un buzón que reciba correo. Vacío, el aviso al autor no incluye la vía de reclamación |
 | `IGDB_CLIENT_ID`, `IGDB_CLIENT_SECRET` | 4 | Twitch/IGDB, si se elige IGDB |
 | `RAWG_API_KEY` | 4 | Si se elige RAWG |
 
