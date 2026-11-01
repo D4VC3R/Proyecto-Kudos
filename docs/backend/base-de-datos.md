@@ -13,8 +13,8 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 
 | Tabla | Columnas relevantes |
 |---|---|
-| `users` | `name` (no único), `email`, `email_verified_at`, `total_kudos`, `creations_accepted`, rachas, `is_banned`, `banned_until`, `ban_reason`, `banned_by` |
-| `profiles` | 1:1 con `users`: `avatar`, `biography`, `social_links` (jsonb), `city`, `birthdate`, `interests` (jsonb, default `'[]'`: slugs de categoría elegidos en el onboarding; F2-07) |
+| `users` | `name` (no único), `email`, `email_verified_at`, `total_kudos`, `creations_accepted`, rachas, `is_banned`, `banned_until`, `ban_reason`, `banned_by`, `username` (string(30), único, nullable; F3-03) |
+| `profiles` | 1:1 con `users`: `avatar`, `biography`, `social_links` (jsonb), `city`, `birthdate`, `interests` (jsonb, default `'[]'`: slugs de categoría elegidos en el onboarding; F2-07), `is_public` (bool, default `false`; F3-03) |
 | `categories` | `name` (único), `description` (NOT NULL), `slug` (único, clave de ruta), `image`, `attribute_schema` (jsonb, default `'[]'`), `is_active` (default true), `sort_order` (smallInteger, default 0), `icon` (string(32), nullable) |
 | `items` | `name`, `description` (text, **nullable** desde la F1-01), `images` (jsonb), `status` (`active`/`inactive`), `vote_avg` (float), `vote_count`, `bayes_score` (float, default 0), `quality_score` (smallInteger, default 0), `creator_id` (nullable), `category_id`, borrado suave. Desde la F1-01: `slug` (único, nullable), `original_title`, `released_at` (date), `attributes` (jsonb, default `'{}'`), `popularity` (float, default 0), `wikidata_id` (string(16), único, nullable), `description_source`, `description_url` y `last_synced_at` (timestampTz). Índices: `(status, vote_avg, vote_count)`, `(category_id, status)`, `(category_id, status, bayes_score)`, `(category_id, status, quality_score)`, `(category_id, status, released_at)`, únicos `items_slug_unique` e `items_wikidata_id_unique`, y GIN: trigram `items_name_trgm_idx(name)`, trigram `items_original_title_trgm_idx(original_title)` y `items_attributes_gin_idx(attributes)` |
 | `item_sources` | `item_id` (FK, cascade), `provider`, `external_id`, `url`, `is_primary`, `last_synced_at`, timestamps. Único `(provider, external_id)` e índice `(item_id)` |
@@ -171,8 +171,8 @@ ALTER TABLE votes ADD CONSTRAINT votes_type_check
   - índices `(status, created_at)` y `(reportable_type, reportable_id)`;
   - índice parcial único `reports_pending_unique` sobre `(reporter_id, reportable_type, reportable_id) WHERE status = 'pending'` (un usuario no repite un reporte pendiente del mismo contenido).
 - `notifications`: la tabla estándar (`sail artisan make:notifications-table`) con `uuidMorphs('notifiable')` en lugar de `morphs` (los usuarios son UUID; con `morphs` el `notifiable_id` sería bigint y el INSERT fallaría). Hecha en la F3-05.
-- `users.username`: string(30), único y nullable.
-- `profiles.is_public`: bool, default **false**.
+- `users.username`: string(30), único y nullable. Hecha en la F3-03 con la migración `2026_11_02_000000_add_username_to_users_table`.
+- `profiles.is_public`: bool, default **false**. Hecha en la F3-03 con la migración `2026_11_02_000100_add_is_public_to_profiles_table`.
 - `users.privacy_accepted_at`: timestampTz, nullable (hecha en la F3-07 con la migración `2026_11_01_100000_add_privacy_accepted_at_to_users_table`; se rellena en el registro).
 
 ### Fase 4
