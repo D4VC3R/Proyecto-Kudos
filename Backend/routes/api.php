@@ -71,6 +71,9 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
         Route::get('/statistics', [ProfileController::class, 'statistics']);
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
+        // Exportación de datos y borrado de la cuenta (F3-08, RGPD). Límite compartido en AppServiceProvider.
+        Route::get('/export', [ProfileController::class, 'export'])->middleware('throttle:account');
+        Route::delete('/', [ProfileController::class, 'destroy'])->middleware('throttle:account');
         Route::post('/daily-claim', [DailyRewardController::class, 'claim']);
     });
 

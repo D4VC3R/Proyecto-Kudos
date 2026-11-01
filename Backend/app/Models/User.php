@@ -13,6 +13,7 @@ namespace App\Models;
 use App\Support\Like;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Notifications\Auth\QueuedResetPassword;
@@ -327,5 +328,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function lists(): HasMany
     {
         return $this->hasMany(UserList::class);
+    }
+
+    /**
+     * Listas a las que el usuario ha dado "me gusta" (F3-01; la usa la exportación de datos, F3-08).
+     */
+    public function likedLists(): BelongsToMany
+    {
+        return $this->belongsToMany(UserList::class, 'list_likes', 'user_id', 'list_id')->withPivot('created_at');
     }
 }

@@ -83,6 +83,12 @@ return [
         'release_lookback_days' => 7,
     ],
 
+    // Borrado de cuenta y exportación de datos (F3-08): peticiones por usuario y minuto a DELETE /api/profile y
+    // GET /api/profile/export (comparten el límite). Frena los intentos de adivinar la contraseña.
+    'account' => [
+        'per_minute' => 5,
+    ],
+
     'rules' => [
         'daily_login_streak_cap' => 5,
     ],
