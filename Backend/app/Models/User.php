@@ -92,6 +92,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Indica si el perfil público (/u/{username}, F3-03) se puede abrir: tiene nombre de usuario y el perfil es público.
+     */
+    public function hasPublicProfile(): bool
+    {
+        return $this->username !== null && (bool) ($this->profile?->is_public ?? false);
+    }
+
+    /**
      * Aplica la suspensión al usuario manejando su propio estado interno.
      */
     public function ban(bool $isPermanent, ?int $days, string $reason, string $adminId): void

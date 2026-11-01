@@ -53,6 +53,23 @@ return [
         'max_items' => 100,
     ],
 
+    // Perfil público (F3-03, GET /api/users/{username}).
+    // reserved_usernames: nombres que nadie puede elegir, además de config('catalog.reserved_slugs'), para no suplantar
+    // a la plataforma ni al equipo. Se comparan sin distinguir mayúsculas.
+    // top_per_category: ítems mejor valorados por categoría; lists_limit y reviews_limit: cuántas listas públicas y
+    // reseñas recientes se muestran (las más recientes primero).
+    'profiles' => [
+        'reserved_usernames' => [
+            'admin', 'administrador', 'administrator', 'api', 'kudos', 'root', 'soporte', 'support', 'moderador',
+            'moderator', 'mod', 'staff', 'equipo', 'team', 'sistema', 'system', 'null', 'undefined', 'anonimo',
+            'anonymous', 'user', 'users', 'usuario', 'usuarios', 'perfil', 'ajustes', 'settings', 'ayuda', 'help',
+            'legal', 'contacto', 'contact', 'notificaciones', 'notifications', 'lists', 'reports', 'reportes',
+        ],
+        'top_per_category' => 5,
+        'lists_limit' => 20,
+        'reviews_limit' => 10,
+    ],
+
     // Correo de contacto legal (aviso legal, DSA): es la vía de reclamación que reciben los autores
     // cuando se oculta o borra su contenido. Vacío = la notificación no incluye la vía de reclamación.
     'legal' => [

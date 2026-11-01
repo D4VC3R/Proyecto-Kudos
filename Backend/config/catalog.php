@@ -15,9 +15,9 @@ return [
     'reserved_slugs' => [
         // Rutas actuales
         'buscar', 'ranking', 'admin', 'profile', 'my-proposals', 'forbidden', '404', 'onboarding',
-        'login', 'register', 'verify-email', 'forgot-password', 'password-reset', 'privacidad', 'aviso-legal', 'mis-listas',
+        'login', 'register', 'verify-email', 'forgot-password', 'password-reset', 'privacidad', 'aviso-legal', 'mis-listas', 'u',
         // Rutas previstas (docs/frontend/arquitectura.md §2)
-        'wishlist', 'u', 'listas',
+        'wishlist', 'listas',
     ],
 
     // Las variables de entorno van vacías en los .env*.example (R9) y env() devuelve '' si existen vacías:

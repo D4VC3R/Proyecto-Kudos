@@ -100,7 +100,7 @@ class Report extends Model
             'reportable' => fn (MorphTo $morphTo) => $morphTo->constrain([
                 ItemComment::class => fn (Builder $q) => $q->withTrashed()->with(['user:id,name', 'item:id,category_id', 'item.category:id,slug']),
                 UserList::class => fn (Builder $q) => $q->withTrashed()->with('user:id,name'),
-                User::class => fn (Builder $q) => $q->with('profile:id,user_id,biography'),
+                User::class => fn (Builder $q) => $q->with('profile:id,user_id,biography,is_public'),
             ]),
         ]);
     }
