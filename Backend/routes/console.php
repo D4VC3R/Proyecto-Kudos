@@ -81,3 +81,9 @@ Schedule::command('catalog:refresh')->dailyAt('05:00')->withoutOverlapping();
  * Red de seguridad semanal de los términos de TMDB (domingo): desactiva y limpia lo que lleva más de 180 días sin refrescar.
  */
 Schedule::command('catalog:purge-stale')->weeklyOn(0, '05:30')->withoutOverlapping();
+
+/**
+ * Aviso de estreno de la wishlist (F3-06): después del refresco del catálogo, que puede fijar o mover released_at.
+ * Solo encola en 'default'; el job no repite avisos.
+ */
+Schedule::command('wishlist:notify-releases')->dailyAt('06:00')->withoutOverlapping();
