@@ -23,7 +23,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | `list_items` | F2-09. `list_id` (FK, cascade), `item_id` (FK, cascade), `position`, `note` string(280) nullable, timestamps. Único `(list_id, item_id)`; índice `(list_id, position)` |
 | `notifications` | F3-05. `id` (uuid, PK), `type`, `notifiable_type` + `notifiable_id` (uuid; índice `(notifiable_type, notifiable_id)`), `data` (text con JSON), `read_at` (nullable), timestamps. Tabla estándar de Laravel con `uuidMorphs` |
 | `votes` | `type` (`vote`/`want`/`not_interested`, y `skip` heredado; CHECK `votes_type_check`), `score` decimal(4,1) nullable, `user_id`, `item_id`. Único `votes_user_item_unique(user_id, item_id)`; índices `(item_id, type)` y `(user_id, type)` |
-| `item_comments` | `content`, `is_hidden`, `hidden_reason`, `hidden_by`, borrado suave; **F3-02:** `parent_id` (FK a la propia tabla, `cascadeOnDelete`; índice `(parent_id, created_at)`) y `vote_id` (FK a `votes`, `nullOnDelete`; índice `(vote_id)`; índice parcial único `item_comments_review_unique`) |
+| `item_comments` | `user_id` nullable desde la F3-08 (comentario anonimizado), `content`, `is_hidden`, `hidden_reason`, `hidden_by`, borrado suave; **F3-02:** `parent_id` (FK a la propia tabla, `cascadeOnDelete`; índice `(parent_id, created_at)`) y `vote_id` (FK a `votes`, `nullOnDelete`; índice `(vote_id)`; índice parcial único `item_comments_review_unique`) |
 | `proposals` | La misma forma que `items` + `status`, `reviewed_by`, `admin_notes` |
 | `kudos_transactions` | `kudos_amount`, `reason`, `action_key` (único), referencia polimórfica |
 | Otras | spatie (roles y permisos), `personal_access_tokens`, `cache`, `jobs`, `failed_jobs` |
@@ -158,7 +158,7 @@ ALTER TABLE votes ADD CONSTRAINT votes_type_check
 | `list_items` | `id` uuid, `list_id` FK (cascade), `item_id` FK (cascade), `position` int, `note` string(280) nullable, timestamps. Único `(list_id, item_id)`; índice `(list_id, position)` |
 | `list_likes` | `user_id` FK (cascade), `list_id` FK (cascade), `created_at`. PK `(user_id, list_id)`; índice `(list_id)`. Migración `2026_11_01_200100_create_list_likes_table` (F3-01) |
 
-### Fase 3 (F3-01 a F3-07)
+### Fase 3 (F3-01 a F3-08)
 
 - `item_comments.parent_id` (hecha en la F3-02 con la migración `2026_11_01_000000_add_parent_and_vote_to_item_comments_table`): uuid nullable, FK a la propia tabla (`cascadeOnDelete`). Un solo nivel, validado en el Form Request.
 - `item_comments.vote_id` (hecha en la F3-02, misma migración): uuid nullable, FK a `votes` (`nullOnDelete`). Si tiene valor, el comentario es una reseña. Máximo una por usuario e ítem: validado en el Form Request y garantizado por el índice parcial único `item_comments_review_unique` sobre `(item_id, user_id) WHERE vote_id IS NOT NULL AND deleted_at IS NULL`.
@@ -173,6 +173,7 @@ ALTER TABLE votes ADD CONSTRAINT votes_type_check
 - `notifications`: la tabla estándar (`sail artisan make:notifications-table`) con `uuidMorphs('notifiable')` en lugar de `morphs` (los usuarios son UUID; con `morphs` el `notifiable_id` sería bigint y el INSERT fallaría). Hecha en la F3-05.
 - `users.username`: string(30), único y nullable. Hecha en la F3-03 con la migración `2026_11_02_000000_add_username_to_users_table`.
 - `profiles.is_public`: bool, default **false**. Hecha en la F3-03 con la migración `2026_11_02_000100_add_is_public_to_profiles_table`.
+- `item_comments.user_id` nullable (hecha en la F3-08 con la migración `2026_11_03_000000_make_user_id_nullable_on_item_comments_table`): solo cambia la nulabilidad, la FK `item_comments_user_id_foreign` (`cascadeOnDelete`) se conserva. Un comentario con `user_id` nulo es un comentario anonimizado al borrar la cuenta de su autor (texto `[comentario eliminado]`). Su `down()` borra los comentarios anonimizados (y sus respuestas, por la FK `parent_id`) antes de volver a `NOT NULL`.
 - `users.privacy_accepted_at`: timestampTz, nullable (hecha en la F3-07 con la migración `2026_11_01_100000_add_privacy_accepted_at_to_users_table`; se rellena en el registro).
 
 ### Fase 4

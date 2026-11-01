@@ -96,6 +96,10 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('reports', fn (Request $request) => Limit::perHour((int) config('kudos.reports.per_hour', 10))
             ->by((string) ($request->user()?->id ?? $request->ip()))
             ->response($this->tooManyRequests('Has enviado demasiados reportes. Espera un rato y vuelve a intentarlo.')));
+
+        RateLimiter::for('account', fn (Request $request) => Limit::perMinute((int) config('kudos.account.per_minute', 5))
+            ->by((string) ($request->user()?->id ?? $request->ip()))
+            ->response($this->tooManyRequests('Has hecho demasiados intentos. Espera un minuto y vuelve a intentarlo.')));
     }
 
     private function tooManyRequests(string $message): Closure

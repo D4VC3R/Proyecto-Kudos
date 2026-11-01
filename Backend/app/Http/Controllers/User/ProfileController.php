@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Actions\DeleteAccountAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\DeleteAccountRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
+use App\Http\Resources\AccountExportResource;
 use App\Http\Resources\MinimalProfileResource;
 use App\Http\Resources\ProfileResource;
 use App\Jobs\ProcessUserAvatarJob;
@@ -79,5 +82,47 @@ class ProfileController extends Controller
 			new ProfileResource($profile->fresh()),
 		);
 	}
-}
 
+	/**
+	 * Exporta en JSON los datos del usuario (F3-08, RGPD: acceso y portabilidad).
+	 * Incluye lo borrado con borrado suave que aún se guarda y los ítems borrados que aparecen en sus datos.
+	 */
+	public function export(Request $request): JsonResponse
+	{
+		$withTrashed = fn ($query) => $query->withTrashed();
+
+		$user = $request->user()->load([
+			'profile',
+			'votes' => fn ($query) => $query->orderBy('created_at')->orderBy('id'),
+			'votes.item' => $withTrashed,
+			'votes.item.category:id,slug',
+			'comments' => fn ($query) => $query->withTrashed()->orderBy('created_at')->orderBy('id'),
+			'comments.item' => $withTrashed,
+			'lists' => fn ($query) => $query->withTrashed()->orderBy('created_at')->orderBy('id'),
+			'lists.listItems.item' => $withTrashed,
+			'likedLists' => fn ($query) => $query->withTrashed()->orderBy('list_likes.created_at'),
+			'proposals' => fn ($query) => $query->withTrashed()->orderBy('created_at')->orderBy('id'),
+			'proposals.category:id,slug',
+			'kudosTransactions' => fn ($query) => $query->orderBy('created_at')->orderBy('id'),
+		]);
+
+		return $this->respondData(new AccountExportResource($user));
+	}
+
+	/**
+	 * Borra la cuenta del usuario y sus datos (F3-08, RGPD: supresión). Exige la contraseña.
+	 */
+	public function destroy(DeleteAccountRequest $request, DeleteAccountAction $action): JsonResponse
+	{
+		$user = $request->user();
+
+		// Las cuentas de administrador no se borran desde el perfil: sus listas editoriales desaparecerían de la portada.
+		if ($user->hasRole('admin')) {
+			return $this->respondError('forbidden', 'Una cuenta de administrador no se puede borrar desde el perfil.', status: 403);
+		}
+
+		$action->execute($user);
+
+		return $this->respondMutation('Tu cuenta y tus datos se han borrado.');
+	}
+}

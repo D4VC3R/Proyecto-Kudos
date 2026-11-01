@@ -14,12 +14,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Cada comentario pertenece a un ítem y a un usuario, y puede ser ocultado por moderación.
  * Proporciona relaciones con el ítem, el usuario que lo creó y el usuario que lo ocultó, si hay.
  * Desde la F3-02 puede ser una respuesta (`parent_id`, un solo nivel) o una reseña (`vote_id`, ligada a la nota del autor).
+ * Desde la F3-08, `user_id` es null si el autor borró su cuenta y el comentario tenía respuestas (anonimizado).
  */
 class ItemComment extends Model
 {
 	use HasFactory, HasUuids, SoftDeletes;
 
 	public const REVIEW_DUPLICATE_MESSAGE = 'Ya has escrito una reseña de este ítem.';
+
+	// Texto que sustituye al de un comentario anonimizado al borrar la cuenta de su autor (F3-08).
+	public const ANONYMIZED_CONTENT = '[comentario eliminado]';
 
 	protected $attributes = [
 		'is_hidden' => false,

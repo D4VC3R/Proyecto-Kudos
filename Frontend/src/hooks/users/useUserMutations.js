@@ -1,4 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../core/axiosClient.js';
+import { downloadJson } from '../../lib/download.js';
 import { USER_KEYS } from './useUserQueries';
 import { useSessionStore } from './../../store/useSessionStore';
 import { useBaseMutation } from '../common/useBaseMutation';
@@ -61,5 +64,36 @@ export const useClaimDailyReward = () => {
         setSession({ token, user: newUser });
       }
     }
+  });
+};
+
+// Exportación de datos (F3-08): GET /profile/export y descarga del JSON.
+export const useExportAccountData = () => {
+  return useBaseMutation({
+    mutationFn: () => axiosClient.get('/profile/export'),
+    successMessage: 'Tus datos se han descargado.',
+    onSuccessExtra: (response) => {
+      downloadJson(response.data, `kudos-mis-datos-${new Date().toISOString().slice(0, 10)}.json`);
+    },
+  });
+};
+
+// Borrado de la cuenta (F3-08): DELETE /profile con la contraseña. Al terminar se sale de /profile y se cierra la sesión.
+export const useDeleteAccount = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  return useBaseMutation({
+    mutationFn: (password) => axiosClient.delete('/profile', { data: { password } }),
+    successMessage: 'Tu cuenta se ha borrado.',
+    onSuccessExtra: () => {
+      // Primero se navega: si se limpiara antes la sesión, RequireAuth llevaría a /login. React Router aplica la
+      // navegación en una transición, así que la sesión se limpia un instante después, ya fuera de /profile.
+      navigate('/', { replace: true });
+      setTimeout(() => {
+        useSessionStore.getState().clearSession();
+        queryClient.clear();
+      }, 100);
+    },
   });
 };
