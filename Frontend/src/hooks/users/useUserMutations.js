@@ -9,7 +9,7 @@ export const useUpdateProfile = () => {
 
   return useBaseMutation({
     mutationFn: (data) => axiosClient.put('/profile', data),
-    invalidateKeys: [USER_KEYS.profile],
+    invalidateKeys: [USER_KEYS.profile, ['users', 'public']],
     successMessage: 'Perfil actualizado correctamente',
     onSuccessExtra: (response) => {
       if (response.data) {

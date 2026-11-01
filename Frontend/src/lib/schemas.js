@@ -7,12 +7,23 @@ import * as z from 'zod';
  * - biography: Máximo 500 caracteres, puede ser nulo.
  * - city: Máximo 100 caracteres, puede ser nulo.
  * - birthdate: Puede ser nulo (se valida en el backend).
+ * - username: Vacío (sin nombre) o 3–30 caracteres [a-z0-9_]; se pasa a minúsculas antes de validar (F3-03).
+ * - is_public: Perfil público; exige un nombre de usuario (F3-03).
  * */
 export const profileSchema = z.object({
   avatar: z.string().url('Debe ser una URL válida').or(z.literal('')).nullable(),
   biography: z.string().max(500, 'Máximo 500 caracteres').nullable(),
   city: z.string().max(100, 'Máximo 100 caracteres').nullable(),
   birthdate: z.string().nullable(),
+  // Perfil público (F3-03): vacío = sin nombre de usuario. Se pasa a minúsculas antes de validar.
+  username: z.union([
+    z.literal(''),
+    z.string().trim().toLowerCase().regex(/^[a-z0-9_]{3,30}$/, 'Entre 3 y 30 caracteres: minúsculas sin tildes, números y guion bajo'),
+  ]),
+  is_public: z.boolean(),
+}).refine((data) => !data.is_public || data.username !== '', {
+  message: 'Elige un nombre de usuario para hacer público tu perfil',
+  path: ['is_public'],
 });
 
 /**
