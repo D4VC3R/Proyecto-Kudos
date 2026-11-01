@@ -75,7 +75,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F3-03 | Perfil público (`username`, `is_public`, `/u/:username`) | BE, FE | F3-07 | pendiente |
 | F3-04 | Reportes (DSA) y cola de revisión del admin | BE, FE | F3-05 | hecho |
 | F3-05 | Notificaciones dentro de la app | BE, FE | — | hecho |
-| F3-06 | Aviso de estreno de los ítems de la *wishlist* | BE | F3-05, F2-05 | pendiente |
+| F3-06 | Aviso de estreno de los ítems de la *wishlist* | BE | F3-05, F2-05 | hecho |
 | F3-07 | Páginas legales y requisitos en el registro (casilla, 14 años) | FE, BE, HUMANO | — | pendiente |
 | F3-08 | Borrado de cuenta y exportación de datos | BE, FE | — | pendiente |
 | F3-09 | OG de listas y perfiles | FE | F2-10, F3-01 | pendiente |
