@@ -4,6 +4,7 @@ import  BouncyCard  from '../animations/BouncyCard';
 import StorageImage from "../ui/StorageImage.jsx";
 import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 import AttributeChips from './AttributeChips.jsx';
+import AddToListButton from '../lists/AddToListButton.jsx';
 
 const ItemCard = ({ item, onClick }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
@@ -30,6 +31,10 @@ const ItemCard = ({ item, onClick }) => {
           }
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
+      </div>
+
+      <div className="absolute left-3 top-3">
+        <AddToListButton item={item} variant="card" />
       </div>
 
       <div className="absolute right-3 top-3">
