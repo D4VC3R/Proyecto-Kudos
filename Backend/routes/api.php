@@ -9,6 +9,7 @@ use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Item\ItemCommentController;
 use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\Legal\LegalInfoController;
 use App\Http\Controllers\Lists\ListController;
 use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
@@ -41,6 +42,9 @@ Route::get('/users/ranking', [UserRankingController::class, 'index']);
 // Portada (F2-09) y listas públicas por slug.
 Route::get('/home', [HomeController::class, 'index']);
 Route::get('/lists/{list:slug}', [ListController::class, 'show']);
+
+// Datos de las páginas legales (F3-07): correo de contacto legal.
+Route::get('/legal', LegalInfoController::class);
 
 /**
  * -------------------------------------------

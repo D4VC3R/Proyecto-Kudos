@@ -172,7 +172,7 @@ ALTER TABLE votes ADD CONSTRAINT votes_type_check
 - `notifications`: la tabla estándar (`sail artisan make:notifications-table`) con `uuidMorphs('notifiable')` en lugar de `morphs` (los usuarios son UUID; con `morphs` el `notifiable_id` sería bigint y el INSERT fallaría). Hecha en la F3-05.
 - `users.username`: string(30), único y nullable.
 - `profiles.is_public`: bool, default **false**.
-- `users.privacy_accepted_at`: timestampTz, nullable.
+- `users.privacy_accepted_at`: timestampTz, nullable (hecha en la F3-07 con la migración `2026_11_01_100000_add_privacy_accepted_at_to_users_table`; se rellena en el registro).
 
 ### Fase 4
 

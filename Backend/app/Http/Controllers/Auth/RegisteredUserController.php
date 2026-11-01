@@ -24,11 +24,14 @@ class RegisteredUserController extends Controller
         // Envolvemos en transacción para evitar "Usuarios Fantasma" si falla la creación del perfil.
         $user = DB::transaction(function () use ($request) {
 
-            $newUser = User::create([
+            $newUser = new User([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
+            // Constancia de la aceptación de la privacidad (F3-07). No es asignable en masa: solo se escribe aquí.
+            $newUser->privacy_accepted_at = now();
+            $newUser->save();
 
             // Nos aseguramos de que el rol 'user' exista
             Role::query()->firstOrCreate([

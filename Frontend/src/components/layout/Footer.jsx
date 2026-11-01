@@ -1,5 +1,6 @@
 import React from 'react';
 import {FolderGit2} from 'lucide-react';
+import {Link} from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -16,6 +17,10 @@ const Footer = () => {
           <span className="text-sm font-medium text-text-normal">
             © {currentYear} · David Cerdán Valero.
           </span>
+          <nav aria-label="Información legal" className="mt-1 flex gap-3 text-sm font-medium">
+            <Link to="/privacidad" className="text-nav-item transition-colors hover:text-blue-500">Privacidad</Link>
+            <Link to="/aviso-legal" className="text-nav-item transition-colors hover:text-blue-500">Aviso legal</Link>
+          </nav>
         </div>
 
         <div className="flex flex-col items-center text-sm font-medium text-text-normal">

@@ -33,12 +33,16 @@ export const loginSchema = z.object({
  * - email: Requerido, debe ser un email válido.
  * - password: Requerido, mínimo 8 caracteres.
  * - password_confirmation: Requerido, debe coincidir con password.
+ * - accept_privacy: Debe estar marcada (política de privacidad, F3-07).
+ * - age_confirmation: Debe estar marcada (14 años o más, F3-07).
  * */
 export const registerSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
   email: z.string().min(1, 'El email es obligatorio').email('Email no válido'),
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
-  password_confirmation: z.string()
+  password_confirmation: z.string(),
+  accept_privacy: z.literal(true, {errorMap: () => ({message: 'Debes aceptar la política de privacidad'})}),
+  age_confirmation: z.literal(true, {errorMap: () => ({message: 'Debes confirmar que tienes 14 años o más'})}),
 }).refine((data) => data.password === data.password_confirmation, {
   message: "Las contraseñas no coinciden",
   path: ["password_confirmation"],

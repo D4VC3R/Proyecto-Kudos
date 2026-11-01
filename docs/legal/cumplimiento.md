@@ -27,18 +27,18 @@ Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en b
 1. **Notificación:** botón "Reportar" en comentarios, reseñas, listas y perfiles (`reports`, F3-04), al menos para usuarios registrados, más un correo de contacto público. *Implementado en la F3-04 para comentarios y listas; el botón en perfiles llega con la F3-03 (el backend ya los acepta). Las reseñas y las respuestas (F3-02) usan el mismo componente `Comment` que los comentarios, así que también tienen "Reportar".*
 2. **Cola de revisión** en el panel de admin: `pending`, `resolved` y `dismissed`. *Implementada en la F3-04 (`/admin/reports`).*
 3. **Exposición de motivos:** al retirar u ocultar contenido, se avisa al autor de qué contenido, por qué y cómo reclamar, con una notificación dentro de la app (F3-05). *Implementado en la F3-04 con `ContentRemovedNotification`; no se avisa al denunciante de la decisión.*
-4. **Punto de contacto:** correo visible en el aviso legal. *El correo sale de `LEGAL_CONTACT_EMAIL` (`config('kudos.legal.contact_email')`, F3-04), que elige el humano; la F3-07 debe mostrar el mismo en `/aviso-legal`.*
+4. **Punto de contacto:** correo visible en el aviso legal. *El correo sale de `LEGAL_CONTACT_EMAIL` (`config('kudos.legal.contact_email')`, F3-04), que elige el humano. Implementado en la F3-07: `/aviso-legal` (y `/privacidad`) lo muestran leyéndolo de `GET /api/legal`.*
 5. **Registro:** las decisiones se registran con `ModerationAuditLogger` (`logReportResolution`, F3-04).
 
 ## 4. RGPD (requisito de la Fase 3, antes de perfiles públicos y listas)
 
 | Requisito | Implementación | Tarea |
 |---|---|---|
-| Política de privacidad | `/privacidad`: responsable, datos tratados (cuenta, votos, comentarios, listas, IP en los logs), finalidad, base legal (ejecución del servicio), conservación, derechos y contacto. **La aprueba el humano** | F3-07 |
-| Aceptación en el registro | Casilla **sin marcar** + declaración de tener **14 años o más** (edad de consentimiento digital en España) | F3-07 |
+| Política de privacidad | `/privacidad`: responsable, datos tratados (cuenta, votos, comentarios, listas, IP en los logs), finalidad, base legal (ejecución del servicio), conservación, derechos y contacto. **La aprueba el humano**. *Implementado en la F3-07; texto aprobado por el humano el 2026-11-01. Quedan dos datos del humano marcados como pendientes en la página (correo de contacto y confirmar la rotación de los logs en el VPS)* | F3-07 |
+| Aceptación en el registro | Casilla **sin marcar** + declaración de tener **14 años o más** (edad de consentimiento digital en España). *Implementado en la F3-07 (texto aprobado el 2026-11-01): se guarda `users.privacy_accepted_at`; las cuentas anteriores quedan con `null` sin volver a pedirles la aceptación* | F3-07 |
 | Privacidad por defecto | `profiles.is_public` y `lists.visibility` privados por defecto | F3-01, F3-03 |
 | Supresión | `DELETE /api/profile` con contraseña: borra la cuenta, los votos, las listas, los tokens, los *likes* y las transacciones de kudos; los comentarios con respuestas se **anonimizan** | F3-08 |
 | Acceso y portabilidad | `GET /api/profile/export` (JSON). Deseable, no bloqueante | F3-08 |
 | Correos | Solo transaccionales sin consentimiento expreso; las notificaciones van solo dentro de la app | F3-05 |
 | Cookies | El token está en `localStorage` y no hay analítica de terceros, así que no hace falta banner. **Si se añade analítica, se vuelve a evaluar** | — |
-| Encargados | Vercel (frontend) y OVH (VPS), citados en la política | F3-07 |
+| Encargados | Vercel (frontend) y OVH (VPS), citados en la política. *Implementado en la F3-07 (texto aprobado el 2026-11-01)* | F3-07 |
