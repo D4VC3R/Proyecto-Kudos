@@ -6,7 +6,7 @@ import LegalContactEmail from '../../components/legal/LegalContactEmail.jsx';
 const H2 = 'mb-2 text-lg font-bold text-text-highlight';
 const LINK = 'font-bold text-primary hover:underline';
 
-// Aviso legal (F3-07). BORRADOR: los datos que solo puede dar el titular van como <LegalPending>.
+// Aviso legal (F3-07), texto aprobado el 2026-11-01. Los datos que completa el titular fuera del código van como <LegalPending>.
 const LegalNoticePage = () => {
   const {state} = useLegalPage();
 

@@ -6,7 +6,7 @@ import LegalContactEmail from '../../components/legal/LegalContactEmail.jsx';
 
 const H2 = 'mb-2 text-lg font-bold text-text-highlight';
 
-// Política de privacidad (F3-07). BORRADOR: los datos que solo puede dar el titular van como <LegalPending>.
+// Política de privacidad (F3-07), texto aprobado el 2026-11-01. Los datos que completa el titular fuera del código van como <LegalPending>.
 const PrivacyPage = () => {
   const {state} = useLegalPage();
   const email = <LegalContactEmail email={state.contactEmail} isLoading={state.isLoading}/>;
