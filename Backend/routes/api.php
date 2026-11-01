@@ -11,6 +11,8 @@ use App\Http\Controllers\Item\ItemCommentController;
 use App\Http\Controllers\Item\ItemController;
 use App\Http\Controllers\Legal\LegalInfoController;
 use App\Http\Controllers\Lists\ListController;
+use App\Http\Controllers\Lists\ListLikeController;
+use App\Http\Controllers\Lists\OwnListController;
 use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Proposal\ProposalController;
@@ -75,6 +77,23 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
         Route::post('/read-all', [NotificationController::class, 'readAll']);
         Route::post('/{id}/read', [NotificationController::class, 'read'])->whereUuid('id');
     });
+
+    // Listas propias (F3-01). Bajo /profile para no chocar con GET /lists/{slug}, que es pública.
+    Route::prefix('profile/lists')->group(function () {
+        Route::get('/', [OwnListController::class, 'index']);
+        Route::post('/', [OwnListController::class, 'store']);
+        Route::get('/{list}', [OwnListController::class, 'show'])->whereUuid('list');
+        Route::put('/{list}', [OwnListController::class, 'update'])->whereUuid('list');
+        Route::delete('/{list}', [OwnListController::class, 'destroy'])->whereUuid('list');
+        Route::post('/{list}/items', [OwnListController::class, 'addItem'])->whereUuid('list');
+        Route::put('/{list}/items/order', [OwnListController::class, 'reorder'])->whereUuid('list');
+        Route::patch('/{list}/items/{itemId}', [OwnListController::class, 'updateItemNote'])->whereUuid(['list', 'itemId']);
+        Route::delete('/{list}/items/{itemId}', [OwnListController::class, 'removeItem'])->whereUuid(['list', 'itemId']);
+    });
+
+    // "Me gusta" de listas (F3-01).
+    Route::post('/lists/{list}/like', [ListLikeController::class, 'store'])->whereUuid('list');
+    Route::delete('/lists/{list}/like', [ListLikeController::class, 'destroy'])->whereUuid('list');
 
     // Reportes de contenido (F3-04, DSA): límite por usuario y hora en AppServiceProvider.
     Route::post('/reports', [ReportController::class, 'store'])->middleware('throttle:reports');

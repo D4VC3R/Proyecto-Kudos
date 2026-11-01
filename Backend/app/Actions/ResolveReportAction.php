@@ -86,7 +86,11 @@ class ResolveReportAction
                 $author = $reportable->user;
 
                 if ($action === Report::ACTION_HIDE) {
-                    $reportable->update(['visibility' => UserList::VISIBILITY_PRIVATE]);
+                    // F3-01: se marca para que el dueño no pueda volver a publicarla.
+                    $reportable->forceFill([
+                        'visibility' => UserList::VISIBILITY_PRIVATE,
+                        'hidden_by_moderation_at' => now(),
+                    ])->save();
                 } else {
                     $reportable->delete();
                 }

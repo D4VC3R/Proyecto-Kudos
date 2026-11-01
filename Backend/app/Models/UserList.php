@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 /**
  * Lista de ítems (tabla `lists`; `List` es palabra reservada de PHP).
- * Desde la F2-09 hay listas editoriales (creadas por el admin y mostradas en la portada); las listas
- * de usuario llegan en la F3-01.
+ * Desde la F2-09 hay listas editoriales (creadas por el admin y mostradas en la portada); con la
+ * F3-01 los usuarios crean también las suyas (privadas por defecto) y pueden darles "me gusta".
  */
 class UserList extends Model
 {
@@ -53,6 +54,7 @@ class UserList extends Model
         'is_editorial' => 'boolean',
         'items_count' => 'integer',
         'likes_count' => 'integer',
+        'hidden_by_moderation_at' => 'datetime',
     ];
 
     protected static function booted(): void
@@ -102,6 +104,22 @@ class UserList extends Model
     public function coverItem(): BelongsTo
     {
         return $this->belongsTo(Item::class, 'cover_item_id');
+    }
+
+    /**
+     * Usuarios a los que les gusta la lista (tabla `list_likes`, sin marcas de tiempo de Eloquent).
+     */
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'list_likes', 'list_id', 'user_id');
+    }
+
+    /**
+     * Indica si la moderación ocultó la lista: el dueño no puede volver a publicarla.
+     */
+    public function isHiddenByModeration(): bool
+    {
+        return $this->hidden_by_moderation_at !== null;
     }
 
     /**
