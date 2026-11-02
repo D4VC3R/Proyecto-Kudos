@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import StorageImage from '../ui/StorageImage.jsx';
 import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
+import ItemImageCredit from './ItemImageCredit.jsx';
 
-const ItemImage = ({item, showTitle = true, variant = 'banner'}) => {
+const ItemImage = ({item, showTitle = true, variant = 'banner', showCredit = false}) => {
   const image = item.images?.[0];
   const imageVariant = image?.variants?.[variant] || image?.variants?.[variant];
 
@@ -69,6 +70,9 @@ const ItemImage = ({item, showTitle = true, variant = 'banner'}) => {
           </>
         )}
       </div>
+
+      {/* Pie de foto de Commons (F4-04), solo si la foto se ve: con el placeholder no hay nada que atribuir. */}
+      {showCredit && !showPlaceholder && <ItemImageCredit image={image} className="mt-2 px-2"/>}
     </div>
   );
 };
