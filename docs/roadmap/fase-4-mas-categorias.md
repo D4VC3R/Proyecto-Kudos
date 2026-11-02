@@ -174,6 +174,20 @@
 
 **Hecho cuando:** el mapa sale en las fichas de destinos, no en las de otras categorías, y Leaflet va en un *chunk* separado.
 
+**Notas (F4-03):**
+- **Archivos nuevos** (`Frontend/src/`): `lib/places.js` (`PLACE_MAP_ZOOM`, `getPlaceCoordinates`, `getPlaceMapZoom`), `components/items/PlaceMap.jsx` (Leaflet con tiles de OSM; el único archivo que importa Leaflet) y `components/items/ItemPlaceMap.jsx` (sección "Ubicación" con `React.lazy`, `Suspense` y una barrera de errores propia: si el chunk no carga, la ficha sigue sin el mapa).
+- **Archivos modificados:** `package.json` y `pnpm-lock.yaml`, `lib/attributes.js` (`formatPopulation` y `KEY_FORMATTERS`) y `components/items/ItemDetailColumn.jsx` (el mapa va bajo la imagen, solo con coordenadas válidas). Sin tocar el backend ni `vite.config.js` (R7: el JSON no cambia).
+- **Versiones exactas:** `leaflet` 1.9.4 y `react-leaflet` 4.2.1 (sin `^`). La 5 de `react-leaflet` exige React 19 y el proyecto usa React 18.3. Al regenerar el lockfile, pnpm también ha anotado `axios@1.16.1(debug@4.4.3)` (peer opcional de `follow-redirects`); no cambia ninguna versión.
+- **Punto del mapa:** `CircleMarker` en lugar del marcador por defecto, porque este depende de imágenes de Leaflet que el *bundler* no resuelve.
+- **`isolate`:** el contenedor del mapa lo lleva porque los *panes* y controles de Leaflet usan `z-index` de 400 a 1000 y taparían la cabecera (`z-50`) al hacer *scroll*.
+- **Rueda del ratón:** `scrollWheelZoom` desactivado, para que siga desplazando la ficha; el zoom con `+`/`−` y el arrastre funcionan.
+- **Zoom inicial:** 5 para `kind = país` y 11 para el resto (ciudades).
+- **Población:** se formatea **por clave** (`KEY_FORMATTERS.population`), no para todo el tipo `integer`, porque `year`, `seasons` y `episodes` también lo son y un año saldría "2.024" según el navegador. Con `toLocaleString('es-ES')` los números de 4 cifras no llevan punto ("1234") y los de 5 o más sí ("3.506.730").
+- **Atribución:** la del control por defecto de Leaflet, visible ("Leaflet | © OpenStreetMap contributors", con enlace a `openstreetmap.org/copyright`). Sin geocodificación ni Nominatim: las únicas peticiones son los tiles `tile.openstreetmap.org/{z}/{x}/{y}.png`.
+- **Chunk de Leaflet (salida de `pnpm build`):** `dist/assets/PlaceMap-CljMU2Mf.js` 153,97 kB (45,12 kB gzip) y `PlaceMap-Dgihpmma.css` 15,04 kB (6,38 kB gzip), aparte de `index-BYdby8jW.js` (383,75 kB). Comprobado con `grep`: `tile.openstreetmap.org` y `_leaflet_id` solo están en `PlaceMap-*.js`, `index-*.js` no contiene ninguno y `leaflet-container` solo está en `PlaceMap-*.css`.
+- **Prueba en el navegador** (build de producción con `vite preview`, Chrome 124 + `puppeteer-core`, escritorio 1440x900 y móvil 360x740, sin sesión, API local real de solo lectura): ciudad (Madrid) con mapa, "Ubicación", tiles a zoom 11, atribución visible con enlace y chip "Población" `3.506.730`; país con tiles a zoom 5; película sin mapa, sin `PlaceMap-*.js`, sin CSS de Leaflet y sin tiles; cabecera por encima del mapa al hacer *scroll*; sin `pageerror` ni desbordamiento horizontal. Los tiles se interceptaron y se respondieron con un PNG local: ninguna petición real a OSM (R4). Resultado: 0 fallos en ambos tamaños.
+- **A validar por el humano (diseño menor):** título "Ubicación" bajo la imagen, círculo azul como punto y zoom 5/11.
+
 ---
 
 ## F4-04 · Atribuciones de las fuentes nuevas

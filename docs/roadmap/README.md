@@ -87,7 +87,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 | F4-00 | Verificar los términos de IGDB y RAWG y elegir proveedor | LEGAL, HUMANO | — | hecho |
 | F4-01 | Proveedor de videojuegos | INT | F4-00, F1-05 | hecho |
 | F4-02 | Proveedor de Destinos (Wikidata y Commons) | INT | F1-05 | hecho |
-| F4-03 | Ficha de destinos con mapa (Leaflet y OSM) | FE | F4-02 | pendiente |
+| F4-03 | Ficha de destinos con mapa (Leaflet y OSM) | FE | F4-02 | hecho |
 | F4-04 | Atribuciones de Commons, IGDB y Steam en la interfaz | FE, LEGAL | F4-01, F4-02 | pendiente |
 
 ## Aplazado
