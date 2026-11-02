@@ -21,12 +21,14 @@ Backend/app/Catalog/
 │   ├── AbstractTmdbProvider.php       # F1: base común (mapeo, imágenes, géneros, paginación)
 │   ├── TmdbMovieProvider.php          # F1
 │   ├── TmdbTvProvider.php             # F1 (comparte TmdbClient)
-│   ├── IgdbGameProvider.php           # F4 (o RawgGameProvider)
+│   ├── IgdbGameProvider.php           # F4 (descripción de SteamStoreClient)
 │   └── WikidataPlaceProvider.php      # F4
 ├── Clients/
 │   ├── TmdbClient.php                 # token, rate limit, idioma
 │   ├── WikidataClient.php             # wbgetentities y SPARQL
 │   ├── WikipediaClient.php            # resumen ES con respaldo en la Action API
+│   ├── IgdbClient.php                 # F4: token de Twitch y Apicalypse
+│   ├── SteamStoreClient.php           # F4: appdetails sin clave (solo short_description en español)
 │   ├── RetryPolicy.php                # cuándo reintentar (429, 5xx, conexión) y la espera
 │   └── Concerns/ThrottlesRequests.php # RateLimiter por proveedor
 ├── Enrichment/DescriptionResolver.php

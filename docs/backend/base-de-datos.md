@@ -60,7 +60,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | `attributes` | jsonb, default `'{}'`, índice GIN | Según `categories.attribute_schema` |
 | `popularity` | float, default 0 | Popularidad **externa** (TMDB `popularity`, IGDB `total_rating_count`) |
 | `wikidata_id` | string(16), nullable, único | QID. El importador solo cruza por él dentro de la misma categoría |
-| `description_source` | string(32), nullable | `tmdb`, `igdb`, `rawg`, `wikipedia_es`, `wikidata` o `manual` |
+| `description_source` | string(32), nullable | `tmdb`, `steam`, `wikipedia_es`, `wikidata` o `manual` (IGDB solo tiene sinopsis en inglés y nunca se guarda) |
 | `description_url` | string, nullable | Obligatoria si el texto viene de Wikipedia (CC BY-SA) |
 | `last_synced_at` | timestampTz, nullable | Última sincronización con el proveedor principal |
 
@@ -74,7 +74,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 |---|---|---|
 | `id` | uuid PK | |
 | `item_id` | uuid FK → `items`, `cascadeOnDelete` | |
-| `provider` | string(32) | `tmdb`, `igdb`, `rawg`, `wikidata` o `wikipedia_es` |
+| `provider` | string(32) | `tmdb`, `igdb`, `steam` (secundaria, solo para la descripción), `wikidata` o `wikipedia_es` |
 | `external_id` | string(64) | TMDB: `movie:603` / `tv:1399` (sus IDs se solapan) |
 | `url` | string, nullable | Ficha pública en la fuente |
 | `is_primary` | boolean, default false | El proveedor que manda; uno por ítem |

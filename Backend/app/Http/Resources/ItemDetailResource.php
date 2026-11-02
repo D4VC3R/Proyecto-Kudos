@@ -19,7 +19,7 @@ class ItemDetailResource extends JsonResource
 {
 	/**
 	 * Nombre, web y licencia de cada fuente externa para la atribución (F1-06, legal/cumplimiento §1).
-	 * La licencia solo se indica cuando obliga a atribuir o se quiere enlazar; F4 añadirá igdb y rawg.
+	 * La licencia solo se indica cuando obliga a atribuir o se quiere enlazar; F4 añadirá igdb y steam.
 	 */
 	protected const SOURCES = [
 		'tmdb' => ['name' => 'TMDB', 'url' => 'https://www.themoviedb.org', 'license' => null, 'license_url' => null],

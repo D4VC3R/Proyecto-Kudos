@@ -2,7 +2,7 @@
 
 Es una guía técnica para no incumplir lo evidente, **no asesoramiento jurídico**. Los textos legales definitivos los aprueba el humano.
 
-**Sin ánimo de lucro:** TMDB, RAWG e IGDB solo son gratuitas para uso no comercial. Por eso no hay publicidad, afiliados, funciones de pago ni muros de donación que bloqueen funciones. Si eso cambiara, habría que renegociar las licencias o retirar los datos.
+**Sin ánimo de lucro:** TMDB e IGDB solo son gratuitas para uso no comercial. Por eso no hay publicidad, afiliados, funciones de pago ni muros de donación que bloqueen funciones. Si eso cambiara, habría que renegociar las licencias o retirar los datos.
 
 Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en bruto, sin portadas de iTunes) están en [../integraciones/fuentes-externas.md](../integraciones/fuentes-externas.md) §1.
 
@@ -14,12 +14,13 @@ Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en b
 | Wikipedia ES | "Descripción: Wikipedia, licencia CC BY-SA 4.0", con enlace a `description_url` y a la licencia | Cada ficha con `description_source = wikipedia_es` | F1-08 |
 | Wikimedia Commons | Autor, licencia y enlace a la página del archivo | Pie de la imagen | F4-04 |
 | OpenStreetMap | "© OpenStreetMap contributors" con enlace | En el mapa (Leaflet lo hace por defecto) | F4-03 |
-| RAWG (si se usa) | Enlace activo a RAWG | **Cada página** con sus datos, incluidos los listados | F4-04 |
-| IGDB (si se usa) | Lo que digan sus términos (F4-00) | — | F4-04 |
+| IGDB | Atribución visible y en un lugar fijo, no en un registro de cambios (FAQ de [api-docs.igdb.com](https://api-docs.igdb.com); solo es obligatoria en la asociación comercial, pero se pone siempre) | `data_source` en cada ficha con sus datos, y pie o "Acerca de" | F4-04 |
+| Steam | "Descripción: Steam", con enlace sin `nofollow` a la página de la tienda; sin logo de Steam ni nada que sugiera respaldo de Valve | Cada ficha con `description_source = steam` | F4-04 |
 
 ## 2. Contenido de terceros
 
 - **Wikipedia (CC BY-SA):** un texto modificado sigue bajo CC BY-SA y se atribuye igual. Nunca se presenta como contenido propio.
+- **Descripciones de Steam:** son texto promocional del editor sin licencia explícita (riesgo aceptado en la F4-00). Solo se guarda la `short_description` en español, atribuida y enlazada, y se deja de usar si Valve o el editor lo piden.
 - **Imágenes:** se guardan reducidas (`thumb`/`banner`), con `license`, `author` y `source_url`. Las portadas comerciales (TMDB, IGDB) llevan `license: "© titular de derechos"` y solo ilustran la ficha.
 
 ## 3. DSA (requisito de la Fase 3, antes de abrir listas y reseñas)

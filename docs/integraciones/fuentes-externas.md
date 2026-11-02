@@ -1,6 +1,6 @@
 # Fuentes externas
 
-Verificado el 26-10-2026 con la documentación y los términos oficiales. **Antes de integrar una fuente, vuelve a comprobar sus términos.** Si han cambiado, para y avisa al humano.
+Verificado el 26-10-2026 con la documentación y los términos oficiales (IGDB, RAWG y Steam, el 02-11-2026). **Antes de integrar una fuente, vuelve a comprobar sus términos.** Si han cambiado, para y avisa al humano.
 
 ## 1. Reglas (OBLIGATORIAS)
 
@@ -14,7 +14,8 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales. **Ante
    - nunca se guarda el payload en bruto;
    - si se revoca la clave, se borran sus datos.
 7. **Prohibido** usar portadas de iTunes/Apple.
-8. Atribución visible según [../legal/cumplimiento.md](../legal/cumplimiento.md) §1.
+8. **Nunca** se guarda una sinopsis en inglés (TMDB, IGDB o Steam). En Steam, `l=spanish` devuelve el inglés sin avisar cuando no hay traducción: compara con `l=english` (§4).
+9. Atribución visible según [../legal/cumplimiento.md](../legal/cumplimiento.md) §1.
 
 ## 2. Fuentes aprobadas
 
@@ -24,8 +25,8 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales. **Ante
 | **Wikidata** | Cruce de IDs, etiquetas es, P625, P18, enlace a eswiki | Libre | SPARQL: 60 s por consulta, 5 en paralelo por IP ([manual](https://www.mediawiki.org/wiki/Wikidata_Query_Service/User_Manual)) | CC0 | La etiqueta `es` suele faltar en lo reciente: resuelve `es` → `mul` → `en` | 1 |
 | **Wikipedia ES** | Descripción en español | Libre | 200 peticiones/min con User-Agent ([límites](https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits)) | CC BY-SA: atribución y enlace por ítem | Muy buena donde hay entrada | 1 |
 | **Wikimedia Commons** | Fotos de lugares | Libre | Como Wikipedia | Licencia y autor **por archivo**, guardados y visibles | — | 4 |
-| **IGDB** (preferida) | Videojuegos | Gratis no comercial con Twitch (`IGDB_CLIENT_ID`/`SECRET`) | 4 peticiones/s, 8 abiertas | Términos de caché **sin verificar** (F4-00) | Inglés: el texto sale de Wikipedia ES | 4 |
-| **RAWG** (alternativa) | Videojuegos | Clave gratuita "non-commercial projects only" | 20.000 peticiones/mes | Enlace a RAWG en cada página con sus datos; prohíbe redistribuir; almacenamiento en zona gris ([tos](https://rawg.io/tos_api)) | Inglés | 4 |
+| **IGDB** | Videojuegos: ficha, portada, capturas, plataformas, desarrolladoras, popularidad, novedades | Gratis no comercial con Twitch (`IGDB_CLIENT_ID`/`SECRET`) | 4 peticiones/s, 8 abiertas | Permite y prefiere cachear y almacenar; los datos se conservan si se acaba la relación; atribución visible y fija (FAQ de [api-docs.igdb.com](https://api-docs.igdb.com)) | Inglés: géneros con mapa propio; el texto sale de Steam o Wikipedia ES | 4 |
+| **Steam Store** (`appdetails`) | Videojuegos: **solo** la descripción corta en español | Libre, sin clave; endpoint **no documentado** | ~200 peticiones / 5 min por IP (dato de la comunidad); usamos 1 cada 1,5 s | Sin licencia explícita del texto (es del editor): solo `short_description`, atribuida y con enlace a la tienda; enlaces sin `nofollow` y sin sugerir respaldo de Valve ([términos de la Web API](https://steamcommunity.com/dev/apiterms)) | Bueno en los juegos traducidos; si no, devuelve inglés | 4 |
 | **Tiles de OSM** | Mapa de destinos (Leaflet) | Libre | Sin uso masivo ni descarga offline | "© OpenStreetMap contributors" ([política](https://operations.osmfoundation.org/policies/tiles/)) | — | 4 |
 
 ## 3. Descartadas
@@ -39,6 +40,8 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales. **Ante
 | Jikan | *Scraper* no oficial. Si vuelve el anime, AniList (30 peticiones/min) |
 | Google Books / Open Library | Solo si vuelven los libros. Open Library prohíbe la descarga masiva por API; Google Books tiene una cuota no publicada |
 | Commons para portadas | Commons borra las portadas con copyright; solo sirve para lugares y dominio público |
+| RAWG | Solo en inglés y sin nada que no tenga IGDB; exige un enlace en **cada página** con sus datos y prohíbe la redistribución y la publicación sin consentimiento escrito (§4.3 y §6.2 de sus [términos](https://rawg.io/tos_api)). Descartada en la F4-00 |
+| Steam como fuente principal de videojuegos | Sin exclusivos de consola (Nintendo), `platforms` solo de PC, sin listado limpio de novedades y endpoint no documentado. Solo se usa para la descripción (F4-00) |
 
 ## 4. Endpoints
 
@@ -49,6 +52,17 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales. **Ante
 - Géneros: `/genre/movie/list` y `/genre/tv/list`, con `?language=es-ES`.
 - Imágenes: `https://image.tmdb.org/t/p/w780{poster_path}` y `/w1280{backdrop_path}`.
 - Si `overview` es-ES está vacío, se usa la cadena de la descripción. **Nunca** se guarda la sinopsis en inglés.
+
+**IGDB** (`POST https://api.igdb.com/v4/{endpoint}` con Apicalypse; cabeceras `Client-ID` y `Authorization: Bearer {token}`):
+- Token: `POST https://id.twitch.tv/oauth2/token?client_id=…&client_secret=…&grant_type=client_credentials`, cacheado hasta que caduque.
+- `games`: `fields name,slug,first_release_date,cover.image_id,screenshots.image_id,genres.name,platforms.name,involved_companies.company.name,involved_companies.developer,total_rating_count,external_games.external_game_source,external_games.uid;`.
+- Steam en `external_games`: el `uid` de la entrada cuyo `external_game_source` es Steam (comprueba el ID en `/external_game_sources` al implementar; el campo `category` está deprecado).
+- Imágenes: `https://images.igdb.com/igdb/image/upload/t_cover_big/{image_id}.jpg` y `t_screenshot_big`.
+
+**Steam Store** (sin clave):
+- `GET https://store.steampowered.com/api/appdetails?appids={appid}&l=spanish&cc=es` → `{"<appid>": {"success": true, "data": {…}}}`; `success: false` equivale a un 404. Un solo *appid* por petición.
+- Solo se usa `data.short_description` (texto plano, puede traer entidades HTML). Se acepta si no está vacía y difiere de la de `l=english`.
+- Ficha pública: `https://store.steampowered.com/app/{appid}/`.
 
 **Wikidata:**
 - `https://www.wikidata.org/wiki/Special:EntityData/{QID}.json`, o `wbgetentities` con `ids={QID}&props=labels|descriptions|sitelinks|claims&languages=es|mul|en`.
@@ -81,7 +95,7 @@ Estimación a partir de unas 12 muestras; no está medida.
 | Categoría | Populares | Cola larga |
 |---|---|---|
 | Películas y series (TMDB es-ES) | ~90 % | ~60 % |
-| Videojuegos (vía Wikipedia ES) | 70–85 % | < 15 % |
+| Videojuegos (Steam es + Wikipedia ES) | ~90 % | 40–60 % (solo Wikipedia: < 15 %) |
 | Destinos: ciudades del mundo / municipios españoles | ~90 % / ~100 % | — |
 | Libros y álbumes (aplazados) | 40–60 % | < 10 % |
 
@@ -89,5 +103,4 @@ Lo que no tiene descripción en español se importa igualmente, pero su `quality
 
 ## 6. Pendiente de verificar
 
-- Términos de caché de IGDB (F4-00).
 - Si vuelven los libros o el anime: la cuota de Google Books y los términos de AniList.
