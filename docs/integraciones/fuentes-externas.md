@@ -78,12 +78,25 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales (IGDB, 
 | P9968 | RAWG |
 | P1733 | Steam |
 | P625 | Coordenadas |
+| P36 | Capital |
+| P576 | Fecha de disolución |
 | P18 | Imagen |
 | P17 | País |
 | P1082 | Población |
 | P31 | Instancia de |
 | P131 | Situado en |
 | P144 | Basado en |
+
+**Destinos (Wikidata y Commons, F4-02):**
+- Alcance: estados soberanos, ciudades de más de 300.000 habitantes y capitales de provincia españolas, todos con *sitelink* `eswiki` y foto (P18).
+- Tres consultas SPARQL (`https://query.wikidata.org/sparql`, límite de 60 s por consulta, de ahí que se pida por país):
+  - **países:** todos los estados soberanos vigentes (`?item wdt:P31 wd:Q3624078`, sin `P31 wd:Q3024240` (país histórico) ni `P576` (disuelto)), con los indicadores `hasImage` (P18) y `hasEswiki`, y la población (P1082) opcional, ordenados por población. El país entra solo con los dos, pero sus ciudades se piden siempre (32 de los 197 estados no tienen P18); a Países Bajos (Q29999) y Dinamarca (Q756617) se añaden los alias Q55 y Q35, que son los P17 de sus ciudades;
+  - **ciudades de un país:** `?item wdt:P1082` con `hint:Prior hint:rangeSafe true` y `FILTER(?population > 300000.0)` **primero**, y después `?item wdt:P17 wd:{país}`; `P31/P279*` de ciudad (Q515) o municipio (Q15284), sin `P576`, con P18 y eswiki. Va con `hint:Query hint:optimizer "None"` (el orden es deliberado) y la agregación en una subconsulta. Empezar por `wdt:P17` agota los 60 s en EE. UU. o Alemania (millones de ítems), y el umbral debe ser decimal: P1082 es `xsd:decimal` y con un entero el rango no usa el índice (Andorra, sin ciudades, tardaba 25 s; con el decimal, 1,4 s). En Wikidata muchas ciudades (Madrid, Valencia…) son "municipio" y no "ciudad";
+  - **capitales de provincia españolas:** `?province wdt:P31 wd:Q162620` y `wdt:P36 ?item`, con `?item wdt:P17 wd:Q29` (la clase incluye provincias históricas: La Habana, Santa Fe de Nuevo México…), P18 y eswiki.
+- `fetchNew`: la consulta de países (una sola); España primero (el país, sus capitales de provincia y sus ciudades) y después el resto por población, con una consulta de ciudades por país, que solo se hace si el límite no se ha alcanzado. Tras cada consulta de ciudades se espera lo que ha tardado (WDQS da 60 s de proceso por minuto y cliente; sin pausa llega un 429). Si falla la consulta de un país se deja un aviso y se sigue con el siguiente; las que han fallado se repiten una vez al final, tras un minuto de pausa, y si vuelven a fallar queda un `Log::error` con los QID de los países (hay que volver a lanzar la carga).
+- Ficha: `wbgetentities` con `labels|descriptions|sitelinks|claims` (P31, P17, P1082 con la declaración preferida o, si no, la de la fecha P585 más reciente, P625 y P18). La etiqueta del país (P17) se pide con `props=labels` y se cachea 7 días.
+- **Commons** (`https://commons.wikimedia.org/w/api.php`, mismo límite compartido de Wikimedia y mismo User-Agent): `action=query&prop=imageinfo&iiprop=extmetadata|url&iiextmetadatafilter=LicenseShortName|Artist&titles=File:…&formatversion=2`. `LicenseShortName` es la licencia; `Artist` trae HTML (se limpia y se recorta a 250 caracteres); la página del archivo es `imageinfo[0].descriptionurl` (no es un campo de `extmetadata`). **Sin licencia o sin autor no se guarda la foto.**
+- La foto se descarga de `https://commons.wikimedia.org/wiki/Special:FilePath/{archivo}?width=1280` (redirige a `upload.wikimedia.org`, que responde por HTTP/2 con las cabeceras en minúsculas y bloquea los User-Agent genéricos).
 
 **Wikipedia ES:**
 - Principal: `https://es.wikipedia.org/api/rest_v1/page/summary/{título}` → `extract` y `content_urls.desktop.page`.
@@ -99,10 +112,12 @@ Estimación a partir de unas 12 muestras; solo los videojuegos tienen una medici
 |---|---|---|
 | Películas y series (TMDB es-ES) | ~90 % | ~60 % |
 | Videojuegos (Steam es + Wikipedia ES) | ~90 % | 40–60 % (solo Wikipedia: < 15 %) |
-| Destinos: ciudades del mundo / municipios españoles | ~90 % / ~100 % | — |
+| Destinos: ciudades del mundo / municipios españoles | ~90 % / ~100 % (medido: 100 %, ver debajo) | — |
 | Libros y álbumes (aplazados) | 40–60 % | < 10 % |
 
 **Videojuegos, medido** (F4-01, 02-11-2026, `kudos_db` local, `catalog:fetch-new --category=videojuegos --limit=40`): **92,5 %** con descripción en español. Por fuente: `steam` en español 29 (72,5 %), `wikipedia_es` 4 (10 %), `wikidata` 4 (10 %), `steam` en inglés 0 y sin descripción 3 (7,5 %); 39 de 40 con QID y 31 con *appid* de Steam. Con ese límite los 40 salen del listado de novedades (lanzamientos recientes y próximos), no de los populares. Uno de los 29 de Steam ("Aniimo") anuncia español en `supported_languages` pero su texto corto está en inglés: es la limitación conocida de la F4-01.
+
+**Destinos, medido** (F4-02, 02-11-2026, `kudos_db` local, `catalog:fetch-new --category=destinos --limit=60`): 62 destinos (3 países y 59 ciudades), todos con descripción de `wikipedia_es` (100 %: el alcance exige *sitelink* `eswiki`), coordenadas y foto de Commons con licencia y autor. La carga de 60 destinos (listado incluido) tardó unos 3 minutos. El listado completo (consulta de ciudades de los 197 estados soberanos más Q55 y Q35, con la consulta final, 02-11-2026): unas 200 consultas, con una mediana de 2,7 s, un p90 de 8,5 s, un p99 de 17,3 s y picos de hasta 40 s por la carga de WDQS (China 9,6–12,5 s, EE. UU. 4–5 s, España 1,6–2,4 s); con la pausa tras cada consulta dura unos 25 minutos y da unos 1.920 ciudades. Se estiman unos 2.100 destinos (165 países, unas 1.920 ciudades y las capitales de provincia que no son ya ciudad).
 
 Lo que no tiene descripción en español se importa igualmente, pero su `quality_score` nunca llega al umbral (`catalog.min_quality_for_discovery`), tenga imagen o atributos, así que queda fuera de la portada y de la cola (F1-04).
 
