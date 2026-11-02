@@ -7,10 +7,13 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Sleep;
 use InvalidArgumentException;
+use Tests\Concerns\LoadsFixtures;
 use Tests\TestCase;
 
 class WikidataClientTest extends TestCase
 {
+    use LoadsFixtures;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -111,5 +114,58 @@ class WikidataClientTest extends TestCase
                 && $request->hasHeader('Accept', 'application/sparql-results+json')
                 && $query['query'] === $sparql;
         });
+    }
+
+    public function test_find_by_statement_devuelve_el_qid_del_unico_resultado(): void
+    {
+        Http::fake(['www.wikidata.org/w/api.php*' => Http::response($this->fixture('catalog/wikidata/search-Q60745929.json'))]);
+
+        $qid = app(WikidataClient::class)->findByStatement('P5794', 'hades--1');
+
+        $this->assertSame('Q60745929', $qid);
+        Http::assertSent(function (Request $request) {
+            parse_str((string) parse_url($request->url(), PHP_URL_QUERY), $query);
+
+            return $query['action'] === 'query'
+                && $query['list'] === 'search'
+                && $query['srsearch'] === 'haswbstatement:P5794=hades--1'
+                && $request->hasHeader('User-Agent', 'KudosTest/1.0 (+https://kudos.test)');
+        });
+    }
+
+    public function test_find_by_statement_sin_resultados_devuelve_null(): void
+    {
+        Http::fake(['www.wikidata.org/w/api.php*' => Http::response($this->fixture('catalog/wikidata/search-sin-resultados.json'))]);
+
+        $this->assertNull(app(WikidataClient::class)->findByStatement('P1733', '1145360'));
+    }
+
+    public function test_find_by_statement_con_varios_resultados_devuelve_null(): void
+    {
+        Http::fake(['www.wikidata.org/w/api.php*' => Http::response($this->fixture('catalog/wikidata/search-dos-resultados.json'))]);
+
+        $this->assertNull(app(WikidataClient::class)->findByStatement('P1733', '1145360'));
+    }
+
+    public function test_find_by_statement_con_un_valor_no_admitido_no_hace_peticiones(): void
+    {
+        Http::fake();
+
+        $client = app(WikidataClient::class);
+
+        $this->assertNull($client->findByStatement('P5794', 'a b'));
+        $this->assertNull($client->findByStatement('P5794', 'x"y'));
+        Http::assertNothingSent();
+    }
+
+    public function test_find_by_statement_rechaza_una_propiedad_mal_formada(): void
+    {
+        Http::fake();
+
+        $this->assertThrows(
+            fn () => app(WikidataClient::class)->findByStatement('5794', 'hades'),
+            InvalidArgumentException::class,
+        );
+        Http::assertNothingSent();
     }
 }

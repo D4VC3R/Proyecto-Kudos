@@ -26,7 +26,8 @@ final class CatalogImporter
     public const WIKIDATA_URL = 'https://www.wikidata.org/wiki/';
 
     /**
-     * Crea o actualiza el ítem del DTO y sus fuentes (la del proveedor, primaria, y la de Wikidata si hay QID).
+     * Crea o actualiza el ítem del DTO y sus fuentes (la del proveedor, primaria; la de Wikidata si hay QID, y las
+     * secundarias del proveedor, como la página de Steam de un juego de IGDB, nunca primarias).
      *
      * @throws ModelNotFoundException si la categoría del DTO no existe
      */
@@ -183,7 +184,7 @@ final class CatalogImporter
         return $attributes;
     }
 
-    /** Deja la fuente del proveedor como única primaria y mantiene la de Wikidata al día. */
+    /** Deja la fuente del proveedor como única primaria y mantiene al día la de Wikidata y las secundarias. */
     private function syncSources(Item $item, CatalogItemData $data): void
     {
         $now = now();
@@ -211,6 +212,38 @@ final class CatalogImporter
             ItemSource::query()->updateOrCreate(
                 ['provider' => self::WIKIDATA_PROVIDER, 'external_id' => $qid],
                 ['item_id' => $item->id, 'url' => self::WIKIDATA_URL.$qid, 'is_primary' => false, 'last_synced_at' => $now],
+            );
+        }
+
+        $this->syncSecondarySources($item, $data, $now);
+    }
+
+    /**
+     * Fuentes secundarias del proveedor (F4-01: la página de Steam de un juego de IGDB), nunca primarias.
+     * Si la fuente ya pertenece a otro ítem no se mueve (aviso en el log); si el proveedor da otro ID para el
+     * mismo proveedor secundario, se sustituye.
+     */
+    private function syncSecondarySources(Item $item, CatalogItemData $data, \DateTimeInterface $now): void
+    {
+        foreach ($data->secondarySources as $secondary) {
+            $provider = $secondary['provider'];
+            $externalId = $secondary['external_id'];
+
+            $owner = ItemSource::query()->where('provider', $provider)->where('external_id', $externalId)->value('item_id');
+
+            if ($owner !== null && $owner !== $item->id) {
+                Log::warning('Catálogo: la fuente secundaria ya pertenece a otro ítem; se omite.', [
+                    'item_id' => $item->id, 'provider' => $provider, 'external_id' => $externalId, 'other_item_id' => $owner,
+                ]);
+
+                continue;
+            }
+
+            $item->sources()->where('provider', $provider)->where('is_primary', false)->where('external_id', '!=', $externalId)->delete();
+
+            ItemSource::query()->updateOrCreate(
+                ['provider' => $provider, 'external_id' => $externalId],
+                ['item_id' => $item->id, 'url' => $secondary['url'] ?? null, 'is_primary' => false, 'last_synced_at' => $now],
             );
         }
     }

@@ -128,6 +128,17 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 | `networks` | Cadenas | `tags` | no | no |
 | `status` | Estado | `string` | no | no |
 
+`videojuegos` (F4-01; lo siembra `CategorySeeder` desde `IgdbGameProvider::ATTRIBUTE_SCHEMA`, y la migración `activate_videojuegos_category` lo pone en las bases ya sembradas):
+
+| key | label | type | filterable | show_in_card |
+|---|---|---|---|---|
+| `year` | Año | `integer` | sí | sí |
+| `genres` | Géneros | `tags` | sí | sí |
+| `platforms` | Plataformas | `tags` | sí | no |
+| `developers` | Desarrollo | `tags` | no | no |
+
+**`activate_videojuegos_category`** (F4-01, `2026_11_04_000000`): migración de datos que pone `is_active = true` y el `attribute_schema` anterior a `videojuegos` (producción la tenía inactiva y sin esquema desde la F1-10; el panel de administración no permite activarla). Si la categoría no existe (`migrate:fresh`, donde la crea el seeder ya activa) no hace nada. El `down()` la devuelve a inactiva y con `attribute_schema = []`.
+
 **`items.images`:** cada entrada añade `role` (`poster`/`banner`), `license` (`"© titular de derechos"`, `"CC BY-SA 4.0"`, `"Dominio público"`…), `author` (nullable) y `source_url`. No necesita migración.
 
 ### Fase 2 (F2-01, F2-07, F2-09)

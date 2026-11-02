@@ -1,0 +1,13 @@
+{
+  "entities": {
+    "Q60745929": {
+      "type": "item",
+      "id": "Q60745929",
+      "labels": { "es": { "language": "es", "value": "Hades" } },
+      "descriptions": { "es": { "language": "es", "value": "videojuego de 2020" } },
+      "sitelinks": { "eswiki": { "site": "eswiki", "title": "Hades (videojuego)", "badges": [] } },
+      "claims": {}
+    }
+  },
+  "success": 1
+}

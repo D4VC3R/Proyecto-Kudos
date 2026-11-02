@@ -19,12 +19,14 @@ class ItemDetailResource extends JsonResource
 {
 	/**
 	 * Nombre, web y licencia de cada fuente externa para la atribución (F1-06, legal/cumplimiento §1).
-	 * La licencia solo se indica cuando obliga a atribuir o se quiere enlazar; F4 añadirá igdb y steam.
+	 * La licencia solo se indica cuando obliga a atribuir o se quiere enlazar; igdb y steam desde la F4-01 (la atribución visible es la F4-04).
 	 */
 	protected const SOURCES = [
 		'tmdb' => ['name' => 'TMDB', 'url' => 'https://www.themoviedb.org', 'license' => null, 'license_url' => null],
 		'wikipedia_es' => ['name' => 'Wikipedia', 'url' => 'https://es.wikipedia.org', 'license' => 'CC BY-SA 4.0', 'license_url' => 'https://creativecommons.org/licenses/by-sa/4.0/deed.es'],
 		'wikidata' => ['name' => 'Wikidata', 'url' => 'https://www.wikidata.org', 'license' => 'CC0 1.0', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/deed.es'],
+		'igdb' => ['name' => 'IGDB', 'url' => 'https://www.igdb.com', 'license' => null, 'license_url' => null],
+		'steam' => ['name' => 'Steam', 'url' => 'https://store.steampowered.com', 'license' => null, 'license_url' => null],
 	];
 
 	public function toArray(Request $request): array

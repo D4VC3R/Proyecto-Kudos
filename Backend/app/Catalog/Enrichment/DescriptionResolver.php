@@ -20,7 +20,8 @@ use RuntimeException;
  * 1. La descripción del proveedor, si la hay (no se hace ninguna petición).
  * 2. El resumen de Wikipedia ES, a partir de `sitelinks.eswiki` del QID de Wikidata (el título nunca se adivina).
  * 3. La descripción corta en español de Wikidata más un resumen de los atributos de la ficha.
- * 4. Nada: `description = null`. Nunca se inventa una plantilla.
+ * 4. La descripción de respaldo del proveedor (F4-01: la de Steam en inglés, solo como último recurso).
+ * 5. Nada: `description = null`. Nunca se inventa una plantilla.
  *
  * Un fallo de Wikimedia no aborta la importación: se deja un aviso en el log y se pasa al siguiente paso.
  * Como el fallo no se cachea, el siguiente refresco lo reintenta. Las respuestas correctas se cachean
@@ -43,6 +44,8 @@ final class DescriptionResolver
         'countries' => 'Países',
         'runtime' => 'Duración',
         'seasons' => 'Temporadas',
+        'developers' => 'Desarrollo',
+        'platforms' => 'Plataformas',
     ];
 
     public function __construct(
@@ -58,13 +61,13 @@ final class DescriptionResolver
         }
 
         if ($data->wikidataId === null) {
-            return $data->withDescription(null, null, null);
+            return $this->fallback($data);
         }
 
         $entity = $this->entity($data->wikidataId);
 
         if ($entity === null) {
-            return $data->withDescription(null, null, null);
+            return $this->fallback($data);
         }
 
         if ($entity['eswiki'] !== null) {
@@ -81,6 +84,16 @@ final class DescriptionResolver
                 self::SOURCE_WIKIDATA,
                 self::WIKIDATA_PAGE_URL.$data->wikidataId,
             );
+        }
+
+        return $this->fallback($data);
+    }
+
+    /** Último paso (F4-01): la descripción de respaldo del proveedor (Steam en inglés) o, si no hay, null. */
+    private function fallback(CatalogItemData $data): CatalogItemData
+    {
+        if (filled($data->fallbackDescription)) {
+            return $data->withDescription($data->fallbackDescription, $data->fallbackDescriptionSource, $data->fallbackDescriptionUrl);
         }
 
         return $data->withDescription(null, null, null);

@@ -72,6 +72,52 @@ final class WikidataClient
     }
 
     /**
+     * QID del único ítem de Wikidata con la declaración $property = $value (haswbstatement de CirrusSearch,
+     * F4-01: P5794 = slug de IGDB, P1733 = appid de Steam), o null si no hay ninguno o hay varios (ambiguo).
+     * Un valor con caracteres fuera de [A-Za-z0-9._-] devuelve null sin hacer peticiones.
+     *
+     * @throws InvalidArgumentException si la propiedad está mal formada
+     * @throws RequestException ante un 429/5xx persistente
+     */
+    public function findByStatement(string $property, string $value): ?string
+    {
+        if (preg_match('/^P[1-9]\d*$/', $property) !== 1) {
+            throw new InvalidArgumentException("Propiedad de Wikidata no válida: '{$property}'.");
+        }
+
+        $value = trim($value);
+
+        if (preg_match('/^[A-Za-z0-9._-]+$/', $value) !== 1) {
+            return null;
+        }
+
+        $response = $this->request()->get(self::API_URL, [
+            'action' => 'query',
+            'list' => 'search',
+            'srsearch' => "haswbstatement:{$property}={$value}",
+            'srnamespace' => 0,
+            'srlimit' => 2,
+            'srprop' => '',
+            'format' => 'json',
+            'formatversion' => 2,
+        ])->throw();
+
+        if ($response->json('error') !== null) {
+            throw new RuntimeException('Wikidata devolvió un error: '.$response->json('error.code'));
+        }
+
+        $hits = $response->json('query.search') ?? [];
+
+        if (! is_array($hits) || count($hits) !== 1) {
+            return null;
+        }
+
+        $title = $hits[0]['title'] ?? null;
+
+        return is_string($title) && preg_match('/^Q[1-9]\d*$/', $title) === 1 ? $title : null;
+    }
+
+    /**
      * Ejecuta una consulta SPARQL y devuelve las filas (results.bindings).
      *
      * @return list<array<string, array{type: string, value: string}>>

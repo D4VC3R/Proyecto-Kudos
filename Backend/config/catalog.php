@@ -49,7 +49,8 @@ return [
     'categories' => [
         'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
         'series' => ['provider' => \App\Catalog\Providers\TmdbTvProvider::class],
-        // F4: 'videojuegos' => [...], 'destinos' => [...]
+        'videojuegos' => ['provider' => \App\Catalog\Providers\IgdbGameProvider::class],
+        // F4-02: 'destinos' => [...]
     ],
 
     'providers' => [
@@ -59,6 +60,19 @@ return [
             'rate_per_second' => 20,
             // Días que se cachean las listas de géneros en español (/genre/{movie|tv}/list).
             'genres_cache_days' => 7,
+        ],
+        // IGDB (F4-01): token de aplicación de Twitch (client_credentials); lo da de alta el humano.
+        // El límite publicado es 4 peticiones/s; la ventana del RateLimiter es fija, así que se usa 3 para no pasarse.
+        'igdb' => [
+            'client_id' => env('IGDB_CLIENT_ID') ?: null,
+            'client_secret' => env('IGDB_CLIENT_SECRET') ?: null,
+            'rate_per_second' => 3,
+        ],
+        // Steam Store appdetails (F4-01, sin clave): solo la descripción corta. Límite conocido: ~200 cada 5 min
+        // por IP; 1 petición cada 2 s (150 cada 5 min) para quedar por debajo.
+        'steam' => [
+            'max_requests' => 1,
+            'per_seconds' => 2,
         ],
         // Wikidata y Wikipedia comparten límite (200/min con User-Agent en Wikipedia).
         'wikimedia' => [
@@ -162,5 +176,43 @@ return [
         'top_rated_min_votes' => 3,
     ],
 
-    // F4-01: 'genre_translations'
+    // Géneros de IGDB en español (F4-01, IgdbGameProvider). IGDB solo los da en inglés; un género que no
+    // esté aquí conserva su nombre original.
+    'genre_translations' => [
+        'igdb' => [
+            'Adventure' => 'Aventura',
+            'Arcade' => 'Arcade',
+            'Card & Board Game' => 'Cartas y tablero',
+            'Fighting' => 'Lucha',
+            "Hack and slash/Beat 'em up" => "Hack and slash / Beat 'em up",
+            'Indie' => 'Indie',
+            'MOBA' => 'MOBA',
+            'Music' => 'Música',
+            'Pinball' => 'Pinball',
+            'Platform' => 'Plataformas',
+            'Point-and-click' => 'Aventura gráfica',
+            'Puzzle' => 'Puzle',
+            'Quiz/Trivia' => 'Preguntas y respuestas',
+            'Racing' => 'Carreras',
+            'Real Time Strategy (RTS)' => 'Estrategia en tiempo real',
+            'Role-playing (RPG)' => 'Rol',
+            'Shooter' => 'Disparos',
+            'Simulator' => 'Simulación',
+            'Sport' => 'Deportes',
+            'Strategy' => 'Estrategia',
+            'Tactical' => 'Táctica',
+            'Turn-based strategy (TBS)' => 'Estrategia por turnos',
+            'Visual Novel' => 'Novela visual',
+        ],
+    ],
+
+    // Plataformas de IGDB en español (F4-01). Casi todas son nombres propios y se quedan como están.
+    'platform_translations' => [
+        'igdb' => [
+            'PC (Microsoft Windows)' => 'PC',
+            'Web browser' => 'Navegador web',
+            'Arcade' => 'Recreativa',
+            'Legacy Mobile Device' => 'Móvil antiguo',
+        ],
+    ],
 ];

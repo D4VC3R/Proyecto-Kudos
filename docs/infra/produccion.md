@@ -75,7 +75,7 @@ dc() { docker compose -f compose.prod.yml --env-file .env.production "$@"; }
 
 # 1. Parar worker y scheduler: que ningún job ni tarea programada se ejecute mientras se rehace el esquema
 dc stop worker scheduler
-# 2. Esquema limpio: categorías (peliculas y series activas; videojuegos y destinos inactivas), permisos,
+# 2. Esquema limpio: categorías (peliculas, series y, desde la F4-01, videojuegos activas; destinos inactiva), permisos,
 #    roles y el admin. Sin usuarios de prueba, ítems, propuestas ni votos (esos solo se siembran en local)
 dc run --rm app php artisan migrate:fresh --seed --force
 # 3. Vaciar las imágenes que ya no referencia ninguna fila: ítems, propuestas, avatares y portadas de las
@@ -107,3 +107,22 @@ dc logs -f --tail=100 worker                        # Ctrl+C solo deja de mirar
 **Si algo sale mal:** restaurar el volcado y las imágenes como en `deploy/README.md` §8 (restaurar las imágenes no borra los archivos nuevos).
 
 `VoteSeeder` se niega a ejecutarse fuera de local (falla con "VoteSeeder solo se ejecuta en local…"), y `UserSeeder` solo crea los 50 usuarios de prueba en local: en producción la base queda con el admin como único usuario.
+
+## 6. *Runbook*: activar videojuegos (F4-01; lo ejecuta el humano)
+
+Ningún agente lo ejecuta (R10). Se hace al desplegar la Fase 4, con producción ya sembrada (§5).
+
+1. Pon `IGDB_CLIENT_ID` e `IGDB_CLIENT_SECRET` en `Backend/.env.production` **antes** de desplegar (Steam y Wikimedia no llevan clave). Sin ellas, los jobs de `videojuegos` fallan.
+2. `./deploy.sh`: la migración `2026_11_04_000000_activate_videojuegos_category` activa la categoría con su `attribute_schema`.
+3. Justo después, para que no se vea vacía hasta la importación de las 04:00:
+   ```bash
+   cd Backend
+   dc() { docker compose -f compose.prod.yml --env-file .env.production "$@"; }
+   dc run --rm app php artisan catalog:fetch-new --category=videojuegos --limit=300
+   dc logs -f --tail=100 worker                        # Ctrl+C solo deja de mirar
+   ```
+   Con Steam a 1 petición cada 2 s, 300 juegos tardan al menos 10 minutos en el worker.
+4. Comprobaciones:
+   - `curl -s https://api.kudos.dcerdan.es/api/categories` incluye `videojuegos` con su `attribute_schema`.
+   - Recuento por fuente de la descripción (`steam` con `?l=english` en la URL es el inglés de respaldo):
+     `dc exec postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT COALESCE(i.description_source, '"'"'sin descripcion'"'"') AS fuente, count(*) FROM items i JOIN categories c ON c.id = i.category_id WHERE c.slug = '"'"'videojuegos'"'"' GROUP BY 1 ORDER BY 2 DESC;"'`

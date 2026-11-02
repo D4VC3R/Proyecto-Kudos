@@ -21,14 +21,14 @@ Backend/app/Catalog/
 │   ├── AbstractTmdbProvider.php       # F1: base común (mapeo, imágenes, géneros, paginación)
 │   ├── TmdbMovieProvider.php          # F1
 │   ├── TmdbTvProvider.php             # F1 (comparte TmdbClient)
-│   ├── IgdbGameProvider.php           # F4 (descripción de SteamStoreClient)
+│   ├── IgdbGameProvider.php           # F4-01: videojuegos (descripción de SteamStoreClient, QID por haswbstatement)
 │   └── WikidataPlaceProvider.php      # F4
 ├── Clients/
 │   ├── TmdbClient.php                 # token, rate limit, idioma
 │   ├── WikidataClient.php             # wbgetentities y SPARQL
 │   ├── WikipediaClient.php            # resumen ES con respaldo en la Action API
-│   ├── IgdbClient.php                 # F4: token de Twitch y Apicalypse
-│   ├── SteamStoreClient.php           # F4: appdetails sin clave (solo short_description en español)
+│   ├── IgdbClient.php                 # F4-01: token de Twitch (cacheado, renovado ante un 401) y Apicalypse
+│   ├── SteamStoreClient.php           # F4-01: appdetails sin clave (solo short_description en español, 1 cada 2 s)
 │   ├── RetryPolicy.php                # cuándo reintentar (429, 5xx, conexión) y la espera
 │   └── Concerns/ThrottlesRequests.php # RateLimiter por proveedor
 ├── Enrichment/DescriptionResolver.php
@@ -83,7 +83,7 @@ final readonly class CatalogItemData
         public string  $name,              // en español (o el original si no hay)
         public ?string $originalTitle,
         public ?string $description,       // ya en español; null si no hay
-        public ?string $descriptionSource, // 'tmdb' | 'wikipedia_es' | 'wikidata' | null
+        public ?string $descriptionSource, // 'tmdb' | 'steam' | 'wikipedia_es' | 'wikidata' | null
         public ?string $descriptionUrl,
         public ?string $releasedAt,        // 'Y-m-d'
         public array   $attributes,        // claves según attribute_schema
@@ -91,6 +91,11 @@ final readonly class CatalogItemData
         public ?string $wikidataId,
         public ?string $sourceUrl,         // ficha pública en la fuente
         public array   $images,            // [['url', 'role' => 'poster'|'banner', 'license', 'author', 'source_url']]
+        // F4-01 (los cuatro, al final y con valor por defecto):
+        public array   $secondarySources = [],          // [['provider' => 'steam', 'external_id' => '1145360', 'url' => '…']], nunca primarias
+        public ?string $fallbackDescription = null,     // último recurso de la cadena (Steam en inglés)
+        public ?string $fallbackDescriptionSource = null,
+        public ?string $fallbackDescriptionUrl = null,  // la página de la tienda con ?l=english
     ) {}
 }
 ```
@@ -106,15 +111,17 @@ final readonly class CatalogItemData
 2. **Descripción** (`DescriptionResolver`), por este orden:
    1. `data.description` (del proveedor, en español);
    2. Wikipedia ES a través del *sitelink* `eswiki` del `wikidataId`;
-   3. la descripción `es` de Wikidata (nunca `mul` ni `en`) más un resumen de atributos: la frase con mayúscula inicial y punto final, y después `Géneros`, `Dirección`, `Creación`, `Cadenas`, `Países`, `Duración` (`139 min`) y `Temporadas`, en ese orden y solo los que existan. Por ejemplo: "Película de 1999 dirigida por David Fincher. Géneros: Drama. Dirección: David Fincher. Duración: 139 min.". Una plantilla con datos reales vale; "Item importado." no;
-   4. `null`.
+   3. la descripción `es` de Wikidata (nunca `mul` ni `en`) más un resumen de atributos: la frase con mayúscula inicial y punto final, y después `Géneros`, `Dirección`, `Creación`, `Cadenas`, `Países`, `Duración` (`139 min`), `Temporadas`, `Desarrollo` y `Plataformas` (estas dos, F4-01), en ese orden y solo los que existan. Por ejemplo: "Película de 1999 dirigida por David Fincher. Géneros: Drama. Dirección: David Fincher. Duración: 139 min.". Una plantilla con datos reales vale; "Item importado." no;
+   4. la **descripción de respaldo** del proveedor (`data.fallbackDescription`; F4-01: el texto de Steam en inglés, con `description_source = steam` y la URL de la tienda con `?l=english`), solo como último recurso;
+   5. `null`.
 
    Las respuestas de Wikidata (por QID) y de Wikipedia (por título) se cachean 7 días (`providers.wikimedia.cache_days`) en el *store* por defecto, también "no existe". Si Wikimedia falla, no se aborta la importación: se deja un aviso en el log y se pasa al siguiente paso (el fallo no se cachea, así que el siguiente refresco lo reintenta).
 3. **Guardar en una transacción:**
    - `items`: `name`, `original_title`, `description` + fuente + URL, `released_at`, `attributes`, `popularity`, `wikidata_id`, `slug` (solo al crear), `last_synced_at = now()` y `creator_id = null`;
    - `status = active` **solo al crear**. Al refrescar un ítem existente se actualizan los datos pero su `status` no se toca: un ítem desactivado a mano o por un 404 sigue inactivo (lo reactiva un admin) y los borrados nunca vuelven;
    - si el proveedor ya no trae descripción, se conserva la de otra fuente (Wikipedia, Wikidata, manual) en lugar de borrarla; la del propio proveedor sí se borra (términos de TMDB);
-   - `item_sources`: el proveedor principal (`is_primary = true`, y es la única primaria del ítem) y, si lo hay, Wikidata (`is_primary = false`).
+   - `item_sources`: el proveedor principal (`is_primary = true`, y es la única primaria del ítem) y, si lo hay, Wikidata (`is_primary = false`);
+   - además, las **fuentes secundarias** del proveedor (`data.secondarySources`, F4-01: la página de Steam de un juego de IGDB), siempre con `is_primary = false`. Si la fuente ya pertenece a otro ítem no se mueve (aviso en el log); si el proveedor da otro ID para el mismo proveedor secundario, sustituye al anterior.
 4. **Imágenes**, fuera de la transacción:
    - las hace `DownloadItemImagesJob(itemId, images)`; solo se descargan si cambian o faltan (la ruta lleva el hash de la URL: `items/{categoría}/{id}/{md5(url)}-{thumb|banner}.webp`);
    - con `RemoteImageDownloader::downloadToTemp()` + `MediaManager::processItemVariants()` (patrón de `database/seeders/Trait/DownloadsSeedImages.php`);
@@ -160,7 +167,7 @@ Las dos rutas están en el grupo `auth:sanctum` + `verified` + `not_banned`. Los
   - **201** `{"message", "data": <ItemDetailResource>}` si se ha creado (el frontend muestra el *placeholder* hasta que llegan las imágenes); **200** `{"message", "data": {"item_id"}}` si ya existía y está activo, sin duplicar (también si coincide por QID con un ítem existente);
   - **409** `conflict` si existe pero está inactivo o borrado (su ficha daría 403 a un usuario normal); **404** `not_found` si la fuente no tiene el título; **503** `catalog_unavailable` si la fuente falla (error HTTP, sin conexión, sin token) o hay otra importación del mismo título en curso (la búsqueda usa el mismo 503);
   - `creator_id` queda `null` (lo crea el sistema); en el log (`Catálogo: importación bajo demanda.`) se registra `user_id`, categoría, `external_id`, resultado e `item_id`.
-- **Timeout corto:** durante la petición, `catalog.on_demand.timeout_seconds` (5) y `retry_times` (1, un solo intento) sustituyen a `catalog.http.*`, que se restauran al terminar. Como la macro `Http::catalog()` los lee en cada llamada, afecta a TMDB, Wikidata y Wikipedia. Solo se envuelven las llamadas al proveedor y al resolver, nunca `CatalogImporter::import()`. En los tests, una petición sin falsear sigue lanzando `StrayRequestException` (no se convierte en 503).
+- **Timeout corto:** durante la petición, `catalog.on_demand.timeout_seconds` (5) y `retry_times` (1, un solo intento) sustituyen a `catalog.http.*`, que se restauran al terminar. Como la macro `Http::catalog()` los lee en cada llamada, afecta a TMDB, IGDB, Steam, Wikidata y Wikipedia. Solo se envuelven las llamadas al proveedor y al resolver, nunca `CatalogImporter::import()`. En los tests, una petición sin falsear sigue lanzando `StrayRequestException` (no se convierte en 503).
 
 ## 8. `config/catalog.php`
 
@@ -183,10 +190,13 @@ return [
     'categories' => [
         'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
         'series'    => ['provider' => \App\Catalog\Providers\TmdbTvProvider::class],
-        // F4: 'videojuegos' => [...], 'destinos' => [...]
+        'videojuegos' => ['provider' => \App\Catalog\Providers\IgdbGameProvider::class],   // F4-01
+        // F4-02: 'destinos' => [...]
     ],
     'providers' => [
         'tmdb' => ['token' => env('TMDB_API_TOKEN') ?: null, 'rate_per_second' => 20, 'genres_cache_days' => 7],
+        'igdb' => ['client_id' => env('IGDB_CLIENT_ID') ?: null, 'client_secret' => env('IGDB_CLIENT_SECRET') ?: null, 'rate_per_second' => 3],   // F4-01
+        'steam' => ['max_requests' => 1, 'per_seconds' => 2],   // F4-01: appdetails sin clave, 1 petición cada 2 s
         'wikimedia' => ['rate_per_minute' => 150, 'sparql_timeout_seconds' => 60, 'cache_days' => 7],
     ],
     'on_demand' => [                            // F1-07: importación bajo demanda desde /buscar
@@ -200,7 +210,8 @@ return [
     'queue_weights' => ['pop' => 0.45, 'new' => 0.2, 'qual' => 0.15, 'rand' => 0.2],   // F2-06: cola de votación ponderada
     'queue_candidates' => ['popular' => 300, 'random' => 100],   // F2-06: candidatos por popularidad + al azar (una consulta UNION)
     'queue_recency' => ['full_days' => 90, 'zero_years' => 5],   // F2-06: recencia 1 hasta 90 días, lineal hasta 0 a los 5 años
-    // F4-01: 'genre_translations'
+    'genre_translations' => ['igdb' => ['Role-playing (RPG)' => 'Rol', 'Shooter' => 'Disparos', /* … */]],   // F4-01: lo que no está en el mapa conserva su nombre
+    'platform_translations' => ['igdb' => ['PC (Microsoft Windows)' => 'PC', /* … */]],   // F4-01
 ];
 ```
 

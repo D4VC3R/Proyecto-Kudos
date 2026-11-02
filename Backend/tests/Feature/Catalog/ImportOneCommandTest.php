@@ -27,6 +27,8 @@ class ImportOneCommandTest extends TestCase
         config([
             'catalog.user_agent' => 'KudosTest/1.0 (+https://kudos.test)',
             'catalog.providers.tmdb.token' => 'token-de-prueba',
+            'catalog.providers.igdb.client_id' => 'id-de-prueba',
+            'catalog.providers.igdb.client_secret' => 'secreto-de-prueba',
         ]);
         Sleep::fake();
         Cache::flush();
@@ -59,11 +61,24 @@ class ImportOneCommandTest extends TestCase
         Http::assertNothingSent();
     }
 
+    public function test_importa_un_videojuego_por_su_id_de_igdb(): void
+    {
+        Queue::fake();
+        Http::fake();
+        $this->createCategory('videojuegos', 'Videojuegos');
+
+        $this->artisan('catalog:import', ['provider' => 'igdb', 'externalId' => '113112'])->assertSuccessful();
+
+        Queue::assertPushedOn('catalog', ImportCatalogItemJob::class);
+        Queue::assertPushed(ImportCatalogItemJob::class, fn ($job) => $job->categorySlug === 'videojuegos' && $job->externalId === '113112');
+        Http::assertNothingSent();
+    }
+
     public function test_falla_con_un_proveedor_desconocido(): void
     {
         Queue::fake();
 
-        $this->artisan('catalog:import', ['provider' => 'igdb', 'externalId' => '123'])->assertFailed();
+        $this->artisan('catalog:import', ['provider' => 'rawg', 'externalId' => '123'])->assertFailed();
 
         Queue::assertNothingPushed();
     }
