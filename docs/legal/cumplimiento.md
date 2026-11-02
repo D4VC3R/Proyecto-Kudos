@@ -4,6 +4,8 @@ Es una guía técnica para no incumplir lo evidente, **no asesoramiento jurídic
 
 **Sin ánimo de lucro:** TMDB e IGDB solo son gratuitas para uso no comercial. Por eso no hay publicidad, afiliados, funciones de pago ni muros de donación que bloqueen funciones. Si eso cambiara, habría que renegociar las licencias o retirar los datos.
 
+**Proveedor de videojuegos (F4-00):** IGDB es el proveedor principal (gratis para uso no comercial con el acuerdo de Twitch; permite almacenar y cachear los datos; la atribución solo es obligatoria en la asociación comercial, pero se muestra siempre, visible y en un lugar fijo). La descripción sale en cascada: Steam en español → Wikipedia ES → Wikidata → Steam en inglés → nada. RAWG se descartó (enlace obligatorio en cada página y prohíbe la redistribución). Detalle en [../roadmap/fase-4-mas-categorias.md](../roadmap/fase-4-mas-categorias.md) (F4-00).
+
 Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en bruto, sin portadas de iTunes) están en [../integraciones/fuentes-externas.md](../integraciones/fuentes-externas.md) §1.
 
 ## 1. Atribuciones obligatorias
@@ -12,16 +14,16 @@ Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en b
 |---|---|---|---|
 | TMDB | Logo de TMDB, menos prominente que el de Kudos (`Frontend/public/tmdb-logo.svg`, descargado sin modificar de https://www.themoviedb.org/about/logos-attribution) + "This website uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB." (literal de los [términos](https://www.themoviedb.org/api-terms-of-use) §3; traducción: "Esta web usa TMDB y sus API, pero TMDB no la respalda, certifica ni aprueba.") | Pie o "Acerca de", y enlace a TMDB en cada ficha con sus datos | F1-08 |
 | Wikipedia ES | "Descripción: Wikipedia, licencia CC BY-SA 4.0", con enlace a `description_url` y a la licencia | Cada ficha con `description_source = wikipedia_es` | F1-08 |
-| Wikimedia Commons | Autor, licencia y enlace a la página del archivo | Pie de la imagen | F4-04 |
-| OpenStreetMap | "© OpenStreetMap contributors" con enlace | En el mapa (Leaflet lo hace por defecto) | F4-03 |
-| IGDB | Atribución visible y en un lugar fijo, no en un registro de cambios (FAQ de [api-docs.igdb.com](https://api-docs.igdb.com); solo es obligatoria en la asociación comercial, pero se pone siempre) | `data_source` en cada ficha con sus datos, y pie o "Acerca de" | F4-04 |
-| Steam | "Descripción: Steam", con enlace sin `nofollow` a la página de la tienda; sin logo de Steam ni nada que sugiera respaldo de Valve | Cada ficha con `description_source = steam` | F4-04 |
+| Wikimedia Commons | Autor, licencia y enlace a la página del archivo *Implementado en la F4-04: pie "Foto: autor, licencia, vía Wikimedia Commons" bajo la foto de la ficha; la licencia enlaza a Creative Commons cuando se reconoce (CC BY, CC BY-SA, CC0…) y "Wikimedia Commons" a la página del archivo.* | Pie de la imagen | F4-04 |
+| OpenStreetMap | "© OpenStreetMap contributors" con enlace *Implementado en la F4-03: atribución por defecto de Leaflet, visible en el mapa de la ficha.* | En el mapa (Leaflet lo hace por defecto) | F4-03 |
+| IGDB | Atribución visible y en un lugar fijo, no en un registro de cambios (FAQ de [api-docs.igdb.com](https://api-docs.igdb.com); solo es obligatoria en la asociación comercial, pero se pone siempre) *Implementado en la F4-04: "Datos: IGDB" con enlace en la ficha y "Datos de videojuegos de IGDB.com" con enlace a `https://www.igdb.com` en el pie de todas las páginas.* | `data_source` en cada ficha con sus datos, y pie o "Acerca de" | F4-04 |
+| Steam | "Descripción: Steam", con enlace sin `nofollow` a la página de la tienda; sin logo de Steam ni nada que sugiera respaldo de Valve *Implementado en la F4-04: "Descripción: Steam" con enlace a la tienda (`/app/{appid}/`, o `?l=english` en el respaldo en inglés), sin `nofollow` ni logo.* | Cada ficha con `description_source = steam` | F4-04 |
 
 ## 2. Contenido de terceros
 
 - **Wikipedia (CC BY-SA):** un texto modificado sigue bajo CC BY-SA y se atribuye igual. Nunca se presenta como contenido propio.
 - **Descripciones de Steam:** son texto promocional del editor sin licencia explícita (riesgo aceptado en la F4-00). Solo se guarda la `short_description` (en español, o en inglés si no hay otra fuente), atribuida y enlazada, y se deja de usar si Valve o el editor lo piden.
-- **Imágenes:** se guardan reducidas (`thumb`/`banner`), con `license`, `author` y `source_url`. Las portadas comerciales (TMDB, IGDB) llevan `license: "© titular de derechos"` y solo ilustran la ficha.
+- **Imágenes:** se guardan reducidas (`thumb`/`banner`), con `license`, `author` y `source_url`. Las portadas comerciales (TMDB, IGDB) llevan `license: "© titular de derechos"` y solo ilustran la ficha. Las fotos de Commons llevan el pie "Foto: autor, licencia, vía Wikimedia Commons" en la ficha (F4-04); en tarjetas, listados y `/votar` no se repite (la tarjeta enlaza a la ficha; pendiente de validar por el humano).
 
 ## 3. DSA (requisito de la Fase 3, antes de abrir listas y reseñas)
 
