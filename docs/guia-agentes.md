@@ -17,6 +17,8 @@
 | R11 | Git: nunca `push` (tampoco a ramas de tarea) sin permiso, nunca `--force`, `--no-verify` ni merge a `main`. |
 | R12 | Si la tarea es inviable o mucho mayor de lo descrito, o una verificación no se puede hacer en tu entorno: **para y pregunta**. Nunca des por hecha una tarea sin verificar. |
 
+**Excepciones puntuales aprobadas:** a R5, el esquema literal en las dos migraciones de activación (D6, solo en la F5-06), y a R6, un único commit de Pint (D4, solo en la F5-15). Ver [roadmap/fase-5-refactor.md](roadmap/fase-5-refactor.md), F5-00. No se extienden a otras tareas.
+
 ## 2. Flujo de una tarea
 
 **Automatizado:** la skill `/ciclo-tareas` ([../.claude/skills/ciclo-tareas/SKILL.md](../.claude/skills/ciclo-tareas/SKILL.md)) recorre el roadmap tarea a tarea con tres agentes ([../.claude/agents/](../.claude/agents/)):

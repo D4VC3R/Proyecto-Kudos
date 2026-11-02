@@ -334,3 +334,5 @@ Prográmalos según pipeline §6. Los comandos programados solo encolan jobs.
 **Depende:** F1-10
 
 El humano fusiona en `main`, ejecuta el *runbook* y anota aquí la fecha y el resultado (ítems importados e incidencias).
+
+**Bloqueada (02-11-2026):** la sustituye la [F5-16](fase-5-refactor.md#f5-16--fusión-en-main-y-paso-a-producción-humano). Por la decisión D7 de la [F5-00](fase-5-refactor.md#f5-00--decisiones-previas-a-la-fase-humano), las fases 0–4 se fusionan en `main` de una vez, con un *runbook* único (F5-13) que absorbe este reset. Cuando la F5-16 esté hecha, esta tarea se marca `hecho` con una remisión a ella.
