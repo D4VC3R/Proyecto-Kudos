@@ -97,6 +97,17 @@ Decisiones menores, que se toman después de `main`: la popularidad de IGDB (F5-
 - Un `grep` de cada URI de las rutas listadas arriba en `Backend/tests/` da al menos un resultado por ruta (salvo `my-items`), con su 401 o 403.
 - `git diff --stat` no toca nada fuera de `Backend/tests/` y `database/factories/`, salvo los bugs triviales anotados.
 
+**Notas (F5-01):**
+- **Archivos nuevos** (`Backend/tests/Feature/`, 85 tests): `Auth/LoginLogoutTest` (10), `Auth/PasswordResetTest` (6), `Auth/EmailVerificationTest` (8), `Admin/AdminUserBanTest` (12), `Admin/AdminItemModerationTest` (8), `Items/ItemCrudTest` (5), `Items/CommentModerationTest` (11), `Proposals/ProposalFlowTest` (17) y `Kudos/DailyClaimTest` (8). No se ha tocado `app/`, ni ningún test existente, ni ninguna factory.
+- **Discrepancias con la ficha (R1, se sigue el código):**
+  - El login con credenciales malas responde **401 `unauthenticated`** (`AuthenticatedSessionController.php:29-35`), no 422 como decía el paso 1; el 422 solo sale con campos vacíos o mal formados. Los tests fijan las dos cosas.
+  - `ProposalFactory` queda sin cambios: `pending` ya es su estado por defecto.
+  - Repetir una revisión aceptada por HTTP da **422** (`ReviewProposalRequest.php:57-59`, solo se revisan las `pending`) y no llega a la Action. El test fija ese 422 y que no se duplican ni el ítem ni los kudos; la carrera de dos aceptaciones simultáneas dentro de la Action (BE-R16) solo se puede probar allí, en F5-03.
+  - `forgot-password`, `reset-password`, `login` y `verify-email` son rutas `guest` o firmadas: no tienen caso 401. Su 403 es el baneo en `login` y la firma o el *hash* malos en `verify-email`.
+  - La recompensa diaria tiene un bonus aleatorio (`random_int`, no se puede sembrar): los tests comprueban que la cuantía sea la base o la base con el multiplicador de la racha efectiva (limitada al tope de 5).
+- **Lo que no se fija a propósito:** BE-R1 (código de los 404 de modelo y `invalid-hash`), BE-R2 (correo inexistente en `forgot-password`) y BE-R3 (textos en inglés de los mensajes) → F5-04; BE-B2 (ausencia de aviso o registro al ocultar o borrar), BE-R8 (`reviewer` en `my-proposals`) y BE-R16 (carrera de la revisión) → F5-03; BE-R13 (`can_edit`/`can_delete`) → F5-05; BE-R9 (`my-items`) y BE-R10 (`images` en las altas y ediciones de ítems) → F5-06.
+- **Bugs nuevos encontrados:** ninguno. No se ha arreglado nada en `app/`.
+
 ---
 
 ## F5-02 · Rendimiento de los listados: N+1 y límites (BE)
