@@ -1,0 +1,25 @@
+{
+  "batchcomplete": true,
+  "query": {
+    "pages": [
+      {
+        "pageid": 123,
+        "ns": 6,
+        "title": "File:Madrid - Palacio Real.jpg",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "url": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Madrid_-_Palacio_Real.jpg",
+            "descriptionurl": "https://commons.wikimedia.org/wiki/File:Madrid_-_Palacio_Real.jpg",
+            "extmetadata": {
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ejemplo\" title=\"User:Ejemplo\">Ejemplo</a> &amp; otros",
+                "source": "commons-desc-page"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

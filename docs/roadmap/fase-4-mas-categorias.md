@@ -109,6 +109,58 @@
 
 **Hecho cuando:** hay tests con fixtures de SPARQL y Commons, y ninguna foto queda sin licencia ni autor (si faltan, no se guarda).
 
+**Notas (F4-02):**
+- **Archivos nuevos** (`Backend/`): `app/Catalog/Clients/CommonsClient.php`, `app/Catalog/Providers/WikidataPlaceProvider.php`, `database/migrations/2026_11_05_000000_activate_destinos_category.php`, las fixtures `tests/Fixtures/catalog/commons/imageinfo-*.json`, `wikidata/{sparql-*,labels-*,Q2807-*,Q29-espana}.json` y `wikipedia/summary-madrid.json`, y los tests `CommonsClientTest`, `WikidataPlaceProviderTest`, `WikidataPlaceImportTest` y `ActivateDestinosCategoryMigrationTest`.
+- **Archivos modificados:** `config/catalog.php` (categoría `destinos` con `manual_fetch_new`, `on_demand` y `refresh_older_than_days`, y el bloque `places`), `WikidataClient` (`label()` y `labelOf()`), `CatalogImporter::syncSources()`, `CatalogProviderRegistry::supportsOnDemand()`, `ValidatesCatalogCategory`, `CategoryResource`, `FetchNewCommand`, `RefreshCommand`, `RemoteImageDownloader`, `CategorySeeder` y los tests existentes (ver más abajo). Sin variables de entorno nuevas (R9) y sin tocar el frontend.
+- **Desviaciones de la ficha:**
+  - **`DescriptionUrl`:** no es un campo de `extmetadata`; la página del archivo sale de `imageinfo[0].descriptionurl`, que se pide con `iiprop=extmetadata|url`.
+  - **Fuera de `--all` y con el listado en el proceso:** `catalog:fetch-new --all` omite destinos (`manual_fetch_new`) y con `--category=destinos` el listado se hace con `dispatchSync` en el propio comando. El listado (una consulta SPARQL por país) tarda minutos y el worker de producción corta los jobs a los 60 s; solo las importaciones (`ImportCatalogItemJob`) van a la cola. La ficha dice que `fetchNew` solo sirve para la carga inicial y para ampliarla.
+  - **Sin importación bajo demanda:** `/api/catalog/search` e `/import` responden 422 para destinos y `has_catalog_provider` es false (`supportsOnDemand()`, `on_demand = false`); así no sale en el selector de `/buscar` ni se puede importar una entidad cualquiera como "destino". El campo no cambia de forma (R7).
+  - **Refresco a los 90 días:** `catalog.categories.{slug}.refresh_older_than_days` fija el umbral por categoría en `catalog:refresh` (destinos, 90; el resto sigue en 150). `--older-than` lo fija para todas.
+  - **`CatalogImporter` con proveedor `wikidata`:** `syncSources()` siempre añadía la fuente `wikidata` como secundaria y borraba las `wikidata` con otro `external_id`. Con Wikidata de proveedor, el índice único `(provider, external_id)` hace que sea la misma fila que la principal (quedaba con `is_primary = false`) y, si el QID era de otro ítem, se borraba. Ahora no se toca la fuente de Wikidata cuando el proveedor es Wikidata. Test que fallaba antes del arreglo: `test_un_proveedor_wikidata_deja_su_fuente_como_unica_y_principal`.
+  - **User-Agent en `RemoteImageDownloader`:** el HEAD y el GET de las imágenes ahora llevan el User-Agent del catálogo; Wikimedia devuelve 403 a los genéricos (comprobado con la API real).
+  - **Cabeceras en minúsculas (hallazgo de la verificación real):** `upload.wikimedia.org` responde por HTTP/2 con `content-type` en minúsculas y `RemoteImageDownloader::assertImageHeaders()` buscaba `Content-Type`, así que rechazaba todas las fotos ("no es un formato de imagen permitido"). Ahora busca sin distinguir mayúsculas. Test que fallaba antes: `test_acepta_cabeceras_en_minusculas_como_las_de_http2`.
+  - **Consultas SPARQL corregidas en la verificación real:** (1) las capitales de provincia incluían provincias históricas (La Habana, Santa Fe de Nuevo México, Chinchilla de Montearagón…): se exige `?item wdt:P17 wd:Q29`; (2) la consulta de ciudades con `FILTER EXISTS { P31/P279* Q515 }` agotaba los 60 s en España y Francia, y en Wikidata muchas ciudades (Madrid, Valencia, Sevilla…) son "municipio" y no "ciudad": ahora usa `P31/P279*` de Q515 **o** Q15284 (municipio), con `hint:Query hint:optimizer "None"` y la agregación en una subconsulta. Versión final (tras la verificación): primero `wdt:P1082` con `hint:Prior hint:rangeSafe true` y el umbral **decimal** (`> 300000.0`), y después `wdt:P17`; `P31/P279*` de Q515 o Q15284, sin P576, con P18 y `eswiki`. Dos causas: empezar por `wdt:P17` agotaba los 60 s en EE. UU. y Alemania (millones de ítems con ese país: 504 a los 65 s), y con el umbral entero el rango de `rangeSafe` no usa el índice (los valores de P1082 son `xsd:decimal`; Andorra tardaba 25 s con 0 filas, y con el decimal 1,4 s). Tiempos de la consulta final (02-11-2026):
+
+    | País | Filas | Tiempo (verificador) | Tiempo (ejecutor) |
+    |---|---|---|---|
+    | Andorra (Q228) | 0 | 1,4 s | 1,1 s |
+    | Francia (Q142) | 9 | 1,1 s | — |
+    | Rusia (Q159) | 55 | 1,3 s | — |
+    | India (Q668) | 117 | 2,0 s | — |
+    | Japón (Q17) | 86 | 2,0 s | — |
+    | Alemania (Q183) | 24 | 2,3 s | 4,7 s |
+    | España (Q29) | 13 | 2,4 s | 1,6 s |
+    | México (Q96) | 78 | 4,4 s | — |
+    | Brasil (Q155) | 96 | 4,8 s | — |
+    | Indonesia (Q252) | 45 | 5,1 s | — |
+    | EE. UU. (Q30) | 301 | 5,4 s | 4,0 s |
+    | China (Q148) | 323 | 9,6 s | 12,5 s |
+    | Argentina (Q414) | 38 | — | 9,2 s |
+    | Países Bajos (Q55) | 4 | — | 1,8 s |
+
+    Listado completo, uno tras otro como lo haría el comando (verificador): 199 consultas (los 197 estados soberanos más Q55 y Q35), unos 13 minutos sin pausas; 194 respondieron 200, con 1.920 ciudades; mediana 2,7 s, p90 8,5 s, p99 17,3 s; picos de carga en países sin ciudades (Luxemburgo 40 s, Maldivas 26 s); 4 errores 502 instantáneos y 1 error 429 al final por la cuota de WDQS (de ahí la pausa). Alternativas medidas y descartadas: una consulta global (3,9 s, 14.126 filas) exige filtrar la clase en PHP porque `P31/P279*` sobre 18.000 candidatos agota los 60 s, y añadir `eswiki` también, así que haría falta `wbgetentities` por lotes; la consulta por país sigue la ficha ("paginado por país") y es un cambio de una línea.
+  - **Todos los estados soberanos se recorren:** la consulta de países ya no exige P18 ni `eswiki`; devuelve `hasImage` y `hasEswiki`, y el país solo entra con los dos, pero sus ciudades se piden siempre. Antes se perdían las 126 ciudades de 32 estados sin P18 (Argentina, Colombia, Malasia, Noruega, Suiza…). Las ciudades de Países Bajos y Dinamarca se piden también con P17 = Q55 y Q35 (`CITY_COUNTRY_ALIASES`).
+  - **Plan B y cuota de WDQS:** tras cada consulta de ciudades se espera lo mismo que ha tardado (WDQS da 60 s de proceso por minuto y cliente; sin la pausa llegó un 429). La consulta de un país que falla se repite una vez al final, tras un minuto de pausa. Si vuelve a fallar, queda un `Log::error` con los QID de los países: en producción, con `LOG_CHANNEL=stderr`, sale en la terminal del comando. Entonces hay que volver a lanzar `catalog:fetch-new --category=destinos`, que reimporta sin duplicar.
+- **Criterios de la consulta:** países: P31 Q3624078 (estado soberano), sin P31 Q3024240 (país histórico) ni P576 (el país entra solo con P18 y eswiki; sus ciudades se piden siempre); ciudades: P17 = país, P1082 > 300 000, P31/P279* Q515 o Q15284, sin P576, con P18 y eswiki; capitales: P36 de las P31 Q162620 cuyo P17 es España, con P18 y eswiki. `kind` es `país` si P31 incluye Q3624078 o Q6256 y `ciudad` en el resto.
+- **Popularidad = población** (P1082): los países encabezan "populares" y la cola. La población es la declaración preferida o, si no, la de la fecha P585 más reciente.
+- **Orden de `fetchNew`:** España primero (el país, sus capitales de provincia y sus ciudades) y después el resto por población, cada uno con sus ciudades; sin repetir QIDs, respeta el límite sin consultas de más y, si una consulta falla, sigue con el siguiente país y la repite una vez al final (plan B).
+- **Fotos:** solo se guardan con licencia y autor (`Artist` sin HTML, recortado a 250 caracteres); si Commons no los da, el destino se importa sin foto y queda un aviso. Si Commons o Wikidata fallan, la importación falla y se reintenta (no se pisan datos ni fotos). El frontend solo usa `images[0]`: basta una foto `poster`. `destinos` sigue sin portada de categoría (`image = null`).
+- **Tests existentes adaptados (R8, ninguno borrado):** `CatalogProviderRegistryTest::test_lista_las_categorias_configuradas` (ahora incluye `destinos`), `CategorySeederTest` (`test_videojuegos_activa_con_su_esquema_y_destinos_inactiva` pasa a `test_videojuegos_y_destinos_activas_con_su_esquema`, y `test_las_categorias_inactivas_no_salen_en_la_api` desactiva `destinos` tras sembrar para seguir probando lo que dice su nombre) y `DatabaseSeederTest` (la lista de `/api/categories` incluye `destinos`; `--all` la omite).
+- **Limitaciones conocidas:**
+  - una ciudad con un valor antiguo de población por encima del umbral puede entrar;
+  - un destino que deja de cumplir el alcance no se desactiva al refrescar (solo si la entidad desaparece);
+  - una descripción `wikidata` se borra si en un refresco falla la consulta del *resolver* (regla `$keep`, porque la fuente coincide con la del proveedor);
+  - el alcance de las capitales españolas solo cubre las provincias con P36, P18 y eswiki (en la verificación, unas 40 de 52; Zaragoza, Murcia y Palma entran por la consulta de ciudades), y la clase incluye todavía alguna provincia histórica con capital en España (Chinchilla de Montearagón);
+  - la foto de P18 no siempre es una foto: la de España es un mapa de localización (SVG) y la de algún país puede ser una bandera;
+  - cada consulta de ciudades tarda entre 1 y 10 s, con picos de hasta 40 s por la carga de WDQS. Si una falla dos veces, ese país se queda sin ciudades hasta que se vuelve a lanzar la carga: `catalog:refresh` no lista ítems nuevos;
+  - 32 estados soberanos (Argentina, Colombia, Noruega, Suiza…) no entran como destino porque en Wikidata no tienen P18; sus ciudades sí entran. Somalilandia (no reconocida) queda fuera.
+- **Verificación real (paso 16, 02-11-2026, solo `kudos_db` local, APIs sin clave):**
+  - `sail artisan migrate` aplicó la migración (4 categorías activas) y `catalog:fetch-new --category=destinos --limit=40` (unos 2 min) importó 40 destinos; `catalog:import wikidata Q90` y `Q142` añadieron París y Francia. Tras corregir las consultas y el `RemoteImageDownloader`, se vació la categoría en `kudos_db` (solo había destinos de la verificación) y se repitió, y después con `--limit=60` (unos 3 min, incluida la consulta de ciudades de China).
+  - Resultado final: 62 destinos (3 `país` y 59 `ciudad`), todos con `description_source = wikipedia_es` (100 %), con coordenadas y con foto de Commons; 0 imágenes sin `license` o `author`; cada ítem con una sola fuente, `wikidata`, `is_primary = true`; ninguno sin `wikidata_id`.
+  - `GET /api/categories` (puerto 8095) incluye `destinos` con `attribute_schema` (`kind`, `country`, `population`, `coordinates`) y `has_catalog_provider: false`; `peliculas`, `series` y `videojuegos` siguen en true.
+  - Antes de corregir `RemoteImageDownloader`, los 41 destinos se importaron **sin foto** (todos los `DownloadItemImagesJob` fallaban por la cabecera en minúsculas): lo que justifica el cambio.
+
 ---
 
 ## F4-03 · Ficha de destinos con mapa

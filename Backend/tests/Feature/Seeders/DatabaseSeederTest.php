@@ -223,6 +223,6 @@ class DatabaseSeederTest extends TestCase
         $this->assertSame(['year', 'genres'], array_keys($movies->json('data.0.attributes')));
 
         $categories = $this->getJson('/api/categories')->assertOk();
-        $this->assertSame(['peliculas', 'series', 'videojuegos'], collect($categories->json('data'))->pluck('slug')->all());
+        $this->assertSame(['peliculas', 'series', 'videojuegos', 'destinos'], collect($categories->json('data'))->pluck('slug')->all());
     }
 }

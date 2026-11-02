@@ -264,4 +264,15 @@ class CatalogSearchApiTest extends TestCase
 
         $this->search()->assertOk();
     }
+
+    public function test_destinos_no_admite_la_busqueda_bajo_demanda(): void
+    {
+        Http::fake();
+        $this->createCategory('destinos', 'Destinos');
+        $this->actingAsUser();
+
+        $this->search('madrid', 'destinos')->assertStatus(422)->assertJsonPath('error.code', 'validation_error');
+
+        Http::assertNothingSent();
+    }
 }

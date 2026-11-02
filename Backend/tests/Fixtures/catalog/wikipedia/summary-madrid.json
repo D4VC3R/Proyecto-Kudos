@@ -1,0 +1,14 @@
+{
+  "type": "standard",
+  "title": "Madrid",
+  "lang": "es",
+  "extract": "Madrid es un municipio y una ciudad de España, capital del país y de la Comunidad de Madrid. Con más de tres millones de habitantes, es la ciudad más poblada del país.",
+  "content_urls": {
+    "desktop": {
+      "page": "https://es.wikipedia.org/wiki/Madrid"
+    },
+    "mobile": {
+      "page": "https://es.m.wikipedia.org/wiki/Madrid"
+    }
+  }
+}

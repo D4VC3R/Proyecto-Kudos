@@ -1,0 +1,29 @@
+{
+  "head": {
+    "vars": [
+      "item",
+      "itemLabel",
+      "maxPopulation"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q727"
+        },
+        "itemLabel": {
+          "xml:lang": "es",
+          "type": "literal",
+          "value": "Ámsterdam"
+        },
+        "maxPopulation": {
+          "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+          "type": "literal",
+          "value": "931298"
+        }
+      }
+    ]
+  }
+}

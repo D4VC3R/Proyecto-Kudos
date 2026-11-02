@@ -17,15 +17,16 @@ use Illuminate\Support\Facades\Log;
 class RefreshCommand extends Command
 {
     protected $signature = 'catalog:refresh
-        {--older-than= : Días desde la última sincronización (por defecto, catalog.refresh_older_than_days = 150)}
+        {--older-than= : Días desde la última sincronización (por defecto, catalog.refresh_older_than_days = 150, o el de la categoría: destinos, 90)}
         {--batch=200 : Máximo de ítems que se encolan en esta ejecución}';
 
     protected $description = 'Encola el refresco de los ítems del catálogo sincronizados hace más de N días en la cola catalog';
 
     public function handle(CatalogProviderRegistry $registry): int
     {
+        $olderThanOption = $this->option('older-than');
         $olderThan = filter_var(
-            $this->option('older-than') ?? config('catalog.refresh_older_than_days', 150),
+            $olderThanOption ?? config('catalog.refresh_older_than_days', 150),
             FILTER_VALIDATE_INT,
             ['options' => ['min_range' => 1]]
         );
@@ -41,12 +42,22 @@ class RefreshCommand extends Command
         $slugs = array_values(array_filter($registry->categorySlugs(), fn ($slug) => $registry->has($slug)));
         $categories = Category::query()->whereIn('slug', $slugs)->pluck('slug', 'id');
 
-        $cutoff = now()->subDays($olderThan);
+        // Umbral por categoría (F4-02: destinos, trimestral); --older-than lo fija para todas.
+        $cutoffs = $categories->map(fn (string $slug) => now()->subDays(
+            $olderThanOption === null
+                ? max(1, (int) config("catalog.categories.{$slug}.refresh_older_than_days", $olderThan))
+                : $olderThan
+        ));
 
         $stale = Item::query()
             ->whereIn('category_id', $categories->keys())
             ->whereHas('sources', fn ($q) => $q->where('is_primary', true))
-            ->where(fn ($q) => $q->whereNull('last_synced_at')->orWhere('last_synced_at', '<', $cutoff));
+            ->where(function ($q) use ($cutoffs) {
+                foreach ($cutoffs as $categoryId => $cutoff) {
+                    $q->orWhere(fn ($q) => $q->where('category_id', $categoryId)
+                        ->where(fn ($q) => $q->whereNull('last_synced_at')->orWhere('last_synced_at', '<', $cutoff)));
+                }
+            });
 
         $pending = (clone $stale)->count();
 

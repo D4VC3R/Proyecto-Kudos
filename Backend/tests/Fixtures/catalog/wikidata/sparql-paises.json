@@ -1,0 +1,67 @@
+{
+  "head": {
+    "vars": [
+      "item",
+      "itemLabel",
+      "hasImage",
+      "hasEswiki",
+      "maxPopulation"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q142"
+        },
+        "itemLabel": {
+          "xml:lang": "es",
+          "type": "literal",
+          "value": "Francia"
+        },
+        "hasImage": {
+          "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+          "type": "literal",
+          "value": "true"
+        },
+        "hasEswiki": {
+          "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+          "type": "literal",
+          "value": "true"
+        },
+        "maxPopulation": {
+          "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+          "type": "literal",
+          "value": "68000000"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q29"
+        },
+        "itemLabel": {
+          "xml:lang": "es",
+          "type": "literal",
+          "value": "España"
+        },
+        "hasImage": {
+          "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+          "type": "literal",
+          "value": "true"
+        },
+        "hasEswiki": {
+          "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+          "type": "literal",
+          "value": "true"
+        },
+        "maxPopulation": {
+          "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+          "type": "literal",
+          "value": "48085361"
+        }
+      }
+    ]
+  }
+}

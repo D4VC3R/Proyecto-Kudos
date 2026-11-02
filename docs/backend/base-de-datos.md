@@ -74,7 +74,7 @@ PostgreSQL 18. Clave primaria UUID en todas las tablas. La extensión `pg_trgm` 
 |---|---|---|
 | `id` | uuid PK | |
 | `item_id` | uuid FK → `items`, `cascadeOnDelete` | |
-| `provider` | string(32) | `tmdb`, `igdb`, `steam` (secundaria, solo para la descripción), `wikidata` o `wikipedia_es` |
+| `provider` | string(32) | `tmdb`, `igdb`, `steam` (secundaria, solo para la descripción), `wikidata` (secundaria, o **principal** en destinos, F4-02) o `wikipedia_es` |
 | `external_id` | string(64) | TMDB: `movie:603` / `tv:1399` (sus IDs se solapan) |
 | `url` | string, nullable | Ficha pública en la fuente |
 | `is_primary` | boolean, default false | El proveedor que manda; uno por ítem |

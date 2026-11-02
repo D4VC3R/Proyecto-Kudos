@@ -1,0 +1,15 @@
+{
+  "entities": {
+    "Q29": {
+      "type": "item",
+      "id": "Q29",
+      "labels": {
+        "en": {
+          "language": "en",
+          "value": "Spain"
+        }
+      }
+    }
+  },
+  "success": 1
+}

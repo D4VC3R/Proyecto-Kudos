@@ -22,10 +22,11 @@ Backend/app/Catalog/
 │   ├── TmdbMovieProvider.php          # F1
 │   ├── TmdbTvProvider.php             # F1 (comparte TmdbClient)
 │   ├── IgdbGameProvider.php           # F4-01: videojuegos (descripción de SteamStoreClient, QID por haswbstatement)
-│   └── WikidataPlaceProvider.php      # F4
+│   └── WikidataPlaceProvider.php      # F4-02: destinos (SPARQL por país, foto de Commons con licencia y autor)
 ├── Clients/
 │   ├── TmdbClient.php                 # token, rate limit, idioma
-│   ├── WikidataClient.php             # wbgetentities y SPARQL
+│   ├── WikidataClient.php             # wbgetentities (+ label()) y SPARQL
+│   ├── CommonsClient.php              # F4-02: imageinfo (licencia, autor y página)
 │   ├── WikipediaClient.php            # resumen ES con respaldo en la Action API
 │   ├── IgdbClient.php                 # F4-01: token de Twitch (cacheado, renovado ante un 401) y Apicalypse
 │   ├── SteamStoreClient.php           # F4-01: appdetails sin clave (solo short_description en español, 1 cada 2 s)
@@ -120,7 +121,7 @@ final readonly class CatalogItemData
    - `items`: `name`, `original_title`, `description` + fuente + URL, `released_at`, `attributes`, `popularity`, `wikidata_id`, `slug` (solo al crear), `last_synced_at = now()` y `creator_id = null`;
    - `status = active` **solo al crear**. Al refrescar un ítem existente se actualizan los datos pero su `status` no se toca: un ítem desactivado a mano o por un 404 sigue inactivo (lo reactiva un admin) y los borrados nunca vuelven;
    - si el proveedor ya no trae descripción, se conserva la de otra fuente (Wikipedia, Wikidata, manual) en lugar de borrarla; la del propio proveedor sí se borra (términos de TMDB);
-   - `item_sources`: el proveedor principal (`is_primary = true`, y es la única primaria del ítem) y, si lo hay, Wikidata (`is_primary = false`);
+   - `item_sources`: el proveedor principal (`is_primary = true`, y es la única primaria del ítem) y, si lo hay, Wikidata (`is_primary = false`). Si el proveedor es Wikidata (destinos, F4-02), su fuente es la principal y no se añade ni se borra otra de Wikidata;
    - además, las **fuentes secundarias** del proveedor (`data.secondarySources`, F4-01: la página de Steam de un juego de IGDB), siempre con `is_primary = false`. Si la fuente ya pertenece a otro ítem no se mueve (aviso en el log); si el proveedor da otro ID para el mismo proveedor secundario, sustituye al anterior.
 4. **Imágenes**, fuera de la transacción:
    - las hace `DownloadItemImagesJob(itemId, images)`; solo se descargan si cambian o faltan (la ruta lleva el hash de la URL: `items/{categoría}/{id}/{md5(url)}-{thumb|banner}.webp`);
@@ -133,8 +134,8 @@ final readonly class CatalogItemData
 
 ## 5. Refresco y cumplimiento de TMDB
 
-- **`catalog:fetch-new`** (diario): encola un `FetchNewCatalogItemsJob` por categoría (el comando no llama a TMDB); el job pide `fetchNew()` y encola un `ImportCatalogItemJob` por cada `external_id`, incluidos los ítems que ya existen (se refrescan sin duplicar). `--limit` cuenta candidatos de `fetchNew()`, no ítems nuevos.
-- **`catalog:refresh`** (diario): toma hasta `--batch` ítems con `last_synced_at` anterior a `--older-than` días (150 por defecto, con margen frente a los 180 de TMDB), los más antiguos primero, y encola un `ImportCatalogItemJob` por cada uno. Incluye los inactivos (siguen inactivos) y excluye los borrados. El lote debe recorrer todo el catálogo de TMDB en menos de 150 días (con ~3.000 ítems, 200 al día bastan). Registra un aviso en el log si quedan pendientes tras el lote.
+- **`catalog:fetch-new`** (diario): encola un `FetchNewCatalogItemsJob` por categoría (el comando no llama a TMDB); el job pide `fetchNew()` y encola un `ImportCatalogItemJob` por cada `external_id`, incluidos los ítems que ya existen (se refrescan sin duplicar). `--limit` cuenta candidatos de `fetchNew()`, no ítems nuevos. Las categorías con `manual_fetch_new` (destinos, F4-02) las omite `--all`; con `--category` el listado (una consulta SPARQL por país: el listado completo dura unos 25 minutos; con `--limit=40` solo se consulta España, unos segundos) se hace en el proceso del comando (`dispatchSync`) y solo las importaciones van a la cola, porque el worker corta a los 60 s.
+- **`catalog:refresh`** (diario): toma hasta `--batch` ítems con `last_synced_at` anterior a `--older-than` días (150 por defecto, con margen frente a los 180 de TMDB; cada categoría puede fijar el suyo con `catalog.categories.{slug}.refresh_older_than_days`: destinos, 90, refresco trimestral; `--older-than` lo fija para todas), los más antiguos primero, y encola un `ImportCatalogItemJob` por cada uno. Incluye los inactivos (siguen inactivos) y excluye los borrados. El lote debe recorrer todo el catálogo de TMDB en menos de 150 días (con ~3.000 ítems, 200 al día bastan). Registra un aviso en el log si quedan pendientes tras el lote.
 - **404 del proveedor:** `status = inactive` y aviso en el log. No se borra, porque puede tener votos.
 - **`catalog:purge-stale`** (semanal, red de seguridad): encola `PurgeStaleCatalogItemsJob` por bloques. Los ítems de TMDB (con fuente `tmdb`) sin refrescar en más de 180 días, **incluidos los borrados**, pasan a inactivos, se vacían sus campos procedentes de TMDB (la sinopsis si su `description_source` es `tmdb`, `attributes` y `popularity`) y **se borran sus imágenes de TMDB** del disco y de `images`. Conserva el nombre, el título original, la fecha, el slug y las fuentes, y lo que no viene de TMDB (descripción de Wikipedia/Wikidata o manual, imágenes propias). Un ítem purgado vuelve a refrescarse con `catalog:refresh`, pero sigue `inactive` hasta que lo reactive un admin.
 - **Memoria:** los comandos programados solo encolan. El scheduler tiene 128M ([../infra/produccion.md](../infra/produccion.md) §2).
@@ -157,7 +158,7 @@ Todas llevan `withoutOverlapping()`.
 Las dos rutas están en el grupo `auth:sanctum` + `verified` + `not_banned`. Los límites son `RateLimiter::for()` con nombre en `AppServiceProvider` (por usuario y minuto) y responden 429 con `{"error": {"code": "too_many_requests", "message"}}` y las cabeceras `Retry-After` y `X-RateLimit-*`.
 
 - **`GET /api/catalog/search?category={slug}&q={texto}`** (`throttle:catalog-search`, 10 por minuto):
-  - `category` debe ser una categoría activa con proveedor; `q`, de 2 a 100 caracteres (422 si no);
+  - `category` debe ser una categoría activa con proveedor que admita la importación bajo demanda (`CatalogProviderRegistry::supportsOnDemand()`; las de `on_demand = false`, como destinos en F4-02, responden 422 y `has_catalog_provider` es false); `q`, de 2 a 100 caracteres (422 si no);
   - llama a `provider->search()` y devuelve `{"data": [...], "meta": {"category", "query"}}`; cada candidato lleva `external_id`, `name`, `original_title`, `released_at`, `year`, `description`, `source_url`, `exists` e `item_id`;
   - `exists` es true si hay un ítem de Kudos (aunque esté inactivo o borrado) enlazado a `item_sources (provider, external_id)`; `item_id` es su id solo si está activo y sin borrar (si no, `null`: el frontend muestra "No disponible");
   - los candidatos se cachean 10 minutos por `(categoría, q normalizada)` en el store por defecto (Redis en producción); `exists` e `item_id` **no** se cachean (se calculan en cada petición); un fallo de la fuente no se cachea.
@@ -191,13 +192,22 @@ return [
         'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
         'series'    => ['provider' => \App\Catalog\Providers\TmdbTvProvider::class],
         'videojuegos' => ['provider' => \App\Catalog\Providers\IgdbGameProvider::class],   // F4-01
-        // F4-02: 'destinos' => [...]
+        'destinos' => [                         // F4-02: lista cerrada, carga manual
+            'provider' => \App\Catalog\Providers\WikidataPlaceProvider::class,
+            'manual_fetch_new' => true,         // catalog:fetch-new --all la omite; con --category el listado va en el proceso
+            'on_demand' => false,               // sin búsqueda ni importación bajo demanda (422)
+            'refresh_older_than_days' => 90,    // refresco trimestral en catalog:refresh
+        ],
     ],
     'providers' => [
         'tmdb' => ['token' => env('TMDB_API_TOKEN') ?: null, 'rate_per_second' => 20, 'genres_cache_days' => 7],
         'igdb' => ['client_id' => env('IGDB_CLIENT_ID') ?: null, 'client_secret' => env('IGDB_CLIENT_SECRET') ?: null, 'rate_per_second' => 3],   // F4-01
         'steam' => ['max_requests' => 1, 'per_seconds' => 2],   // F4-01: appdetails sin clave, 1 petición cada 2 s
         'wikimedia' => ['rate_per_minute' => 150, 'sparql_timeout_seconds' => 60, 'cache_days' => 7],
+    ],
+    'places' => [                               // F4-02: destinos
+        'min_city_population' => 300000,        // ciudades con más habitantes (P1082); estados y capitales de provincia entran siempre
+        'image_width' => 1280,                  // ancho de la foto de Commons (Special:FilePath/{archivo}?width=)
     ],
     'on_demand' => [                            // F1-07: importación bajo demanda desde /buscar
         'search_per_minute' => 10,              // RateLimiter 'catalog-search' (por usuario)

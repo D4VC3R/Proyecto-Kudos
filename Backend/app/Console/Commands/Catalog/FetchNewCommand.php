@@ -10,12 +10,14 @@ use Illuminate\Console\Command;
 /**
  * Encola la importación de novedades y populares de una o de todas las categorías con proveedor.
  * Solo encola: no llama a TMDB; el trabajo lo hace el worker en la cola 'catalog' (el scheduler tiene 128M, ver docs/infra/produccion.md §2).
+ * Salvo las categorías de carga manual (catalog.categories.{slug}.manual_fetch_new, destinos en F4-02): con --all se
+ * omiten y con --category el listado se hace en el proceso del comando (dura minutos y el worker corta a los 60 s).
  */
 class FetchNewCommand extends Command
 {
     protected $signature = 'catalog:fetch-new
         {--category= : Slug de la categoría (peliculas, series…)}
-        {--all : Todas las categorías activas con proveedor}
+        {--all : Todas las categorías activas con proveedor, salvo las de carga manual (destinos)}
         {--limit= : Máximo de ítems por categoría (por defecto, CATALOG_IMPORT_LIMIT)}';
 
     protected $description = 'Encola la importación de novedades y populares del catálogo en la cola catalog';
@@ -72,6 +74,12 @@ class FetchNewCommand extends Command
                     continue;
                 }
 
+                if ($this->isManual($candidate)) {
+                    $this->warn("Se omite '{$candidate}': se carga a mano con --category={$candidate}.");
+
+                    continue;
+                }
+
                 $category = Category::query()->where('slug', $candidate)->first();
 
                 if ($category === null) {
@@ -97,10 +105,26 @@ class FetchNewCommand extends Command
         }
 
         foreach ($queued as $categorySlug) {
+            if ($this->isManual($categorySlug)) {
+                // F4-02: el listado (una consulta SPARQL por país) dura minutos y el worker corta a los 60 s:
+                // se hace aquí y solo se encolan las importaciones (ImportCatalogItemJob, cola catalog).
+                $this->info("Listando '{$categorySlug}' en este proceso (puede tardar varios minutos)…");
+                FetchNewCatalogItemsJob::dispatchSync($categorySlug, $limit);
+                $this->info("Encoladas las importaciones de '{$categorySlug}' (hasta {$limit} ítems) en la cola catalog.");
+
+                continue;
+            }
+
             FetchNewCatalogItemsJob::dispatch($categorySlug, $limit);
             $this->info("Encolada la importación de novedades de '{$categorySlug}' (hasta {$limit} ítems) en la cola catalog.");
         }
 
         return self::SUCCESS;
+    }
+
+    /** Categoría que se carga a mano (F4-02, destinos): fuera de --all y con el listado en este proceso. */
+    private function isManual(string $slug): bool
+    {
+        return config("catalog.categories.{$slug}.manual_fetch_new", false) === true;
     }
 }

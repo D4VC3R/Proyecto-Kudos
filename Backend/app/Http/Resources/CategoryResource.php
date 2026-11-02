@@ -11,6 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * Se utiliza principalmente para listar categorías, mostrando solo la información básica y el conteo de ítems.
  * Desde la F1-06 expone attribute_schema, icon y sort_order (la categoría anidada en un ítem puede llevarlos vacíos si se cargó con columnas limitadas).
  * Desde la F1-07 indica si la categoría admite la importación bajo demanda (`has_catalog_provider`).
+ * Desde la F4-02 es false en las categorías sin importación bajo demanda (destinos).
  */
 class CategoryResource extends JsonResource
 {
@@ -33,7 +34,7 @@ class CategoryResource extends JsonResource
 		    'attribute_schema' => $this->attribute_schema ?? [],
 		    'icon' => $this->icon,
 		    'sort_order' => $this->sort_order,
-		    'has_catalog_provider' => app(CatalogProviderRegistry::class)->has((string) $this->slug),
+		    'has_catalog_provider' => app(CatalogProviderRegistry::class)->supportsOnDemand((string) $this->slug),
 	    ];
     }
 }

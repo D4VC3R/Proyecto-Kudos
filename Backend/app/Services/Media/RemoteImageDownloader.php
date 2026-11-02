@@ -17,6 +17,7 @@ class RemoteImageDownloader
 
     /**
      * Descarga una imagen desde una URL remota a un almacenamiento temporal, validando su formato y tamaño.
+     * User-Agent identificativo (fuentes-externas §1.3): Wikimedia bloquea los genéricos (fotos de Commons, F4-02).
      *
      * @param string $url La URL de la imagen remota a descargar.
      * @param string $tempDisk El disco de almacenamiento temporal donde se guardará la imagen descargada.
@@ -29,7 +30,7 @@ class RemoteImageDownloader
         $this->assertSafeUrl($url);
         $maxBytes = config('media.max_upload_size');
 
-        $head = Http::timeout(10)->head($url);
+        $head = Http::timeout(10)->withUserAgent((string) config('catalog.user_agent'))->head($url);
         if ($head->successful()) {
             $this->assertImageHeaders($head->headers(), $maxBytes);
         }
@@ -38,7 +39,7 @@ class RemoteImageDownloader
         $tempPath = $tempDir . '/' . Str::uuid()->toString() . '.tmp';
         $absolutePath = Storage::disk($tempDisk)->path($tempPath);
 
-        $response = Http::timeout(30)->withOptions(['stream' => true])->get($url);
+        $response = Http::timeout(30)->withUserAgent((string) config('catalog.user_agent'))->withOptions(['stream' => true])->get($url);
 
         if (!$response->successful()) {
             throw new RuntimeException('No se pudo descargar la imagen.');
@@ -86,9 +87,11 @@ class RemoteImageDownloader
      */
     private function assertImageHeaders(array $headers, int $maxBytes): void
     {
-        $this->assertMimeType($headers['Content-Type'][0] ?? '');
+        // Por HTTP/2 las cabeceras llegan en minúsculas (upload.wikimedia.org, F4-02): se busca sin distinguir mayúsculas.
+        $headers = array_change_key_case($headers, CASE_LOWER);
+        $this->assertMimeType($headers['content-type'][0] ?? '');
 
-        $contentLength = (int) ($headers['Content-Length'][0] ?? 0);
+        $contentLength = (int) ($headers['content-length'][0] ?? 0);
         if ($contentLength > 0 && $contentLength > $maxBytes) {
             throw new RuntimeException('El recurso remoto supera el máximo permitido.');
         }

@@ -72,6 +72,70 @@ final class WikidataClient
     }
 
     /**
+     * Etiqueta de una entidad (es, si no mul y si no en; fuentes-externas §2), o null si no existe o no tiene etiqueta.
+     *
+     * @throws InvalidArgumentException si el QID está mal formado
+     * @throws RequestException ante un 429/5xx persistente
+     */
+    public function label(string $qid): ?string
+    {
+        $qid = strtoupper(trim($qid));
+
+        if (! preg_match('/^Q[1-9]\d*$/', $qid)) {
+            throw new InvalidArgumentException("QID de Wikidata no válido: '{$qid}'.");
+        }
+
+        $response = $this->request()->get(self::API_URL, [
+            'action' => 'wbgetentities',
+            'ids' => $qid,
+            'props' => 'labels',
+            'languages' => 'es|mul|en',
+            'format' => 'json',
+        ]);
+
+        if ($response->notFound()) {
+            return null;
+        }
+
+        $response->throw();
+
+        if ($response->json('error.code') === 'no-such-entity') {
+            return null;
+        }
+
+        if ($response->json('error') !== null) {
+            throw new RuntimeException('Wikidata devolvió un error: '.$response->json('error.code'));
+        }
+
+        $entities = (array) $response->json('entities', []);
+        $entity = $entities[$qid] ?? (reset($entities) ?: null);
+
+        if (! is_array($entity) || array_key_exists('missing', $entity)) {
+            return null;
+        }
+
+        return self::labelOf($entity);
+    }
+
+    /**
+     * Etiqueta de una entidad ya descargada: es, si no mul y si no en; null si no tiene ninguna.
+     *
+     * @param  array<string, mixed>  $entity
+     */
+    public static function labelOf(array $entity): ?string
+    {
+        foreach (['es', 'mul', 'en'] as $language) {
+            $value = $entity['labels'][$language]['value'] ?? null;
+
+            if (is_string($value) && trim($value) !== '') {
+                return trim($value);
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * QID del único ítem de Wikidata con la declaración $property = $value (haswbstatement de CirrusSearch,
      * F4-01: P5794 = slug de IGDB, P1733 = appid de Steam), o null si no hay ninguno o hay varios (ambiguo).
      * Un valor con caracteres fuera de [A-Za-z0-9._-] devuelve null sin hacer peticiones.

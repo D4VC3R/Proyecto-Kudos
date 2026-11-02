@@ -50,7 +50,18 @@ return [
         'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
         'series' => ['provider' => \App\Catalog\Providers\TmdbTvProvider::class],
         'videojuegos' => ['provider' => \App\Catalog\Providers\IgdbGameProvider::class],
-        // F4-02: 'destinos' => [...]
+        // F4-02: lista cerrada (estados soberanos, ciudades de más de places.min_city_population habitantes y capitales
+        // de provincia españolas) que se carga a mano con catalog:fetch-new --category=destinos.
+        // - manual_fetch_new: catalog:fetch-new --all (el programado) la omite, y con --category el listado (una consulta
+        //   SPARQL por país, varios minutos) se hace en el proceso del comando y no en el worker (timeout de 60 s).
+        // - on_demand: sin búsqueda ni importación bajo demanda en /buscar (responden 422).
+        // - refresh_older_than_days: refresco trimestral (Wikidata no pone límite de antigüedad, a diferencia de TMDB).
+        'destinos' => [
+            'provider' => \App\Catalog\Providers\WikidataPlaceProvider::class,
+            'manual_fetch_new' => true,
+            'on_demand' => false,
+            'refresh_older_than_days' => 90,
+        ],
     ],
 
     'providers' => [
@@ -82,6 +93,15 @@ return [
             // Días que el DescriptionResolver cachea las respuestas de Wikidata (por QID) y de Wikipedia (por título).
             'cache_days' => 7,
         ],
+    ],
+
+    // Destinos (F4-02, WikidataPlaceProvider).
+    'places' => [
+        // Ciudades que entran en la carga inicial: más de estos habitantes (P1082). Los estados soberanos y las
+        // capitales de provincia españolas entran siempre.
+        'min_city_population' => 300000,
+        // Ancho de la foto de Commons (Special:FilePath/{archivo}?width=).
+        'image_width' => 1280,
     ],
 
     // Importación bajo demanda desde /buscar (F1-07, pipeline-catalogo §7). La petición del usuario

@@ -75,7 +75,7 @@ dc() { docker compose -f compose.prod.yml --env-file .env.production "$@"; }
 
 # 1. Parar worker y scheduler: que ningún job ni tarea programada se ejecute mientras se rehace el esquema
 dc stop worker scheduler
-# 2. Esquema limpio: categorías (peliculas, series y, desde la F4-01, videojuegos activas; destinos inactiva), permisos,
+# 2. Esquema limpio: categorías (peliculas, series y, desde la F4-01 y la F4-02, videojuegos y destinos activas), permisos,
 #    roles y el admin. Sin usuarios de prueba, ítems, propuestas ni votos (esos solo se siembran en local)
 dc run --rm app php artisan migrate:fresh --seed --force
 # 3. Vaciar las imágenes que ya no referencia ninguna fila: ítems, propuestas, avatares y portadas de las
@@ -89,6 +89,8 @@ dc run --rm app php artisan cache:clear
 dc start worker scheduler
 # 6. Importación inicial: el comando solo encola (QUEUE_CONNECTION=database) y acaba en segundos; la hace el worker
 dc run --rm app php artisan catalog:fetch-new --all --limit=300
+# destinos (F4-02) no entra en --all: su listado (unas 200 consultas, una por país) dura unos 25 minutos y se hace en el proceso del comando (ver §7)
+dc run --rm app php artisan catalog:fetch-new --category=destinos --limit=3000
 dc logs -f --tail=100 worker                        # Ctrl+C solo deja de mirar
 ```
 
@@ -126,3 +128,23 @@ Ningún agente lo ejecuta (R10). Se hace al desplegar la Fase 4, con producción
    - `curl -s https://api.kudos.dcerdan.es/api/categories` incluye `videojuegos` con su `attribute_schema`.
    - Recuento por fuente de la descripción (`steam` con `?l=english` en la URL es el inglés de respaldo):
      `dc exec postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT COALESCE(i.description_source, '"'"'sin descripcion'"'"') AS fuente, count(*) FROM items i JOIN categories c ON c.id = i.category_id WHERE c.slug = '"'"'videojuegos'"'"' GROUP BY 1 ORDER BY 2 DESC;"'`
+
+## 7. *Runbook*: activar destinos (F4-02; lo ejecuta el humano)
+
+Ningún agente lo ejecuta (R10). Se hace al desplegar la Fase 4, con producción ya sembrada (§5).
+
+1. No hay variables nuevas: Wikidata, Commons y Wikipedia no llevan clave (`Backend/.env.production` no cambia).
+2. `./deploy.sh`: la migración `2026_11_05_000000_activate_destinos_category` activa la categoría con su `attribute_schema`.
+3. Justo después, la carga inicial (el diario `catalog:fetch-new --all` omite destinos):
+   ```bash
+   cd Backend
+   dc() { docker compose -f compose.prod.yml --env-file .env.production "$@"; }
+   dc run --rm app php artisan catalog:fetch-new --category=destinos --limit=3000
+   dc logs -f --tail=100 worker                        # Ctrl+C solo deja de mirar
+   ```
+   El comando hace el listado en el propio proceso (unos 25 minutos: unas 200 consultas SPARQL, una por país, con una pausa entre ellas para respetar la cuota de WDQS) y encola unos 2.100 `ImportCatalogItemJob`. Cada destino son unas 5 peticiones a Wikimedia (150 por minuto en total), así que el worker tarda algo más de 1 hora. Si al final sale el error "no se pudieron listar las ciudades de algunos países de destinos", vuelve a lanzar el mismo comando (reimporta sin duplicar).
+4. Comprobaciones:
+   - `curl -s https://api.kudos.dcerdan.es/api/categories` incluye `destinos` con su `attribute_schema` y `has_catalog_provider: false`.
+   - Recuento por fuente de la descripción:
+     `dc exec postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT COALESCE(i.description_source, '"'"'sin descripcion'"'"') AS fuente, count(*) FROM items i JOIN categories c ON c.id = i.category_id WHERE c.slug = '"'"'destinos'"'"' GROUP BY 1 ORDER BY 2 DESC;"'`
+   - El refresco es trimestral (`catalog:refresh` usa 90 días para destinos).

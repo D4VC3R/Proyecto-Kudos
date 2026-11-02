@@ -181,4 +181,45 @@ class RefreshCommandTest extends TestCase
 
         Queue::assertNothingPushed();
     }
+
+    /** Destino sincronizado hace $daysAgo días, con su fuente principal de Wikidata (F4-02). */
+    private function syncedPlace(Category $category, int $daysAgo): Item
+    {
+        $syncedAt = now()->subDays($daysAgo);
+        $item = $this->createItem($category, ['last_synced_at' => $syncedAt]);
+
+        ItemSource::create([
+            'item_id' => $item->id,
+            'provider' => 'wikidata',
+            'external_id' => 'Q2807',
+            'url' => 'https://www.wikidata.org/wiki/Q2807',
+            'is_primary' => true,
+            'last_synced_at' => $syncedAt,
+        ]);
+
+        return $item;
+    }
+
+    public function test_destinos_se_refresca_a_los_90_dias(): void
+    {
+        Queue::fake();
+        $destinos = $this->createCategory('destinos', 'Destinos');
+        $this->syncedPlace($destinos, 100);
+        $this->syncedItem($this->peliculas, 'movie:1', 100);
+
+        $this->artisan('catalog:refresh')->assertSuccessful();
+
+        $this->assertSame([['destinos', 'Q2807']], $this->queuedPairs());
+    }
+
+    public function test_older_than_se_aplica_a_todas_las_categorias(): void
+    {
+        Queue::fake();
+        $destinos = $this->createCategory('destinos', 'Destinos');
+        $this->syncedPlace($destinos, 100);
+
+        $this->artisan('catalog:refresh', ['--older-than' => 120])->assertSuccessful();
+
+        $this->assertSame([], $this->queuedPairs());
+    }
 }

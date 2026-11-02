@@ -1,0 +1,45 @@
+{
+  "head": {
+    "vars": [
+      "item",
+      "itemLabel",
+      "maxPopulation"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q2807"
+        },
+        "itemLabel": {
+          "xml:lang": "es",
+          "type": "literal",
+          "value": "Madrid"
+        },
+        "maxPopulation": {
+          "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+          "type": "literal",
+          "value": "3332035"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q5836"
+        },
+        "itemLabel": {
+          "xml:lang": "es",
+          "type": "literal",
+          "value": "Toledo"
+        },
+        "maxPopulation": {
+          "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+          "type": "literal",
+          "value": "85000"
+        }
+      }
+    ]
+  }
+}
