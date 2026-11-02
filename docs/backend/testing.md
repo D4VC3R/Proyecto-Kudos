@@ -115,7 +115,7 @@ Http::fake([
 | 1 | Importar de TMDB (ficha es-ES, `item_sources`, reimportar sin duplicar); cadena de la descripción; `quality_score`; refresco (`last_synced_at`; un 404 desactiva); búsqueda e importación bajo demanda (autorización y *throttle*) |
 | 2 | `want`/`not_interested`; normalización de `skip`; de `want` a valoración (kudos una sola vez); *wishlist*; cola ponderada; similares; listas editoriales en la portada; métricas de uso (`kudos:metrics`) |
 | 3 | CRUD de listas y visibilidad (privada → 404); reseñas y respuestas (un nivel); reportes y su resolución con aviso; borrado de cuenta (cascada y anonimización); notificaciones |
-| 4 | Mapeador de IGDB y descripción de Steam (español aceptado, inglés descartado); destinos en Wikidata; licencia de las imágenes de Commons |
+| 4 | Mapeador de IGDB y descripción de Steam (español primero, inglés solo como último recurso, una petición por juego); destinos en Wikidata; licencia de las imágenes de Commons |
 
 ## 7. CI (GitHub Actions)
 

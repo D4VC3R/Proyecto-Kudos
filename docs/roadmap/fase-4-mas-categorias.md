@@ -15,7 +15,7 @@
 2. Compáralos con los de RAWG (https://rawg.io/tos_api): exige un enlace en cada página y el almacenamiento es una zona gris.
 3. El humano decide. Por defecto, IGDB si permite cachear.
 
-**Decisión (02-11-2026, del humano):** **IGDB** como proveedor principal, con la descripción en español en cascada: **Steam** (`short_description` en español) → Wikipedia ES → Wikidata → nada.
+**Decisión (02-11-2026, del humano):** **IGDB** como proveedor principal, con la descripción en cascada: **Steam en español** (`short_description`) → Wikipedia ES → Wikidata → **Steam en inglés** → nada.
 
 - **IGDB, verificado el 02-11-2026 en la FAQ de https://api-docs.igdb.com:**
   - "free for non-commercial usage under the terms of the Twitch Developer Service Agreement";
@@ -31,7 +31,8 @@
   - no hay un listado limpio de novedades (`GetAppList` mezcla DLC, bandas sonoras y *shovelware*);
   - `appdetails` es un endpoint **no documentado**.
 - **Steam solo para la descripción:** la `short_description` con `l=spanish` sale en buen español en los juegos traducidos (probado con Hades, Balatro, Vampire Survivors, RE4, TMNT y PEAK).
-  - **Trampa:** si no hay texto en español, devuelve el inglés sin avisar (Cruelty Squad, Lethal Company). Solo se acepta si es distinta de la de `l=english`.
+  - **Trampa:** si no hay texto en español, devuelve el inglés sin avisar (Cruelty Squad, Lethal Company). Con **una sola petición** se sabe por `supported_languages`: si no contiene "Español", el texto se toma como inglés.
+  - **Inglés como último recurso (decisión del humano):** un texto de Steam en inglés no se descarta, pero solo se usa si Wikipedia ES y Wikidata no dan nada. Es preferible a dejar la ficha sin descripción.
   - **Riesgo aceptado:** es texto promocional del editor, sin licencia explícita. Se mitiga con la descripción corta, atribuida y con enlace a la tienda.
   - Si el endpoint falla o cambia, la cascada pasa a Wikipedia ES y la importación sigue.
 - **Prioridad Steam antes que Wikipedia:** decisión del humano, por coherencia con la sinopsis de TMDB en películas y series.
@@ -45,9 +46,13 @@
 **Pasos:**
 1. `IgdbClient`: token de aplicación de Twitch (`client_credentials`) cacheado hasta que caduque; `POST https://api.igdb.com/v4/games` con Apicalypse; límite de 4 peticiones por segundo.
 2. `IgdbGameProvider`: `name`, `first_release_date`, `cover.image_id`, `screenshots`, `genres.name`, `platforms.name`, `involved_companies` (desarrolladora), `total_rating_count` (→ `popularity`), `slug` y `external_games` (`external_game_source` y `uid`, para el *appid* de Steam). El `external_id` es el ID numérico. **Nunca** se guarda el `summary` en inglés.
-3. `SteamStoreClient` (sin clave, `GET https://store.steampowered.com/api/appdetails?appids={appid}&l=spanish&cc=es`): *throttle* de 1 petición cada 1,5 s con `Clients/Concerns/ThrottlesRequests.php` (el límite conocido es de unas 200 cada 5 minutos por IP) y `RetryPolicy`. `{"<appid>": {"success": false}}` cuenta como 404.
-4. Descripción, en `IgdbGameProvider::fetch()` y antes del `DescriptionResolver`: si el juego tiene *appid* de Steam, se pide `short_description` con `l=spanish` y con `l=english`. Solo se acepta si no está vacía y es **distinta** de la inglesa (si no, Steam ha devuelto el inglés). Se guarda con `description_source = steam` y `description_url` = `https://store.steampowered.com/app/{appid}/`. Un fallo de Steam se registra en el log y deja la descripción vacía, para que siga la cadena.
-5. Si no hay descripción, el `DescriptionResolver` actual (sin cambios) sigue con Wikipedia ES y Wikidata. El QID se obtiene por P5794 (el valor es el *slug* de IGDB) y, si no hay, por P1733 (*appid* de Steam), con SPARQL o `haswbstatement`.
+3. `SteamStoreClient` (sin clave, `GET https://store.steampowered.com/api/appdetails?appids={appid}&l=spanish&cc=es`, **una sola petición por juego**): *throttle* de 1 petición cada 1,5 s con `Clients/Concerns/ThrottlesRequests.php` (el límite conocido es de unas 200 cada 5 minutos por IP) y `RetryPolicy`. `{"<appid>": {"success": false}}` cuenta como 404.
+4. Descripción, en `IgdbGameProvider::fetch()` y antes del `DescriptionResolver`: si el juego tiene *appid* de Steam, se pide `appdetails` con `l=spanish`. Si `short_description` no está vacía:
+   - si `supported_languages` contiene "Español", es la descripción del proveedor (`description_source = steam`, `description_url` = `https://store.steampowered.com/app/{appid}/`);
+   - si no, Steam ha devuelto el inglés: se guarda como **descripción de respaldo** en un campo nuevo de `CatalogItemData` (texto y URL), no como descripción.
+
+   Un fallo de Steam se registra en el log y deja ambas vacías, para que siga la cadena. Limitación conocida: un juego traducido al español cuya ficha de la tienda siga en inglés se tomará como español.
+5. Si no hay descripción, el `DescriptionResolver` sigue con Wikipedia ES y Wikidata, como ahora, y **añade un último paso**: antes de devolver `null`, usa la descripción de respaldo de Steam con `description_source = steam`. El QID se obtiene por P5794 (el valor es el *slug* de IGDB) y, si no hay, por P1733 (*appid* de Steam), con SPARQL o `haswbstatement`.
 6. `item_sources`: IGDB es la fuente principal (`is_primary = true`) y, si hay *appid*, se añade `steam` (`external_id` = *appid*, `url` = la página de la tienda, `is_primary = false`).
 7. Géneros y plataformas en español: mapa en `config/catalog.php` → `genre_translations.igdb`. Lo que no esté en el mapa conserva su nombre original.
 8. Imágenes: `https://images.igdb.com/igdb/image/upload/t_cover_big/{image_id}.jpg` (póster) y `t_screenshot_big` (banner).
@@ -57,8 +62,8 @@
 12. Activa la categoría cuando la importación funcione.
 
 **Hecho cuando:**
-- Hay tests con fixtures, incluidos un 404 de IGDB, un juego sin Wikipedia ES, y en Steam: descripción en español, descripción en inglés (se descarta), juego sin *appid*, `success: false` y fallo de red.
-- Con las credenciales del humano, el resumen indica el porcentaje de juegos importados con descripción en español, desglosado por fuente (`steam`, `wikipedia_es`, `wikidata`, sin descripción).
+- Hay tests con fixtures, incluidos un 404 de IGDB, un juego sin Wikipedia ES, y en Steam: descripción en español; descripción en inglés con Wikipedia ES (gana Wikipedia) y sin Wikipedia ni Wikidata (se usa el inglés); juego sin *appid*; `success: false` y fallo de red. Hay que comprobar con fixtures que se hace **una sola** petición a Steam por juego.
+- Con las credenciales del humano, el resumen indica el porcentaje de juegos importados con descripción en español, desglosado por fuente (`steam` en español, `wikipedia_es`, `wikidata`, `steam` en inglés, sin descripción).
 
 ---
 

@@ -20,7 +20,7 @@ Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en b
 ## 2. Contenido de terceros
 
 - **Wikipedia (CC BY-SA):** un texto modificado sigue bajo CC BY-SA y se atribuye igual. Nunca se presenta como contenido propio.
-- **Descripciones de Steam:** son texto promocional del editor sin licencia explícita (riesgo aceptado en la F4-00). Solo se guarda la `short_description` en español, atribuida y enlazada, y se deja de usar si Valve o el editor lo piden.
+- **Descripciones de Steam:** son texto promocional del editor sin licencia explícita (riesgo aceptado en la F4-00). Solo se guarda la `short_description` (en español, o en inglés si no hay otra fuente), atribuida y enlazada, y se deja de usar si Valve o el editor lo piden.
 - **Imágenes:** se guardan reducidas (`thumb`/`banner`), con `license`, `author` y `source_url`. Las portadas comerciales (TMDB, IGDB) llevan `license: "© titular de derechos"` y solo ilustran la ficha.
 
 ## 3. DSA (requisito de la Fase 3, antes de abrir listas y reseñas)

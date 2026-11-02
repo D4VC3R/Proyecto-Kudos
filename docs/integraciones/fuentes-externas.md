@@ -14,7 +14,7 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales (IGDB, 
    - nunca se guarda el payload en bruto;
    - si se revoca la clave, se borran sus datos.
 7. **Prohibido** usar portadas de iTunes/Apple.
-8. **Nunca** se guarda una sinopsis en inglés (TMDB, IGDB o Steam). En Steam, `l=spanish` devuelve el inglés sin avisar cuando no hay traducción: compara con `l=english` (§4).
+8. **Nunca** se guarda una sinopsis en inglés de TMDB o IGDB. Única excepción: la descripción de Steam en inglés, como **último recurso** de la cadena de videojuegos, después de Wikipedia ES y Wikidata (F4-00). En Steam, `l=spanish` devuelve el inglés sin avisar cuando no hay traducción: se detecta con `supported_languages` (§4).
 9. Atribución visible según [../legal/cumplimiento.md](../legal/cumplimiento.md) §1.
 
 ## 2. Fuentes aprobadas
@@ -26,7 +26,7 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales (IGDB, 
 | **Wikipedia ES** | Descripción en español | Libre | 200 peticiones/min con User-Agent ([límites](https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits)) | CC BY-SA: atribución y enlace por ítem | Muy buena donde hay entrada | 1 |
 | **Wikimedia Commons** | Fotos de lugares | Libre | Como Wikipedia | Licencia y autor **por archivo**, guardados y visibles | — | 4 |
 | **IGDB** | Videojuegos: ficha, portada, capturas, plataformas, desarrolladoras, popularidad, novedades | Gratis no comercial con Twitch (`IGDB_CLIENT_ID`/`SECRET`) | 4 peticiones/s, 8 abiertas | Permite y prefiere cachear y almacenar; los datos se conservan si se acaba la relación; atribución visible y fija (FAQ de [api-docs.igdb.com](https://api-docs.igdb.com)) | Inglés: géneros con mapa propio; el texto sale de Steam o Wikipedia ES | 4 |
-| **Steam Store** (`appdetails`) | Videojuegos: **solo** la descripción corta en español | Libre, sin clave; endpoint **no documentado** | ~200 peticiones / 5 min por IP (dato de la comunidad); usamos 1 cada 1,5 s | Sin licencia explícita del texto (es del editor): solo `short_description`, atribuida y con enlace a la tienda; enlaces sin `nofollow` y sin sugerir respaldo de Valve ([términos de la Web API](https://steamcommunity.com/dev/apiterms)) | Bueno en los juegos traducidos; si no, devuelve inglés | 4 |
+| **Steam Store** (`appdetails`) | Videojuegos: **solo** la descripción corta (en español; en inglés, como último recurso) | Libre, sin clave; endpoint **no documentado** | ~200 peticiones / 5 min por IP (dato de la comunidad); usamos 1 cada 1,5 s | Sin licencia explícita del texto (es del editor): solo `short_description`, atribuida y con enlace a la tienda; enlaces sin `nofollow` y sin sugerir respaldo de Valve ([términos de la Web API](https://steamcommunity.com/dev/apiterms)) | Bueno en los juegos traducidos; si no, devuelve inglés sin avisar | 4 |
 | **Tiles de OSM** | Mapa de destinos (Leaflet) | Libre | Sin uso masivo ni descarga offline | "© OpenStreetMap contributors" ([política](https://operations.osmfoundation.org/policies/tiles/)) | — | 4 |
 
 ## 3. Descartadas
@@ -61,7 +61,7 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales (IGDB, 
 
 **Steam Store** (sin clave):
 - `GET https://store.steampowered.com/api/appdetails?appids={appid}&l=spanish&cc=es` → `{"<appid>": {"success": true, "data": {…}}}`; `success: false` equivale a un 404. Un solo *appid* por petición.
-- Solo se usa `data.short_description` (texto plano, puede traer entidades HTML). Se acepta si no está vacía y difiere de la de `l=english`.
+- Solo se usa `data.short_description` (texto plano, puede traer entidades HTML). Una sola petición por juego: si `data.supported_languages` (HTML, con `l=spanish` en español) no contiene "Español", el texto está en inglés y solo sirve de último recurso.
 - Ficha pública: `https://store.steampowered.com/app/{appid}/`.
 
 **Wikidata:**
