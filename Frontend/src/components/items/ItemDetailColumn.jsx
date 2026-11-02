@@ -3,14 +3,18 @@ import { Star, Info } from 'lucide-react';
 import ItemImage from './ItemImage.jsx';
 import ItemAttribution from './ItemAttribution.jsx';
 import AttributeChips from './AttributeChips.jsx';
+import ItemPlaceMap from './ItemPlaceMap.jsx';
 import { hasText } from '../../lib/text.js';
 import { hasAttribution } from '../../lib/attribution.js';
+import { getPlaceCoordinates, getPlaceMapZoom } from '../../lib/places.js';
 import { VOTE_TYPE_BADGES } from '../../lib/constants.js';
 
 const ItemDetailColumn = ({ item, children }) => {
   // Los ítems sin descripción (p. ej. importados) no muestran la caja "Acerca de…".
   const description = hasText(item.description) ? item.description.trim() : null;
   const showAttribution = hasAttribution(item.attribution);
+  // Mapa solo con coordenadas válidas (destinos, F4-03); el resto de categorías no las tienen.
+  const coordinates = getPlaceCoordinates(item.attributes);
   // Estado del usuario con este ítem (F2-04): nota, wishlist o "no me interesa". Sin sesión no llega user_vote.
   const userVote = item.user_vote;
   const userVoteBadge = userVote ? (VOTE_TYPE_BADGES[userVote.type] ?? null) : null;
@@ -51,6 +55,15 @@ const ItemDetailColumn = ({ item, children }) => {
       <div className="w-full flex justify-center mb-8 shrink-0">
         <ItemImage item={item} showTitle={false} />
       </div>
+
+      {coordinates && (
+        <ItemPlaceMap
+          name={item.name}
+          coordinates={coordinates}
+          zoom={getPlaceMapZoom(item.attributes)}
+          className="mb-8 shrink-0"
+        />
+      )}
 
       {(description || showAttribution) && (
         <div className="mt-auto shrink-0 flex flex-col gap-3">

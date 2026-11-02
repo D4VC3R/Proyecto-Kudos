@@ -22,18 +22,31 @@ export const formatAttributeDate = (value) => {
   return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 };
 
+// Población con separador de miles en español ("3.305.408"), F4-03. En es-ES los números de 4 cifras no se agrupan ("1234").
+export const formatPopulation = (value) => {
+  if (typeof value !== 'number' && !hasText(value)) return null;
+  const total = Math.round(Number(value));
+  if (!Number.isFinite(total) || total < 0) return null;
+  return total.toLocaleString('es-ES');
+};
+
 const toText = (value) => {
   if (typeof value === 'number' && Number.isFinite(value)) return String(value);
   return hasText(value) ? value.trim() : null;
 };
 
-// Cada tipo devuelve la lista de textos que se pintan como chips. coordinates (mapa de la F4-03) y url no se pintan todavía.
+// Cada tipo devuelve la lista de textos que se pintan como chips. coordinates se pinta como mapa en la ficha (PlaceMap, F4-03) y url no se pinta todavía.
 const VALUE_FORMATTERS = {
   string: (value) => [toText(value)],
   integer: (value) => [toText(value)],
   minutes: (value) => [formatMinutes(value)],
   date: (value) => [formatAttributeDate(value)],
   tags: (value) => (Array.isArray(value) ? value.map(toText) : []),
+};
+
+// Atributos con un formato propio por clave, que manda sobre el de su tipo (population es integer, como year, pero lleva separador de miles).
+const KEY_FORMATTERS = {
+  population: (value) => [formatPopulation(value)],
 };
 
 // Atributos que hay que pintar, en el orden del attribute_schema: [{ key, label, type, values }].
@@ -45,7 +58,7 @@ export const getAttributeEntries = (schema, attributes, { cardOnly = false } = {
     if (!field || typeof field !== 'object' || !hasText(field.key)) return [];
     if (cardOnly && !field.show_in_card) return [];
 
-    const format = VALUE_FORMATTERS[field.type];
+    const format = KEY_FORMATTERS[field.key] ?? VALUE_FORMATTERS[field.type];
     if (!format || !Object.prototype.hasOwnProperty.call(attributes, field.key)) return [];
 
     const values = format(attributes[field.key]).filter(hasText);
