@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Seeders;
 
+use App\Catalog\Providers\IgdbGameProvider;
 use App\Catalog\Providers\TmdbMovieProvider;
 use App\Catalog\Providers\TmdbTvProvider;
 use App\Models\Category;
@@ -70,16 +71,17 @@ class CategorySeederTest extends TestCase
         $this->assertSame(2, $series->sort_order);
     }
 
-    public function test_videojuegos_y_destinos_quedan_inactivas_hasta_la_f4(): void
+    public function test_videojuegos_activa_con_su_esquema_y_destinos_inactiva(): void
     {
         $this->seed(CategorySeeder::class);
 
         $games = Category::query()->where('slug', 'videojuegos')->firstOrFail();
         $destinations = Category::query()->where('slug', 'destinos')->firstOrFail();
 
-        $this->assertFalse($games->is_active);
+        $this->assertTrue($games->is_active);
         $this->assertFalse($destinations->is_active);
-        $this->assertSame([], $games->attribute_schema);
+        // assertEquals: jsonb no conserva el orden de las claves (F1-01).
+        $this->assertEquals(IgdbGameProvider::ATTRIBUTE_SCHEMA, $games->attribute_schema);
         $this->assertSame([], $destinations->attribute_schema);
         $this->assertSame('gamepad-2', $games->icon);
         $this->assertSame('map-pin', $destinations->icon);
@@ -104,7 +106,7 @@ class CategorySeederTest extends TestCase
 
         $response = $this->getJson('/api/categories')->assertOk();
 
-        $this->assertSame(['peliculas', 'series'], collect($response->json('data'))->pluck('slug')->all());
+        $this->assertSame(['peliculas', 'series', 'videojuegos'], collect($response->json('data'))->pluck('slug')->all());
         $this->assertSame('clapperboard', $response->json('data.0.icon'));
     }
 

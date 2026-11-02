@@ -5,6 +5,7 @@ namespace Tests\Unit\Catalog;
 use App\Catalog\CatalogProviderRegistry;
 use App\Catalog\Contracts\CatalogProvider;
 use App\Catalog\Data\CatalogItemData;
+use App\Catalog\Providers\IgdbGameProvider;
 use App\Catalog\Providers\TmdbMovieProvider;
 use App\Catalog\Providers\TmdbTvProvider;
 use Illuminate\Support\Facades\Http;
@@ -75,7 +76,7 @@ class CatalogProviderRegistryTest extends TestCase
 
     public function test_lista_las_categorias_configuradas(): void
     {
-        $this->assertSame(['peliculas', 'series'], app(CatalogProviderRegistry::class)->categorySlugs());
+        $this->assertSame(['peliculas', 'series', 'videojuegos'], app(CatalogProviderRegistry::class)->categorySlugs());
     }
 
     public function test_resuelve_los_proveedores_de_tmdb_de_peliculas_y_series(): void
@@ -86,6 +87,21 @@ class CatalogProviderRegistryTest extends TestCase
 
         $this->assertInstanceOf(TmdbMovieProvider::class, $registry->forCategory('peliculas'));
         $this->assertInstanceOf(TmdbTvProvider::class, $registry->forCategory('series'));
+        Http::assertNothingSent();
+    }
+
+    public function test_resuelve_el_proveedor_de_igdb_para_videojuegos(): void
+    {
+        Http::fake();
+        config([
+            'catalog.providers.igdb.client_id' => 'id-de-prueba',
+            'catalog.providers.igdb.client_secret' => 'secreto-de-prueba',
+        ]);
+
+        $registry = app(CatalogProviderRegistry::class);
+
+        $this->assertInstanceOf(IgdbGameProvider::class, $registry->forCategory('videojuegos'));
+        $this->assertSame(['videojuegos'], $registry->categoriesFor('igdb', '113112'));
         Http::assertNothingSent();
     }
 

@@ -41,6 +41,8 @@ class DatabaseSeederTest extends TestCase
             'kudos.seed_admin' => ['name' => 'kudosAdmin', 'email' => 'admin@kudos.test', 'password' => 'contrasena-de-prueba'],
             'catalog.user_agent' => 'KudosTest/1.0 (+https://kudos.test)',
             'catalog.providers.tmdb.token' => 'token-de-prueba',
+            'catalog.providers.igdb.client_id' => 'id-de-prueba',
+            'catalog.providers.igdb.client_secret' => 'secreto-de-prueba',
         ]);
     }
 
@@ -195,6 +197,8 @@ class DatabaseSeederTest extends TestCase
             'api.themoviedb.org/3/tv/on_the_air*' => Http::response($this->listPage([1399], 'name')),
             'api.themoviedb.org/3/tv/popular*' => Http::response($this->listPage([], 'name')),
             'api.themoviedb.org/3/tv/1399*' => Http::response($this->fixture('catalog/tmdb/tv-1399-es.json')),
+            'id.twitch.tv/oauth2/token*' => Http::response(['access_token' => 'token-igdb-de-prueba', 'expires_in' => 5000000, 'token_type' => 'bearer']),
+            'api.igdb.com/v4/games' => Http::response([]),
         ]);
 
         // La secuencia de desarrollo es en local (50 usuarios de prueba y VoteSeeder permitido).
@@ -219,6 +223,6 @@ class DatabaseSeederTest extends TestCase
         $this->assertSame(['year', 'genres'], array_keys($movies->json('data.0.attributes')));
 
         $categories = $this->getJson('/api/categories')->assertOk();
-        $this->assertSame(['peliculas', 'series'], collect($categories->json('data'))->pluck('slug')->all());
+        $this->assertSame(['peliculas', 'series', 'videojuegos'], collect($categories->json('data'))->pluck('slug')->all());
     }
 }

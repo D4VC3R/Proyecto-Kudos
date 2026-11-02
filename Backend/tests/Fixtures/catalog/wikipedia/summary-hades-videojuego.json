@@ -1,0 +1,10 @@
+{
+  "type": "standard",
+  "title": "Hades (videojuego)",
+  "lang": "es",
+  "extract": "Hades es un videojuego de tipo roguelike desarrollado por Supergiant Games. Encarnas a Zagreo, hijo de Hades, que intenta escapar del inframundo.",
+  "content_urls": {
+    "desktop": { "page": "https://es.wikipedia.org/wiki/Hades_(videojuego)" },
+    "mobile": { "page": "https://es.m.wikipedia.org/wiki/Hades_(videojuego)" }
+  }
+}

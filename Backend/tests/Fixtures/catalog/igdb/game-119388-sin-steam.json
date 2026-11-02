@@ -1,0 +1,18 @@
+[
+  {
+    "id": 119388,
+    "name": "The Legend of Zelda: Tears of the Kingdom",
+    "slug": "the-legend-of-zelda-tears-of-the-kingdom",
+    "first_release_date": 1683849600,
+    "cover": { "id": 4, "image_id": "co5vmg" },
+    "genres": [{ "id": 31, "name": "Adventure" }],
+    "platforms": [{ "id": 130, "name": "Nintendo Switch" }],
+    "involved_companies": [
+      { "id": 12, "company": { "id": 22, "name": "Nintendo EPD" }, "developer": true }
+    ],
+    "total_rating_count": 800,
+    "external_games": [
+      { "id": 40, "external_game_source": 11, "uid": "abc" }
+    ]
+  }
+]

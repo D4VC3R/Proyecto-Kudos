@@ -1,0 +1,12 @@
+{
+  "1145360": {
+    "success": true,
+    "data": {
+      "type": "game",
+      "name": "Hades",
+      "steam_appid": 1145360,
+      "short_description": "Desafía al dios de los muertos mientras te abres paso a golpes para salir del inframundo en este &quot;roguelike&quot; de los creadores de Bastion, Transistor y Pyre.",
+      "supported_languages": "Inglés<strong>*</strong>, Francés, Italiano, Alemán, Español - España, Japonés, Coreano<br><strong>*</strong>idiomas con localización de audio"
+    }
+  }
+}

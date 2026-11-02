@@ -66,4 +66,41 @@ class CatalogItemDataTest extends TestCase
             $this->assertSame($data->{$field}, $copy->{$field}, $field);
         }
     }
+
+    public function test_los_campos_nuevos_tienen_valor_por_defecto_y_with_description_los_conserva(): void
+    {
+        $base = [
+            'provider' => 'igdb',
+            'externalId' => '113112',
+            'categorySlug' => 'videojuegos',
+            'name' => 'Hades',
+            'originalTitle' => null,
+            'description' => null,
+            'descriptionSource' => null,
+            'descriptionUrl' => null,
+            'releasedAt' => '2020-09-17',
+            'attributes' => [],
+            'popularity' => 1.0,
+            'wikidataId' => null,
+            'sourceUrl' => null,
+            'images' => [],
+        ];
+
+        $plain = new CatalogItemData(...$base);
+
+        $this->assertSame([], $plain->secondarySources);
+        $this->assertNull($plain->fallbackDescription);
+        $this->assertNull($plain->fallbackDescriptionSource);
+        $this->assertNull($plain->fallbackDescriptionUrl);
+
+        $data = new CatalogItemData(...$base, secondarySources: [['provider' => 'steam', 'external_id' => '1145360', 'url' => 'https://store.steampowered.com/app/1145360/']],
+            fallbackDescription: 'English text.', fallbackDescriptionSource: 'steam', fallbackDescriptionUrl: 'https://store.steampowered.com/app/1145360/?l=english');
+
+        $copy = $data->withDescription('Texto.', 'wikipedia_es', 'https://es.wikipedia.org/wiki/Hades');
+
+        $this->assertSame($data->secondarySources, $copy->secondarySources);
+        $this->assertSame('English text.', $copy->fallbackDescription);
+        $this->assertSame('steam', $copy->fallbackDescriptionSource);
+        $this->assertSame('https://store.steampowered.com/app/1145360/?l=english', $copy->fallbackDescriptionUrl);
+    }
 }

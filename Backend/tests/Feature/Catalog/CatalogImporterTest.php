@@ -272,4 +272,88 @@ class CatalogImporterTest extends TestCase
 
         $this->importer()->import($this->data(['categorySlug' => 'no-existe']));
     }
+
+    /** Juego de IGDB con la página de Steam como fuente secundaria (F4-01). */
+    private function gameData(array $overrides = []): CatalogItemData
+    {
+        return $this->data(array_merge([
+            'provider' => 'igdb',
+            'externalId' => '113112',
+            'categorySlug' => 'videojuegos',
+            'name' => 'Hades',
+            'originalTitle' => null,
+            'description' => 'Desafía al dios de los muertos.',
+            'descriptionSource' => 'steam',
+            'descriptionUrl' => 'https://store.steampowered.com/app/1145360/',
+            'releasedAt' => '2020-09-17',
+            'attributes' => ['year' => 2020, 'genres' => ['Rol']],
+            'wikidataId' => null,
+            'sourceUrl' => 'https://www.igdb.com/games/hades--1',
+            'images' => [],
+            'secondarySources' => [['provider' => 'steam', 'external_id' => '1145360', 'url' => 'https://store.steampowered.com/app/1145360/']],
+        ], $overrides));
+    }
+
+    public function test_crea_las_fuentes_secundarias_sin_marcarlas_como_principales(): void
+    {
+        $this->createCategory('videojuegos', 'Videojuegos');
+
+        $item = $this->importer()->import($this->gameData());
+
+        $igdb = $item->sources()->where('provider', 'igdb')->first();
+        $steam = $item->sources()->where('provider', 'steam')->first();
+        $this->assertTrue($igdb->is_primary);
+        $this->assertSame('1145360', $steam->external_id);
+        $this->assertFalse($steam->is_primary);
+        $this->assertSame('https://store.steampowered.com/app/1145360/', $steam->url);
+        $this->assertSame(2, $item->sources()->count());
+    }
+
+    public function test_una_fuente_secundaria_de_otro_item_no_se_mueve(): void
+    {
+        $this->createCategory('videojuegos', 'Videojuegos');
+        Log::spy();
+        $first = $this->importer()->import($this->gameData());
+
+        $second = $this->importer()->import($this->gameData(['externalId' => '999', 'name' => 'Hades II', 'sourceUrl' => 'https://www.igdb.com/games/hades-ii']));
+
+        $this->assertNotSame($first->id, $second->id);
+        $this->assertSame($first->id, ItemSource::query()->where('provider', 'steam')->where('external_id', '1145360')->value('item_id'));
+        $this->assertSame(0, $second->sources()->where('provider', 'steam')->count());
+        Log::shouldHaveReceived('warning')
+            ->withArgs(fn (string $message, array $context = []) => str_contains($message, 'fuente secundaria'))
+            ->once();
+    }
+
+    public function test_sustituye_la_fuente_secundaria_si_cambia_su_id(): void
+    {
+        $this->createCategory('videojuegos', 'Videojuegos');
+        $item = $this->importer()->import($this->gameData());
+
+        $this->importer()->import($this->gameData(['secondarySources' => [
+            ['provider' => 'steam', 'external_id' => '2222', 'url' => 'https://store.steampowered.com/app/2222/'],
+        ]]));
+
+        $steam = $item->sources()->where('provider', 'steam')->get();
+        $this->assertCount(1, $steam);
+        $this->assertSame('2222', $steam[0]->external_id);
+        $this->assertSame(1, Item::query()->count());
+    }
+
+    public function test_conserva_la_descripcion_de_steam_si_steam_no_responde(): void
+    {
+        $this->createCategory('videojuegos', 'Videojuegos');
+        $item = $this->importer()->import($this->gameData());
+
+        $this->importer()->import($this->gameData([
+            'description' => null,
+            'descriptionSource' => null,
+            'descriptionUrl' => null,
+        ]));
+
+        $item = $item->fresh();
+        $this->assertSame('Desafía al dios de los muertos.', $item->description);
+        $this->assertSame('steam', $item->description_source);
+        $this->assertSame('https://store.steampowered.com/app/1145360/', $item->description_url);
+    }
 }

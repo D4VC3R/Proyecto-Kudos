@@ -8,7 +8,7 @@ class CatalogConfigTest extends TestCase
 {
     public function test_usa_los_valores_por_defecto_si_las_variables_estan_vacias(): void
     {
-        $names = ['CATALOG_USER_AGENT', 'CATALOG_IMPORT_LIMIT', 'TMDB_API_TOKEN'];
+        $names = ['CATALOG_USER_AGENT', 'CATALOG_IMPORT_LIMIT', 'TMDB_API_TOKEN', 'IGDB_CLIENT_ID', 'IGDB_CLIENT_SECRET'];
         $previous = [];
 
         foreach ($names as $name) {
@@ -27,6 +27,8 @@ class CatalogConfigTest extends TestCase
             $this->assertSame('KudosBot/1.0 (+https://kudos.dcerdan.es)', $config['user_agent']);
             $this->assertSame(50, $config['import_limit']);
             $this->assertNull($config['providers']['tmdb']['token']);
+            $this->assertNull($config['providers']['igdb']['client_id']);
+            $this->assertNull($config['providers']['igdb']['client_secret']);
         } finally {
             foreach ($names as $name) {
                 foreach (['env' => '_ENV', 'server' => '_SERVER'] as $key => $global) {

@@ -218,4 +218,106 @@ class DescriptionResolverTest extends TestCase
 
         Http::assertSentCount(4);
     }
+
+    /** Ficha de un videojuego con la descripción de respaldo de Steam en inglés (F4-01). */
+    private function gameData(array $overrides = []): CatalogItemData
+    {
+        return $this->data(array_merge([
+            'provider' => 'igdb',
+            'externalId' => '113112',
+            'categorySlug' => 'videojuegos',
+            'name' => 'Hades',
+            'originalTitle' => null,
+            'releasedAt' => '2020-09-17',
+            'attributes' => ['year' => 2020, 'genres' => ['Aventura'], 'platforms' => ['Nintendo Switch'], 'developers' => ['Nintendo EPD']],
+            'wikidataId' => 'Q60745929',
+            'sourceUrl' => 'https://www.igdb.com/games/hades--1',
+            'fallbackDescription' => 'English text.',
+            'fallbackDescriptionSource' => 'steam',
+            'fallbackDescriptionUrl' => 'https://store.steampowered.com/app/1/?l=english',
+        ], $overrides));
+    }
+
+    private function assertFallbackUsed(CatalogItemData $resolved): void
+    {
+        $this->assertSame('English text.', $resolved->description);
+        $this->assertSame('steam', $resolved->descriptionSource);
+        $this->assertSame('https://store.steampowered.com/app/1/?l=english', $resolved->descriptionUrl);
+    }
+
+    public function test_sin_wikidata_usa_la_descripcion_de_respaldo(): void
+    {
+        Http::fake();
+
+        $resolved = $this->resolver()->resolve($this->gameData(['wikidataId' => null]));
+
+        $this->assertFallbackUsed($resolved);
+        Http::assertNothingSent();
+    }
+
+    public function test_wikipedia_gana_a_la_descripcion_de_respaldo(): void
+    {
+        Http::fake([
+            self::WIKIDATA => Http::response($this->fixture('catalog/wikidata/Q60745929-eswiki.json')),
+            self::WIKIPEDIA_REST => Http::response($this->fixture('catalog/wikipedia/summary-hades-videojuego.json')),
+        ]);
+
+        $resolved = $this->resolver()->resolve($this->gameData());
+
+        $this->assertSame('wikipedia_es', $resolved->descriptionSource);
+        $this->assertSame('https://es.wikipedia.org/wiki/Hades_(videojuego)', $resolved->descriptionUrl);
+        $this->assertStringNotContainsString('English text.', (string) $resolved->description);
+    }
+
+    public function test_la_descripcion_de_wikidata_gana_a_la_de_respaldo(): void
+    {
+        Http::fake([self::WIKIDATA => Http::response($this->fixture('catalog/wikidata/Q60745929-sin-eswiki.json'))]);
+
+        $resolved = $this->resolver()->resolve($this->gameData());
+
+        $this->assertSame('wikidata', $resolved->descriptionSource);
+        $this->assertSame('https://www.wikidata.org/wiki/Q60745929', $resolved->descriptionUrl);
+    }
+
+    public function test_sin_eswiki_ni_descripcion_es_usa_la_descripcion_de_respaldo(): void
+    {
+        Http::fake([self::WIKIDATA => Http::response($this->fixture('catalog/wikidata/Q60745929-sin-eswiki-ni-descripcion-es.json'))]);
+
+        $this->assertFallbackUsed($this->resolver()->resolve($this->gameData()));
+    }
+
+    public function test_si_wikidata_falla_usa_la_descripcion_de_respaldo(): void
+    {
+        Log::spy();
+        Http::fake([self::WIKIDATA => Http::response([], 503)]);
+
+        $this->assertFallbackUsed($this->resolver()->resolve($this->gameData()));
+    }
+
+    public function test_la_descripcion_del_proveedor_gana_a_la_de_respaldo(): void
+    {
+        Http::fake();
+
+        $resolved = $this->resolver()->resolve($this->gameData([
+            'description' => 'Texto en español.',
+            'descriptionSource' => 'steam',
+            'descriptionUrl' => 'https://store.steampowered.com/app/1/',
+        ]));
+
+        $this->assertSame('Texto en español.', $resolved->description);
+        $this->assertSame('https://store.steampowered.com/app/1/', $resolved->descriptionUrl);
+        Http::assertNothingSent();
+    }
+
+    public function test_la_plantilla_de_wikidata_incluye_desarrollo_y_plataformas(): void
+    {
+        Http::fake([self::WIKIDATA => Http::response($this->fixture('catalog/wikidata/Q60745929-sin-eswiki.json'))]);
+
+        $resolved = $this->resolver()->resolve($this->gameData(['fallbackDescription' => null]));
+
+        $this->assertSame(
+            'Videojuego de 2020. Géneros: Aventura. Desarrollo: Nintendo EPD. Plataformas: Nintendo Switch.',
+            $resolved->description,
+        );
+    }
 }

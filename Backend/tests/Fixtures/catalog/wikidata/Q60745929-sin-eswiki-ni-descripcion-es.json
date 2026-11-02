@@ -1,0 +1,13 @@
+{
+  "entities": {
+    "Q60745929": {
+      "type": "item",
+      "id": "Q60745929",
+      "labels": { "en": { "language": "en", "value": "Hades" } },
+      "descriptions": { "en": { "language": "en", "value": "2020 video game" } },
+      "sitelinks": {},
+      "claims": {}
+    }
+  },
+  "success": 1
+}

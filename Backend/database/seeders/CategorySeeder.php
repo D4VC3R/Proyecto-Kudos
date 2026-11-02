@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Catalog\Providers\IgdbGameProvider;
 use App\Catalog\Providers\TmdbMovieProvider;
 use App\Catalog\Providers\TmdbTvProvider;
 use App\Models\Category;
@@ -10,8 +11,8 @@ use Illuminate\Database\Seeder;
 
 /**
  * Seeder para la tabla de categorías (Kudos 2.0, F1-10).
- * Siembra `peliculas` y `series` activas, con el attribute_schema de sus proveedores (TMDB), y crea
- * `videojuegos` y `destinos` inactivas hasta la F4. Ya no crea las categorías heredadas y no borra las
+ * Siembra `peliculas`, `series` y (desde la F4-01) `videojuegos` activas, con el attribute_schema de sus
+ * proveedores (TMDB e IGDB), y crea `destinos` inactiva hasta la F4-02. Ya no crea las categorías heredadas y no borra las
  * que ya existan (eso lo hace migrate:fresh en el reset).
  * Utiliza el trait DownloadsSeedImages para descargar y almacenar las portadas localmente.
  */
@@ -55,8 +56,8 @@ class CategorySeeder extends Seeder
                 'image' => 'https://sm.ign.com/t/ign_pk/screenshot/default/top-10-heroes-without-title-image_snt9.1280.png',
                 'icon' => 'gamepad-2',
                 'sort_order' => 3,
-                'is_active' => false,
-                'attribute_schema' => [],
+                'is_active' => true,
+                'attribute_schema' => IgdbGameProvider::ATTRIBUTE_SCHEMA,
             ],
             [
                 'name' => 'Destinos',

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 113112,
+    "name": "Hades",
+    "slug": "hades--1",
+    "first_release_date": 1600300800,
+    "summary": "Defy the god of the dead as you hack and slash out of the Underworld.",
+    "cover": { "id": 1, "image_id": "co39vc" },
+    "screenshots": [{ "id": 2, "image_id": "sc7v9a" }, { "id": 3, "image_id": "sc7v9b" }],
+    "genres": [
+      { "id": 12, "name": "Role-playing (RPG)" },
+      { "id": 25, "name": "Hack and slash/Beat 'em up" },
+      { "id": 31, "name": "Adventure" },
+      { "id": 32, "name": "Indie" },
+      { "id": 99, "name": "Roguelite" }
+    ],
+    "platforms": [
+      { "id": 6, "name": "PC (Microsoft Windows)" },
+      { "id": 130, "name": "Nintendo Switch" },
+      { "id": 167, "name": "PlayStation 5" }
+    ],
+    "involved_companies": [
+      { "id": 10, "company": { "id": 20, "name": "Supergiant Games" }, "developer": true },
+      { "id": 11, "company": { "id": 21, "name": "Private Division" }, "developer": false }
+    ],
+    "total_rating_count": 1234,
+    "external_games": [
+      { "id": 30, "external_game_source": 1, "uid": "1145360" },
+      { "id": 31, "external_game_source": 5, "uid": "1113560394" }
+    ]
+  }
+]

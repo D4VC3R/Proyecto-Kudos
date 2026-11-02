@@ -88,6 +88,39 @@ class ItemCatalogApiTest extends TestCase
         );
     }
 
+    public function test_un_juego_de_igdb_atribuye_a_igdb_y_la_descripcion_a_steam(): void
+    {
+        $category = Category::factory()->create(['slug' => 'videojuegos', 'name' => 'Videojuegos']);
+        $item = $this->createItem($category, [
+            'name' => 'Hades',
+            'description_source' => 'steam',
+            'description_url' => 'https://store.steampowered.com/app/1145360/',
+        ]);
+        $item->sources()->create([
+            'provider' => 'igdb',
+            'external_id' => '113112',
+            'url' => 'https://www.igdb.com/games/hades--1',
+            'is_primary' => true,
+        ]);
+        $item->sources()->create([
+            'provider' => 'steam',
+            'external_id' => '1145360',
+            'url' => 'https://store.steampowered.com/app/1145360/',
+            'is_primary' => false,
+        ]);
+
+        $response = $this->getJson("/api/items/{$item->id}")->assertOk();
+
+        $this->assertEquals(
+            ['name' => 'IGDB', 'url' => 'https://www.igdb.com/games/hades--1'],
+            $response->json('data.attribution.data_source')
+        );
+        $this->assertEquals(
+            ['name' => 'Steam', 'url' => 'https://store.steampowered.com/app/1145360/', 'license' => null, 'license_url' => null],
+            $response->json('data.attribution.description_source')
+        );
+    }
+
     public function test_una_descripcion_de_wikipedia_lleva_licencia_y_enlace(): void
     {
         $item = $this->fightClub($this->movieCategory(), [

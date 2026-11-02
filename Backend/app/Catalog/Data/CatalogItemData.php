@@ -8,6 +8,7 @@ namespace App\Catalog\Data;
  *
  * @param  array<string, mixed>  $attributes
  * @param  list<array{url: string, role: 'poster'|'banner', license: ?string, author: ?string, source_url: ?string}>  $images
+ * @param  list<array{provider: string, external_id: string, url: ?string}>  $secondarySources
  */
 final readonly class CatalogItemData
 {
@@ -18,7 +19,7 @@ final readonly class CatalogItemData
         public string $name,              // en español (o el original si no hay)
         public ?string $originalTitle,
         public ?string $description,       // ya en español; null si no hay
-        public ?string $descriptionSource, // 'tmdb' | 'wikipedia_es' | 'wikidata' | null
+        public ?string $descriptionSource, // 'tmdb' | 'steam' | 'wikipedia_es' | 'wikidata' | null
         public ?string $descriptionUrl,
         public ?string $releasedAt,        // 'Y-m-d'
         public array $attributes,        // claves según attribute_schema
@@ -26,6 +27,10 @@ final readonly class CatalogItemData
         public ?string $wikidataId,
         public ?string $sourceUrl,         // ficha pública en la fuente
         public array $images,            // [['url', 'role' => 'poster'|'banner', 'license', 'author', 'source_url']]
+        public array $secondarySources = [],          // F4-01: [['provider' => 'steam', 'external_id' => '1145360', 'url' => '…']], nunca primarias
+        public ?string $fallbackDescription = null,   // F4-01: último recurso de la cadena (Steam en inglés)
+        public ?string $fallbackDescriptionSource = null,
+        public ?string $fallbackDescriptionUrl = null,
     ) {}
 
     /** Copia del DTO con otra descripción (DescriptionResolver, F1-04); el resto de campos no cambia. */
@@ -46,6 +51,10 @@ final readonly class CatalogItemData
             wikidataId: $this->wikidataId,
             sourceUrl: $this->sourceUrl,
             images: $this->images,
+            secondarySources: $this->secondarySources,
+            fallbackDescription: $this->fallbackDescription,
+            fallbackDescriptionSource: $this->fallbackDescriptionSource,
+            fallbackDescriptionUrl: $this->fallbackDescriptionUrl,
         );
     }
 }
