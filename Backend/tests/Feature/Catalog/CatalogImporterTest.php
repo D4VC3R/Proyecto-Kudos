@@ -356,4 +356,58 @@ class CatalogImporterTest extends TestCase
         $this->assertSame('steam', $item->description_source);
         $this->assertSame('https://store.steampowered.com/app/1145360/', $item->description_url);
     }
+
+    /** Destino de Wikidata (F4-02): el proveedor es Wikidata y su QID es el external_id. */
+    private function placeData(array $overrides = []): CatalogItemData
+    {
+        return $this->data(array_merge([
+            'provider' => 'wikidata',
+            'externalId' => 'Q2807',
+            'categorySlug' => 'destinos',
+            'name' => 'Madrid',
+            'originalTitle' => null,
+            'description' => null,
+            'descriptionSource' => null,
+            'descriptionUrl' => null,
+            'releasedAt' => null,
+            'attributes' => ['kind' => 'ciudad', 'country' => 'España'],
+            'popularity' => 3332035.0,
+            'wikidataId' => 'Q2807',
+            'sourceUrl' => 'https://www.wikidata.org/wiki/Q2807',
+            'images' => [],
+            'secondarySources' => [],
+        ], $overrides));
+    }
+
+    public function test_un_proveedor_wikidata_deja_su_fuente_como_unica_y_principal(): void
+    {
+        $this->createCategory('destinos', 'Destinos');
+
+        $this->importer()->import($this->placeData());
+        $item = $this->importer()->import($this->placeData())->fresh();
+
+        $this->assertSame('Q2807', $item->wikidata_id);
+        $this->assertCount(1, $item->sources);
+
+        $source = $item->sources->first();
+        $this->assertSame('wikidata', $source->provider);
+        $this->assertSame('Q2807', $source->external_id);
+        $this->assertTrue($source->is_primary);
+    }
+
+    public function test_un_proveedor_wikidata_no_pierde_su_fuente_si_el_qid_es_de_otro_item(): void
+    {
+        $this->createCategory('destinos', 'Destinos');
+        $this->createItem(Category::query()->where('slug', 'peliculas')->first(), ['wikidata_id' => 'Q2807']);
+
+        $item = $this->importer()->import($this->placeData())->fresh();
+
+        $this->assertNull($item->wikidata_id);
+        $this->assertCount(1, $item->sources);
+
+        $source = $item->sources->first();
+        $this->assertSame('wikidata', $source->provider);
+        $this->assertSame('Q2807', $source->external_id);
+        $this->assertTrue($source->is_primary);
+    }
 }

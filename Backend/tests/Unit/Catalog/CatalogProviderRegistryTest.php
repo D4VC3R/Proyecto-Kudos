@@ -8,6 +8,7 @@ use App\Catalog\Data\CatalogItemData;
 use App\Catalog\Providers\IgdbGameProvider;
 use App\Catalog\Providers\TmdbMovieProvider;
 use App\Catalog\Providers\TmdbTvProvider;
+use App\Catalog\Providers\WikidataPlaceProvider;
 use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 use stdClass;
@@ -76,7 +77,7 @@ class CatalogProviderRegistryTest extends TestCase
 
     public function test_lista_las_categorias_configuradas(): void
     {
-        $this->assertSame(['peliculas', 'series', 'videojuegos'], app(CatalogProviderRegistry::class)->categorySlugs());
+        $this->assertSame(['peliculas', 'series', 'videojuegos', 'destinos'], app(CatalogProviderRegistry::class)->categorySlugs());
     }
 
     public function test_resuelve_los_proveedores_de_tmdb_de_peliculas_y_series(): void
@@ -128,5 +129,18 @@ class CatalogProviderRegistryTest extends TestCase
         config(['catalog.categories' => ['libros' => ['provider' => 'tests.catalog.fake-provider']]]);
 
         $this->assertSame(['libros'], app(CatalogProviderRegistry::class)->categoriesFor('fake', 'lo-que-sea'));
+    }
+
+    public function test_resuelve_el_proveedor_de_wikidata_para_destinos(): void
+    {
+        Http::fake();
+
+        $registry = app(CatalogProviderRegistry::class);
+
+        $this->assertInstanceOf(WikidataPlaceProvider::class, $registry->forCategory('destinos'));
+        $this->assertSame(['destinos'], $registry->categoriesFor('wikidata', 'Q2807'));
+        $this->assertFalse($registry->supportsOnDemand('destinos'));
+        $this->assertTrue($registry->supportsOnDemand('peliculas'));
+        Http::assertNothingSent();
     }
 }

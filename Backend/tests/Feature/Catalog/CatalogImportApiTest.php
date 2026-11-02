@@ -256,4 +256,16 @@ class CatalogImportApiTest extends TestCase
                 && $context['outcome'] === 'created')
             ->once();
     }
+
+    public function test_destinos_no_admite_la_importacion_bajo_demanda(): void
+    {
+        Http::fake();
+        $this->createCategory('destinos', 'Destinos');
+        $this->actingAsUser();
+
+        $this->importar('Q2807', 'destinos')->assertStatus(422)->assertJsonPath('error.code', 'validation_error');
+
+        $this->assertSame(0, Item::query()->count());
+        Http::assertNothingSent();
+    }
 }

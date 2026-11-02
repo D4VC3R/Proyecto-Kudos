@@ -1,0 +1,26 @@
+{
+  "batchcomplete": true,
+  "query": {
+    "pages": [
+      {
+        "pageid": 123,
+        "ns": 6,
+        "title": "File:Madrid - Palacio Real.jpg",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "url": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Madrid_-_Palacio_Real.jpg",
+            "descriptionurl": "https://commons.wikimedia.org/wiki/File:Madrid_-_Palacio_Real.jpg",
+            "extmetadata": {
+              "LicenseShortName": {
+                "value": "CC BY-SA 4.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

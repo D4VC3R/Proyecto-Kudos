@@ -5,14 +5,15 @@ namespace Database\Seeders;
 use App\Catalog\Providers\IgdbGameProvider;
 use App\Catalog\Providers\TmdbMovieProvider;
 use App\Catalog\Providers\TmdbTvProvider;
+use App\Catalog\Providers\WikidataPlaceProvider;
 use App\Models\Category;
 use Database\Seeders\Trait\DownloadsSeedImages;
 use Illuminate\Database\Seeder;
 
 /**
  * Seeder para la tabla de categorías (Kudos 2.0, F1-10).
- * Siembra `peliculas`, `series` y (desde la F4-01) `videojuegos` activas, con el attribute_schema de sus
- * proveedores (TMDB e IGDB), y crea `destinos` inactiva hasta la F4-02. Ya no crea las categorías heredadas y no borra las
+ * Siembra `peliculas`, `series`, `videojuegos` (F4-01) y `destinos` (F4-02) activas, con el attribute_schema de sus
+ * proveedores (TMDB, IGDB y Wikidata). Ya no crea las categorías heredadas y no borra las
  * que ya existan (eso lo hace migrate:fresh en el reset).
  * Utiliza el trait DownloadsSeedImages para descargar y almacenar las portadas localmente.
  */
@@ -66,13 +67,13 @@ class CategorySeeder extends Seeder
                 'image' => null,
                 'icon' => 'map-pin',
                 'sort_order' => 4,
-                'is_active' => false,
-                'attribute_schema' => [],
+                'is_active' => true,
+                'attribute_schema' => WikidataPlaceProvider::ATTRIBUTE_SCHEMA,
             ],
         ];
 
         foreach ($rows as $row) {
-            // Sin URL (destinos, hasta la F4) no hay portada que descargar.
+            // Sin URL (destinos) no hay portada que descargar.
             $imagePath = null;
             if ($row['image'] !== null) {
                 $storedData = $this->downloadAndStoreImage($row['image'], $row['slug'], 'categories');

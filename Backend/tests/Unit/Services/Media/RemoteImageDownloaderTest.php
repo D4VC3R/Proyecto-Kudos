@@ -88,4 +88,30 @@ class RemoteImageDownloaderTest extends TestCase
         // Una IP literal no hace consulta DNS.
         $this->assertSame('127.0.0.1', $resolver->resolve('127.0.0.1'));
     }
+
+    public function test_envia_el_user_agent_del_catalogo(): void
+    {
+        config(['catalog.user_agent' => 'KudosTest/1.0 (+https://kudos.test)']);
+        $this->fakeHostResolver('8.8.8.8');
+        Http::fake(['upload.wikimedia.org/*' => Http::response($this->fakePng(), 200, ['Content-Type' => 'image/png'])]);
+
+        app(RemoteImageDownloader::class)->downloadToTemp('https://upload.wikimedia.org/wikipedia/commons/a/ab/Madrid.png');
+
+        $requests = Http::recorded();
+        $this->assertCount(2, $requests); // HEAD y GET
+        foreach ($requests as [$request]) {
+            $this->assertTrue($request->hasHeader('User-Agent', 'KudosTest/1.0 (+https://kudos.test)'));
+        }
+    }
+
+    public function test_acepta_cabeceras_en_minusculas_como_las_de_http2(): void
+    {
+        // upload.wikimedia.org (fotos de Commons, F4-02) responde por HTTP/2 con las cabeceras en minúsculas.
+        $this->fakeHostResolver('8.8.8.8');
+        Http::fake(['upload.wikimedia.org/*' => Http::response($this->fakePng(), 200, ['content-type' => 'image/png', 'content-length' => '1024'])]);
+
+        $path = app(RemoteImageDownloader::class)->downloadToTemp('https://upload.wikimedia.org/wikipedia/commons/a/ab/Madrid.png');
+
+        Storage::disk('local')->assertExists($path);
+    }
 }

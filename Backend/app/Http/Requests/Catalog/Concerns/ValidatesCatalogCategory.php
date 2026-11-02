@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 trait ValidatesCatalogCategory
 {
     /**
-     * Slugs de las categorías con proveedor configurado.
+     * Slugs de las categorías con proveedor que admiten la búsqueda y la importación bajo demanda (destinos no, F4-02).
      *
      * @return list<string>
      */
@@ -17,7 +17,7 @@ trait ValidatesCatalogCategory
     {
         $registry = app(CatalogProviderRegistry::class);
 
-        return array_values(array_filter($registry->categorySlugs(), fn (string $slug) => $registry->has($slug)));
+        return array_values(array_filter($registry->categorySlugs(), fn (string $slug) => $registry->supportsOnDemand($slug)));
     }
 
     /** La categoría existe, está activa y tiene proveedor. */

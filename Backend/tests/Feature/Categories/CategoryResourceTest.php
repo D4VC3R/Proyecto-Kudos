@@ -107,4 +107,16 @@ class CategoryResourceTest extends TestCase
         $this->assertTrue($porSlug['peliculas']['has_catalog_provider']);
         $this->assertFalse($porSlug['libros']['has_catalog_provider']);
     }
+
+    public function test_destinos_no_ofrece_la_importacion_bajo_demanda(): void
+    {
+        $this->createMovieCategory();
+        Category::factory()->create(['slug' => 'destinos', 'name' => 'Destinos', 'is_active' => true]);
+
+        $response = $this->getJson('/api/categories')->assertOk();
+
+        $porSlug = collect($response->json('data'))->keyBy('slug');
+        $this->assertFalse($porSlug['destinos']['has_catalog_provider']);
+        $this->assertTrue($porSlug['peliculas']['has_catalog_provider']);
+    }
 }

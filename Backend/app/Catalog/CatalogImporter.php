@@ -26,8 +26,9 @@ final class CatalogImporter
     public const WIKIDATA_URL = 'https://www.wikidata.org/wiki/';
 
     /**
-     * Crea o actualiza el ítem del DTO y sus fuentes (la del proveedor, primaria; la de Wikidata si hay QID, y las
-     * secundarias del proveedor, como la página de Steam de un juego de IGDB, nunca primarias).
+     * Crea o actualiza el ítem del DTO y sus fuentes (la del proveedor, primaria; la de Wikidata si hay QID, salvo
+     * que Wikidata sea el propio proveedor, F4-02; y las secundarias del proveedor, como la página de Steam de un
+     * juego de IGDB, nunca primarias).
      *
      * @throws ModelNotFoundException si la categoría del DTO no existe
      */
@@ -200,19 +201,23 @@ final class CatalogImporter
             ->where(fn ($q) => $q->where('provider', '!=', $data->provider)->orWhere('external_id', '!=', $data->externalId))
             ->update(['is_primary' => false]);
 
-        $qid = $item->wikidata_id;
+        // F4-02: si el proveedor es Wikidata (destinos), su fuente ya es la principal; no se duplica como secundaria
+        // (por el índice único (provider, external_id) sería la misma fila y quedaría is_primary = false) ni se borra.
+        if ($data->provider !== self::WIKIDATA_PROVIDER) {
+            $qid = $item->wikidata_id;
 
-        $stale = $item->sources()->where('provider', self::WIKIDATA_PROVIDER);
-        if ($qid !== null) {
-            $stale->where('external_id', '!=', $qid);
-        }
-        $stale->delete();
+            $stale = $item->sources()->where('provider', self::WIKIDATA_PROVIDER);
+            if ($qid !== null) {
+                $stale->where('external_id', '!=', $qid);
+            }
+            $stale->delete();
 
-        if ($qid !== null) {
-            ItemSource::query()->updateOrCreate(
-                ['provider' => self::WIKIDATA_PROVIDER, 'external_id' => $qid],
-                ['item_id' => $item->id, 'url' => self::WIKIDATA_URL.$qid, 'is_primary' => false, 'last_synced_at' => $now],
-            );
+            if ($qid !== null) {
+                ItemSource::query()->updateOrCreate(
+                    ['provider' => self::WIKIDATA_PROVIDER, 'external_id' => $qid],
+                    ['item_id' => $item->id, 'url' => self::WIKIDATA_URL.$qid, 'is_primary' => false, 'last_synced_at' => $now],
+                );
+            }
         }
 
         $this->syncSecondarySources($item, $data, $now);

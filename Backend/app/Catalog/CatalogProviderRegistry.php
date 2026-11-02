@@ -27,6 +27,15 @@ final class CatalogProviderRegistry
     }
 
     /**
+     * La categoría admite la búsqueda y la importación bajo demanda de /buscar (F1-07). Destinos no (F4-02):
+     * es una lista cerrada (catalog.categories.{slug}.on_demand = false).
+     */
+    public function supportsOnDemand(string $categorySlug): bool
+    {
+        return $this->has($categorySlug) && config("catalog.categories.{$categorySlug}.on_demand", true) !== false;
+    }
+
+    /**
      * @throws InvalidArgumentException si la categoría no tiene proveedor configurado
      * @throws UnexpectedValueException si la clase configurada no implementa CatalogProvider
      */

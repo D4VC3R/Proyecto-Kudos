@@ -168,4 +168,57 @@ class WikidataClientTest extends TestCase
         );
         Http::assertNothingSent();
     }
+
+    public function test_label_devuelve_la_etiqueta_en_espanol(): void
+    {
+        Http::fake(['www.wikidata.org/w/api.php*' => Http::response($this->fixture('catalog/wikidata/labels-Q29.json'))]);
+
+        $this->assertSame('España', app(WikidataClient::class)->label('q29'));
+        Http::assertSent(function (Request $request) {
+            parse_str((string) parse_url($request->url(), PHP_URL_QUERY), $query);
+
+            return $request->hasHeader('User-Agent', 'KudosTest/1.0 (+https://kudos.test)')
+                && $query['action'] === 'wbgetentities'
+                && $query['ids'] === 'Q29'
+                && $query['props'] === 'labels'
+                && $query['languages'] === 'es|mul|en';
+        });
+    }
+
+    public function test_label_usa_mul_y_despues_en_si_no_hay_es(): void
+    {
+        Http::fake(['www.wikidata.org/w/api.php*' => Http::sequence()
+            ->push($this->fixture('catalog/wikidata/labels-Q29-sin-es.json'))
+            ->push(['entities' => ['Q29' => ['id' => 'Q29', 'labels' => [
+                'mul' => ['language' => 'mul', 'value' => 'Espanha'],
+                'en' => ['language' => 'en', 'value' => 'Spain'],
+            ]]]]),
+        ]);
+
+        $client = app(WikidataClient::class);
+
+        $this->assertSame('Spain', $client->label('Q29'));
+        $this->assertSame('Espanha', $client->label('Q29'));
+    }
+
+    public function test_label_devuelve_null_si_la_entidad_no_existe(): void
+    {
+        Http::fake(['www.wikidata.org/w/api.php*' => Http::response([
+            'entities' => ['Q999999999' => ['id' => 'Q999999999', 'missing' => '']],
+        ])]);
+
+        $this->assertNull(app(WikidataClient::class)->label('Q999999999'));
+    }
+
+    public function test_label_rechaza_un_qid_mal_formado(): void
+    {
+        Http::fake();
+
+        $this->assertThrows(
+            fn () => app(WikidataClient::class)->label('tt0133093'),
+            InvalidArgumentException::class,
+        );
+
+        Http::assertNothingSent();
+    }
 }

@@ -5,6 +5,7 @@ namespace Tests\Feature\Seeders;
 use App\Catalog\Providers\IgdbGameProvider;
 use App\Catalog\Providers\TmdbMovieProvider;
 use App\Catalog\Providers\TmdbTvProvider;
+use App\Catalog\Providers\WikidataPlaceProvider;
 use App\Models\Category;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -71,7 +72,7 @@ class CategorySeederTest extends TestCase
         $this->assertSame(2, $series->sort_order);
     }
 
-    public function test_videojuegos_activa_con_su_esquema_y_destinos_inactiva(): void
+    public function test_videojuegos_y_destinos_activas_con_su_esquema(): void
     {
         $this->seed(CategorySeeder::class);
 
@@ -79,10 +80,10 @@ class CategorySeederTest extends TestCase
         $destinations = Category::query()->where('slug', 'destinos')->firstOrFail();
 
         $this->assertTrue($games->is_active);
-        $this->assertFalse($destinations->is_active);
+        $this->assertTrue($destinations->is_active);
         // assertEquals: jsonb no conserva el orden de las claves (F1-01).
         $this->assertEquals(IgdbGameProvider::ATTRIBUTE_SCHEMA, $games->attribute_schema);
-        $this->assertSame([], $destinations->attribute_schema);
+        $this->assertEquals(WikidataPlaceProvider::ATTRIBUTE_SCHEMA, $destinations->attribute_schema);
         $this->assertSame('gamepad-2', $games->icon);
         $this->assertSame('map-pin', $destinations->icon);
         $this->assertNull($destinations->image);
@@ -103,6 +104,7 @@ class CategorySeederTest extends TestCase
     public function test_las_categorias_inactivas_no_salen_en_la_api(): void
     {
         $this->seed(CategorySeeder::class);
+        Category::query()->where('slug', 'destinos')->update(['is_active' => false]);
 
         $response = $this->getJson('/api/categories')->assertOk();
 

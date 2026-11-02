@@ -199,4 +199,28 @@ class FetchNewCommandTest extends TestCase
 
         Queue::assertNothingPushed();
     }
+
+    public function test_all_omite_las_categorias_de_carga_manual(): void
+    {
+        Queue::fake();
+        $this->createCategory('destinos', 'Destinos');
+
+        $this->artisan('catalog:fetch-new', ['--all' => true])
+            ->expectsOutputToContain("Se omite 'destinos'")
+            ->assertSuccessful();
+
+        $jobs = Queue::pushed(FetchNewCatalogItemsJob::class);
+        $this->assertSame(['peliculas', 'series'], $jobs->pluck('categorySlug')->all());
+    }
+
+    public function test_una_categoria_de_carga_manual_hace_el_listado_en_el_proceso(): void
+    {
+        Bus::fake([FetchNewCatalogItemsJob::class]);
+        $this->createCategory('destinos', 'Destinos');
+
+        $this->artisan('catalog:fetch-new', ['--category' => 'destinos', '--limit' => 5])->assertSuccessful();
+
+        Bus::assertDispatchedSync(FetchNewCatalogItemsJob::class, fn ($job) => $job->categorySlug === 'destinos' && $job->limit === 5);
+        $this->assertTrue(Bus::dispatched(FetchNewCatalogItemsJob::class)->isEmpty());
+    }
 }
