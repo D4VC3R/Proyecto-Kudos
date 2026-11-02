@@ -5,7 +5,7 @@ import { hasAttribution } from '../../lib/attribution.js';
 const linkClassName = 'font-semibold text-slate-700 underline decoration-slate-300 underline-offset-2 transition-colors hover:text-primary';
 
 // Enlace externo de una fuente; si la API no da URL, solo el nombre.
-const SourceLink = ({ href, children }) => (
+export const SourceLink = ({ href, children }) => (
   hasText(href) ? (
     <a href={href} target="_blank" rel="noopener noreferrer" className={linkClassName}>
       {children}

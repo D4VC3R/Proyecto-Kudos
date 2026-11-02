@@ -253,4 +253,118 @@ class ItemCatalogApiTest extends TestCase
                 'creator', 'original_title', 'released_at', 'attributes',
             ]]]);
     }
+
+    /**
+     * Imagen de Commons tal como la guarda DownloadItemImagesJob (F4-02): con licencia, autor y página del archivo.
+     */
+    private function commonsImage(int $order, string $license, array $overrides = []): array
+    {
+        return array_merge([
+            'disk' => 'public',
+            'alt' => 'Madrid',
+            'order' => $order,
+            'role' => 'poster',
+            'variants' => ['thumb' => "items/tests/madrid-{$order}-thumb.webp", 'banner' => "items/tests/madrid-{$order}-banner.webp"],
+            'license' => $license,
+            'author' => 'Ejemplo & otros',
+            'source_url' => 'https://commons.wikimedia.org/wiki/File:Madrid_skyline.jpg',
+        ], $overrides);
+    }
+
+    public function test_el_detalle_expone_la_licencia_el_autor_y_la_pagina_de_una_foto_de_commons(): void
+    {
+        $category = Category::factory()->create(['slug' => 'destinos', 'name' => 'Destinos']);
+        $item = $this->createItem($category, ['images' => [$this->commonsImage(0, 'CC BY-SA 4.0')]]);
+
+        $this->getJson("/api/items/{$item->id}")
+            ->assertOk()
+            ->assertJsonPath('data.images.0.license', 'CC BY-SA 4.0')
+            ->assertJsonPath('data.images.0.license_url', 'https://creativecommons.org/licenses/by-sa/4.0/deed.es')
+            ->assertJsonPath('data.images.0.author', 'Ejemplo & otros')
+            ->assertJsonPath('data.images.0.source_url', 'https://commons.wikimedia.org/wiki/File:Madrid_skyline.jpg')
+            ->assertJsonPath('data.images.0.variants.thumb', 'items/tests/madrid-0-thumb.webp')
+            ->assertJsonPath('data.images.0.alt', 'Madrid')
+            ->assertJsonPath('data.images.0.order', 0);
+    }
+
+    public function test_la_licencia_de_cada_foto_enlaza_a_su_texto_cuando_se_conoce(): void
+    {
+        $category = Category::factory()->create(['slug' => 'destinos', 'name' => 'Destinos']);
+        $item = $this->createItem($category, ['images' => [
+            $this->commonsImage(0, 'CC BY 2.0'),
+            $this->commonsImage(1, 'CC BY-SA 3.0 de'),
+            $this->commonsImage(2, 'CC0'),
+            $this->commonsImage(3, 'CC0 1.0'),
+            $this->commonsImage(4, 'Public domain'),
+            $this->commonsImage(5, '© titular de derechos'),
+        ]]);
+
+        $this->getJson("/api/items/{$item->id}")
+            ->assertOk()
+            ->assertJsonPath('data.images.0.license_url', 'https://creativecommons.org/licenses/by/2.0/deed.es')
+            ->assertJsonPath('data.images.1.license_url', 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.es')
+            ->assertJsonPath('data.images.2.license_url', 'https://creativecommons.org/publicdomain/zero/1.0/deed.es')
+            ->assertJsonPath('data.images.3.license_url', 'https://creativecommons.org/publicdomain/zero/1.0/deed.es')
+            ->assertJsonPath('data.images.4.license_url', null)
+            ->assertJsonPath('data.images.5.license_url', null);
+    }
+
+    public function test_una_imagen_sin_datos_de_licencia_conserva_los_campos_y_devuelve_nulos(): void
+    {
+        $item = $this->createItem($this->createCategory());
+
+        $this->getJson("/api/items/{$item->id}")
+            ->assertOk()
+            ->assertJsonStructure(['data' => ['images' => [[
+                'variants' => ['thumb', 'banner'], 'meta', 'alt', 'order', 'license', 'license_url', 'author', 'source_url',
+            ]]]])
+            ->assertJsonPath('data.images.0.license', null)
+            ->assertJsonPath('data.images.0.license_url', null)
+            ->assertJsonPath('data.images.0.author', null)
+            ->assertJsonPath('data.images.0.source_url', null);
+    }
+
+    public function test_una_portada_de_igdb_no_tiene_autor_ni_enlace_de_licencia(): void
+    {
+        $category = Category::factory()->create(['slug' => 'videojuegos', 'name' => 'Videojuegos']);
+        $item = $this->createItem($category, ['images' => [$this->commonsImage(0, '© titular de derechos', [
+            'author' => null,
+            'source_url' => 'https://www.igdb.com/games/hades--1',
+        ])]]);
+
+        $this->getJson("/api/items/{$item->id}")
+            ->assertOk()
+            ->assertJsonPath('data.images.0.license', '© titular de derechos')
+            ->assertJsonPath('data.images.0.license_url', null)
+            ->assertJsonPath('data.images.0.author', null)
+            ->assertJsonPath('data.images.0.source_url', 'https://www.igdb.com/games/hades--1');
+    }
+
+    public function test_una_descripcion_de_steam_en_ingles_enlaza_a_la_tienda_en_ingles(): void
+    {
+        $category = Category::factory()->create(['slug' => 'videojuegos', 'name' => 'Videojuegos']);
+        $item = $this->createItem($category, [
+            'description_source' => 'steam',
+            'description_url' => 'https://store.steampowered.com/app/1145360/?l=english',
+        ]);
+
+        $response = $this->getJson("/api/items/{$item->id}")->assertOk();
+
+        $this->assertEquals(
+            ['name' => 'Steam', 'url' => 'https://store.steampowered.com/app/1145360/?l=english', 'license' => null, 'license_url' => null],
+            $response->json('data.attribution.description_source')
+        );
+    }
+
+    public function test_el_siguiente_item_para_votar_incluye_el_credito_de_la_foto(): void
+    {
+        $this->actingAsUser();
+        $category = Category::factory()->create(['slug' => 'destinos', 'name' => 'Destinos']);
+        $this->createItem($category, ['images' => [$this->commonsImage(0, 'CC BY-SA 4.0')]]);
+
+        $this->getJson('/api/categories/destinos/next-item')
+            ->assertOk()
+            ->assertJsonPath('data.images.0.author', 'Ejemplo & otros')
+            ->assertJsonPath('data.images.0.license_url', 'https://creativecommons.org/licenses/by-sa/4.0/deed.es');
+    }
 }

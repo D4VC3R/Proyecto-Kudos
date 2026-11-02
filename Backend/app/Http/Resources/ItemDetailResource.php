@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
  * Se utiliza para mostrar la vista detallada de un ítem, proporcionando toda la información relevante y acciones disponibles según el rol del usuario.
  * Desde la F1-06 incluye los campos del catálogo (original_title, released_at, attributes, slug) y la atribución de las fuentes.
  * Desde la F2-01, user_vote incluye type.
+ * Desde la F4-04, cada imagen incluye license, license_url, author y source_url (pie de foto de Commons).
  */
 class ItemDetailResource extends JsonResource
 {
@@ -53,6 +54,11 @@ class ItemDetailResource extends JsonResource
 					'meta' => $img['meta'] ?? null,
 					'alt' => $img['alt'] ?? null,
 					'order' => $img['order'] ?? 0,
+					// Crédito de la foto (F4-04): en Commons, licencia y autor del archivo; en TMDB e IGDB, "© titular de derechos" sin autor.
+					'license' => $img['license'] ?? null,
+					'license_url' => $this->imageLicenseUrl($img['license'] ?? null),
+					'author' => $img['author'] ?? null,
+					'source_url' => $img['source_url'] ?? null,
 				])->toArray(),
 			'status' => $item->status,
 			'vote_avg' => (float)$item->vote_avg,
@@ -148,6 +154,32 @@ class ItemDetailResource extends JsonResource
 			'license' => $known['license'] ?? null,
 			'license_url' => $known['license_url'] ?? null,
 		];
+	}
+
+	/**
+	 * Enlace al texto de la licencia de una foto a partir de su nombre corto de Commons (LicenseShortName), o null si no es
+	 * una licencia Creative Commons reconocible (dominio público, GFDL, "© titular de derechos"…). F4-04.
+	 */
+	protected function imageLicenseUrl(mixed $license): ?string
+	{
+		if (!is_string($license)) {
+			return null;
+		}
+
+		$license = trim($license);
+
+		if (preg_match('/^CC0(?: 1\.0)?$/i', $license) === 1) {
+			return 'https://creativecommons.org/publicdomain/zero/1.0/deed.es';
+		}
+
+		if (preg_match('/^CC (BY(?:-NC)?(?:-SA|-ND)?) (\d\.\d)(?: ([a-z]{2,3}))?$/i', $license, $matches) !== 1) {
+			return null;
+		}
+
+		// Licencias adaptadas a un país (p. ej. "CC BY-SA 3.0 de") o la IGO: https://creativecommons.org/licenses/by-sa/3.0/de/
+		$jurisdiction = isset($matches[3]) && $matches[3] !== '' ? strtolower($matches[3]).'/' : '';
+
+		return 'https://creativecommons.org/licenses/'.strtolower($matches[1]).'/'.$matches[2].'/'.$jurisdiction.'deed.es';
 	}
 
 	protected function resolveViewer(Request $request): ?User

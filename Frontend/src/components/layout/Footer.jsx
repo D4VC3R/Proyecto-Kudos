@@ -60,6 +60,18 @@ const Footer = () => {
           <span className="block sm:inline">Esta web usa TMDB y sus API, pero TMDB no la respalda, certifica ni aprueba.</span>
         </p>
       </div>
+
+      <p className="mx-auto mt-3 max-w-7xl px-4 text-center text-xs font-medium text-text-normal sm:px-6 lg:px-8">
+        Datos de videojuegos de{' '}
+        <a
+          href="https://www.igdb.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-bold text-nav-item transition-colors hover:text-blue-500"
+        >
+          IGDB.com
+        </a>.
+      </p>
     </footer>
   );
 };

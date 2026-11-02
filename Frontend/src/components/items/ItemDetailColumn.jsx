@@ -53,7 +53,7 @@ const ItemDetailColumn = ({ item, children }) => {
       </div>
 
       <div className="w-full flex justify-center mb-8 shrink-0">
-        <ItemImage item={item} showTitle={false} />
+        <ItemImage item={item} showTitle={false} showCredit />
       </div>
 
       {coordinates && (
