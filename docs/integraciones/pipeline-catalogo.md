@@ -150,6 +150,7 @@ final readonly class CatalogItemData
 | `catalog:refresh` | Diaria, 05:00 | |
 | `catalog:purge-stale` | Semanal, domingo 05:30 | |
 | `wishlist:notify-releases` | Diaria, 06:00 | Aviso de estreno de la wishlist (F3-06); encola en default |
+| `sanctum:prune-expired --hours=24` | Diaria, 02:30 | Purga de tokens caducados; borra en el propio *scheduler*, sin encolar |
 
 Todas llevan `withoutOverlapping()`.
 

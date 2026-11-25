@@ -253,6 +253,32 @@ Decisiones menores, que se toman después de `main`: la popularidad de IGDB (F5-
 - `sail artisan schedule:list` muestra 7 tareas.
 - `sail test` en verde.
 
+**Notas (F5-04):**
+- **Archivos tocados** (`Backend/`): `bootstrap/app.php`, `app/Http/Requests/Auth/LoginRequest.php`, `app/Http/Controllers/Category/CategoryController.php`, `app/Http/Controllers/Auth/{VerifyEmailController,PasswordResetLinkController}.php`, `app/Http/Controllers/User/DailyRewardController.php`, `app/Http/Requests/Users/UpdateProfileRequest.php`, `app/Providers/AppServiceProvider.php`, `app/Notifications/Auth/{QueuedResetPassword,QueuedVerifyEmail}.php`, `config/kudos.php`, `routes/auth.php`, `routes/console.php` y `lang/es/{auth,passwords,validation}.php` + `lang/es.json` (nuevos).
+- **Tests nuevos (24):** `Errors/ErrorResponseFormatTest` (8), `Auth/AuthRateLimitTest` (3), `Auth/SpanishMessagesTest` (4), `Auth/AuthNotificationMailTest` (3), `Auth/TokenPruneScheduleTest` (1), `Users/ProfileBirthdateTest` (2), más 2 en `PasswordResetTest` y 1 en `DailyClaimTest`. Antes del cambio fallaban 32 (los nuevos salvo `test_una_ruta_inexistente_sigue_respondiendo_route_not_found` y `test_el_perfil_acepta_una_fecha_de_nacimiento_de_14_anos`, más 10 tests con aserciones actualizadas: `PublicProfileTest` (2), `CategoryVisibilityTest` (3), `NotificationApiTest` (2), `ItemCrudTest`, `EmailVerificationTest` y `CategoryItemsCountTest`; 22 + 10). Suite completa: 909 tests en verde.
+- **Handlers muertos:** se **quitan** los dos. El de `AuthorizationException` ya lo cubre `AccessDeniedHttpException` (el mismo cuerpo, `Handler::prepareException()` la convierte antes); el de `ModelNotFoundException` pasa al de `NotFoundHttpException` y se reconoce por `getPrevious()`, con más modelos en el mapa de mensajes (`ItemComment`, `ListItem`, `Proposal`, `Report`, `UserList`).
+- **BE-C5** ya estaba resuelto en F5-02 (`destroy` cuenta todos los ítems): aquí solo cambia el código del 409 a `conflict`.
+- **`auth.failed`** no llega a ninguna respuesta (el login responde 401 "Credenciales inválidas."), así que su test comprueba la traducción y no una respuesta HTTP.
+- **Correos:** se sobrescribe `buildMailMessage()` y no `toMail()` (desviación menor respecto a la ficha), para no duplicar la lógica de la URL ni la de `toMailUsing()` de los padres. El *layout* del correo (saludo, despedida y *subcopy*) se traduce con `lang/es.json`.
+- **`forgot-password`** también tapaba el estado `throttled` (segunda petición en menos de 60 s daba 422 y delataba la cuenta): ahora responde siempre 200 con el mismo cuerpo; `data.status` se mantiene con un valor fijo. `passwords.user` y `passwords.token` llevan el mismo texto para que `reset-password` tampoco enumere cuentas.
+- **`LoginRequest`** añade `Retry-After` a su 429.
+- **Limitador `auth`:** por IP y compartido entre `register` y `forgot-password` (6 por minuto, `kudos.auth.per_minute`, no es una variable de entorno).
+- **7 tareas programadas** (la purga de tokens, a las 02:30 UTC), para F5-13: `docs/infra/produccion.md:103` dice "cinco" y lo rehace F5-13.
+- **Fuera de alcance:** los `HttpException` con estados distintos de 404/403/405/409/422/429/500 (p. ej. 419 o 503) siguen con el formato por defecto.
+- **Locale:** `config/app.php` sigue con `'en'` por defecto; el `es` sale de `APP_LOCALE` en los dos `.env.*.example`.
+- **Edad mínima:** `UpdateProfileRequest` pasa a 14 años, como el registro.
+- **Textos nuevos pendientes de validar por el humano:** los dos correos de cuenta, `lang/es/*` y `lang/es.json`, los mensajes de 404 por modelo, 405, 429 y 500 y los de la recompensa diaria.
+- **Salida de `sail artisan schedule:list`:**
+  ```
+  0  3 * * *  php artisan items:recalculate-stats
+  30 3 * * 1  php artisan items:recalculate-quality
+  0  4 * * *  php artisan catalog:fetch-new --all
+  0  5 * * *  php artisan catalog:refresh
+  30 5 * * 0  php artisan catalog:purge-stale
+  0  6 * * *  php artisan wishlist:notify-releases
+  30 2 * * *  php artisan sanctum:prune-expired --hours=24
+  ```
+
 ---
 
 ## F5-05 · Visibilidad y autorización coherentes (BE)
