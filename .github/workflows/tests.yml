@@ -2,7 +2,13 @@
 # Las credenciales de la base de datos son de usar y tirar: solo existen dentro del job (no son secretos).
 name: Tests
 
-on: [push, pull_request]
+# El push solo en las ramas largas: en una rama de tarea ya lo cubre su PR, y con [push, pull_request]
+# cada commit de un PR lanzaba el workflow dos veces. workflow_dispatch permite lanzarlo a mano.
+on:
+  push:
+    branches: [main, rediseno-fase-0]
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read

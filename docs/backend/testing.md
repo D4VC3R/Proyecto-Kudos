@@ -120,7 +120,7 @@ Http::fake([
 
 ## 7. CI (GitHub Actions)
 
-`.github/workflows/tests.yml` se ejecuta en cada `push` y `pull_request`, con dos jobs:
+`.github/workflows/tests.yml` se ejecuta en cada `pull_request`, en cada `push` a `main` y a `rediseno-fase-0`, y a mano desde la pestaña Actions (`workflow_dispatch`). Las ramas de tarea no lo lanzan en el `push`, porque ya lo hace su PR (guía §4.1); antes cada commit de un PR lo ejecutaba dos veces. Tiene dos jobs:
 
 - **`backend`:**
   - Servicio `postgres:18-alpine` con la base de datos `testing` (usuario `sail` y contraseña `password`, solo del CI).
