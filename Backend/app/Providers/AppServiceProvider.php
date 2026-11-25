@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Interceptores de Correo Electrónico
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
-            return config('app.frontend_url') . "/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
+            return config('app.frontend_url') . "/password-reset/$token?" . http_build_query(['email' => $notifiable->getEmailForPasswordReset()]);
         });
 
         VerifyEmail::createUrlUsing(function (object $notifiable) {
@@ -86,7 +86,7 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Límites con nombre: importación bajo demanda (F1-07, por minuto) y reportes (F3-04, por hora), por usuario.
-     * Responden 429 con el formato de error de la API (bootstrap/app.php no da formato a los 429).
+     * Registro y recuperación de contraseña, por IP. Responden 429 con el formato de error de la API y un mensaje propio.
      */
     private function configureRateLimiting(): void
     {
@@ -104,6 +104,10 @@ class AppServiceProvider extends ServiceProvider
 
         RateLimiter::for('account', fn (Request $request) => Limit::perMinute((int) config('kudos.account.per_minute', 5))
             ->by((string) ($request->user()?->id ?? $request->ip()))
+            ->response($this->tooManyRequests('Has hecho demasiados intentos. Espera un minuto y vuelve a intentarlo.')));
+
+        RateLimiter::for('auth', fn (Request $request) => Limit::perMinute((int) config('kudos.auth.per_minute', 6))
+            ->by((string) $request->ip())
             ->response($this->tooManyRequests('Has hecho demasiados intentos. Espera un minuto y vuelve a intentarlo.')));
     }
 

@@ -68,8 +68,9 @@ class ItemCrudTest extends TestCase
         $this->deleteJson("/api/items/{$item->id}")->assertOk();
 
         $this->assertSoftDeleted($item);
-        // Sin comprobar el código del error: hoy es route_not_found (BE-R1, F5-04).
-        $this->getJson("/api/items/{$item->id}")->assertNotFound();
+        $this->getJson("/api/items/{$item->id}")
+            ->assertNotFound()
+            ->assertJsonPath('error.code', 'not_found');
     }
 
     public function test_un_usuario_normal_recibe_403_al_crear_o_borrar_items(): void

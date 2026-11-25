@@ -87,3 +87,10 @@ Schedule::command('catalog:purge-stale')->weeklyOn(0, '05:30')->withoutOverlappi
  * Solo encola en 'default'; el job no repite avisos.
  */
 Schedule::command('wishlist:notify-releases')->dailyAt('06:00')->withoutOverlapping();
+
+/**
+ * Purga diaria de los tokens de Sanctum caducados hace más de 24 h (caducan al día, config/sanctum.php):
+ * sin ella, personal_access_tokens solo crece. Es un DELETE directo y ligero. A las 02:30 UTC, antes de
+ * las tareas del catálogo (03:00–06:00) y de las copias del host (03:30 y 03:45).
+ */
+Schedule::command('sanctum:prune-expired --hours=24')->dailyAt('02:30')->withoutOverlapping();

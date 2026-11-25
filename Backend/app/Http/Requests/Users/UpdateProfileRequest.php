@@ -42,7 +42,7 @@ class UpdateProfileRequest extends FormRequest
 			'social_links' => ['nullable', 'array', 'max:5'],
 			'social_links.*' => ['required_with:social_links', 'url', 'max:255'],
 			'city' => ['nullable', 'string', 'max:100'],
-			'birthdate' => ['nullable', 'date', 'before:-13 years', 'after:1900-01-01'],
+			'birthdate' => ['nullable', 'date', 'before:-14 years', 'after:1900-01-01'],
 			// Slugs de categorías activas (onboarding, F2-07). Lista vacía permitida.
 			'interests' => ['sometimes', 'array', 'max:20'],
 			'interests.*' => ['required', 'string', 'distinct', Rule::exists('categories', 'slug')->where('is_active', true)],
@@ -74,7 +74,7 @@ class UpdateProfileRequest extends FormRequest
 		return [
 			'social_links.max' => 'No puedes añadir más de 5 enlaces sociales.',
 			'social_links.*.url' => 'Cada enlace social debe ser una URL válida.',
-			'birthdate.before' => 'Debes tener al menos 13 años para registrarte.',
+			'birthdate.before' => 'Debes tener al menos 14 años para registrarte.',
 			'birthdate.after' => 'La fecha de nacimiento introducida no es válida.',
 			'interests.array' => 'Los intereses deben ser una lista de categorías.',
 			'interests.max' => 'No puedes elegir más de 20 categorías.',

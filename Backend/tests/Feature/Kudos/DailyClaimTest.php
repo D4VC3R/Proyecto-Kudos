@@ -10,8 +10,8 @@ use Tests\TestCase;
 
 /**
  * Caracterización (F5-01): recompensa diaria (POST /api/profile/daily-claim).
- * No se fija `meta.message` (en inglés, BE-R3, F5-04). La cuantía tiene un bonus aleatorio
- * (random_int, no se puede sembrar), así que se comprueba que sea uno de los valores posibles.
+ * La cuantía tiene un bonus aleatorio (random_int, no se puede sembrar), así que se comprueba
+ * que sea uno de los valores posibles.
  */
 class DailyClaimTest extends TestCase
 {
@@ -155,5 +155,19 @@ class DailyClaimTest extends TestCase
             ->assertForbidden();
 
         $this->assertSame(0, $this->dailyTransactions($user));
+    }
+
+    public function test_los_mensajes_de_la_recompensa_diaria_estan_en_espanol(): void
+    {
+        $this->travelTo(Carbon::parse('2026-03-10 10:00:00'));
+        $this->actingAsUser();
+
+        $this->postJson('/api/profile/daily-claim')
+            ->assertOk()
+            ->assertJsonPath('meta.message', '¡Recompensa diaria conseguida!');
+
+        $this->postJson('/api/profile/daily-claim')
+            ->assertOk()
+            ->assertJsonPath('meta.message', 'Ya has reclamado la recompensa de hoy.');
     }
 }

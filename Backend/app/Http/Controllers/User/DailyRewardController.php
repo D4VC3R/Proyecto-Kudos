@@ -34,7 +34,7 @@ class DailyRewardController extends Controller
                     'streak' => $rewardResult['streak']
                 ],
                 meta: [
-                    'message' => 'Reward already claimed today.',
+                    'message' => 'Ya has reclamado la recompensa de hoy.',
                     'server_date' => $rewardResult['server_date'],
                     'is_new_record' => $rewardResult['is_new_record'],
 	                  'is_critical' => $rewardResult['is_critical'],
@@ -49,7 +49,7 @@ class DailyRewardController extends Controller
                 'streak' => $rewardResult['streak']
             ],
             meta: [
-                'message' => 'Daily reward granted!',
+                'message' => '¡Recompensa diaria conseguida!',
                 'server_date' => $rewardResult['server_date'],
                 'is_new_record' => $rewardResult['is_new_record'],
                 'kudos_awarded' => $rewardResult['kudos_awarded'],

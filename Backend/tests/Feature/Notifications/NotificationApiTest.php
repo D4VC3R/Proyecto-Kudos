@@ -187,7 +187,7 @@ class NotificationApiTest extends TestCase
 
         $this->postJson("/api/notifications/{$id}/read")
             ->assertStatus(404)
-            ->assertJsonPath('error.code', 'route_not_found');
+            ->assertJsonPath('error.code', 'not_found');
 
         $this->assertNull($other->notifications()->whereKey($id)->first()->read_at);
     }
@@ -196,11 +196,10 @@ class NotificationApiTest extends TestCase
     {
         $this->actingAsUser();
 
-        // El Handler de Laravel convierte ModelNotFoundException en NotFoundHttpException antes de los
-        // render() de bootstrap/app.php, así que el código es route_not_found (como en CategoryVisibilityTest).
+        // Un UUID que no existe es un 404 de modelo (not_found); un id que no es UUID no casa con la ruta (route_not_found).
         $this->postJson('/api/notifications/'.Str::uuid().'/read')
             ->assertStatus(404)
-            ->assertJsonPath('error.code', 'route_not_found');
+            ->assertJsonPath('error.code', 'not_found');
 
         $this->postJson('/api/notifications/abc/read')
             ->assertStatus(404)
