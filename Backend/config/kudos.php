@@ -89,6 +89,12 @@ return [
         'per_minute' => 5,
     ],
 
+    // Registro y recuperación de contraseña: peticiones por IP y minuto a POST /api/register y
+    // POST /api/forgot-password (comparten el límite). Frena las altas masivas y el envío de correos en bucle.
+    'auth' => [
+        'per_minute' => 6,
+    ],
+
     'rules' => [
         'daily_login_streak_cap' => 5,
     ],

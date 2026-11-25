@@ -24,18 +24,14 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        $status = Password::sendResetLink(
+        // La respuesta no depende del resultado: si cambiara con un correo inexistente o con una petición
+        // repetida enseguida (throttled), cualquiera podría averiguar qué correos tienen cuenta.
+        Password::sendResetLink(
             $request->only('email')
         );
 
-        if ($status != Password::RESET_LINK_SENT) {
-            throw ValidationException::withMessages([
-                'email' => [__($status)],
-            ]);
-        }
-
         return $this->respondMutation('Si el correo existe en nuestro sistema, recibirás un enlace de restablecimiento en breve.', [
-            'status' => __($status),
+            'status' => __(Password::RESET_LINK_SENT),
         ]);
     }
 }
