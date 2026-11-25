@@ -33,7 +33,7 @@ class UserListResource extends JsonResource
             // F3-01. Ocultada por moderación: el dueño no puede volver a publicarla.
             'is_hidden_by_moderation' => $this->hidden_by_moderation_at !== null,
             // Solo con sesión: si quien mira puede gestionarla desde "Mis listas" (dueño y lista no editorial).
-            'can_edit' => $this->when($request->user('sanctum') !== null, fn () => ! $this->is_editorial && $request->user('sanctum')->id === $this->user_id),
+            'can_edit' => $this->when($request->user() !== null, fn () => ! $this->is_editorial && $request->user()->id === $this->user_id),
             // Solo si el controlador lo ha cargado (página pública con sesión).
             'liked_by_me' => $this->when(array_key_exists('liked_by_me', $this->resource->getAttributes()), fn () => (bool) $this->resource->getAttribute('liked_by_me')),
             // Solo en "Mis listas" con ?item_id=: si la lista ya contiene ese ítem.

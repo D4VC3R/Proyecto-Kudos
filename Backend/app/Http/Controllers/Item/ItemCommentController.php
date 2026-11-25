@@ -23,7 +23,7 @@ class ItemCommentController extends Controller
                 $validated = $request->validated();
                 $perPage = min(max((int) ($validated['per_page'] ?? 15), 1), 100);
 
-                $user = $request->user('sanctum');
+                $user = $request->user();
                 $includeHidden = $user?->hasRole('admin') ?? false;
 
                 // Los ocultos solo los ven el admin y su autor (en los dos niveles).

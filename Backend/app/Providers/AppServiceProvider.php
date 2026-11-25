@@ -6,13 +6,17 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemComment;
 use App\Models\Proposal;
+use App\Models\Report;
+use App\Models\User;
 use App\Models\UserList;
 use App\Models\Vote;
 use App\Policies\CategoryPolicy;
 use App\Policies\ItemPolicy;
 use App\Policies\ItemCommentPolicy;
 use App\Policies\ProposalPolicy;
+use App\Policies\ReportPolicy;
 use App\Policies\UserListPolicy;
+use App\Policies\UserPolicy;
 use App\Policies\VotePolicy;
 use Closure;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -80,6 +84,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Proposal::class, ProposalPolicy::class);
         Gate::policy(Vote::class, VotePolicy::class);
         Gate::policy(UserList::class, UserListPolicy::class);
+        Gate::policy(User::class, UserPolicy::class);
+        Gate::policy(Report::class, ReportPolicy::class);
 
         $this->configureRateLimiting();
     }

@@ -30,26 +30,29 @@ use Illuminate\Support\Facades\Route;
  * RUTAS PÚBLICAS
  * ----------------
  */
-Route::prefix('categories')->group(function () {
-    Route::get('/', [CategoryController::class, 'index']);
-    Route::get('/{category}', [CategoryController::class, 'show']);
-    Route::get('/{category}/ranking', [CategoryController::class, 'ranking']);
+// Sesión opcional: con token, los Resources y las policies conocen al usuario; sin él, es un invitado.
+Route::middleware('auth.optional')->group(function () {
+    Route::prefix('categories')->group(function () {
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::get('/{category}', [CategoryController::class, 'show']);
+        Route::get('/{category}/ranking', [CategoryController::class, 'ranking']);
+    });
+
+    Route::get('/items', [ItemController::class, 'index']);
+    Route::get('/items/{item}', [ItemController::class, 'show']);
+    Route::get('/items/{item}/similar', [ItemController::class, 'similar']);
+    Route::get('/items/{item}/comments', [ItemCommentController::class, 'index']);
+    Route::get('/users/ranking', [UserRankingController::class, 'index']);
+    // Perfil público por nombre de usuario (F3-03). Va después de /users/ranking ("ranking" además está reservado).
+    Route::get('/users/{username}', [PublicProfileController::class, 'show'])->where('username', '[A-Za-z0-9_]{1,30}');
+
+    // Portada (F2-09) y listas públicas por slug.
+    Route::get('/home', [HomeController::class, 'index']);
+    Route::get('/lists/{list:slug}', [ListController::class, 'show']);
+
+    // Datos de las páginas legales (F3-07): correo de contacto legal.
+    Route::get('/legal', LegalInfoController::class);
 });
-
-Route::get('/items', [ItemController::class, 'index']);
-Route::get('/items/{item}', [ItemController::class, 'show']);
-Route::get('/items/{item}/similar', [ItemController::class, 'similar']);
-Route::get('/items/{item}/comments', [ItemCommentController::class, 'index']);
-Route::get('/users/ranking', [UserRankingController::class, 'index']);
-// Perfil público por nombre de usuario (F3-03). Va después de /users/ranking ("ranking" además está reservado).
-Route::get('/users/{username}', [PublicProfileController::class, 'show'])->where('username', '[A-Za-z0-9_]{1,30}');
-
-// Portada (F2-09) y listas públicas por slug.
-Route::get('/home', [HomeController::class, 'index']);
-Route::get('/lists/{list:slug}', [ListController::class, 'show']);
-
-// Datos de las páginas legales (F3-07): correo de contacto legal.
-Route::get('/legal', LegalInfoController::class);
 
 /**
  * -------------------------------------------

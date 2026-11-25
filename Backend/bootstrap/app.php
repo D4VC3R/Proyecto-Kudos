@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AuthenticateOptionally;
 use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\EnsureUserIsNotBanned;
@@ -35,6 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
 		$middleware->alias([
 			'verified' => EnsureEmailIsVerified::class,
 			'admin' => EnsureUserIsAdmin::class,
+			'auth.optional' => AuthenticateOptionally::class,
       'not_banned' => EnsureUserIsNotBanned::class,
 		]);
 
@@ -189,6 +191,16 @@ return Application::configure(basePath: dirname(__DIR__))
                         'message' => 'El método HTTP no está permitido en esta ruta.',
                     ],
                 ], 405, $e->getHeaders());
+            }
+
+            // 404 de una policy (Response::denyAsNotFound): mismo formato que un 404 de modelo.
+            if ($status === 404) {
+                return response()->json([
+                    'error' => [
+                        'code' => 'not_found',
+                        'message' => $e->getMessage() !== '' ? $e->getMessage() : 'El recurso no existe.',
+                    ],
+                ], 404);
             }
 
             return null;

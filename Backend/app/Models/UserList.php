@@ -135,8 +135,7 @@ class UserList extends Model
      */
     public function visibleListItems(): HasMany
     {
-        return $this->listItems()->whereHas('item', fn ($item) => $item->active()
-            ->whereHas('category', fn ($category) => $category->where('is_active', true)));
+        return $this->listItems()->whereHas('item', fn ($item) => $item->visible());
     }
 
     public function scopeEditorial(Builder $query): Builder

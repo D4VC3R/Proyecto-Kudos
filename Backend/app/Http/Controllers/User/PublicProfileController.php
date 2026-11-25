@@ -20,7 +20,7 @@ class PublicProfileController extends Controller
 
     public function show(Request $request, string $username): JsonResponse
     {
-        $viewer = $request->user('sanctum');
+        $viewer = $request->user();
         $user = User::query()->where('username', mb_strtolower($username))->with('profile')->first();
         $isOwner = $user !== null && $viewer !== null && $viewer->id === $user->id;
 

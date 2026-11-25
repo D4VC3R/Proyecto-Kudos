@@ -90,7 +90,7 @@ class PublicProfileService
             ->whereNotNull('vote_id')
             ->whereNull('parent_id')
             ->where('is_hidden', false)
-            ->whereHas('item', fn ($q) => $q->active()->whereHas('category', fn ($c) => $c->where('is_active', true)))
+            ->whereHas('item', fn ($q) => $q->visible())
             ->with(['vote:id,type,score', 'item' => fn ($q) => $q->with('category')])
             ->orderByDesc('created_at')
             ->orderByDesc('id')

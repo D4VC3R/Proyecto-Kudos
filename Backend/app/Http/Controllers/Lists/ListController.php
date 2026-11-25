@@ -22,7 +22,7 @@ class ListController extends Controller
      */
     public function show(Request $request, UserList $list): JsonResponse
     {
-        $viewer = $request->user('sanctum');
+        $viewer = $request->user();
 
         // Privada: solo la ve su dueño (F3-01); a los demás les da 404, como si no existiera.
         if (! Gate::forUser($viewer)->allows('view', $list)) {

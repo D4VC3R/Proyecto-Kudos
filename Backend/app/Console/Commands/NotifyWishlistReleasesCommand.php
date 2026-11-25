@@ -42,8 +42,7 @@ class NotifyWishlistReleasesCommand extends Command
 
         Item::query()
             ->select('id')
-            ->active()
-            ->whereHas('category', fn ($q) => $q->where('is_active', true))
+            ->visible()
             ->where('released_at', '>', $from->toDateString())
             ->where('released_at', '<=', $until->toDateString())
             ->whereHas('votes', fn ($q) => $q->where('type', Vote::TYPE_WANT))

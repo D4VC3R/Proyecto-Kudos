@@ -123,7 +123,7 @@ class UsageMetricsService
     public function ratingCoverage(): array
     {
         $minRatings = (int) config('kudos.metrics.min_ratings', 5);
-        $items = Item::query()->active()->whereHas('category', fn ($q) => $q->where('is_active', true));
+        $items = Item::query()->visible();
 
         $total = (clone $items)->count();
         $rated = (clone $items)->whereIn('id', Vote::query()

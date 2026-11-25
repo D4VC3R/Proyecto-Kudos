@@ -11,7 +11,7 @@ class BanUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->hasRole('admin') ?? false;
+        return $this->user()?->can('ban', $this->route('user')) ?? false;
     }
 
     public function rules(): array

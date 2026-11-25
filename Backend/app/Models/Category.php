@@ -81,6 +81,14 @@ class Category extends Model
     }
 
     /**
+     * Solo las categorías activas: una inactiva no existe para la parte pública de la API.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
      * Carga en una categoría ya obtenida el mismo recuento de ítems activos que withItemCount().
      */
     public function loadItemCount(): static

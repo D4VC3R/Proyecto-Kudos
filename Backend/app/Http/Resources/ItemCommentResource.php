@@ -16,7 +16,7 @@ class ItemCommentResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $user = $request->user('sanctum') ?? $request->user();
+        $user = $request->user();
         $isAdmin = $user instanceof User && $user->hasRole('admin');
         $isOwner = $user instanceof User && $user->id === $this->user_id;
 
@@ -36,8 +36,8 @@ class ItemCommentResource extends JsonResource
                 'name' => $this->user?->name,
 	              'avatar' => $this->user?->profile?->avatar,
             ],
-            'can_edit' => $this->when($user instanceof User, $isAdmin || $isOwner),
-            'can_delete' => $this->when($user instanceof User, $isAdmin || $isOwner),
+            'can_edit' => $this->when($user instanceof User, fn () => $user->can('update', $this->resource)),
+            'can_delete' => $this->when($user instanceof User, fn () => $user->can('delete', $this->resource)),
             'replies' => ItemCommentResource::collection($this->whenLoaded('replies')),
         ];
     }

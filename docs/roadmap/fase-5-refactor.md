@@ -322,6 +322,27 @@ Decisiones menores, que se toman después de `main`: la popularidad de IGDB (F5-
 - Hay tests de 403 por policy en `admin/users` y `admin/reports`.
 - `sail test` en verde.
 
+**Notas (F5-05):**
+- **Archivos tocados** (`Backend/`):
+  - Modelos y consultas: `app/Models/{Category,Item,UserList}.php`, `app/Services/{HomeFeed,Recommendation,PublicProfile,UsageMetrics,OnboardingItems,ItemStats}Service.php`, `app/Console/Commands/NotifyWishlistReleasesCommand.php` y `app/Jobs/NotifyWishlistReleasesJob.php`.
+  - Autorización: `app/Policies/{ItemPolicy,UserPolicy,ReportPolicy}.php`, `app/Providers/AppServiceProvider.php` y los siete FormRequests de `app/Http/Requests/Admin/` (más `Items/ShowItemRequest.php`).
+  - Sesión opcional: `app/Http/Middleware/AuthenticateOptionally.php` (nuevo), `bootstrap/app.php` y `routes/api.php`.
+  - Controladores: `Category/CategoryController`, `Item/{ItemController,ItemCommentController}`, `Home/HomeController`, `Lists/ListController` y `User/{PublicProfileController,UserRankingController,ProfileController}`.
+  - Resources: `ItemListResource`, `ItemDetailResource`, `ItemCommentResource`, `UserListResource` y `MinimalProfileResource`.
+- **Tests nuevos (26):** `Items/ItemVisibilityTest` (7), `Auth/OptionalAuthTest` (5), `Items/PermissionFlagsTest` (5), `Votes/DeletedItemVoteTest` (1), `Users/MinimalProfileRankTest` (2) y `Admin/AdminPolicyTest` (6). Antes del cambio fallaban 15: 14 de los nuevos (5 de `ItemVisibilityTest`, 3 de `PermissionFlagsTest`, 3 de `AdminPolicyTest`, y uno de `OptionalAuthTest`, `DeletedItemVoteTest` y `MinimalProfileRankTest`) y el actualizado `SimilarItemsTest`. El de la posición fallaba antes por un error 500 del ranking con sesión (ver «Latente») y no por el «da 1» previsto. Suite completa: 935 tests en verde (909 + 26).
+- **404 de la ficha:** lo da `ItemPolicy::view` con `Response::denyAsNotFound('El ítem no existe.')`, y `ShowItemRequest::authorize()` devuelve `Gate::inspect()` para conservar el estado. Como `Handler::prepareException()` lo convierte en un `HttpException(404)` genérico, `bootstrap/app.php` tiene una rama nueva 404 → `not_found` en el *handler* de `HttpExceptionInterface`; el cuerpo es idéntico al de un ítem inexistente. Los similares siguen a la ficha.
+- **Ítem inactivo de una categoría activa:** sigue dando 403 al público, como hasta ahora. **Un ítem sin categoría** (`category_id` es nullable) se trata como no visible.
+- **`deleteOwnAccount`:** la regla está en `UserPolicy`, pero se comprueba en `ProfileController::destroy` y no en `DeleteAccountRequest::authorize()`, para conservar el mensaje propio (el *handler* de 403 lo cambiaría por el genérico) y el orden actual (primero la contraseña, luego el 403).
+- **Autobaneo y autorrevocación:** se quedan como 422 de validación (`BanUserRequest`, `RevokeUserTokensRequest`); pasarlos a la policy los convertiría en 403.
+- **Ampliaciones (R1):** `ItemDetailResource` tenía el mismo `can_edit` erróneo que `ItemListResource` y se corrige igual; `can_edit` de un comentario oculto de su autor decía `true` aunque la policy lo deniega, y ahora sale de la policy.
+- **Discrepancias con la ficha:**
+  - `PublicProfileService.php:43` no usa `whereHas`, sino un `join` con `categories` (necesita `sort_order` y `name` para el `ROW_NUMBER`), y se queda como está.
+  - Los sitios de `whereHas` de visibilidad eran 8, no ~12; las demás consultas `Category::…where('is_active', true)` pasan a `Category::active()`.
+  - `ListItemCommentsRequest` no se toca: su `Gate::allows()` ya resuelve el usuario de `sanctum` gracias al *middleware*.
+- **Tests actualizados (R8):** `SimilarItemsTest::test_un_item_de_una_categoria_inactiva_no_tiene_similares` ahora espera 404 para el invitado y `[]` para el admin; `ItemSearchTest::test_la_busqueda_global_carga_la_categoria_con_una_sola_consulta` filtra las consultas de `items`, porque el `exists` de `Item::scopeVisible()` también contiene `from "categories"`.
+- **Latente (corregido de paso):** `GET /api/users/ranking` con sesión daba 500 con `preventLazyLoading` cuando había varios usuarios, porque la página del propio usuario no cargaba `profile`; `UserRankingController` la carga ahora con la misma consulta que la página Top.
+- **Pendiente (no es de esta tarea):** los comentarios (`ItemCommentPolicy::viewAny`) y los votos (`VotePolicy::create`) de un ítem de una categoría inactiva siguen sin mirar la categoría.
+
 ---
 
 ## F5-06 · Código muerto y contratos heredados del backend (BE, INT)

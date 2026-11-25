@@ -296,6 +296,15 @@ class Item extends Model
 	}
 
     /*
+     * Ítems que se pueden mostrar en la parte pública: activos y de una categoría activa.
+     * Los borrados ya quedan fuera por SoftDeletes, y uno sin categoría tampoco se muestra.
+     */
+	public function scopeVisible($query)
+	{
+		return $query->active()->whereHas('category', fn($category) => $category->active());
+	}
+
+    /*
      * Scope para filtrar los ítems con ficha suficientemente completa (F0-05).
      * Excluye los que tienen quality_score por debajo de config('catalog.min_quality_for_discovery').
      */
