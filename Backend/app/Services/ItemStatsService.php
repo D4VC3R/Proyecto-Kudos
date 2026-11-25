@@ -19,10 +19,11 @@ class ItemStatsService
     /**
      * Recalcula vote_count, vote_avg y bayes_score con COUNT(*) y AVG(score) de los votos de tipo 'vote'.
      * Se ejecuta dentro de la transacción del llamante: bloquea la fila del ítem con lockForUpdate().
+     * Incluye los ítems borrados: borrar o cambiar el voto de un ítem borrado también recalcula sus medias.
      */
     public function recalculate(string $itemId): Item
     {
-        $item = Item::lockForUpdate()->findOrFail($itemId);
+        $item = Item::withTrashed()->lockForUpdate()->findOrFail($itemId);
 
         $stats = Vote::query()
             ->where('item_id', $itemId)
