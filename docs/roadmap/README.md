@@ -1,6 +1,6 @@
 # Tablero de tareas
 
-Estados: `pendiente` · `en curso` · `hecho` · `bloqueada` (con el motivo en la ficha). Coge la primera `pendiente` con todas sus dependencias en `hecho` ([../guia-agentes.md](../guia-agentes.md) §2).
+Estados: `pendiente` · `en curso` · `hecho` · `bloqueada` (con el motivo en la ficha). Coge la primera `pendiente` con todas sus dependencias en `hecho` ([../guia-agentes.md](../guia-agentes.md) §2). Desde la Fase 5, cada tarea pendiente tiene su issue en GitHub (columna **Issue**); este tablero sigue siendo la fuente de verdad (guía §4.2).
 
 Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integraciones · `QA` tests · `LEGAL` cumplimiento · `DOCS` documentación · `HUMANO` lo hace o decide el humano.
 
@@ -94,32 +94,32 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 
 F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01. F5-15 (Pint) va la última, antes de la fusión.
 
-| ID | Tarea | Resp. | Depende de | Estado |
-|---|---|---|---|---|
-| F5-00 | Decisiones previas a la fase (D1–D9) | HUMANO | — | hecho |
-| F5-01 | Tests de caracterización de la API heredada | QA, BE | — | hecho |
-| F5-02 | Rendimiento de los listados: N+1 y límites | BE | — | pendiente |
-| F5-03 | Moderación coherente con la DSA y propuestas | BE, LEGAL | F5-01 | pendiente |
-| F5-04 | Contrato de errores y endpoints de cuenta | BE | F5-01, F5-00 | pendiente |
-| F5-05 | Visibilidad y autorización coherentes | BE | F5-01 | pendiente |
-| F5-06 | Código muerto y contratos heredados del backend | BE, INT | F5-01, F5-00 | pendiente |
-| F5-07 | Catálogo: política de jobs, *throttle* acotado e importación concurrente | INT | — | pendiente |
-| F5-08 | Datos y recursos de terceros (`seed-data`, portadas, fuente, privacidad) | BE, FE, LEGAL | F5-00 | pendiente |
-| F5-09 | Barrera de errores y tarjetas de ítem como enlaces | FE | — | pendiente |
-| F5-10 | Errores de API tipados en el frontend | FE | F5-04 | pendiente |
-| F5-11 | Accesibilidad de formularios, modal y botones | FE | F5-09 | pendiente |
-| F5-12 | Clases sin definir, duplicados y código muerto del frontend | FE | F5-06, F5-09 | pendiente |
-| F5-13 | *Runbook* único del paso a Kudos 2.0 y salvaguardas de `main` | INFRA, DOCS | F5-00, F5-07, F5-08 | pendiente |
-| F5-14 | Documentación lista para `main` | DOCS | F5-01…F5-13 | pendiente |
-| F5-15 | Formato con Pint y controles de CI | INFRA | F5-14, F5-00 | pendiente |
-| F5-16 | Fusión en `main` y paso a producción (sustituye a F1-11) | HUMANO | F5-15 | pendiente |
-| F5-17 | Sesión y verificación de correo en el frontend | FE | F5-16 | pendiente |
-| F5-18 | Convención de página y estado en la URL | FE | F5-16 | pendiente |
-| F5-19 | *Code splitting*, ESLint y tests de `lib/` | FE, QA | F5-16 | pendiente |
-| F5-20 | Capa de aplicación: Actions y servicios para el código heredado | BE | F5-16 | pendiente |
-| F5-21 | Catálogo: helpers comunes y Wikidata sin peticiones duplicadas | INT | F5-16 | pendiente |
-| F5-22 | Catálogo: fuentes huérfanas, popularidad y `config/discovery.php` | INT, BE, HUMANO | F5-16 | pendiente |
-| F5-23 | Limpieza de tests y del entorno de desarrollo | QA, INFRA, HUMANO | F5-16 | pendiente |
+| ID | Tarea | Resp. | Depende de | Estado | Issue |
+|---|---|---|---|---|---|
+| F5-00 | Decisiones previas a la fase (D1–D9) | HUMANO | — | hecho | — |
+| F5-01 | Tests de caracterización de la API heredada | QA, BE | — | hecho | — |
+| F5-02 | Rendimiento de los listados: N+1 y límites | BE | — | pendiente | [#6](https://github.com/D4VC3R/Proyecto-Kudos/issues/6) |
+| F5-03 | Moderación coherente con la DSA y propuestas | BE, LEGAL | F5-01 | pendiente | [#7](https://github.com/D4VC3R/Proyecto-Kudos/issues/7) |
+| F5-04 | Contrato de errores y endpoints de cuenta | BE | F5-01, F5-00 | pendiente | [#8](https://github.com/D4VC3R/Proyecto-Kudos/issues/8) |
+| F5-05 | Visibilidad y autorización coherentes | BE | F5-01 | pendiente | [#9](https://github.com/D4VC3R/Proyecto-Kudos/issues/9) |
+| F5-06 | Código muerto y contratos heredados del backend | BE, INT | F5-01, F5-00 | pendiente | [#10](https://github.com/D4VC3R/Proyecto-Kudos/issues/10) |
+| F5-07 | Catálogo: política de jobs, *throttle* acotado e importación concurrente | INT | — | pendiente | [#11](https://github.com/D4VC3R/Proyecto-Kudos/issues/11) |
+| F5-08 | Datos y recursos de terceros (`seed-data`, portadas, fuente, privacidad) | BE, FE, LEGAL | F5-00 | pendiente | [#12](https://github.com/D4VC3R/Proyecto-Kudos/issues/12) |
+| F5-09 | Barrera de errores y tarjetas de ítem como enlaces | FE | — | pendiente | [#13](https://github.com/D4VC3R/Proyecto-Kudos/issues/13) |
+| F5-10 | Errores de API tipados en el frontend | FE | F5-04 | pendiente | [#14](https://github.com/D4VC3R/Proyecto-Kudos/issues/14) |
+| F5-11 | Accesibilidad de formularios, modal y botones | FE | F5-09 | pendiente | [#15](https://github.com/D4VC3R/Proyecto-Kudos/issues/15) |
+| F5-12 | Clases sin definir, duplicados y código muerto del frontend | FE | F5-06, F5-09 | pendiente | [#16](https://github.com/D4VC3R/Proyecto-Kudos/issues/16) |
+| F5-13 | *Runbook* único del paso a Kudos 2.0 y salvaguardas de `main` | INFRA, DOCS | F5-00, F5-07, F5-08 | pendiente | [#17](https://github.com/D4VC3R/Proyecto-Kudos/issues/17) |
+| F5-14 | Documentación lista para `main` | DOCS | F5-01…F5-13 | pendiente | [#18](https://github.com/D4VC3R/Proyecto-Kudos/issues/18) |
+| F5-15 | Formato con Pint y controles de CI | INFRA | F5-14, F5-00 | pendiente | [#19](https://github.com/D4VC3R/Proyecto-Kudos/issues/19) |
+| F5-16 | Fusión en `main` y paso a producción (sustituye a F1-11) | HUMANO | F5-15 | pendiente | [#20](https://github.com/D4VC3R/Proyecto-Kudos/issues/20) |
+| F5-17 | Sesión y verificación de correo en el frontend | FE | F5-16 | pendiente | [#21](https://github.com/D4VC3R/Proyecto-Kudos/issues/21) |
+| F5-18 | Convención de página y estado en la URL | FE | F5-16 | pendiente | [#22](https://github.com/D4VC3R/Proyecto-Kudos/issues/22) |
+| F5-19 | *Code splitting*, ESLint y tests de `lib/` | FE, QA | F5-16 | pendiente | [#23](https://github.com/D4VC3R/Proyecto-Kudos/issues/23) |
+| F5-20 | Capa de aplicación: Actions y servicios para el código heredado | BE | F5-16 | pendiente | [#24](https://github.com/D4VC3R/Proyecto-Kudos/issues/24) |
+| F5-21 | Catálogo: helpers comunes y Wikidata sin peticiones duplicadas | INT | F5-16 | pendiente | [#25](https://github.com/D4VC3R/Proyecto-Kudos/issues/25) |
+| F5-22 | Catálogo: fuentes huérfanas, popularidad y `config/discovery.php` | INT, BE, HUMANO | F5-16 | pendiente | [#26](https://github.com/D4VC3R/Proyecto-Kudos/issues/26) |
+| F5-23 | Limpieza de tests y del entorno de desarrollo | QA, INFRA, HUMANO | F5-16 | pendiente | [#27](https://github.com/D4VC3R/Proyecto-Kudos/issues/27) |
 
 ## Aplazado
 
