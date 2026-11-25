@@ -176,7 +176,7 @@ Middlewares relevantes:
 
 Grupos de rutas:
 - Públicas (`categories`, `items` list)
-- Autenticadas (`profile`, `votes`, `proposals` de usuario, `my-items`)
+- Autenticadas (`profile`, `votes`, `proposals` de usuario, comentarios)
 - Admin (`admin/users`, `admin/items`, `admin/proposals`, categorías admin)
 
 ## Consistencia de Kudos y Seeders

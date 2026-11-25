@@ -22,11 +22,6 @@ class ListItem extends Model
         'position' => 'integer',
     ];
 
-    public function userList(): BelongsTo
-    {
-        return $this->belongsTo(UserList::class, 'list_id');
-    }
-
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);

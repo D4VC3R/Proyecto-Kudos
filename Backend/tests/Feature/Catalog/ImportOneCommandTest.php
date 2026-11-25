@@ -7,6 +7,7 @@ use App\Jobs\Catalog\ImportCatalogItemJob;
 use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -101,5 +102,14 @@ class ImportOneCommandTest extends TestCase
         $this->artisan('catalog:import', ['provider' => 'tmdb', 'externalId' => 'tv:1399'])->assertFailed();
 
         Queue::assertNothingPushed();
+    }
+
+    public function test_la_ayuda_cita_un_ejemplo_de_cada_proveedor(): void
+    {
+        $description = Artisan::all()['catalog:import']->getDefinition()->getArgument('externalId')->getDescription();
+
+        $this->assertStringContainsString('movie:603', $description);
+        $this->assertStringContainsString('113112', $description);
+        $this->assertStringContainsString('Q2807', $description);
     }
 }

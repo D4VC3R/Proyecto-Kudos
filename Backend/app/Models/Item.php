@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -269,30 +268,12 @@ class Item extends Model
 	}
 
     /*
-     * Relación polimórfica uno a muchos con el modelo KudosTransaction, representando las transacciones de kudos asociadas al ítem.
-     * Permite acceder a todas las transacciones de kudos relacionadas con el ítem.
-     */
-	public function kudosTransactions(): MorphMany
-	{
-		return $this->morphMany(KudosTransaction::class, 'reference');
-	}
-
-    /*
      * Scope para filtrar ítems activos.
      * Permite obtener solo los ítems que están en estado activo.
      */
 	public function scopeActive($query)
 	{
 		return $query->where('status', self::STATUS_ACTIVE);
-	}
-
-    /*
-     * Scope para filtrar ítems inactivos.
-     * Permite obtener solo los ítems que están en estado inactivo.
-     */
-	public function scopeInactive($query)
-	{
-		return $query->where('status', self::STATUS_INACTIVE);
 	}
 
     /*

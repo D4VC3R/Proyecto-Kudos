@@ -131,4 +131,20 @@ class AdminItemModerationTest extends TestCase
             ->assertUnauthorized()
             ->assertJsonPath('error.code', 'unauthenticated');
     }
+
+    public function test_editar_desde_el_panel_con_images_no_cambia_las_imagenes(): void
+    {
+        $this->actingAsAdmin();
+        $item = $this->createItem($this->createCategory());
+        $original = $item->images;
+
+        $this->putJson("/api/admin/items/{$item->id}", [
+            'name' => 'Nombre corregido',
+            'images' => [['path' => 'otra/ruta.jpg', 'disk' => 'public']],
+            'moderation_reason' => 'Errata',
+        ])->assertOk();
+
+        $this->assertEquals($original, $item->fresh()->images);
+        $this->assertSame('Nombre corregido', $item->fresh()->name);
+    }
 }

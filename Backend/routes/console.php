@@ -1,13 +1,8 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schedule;
-
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
 
 /**
  * Comando de Artisan para auditar la consistencia entre el campo users.total_kudos y el total calculado a partir de kudos_transactions.

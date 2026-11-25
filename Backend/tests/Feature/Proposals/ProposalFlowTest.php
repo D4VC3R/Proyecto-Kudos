@@ -329,4 +329,27 @@ class ProposalFlowTest extends TestCase
                 ->assertJsonPath('error.code', 'unauthenticated');
         }
     }
+
+    public function test_editar_una_propuesta_con_images_no_las_cambia(): void
+    {
+        $user = $this->actingAsUser();
+        $images = [[
+            'disk' => 'public',
+            'variants' => [
+                'thumb' => 'proposals/peliculas/x/a-thumb.webp',
+                'banner' => 'proposals/peliculas/x/a-banner.webp',
+            ],
+            'meta' => [],
+            'alt' => null,
+            'order' => 0,
+        ]];
+        $proposal = $this->proposalBy($user, ['images' => $images]);
+
+        $this->putJson("/api/proposals/{$proposal->id}", [
+            'name' => 'Nombre nuevo',
+            'images' => [['path' => 'otra/ruta.jpg', 'disk' => 'public']],
+        ])->assertOk();
+
+        $this->assertEquals($images, $proposal->fresh()->images);
+    }
 }

@@ -101,11 +101,6 @@ class UserList extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function coverItem(): BelongsTo
-    {
-        return $this->belongsTo(Item::class, 'cover_item_id');
-    }
-
     /**
      * Usuarios a los que les gusta la lista (tabla `list_likes`, sin marcas de tiempo de Eloquent).
      */

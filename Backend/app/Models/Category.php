@@ -98,19 +98,6 @@ class Category extends Model
         }]);
     }
 
-    public function loadAcceptedItemsWithDetails(): static
-    {
-        return $this->load([
-            'fieldDefinitions',
-            'items' => function ($query) {
-                $query->where('status', Item::STATUS_ACTIVE)
-                    ->with(['creator:id,name'])
-                    ->inRandomOrder()
-                    ->take(30);
-            }
-        ]);
-    }
-
     /**
      * Obtiene el ranking paginado de los ítems de esta categoría, ordenado por bayes_score, vote_count y nombre.
      */

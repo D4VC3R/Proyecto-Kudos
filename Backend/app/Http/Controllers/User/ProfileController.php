@@ -19,7 +19,7 @@ use Illuminate\Validation\ValidationException;
 class ProfileController extends Controller
 {
 	/**
-	 * Display a listing of the resource.
+	 * Devuelve el perfil del usuario autenticado.
 	 */
 	public function show(Request $request): JsonResponse
 	{

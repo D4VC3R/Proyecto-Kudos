@@ -89,15 +89,5 @@ class Proposal extends Model
     {
         return $query->where('status', self::STATUS_ACCEPTED);
     }
-
-    public function scopeRejected($query)
-    {
-        return $query->where('status', self::STATUS_REJECTED);
-    }
-
-    public function scopeChangesRequested($query)
-    {
-        return $query->where('status', self::STATUS_CHANGES_REQUESTED);
-    }
 }
 

@@ -134,14 +134,6 @@ return [
 			'replace_placeholders' => true,
 		],
 
-		'kudos' => [
-			'driver' => 'daily',
-			'path' => storage_path('logs/kudos/kudos.log'),
-			'level' => env('LOG_LEVEL', 'info'),
-			'days' => 14,
-			'replace_placeholders' => true,
-		],
-
 		'security' => [
 			'driver' => 'daily',
 			'path' => storage_path('logs/security/security.log'),

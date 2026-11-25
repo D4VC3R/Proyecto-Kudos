@@ -64,7 +64,6 @@ class AdminUserController extends Controller
 		$days = $request->integer('days');
 		$reason = (string) $request->input('reason');
 
-		// Lógica movida desde AdminService directamente al controlador
 		$user->ban($isPermanent, $days, $reason, $admin->id);
 
 		$user->tokens()->delete();

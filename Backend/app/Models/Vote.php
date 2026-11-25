@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Representa la interacción de un usuario con un ítem. Tipos:
@@ -16,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * - want: me interesa (wishlist), sin puntuación.
  * - not_interested: no me interesa, sin puntuación.
  * - skip: valor heredado; la API lo normaliza a not_interested.
- * Proporciona relaciones con el usuario que realizó el voto, el ítem votado y las transacciones de kudos asociadas.
+ * Proporciona relaciones con el usuario que realizó el voto y el ítem votado.
  */
 class Vote extends Model
 {
@@ -69,11 +68,6 @@ class Vote extends Model
 					->orWhere('original_title', 'ilike', $pattern)));
 			});
 	}
-
-    public function kudosTransactions(): MorphMany
-    {
-        return $this->morphMany(KudosTransaction::class, 'reference');
-    }
 
     public function user(): BelongsTo
     {

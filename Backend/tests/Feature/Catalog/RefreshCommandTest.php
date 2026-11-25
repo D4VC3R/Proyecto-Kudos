@@ -222,4 +222,33 @@ class RefreshCommandTest extends TestCase
 
         $this->assertSame([], $this->queuedPairs());
     }
+
+    public function test_el_mensaje_muestra_el_umbral_de_cada_categoria(): void
+    {
+        Queue::fake();
+        $this->createCategory('destinos', 'Destinos');
+
+        $this->artisan('catalog:refresh')
+            ->expectsOutputToContain('umbral en días por categoría: destinos 90, peliculas 150, series 150')
+            ->assertSuccessful();
+    }
+
+    public function test_el_mensaje_con_older_than_muestra_ese_umbral(): void
+    {
+        Queue::fake();
+        $this->createCategory('destinos', 'Destinos');
+
+        $this->artisan('catalog:refresh', ['--older-than' => 120])
+            ->expectsOutputToContain('sincronizados hace más de 120 días')
+            ->assertSuccessful();
+    }
+
+    public function test_el_mensaje_con_un_solo_umbral_lo_muestra_una_vez(): void
+    {
+        Queue::fake();
+
+        $this->artisan('catalog:refresh')
+            ->expectsOutputToContain('sincronizados hace más de 150 días')
+            ->assertSuccessful();
+    }
 }

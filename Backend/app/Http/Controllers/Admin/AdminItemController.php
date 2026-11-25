@@ -12,8 +12,6 @@ use App\Models\Item;
 use App\Services\ModerationAuditLogger;
 use Illuminate\Http\JsonResponse;
 
-// <-- Inyectamos el logger directamente
-
 /*
  * Controlador para la gestión de items desde el panel de administración.
  * Aquí se manejan las operaciones CRUD y de moderación específicas para los items.
@@ -31,12 +29,11 @@ class AdminItemController extends Controller
 		$validated = $request->validated();
 		$perPage = (int) ($validated['per_page'] ?? 20);
 
-		// Uso directo de Eloquent, aprovechando los scopes.
 		$items = Item::query()
 			->with(['category:id,name,slug', 'creator:id,name,email'])
 			->adminApplyFilters($validated)
 			->adminApplySorting($validated['sort_by'] ?? 'created_at', $validated['sort_direction'] ?? 'desc')
-			->paginate(min(max($perPage, 1), 100)); // Lógica de protección que estaba en el repo
+			->paginate(min(max($perPage, 1), 100));
 
 		return $this->respondList(
 			data: ItemListResource::collection($items),

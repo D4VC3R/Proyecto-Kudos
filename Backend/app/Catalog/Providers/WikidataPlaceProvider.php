@@ -39,16 +39,6 @@ final class WikidataPlaceProvider implements CatalogProvider, RecognizesExternal
     /** P31 que hacen de un lugar un país: estado soberano y país. */
     public const COUNTRY_CLASSES = ['Q3624078', 'Q6256'];
 
-    public const SOVEREIGN_STATE = 'Q3624078';
-
-    public const HISTORICAL_COUNTRY = 'Q3024240';
-
-    public const CITY = 'Q515';
-
-    public const MUNICIPALITY = 'Q15284';
-
-    public const SPANISH_PROVINCE = 'Q162620';
-
     public const KIND_COUNTRY = 'país';
 
     public const KIND_CITY = 'ciudad';

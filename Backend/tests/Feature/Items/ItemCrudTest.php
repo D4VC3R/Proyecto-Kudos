@@ -107,4 +107,16 @@ class ItemCrudTest extends TestCase
 
         $this->assertNotSoftDeleted($item);
     }
+
+    public function test_crear_un_item_ignora_images(): void
+    {
+        $this->actingAsAdmin();
+        $category = $this->createCategory();
+
+        $this->postJson('/api/items', $this->validPayload($category->id) + [
+            'images' => [['path' => 'otra/ruta.jpg', 'disk' => 'public']],
+        ])->assertCreated();
+
+        $this->assertEmpty(Item::query()->firstOrFail()->images);
+    }
 }

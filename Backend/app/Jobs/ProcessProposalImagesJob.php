@@ -24,7 +24,6 @@ class ProcessProposalImagesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private const MAX_BYTES = 5_242_880;
     private const TEMP_DIR = 'temp_uploads';
     private const TEMP_DISK = 'local';
     private const PUBLIC_DISK = 'public';
@@ -82,7 +81,7 @@ class ProcessProposalImagesJob implements ShouldQueue
      * - Verifica si la entrada es una URL remota o una ruta local.
      * - Si es una URL remota, la descarga a un directorio temporal.
      * - Procesa la imagen utilizando el MediaManager para generar las variantes necesarias.
-     * - Elimina el archivo temporal después del procesamiento.
+     * - Elimina el archivo temporal, también si el procesamiento falla.
      * - Devuelve un array con las rutas de las variantes generadas y cualquier metadato relevante.
      */
     private function processItem(
@@ -96,13 +95,15 @@ class ProcessProposalImagesJob implements ShouldQueue
             ? $downloader->downloadToTemp($rawItem, self::TEMP_DISK, self::TEMP_DIR)
             : $rawItem;
 
-        $absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);
+        // El temporal se borra también si el procesado falla; si no, se quedaría para siempre en el disco local.
+        try {
+            $absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);
 
-        $targetDir = 'proposals/' . $categorySlug . '/' . $proposal->id;
-        $processedData = $mediaManager->processItemVariants($absoluteTempPath, $targetDir);
+            $targetDir = 'proposals/' . $categorySlug . '/' . $proposal->id;
 
-        $storage->delete(self::TEMP_DISK, $tempPath);
-
-        return $processedData;
+            return $mediaManager->processItemVariants($absoluteTempPath, $targetDir);
+        } finally {
+            $storage->delete(self::TEMP_DISK, $tempPath);
+        }
     }
 }
