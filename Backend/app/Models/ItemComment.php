@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Representa un comentario realizado por un usuario sobre un ítem.
  * Cada comentario pertenece a un ítem y a un usuario, y puede ser ocultado por moderación.
- * Proporciona relaciones con el ítem, el usuario que lo creó y el usuario que lo ocultó, si hay.
+ * Proporciona relaciones con el ítem y con el usuario que lo creó.
  * Desde la F3-02 puede ser una respuesta (`parent_id`, un solo nivel) o una reseña (`vote_id`, ligada a la nota del autor).
  * Desde la F3-08, `user_id` es null si el autor borró su cuenta y el comentario tenía respuestas (anonimizado).
  */
@@ -65,15 +65,6 @@ class ItemComment extends Model
 	public function user(): BelongsTo
 	{
 		return $this->belongsTo(User::class);
-	}
-
-    /**
-     * Define la relación de pertenencia con el modelo User para el moderador que ocultó el comentario.
-     * Permite acceder al usuario que ocultó este comentario, si es que fue ocultado.
-     */
-	public function hiddenByUser(): BelongsTo
-	{
-		return $this->belongsTo(User::class, 'hidden_by');
 	}
 
     /**

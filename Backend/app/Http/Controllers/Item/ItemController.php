@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Item;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DeleteItemRequest;
-use App\Http\Requests\Admin\UpdateItemRequest;
 use App\Http\Requests\Items\ListItemsRequest;
 use App\Http\Requests\Items\ShowItemRequest;
 use App\Http\Requests\Items\StoreItemRequest;
@@ -14,7 +13,6 @@ use App\Models\Item;
 use App\Services\ModerationAuditLogger;
 use App\Services\SimilarItemsService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
@@ -87,13 +85,6 @@ class ItemController extends Controller
 		return $this->respondData(ItemListResource::collection($items));
 	}
 
-	public function update(UpdateItemRequest $request, Item $item): JsonResponse
-	{
-		$item->update($request->validated());
-
-		return $this->respondMutation('Item actualizado correctamente.', new ItemDetailResource($item->fresh(['category', 'creator'])));
-	}
-
 	public function destroy(DeleteItemRequest $request, Item $item, ModerationAuditLogger $moderationAuditLogger): JsonResponse
 	{
 		$item->delete();
@@ -101,28 +92,6 @@ class ItemController extends Controller
 		$moderationAuditLogger->logItemModeration($item, $request->user(), 'admin_delete_item');
 
 		return $this->respondMutation('Item eliminado correctamente.');
-	}
-
-	public function myItems(Request $request): JsonResponse
-	{
-		$user = $request->user();
-
-		$items = Item::query()
-			->where('creator_id', $user->id)
-			->with(['category:id,name,slug,image,description,attribute_schema,icon,sort_order,created_at,updated_at'])
-			->when(!$user->hasRole('admin'), fn($q) => $q->active())
-			->when($user, fn($q) => $q->with(['userVote' => fn($vQ) => $vQ->where('user_id', $user->id)]))
-			->latest()
-			->get();
-
-		return $this->respondList(
-			data: ItemListResource::collection($items),
-			meta: [
-				'total' => $items->count(),
-				'active' => $items->where('status', Item::STATUS_ACTIVE)->count(),
-				'inactive' => $items->where('status', Item::STATUS_INACTIVE)->count(),
-			],
-		);
 	}
 }
 

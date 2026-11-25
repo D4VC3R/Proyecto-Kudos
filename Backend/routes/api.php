@@ -124,7 +124,6 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned'])->group(function ()
 
     // Items accesibles a usuario autenticado
     Route::prefix('items')->group(function () {
-        Route::get('/my-items', [ItemController::class, 'myItems']);
         Route::post('/{item}/comments', [ItemCommentController::class, 'store']);
     });
 
