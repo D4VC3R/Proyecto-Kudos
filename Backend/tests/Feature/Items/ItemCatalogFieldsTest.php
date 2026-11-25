@@ -82,7 +82,7 @@ class ItemCatalogFieldsTest extends TestCase
             'external_id' => 'Q83495',
         ]);
 
-        $sources = $item->fresh()->sources;
+        $sources = $item->fresh('sources.item')->sources;
 
         $this->assertCount(2, $sources);
         $this->assertTrue($sources->first()->item->is($item));
