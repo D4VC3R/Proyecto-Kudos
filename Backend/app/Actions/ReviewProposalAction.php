@@ -10,6 +10,7 @@ use App\Services\KudosService;
 use App\Services\ModerationAuditLogger;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 /**
  * Acción para revisar una propuesta de creación.
@@ -30,6 +31,7 @@ class ReviewProposalAction
 	 * @param string $status El nuevo estado de la propuesta (aceptada, rechazada, etc.).
 	 * @param string|null $adminNotes Notas adicionales del administrador.
 	 * @return Proposal La propuesta actualizada con sus relaciones cargadas.
+	 * @throws ConflictHttpException si la propuesta ya no está pendiente.
 	 * @throws \Throwable
 	 */
     public function execute(Proposal $proposal, User $admin, string $status, ?string $adminNotes): Proposal
@@ -37,6 +39,11 @@ class ReviewProposalAction
         return DB::transaction(function () use ($proposal, $admin, $status, $adminNotes) {
 
             $lockedProposal = Proposal::lockForUpdate()->find($proposal->id);
+
+            // Otra revisión puede haberse colado entre la validación y el bloqueo: sin esto, dos aceptaciones crearían dos ítems.
+            if ($lockedProposal->status !== Proposal::STATUS_PENDING) {
+                throw new ConflictHttpException('Esta propuesta ya está revisada.');
+            }
 
             // Actualizar Propuesta
             $lockedProposal->update([
@@ -68,6 +75,7 @@ class ReviewProposalAction
     {
         $categorySlug = $proposal->category()->value('slug') ?? 'general';
         $images = [];
+        $moves = [];
 
         foreach ($proposal->images ?? [] as $image) {
             $variants = is_array($image) ? ($image['variants'] ?? []) : [];
@@ -87,7 +95,8 @@ class ReviewProposalAction
                 $filename = basename($path);
                 $targetPath = 'items/' . $categorySlug . '/' . $proposal->id . '/' . $filename;
 
-                $movedVariants[$type] = $this->mediaStorage->move('public', $path, 'public', $targetPath, 'public');
+                $movedVariants[$type] = $targetPath;
+                $moves[] = [$path, $targetPath];
             }
 
             if (!empty($movedVariants)) {
@@ -100,6 +109,18 @@ class ReviewProposalAction
                 ];
             }
         }
+
+        // Los ficheros se mueven después del commit: si la transacción se deshace, siguen donde los espera
+        // la propuesta. Un fallo al moverlos ya no puede deshacer la revisión, así que solo se reporta.
+        DB::afterCommit(function () use ($moves) {
+            foreach ($moves as [$from, $to]) {
+                try {
+                    $this->mediaStorage->move('public', $from, 'public', $to, 'public');
+                } catch (\Throwable $e) {
+                    report($e);
+                }
+            }
+        });
 
         Item::create(array_merge(
             $proposal->only(['name', 'description', 'creator_id', 'category_id']),

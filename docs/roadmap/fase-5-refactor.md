@@ -186,6 +186,17 @@ Decisiones menores, que se toman después de `main`: la popularidad de IGDB (F5-
 - `store` con el job de imágenes fallando responde 201 con `meta.images_failed`.
 - Los tests de F3-04 (`tests/Feature/Reports/`) siguen en verde y `sail test` también.
 
+**Notas (F5-03):**
+- **Archivos tocados** (`Backend/`): `app/Actions/ModerateCommentAction.php` (nueva; `execute()` en transacción con estado, registro y aviso, y `apply()` solo con el cambio de estado), `app/Services/ModerationAuditLogger.php` (`logCommentModeration`), `app/Http/Controllers/Item/ItemCommentController.php` (`hide`, `unhide` y `destroy` delegan en la Action), `app/Actions/ResolveReportAction.php`, `app/Http/Controllers/Item/ItemController.php` (`destroy` registra `admin_delete_item`), `app/Actions/ReviewProposalAction.php` y `app/Http/Controllers/Proposal/ProposalController.php`.
+- **Tests nuevos (17):** `Items/CommentModerationNoticeTest` (10), `Admin/ItemDeletionAuditTest` (1), `Reports/ResolveReportAfterCommitTest` (1), `Proposals/ProposalReviewConcurrencyTest` (3) y `Proposals/ProposalStoreImagesTest` (2). Antes del cambio fallaban 12 (los 3 de aviso al autor: ocultar, ocultar sin motivo y borrar; los 3 de registro de comentarios; el del logger, que no tenía el método; el del ítem; el del avatar tras el commit; el 409; los ficheros tras el commit; y `images_failed`). Suite completa: 885 tests en verde.
+- **Discrepancia (R1):** `my-proposals` ya no usa `fresh()` y conserva `reviewer` desde la F5-02, y `LazyLoadingTest::test_mis_propuestas_traen_la_categoria_y_el_revisor_sin_carga_perezosa` ya lo cubre en verde, así que no hay test nuevo que falle antes.
+- **Rama del autor en `destroy`:** hoy es inalcanzable, porque `ItemCommentPolicy::delete` solo deja borrar al admin (lo fija `test_el_autor_no_puede_borrar_su_comentario`). Se deja por si F5-05 cambia la policy.
+- **Motivo por defecto:** ocultar sin motivo o borrar (que no lo pide) avisa con `Report::REASON_LABELS['otro']` ("Otro motivo"), para no escribir textos legales nuevos y no dejar "Motivo: ." en el aviso. Pendiente de validar por el humano.
+- **`ResolveReportAction`** solo reutiliza `ModerateCommentAction::apply()`: el mock estricto de `AdminReportTest::test_registra_la_decision_en_el_log_de_moderacion` solo admite `logReportResolution`. Sigue avisando al autor aunque sea el propio admin (sin cambios).
+- **Ficheros tras el commit:** un fallo al mover una imagen de la propuesta aceptada se reporta con `report()` y ya no deshace la aceptación; el ítem puede apuntar a una imagen que no se movió (decisión a validar).
+- **`meta.images_failed`:** solo aparece con `true`, y solo cuando falla el job entero (p. ej., al resolver sus dependencias). Los fallos de una imagen concreta los sigue absorbiendo el job con `Log::warning`.
+- **Comentarios desfasados sin tocar (R8):** `CommentModerationTest.php:12-15` y `ProposalFlowTest.php:204-205` siguen aludiendo a esta tarea.
+
 ---
 
 ## F5-04 · Contrato de errores y endpoints de cuenta (BE)

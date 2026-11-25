@@ -99,7 +99,7 @@ F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01. F5-1
 | F5-00 | Decisiones previas a la fase (D1–D9) | HUMANO | — | hecho | — |
 | F5-01 | Tests de caracterización de la API heredada | QA, BE | — | hecho | — |
 | F5-02 | Rendimiento de los listados: N+1 y límites | BE | — | hecho | [#6](https://github.com/D4VC3R/Proyecto-Kudos/issues/6) |
-| F5-03 | Moderación coherente con la DSA y propuestas | BE, LEGAL | F5-01 | pendiente | [#7](https://github.com/D4VC3R/Proyecto-Kudos/issues/7) |
+| F5-03 | Moderación coherente con la DSA y propuestas | BE, LEGAL | F5-01 | hecho | [#7](https://github.com/D4VC3R/Proyecto-Kudos/issues/7) |
 | F5-04 | Contrato de errores y endpoints de cuenta | BE | F5-01, F5-00 | pendiente | [#8](https://github.com/D4VC3R/Proyecto-Kudos/issues/8) |
 | F5-05 | Visibilidad y autorización coherentes | BE | F5-01 | pendiente | [#9](https://github.com/D4VC3R/Proyecto-Kudos/issues/9) |
 | F5-06 | Código muerto y contratos heredados del backend | BE, INT | F5-01, F5-00 | pendiente | [#10](https://github.com/D4VC3R/Proyecto-Kudos/issues/10) |
