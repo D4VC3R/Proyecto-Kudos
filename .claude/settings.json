@@ -11,6 +11,7 @@
       "Bash(git fetch *)", "Bash(git pull --ff-only *)",
       "Bash(git push -u origin fase-*)", "Bash(git push origin fase-*)",
       "Bash(gh auth status)", "Bash(gh pr create *)", "Bash(gh pr view *)",
+      "Bash(gh pr comment *)", "Bash(gh issue *)", "Bash(gh label *)",
       "Bash(gh pr checks *)", "Bash(gh pr merge *)", "Bash(gh run view *)"
     ],
     "deny": [
