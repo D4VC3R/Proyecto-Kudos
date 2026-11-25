@@ -45,10 +45,11 @@ class ItemCommentController extends Controller
                         ->whereNull('parent_id')
                         ->with([
                                 'user:id,name',
+                                'user.profile:id,user_id,avatar',
                                 'vote:id,type,score',
                                 'replies' => function ($query) use ($visible) {
                                         $visible($query);
-                                        $query->with(['user:id,name'])->oldest()->orderBy('id');
+                                        $query->with(['user:id,name', 'user.profile:id,user_id,avatar'])->oldest()->orderBy('id');
                                 },
                         ])
                         ->tap($visible)
@@ -84,7 +85,7 @@ class ItemCommentController extends Controller
                         content: $payload['content'],
                         parent: $request->parentComment(),
                         reviewVote: $request->reviewVote(),
-                )->load(['user:id,name', 'vote:id,type,score']);
+                )->load(['user:id,name', 'user.profile:id,user_id,avatar', 'vote:id,type,score']);
 
                 return $this->respondMutation(
                         message: 'Comentario registrado correctamente.',
@@ -99,7 +100,7 @@ class ItemCommentController extends Controller
 
                 return $this->respondMutation(
                         message: 'Comentario actualizado correctamente.',
-                        data: new ItemCommentResource($comment->fresh(['user:id,name'])),
+                        data: new ItemCommentResource($comment->fresh(['user:id,name', 'user.profile:id,user_id,avatar'])),
                 );
         }
 
@@ -116,7 +117,7 @@ class ItemCommentController extends Controller
 
                 return $this->respondMutation(
                         message: 'Comentario ocultado correctamente.',
-                        data: new ItemCommentResource($comment->fresh(['user:id,name'])),
+                        data: new ItemCommentResource($comment->fresh(['user:id,name', 'user.profile:id,user_id,avatar'])),
                 );
         }
 
@@ -130,7 +131,7 @@ class ItemCommentController extends Controller
 
                 return $this->respondMutation(
                         message: 'Comentario restaurado correctamente.',
-                        data: new ItemCommentResource($comment->fresh(['user:id,name'])),
+                        data: new ItemCommentResource($comment->fresh(['user:id,name', 'user.profile:id,user_id,avatar'])),
                 );
         }
 }
