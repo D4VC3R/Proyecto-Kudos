@@ -21,10 +21,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ProposalController extends Controller
 {
-	public function __construct()
-	{
-	}
-
 	public function store(StoreProposalRequest $request): JsonResponse
 	{
 		$validated = $request->validated();
@@ -51,16 +47,23 @@ class ProposalController extends Controller
 			'images' => [],
 		]));
 
+		$imagesFailed = false;
 		if (!empty($rawItems)) {
 			try {
 				ProcessProposalImagesJob::dispatchSync($proposal, $rawItems);
 			} catch (\Throwable $e) {
-				// Si falla el procesamiento, la propuesta ya existe sin imágenes nuevas
-				// Log está dentro del job, aquí solo capturamos para no fallar la creación
+				// La propuesta se crea igualmente, sin imágenes: el fallo se reporta y la respuesta lo indica.
+				report($e);
+				$imagesFailed = true;
 			}
 		}
 
-		return $this->respondMutation('Propuesta creada correctamente.', new ProposalDetailResource($proposal->fresh()), status: 201);
+		return $this->respondMutation(
+			'Propuesta creada correctamente.',
+			new ProposalDetailResource($proposal->fresh()),
+			meta: $imagesFailed ? ['images_failed' => true] : [],
+			status: 201,
+		);
 	}
 
 	public function myProposals(Request $request): JsonResponse
