@@ -1,6 +1,5 @@
 <?php
 
-use App\Catalog\Providers\WikidataPlaceProvider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +12,13 @@ return new class extends Migration
     {
         DB::table('categories')->where('slug', 'destinos')->update([
             'is_active' => true,
-            'attribute_schema' => json_encode(WikidataPlaceProvider::ATTRIBUTE_SCHEMA),
+            // Esquema escrito aquí, no leído del proveedor: la migración aplica siempre el mismo aunque la constante cambie o la clase se renombre.
+            'attribute_schema' => json_encode([
+                ['key' => 'kind', 'label' => 'Tipo', 'type' => 'string', 'filterable' => true, 'show_in_card' => true],
+                ['key' => 'country', 'label' => 'País', 'type' => 'string', 'filterable' => true, 'show_in_card' => true],
+                ['key' => 'population', 'label' => 'Población', 'type' => 'integer', 'filterable' => false, 'show_in_card' => false],
+                ['key' => 'coordinates', 'label' => 'Coordenadas', 'type' => 'coordinates', 'filterable' => false, 'show_in_card' => false],
+            ]),
             'updated_at' => now(),
         ]);
     }

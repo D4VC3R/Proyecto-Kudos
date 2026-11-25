@@ -14,8 +14,8 @@ use Illuminate\Console\Command;
 class ImportOneCommand extends Command
 {
     protected $signature = 'catalog:import
-        {provider : Clave del proveedor (p. ej. tmdb)}
-        {externalId : ID en el proveedor, con su prefijo (movie:603, tv:1399)}';
+        {provider : Clave del proveedor (tmdb, igdb o wikidata)}
+        {externalId : ID en el proveedor: movie:603 o tv:1399 (tmdb), 113112 (igdb) o el QID Q2807 (wikidata)}';
 
     protected $description = 'Encola la importación (o el refresco) de un ítem concreto del catálogo en la cola catalog';
 

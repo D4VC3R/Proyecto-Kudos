@@ -7,6 +7,7 @@ use App\Jobs\Catalog\ImportCatalogItemJob;
 use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -43,11 +44,10 @@ class RefreshCommand extends Command
         $categories = Category::query()->whereIn('slug', $slugs)->pluck('slug', 'id');
 
         // Umbral por categoría (F4-02: destinos, trimestral); --older-than lo fija para todas.
-        $cutoffs = $categories->map(fn (string $slug) => now()->subDays(
-            $olderThanOption === null
-                ? max(1, (int) config("catalog.categories.{$slug}.refresh_older_than_days", $olderThan))
-                : $olderThan
-        ));
+        $thresholds = $categories->map(fn (string $slug) => $olderThanOption === null
+            ? max(1, (int) config("catalog.categories.{$slug}.refresh_older_than_days", $olderThan))
+            : $olderThan);
+        $cutoffs = $thresholds->map(fn (int $days) => now()->subDays($days));
 
         $stale = Item::query()
             ->whereIn('category_id', $categories->keys())
@@ -81,7 +81,7 @@ class RefreshCommand extends Command
             $queued++;
         }
 
-        $this->info("Encolados {$queued} ítems para refrescar en la cola catalog (sincronizados hace más de {$olderThan} días).");
+        $this->info("Encolados {$queued} ítems para refrescar en la cola catalog ({$this->describeThresholds($categories, $thresholds, $olderThan)}).");
 
         if ($pending > $batch) {
             $left = $pending - $batch;
@@ -89,11 +89,32 @@ class RefreshCommand extends Command
             Log::warning('Catálogo: quedan ítems sin refrescar tras este lote; sube --batch si el número crece.', [
                 'pending' => $left,
                 'batch' => $batch,
-                'older_than_days' => $olderThan,
+                'older_than_days' => $categories->values()->combine($thresholds->values())->all(),
             ]);
             $this->warn("Quedan {$left} ítems pendientes de refrescar.");
         }
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Describe el umbral aplicado: uno solo si todas las categorías comparten el mismo y, si no, el de cada una.
+     *
+     * @param  Collection<string, string>  $categories  slug por id de categoría
+     * @param  Collection<string, int>  $thresholds  días por id de categoría
+     */
+    private function describeThresholds(Collection $categories, Collection $thresholds, int $default): string
+    {
+        if ($thresholds->unique()->count() <= 1) {
+            return 'sincronizados hace más de '.($thresholds->first() ?? $default).' días';
+        }
+
+        $perCategory = $thresholds
+            ->mapWithKeys(fn (int $days, string $categoryId) => [$categories[$categoryId] => $days])
+            ->sortKeys()
+            ->map(fn (int $days, string $slug) => "{$slug} {$days}")
+            ->implode(', ');
+
+        return "umbral en días por categoría: {$perCategory}";
     }
 }

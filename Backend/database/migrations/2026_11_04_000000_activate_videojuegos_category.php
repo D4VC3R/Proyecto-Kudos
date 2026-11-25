@@ -1,6 +1,5 @@
 <?php
 
-use App\Catalog\Providers\IgdbGameProvider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +12,13 @@ return new class extends Migration
     {
         DB::table('categories')->where('slug', 'videojuegos')->update([
             'is_active' => true,
-            'attribute_schema' => json_encode(IgdbGameProvider::ATTRIBUTE_SCHEMA),
+            // Esquema escrito aquí, no leído del proveedor: la migración aplica siempre el mismo aunque la constante cambie o la clase se renombre.
+            'attribute_schema' => json_encode([
+                ['key' => 'year', 'label' => 'Año', 'type' => 'integer', 'filterable' => true, 'show_in_card' => true],
+                ['key' => 'genres', 'label' => 'Géneros', 'type' => 'tags', 'filterable' => true, 'show_in_card' => true],
+                ['key' => 'platforms', 'label' => 'Plataformas', 'type' => 'tags', 'filterable' => true, 'show_in_card' => false],
+                ['key' => 'developers', 'label' => 'Desarrollo', 'type' => 'tags', 'filterable' => false, 'show_in_card' => false],
+            ]),
             'updated_at' => now(),
         ]);
     }
