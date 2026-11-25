@@ -65,7 +65,7 @@ class LoginRequest extends FormRequest
         event(new Lockout($this));
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
-        abort(429, "Demasiados intentos de inicio de sesión. Inténtalo de nuevo en {$seconds} segundos.");
+        abort(429, "Demasiados intentos de inicio de sesión. Inténtalo de nuevo en {$seconds} segundos.", ['Retry-After' => $seconds]);
     }
 
     /**

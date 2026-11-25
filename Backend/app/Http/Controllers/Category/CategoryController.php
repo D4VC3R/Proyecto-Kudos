@@ -69,7 +69,7 @@ class CategoryController extends Controller
 
         if ($itemsCount > 0) {
             return $this->respondError(
-                code: 'CONFLICT_CATEGORY_HAS_ITEMS',
+                code: 'conflict',
                 message: "No se puede eliminar la categoría porque tiene {$itemsCount} ítems asociados.",
                 status: 409
             );

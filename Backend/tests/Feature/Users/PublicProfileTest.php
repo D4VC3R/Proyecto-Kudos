@@ -70,17 +70,17 @@ class PublicProfileTest extends TestCase
 
         $this->getJson('/api/users/ana_99')
             ->assertNotFound()
-            ->assertJsonPath('error.code', 'route_not_found');
+            ->assertJsonPath('error.code', 'not_found');
 
         $this->actingAsUser();
         $this->getJson('/api/users/ana_99')
             ->assertNotFound()
-            ->assertJsonPath('error.code', 'route_not_found');
+            ->assertJsonPath('error.code', 'not_found');
 
         $this->actingAsAdmin();
         $this->getJson('/api/users/ana_99')
             ->assertNotFound()
-            ->assertJsonPath('error.code', 'route_not_found');
+            ->assertJsonPath('error.code', 'not_found');
     }
 
     public function test_un_perfil_privado_es_visible_para_su_dueno(): void
@@ -104,8 +104,8 @@ class PublicProfileTest extends TestCase
         $inexistente = $this->getJson('/api/users/nadie')->assertNotFound();
 
         $this->assertSame($privado->json('error.message'), $inexistente->json('error.message'));
-        $this->assertSame('route_not_found', $privado->json('error.code'));
-        $this->assertSame('route_not_found', $inexistente->json('error.code'));
+        $this->assertSame('not_found', $privado->json('error.code'));
+        $this->assertSame('not_found', $inexistente->json('error.code'));
     }
 
     public function test_el_nombre_de_usuario_no_distingue_mayusculas(): void

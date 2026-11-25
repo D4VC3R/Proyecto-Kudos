@@ -68,7 +68,7 @@ class CategoryItemsCountTest extends TestCase
 
         $this->deleteJson('/api/categories/peliculas')
             ->assertStatus(409)
-            ->assertJsonPath('error.code', 'CONFLICT_CATEGORY_HAS_ITEMS')
+            ->assertJsonPath('error.code', 'conflict')
             ->assertJsonPath('error.message', 'No se puede eliminar la categoría porque tiene 2 ítems asociados.');
 
         $this->assertDatabaseHas('categories', ['id' => $category->id]);

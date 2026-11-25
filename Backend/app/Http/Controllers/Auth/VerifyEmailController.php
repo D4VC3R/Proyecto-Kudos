@@ -23,7 +23,7 @@ class VerifyEmailController extends Controller
 
         // Doble validación de seguridad: Asegura de que el hash pertenece realmente al email del usuario.
         if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
-            return $this->respondError('invalid-hash', 'El enlace de verificación está corrupto o es inválido.', [], 403);
+            return $this->respondError('invalid_hash', 'El enlace de verificación está corrupto o es inválido.', [], 403);
         }
 
         if ($user->hasVerifiedEmail()) {

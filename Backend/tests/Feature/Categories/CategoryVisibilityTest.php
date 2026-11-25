@@ -10,8 +10,7 @@ use Tests\TestCase;
 
 /**
  * F1-06: las categorías inactivas no se listan y sus rutas públicas dan 404.
- * El código de error es route_not_found, el mismo que un slug inexistente: el Handler de Laravel convierte
- * ModelNotFoundException en NotFoundHttpException antes de los render() de bootstrap/app.php.
+ * El código de error es not_found, el mismo que un slug inexistente.
  */
 class CategoryVisibilityTest extends TestCase
 {
@@ -60,7 +59,7 @@ class CategoryVisibilityTest extends TestCase
 
         $this->getJson('/api/categories/videojuegos')
             ->assertNotFound()
-            ->assertJsonPath('error.code', 'route_not_found');
+            ->assertJsonPath('error.code', 'not_found');
 
         // Misma respuesta que un slug que no existe.
         $this->assertSame(
@@ -75,7 +74,7 @@ class CategoryVisibilityTest extends TestCase
 
         $this->getJson('/api/categories/videojuegos/ranking')
             ->assertNotFound()
-            ->assertJsonPath('error.code', 'route_not_found');
+            ->assertJsonPath('error.code', 'not_found');
     }
 
     public function test_la_cola_de_una_categoria_inactiva_da_404(): void
@@ -85,7 +84,7 @@ class CategoryVisibilityTest extends TestCase
 
         $this->getJson('/api/categories/videojuegos/next-item')
             ->assertNotFound()
-            ->assertJsonPath('error.code', 'route_not_found');
+            ->assertJsonPath('error.code', 'not_found');
     }
 
     public function test_un_admin_tampoco_ve_el_detalle_de_una_categoria_inactiva(): void

@@ -5,11 +5,12 @@ use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\EnsureUserIsNotBanned;
 use App\Providers\MediaServiceProvider;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -53,18 +54,6 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        // Error de autorización
-        $exceptions->render(function (AuthorizationException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'error' => [
-                        'code' => 'forbidden',
-                        'message' => 'No tienes permisos para realizar esta acción.',
-                    ],
-                ], 403);
-            }
-        });
-
         $exceptions->render(function (AccessDeniedHttpException $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json([
@@ -104,33 +93,34 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        // Error de modelo no encontrado
-        $exceptions->render(function (ModelNotFoundException $e, $request) {
-            if ($request->expectsJson()) {
-                $model = class_basename($e->getModel());
-
-                $messages = [
-                    'Category' => 'La categoría no existe.',
-                    'Item' => 'El item no existe.',
-                    'Vote' => 'El voto no existe.',
-                    'User' => 'El usuario no existe.',
-                    'DatabaseNotification' => 'La notificación no existe.',
-                ];
-
-                $message = $messages[$model] ?? 'El recurso no existe.';
-
-                return response()->json([
-                    'error' => [
-                        'code' => 'not_found',
-                        'message' => $message,
-                    ],
-                ], 404);
-            }
-        });
-
-        // Error 404 genérico
+        // Laravel convierte ModelNotFoundException en NotFoundHttpException antes de llegar a estos
+        // callbacks (Handler::prepareException), así que un 404 de modelo se reconoce por la excepción previa.
         $exceptions->render(function (NotFoundHttpException $e, $request) {
             if ($request->expectsJson()) {
+                $previous = $e->getPrevious();
+
+                if ($previous instanceof ModelNotFoundException) {
+                    $messages = [
+                        'Category' => 'La categoría no existe.',
+                        'Item' => 'El ítem no existe.',
+                        'ItemComment' => 'El comentario no existe.',
+                        'ListItem' => 'El ítem no está en la lista.',
+                        'Proposal' => 'La propuesta no existe.',
+                        'Report' => 'El reporte no existe.',
+                        'User' => 'El usuario no existe.',
+                        'UserList' => 'La lista no existe.',
+                        'Vote' => 'El voto no existe.',
+                        'DatabaseNotification' => 'La notificación no existe.',
+                    ];
+
+                    return response()->json([
+                        'error' => [
+                            'code' => 'not_found',
+                            'message' => $messages[class_basename($previous->getModel())] ?? 'El recurso no existe.',
+                        ],
+                    ], 404);
+                }
+
                 return response()->json([
                     'error' => [
                         'code' => 'route_not_found',
@@ -178,6 +168,57 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], 403);
             }
 
+            if ($status === 429) {
+                // El throttle sin nombre trae el texto en inglés del framework; los demás 429 traen el suyo.
+                $message = $e instanceof ThrottleRequestsException || $e->getMessage() === ''
+                    ? 'Has hecho demasiadas peticiones. Espera un momento y vuelve a intentarlo.'
+                    : $e->getMessage();
+
+                return response()->json([
+                    'error' => [
+                        'code' => 'too_many_requests',
+                        'message' => $message,
+                    ],
+                ], 429, $e->getHeaders());
+            }
+
+            if ($status === 405) {
+                return response()->json([
+                    'error' => [
+                        'code' => 'method_not_allowed',
+                        'message' => 'El método HTTP no está permitido en esta ruta.',
+                    ],
+                ], 405, $e->getHeaders());
+            }
+
             return null;
+        });
+
+        // Último recurso: cualquier excepción sin respuesta propia sale como 500 con el formato de la API.
+        // Fuera de local y testing no se devuelve nada interno (clase, mensaje, fichero ni traza).
+        $exceptions->render(function (Throwable $e, $request) {
+            if (! $request->expectsJson()
+                || $e instanceof HttpResponseException
+                || $e instanceof AuthenticationException
+                || $e instanceof ValidationException
+                || ($e instanceof HttpExceptionInterface && $e->getStatusCode() !== 500)) {
+                return null;
+            }
+
+            $error = [
+                'code' => 'server_error',
+                'message' => 'Ha ocurrido un error inesperado. Inténtalo de nuevo más tarde.',
+            ];
+
+            if (app()->environment('local', 'testing')) {
+                $error['details'] = [
+                    'exception' => get_class($e),
+                    'message' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ];
+            }
+
+            return response()->json(['error' => $error], 500);
         });
     })->create();

@@ -46,9 +46,9 @@ class EmailVerificationTest extends TestCase
     {
         $user = User::factory()->unverified()->create();
 
-        // No se fija el código `invalid-hash`: F5-04 lo normaliza (BE-R1).
         $this->getJson($this->verificationUrl($user, sha1('otro@kudos.test')))
-            ->assertForbidden();
+            ->assertForbidden()
+            ->assertJsonPath('error.code', 'invalid_hash');
 
         $this->assertNull($user->fresh()->email_verified_at);
     }
