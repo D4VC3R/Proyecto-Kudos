@@ -93,8 +93,9 @@ class ItemSearchTest extends TestCase
         $response->assertOk();
         $this->assertCount(3, $response->json('data'));
 
+        // La consulta de ítems lleva un exists sobre categories (visibilidad); aquí solo cuenta la carga de la relación.
         $categoryQueries = collect(DB::getQueryLog())
-            ->filter(fn ($q) => str_contains($q['query'], 'from "categories"'));
+            ->filter(fn ($q) => str_contains($q['query'], 'from "categories"') && ! str_contains($q['query'], 'from "items"'));
         $this->assertCount(1, $categoryQueries);
     }
 

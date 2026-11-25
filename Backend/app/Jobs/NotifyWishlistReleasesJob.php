@@ -37,9 +37,8 @@ class NotifyWishlistReleasesJob implements ShouldQueue
         // Se revalida entre el encolado y la ejecución: activo, sin borrar, con fecha y de categoría activa.
         $items = Item::query()
             ->whereKey($this->itemIds)
-            ->active()
+            ->visible()
             ->whereNotNull('released_at')
-            ->whereHas('category', fn ($q) => $q->where('is_active', true))
             ->with('category:id,slug')
             ->get();
 

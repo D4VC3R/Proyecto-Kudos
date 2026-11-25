@@ -25,23 +25,26 @@ class ItemPolicy
 
 	/**
 	 * Indica si se puede ver un item.
+	 * Un ítem de una categoría inactiva (o sin categoría) no existe para el público, igual que su categoría:
+	 * da 404 y no 403, para no revelar que existe. El admin lo sigue viendo. Un ítem inactivo sigue dando 403.
 	 *
 	 * @param User|null $user Usuario autenticado o invitado.
 	 * @param Item $item Item a consultar.
-	 * @return bool
+	 * @return Response|bool
 	 */
-	public function view(?User $user, Item $item): bool
+	public function view(?User $user, Item $item): Response|bool
 	{
+		$isAdmin = $user?->hasRole('admin') ?? false;
+
+		if (! $isAdmin && ! ($item->category?->is_active ?? false)) {
+			return Response::denyAsNotFound('El ítem no existe.');
+		}
 
 		if ($item->status === Item::STATUS_ACTIVE) {
 			return true;
 		}
 
-		if ($user) {
-			return $user->hasRole('admin');
-		}
-
-		return false;
+		return $isAdmin;
 	}
 
 	/**

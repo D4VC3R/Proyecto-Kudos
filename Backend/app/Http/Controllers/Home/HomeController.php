@@ -21,7 +21,7 @@ class HomeController extends Controller
      */
     public function index(Request $request, HomeFeedService $feed): JsonResponse
     {
-        $result = $feed->forViewer($request->user('sanctum'));
+        $result = $feed->forViewer($request->user());
 
         return $this->respondData([
             'for_you' => [

@@ -7,16 +7,12 @@ use App\Http\Requests\Users\ListUserRankingRequest;
 use App\Http\Resources\UserRankingDataResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class UserRankingController extends Controller
 {
 	public function index(ListUserRankingRequest $request): JsonResponse
 	{
-		$authenticatedUser = Auth::guard('sanctum')->user();
-		if ($authenticatedUser && !$authenticatedUser instanceof User) {
-			$authenticatedUser = null;
-		}
+		$authenticatedUser = $request->user();
 
 		$page = max(1, (int) ($request->validated()['page'] ?? 1));
 		$perPage = 10;
@@ -34,6 +30,7 @@ class UserRankingController extends Controller
 			$myRank = $authenticatedUser->getKudosRank();
 			$myPage = (int) ceil($myRank / $perPage);
 			$myPagePaginator = User::getRankingPaginator($perPage, $myPage);
+			$myPagePaginator->getCollection()->load('profile:id,user_id,avatar');
 		}
 
 		return $this->respondList(

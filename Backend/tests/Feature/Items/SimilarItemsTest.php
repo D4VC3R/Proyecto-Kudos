@@ -172,12 +172,17 @@ class SimilarItemsTest extends TestCase
         $this->assertEqualsCanonicalizing([$first->id, $late->id], $ids);
     }
 
+    // Para el público el ítem no existe, igual que su categoría; el admin lo ve, pero sin similares.
     public function test_un_item_de_una_categoria_inactiva_no_tiene_similares(): void
     {
         $peliculas = $this->createCategory('peliculas', 'Películas');
         $origin = $this->createItem($peliculas, ['name' => 'Origen', 'attributes' => ['genres' => ['Drama']]]);
         $this->createItem($peliculas, ['name' => 'Otro', 'attributes' => ['genres' => ['Drama']]]);
         $peliculas->update(['is_active' => false]);
+
+        $this->getJson("/api/items/{$origin->id}/similar")->assertNotFound()->assertJsonPath('error.code', 'not_found');
+
+        $this->actingAsAdmin();
 
         $this->getJson("/api/items/{$origin->id}/similar")->assertOk()->assertExactJson(['data' => []]);
     }

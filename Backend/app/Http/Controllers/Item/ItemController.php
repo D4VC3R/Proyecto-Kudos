@@ -21,7 +21,7 @@ class ItemController extends Controller
 	public function index(ListItemsRequest $request): JsonResponse
 	{
 		$validated = $request->validated();
-		$user = $request->user('sanctum');
+		$user = $request->user();
 
 		$filters = [
 			'category_id' => $validated['category_id'] ?? null,
@@ -32,7 +32,7 @@ class ItemController extends Controller
 		];
 
 		$items = Item::query()
-			->active()
+			->visible()
 			->with(['category:id,name,slug,image,description,attribute_schema,icon,sort_order,created_at,updated_at', 'creator:id,name'])
 			->when($user, fn($q) => $q->with(['userVote' => fn($vQ) => $vQ->where('user_id', $user->id)]))
 			->applyFilters($filters)
@@ -69,7 +69,7 @@ class ItemController extends Controller
 	{
 		$item->load(['category', 'creator']);
 
-		if ($user = $request->user('sanctum')) {
+		if ($user = $request->user()) {
 			$item->load(['userVote' => fn ($q) => $q->where('user_id', $user->id)]);
 		}
 
@@ -82,7 +82,7 @@ class ItemController extends Controller
 	 */
 	public function similar(ShowItemRequest $request, Item $item, SimilarItemsService $similarItems): JsonResponse
 	{
-		$items = $similarItems->similarTo($item, $request->user('sanctum'));
+		$items = $similarItems->similarTo($item, $request->user());
 
 		return $this->respondData(ItemListResource::collection($items));
 	}

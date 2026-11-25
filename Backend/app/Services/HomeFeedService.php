@@ -68,7 +68,7 @@ class HomeFeedService
             'top_rated' => $this->hydrateItems($ids['top_rated'], $viewer),
             // Sin caché: es una consulta barata y así el recuento coincide con GET /categories.
             'categories' => Category::withItemCount()
-                ->where('is_active', true)
+                ->active()
                 ->orderBy('sort_order')
                 ->orderBy('name')
                 ->get(),
@@ -105,7 +105,7 @@ class HomeFeedService
                 return [
                     'popular' => $this->onboardingItems->popularItems(
                         null,
-                        Category::query()->where('is_active', true)->pluck('slug')->all(),
+                        Category::query()->active()->pluck('slug')->all(),
                         (int) config('catalog.recommendations.popular_limit', 12),
                     )->pluck('id')->all(),
                     'new_releases' => $this->discoverableItems()
@@ -141,9 +141,8 @@ class HomeFeedService
     private function discoverableItems(): Builder
     {
         return Item::query()
-            ->active()
-            ->discoverable()
-            ->whereHas('category', fn ($category) => $category->where('is_active', true));
+            ->visible()
+            ->discoverable();
     }
 
     /**
@@ -159,8 +158,7 @@ class HomeFeedService
             return collect();
         }
 
-        $byId = Item::query()->whereIn('id', $ids)->active()
-            ->whereHas('category', fn ($category) => $category->where('is_active', true))
+        $byId = Item::query()->whereIn('id', $ids)->visible()
             ->with(['category'])
             ->when($viewer, fn ($query) => $query->with(['userVote' => fn ($vote) => $vote->where('user_id', $viewer->id)]))
             ->get()->keyBy('id');

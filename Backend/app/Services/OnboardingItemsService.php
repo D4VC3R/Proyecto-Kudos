@@ -33,7 +33,7 @@ class OnboardingItemsService
 
         $categories = Category::query()
             ->whereIn('slug', $categorySlugs)
-            ->where('is_active', true)
+            ->active()
             ->orderBy('sort_order')
             ->orderBy('name')
             ->get(['id']);

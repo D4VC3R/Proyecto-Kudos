@@ -37,7 +37,7 @@ class RecommendationService
             ->where('type', Vote::TYPE_VOTE)
             ->where('score', '>=', (float) config('catalog.recommendations.min_score', 8))
             // Solo ítems visibles: activos, sin borrar y de categorías activas
-            ->whereHas('item', fn ($query) => $query->active()->whereHas('category', fn ($category) => $category->where('is_active', true)));
+            ->whereHas('item', fn ($query) => $query->visible());
 
         if ((clone $liked)->count() < (int) config('catalog.recommendations.min_liked', 3)) {
             return $this->popular($user);
@@ -82,11 +82,11 @@ class RecommendationService
     private function popular(User $user): array
     {
         $interests = $user->profile()->first()?->interests ?? [];
-        $slugs = Category::query()->whereIn('slug', is_array($interests) ? $interests : [])->where('is_active', true)->pluck('slug')->all();
+        $slugs = Category::query()->whereIn('slug', is_array($interests) ? $interests : [])->active()->pluck('slug')->all();
 
         // Sin intereses (o todos inactivos): populares de todas las categorías activas
         if ($slugs === []) {
-            $slugs = Category::query()->where('is_active', true)->pluck('slug')->all();
+            $slugs = Category::query()->active()->pluck('slug')->all();
         }
 
         $items = $this->onboardingItems->popularItems($user, $slugs, (int) config('catalog.recommendations.popular_limit', 12));

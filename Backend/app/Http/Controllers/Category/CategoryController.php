@@ -35,7 +35,7 @@ class CategoryController extends Controller
     // Usamos withItemCount() a nivel de BD para evitar el problema N+1 al iterar sobre las categorías.
     // Solo las categorías activas, por sort_order y después por nombre (F1-06).
         $categories = Category::withItemCount()
-            ->where('is_active', true)
+            ->active()
             ->orderBy('sort_order')
             ->orderBy('name')
             ->get();
