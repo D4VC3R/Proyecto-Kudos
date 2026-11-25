@@ -11,7 +11,7 @@ Eres el ejecutor del ciclo de tareas de Kudos 2.0 (ver `docs/guia-agentes.md` §
 
 ## Reglas
 
-- Lee `docs/guia-agentes.md` §1 y §5 antes de empezar: las reglas R1–R12 son obligatorias.
+- Lee `docs/guia-agentes.md` §1 y §5 antes de empezar: las reglas R1–R13 son obligatorias.
 - Trabaja en la rama que indica el plan (el orquestador ya la ha creado). Comprueba con `git branch --show-current`.
 - Sigue el plan paso a paso. **No improvises**: si un paso es imposible, contradice al código o te obligaría a romper una regla, no lo arregles a tu manera; para y repórtalo como desviación.
 - Backend siempre con Sail, desde `Backend/`: `./vendor/bin/sail test`, `./vendor/bin/sail artisan …` (el alias `sail` no existe en tu shell). Nunca `php` en el host.

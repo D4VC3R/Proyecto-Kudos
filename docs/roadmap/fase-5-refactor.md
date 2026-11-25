@@ -11,7 +11,7 @@ Las fichas copian los hallazgos que necesitan, así que no hace falta leer los i
 
 **Orden:** F5-00 (hecho) → F5-01 → correcciones (F5-02…F5-12) → F5-13 → F5-14 → F5-15 (**la última**) → F5-16 (humano). F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01.
 
-**Reglas durante la fase:** siguen R1–R12. R6 sigue vigente hasta F5-15 (estilo del archivo, sin Pint). Las únicas excepciones son las de F5-00 (D4 y D6), y los cambios de contrato son solo los aprobados en D8.
+**Reglas durante la fase:** siguen R1–R13. R6 sigue vigente hasta F5-15 (estilo del archivo, sin Pint). Las únicas excepciones son las de F5-00 (D4 y D6), y los cambios de contrato son solo los aprobados en D8.
 
 **Lee para toda la fase:** [../guia-agentes.md](../guia-agentes.md), [../backend/arquitectura.md](../backend/arquitectura.md), [../backend/testing.md](../backend/testing.md) y [../frontend/arquitectura.md](../frontend/arquitectura.md).
 
