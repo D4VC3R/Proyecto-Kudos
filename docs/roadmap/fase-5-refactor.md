@@ -133,6 +133,16 @@ Decisiones menores, que se toman después de `main`: la popularidad de IGDB (F5-
 - `GET /api/categories/{slug}/ranking` responde 422 con `per_page` igual a `-1`, `0`, `101` y `abc`, y 200 con `100`.
 - `sail test` en verde con `preventLazyLoading` activo.
 
+**Notas (F5-02):**
+- **Archivos tocados** (`Backend/`): `app/Models/Category.php` (el *accessor* `itemsCount()` solo lee `items_count` y da `null` si no viene; nuevo `loadItemCount()` con el mismo recuento de activos que `withItemCount()`), `app/Http/Controllers/Category/CategoryController.php`, `app/Http/Requests/Category/ListCategoryRankingRequest.php` (nuevo), `app/Http/Controllers/Item/ItemCommentController.php` (`user.profile:id,user_id,avatar` en los seis puntos), `app/Http/Controllers/Proposal/ProposalController.php` (sin `fresh()` en `my-proposals`) y `app/Providers/AppServiceProvider.php` (`Model::preventLazyLoading(! $this->app->isProduction())`).
+- **Tests nuevos (15):** `Performance/ListingQueryCountTest` (3), `Performance/CommentQueryCountTest` (2), `Performance/LazyLoadingTest` (2), `Categories/CategoryItemsCountTest` (4) y 4 más al final de `Ranking/CategoryRankingTest`. Antes del cambio fallaban 8 (las tres mediciones de consultas, los dos de `LazyLoadingTest`, la clave `items_count: null`, el 422 del ranking y el texto del 409). Suite completa: 868 tests en verde.
+- **Consultas medidas** (con la caché vacía), pocos frente a muchos elementos: `GET /api/home` 16 (2 novedades) → 32 (10) antes, 12 → 12 después; `GET /api/items` 6 (3 ítems) → 15 (12) antes, 3 → 3 después; `GET /api/items/{id}/comments` 10 (2 hilos) → 22 (8 hilos) antes, 8 → 8 después.
+- **R7:** la categoría anidada en los ítems devuelve `items_count: null` (la clave se mantiene; solo la leía `CategoryCard.jsx`, que es código muerto). `store`, `update` y `ranking` siguen dando el número real con `loadItemCount()`.
+- **409 de `destroy`:** ahora cuenta todos los ítems con una consulta explícita; antes el texto contaba solo los activos y con un ítem inactivo decía "tiene 0 ítems" (parte de BE-C5; F5-04 puede revisarlo).
+- **`my-proposals` sin `fresh()`:** la respuesta añade `category` y `reviewer`, que el Resource solo pone si la relación está cargada (parte de BE-R8; F5-03 ya no tiene que quitarlo).
+- **Discrepancia sin tocar (R1/R6):** `show` cuenta con `loadCount('items')` todos los ítems, mientras que `index` cuenta solo los activos.
+- **Violaciones de *lazy loading* destapadas por la suite:** una sola, en un test: `tests/Feature/Items/ItemCatalogFieldsTest.php:85` (`test_sources_devuelve_las_fuentes_del_item`) leía `$sources->first()->item` sin cargarla. Se cambia `$item->fresh()->sources` por `$item->fresh('sources.item')->sources`; la aserción no cambia. Ninguna más en `app/`.
+
 ---
 
 ## F5-03 · Moderación coherente con la DSA y propuestas (BE, LEGAL)
