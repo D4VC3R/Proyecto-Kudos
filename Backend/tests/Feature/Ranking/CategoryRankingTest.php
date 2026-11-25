@@ -66,4 +66,46 @@ class CategoryRankingTest extends TestCase
         $ids = collect($response->json('data.ranking'))->pluck('id')->all();
         $this->assertSame([$a->id], $ids);
     }
+
+    public function test_el_ranking_rechaza_un_per_page_fuera_de_rango(): void
+    {
+        $this->createCategory('peliculas', 'Películas');
+
+        foreach (['-1', '0', '101', 'abc'] as $perPage) {
+            $this->getJson("/api/categories/peliculas/ranking?per_page={$perPage}")
+                ->assertStatus(422)
+                ->assertJsonPath('error.code', 'validation_error')
+                ->assertJsonStructure(['error' => ['details' => ['per_page']]]);
+        }
+    }
+
+    public function test_el_ranking_acepta_hasta_100_por_pagina(): void
+    {
+        $this->createCategory('peliculas', 'Películas');
+
+        $this->getJson('/api/categories/peliculas/ranking?per_page=100')
+            ->assertOk()
+            ->assertJsonPath('meta.per_page', 100);
+    }
+
+    public function test_el_ranking_usa_10_por_pagina_por_defecto(): void
+    {
+        $this->createCategory('peliculas', 'Películas');
+
+        $this->getJson('/api/categories/peliculas/ranking')
+            ->assertOk()
+            ->assertJsonPath('meta.per_page', 10);
+    }
+
+    public function test_el_ranking_incluye_el_recuento_de_items_activos_de_la_categoria(): void
+    {
+        $peliculas = $this->createCategory('peliculas', 'Películas');
+        $this->createItem($peliculas);
+        $this->createItem($peliculas);
+        $this->createItem($peliculas, ['status' => Item::STATUS_INACTIVE]);
+
+        $this->getJson('/api/categories/peliculas/ranking')
+            ->assertOk()
+            ->assertJsonPath('data.category.items_count', 2);
+    }
 }

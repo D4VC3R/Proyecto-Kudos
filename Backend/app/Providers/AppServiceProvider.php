@@ -18,6 +18,7 @@ use Closure;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
@@ -49,6 +50,10 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
+
+        // Fuera de producción, una relación sin cargar en un listado lanza una excepción en lugar de
+        // hacer una consulta por fila: así los N+1 salen en los tests y en local.
+        Model::preventLazyLoading(! $this->app->isProduction());
 
         // Interceptores de Correo Electrónico
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {

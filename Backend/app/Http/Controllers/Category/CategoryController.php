@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\DeleteCategoryRequest;
+use App\Http\Requests\Category\ListCategoryRankingRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Requests\Votes\GetNextCategoryItemRequest;
@@ -15,7 +16,6 @@ use App\Models\Category;
 use App\Services\NextCategoryItemService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
@@ -45,7 +45,7 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request): JsonResponse
     {
         $category = Category::create($request->validated());
-        return $this->respondMutation('Categoría creada con éxito.', new CategoryResource($category->fresh()), status: 201);
+        return $this->respondMutation('Categoría creada con éxito.', new CategoryResource($category->fresh()->loadItemCount()), status: 201);
     }
 
     public function show(Category $category): JsonResponse
@@ -59,15 +59,18 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category): JsonResponse
     {
         $category->update($request->validated());
-        return $this->respondMutation('Categoría actualizada correctamente.', new CategoryResource($category->fresh()));
+        return $this->respondMutation('Categoría actualizada correctamente.', new CategoryResource($category->fresh()->loadItemCount()));
     }
 
     public function destroy(DeleteCategoryRequest $request, Category $category): JsonResponse
     {
-        if ($category->items()->exists()) {
+        // Cuenta todos los ítems, también los inactivos: cualquiera de ellos impide borrar la categoría.
+        $itemsCount = $category->items()->count();
+
+        if ($itemsCount > 0) {
             return $this->respondError(
                 code: 'CONFLICT_CATEGORY_HAS_ITEMS',
-                message: "No se puede eliminar la categoría porque tiene {$category->itemsCount} ítems asociados.",
+                message: "No se puede eliminar la categoría porque tiene {$itemsCount} ítems asociados.",
                 status: 409
             );
         }
@@ -79,15 +82,15 @@ class CategoryController extends Controller
     }
 
 		// El ranking se obtiene a través de una consulta optimizada en el modelo Category, que calcula el puntaje total de cada ítem y los ordena.
-    public function ranking(Request $request, Category $category): JsonResponse
+    public function ranking(ListCategoryRankingRequest $request, Category $category): JsonResponse
     {
         $this->ensureActive($category);
 
-        $perPage = (int) $request->query('per_page', 10);
+        $perPage = (int) ($request->validated('per_page') ?? 10);
         $items = $category->getRankingPaginator($perPage);
 
         return $this->respondData(new CategoryRankingResource([
-            'category' => $category,
+            'category' => $category->loadItemCount(),
             'ranking' => $items,
         ]), meta: [
             'total' => $items->total(),

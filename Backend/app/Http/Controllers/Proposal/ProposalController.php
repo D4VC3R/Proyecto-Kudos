@@ -71,7 +71,7 @@ class ProposalController extends Controller
 			->get();
 
 		return $this->respondList(
-			data: ProposalListResource::collection($proposals->fresh()),
+			data: ProposalListResource::collection($proposals),
 			meta: [
 				'total' => $proposals->count(),
 				'pending' => $proposals->where('status', Proposal::STATUS_PENDING)->count(),

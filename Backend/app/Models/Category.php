@@ -62,13 +62,14 @@ class Category extends Model
         return $this->hasMany(Proposal::class);
     }
 
+    /**
+     * Solo devuelve el recuento si la consulta lo trae (withItemCount() o loadItemCount()).
+     * Calcularlo aquí lanzaría una consulta por cada categoría anidada en los listados de ítems.
+     */
     protected function itemsCount(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->attributes['items_count']
-                ?? ($this->relationLoaded('items')
-                    ? $this->items->where('status', Item::STATUS_ACTIVE)->count()
-                    : $this->activeItems()->count())
+            get: fn () => $this->attributes['items_count'] ?? null
         );
     }
 
@@ -78,6 +79,17 @@ class Category extends Model
             $query->where('status', Item::STATUS_ACTIVE);
         }]);
     }
+
+    /**
+     * Carga en una categoría ya obtenida el mismo recuento de ítems activos que withItemCount().
+     */
+    public function loadItemCount(): static
+    {
+        return $this->loadCount(['items as items_count' => function ($query) {
+            $query->where('status', Item::STATUS_ACTIVE);
+        }]);
+    }
+
     public function loadAcceptedItemsWithDetails(): static
     {
         return $this->load([
