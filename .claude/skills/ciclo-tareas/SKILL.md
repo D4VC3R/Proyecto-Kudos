@@ -21,15 +21,15 @@ Desde la raíz del repo:
 
 ## 1. Elegir la tarea
 
-En `docs/roadmap/README.md`, la primera `pendiente` con todas sus dependencias en `hecho`, sin saltar de fase. Si es de `HUMANO`, o no queda ninguna disponible, para (§5).
+En `docs/roadmap/README.md`, la primera `pendiente` con todas sus dependencias en `hecho`, sin saltar de fase. Su issue está en la columna **Issue**. Si es de `HUMANO`, o no queda ninguna disponible, para (§5).
 
 ## 2. Planificar
 
-Lanza `kudos-planificador` con: el ID de la tarea y la ruta de su ficha. Escribe el plan en `.claude/ciclo/FX-YY/plan.md` y te devuelve la ruta, la rama, un resumen corto y las decisiones para validar. Si devuelve `## BLOQUEO`, pregunta al humano con `AskUserQuestion`, pásale la respuesta en un planificador nuevo, y si sigue bloqueada márcala `bloqueada` en el tablero con el motivo en la ficha, haz commit (`Docs: FX-YY bloqueada`) y pasa a la siguiente.
+Lanza `kudos-planificador` con: el ID de la tarea y la ruta de su ficha. Escribe el plan en `.claude/ciclo/FX-YY/plan.md` y te devuelve la ruta, la rama, un resumen corto y las decisiones para validar. Si devuelve `## BLOQUEO`, pregunta al humano con `AskUserQuestion`, pásale la respuesta en un planificador nuevo, y si sigue bloqueada, regístralo **con un PR**, como cualquier cambio (guía §4.1): desde `rediseno-fase-0`, `git switch -c fase-N/FX-YY-bloqueada`; márcala `bloqueada` en el tablero con el motivo en la ficha; un commit `Docs: FX-YY bloqueada, <motivo corto>`; `git push -u origin <rama>`; `gh pr create --base rediseno-fase-0` con el motivo y `Refs #<issue>`; con el CI en verde, `gh pr merge --merge`; `gh issue comment <issue>` con el motivo y la pregunta para el humano, y `gh issue edit <issue> --add-label humano`; vuelve a `rediseno-fase-0` con `git pull --ff-only origin rediseno-fase-0` y pasa a la siguiente.
 
 ## 3. Preparar la rama
 
-Desde `rediseno-fase-0`: `git switch -c <rama del plan>` y cambia la tarea a `en curso` en el tablero (sin commit: entrará en el commit del verificador).
+Desde `rediseno-fase-0`: `git switch -c <rama del plan>` y cambia la tarea a `en curso` en el tablero (sin commit: entrará en el commit del verificador). En GitHub: `gh issue edit <issue> --repo D4VC3R/Proyecto-Kudos --add-assignee @me` y `gh issue comment <issue> --repo D4VC3R/Proyecto-Kudos --body "En curso en la rama <rama>."`.
 
 ## 4. Ejecutar
 
@@ -39,7 +39,7 @@ Lanza `kudos-ejecutor` con `name: "ejecutor-FX-YY"`, el ID de la tarea, la rama 
 
 Lanza `kudos-verificador` con `name: "verificador-FX-YY"`, el ID de la tarea, la rama y las rutas del plan y del informe.
 
-- `VEREDICTO: APROBADO` → el verificador ya ha hecho los commits, ha abierto el PR y lo ha fusionado con el CI en verde. Compruébalo con `gh pr view <n.º> --repo D4VC3R/Proyecto-Kudos --json state,mergeCommit` (`MERGED`), `git log --oneline -5` y `git branch --show-current` (debe ser `rediseno-fase-0`).
+- `VEREDICTO: APROBADO` → el verificador ya ha hecho los commits, ha abierto el PR y lo ha fusionado con el CI en verde. Compruébalo con `gh pr view <n.º> --repo D4VC3R/Proyecto-Kudos --json state,mergeCommit` (`MERGED`), `gh issue view <issue> --repo D4VC3R/Proyecto-Kudos --json state` (`CLOSED`), `git log --oneline -5` y `git branch --show-current` (debe ser `rediseno-fase-0`).
 - `VEREDICTO: CORRECCIONES` → el verificador las deja en `.claude/ciclo/FX-YY/correcciones-N.md` (también cuando falla el CI del PR). Pásale esa ruta al ejecutor con `SendMessage` (`to: "ejecutor-FX-YY"`) y, cuando responda, avisa al verificador con `SendMessage` (`to: "verificador-FX-YY"`) de que `informe.md` está actualizado. Máximo **3 rondas**; a la cuarta, para y pregunta al humano señalándole el último informe y las últimas correcciones.
 - `VEREDICTO: BLOQUEADA` → pregunta al humano y actúa como en el paso 2.
 
@@ -57,4 +57,4 @@ Lanza `kudos-verificador` con `name: "verificador-FX-YY"`, el ID de la tarea, la
 - Un fallo del entorno que no se arregla solo (Docker caído, base de datos `testing` inaccesible…).
 - Se ha alcanzado el número de tareas del argumento.
 
-Tú nunca haces `push` ni fusionas PRs: solo el verificador sube la rama de la tarea y fusiona su PR en `rediseno-fase-0`. Nadie hace nada contra `main`, producción o el VPS.
+En `rediseno-fase-0` nunca se hace un commit directo: todo entra por PR (guía R11). Tú solo haces `push` y abres un PR para registrar una tarea bloqueada (§2); el de las tareas aprobadas lo hace el verificador. Nadie hace nada contra `main`, producción o el VPS.

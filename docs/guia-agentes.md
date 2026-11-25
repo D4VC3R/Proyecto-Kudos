@@ -14,8 +14,9 @@
 | R8 | No borres tests. Si uno deja de tener sentido, explícalo en el resumen. No desactives validaciones, *policies* ni middlewares para que algo pase. |
 | R9 | Sin secretos en el repo. Cada variable nueva va vacía en `Backend/.env.example` y `Backend/.env.production.example`, y se documenta en [infra/produccion.md](infra/produccion.md) §3. |
 | R10 | **Prohibido sin permiso explícito del humano:** conectarse al VPS, ejecutar `deploy.sh` o cualquier comando contra producción; usar APIs de pago o pruebas que caduquen; incumplir los términos de una API ([integraciones/fuentes-externas.md](integraciones/fuentes-externas.md) §1); enviar correos reales, publicar o crear cuentas en servicios externos; implementar funciones **aplazadas** ([producto/vision.md](producto/vision.md) §3). |
-| R11 | Git: el único `push` permitido es el de la rama de la tarea (`fase-N/…`) para abrir su PR contra `rediseno-fase-0`, y lo hace el verificador (§4.1). Nunca `push` a `rediseno-fase-0` ni a `main`, nunca `--force` ni `--no-verify`, y nunca se fusiona nada en `main`. |
+| R11 | Git: en `rediseno-fase-0` y en `main` **nunca se hace un commit directo**; todo entra por PR, también la documentación y los bloqueos (§4.1). El único `push` permitido es el de una rama de tarea (`fase-N/…`) para abrir su PR. Nunca `push` a `rediseno-fase-0` ni a `main`, nunca `--force` ni `--no-verify`, y en `main` solo fusiona el humano. |
 | R12 | Si la tarea es inviable o mucho mayor de lo descrito, o una verificación no se puede hacer en tu entorno: **para y pregunta**. Nunca des por hecha una tarea sin verificar. |
+| R13 | Los comentarios del código explican el **porqué** y no citan IDs del roadmap (`F5-02`) ni de la auditoría (`BE-B1`): la trazabilidad la dan el commit, el PR y su issue (`git blame`). Los que ya existen se quedan (Fase 5, "No hacer"), pero el código nuevo no añade más. En `docs/` sí se citan. |
 
 **Excepciones puntuales aprobadas:** a R5, el esquema literal en las dos migraciones de activación (D6, solo en la F5-06), y a R6, un único commit de Pint (D4, solo en la F5-15). Ver [roadmap/fase-5-refactor.md](roadmap/fase-5-refactor.md), F5-00. No se extienden a otras tareas.
 
@@ -27,7 +28,7 @@
 |---|---|---|
 | Inicio | `kudos-planificador` (Opus, esfuerzo alto, solo lectura salvo su plan) | 1–2: elige la tarea, lee y escribe un plan detallado |
 | Ejecución | `kudos-ejecutor` (Sonnet, esfuerzo alto) | 5–7: implementa el plan, verifica y documenta, sin commits |
-| Fin | `kudos-verificador` (Opus, esfuerzo alto) | 6–9: verifica de forma independiente; si todo está bien, marca `hecho`, hace los commits, abre el PR contra `rediseno-fase-0` y lo fusiona con el CI en verde (§4.1); si no, devuelve correcciones al ejecutor (máximo 3 rondas) |
+| Fin | `kudos-verificador` (Opus, esfuerzo alto) | 6–9: verifica de forma independiente; si todo está bien, marca `hecho`, hace los commits del plan, abre el PR contra `rediseno-fase-0`, publica en él su revisión, lo fusiona con el CI en verde y cierra la issue (§4.1); si no, devuelve correcciones al ejecutor (máximo 3 rondas) |
 
 El orquestador (la sesión principal) crea la rama y marca `en curso` (pasos 3–4), y para y pregunta al humano ante cualquier punto de §6, R10, R11 o R12. Cada agente arranca con contexto limpio: entre tareas solo pasa un resumen. El plan, el informe del ejecutor y las correcciones se pasan como archivos en `.claude/ciclo/FX-YY/` (ignorada por git), y los agentes solo devuelven al orquestador resúmenes cortos, para que su contexto no crezca con cada tarea.
 
@@ -35,12 +36,12 @@ Los pasos, hagas la tarea a mano o con los agentes:
 
 1. En [roadmap/README.md](roadmap/README.md), elige la primera tarea `pendiente` con todas sus dependencias en `hecho`. No saltes de fase salvo que el humano lo pida.
 2. Lee su ficha, las secciones que cite en **Lee** y el código actual de los **Archivos**.
-3. Marca la tarea `en curso` en el tablero.
+3. Marca la tarea `en curso` en el tablero y asígnate su issue (§4.2).
 4. `git switch rediseno-fase-0 && git pull --ff-only origin rediseno-fase-0`, y crea `fase-N/FN-XX-descripcion-corta` (ej. `fase-0/F0-03-recalculo-medias`). Cuando la tarea esté hecha, entra en `rediseno-fase-0` mediante un PR (§4.1). A `main` solo se fusiona por fases, con aprobación y lo hace el humano.
 5. Implementa.
 6. Verifica la definición de hecho (§3).
 7. Actualiza la documentación: estado `hecho` en el tablero, una sección **Notas** en la ficha con las decisiones y desviaciones, y los documentos de referencia que hayan quedado desfasados.
-8. Haz commit (§4), abre el PR y fusiónalo cuando el CI esté en verde (§4.1).
+8. Haz los commits (§4), abre el PR, fusiónalo cuando el CI esté en verde y cierra la issue (§4.1).
 9. Escribe el resumen final: qué se ha hecho, cómo se ha verificado (pegando la salida real de los tests), qué queda pendiente y qué decisiones necesitan validación humana.
 
 Si la tarea no puede avanzar, márcala `bloqueada` y explica el motivo en su ficha.
@@ -58,17 +59,26 @@ Si la tarea no puede avanzar, márcala `bloqueada` y explica el motivo en su fic
 
 - Formato `Área: descripción`, en español. Por ejemplo: `Votos: medias exactas con AVG`.
 - Áreas: `Votos`, `Catálogo`, `Ranking`, `Tests`, `Frontend`, `Infra`, `Despliegue`, `Legal`, `Docs`, `Seguridad`, `General`.
-- Un commit por unidad lógica, con `Tarea: FX-YY` en el cuerpo.
+- Un commit por unidad lógica, con `Tarea: FX-YY` en el cuerpo. Las unidades las fija el plan (sección `## Commits`): el código va con sus tests, cada commit tiene sentido por sí solo y la documentación va en el último. Un PR de 2–4 commits bien nombrados se revisa mejor que uno solo enorme.
 
 ### 4.1. Pull requests
 
-Desde la F5-02, cada tarea entra en `rediseno-fase-0` mediante un PR en GitHub, para que la revisión y el CI queden a la vista. Las tareas anteriores se fusionaron en local y sus ramas no se suben.
+Desde la F5-02, todo cambio entra en `rediseno-fase-0` mediante un PR en GitHub, para que la revisión y el CI queden a la vista. Las tareas anteriores se fusionaron en local y sus ramas no se suben.
 
 - **Título:** como un commit, `Área: FX-YY, descripción`.
-- **Descripción:** `## Qué cambia`, `## Cómo se ha verificado` (la salida real de los tests y del build), `## Notas` (desviaciones y decisiones para validar) y la línea `Tarea: FX-YY · Ficha: …`.
-- **Fusión:** solo con el workflow `Tests` en verde, como merge commit (`gh pr merge --merge`, con el asunto `Área: fusiona FX-YY (…)`), nunca *squash*, *rebase* ni `--admin`. GitHub borra la rama remota al fusionar.
+- **Descripción:** la plantilla [`.github/pull_request_template.md`](../.github/pull_request_template.md): `## Qué cambia`, `## Cómo se ha verificado` (la salida real de los tests y del build), `## Notas` (desviaciones y decisiones para validar) y la línea `Tarea: FX-YY · Refs #<issue> · Ficha: …`. Lleva las mismas etiquetas que su issue.
+- **Revisión:** antes de fusionar, el verificador publica en el PR un comentario `## Revisión independiente (kudos-verificador)` con cada criterio comprobado y su evidencia. GitHub no permite aprobar un PR propio; el comentario deja constancia de la revisión.
+- **Fusión:** solo con el workflow `Tests` en verde, como merge commit y con el asunto por defecto de GitHub (`gh pr merge --merge`, sin `--subject`), igual que cuando fusiona el humano. Nunca *squash*, *rebase* ni `--admin`. GitHub borra la rama remota al fusionar.
 - **CI en rojo:** se corrige con commits nuevos en la misma rama, sin reescribir el historial ni abrir otro PR.
 - El PR final `rediseno-fase-0 → main` (F5-16) lo fusiona el humano.
+
+### 4.2. Issues
+
+Cada tarea pendiente desde la Fase 5 tiene su issue en GitHub, enlazada en la columna **Issue** del tablero. El **tablero sigue siendo la fuente de verdad** para los agentes; la issue es su reflejo público.
+
+- **Contenido:** la ficha de la tarea, las dependencias enlazadas a sus issues, la etiqueta de fase (`fase-5`) y las de área (`backend`, `frontend`, `infra`, `integraciones`, `tests`, `legal`, `documentation` y `humano`).
+- **Ciclo:** al empezar, el orquestador se la asigna y comenta la rama. El PR la cita con `Refs #N`, no con `Closes #N`: GitHub solo cierra issues al fusionar en la rama por defecto (`main`). Al fusionar, el verificador la cierra con `gh issue close N --comment "Hecha en #<PR>."`. Si se bloquea, recibe un comentario con el motivo y la etiqueta `humano`.
+- **Tareas nuevas:** el PR que añade una tarea al roadmap crea también su issue y la enlaza en el tablero.
 
 ## 5. Convenciones
 

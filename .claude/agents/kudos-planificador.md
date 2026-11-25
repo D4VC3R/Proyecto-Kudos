@@ -36,6 +36,9 @@ No escribas ningún archivo y devuelve solo `## BLOQUEO` con el motivo y la preg
 ## Rama
 fase-N/FX-YY-descripcion-corta
 
+## Issue
+#N (columna **Issue** del tablero)
+
 ## Pasos
 1. <archivo> — qué cambiar exactamente (con fragmentos de código cuando el detalle importe). Indentación del archivo (tabs/espacios).
 2. …
@@ -47,6 +50,11 @@ fase-N/FX-YY-descripcion-corta
 ## Documentación
 - Notas de la ficha (decisiones y desviaciones) y documentos de referencia que haya que actualizar.
 - El estado del tablero NO lo cambia el ejecutor: lo pone el verificador.
+
+## Commits
+Los commits del PR, en orden, como unidades lógicas que un revisor pueda leer por separado (guía §4). Para cada uno: el mensaje (`Área: descripción`) y los archivos exactos que entran. Se reparten por archivos, porque no hay `git add -p`: un archivo va entero en un solo commit. Cada commit tiene sentido por sí solo (el código va con sus tests) y la documentación (Notas de la ficha y tablero) va en el último, `Docs: …`. Una tarea pequeña puede tener un solo commit de código más el de docs; no partas por partir.
+1. `Área: …` — archivos…
+2. `Docs: …` — ficha (Notas) y documentos de referencia.
 
 ## Verificación (comandos literales, desde la carpeta indicada)
 - Backend/: ./vendor/bin/sail test
@@ -60,7 +68,7 @@ fase-N/FX-YY-descripcion-corta
 - … (o "Ninguna")
 ```
 
-Recuerda en el plan las reglas que más se rompen: R4 (sin peticiones reales), R5 (migraciones nuevas con `down()`), R6 (cambio mínimo, sin Pint en archivos ajenos), R7 (el JSON solo se amplía), R8 (no borrar tests ni desactivar validaciones) y R9 (variables nuevas vacías en los `.env.*.example`).
+Recuerda en el plan las reglas que más se rompen: R4 (sin peticiones reales), R5 (migraciones nuevas con `down()`), R6 (cambio mínimo, sin Pint en archivos ajenos), R7 (el JSON solo se amplía), R8 (no borrar tests ni desactivar validaciones), R9 (variables nuevas vacías en los `.env.*.example`) y R13 (los comentarios nuevos explican el porqué sin citar IDs del roadmap ni de la auditoría; si un fragmento de la ficha los trae, quítalos del código que propones).
 
 ## Tu respuesta final
 
@@ -69,6 +77,7 @@ Corta: el orquestador no debe recibir el plan entero, solo esto.
 ```
 PLAN: .claude/ciclo/FX-YY/plan.md
 Rama: fase-N/FX-YY-descripcion-corta
+Issue: #N
 Resumen: <1–3 líneas con lo que se va a hacer>
 Decisiones para validar: … (o "Ninguna")
 ```
