@@ -31,11 +31,6 @@ class StoreItemRequest extends FormRequest
 		return [
 			'name' => ['required', 'string', 'max:255'],
 			'description' => ['required', 'string', 'min:20', 'max:2000'],
-			'images' => ['nullable', 'array', 'max:10'],
-			'images.*.path' => ['required', 'string', 'max:500'],
-			'images.*.disk' => ['required', 'string', 'in:public'],
-			'images.*.alt' => ['nullable', 'string', 'max:255'],
-			'images.*.order' => ['nullable', 'integer', 'min:0'],
 			'category_id' => ['required', 'uuid', 'exists:categories,id'],
 		];
 	}
@@ -53,7 +48,6 @@ class StoreItemRequest extends FormRequest
 			'description.required' => 'La descripción es obligatoria.',
 			'description.min' => 'La descripción debe tener al menos 20 caracteres.',
 			'description.max' => 'La descripción no puede exceder 2000 caracteres.',
-			'images.*.path.required' => 'La imagen es obligatoria.',
 			'category_id.required' => 'Debes seleccionar una categoría.',
 			'category_id.exists' => 'La categoría seleccionada no existe.',
 		];
