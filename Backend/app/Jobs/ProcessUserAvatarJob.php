@@ -22,7 +22,6 @@ class ProcessUserAvatarJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private const MAX_BYTES = 5_242_880;
     private const TEMP_DISK = 'local';
     private const TEMP_DIR = 'temp_uploads';
 
@@ -58,11 +57,15 @@ class ProcessUserAvatarJob implements ShouldQueue
    			? $downloader->downloadToTemp($input, self::TEMP_DISK, self::TEMP_DIR)
    			: $input;
 
-   		$absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);
-   		$avatarData = $mediaManager->processAvatar($absoluteTempPath, 'avatars/' . $user->id);
-   		$storedPath = $avatarData['path'];
+   		// El temporal se borra también si el procesado falla; si no, se quedaría para siempre en el disco local.
+   		try {
+   			$absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);
+   			$avatarData = $mediaManager->processAvatar($absoluteTempPath, 'avatars/' . $user->id);
+   		} finally {
+   			$storage->delete(self::TEMP_DISK, $tempPath);
+   		}
 
-   		$storage->delete(self::TEMP_DISK, $tempPath);
+   		$storedPath = $avatarData['path'];
 
    		if ($user->profile) {
    			$user->profile->update(['avatar' => $storedPath]);
