@@ -2,14 +2,6 @@
 
 namespace App\Models;
 
-/**
- * Modelo User:
- * Los usuarios tienen dos roles, 'user' o 'admin', roles que se manejan con Spatie.
- * Un user puede ganar puntos Kudos votando elementos (ítems) de distintas categorías
- * y creando nuevos ítems si un usuario administrador los acepta.
- *
- *  */
-
 use App\Support\Like;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +16,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * Modelo User:
+ * Los usuarios tienen dos roles, 'user' o 'admin', roles que se manejan con Spatie.
+ * Un user puede ganar puntos Kudos votando elementos (ítems) de distintas categorías
+ * y creando nuevos ítems si un usuario administrador los acepta.
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens, HasUuids, HasRoles;
