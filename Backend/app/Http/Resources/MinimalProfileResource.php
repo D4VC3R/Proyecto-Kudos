@@ -4,26 +4,29 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 /**
  * Resource para representar la tarjeta de perfil en el header de la aplicación.
  * Incluye el ID, nombre, avatar, total de kudos y posición en el ranking.
+ * La posición la calcula el controlador con User::getKudosRank(), con el mismo desempate que el ranking.
  *
  */
 class MinimalProfileResource extends JsonResource
 {
+    public function __construct(User $resource, private readonly int $rankingPosition)
+    {
+        parent::__construct($resource);
+    }
+
     public function toArray(Request $request): array
     {
-        $rankingPosition = User::where('total_kudos', '>', $this->total_kudos)->count() + 1;
-
         return [
             'id' => $this->id,
             'name' => $this->name,
             'avatar' => $this->profile?->avatar ?? null,
             'total_kudos' => $this->total_kudos,
-            'ranking_position' => $rankingPosition,
+            'ranking_position' => $this->rankingPosition,
         ];
     }
 }

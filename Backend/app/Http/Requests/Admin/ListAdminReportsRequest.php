@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Report;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -11,7 +12,7 @@ class ListAdminReportsRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->hasRole('admin') ?? false;
+        return $this->user()?->can('viewAny', Report::class) ?? false;
     }
 
     public function rules(): array

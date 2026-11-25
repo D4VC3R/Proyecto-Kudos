@@ -33,7 +33,7 @@ class ProfileController extends Controller
 		$user = $request->user();
 		$user->load('profile:id,user_id,avatar');
 
-		return $this->respondData(new MinimalProfileResource($user));
+		return $this->respondData(new MinimalProfileResource($user, $user->getKudosRank()));
 	}
 
 	public function statistics(Request $request): JsonResponse
@@ -116,8 +116,8 @@ class ProfileController extends Controller
 	{
 		$user = $request->user();
 
-		// Las cuentas de administrador no se borran desde el perfil: sus listas editoriales desaparecerían de la portada.
-		if ($user->hasRole('admin')) {
+		// La regla está en UserPolicy::deleteOwnAccount: una cuenta de administrador no se borra desde el perfil.
+		if ($user->cannot('deleteOwnAccount', $user)) {
 			return $this->respondError('forbidden', 'Una cuenta de administrador no se puede borrar desde el perfil.', status: 403);
 		}
 
