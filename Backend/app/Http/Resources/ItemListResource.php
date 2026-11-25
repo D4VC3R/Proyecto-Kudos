@@ -6,7 +6,6 @@ use App\Models\Item;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Resource para representar un ítem en listados.
@@ -21,8 +20,7 @@ class ItemListResource extends JsonResource
     {
         /** @var Item $item */
         $item = $this->resource;
-        $user = $this->resolveViewer($request);
-        $isAdmin = $user instanceof User && $user->hasRole('admin');
+        $user = $request->user();
 
 	    return [
 		    'id' => $item->id,
@@ -54,8 +52,8 @@ class ItemListResource extends JsonResource
             ),
 
             'can_vote' => $this->resolveCanVote($user, $item),
-            'can_edit' => $this->when($user instanceof User, fn () => $isAdmin || $item->creator_id === $user->id),
-            'can_delete' => $this->when($user instanceof User, fn () => $isAdmin),
+            'can_edit' => $this->when($user instanceof User, fn () => $user->can('update', $item)),
+            'can_delete' => $this->when($user instanceof User, fn () => $user->can('delete', $item)),
 
             'category' => new CategoryResource($this->whenLoaded('category')),
             'creator' => $this->whenLoaded('creator', fn () => [
@@ -101,17 +99,5 @@ class ItemListResource extends JsonResource
         }
 
         return $card;
-    }
-
-    protected function resolveViewer(Request $request): ?User
-    {
-        $requestUser = $request->user();
-        if ($requestUser instanceof User) {
-            return $requestUser;
-        }
-
-        $sanctumUser = Auth::guard('sanctum')->user();
-
-        return $sanctumUser instanceof User ? $sanctumUser : null;
     }
 }
