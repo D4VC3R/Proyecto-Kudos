@@ -29,9 +29,9 @@ Las reglas técnicas de uso de datos de terceros (TMDB 6 meses, sin payload en b
 
 1. **Notificación:** botón "Reportar" en comentarios, reseñas, listas y perfiles (`reports`, F3-04), al menos para usuarios registrados, más un correo de contacto público. *Implementado en la F3-04 para comentarios y listas; el botón en perfiles, implementado en la F3-03 (`/u/:username`). Las reseñas y las respuestas (F3-02) usan el mismo componente `Comment` que los comentarios, así que también tienen "Reportar".*
 2. **Cola de revisión** en el panel de admin: `pending`, `resolved` y `dismissed`. *Implementada en la F3-04 (`/admin/reports`).*
-3. **Exposición de motivos:** al retirar u ocultar contenido, se avisa al autor de qué contenido, por qué y cómo reclamar, con una notificación dentro de la app (F3-05). *Implementado en la F3-04 con `ContentRemovedNotification`; no se avisa al denunciante de la decisión.*
+3. **Exposición de motivos:** al retirar u ocultar contenido, se avisa al autor de qué contenido, por qué y cómo reclamar, con una notificación dentro de la app (F3-05). *Implementado en la F3-04 con `ContentRemovedNotification`; no se avisa al denunciante de la decisión. Desde la F5-03 también avisan el ocultado y el borrado manual de un comentario desde el panel (`ModerateCommentAction`), salvo que el admin sea el autor; si no indica motivo, el aviso usa "Otro motivo".*
 4. **Punto de contacto:** correo visible en el aviso legal. *El correo sale de `LEGAL_CONTACT_EMAIL` (`config('kudos.legal.contact_email')`, F3-04), que elige el humano. Implementado en la F3-07: `/aviso-legal` (y `/privacidad`) lo muestran leyéndolo de `GET /api/legal`.*
-5. **Registro:** las decisiones se registran con `ModerationAuditLogger` (`logReportResolution`, F3-04).
+5. **Registro:** las decisiones se registran con `ModerationAuditLogger` (`logReportResolution`, F3-04). *Desde la F5-03 también `logCommentModeration` (ocultar, restaurar y borrar un comentario desde el panel) y `logItemModeration` al borrar un ítem.*
 
 ## 4. RGPD (requisito de la Fase 3, antes de perfiles públicos y listas)
 
