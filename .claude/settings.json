@@ -7,7 +7,7 @@
       "Bash(docker compose run --rm kudos-frontend pnpm build)",
       "Bash(git status *)", "Bash(git diff *)", "Bash(git log *)", "Bash(git show *)",
       "Bash(git branch *)", "Bash(git switch *)", "Bash(git add *)",
-      "Bash(git commit *)", "Bash(git merge --no-ff *)",
+      "Bash(git commit *)",
       "Bash(git fetch *)", "Bash(git pull --ff-only *)",
       "Bash(git push -u origin fase-*)", "Bash(git push origin fase-*)",
       "Bash(gh auth status)", "Bash(gh pr create *)", "Bash(gh pr view *)",
