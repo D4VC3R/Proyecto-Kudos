@@ -22,6 +22,7 @@ class ResolveReportAction
     public function __construct(
         protected ModerationAuditLogger $moderationAuditLogger,
         protected MediaStorageInterface $mediaStorage,
+        protected ModerateCommentAction $moderateComment,
     ) {}
 
     /**
@@ -74,11 +75,12 @@ class ResolveReportAction
                 $excerpt = (string) $reportable->content;
                 $author = $reportable->user;
 
-                if ($action === Report::ACTION_HIDE) {
-                    $reportable->hideByModerator($admin->id, $authorReason);
-                } else {
-                    $reportable->delete();
-                }
+                $this->moderateComment->apply(
+                    $reportable,
+                    $admin,
+                    $action === Report::ACTION_HIDE ? ModerateCommentAction::ACTION_HIDE : ModerateCommentAction::ACTION_DELETE,
+                    $authorReason,
+                );
                 $contentAction = $action === Report::ACTION_HIDE ? 'hidden' : 'deleted';
             } elseif ($reportable instanceof UserList) {
                 $contentType = 'list';
@@ -108,7 +110,8 @@ class ResolveReportAction
                     $profile->update(['biography' => null, 'social_links' => null, 'city' => null, 'avatar' => null]);
 
                     if (! empty($avatar)) {
-                        $this->mediaStorage->delete('public', $avatar);
+                        // Después del commit: si la transacción se deshiciera, el perfil seguiría apuntando a este fichero.
+                        DB::afterCommit(fn () => $this->mediaStorage->delete('public', $avatar));
                     }
                 }
                 $contentAction = 'deleted';

@@ -11,6 +11,7 @@ use App\Http\Requests\Items\StoreItemRequest;
 use App\Http\Resources\ItemDetailResource;
 use App\Http\Resources\ItemListResource;
 use App\Models\Item;
+use App\Services\ModerationAuditLogger;
 use App\Services\SimilarItemsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -93,9 +94,11 @@ class ItemController extends Controller
 		return $this->respondMutation('Item actualizado correctamente.', new ItemDetailResource($item->fresh(['category', 'creator'])));
 	}
 
-	public function destroy(DeleteItemRequest $request, Item $item): JsonResponse
+	public function destroy(DeleteItemRequest $request, Item $item, ModerationAuditLogger $moderationAuditLogger): JsonResponse
 	{
 		$item->delete();
+
+		$moderationAuditLogger->logItemModeration($item, $request->user(), 'admin_delete_item');
 
 		return $this->respondMutation('Item eliminado correctamente.');
 	}

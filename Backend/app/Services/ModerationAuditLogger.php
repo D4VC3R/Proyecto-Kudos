@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Item;
+use App\Models\ItemComment;
 use App\Models\Proposal;
 use App\Models\Report;
 use App\Models\User;
@@ -93,6 +94,27 @@ class ModerationAuditLogger
 			'note' => $note,
 			'context' => $context,
 			'resolved_at' => now()->toIso8601String(),
+		]);
+	}
+
+    /**
+     * Registra una decisión de moderación sobre un comentario tomada desde el panel.
+     *
+     * @param ItemComment $comment Comentario moderado.
+     * @param User $admin Administrador que tomó la decisión.
+     * @param string $action Acción tomada ('hide', 'unhide' o 'delete').
+     * @param string|null $reason Motivo indicado por el administrador (opcional).
+     */
+	public function logCommentModeration(ItemComment $comment, User $admin, string $action, ?string $reason = null): void
+	{
+		Log::channel('moderation')->info('admin.comment.moderation', [
+			'comment_id' => $comment->id,
+			'item_id' => $comment->item_id,
+			'author_id' => $comment->user_id,
+			'admin_id' => $admin->id,
+			'action' => $action,
+			'reason' => $reason,
+			'moderated_at' => now()->toIso8601String(),
 		]);
 	}
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Item;
 
 use App\Actions\CreateItemCommentAction;
+use App\Actions\ModerateCommentAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Items\DeleteItemCommentRequest;
 use App\Http\Requests\Items\HideItemCommentRequest;
@@ -104,16 +105,28 @@ class ItemCommentController extends Controller
                 );
         }
 
-        public function destroy(DeleteItemCommentRequest $request, ItemComment $comment): JsonResponse
+        public function destroy(DeleteItemCommentRequest $request, ItemComment $comment, ModerateCommentAction $moderateComment): JsonResponse
         {
-                $comment->delete();
+                $user = $request->user();
+
+                // Solo el borrado de moderación avisa al autor y queda registrado; el del propio autor no.
+                if ($user->hasRole('admin')) {
+                        $moderateComment->execute($comment, $user, ModerateCommentAction::ACTION_DELETE);
+                } else {
+                        $comment->delete();
+                }
 
                 return $this->respondMutation('Comentario eliminado correctamente.');
         }
 
-        public function hide(HideItemCommentRequest $request, ItemComment $comment): JsonResponse
+        public function hide(HideItemCommentRequest $request, ItemComment $comment, ModerateCommentAction $moderateComment): JsonResponse
         {
-                $comment->hideByModerator($request->user()->id, $request->validated()['reason'] ?? null);
+                $moderateComment->execute(
+                        $comment,
+                        $request->user(),
+                        ModerateCommentAction::ACTION_HIDE,
+                        $request->validated()['reason'] ?? null,
+                );
 
                 return $this->respondMutation(
                         message: 'Comentario ocultado correctamente.',
@@ -121,13 +134,9 @@ class ItemCommentController extends Controller
                 );
         }
 
-        public function unhide(UnhideItemCommentRequest $request, ItemComment $comment): JsonResponse
+        public function unhide(UnhideItemCommentRequest $request, ItemComment $comment, ModerateCommentAction $moderateComment): JsonResponse
         {
-                $comment->update([
-                        'is_hidden' => false,
-                        'hidden_reason' => null,
-                        'hidden_by' => null,
-                ]);
+                $moderateComment->execute($comment, $request->user(), ModerateCommentAction::ACTION_UNHIDE);
 
                 return $this->respondMutation(
                         message: 'Comentario restaurado correctamente.',
