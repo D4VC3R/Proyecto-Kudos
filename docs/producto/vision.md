@@ -40,7 +40,7 @@ Es responsabilidad del humano. Los agentes lo leen para entender el porqué, per
 | Filtrado colaborativo ítem-ítem | el ítem tiene ≥ 5 usuarios que también han valorado otros ítems en común |
 | % de compatibilidad entre usuarios | los dos comparten ≥ 10 ítems valorados |
 | Tendencias, "Polémicos", follows y feed | la actividad diaria lo justifique (con datos reales) |
-| Elo global, reputación (`CheckMinimumKudos`), insignias, retos, trivia | sin umbral |
+| Elo global, reputación (umbral mínimo de kudos), insignias, retos, trivia | sin umbral |
 | Edición comunitaria tipo wiki | de momento, solo un botón "Sugerir corrección" que llega al admin |
 | Libros, álbumes, anime | las tres categorías vivas funcionen bien (su cobertura en español es floja) |
 | Modo oscuro | sin umbral ([../frontend/arquitectura.md](../frontend/arquitectura.md) §3) |

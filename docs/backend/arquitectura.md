@@ -120,6 +120,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 - `app/Services/Media/RemoteImageDownloader.php`: `downloadToTemp(url)` valida la URL (anti-SSRF: resuelve el host con `HostResolverInterface`, cuya implementación `DnsHostResolver` usa `gethostbyname()`), el MIME y el tamaño; también `isRemoteUrl()`.
 - `app/Services/Media/MediaManager.php`: `processItemVariants(absTempPath, targetDir, ?filename)` genera las variantes `thumb` y `banner`; también `processAvatar` y `processCategory`.
 - `database/seeders/Trait/DownloadsSeedImages.php` es el **patrón de referencia** para combinar los dos anteriores. No se reutiliza el trait: es de seeders.
+- `ProcessUserAvatarJob` y `ProcessProposalImagesJob` borran el temporal en un `finally`, también si el procesado falla (F5-06). `POST /items`, `PUT /admin/items/{id}` y `PUT /proposals/{id}` no aceptan `images` (D8): las imágenes solo entran por el *pipeline* de propuestas, el avatar y el catálogo.
 
 `items.images` (jsonb, array). Desde la F1, cada entrada añade `role` (`poster`/`banner`), `license`, `author` y `source_url`:
 
@@ -137,8 +138,8 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 | 2 | Las medias son incrementales (`avg*count ± score`) y acumulan error | Las mismas | F0-03 (resuelta) |
 | 3 | `skip` es permanente: `UpdateVoteRequest::withValidator` solo permite editar si `type === 'vote'`, y `EmitVoteAction` devuelve el voto existente sin tocarlo | — | F2-02 (resuelta) |
 | 4 | `$table->enum()` en PostgreSQL crea un `varchar` + CHECK (`votes_type_check`). Para añadir valores hay que borrar y recrear la restricción con SQL | Migración de `votes` | F2-01 (resuelta) |
-| 5 | `CheckMinimumKudos` existe pero no está registrado | `app/Http/Middleware/` | Aplazado: no usar |
-| 6 | `Vote::kudosTransactions()` es código muerto | `app/Models/Vote.php` | No tocar |
+| 5 | `CheckMinimumKudos` existía sin registrar; se ha borrado | `app/Http/Middleware/` | F5-06 (resuelta) |
+| 6 | `Vote::kudosTransactions()` era código muerto; se ha borrado | `app/Models/Vote.php` | F5-06 (resuelta) |
 | 7 | `phpunit.xml` usa SQLite en memoria, que no puede ejecutar las migraciones | `phpunit.xml` | F0-01 |
 | 8 | No hay scheduler en producción | `compose.prod.yml` | F0-10 (resuelta) |
 | 9 | `users.name` no es único | Migración de `users` | F3-03 (`username`) |
