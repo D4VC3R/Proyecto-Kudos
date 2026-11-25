@@ -1,6 +1,6 @@
 ---
 name: ciclo-tareas
-description: Avanza el roadmap de Kudos 2.0 de forma automática. Cada tarea pasa por kudos-planificador (Opus, solo lectura), kudos-ejecutor (Sonnet) y kudos-verificador (Opus), que hace el commit y la fusión; si algo falla, se corrige y se vuelve a verificar. Úsala cuando el humano pida avanzar, empezar o continuar con las tareas del roadmap.
+description: Avanza el roadmap de Kudos 2.0 de forma automática. Cada tarea pasa por kudos-planificador (Opus, solo lectura), kudos-ejecutor (Sonnet) y kudos-verificador (Opus), que hace los commits, abre el PR y lo fusiona con el CI en verde; si algo falla, se corrige y se vuelve a verificar. Úsala cuando el humano pida avanzar, empezar o continuar con las tareas del roadmap.
 argument-hint: "[FX-YY | número de tareas]"
 ---
 
@@ -15,8 +15,9 @@ Argumento: un ID (`F0-02`) hace solo esa tarea; un número (`3`) hace como máxi
 ## 0. Preparación (una vez por sesión)
 
 Desde la raíz del repo:
-1. `git switch rediseno-fase-0` y `git status --short` vacío. Si hay cambios sin commitear, para y pregunta.
-2. Desde `Backend/`: `./vendor/bin/sail up -d` y comprueba que existe la base de datos `testing` (si no, entorno-local §4).
+1. `git switch rediseno-fase-0`, `git status --short` vacío y `git pull --ff-only origin rediseno-fase-0`. Si hay cambios sin commitear, para y pregunta.
+2. `gh auth status` muestra la cuenta conectada. Si `gh` no está o no hay sesión, para y pide al humano que ejecute `gh auth login`.
+3. Desde `Backend/`: `./vendor/bin/sail up -d` y comprueba que existe la base de datos `testing` (si no, entorno-local §4).
 
 ## 1. Elegir la tarea
 
@@ -38,13 +39,13 @@ Lanza `kudos-ejecutor` con `name: "ejecutor-FX-YY"`, el ID de la tarea, la rama 
 
 Lanza `kudos-verificador` con `name: "verificador-FX-YY"`, el ID de la tarea, la rama y las rutas del plan y del informe.
 
-- `VEREDICTO: APROBADO` → el verificador ya ha hecho los commits y la fusión. Compruébalo con `git log --oneline -5` y `git branch --show-current` (debe ser `rediseno-fase-0`).
-- `VEREDICTO: CORRECCIONES` → el verificador las deja en `.claude/ciclo/FX-YY/correcciones-N.md`. Pásale esa ruta al ejecutor con `SendMessage` (`to: "ejecutor-FX-YY"`) y, cuando responda, avisa al verificador con `SendMessage` (`to: "verificador-FX-YY"`) de que `informe.md` está actualizado. Máximo **3 rondas**; a la cuarta, para y pregunta al humano señalándole el último informe y las últimas correcciones.
+- `VEREDICTO: APROBADO` → el verificador ya ha hecho los commits, ha abierto el PR y lo ha fusionado con el CI en verde. Compruébalo con `gh pr view <n.º> --repo D4VC3R/Proyecto-Kudos --json state,mergeCommit` (`MERGED`), `git log --oneline -5` y `git branch --show-current` (debe ser `rediseno-fase-0`).
+- `VEREDICTO: CORRECCIONES` → el verificador las deja en `.claude/ciclo/FX-YY/correcciones-N.md` (también cuando falla el CI del PR). Pásale esa ruta al ejecutor con `SendMessage` (`to: "ejecutor-FX-YY"`) y, cuando responda, avisa al verificador con `SendMessage` (`to: "verificador-FX-YY"`) de que `informe.md` está actualizado. Máximo **3 rondas**; a la cuarta, para y pregunta al humano señalándole el último informe y las últimas correcciones.
 - `VEREDICTO: BLOQUEADA` → pregunta al humano y actúa como en el paso 2.
 
 ## 6. Cerrar la tarea y seguir
 
-1. Escribe al humano un resumen de 5–10 líneas: tarea, resultado de los tests (las cifras reales del verificador), commits, desviaciones y decisiones para validar.
+1. Escribe al humano un resumen de 5–10 líneas: tarea, enlace del PR, resultado de los tests y del CI (las cifras reales del verificador), commits, desviaciones y decisiones para validar.
 2. **Compactación:** cada agente arranca con contexto limpio, y de cada tarea solo guardas ese resumen; no arrastres planes ni informes viejos a la siguiente. Tú no puedes ejecutar `/compact` (solo lo puede lanzar el humano); la compactación automática actúa cuando hace falta y no se pierde nada, porque el estado vive en el tablero, en git y en `.claude/ciclo/`. Tras una compactación, vuelve al paso 1 leyendo el tablero.
 3. Vuelve al paso 1 con la siguiente tarea.
 
@@ -56,4 +57,4 @@ Lanza `kudos-verificador` con `name: "verificador-FX-YY"`, el ID de la tarea, la
 - Un fallo del entorno que no se arregla solo (Docker caído, base de datos `testing` inaccesible…).
 - Se ha alcanzado el número de tareas del argumento.
 
-Nunca hagas `push`, ni nada contra `main`, producción o el VPS.
+Tú nunca haces `push` ni fusionas PRs: solo el verificador sube la rama de la tarea y fusiona su PR en `rediseno-fase-0`. Nadie hace nada contra `main`, producción o el VPS.
