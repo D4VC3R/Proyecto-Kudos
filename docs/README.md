@@ -32,6 +32,7 @@ Cómo está hecho el código y qué contrato expone la API.
 
 - [producto/vision.md](producto/vision.md): decisiones de producto, funciones aplazadas y métricas.
 - [legal/cumplimiento.md](legal/cumplimiento.md): atribuciones, datos de terceros, DSA y RGPD.
+- [redesign/](redesign/plan.md): rediseño visual del frontend: [auditoría](redesign/auditoria.md) con capturas, [direcciones de diseño](redesign/direcciones.md) y [plan](redesign/plan.md) con las decisiones del humano.
 
 ## Proceso de desarrollo
 

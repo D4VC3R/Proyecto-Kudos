@@ -43,7 +43,6 @@ Es responsabilidad del humano. Los agentes lo leen para entender el porqué, per
 | Elo global, reputación (umbral mínimo de kudos), insignias, retos, trivia | sin umbral |
 | Edición comunitaria tipo wiki | de momento, solo un botón "Sugerir corrección" que llega al admin |
 | Libros, álbumes, anime | las tres categorías vivas funcionen bien (su cobertura en español es floja) |
-| Modo oscuro | sin umbral ([../frontend/arquitectura.md](../frontend/arquitectura.md) §3) |
 | `item_relations` | después de la Fase 4 |
 
 ## 4. Métricas (comando `kudos:metrics`, F2-11)
