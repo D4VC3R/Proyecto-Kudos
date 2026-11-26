@@ -18,34 +18,34 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ItemComment extends Model
 {
-	use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
-	public const REVIEW_DUPLICATE_MESSAGE = 'Ya has escrito una reseña de este ítem.';
+    public const REVIEW_DUPLICATE_MESSAGE = 'Ya has escrito una reseña de este ítem.';
 
-	// Texto que sustituye al de un comentario anonimizado al borrar la cuenta de su autor (F3-08).
-	public const ANONYMIZED_CONTENT = '[comentario eliminado]';
+    // Texto que sustituye al de un comentario anonimizado al borrar la cuenta de su autor (F3-08).
+    public const ANONYMIZED_CONTENT = '[comentario eliminado]';
 
-	protected $attributes = [
-		'is_hidden' => false,
-	];
+    protected $attributes = [
+        'is_hidden' => false,
+    ];
 
-	protected $fillable = [
-		'item_id',
-		'user_id',
-		'content',
-		'parent_id',
-		'vote_id',
-		'is_hidden',
-		'hidden_reason',
-		'hidden_by',
-	];
+    protected $fillable = [
+        'item_id',
+        'user_id',
+        'content',
+        'parent_id',
+        'vote_id',
+        'is_hidden',
+        'hidden_reason',
+        'hidden_by',
+    ];
 
-	protected $casts = [
-		'is_hidden' => 'boolean',
-		'created_at' => 'datetime',
-		'updated_at' => 'datetime',
-		'deleted_at' => 'datetime',
-	];
+    protected $casts = [
+        'is_hidden' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
 
     // Relaciones
 
@@ -53,53 +53,53 @@ class ItemComment extends Model
      * Define la relación de pertenencia con el modelo Item.
      * Permite acceder al ítem al que pertenece este comentario.
      */
-	public function item(): BelongsTo
-	{
-		return $this->belongsTo(Item::class);
-	}
+    public function item(): BelongsTo
+    {
+        return $this->belongsTo(Item::class);
+    }
 
     /**
      * Define la relación de pertenencia con el modelo User para el autor del comentario.
      * Permite acceder al usuario que creó este comentario.
      */
-	public function user(): BelongsTo
-	{
-		return $this->belongsTo(User::class);
-	}
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * Comentario al que responde este (F3-02). Es null si es un comentario principal.
      */
-	public function parent(): BelongsTo
-	{
-		return $this->belongsTo(self::class, 'parent_id');
-	}
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
 
     /**
      * Respuestas a este comentario (F3-02, un solo nivel).
      */
-	public function replies(): HasMany
-	{
-		return $this->hasMany(self::class, 'parent_id');
-	}
+    public function replies(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
 
     /**
      * Voto del autor al que va ligada la reseña (F3-02). Es null si no es una reseña.
      */
-	public function vote(): BelongsTo
-	{
-		return $this->belongsTo(Vote::class);
-	}
+    public function vote(): BelongsTo
+    {
+        return $this->belongsTo(Vote::class);
+    }
 
-	/**
-	 * Oculta el comentario por moderación (lo usan el ocultado manual del admin y los reportes, F3-04).
-	 */
-	public function hideByModerator(string $moderatorId, ?string $reason): void
-	{
-		$this->update([
-			'is_hidden' => true,
-			'hidden_reason' => $reason,
-			'hidden_by' => $moderatorId,
-		]);
-	}
+    /**
+     * Oculta el comentario por moderación (lo usan el ocultado manual del admin y los reportes, F3-04).
+     */
+    public function hideByModerator(string $moderatorId, ?string $reason): void
+    {
+        $this->update([
+            'is_hidden' => true,
+            'hidden_reason' => $reason,
+            'hidden_by' => $moderatorId,
+        ]);
+    }
 }

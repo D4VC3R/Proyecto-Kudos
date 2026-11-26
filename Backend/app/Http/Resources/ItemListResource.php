@@ -22,25 +22,25 @@ class ItemListResource extends JsonResource
         $item = $this->resource;
         $user = $request->user();
 
-	    return [
-		    'id' => $item->id,
-		    'name' => $item->name,
-		    'description' => $item->description,
-		    'images' => collect($item->images ?? [])
-			    ->take(1)
-			    ->map(fn ($img) => [
-				    'variants' => [
-					    'thumb' => $img['variants']['thumb'] ?? null,
-				    ],
-				    'meta' => $img['meta'] ?? null,
-				    'alt' => $img['alt'] ?? null,
-			    ])->toArray(),
-		    'status' => $item->status,
-		    'vote_avg' => (float) $item->vote_avg,
-		    'vote_count' => (int) $item->vote_count,
-		    'original_title' => $item->original_title,
-		    'released_at' => $item->released_at?->toDateString(),
-		    'attributes' => (object) $this->cardAttributes($item),
+        return [
+            'id' => $item->id,
+            'name' => $item->name,
+            'description' => $item->description,
+            'images' => collect($item->images ?? [])
+                ->take(1)
+                ->map(fn ($img) => [
+                    'variants' => [
+                        'thumb' => $img['variants']['thumb'] ?? null,
+                    ],
+                    'meta' => $img['meta'] ?? null,
+                    'alt' => $img['alt'] ?? null,
+                ])->toArray(),
+            'status' => $item->status,
+            'vote_avg' => (float) $item->vote_avg,
+            'vote_count' => (int) $item->vote_count,
+            'original_title' => $item->original_title,
+            'released_at' => $item->released_at?->toDateString(),
+            'attributes' => (object) $this->cardAttributes($item),
             'user_vote' => $this->when(
                 $user && $item->relationLoaded('userVote') && $item->userVote,
                 fn () => [
@@ -65,7 +65,7 @@ class ItemListResource extends JsonResource
 
     protected function resolveCanVote(?User $user, Item $item): bool
     {
-        if (!$user || $item->status !== Item::STATUS_ACTIVE) {
+        if (! $user || $item->status !== Item::STATUS_ACTIVE) {
             return false;
         }
 
@@ -86,14 +86,14 @@ class ItemListResource extends JsonResource
         $attributes = $item->getAttribute('attributes');
         $schema = $item->relationLoaded('category') ? $item->category?->attribute_schema : null;
 
-        if (!is_array($attributes) || $attributes === [] || !is_array($schema)) {
+        if (! is_array($attributes) || $attributes === [] || ! is_array($schema)) {
             return [];
         }
 
         $card = [];
         foreach ($schema as $field) {
             $key = is_array($field) ? ($field['key'] ?? null) : null;
-            if ($key !== null && !empty($field['show_in_card']) && array_key_exists($key, $attributes)) {
+            if ($key !== null && ! empty($field['show_in_card']) && array_key_exists($key, $attributes)) {
                 $card[$key] = $attributes[$key];
             }
         }

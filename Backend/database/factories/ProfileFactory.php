@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Factory para generar datos de prueba para el modelo Profile.
+ *
  * @extends Factory<Profile>
  */
 class ProfileFactory extends Factory

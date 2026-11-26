@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Factory para generar datos de prueba para el modelo Proposal.
+ *
  * @extends Factory<Proposal>
  */
 class ProposalFactory extends Factory
@@ -39,7 +40,7 @@ class ProposalFactory extends Factory
     /**
      * Define un estado para una propuesta aceptada, actualizando el estado, el revisor, la fecha de revisión y las notas del administrador.
      *
-     * @param User|null $admin El usuario administrador que revisó la propuesta (opcional).
+     * @param  User|null  $admin  El usuario administrador que revisó la propuesta (opcional).
      * @return static La instancia de la fábrica con el estado actualizado a aceptado.
      */
     public function accepted(?User $admin = null): static
@@ -57,7 +58,7 @@ class ProposalFactory extends Factory
     /**
      * Define un estado para una propuesta rechazada, actualizando el estado, el revisor, la fecha de revisión y las notas del administrador.
      *
-     * @param User|null $admin El usuario administrador que revisó la propuesta (opcional).
+     * @param  User|null  $admin  El usuario administrador que revisó la propuesta (opcional).
      * @return static La instancia de la fábrica con el estado actualizado a rechazado.
      */
     public function rejected(?User $admin = null): static
@@ -75,7 +76,7 @@ class ProposalFactory extends Factory
     /**
      * Define un estado para una propuesta con cambios solicitados, actualizando el estado, el revisor, la fecha de revisión y las notas del administrador.
      *
-     * @param User|null $admin El usuario administrador que revisó la propuesta (opcional).
+     * @param  User|null  $admin  El usuario administrador que revisó la propuesta (opcional).
      * @return static La instancia de la fábrica con el estado actualizado a cambios solicitados.
      */
     public function changesRequested(?User $admin = null): static

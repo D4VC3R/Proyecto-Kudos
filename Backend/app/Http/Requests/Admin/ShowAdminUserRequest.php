@@ -19,4 +19,3 @@ class ShowAdminUserRequest extends FormRequest
         return [];
     }
 }
-

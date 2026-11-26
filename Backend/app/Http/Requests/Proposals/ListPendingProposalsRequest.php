@@ -23,7 +23,8 @@ class ListPendingProposalsRequest extends FormRequest
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
         ];
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

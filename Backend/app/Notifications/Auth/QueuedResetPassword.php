@@ -26,7 +26,7 @@ class QueuedResetPassword extends ResetPassword implements ShouldQueue
             ->subject('Restablece tu contraseña')
             ->line('Has recibido este correo porque alguien ha pedido restablecer la contraseña de tu cuenta.')
             ->action('Restablecer contraseña', $url)
-            ->line('El enlace caduca en ' . config('auth.passwords.' . config('auth.defaults.passwords') . '.expire') . ' minutos.')
+            ->line('El enlace caduca en '.config('auth.passwords.'.config('auth.defaults.passwords').'.expire').' minutos.')
             ->line('Si no lo has pedido tú, no tienes que hacer nada.');
     }
 }

@@ -20,4 +20,3 @@ class DeleteVoteRequest extends FormRequest
         return [];
     }
 }
-

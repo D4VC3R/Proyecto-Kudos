@@ -19,13 +19,17 @@ class Proposal extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_ACCEPTED = 'accepted';
+
     public const STATUS_REJECTED = 'rejected';
+
     public const STATUS_CHANGES_REQUESTED = 'changes_requested';
 
-	protected $attributes = [
-		'status' => self::STATUS_PENDING,
-	];
+    protected $attributes = [
+        'status' => self::STATUS_PENDING,
+    ];
+
     protected $fillable = [
         'name',
         'description',
@@ -46,24 +50,23 @@ class Proposal extends Model
         'deleted_at' => 'datetime',
     ];
 
-
     /*
      * Aplica filtros a la consulta de propuestas según los parámetros proporcionados.
      * Permite filtrar por estado, creador, revisor, categoría y búsqueda por nombre o descripción.
      */
-	public function scopeAdminApplyFilters($query, array $filters)
-	{
-		return $query
-			->when(!empty($filters['status']), fn($q) => $q->where('status', $filters['status']))
-			->when(!empty($filters['creator_id']), fn($q) => $q->where('creator_id', $filters['creator_id']))
-			->when(!empty($filters['reviewed_by']), fn($q) => $q->where('reviewed_by', $filters['reviewed_by']))
-			->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
-			->when(!empty($filters['search']), function ($q) use ($filters) {
-				$pattern = Like::contains($filters['search']);
-				$q->where(fn($sub) => $sub->where('name', 'ilike', $pattern)
-					->orWhere('description', 'ilike', $pattern));
-			});
-	}
+    public function scopeAdminApplyFilters($query, array $filters)
+    {
+        return $query
+            ->when(! empty($filters['status']), fn ($q) => $q->where('status', $filters['status']))
+            ->when(! empty($filters['creator_id']), fn ($q) => $q->where('creator_id', $filters['creator_id']))
+            ->when(! empty($filters['reviewed_by']), fn ($q) => $q->where('reviewed_by', $filters['reviewed_by']))
+            ->when(! empty($filters['category_id']), fn ($q) => $q->where('category_id', $filters['category_id']))
+            ->when(! empty($filters['search']), function ($q) use ($filters) {
+                $pattern = Like::contains($filters['search']);
+                $q->where(fn ($sub) => $sub->where('name', 'ilike', $pattern)
+                    ->orWhere('description', 'ilike', $pattern));
+            });
+    }
 
     public function creator(): BelongsTo
     {
@@ -90,4 +93,3 @@ class Proposal extends Model
         return $query->where('status', self::STATUS_ACCEPTED);
     }
 }
-

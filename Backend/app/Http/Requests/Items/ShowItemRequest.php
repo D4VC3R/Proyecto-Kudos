@@ -23,5 +23,3 @@ class ShowItemRequest extends FormRequest
         return [];
     }
 }
-
-

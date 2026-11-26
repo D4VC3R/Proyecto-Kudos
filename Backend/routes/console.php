@@ -18,11 +18,12 @@ Artisan::command('kudos:audit-consistency {--fix : Reconciliar users.total_kudos
 
     $mismatches = $rows->filter(fn ($row) => (int) $row->total_kudos !== (int) $row->ledger_total)->values();
 
-    $this->info('Usuarios auditados: ' . $rows->count());
-    $this->line('Desajustes detectados: ' . $mismatches->count());
+    $this->info('Usuarios auditados: '.$rows->count());
+    $this->line('Desajustes detectados: '.$mismatches->count());
 
     if ($mismatches->isEmpty()) {
         $this->info('¡Todo en orden! No se detectaron inconsistencias.');
+
         return;
     }
 
@@ -35,8 +36,9 @@ Artisan::command('kudos:audit-consistency {--fix : Reconciliar users.total_kudos
 
     $this->table(['email', 'cached_total', 'ledger_total', 'delta'], $tableRows);
 
-    if (!$this->option('fix')) {
+    if (! $this->option('fix')) {
         $this->warn('Ejecuta el comando con --fix para ajustar los Kudos del usuario.');
+
         return;
     }
 

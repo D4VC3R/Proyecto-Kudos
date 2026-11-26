@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class ReservedCategorySlugTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {

@@ -25,7 +25,7 @@ class NotifyWishlistReleasesJob implements ShouldQueue
     public const USER_CHUNK = 500;
 
     /**
-     * @param array<int, string> $itemIds IDs de los ítems del bloque.
+     * @param  array<int, string>  $itemIds  IDs de los ítems del bloque.
      */
     public function __construct(public array $itemIds)
     {

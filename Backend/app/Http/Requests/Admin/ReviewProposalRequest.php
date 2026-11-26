@@ -42,29 +42,30 @@ class ReviewProposalRequest extends FormRequest
      * - Verifica que la propuesta esté en estado 'pending' antes de permitir su revisión.
      * - Si el estado es 'rejected' o 'changes_requested', asegura que se proporcionen notas administrativas.
      */
-	public function withValidator($validator): void
-	{
-		$validator->after(function ($validator) {
-			$proposal = $this->route('proposal');
-			$status = $this->input('status');
-			$notes = $this->input('admin_notes');
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $proposal = $this->route('proposal');
+            $status = $this->input('status');
+            $notes = $this->input('admin_notes');
 
-			if ($proposal) {
-				if ($proposal->trashed()) {
-					$validator->errors()->add('proposal', 'No se puede revisar una propuesta eliminada.');
-				}
+            if ($proposal) {
+                if ($proposal->trashed()) {
+                    $validator->errors()->add('proposal', 'No se puede revisar una propuesta eliminada.');
+                }
 
-				if ($proposal->status !== Proposal::STATUS_PENDING) {
-					$validator->errors()->add('proposal', 'Solo se pueden revisar propuestas en estado pending.');
-				}
-			}
+                if ($proposal->status !== Proposal::STATUS_PENDING) {
+                    $validator->errors()->add('proposal', 'Solo se pueden revisar propuestas en estado pending.');
+                }
+            }
 
-			if (in_array($status, [Proposal::STATUS_REJECTED, Proposal::STATUS_CHANGES_REQUESTED], true) && empty($notes)) {
-				$validator->errors()->add('admin_notes', 'admin_notes es obligatorio para rejected o changes_requested.');
-			}
-		});
-	}
-/**
+            if (in_array($status, [Proposal::STATUS_REJECTED, Proposal::STATUS_CHANGES_REQUESTED], true) && empty($notes)) {
+                $validator->errors()->add('admin_notes', 'admin_notes es obligatorio para rejected o changes_requested.');
+            }
+        });
+    }
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

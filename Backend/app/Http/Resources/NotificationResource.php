@@ -4,11 +4,12 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Notifications\DatabaseNotification;
 
 /**
  * Notificación dentro de la app (F3-05). `data` lleva siempre kind, title, message y url.
  *
- * @mixin \Illuminate\Notifications\DatabaseNotification
+ * @mixin DatabaseNotification
  */
 class NotificationResource extends JsonResource
 {

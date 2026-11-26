@@ -101,22 +101,23 @@ class Category extends Model
     /**
      * Obtiene el ranking paginado de los ítems de esta categoría, ordenado por bayes_score, vote_count y nombre.
      */
-	public function getRankingPaginator(int $perPage = 10): LengthAwarePaginator
-	{
-		return $this->items()
-			->select([
-				'id',
-				'category_id',
-				'name',
-				'vote_avg',
-				'vote_count'
-			])
-			->where('status', Item::STATUS_ACTIVE)
-			->orderByDesc('bayes_score')
-			->orderByDesc('vote_count')
-			->orderBy('name')
-			->paginate($perPage);
-	}
+    public function getRankingPaginator(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->items()
+            ->select([
+                'id',
+                'category_id',
+                'name',
+                'vote_avg',
+                'vote_count',
+            ])
+            ->where('status', Item::STATUS_ACTIVE)
+            ->orderByDesc('bayes_score')
+            ->orderByDesc('vote_count')
+            ->orderBy('name')
+            ->paginate($perPage);
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

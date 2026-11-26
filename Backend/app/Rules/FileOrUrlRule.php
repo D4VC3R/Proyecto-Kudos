@@ -19,17 +19,19 @@ class FileOrUrlRule implements ValidationRule
         }
 
         if ($value instanceof UploadedFile) {
-            if (!$value->isValid()) {
+            if (! $value->isValid()) {
                 $fail('La imagen subida no es válida.');
+
                 return;
             }
 
             if ($value->getSize() > config('media.max_upload_size')) {
                 $fail('La imagen supera el tamaño máximo permitido.');
+
                 return;
             }
 
-            if (!in_array(strtolower((string) $value->getMimeType()), config('media.allowed_mimes'), true)) {
+            if (! in_array(strtolower((string) $value->getMimeType()), config('media.allowed_mimes'), true)) {
                 $fail('La imagen debe ser jpeg, png o webp.');
             }
 

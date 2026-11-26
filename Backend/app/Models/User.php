@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use App\Notifications\Auth\QueuedResetPassword;
+use App\Notifications\Auth\QueuedVerifyEmail;
 use App\Support\Like;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Notifications\Auth\QueuedResetPassword;
-use App\Notifications\Auth\QueuedVerifyEmail;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -24,7 +24,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasApiTokens, HasUuids, HasRoles;
+    use HasApiTokens, HasFactory, HasRoles, HasUuids, Notifiable;
 
     protected $fillable = [
         'name',
@@ -83,7 +83,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isCurrentlyBanned(): bool
     {
-        if (!$this->is_banned) {
+        if (! $this->is_banned) {
             return false;
         }
 
@@ -135,12 +135,12 @@ class User extends Authenticatable implements MustVerifyEmail
         $now = now();
 
         return $query
-            ->when(!empty($filters['search']), function ($q) use ($filters) {
+            ->when(! empty($filters['search']), function ($q) use ($filters) {
                 $pattern = Like::contains($filters['search']);
-                $q->where(fn($sub) => $sub->where('name', 'ilike', $pattern)
+                $q->where(fn ($sub) => $sub->where('name', 'ilike', $pattern)
                     ->orWhere('email', 'ilike', $pattern));
             })
-            ->when(isset($filters['is_banned']), fn($q) => $q->where('is_banned', filter_var($filters['is_banned'], FILTER_VALIDATE_BOOLEAN)))
+            ->when(isset($filters['is_banned']), fn ($q) => $q->where('is_banned', filter_var($filters['is_banned'], FILTER_VALIDATE_BOOLEAN)))
             ->when(isset($filters['is_verified']), function ($q) use ($filters) {
                 if (filter_var($filters['is_verified'], FILTER_VALIDATE_BOOLEAN)) {
                     $q->whereNotNull('email_verified_at');
@@ -148,17 +148,17 @@ class User extends Authenticatable implements MustVerifyEmail
                     $q->whereNull('email_verified_at');
                 }
             })
-            ->when(!empty($filters['ban_state']), function ($q) use ($filters, $now) {
+            ->when(! empty($filters['ban_state']), function ($q) use ($filters, $now) {
                 match ($filters['ban_state']) {
                     'temporary' => $q->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '>', $now),
                     'permanent' => $q->where('is_banned', true)->whereNull('banned_until'),
                     'expired' => $q->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now),
-                    'active' => $q->where(fn($inner) => $inner->where('is_banned', false)
-                        ->orWhere(fn($expired) => $expired->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now))),
+                    'active' => $q->where(fn ($inner) => $inner->where('is_banned', false)
+                        ->orWhere(fn ($expired) => $expired->where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '<=', $now))),
                     default => null,
                 };
             })
-            ->when(!empty($filters['role']), fn($q) => $q->role($filters['role']));
+            ->when(! empty($filters['role']), fn ($q) => $q->role($filters['role']));
     }
 
     /**
@@ -188,7 +188,9 @@ class User extends Authenticatable implements MustVerifyEmail
             default => $query->orderBy('name', $sortDirection),
         };
 
-        if ($sortBy !== 'created_at') $query->orderByDesc('created_at');
+        if ($sortBy !== 'created_at') {
+            $query->orderByDesc('created_at');
+        }
 
         return $query->orderBy('id');
     }
@@ -199,6 +201,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function getAdminSummary(): array
     {
         $now = now();
+
         return [
             'total_users' => self::count(),
             'banned_temporary' => self::where('is_banned', true)->whereNotNull('banned_until')->where('banned_until', '>', $now)->count(),
@@ -234,7 +237,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'total_skips' => $totalNotInterested, // alias heredado de total_not_interested (R7)
             'total_want' => $totalWant,
             'total_not_interested' => $totalNotInterested,
-            'average_score' => $averageScore ? round((float)$averageScore, 1) : null,
+            'average_score' => $averageScore ? round((float) $averageScore, 1) : null,
             'favorite_category' => $favoriteCategoryName,
             'accepted_proposals' => $this->proposals()->accepted()->count(),
             'total_comments' => $this->comments()->count(),

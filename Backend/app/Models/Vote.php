@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Support\Like;
-use Database\Factories\VoteFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,8 +21,11 @@ class Vote extends Model
     use HasFactory, HasUuids;
 
     public const TYPE_VOTE = 'vote';
+
     public const TYPE_SKIP = 'skip';
+
     public const TYPE_WANT = 'want';
+
     public const TYPE_NOT_INTERESTED = 'not_interested';
 
     // Tipos que llevan nota y cuentan para las medias y los kudos (F2-01)
@@ -48,26 +50,26 @@ class Vote extends Model
         'updated_at',
     ];
 
-	public function scopeApplyFilters($query, array $filters)
-	{
-		return $query
-			->when(!empty($filters['type']), function ($q) use ($filters) {
-				// skip es el valor heredado de not_interested: filtrar por cualquiera de los dos devuelve ambos (F2-01)
-				if (in_array($filters['type'], self::NOT_INTERESTED_TYPES, true)) {
-					$q->whereIn('type', self::NOT_INTERESTED_TYPES);
-				} else {
-					$q->where('type', $filters['type']);
-				}
-			})
-			->when(!empty($filters['category_slug']), function ($q) use ($filters) {
-				$q->whereHas('item.category', fn($catQuery) => $catQuery->where('slug', $filters['category_slug']));
-			})
-			->when(!empty($filters['search']), function ($q) use ($filters) {
-				$pattern = Like::contains($filters['search']);
-				$q->whereHas('item', fn($itemQuery) => $itemQuery->where(fn($sub) => $sub->where('name', 'ilike', $pattern)
-					->orWhere('original_title', 'ilike', $pattern)));
-			});
-	}
+    public function scopeApplyFilters($query, array $filters)
+    {
+        return $query
+            ->when(! empty($filters['type']), function ($q) use ($filters) {
+                // skip es el valor heredado de not_interested: filtrar por cualquiera de los dos devuelve ambos (F2-01)
+                if (in_array($filters['type'], self::NOT_INTERESTED_TYPES, true)) {
+                    $q->whereIn('type', self::NOT_INTERESTED_TYPES);
+                } else {
+                    $q->where('type', $filters['type']);
+                }
+            })
+            ->when(! empty($filters['category_slug']), function ($q) use ($filters) {
+                $q->whereHas('item.category', fn ($catQuery) => $catQuery->where('slug', $filters['category_slug']));
+            })
+            ->when(! empty($filters['search']), function ($q) use ($filters) {
+                $pattern = Like::contains($filters['search']);
+                $q->whereHas('item', fn ($itemQuery) => $itemQuery->where(fn ($sub) => $sub->where('name', 'ilike', $pattern)
+                    ->orWhere('original_title', 'ilike', $pattern)));
+            });
+    }
 
     public function user(): BelongsTo
     {

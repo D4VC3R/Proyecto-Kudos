@@ -18,7 +18,7 @@ class RecalculateItemQualityJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable;
 
     /**
-     * @param array<int, string> $itemIds IDs de los ítems del bloque.
+     * @param  array<int, string>  $itemIds  IDs de los ítems del bloque.
      */
     public function __construct(public array $itemIds)
     {

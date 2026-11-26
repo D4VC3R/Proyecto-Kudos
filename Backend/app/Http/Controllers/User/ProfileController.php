@@ -18,111 +18,111 @@ use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {
-	/**
-	 * Devuelve el perfil del usuario autenticado.
-	 */
-	public function show(Request $request): JsonResponse
-	{
-		$user = $request->user();
+    /**
+     * Devuelve el perfil del usuario autenticado.
+     */
+    public function show(Request $request): JsonResponse
+    {
+        $user = $request->user();
 
-		return $this->respondData(new ProfileResource($user->profile));
-	}
+        return $this->respondData(new ProfileResource($user->profile));
+    }
 
-	public function minimal(Request $request): JsonResponse
-	{
-		$user = $request->user();
-		$user->load('profile:id,user_id,avatar');
+    public function minimal(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $user->load('profile:id,user_id,avatar');
 
-		return $this->respondData(new MinimalProfileResource($user, $user->getKudosRank()));
-	}
+        return $this->respondData(new MinimalProfileResource($user, $user->getKudosRank()));
+    }
 
-	public function statistics(Request $request): JsonResponse
-	{
-		$stats = $request->user()->getProfileStatistics();
+    public function statistics(Request $request): JsonResponse
+    {
+        $stats = $request->user()->getProfileStatistics();
 
-		return $this->respondData($stats);
-	}
+        return $this->respondData($stats);
+    }
 
-	public function update(UpdateProfileRequest $request): JsonResponse
-	{
-		$profile = $request->user()->profile;
-		$validated = $request->validated();
-		$avatarInput = null;
+    public function update(UpdateProfileRequest $request): JsonResponse
+    {
+        $profile = $request->user()->profile;
+        $validated = $request->validated();
+        $avatarInput = null;
 
-		if (is_string($validated['avatar'] ?? null) && $validated['avatar'] !== '') {
-			$avatarInput = $validated['avatar'];
-		}
+        if (is_string($validated['avatar'] ?? null) && $validated['avatar'] !== '') {
+            $avatarInput = $validated['avatar'];
+        }
 
-		if ($request->hasFile('avatar')) {
-			$path = Storage::disk('local')->putFile('temp_uploads', $request->file('avatar'));
-			if (is_string($path) && $path !== '') {
-				$avatarInput = $path;
-			}
-		}
+        if ($request->hasFile('avatar')) {
+            $path = Storage::disk('local')->putFile('temp_uploads', $request->file('avatar'));
+            if (is_string($path) && $path !== '') {
+                $avatarInput = $path;
+            }
+        }
 
-		unset($validated['avatar']);
+        unset($validated['avatar']);
 
-		if (array_key_exists('username', $validated)) {
-			try {
-				$request->user()->forceFill(['username' => $validated['username']])->save();
-			} catch (UniqueConstraintViolationException) {
-				throw ValidationException::withMessages(['username' => 'Ese nombre de usuario ya está en uso.']);
-			}
-			unset($validated['username']);
-		}
+        if (array_key_exists('username', $validated)) {
+            try {
+                $request->user()->forceFill(['username' => $validated['username']])->save();
+            } catch (UniqueConstraintViolationException) {
+                throw ValidationException::withMessages(['username' => 'Ese nombre de usuario ya está en uso.']);
+            }
+            unset($validated['username']);
+        }
 
-		$profile->update($validated);
+        $profile->update($validated);
 
-		if (is_string($avatarInput) && $avatarInput !== '') {
-			ProcessUserAvatarJob::dispatchSync($request->user(), $avatarInput);
-		}
+        if (is_string($avatarInput) && $avatarInput !== '') {
+            ProcessUserAvatarJob::dispatchSync($request->user(), $avatarInput);
+        }
 
-		return $this->respondMutation(
-			'Perfil actualizado correctamente.',
-			new ProfileResource($profile->fresh()),
-		);
-	}
+        return $this->respondMutation(
+            'Perfil actualizado correctamente.',
+            new ProfileResource($profile->fresh()),
+        );
+    }
 
-	/**
-	 * Exporta en JSON los datos del usuario (F3-08, RGPD: acceso y portabilidad).
-	 * Incluye lo borrado con borrado suave que aún se guarda y los ítems borrados que aparecen en sus datos.
-	 */
-	public function export(Request $request): JsonResponse
-	{
-		$withTrashed = fn ($query) => $query->withTrashed();
+    /**
+     * Exporta en JSON los datos del usuario (F3-08, RGPD: acceso y portabilidad).
+     * Incluye lo borrado con borrado suave que aún se guarda y los ítems borrados que aparecen en sus datos.
+     */
+    public function export(Request $request): JsonResponse
+    {
+        $withTrashed = fn ($query) => $query->withTrashed();
 
-		$user = $request->user()->load([
-			'profile',
-			'votes' => fn ($query) => $query->orderBy('created_at')->orderBy('id'),
-			'votes.item' => $withTrashed,
-			'votes.item.category:id,slug',
-			'comments' => fn ($query) => $query->withTrashed()->orderBy('created_at')->orderBy('id'),
-			'comments.item' => $withTrashed,
-			'lists' => fn ($query) => $query->withTrashed()->orderBy('created_at')->orderBy('id'),
-			'lists.listItems.item' => $withTrashed,
-			'likedLists' => fn ($query) => $query->withTrashed()->orderBy('list_likes.created_at'),
-			'proposals' => fn ($query) => $query->withTrashed()->orderBy('created_at')->orderBy('id'),
-			'proposals.category:id,slug',
-			'kudosTransactions' => fn ($query) => $query->orderBy('created_at')->orderBy('id'),
-		]);
+        $user = $request->user()->load([
+            'profile',
+            'votes' => fn ($query) => $query->orderBy('created_at')->orderBy('id'),
+            'votes.item' => $withTrashed,
+            'votes.item.category:id,slug',
+            'comments' => fn ($query) => $query->withTrashed()->orderBy('created_at')->orderBy('id'),
+            'comments.item' => $withTrashed,
+            'lists' => fn ($query) => $query->withTrashed()->orderBy('created_at')->orderBy('id'),
+            'lists.listItems.item' => $withTrashed,
+            'likedLists' => fn ($query) => $query->withTrashed()->orderBy('list_likes.created_at'),
+            'proposals' => fn ($query) => $query->withTrashed()->orderBy('created_at')->orderBy('id'),
+            'proposals.category:id,slug',
+            'kudosTransactions' => fn ($query) => $query->orderBy('created_at')->orderBy('id'),
+        ]);
 
-		return $this->respondData(new AccountExportResource($user));
-	}
+        return $this->respondData(new AccountExportResource($user));
+    }
 
-	/**
-	 * Borra la cuenta del usuario y sus datos (F3-08, RGPD: supresión). Exige la contraseña.
-	 */
-	public function destroy(DeleteAccountRequest $request, DeleteAccountAction $action): JsonResponse
-	{
-		$user = $request->user();
+    /**
+     * Borra la cuenta del usuario y sus datos (F3-08, RGPD: supresión). Exige la contraseña.
+     */
+    public function destroy(DeleteAccountRequest $request, DeleteAccountAction $action): JsonResponse
+    {
+        $user = $request->user();
 
-		// La regla está en UserPolicy::deleteOwnAccount: una cuenta de administrador no se borra desde el perfil.
-		if ($user->cannot('deleteOwnAccount', $user)) {
-			return $this->respondError('forbidden', 'Una cuenta de administrador no se puede borrar desde el perfil.', status: 403);
-		}
+        // La regla está en UserPolicy::deleteOwnAccount: una cuenta de administrador no se borra desde el perfil.
+        if ($user->cannot('deleteOwnAccount', $user)) {
+            return $this->respondError('forbidden', 'Una cuenta de administrador no se puede borrar desde el perfil.', status: 403);
+        }
 
-		$action->execute($user);
+        $action->execute($user);
 
-		return $this->respondMutation('Tu cuenta y tus datos se han borrado.');
-	}
+        return $this->respondMutation('Tu cuenta y tus datos se han borrado.');
+    }
 }

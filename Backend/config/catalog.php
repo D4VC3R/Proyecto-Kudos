@@ -1,5 +1,10 @@
 <?php
 
+use App\Catalog\Providers\IgdbGameProvider;
+use App\Catalog\Providers\TmdbMovieProvider;
+use App\Catalog\Providers\TmdbTvProvider;
+use App\Catalog\Providers\WikidataPlaceProvider;
+
 return [
     // Calidad de la ficha (F0-05). Los ítems con quality_score por debajo de este umbral (0–100)
     // no salen en la cola de votación ni en los destacados (GET /api/items?discoverable=1).
@@ -51,9 +56,9 @@ return [
 
     // Proveedor de cada categoría (CatalogProviderRegistry), en app/Catalog/Providers (F1-03).
     'categories' => [
-        'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
-        'series' => ['provider' => \App\Catalog\Providers\TmdbTvProvider::class],
-        'videojuegos' => ['provider' => \App\Catalog\Providers\IgdbGameProvider::class],
+        'peliculas' => ['provider' => TmdbMovieProvider::class],
+        'series' => ['provider' => TmdbTvProvider::class],
+        'videojuegos' => ['provider' => IgdbGameProvider::class],
         // F4-02: lista cerrada (estados soberanos, ciudades de más de places.min_city_population habitantes y capitales
         // de provincia españolas) que se carga a mano con catalog:fetch-new --category=destinos.
         // - manual_fetch_new: catalog:fetch-new --all (el programado) la omite, y con --category el listado (una consulta
@@ -61,7 +66,7 @@ return [
         // - on_demand: sin búsqueda ni importación bajo demanda en /buscar (responden 422).
         // - refresh_older_than_days: refresco trimestral (Wikidata no pone límite de antigüedad, a diferencia de TMDB).
         'destinos' => [
-            'provider' => \App\Catalog\Providers\WikidataPlaceProvider::class,
+            'provider' => WikidataPlaceProvider::class,
             'manual_fetch_new' => true,
             'on_demand' => false,
             'refresh_older_than_days' => 90,

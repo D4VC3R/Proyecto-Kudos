@@ -14,7 +14,7 @@ use Tests\TestCase;
  */
 class ExactAverageTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {

@@ -75,7 +75,8 @@ class LoginRequest extends FormRequest
     {
         return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

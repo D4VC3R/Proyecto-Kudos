@@ -12,11 +12,11 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Routing\Exceptions\InvalidSignatureException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Configura y crea la aplicación Laravel.
@@ -25,25 +25,25 @@ use Illuminate\Routing\Exceptions\InvalidSignatureException;
  */
 
 return Application::configure(basePath: dirname(__DIR__))
-	->withRouting(
-		api: __DIR__ . '/../routes/api.php',
-		commands: __DIR__ . '/../routes/console.php',
-		health: '/up',
-	)
-	->withMiddleware(function (Middleware $middleware): void {
-		$middleware->trustProxies(at: '*');
+    ->withRouting(
+        api: __DIR__.'/../routes/api.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
 
-		$middleware->alias([
-			'verified' => EnsureEmailIsVerified::class,
-			'admin' => EnsureUserIsAdmin::class,
-			'auth.optional' => AuthenticateOptionally::class,
-      'not_banned' => EnsureUserIsNotBanned::class,
-		]);
+        $middleware->alias([
+            'verified' => EnsureEmailIsVerified::class,
+            'admin' => EnsureUserIsAdmin::class,
+            'auth.optional' => AuthenticateOptionally::class,
+            'not_banned' => EnsureUserIsNotBanned::class,
+        ]);
 
-	})
-	->withProviders([
-		MediaServiceProvider::class,
-	])
+    })
+    ->withProviders([
+        MediaServiceProvider::class,
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (AuthenticationException $e, $request) {
             if ($request->expectsJson()) {
@@ -133,7 +133,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (HttpExceptionInterface $e, $request) {
-            if (!$request->expectsJson()) {
+            if (! $request->expectsJson()) {
                 return null;
             }
 

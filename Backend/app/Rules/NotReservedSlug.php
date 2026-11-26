@@ -13,7 +13,7 @@ class NotReservedSlug implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return;
         }
 

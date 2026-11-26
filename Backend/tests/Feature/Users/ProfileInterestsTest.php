@@ -13,7 +13,7 @@ use Tests\TestCase;
  */
 class ProfileInterestsTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {

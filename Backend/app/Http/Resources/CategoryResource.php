@@ -15,26 +15,24 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class CategoryResource extends JsonResource
 {
-
-
-	/**
+    /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
-	    return [
-		    'id' => $this->id,
-		    'name' => $this->name,
-		    'description' => $this->description,
-		    'slug' => $this->slug,
-		    'image' => $this->image,
-		    'items_count' => $this->items_count,
-		    'attribute_schema' => $this->attribute_schema ?? [],
-		    'icon' => $this->icon,
-		    'sort_order' => $this->sort_order,
-		    'has_catalog_provider' => app(CatalogProviderRegistry::class)->supportsOnDemand((string) $this->slug),
-	    ];
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'slug' => $this->slug,
+            'image' => $this->image,
+            'items_count' => $this->items_count,
+            'attribute_schema' => $this->attribute_schema ?? [],
+            'icon' => $this->icon,
+            'sort_order' => $this->sort_order,
+            'has_catalog_provider' => app(CatalogProviderRegistry::class)->supportsOnDemand((string) $this->slug),
+        ];
     }
 }

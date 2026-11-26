@@ -45,7 +45,7 @@ trait InteractsWithUsers
     {
         $user = User::factory()->create(array_merge([
             'email_verified_at' => now(),
-            'is_banned'         => false,
+            'is_banned' => false,
         ], $attrs));
 
         Sanctum::actingAs($user);

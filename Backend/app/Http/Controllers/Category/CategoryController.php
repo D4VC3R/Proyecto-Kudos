@@ -25,26 +25,27 @@ use Illuminate\Http\Response;
  */
 class CategoryController extends Controller
 {
-
     public function __construct(
         protected NextCategoryItemService $nextCategoryItemService,
     ) {}
 
     public function index(): JsonResponse
     {
-    // Usamos withItemCount() a nivel de BD para evitar el problema N+1 al iterar sobre las categorías.
-    // Solo las categorías activas, por sort_order y después por nombre (F1-06).
+        // Usamos withItemCount() a nivel de BD para evitar el problema N+1 al iterar sobre las categorías.
+        // Solo las categorías activas, por sort_order y después por nombre (F1-06).
         $categories = Category::withItemCount()
             ->active()
             ->orderBy('sort_order')
             ->orderBy('name')
             ->get();
+
         return $this->respondData(CategoryResource::collection($categories));
     }
 
     public function store(StoreCategoryRequest $request): JsonResponse
     {
         $category = Category::create($request->validated());
+
         return $this->respondMutation('Categoría creada con éxito.', new CategoryResource($category->fresh()->loadItemCount()), status: 201);
     }
 
@@ -53,12 +54,14 @@ class CategoryController extends Controller
         $this->ensureActive($category);
 
         $category->loadCount('items');
+
         return $this->respondData(new CategoryWithItemsResource($category));
     }
 
     public function update(UpdateCategoryRequest $request, Category $category): JsonResponse
     {
         $category->update($request->validated());
+
         return $this->respondMutation('Categoría actualizada correctamente.', new CategoryResource($category->fresh()->loadItemCount()));
     }
 
@@ -81,7 +84,7 @@ class CategoryController extends Controller
         return $this->respondMutation("Categoría '{$categoryName}' eliminada correctamente.");
     }
 
-		// El ranking se obtiene a través de una consulta optimizada en el modelo Category, que calcula el puntaje total de cada ítem y los ordena.
+    // El ranking se obtiene a través de una consulta optimizada en el modelo Category, que calcula el puntaje total de cada ítem y los ordena.
     public function ranking(ListCategoryRankingRequest $request, Category $category): JsonResponse
     {
         $this->ensureActive($category);
@@ -100,7 +103,7 @@ class CategoryController extends Controller
         ]);
     }
 
-		// El siguiente ítem se obtiene a través de un servicio que selecciona el ítem más adecuado para el usuario, teniendo en cuenta su historial de votos y el estado de los ítems en la categoría.
+    // El siguiente ítem se obtiene a través de un servicio que selecciona el ítem más adecuado para el usuario, teniendo en cuenta su historial de votos y el estado de los ítems en la categoría.
     public function nextItem(GetNextCategoryItemRequest $request, Category $category): JsonResponse|Response
     {
         $this->ensureActive($category);
@@ -124,7 +127,7 @@ class CategoryController extends Controller
     private function ensureActive(Category $category): void
     {
         if (! $category->is_active) {
-            throw (new ModelNotFoundException())->setModel(Category::class, [$category->getKey()]);
+            throw (new ModelNotFoundException)->setModel(Category::class, [$category->getKey()]);
         }
     }
 }

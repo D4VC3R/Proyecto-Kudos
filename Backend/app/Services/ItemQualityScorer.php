@@ -21,8 +21,11 @@ use App\Models\Item;
 class ItemQualityScorer
 {
     private const IMAGE_POINTS = 40;
+
     private const DESCRIPTION_POINTS = 40;
+
     private const METADATA_POINTS = 20;
+
     private const MIN_DESCRIPTION_LENGTH = 60;
 
     /**

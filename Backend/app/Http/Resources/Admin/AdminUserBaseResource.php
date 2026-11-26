@@ -15,7 +15,7 @@ abstract class AdminUserBaseResource extends JsonResource
      * Resuelve el rol del usuario basado en sus relaciones cargadas o verificando directamente.
      * Prioriza el rol 'admin' sobre 'user' si ambos están presentes.
      *
-     * @param User $user El usuario para el cual se va a resolver el rol.
+     * @param  User  $user  El usuario para el cual se va a resolver el rol.
      * @return string El rol resuelto del usuario ('admin' o 'user').
      */
     protected function resolveUserRole(User $user): string
@@ -42,12 +42,12 @@ abstract class AdminUserBaseResource extends JsonResource
      * Resuelve el estado de baneo del usuario basado en sus atributos relacionados con el baneo.
      * Determina si el usuario está activo, temporalmente baneado, permanentemente baneado o si su baneo ha expirado.
      *
-     * @param User $user El usuario para el cual se va a resolver el estado de baneo.
+     * @param  User  $user  El usuario para el cual se va a resolver el estado de baneo.
      * @return string El estado de baneo resuelto del usuario ('active', 'temporary', 'permanent' o 'expired').
      */
     protected function resolveBanState(User $user): string
     {
-        if (!$user->is_banned) {
+        if (! $user->is_banned) {
             return 'active';
         }
 
@@ -61,7 +61,7 @@ abstract class AdminUserBaseResource extends JsonResource
     /**
      * Mapea el estado de baneo del usuario para mostrarlo en el frontend ya formateado.
      *
-     * @param string $banState El estado de baneo resuelto del usuario ('active', 'temporary', 'permanent' o 'expired').
+     * @param  string  $banState  El estado de baneo resuelto del usuario ('active', 'temporary', 'permanent' o 'expired').
      * @return string La etiqueta legible correspondiente al estado de baneo.
      */
     protected function resolveBanStateLabel(string $banState): string
@@ -75,4 +75,3 @@ abstract class AdminUserBaseResource extends JsonResource
         };
     }
 }
-

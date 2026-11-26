@@ -11,26 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-	    Schema::create('items', function (Blueprint $table) {
-		    $table->uuid('id')->primary();
-		    $table->string('name');
-		    $table->text('description');
-		    $table->jsonb('images')->nullable();
-		    $table->enum('status', ['active', 'inactive'])->default('active');
+        Schema::create('items', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->text('description');
+            $table->jsonb('images')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
 
-		    $table->float('vote_avg')->default(0.0);
-		    $table->integer('vote_count')->default(0);
+            $table->float('vote_avg')->default(0.0);
+            $table->integer('vote_count')->default(0);
 
-		    $table->foreignUuid('creator_id')->nullable()->constrained('users')->nullOnDelete();
-		    $table->foreignUuid('category_id')->nullable()->constrained('categories')->nullOnDelete();
+            $table->foreignUuid('creator_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('category_id')->nullable()->constrained('categories')->nullOnDelete();
 
-		    $table->softDeletes();
-		    $table->timestamps();
+            $table->softDeletes();
+            $table->timestamps();
 
-		    $table->index(['status', 'vote_avg', 'vote_count']);
-		    $table->index(['category_id', 'status']);
-	    });
-	    DB::statement('CREATE INDEX items_name_trgm_idx ON items USING GIN (name gin_trgm_ops);');
+            $table->index(['status', 'vote_avg', 'vote_count']);
+            $table->index(['category_id', 'status']);
+        });
+        DB::statement('CREATE INDEX items_name_trgm_idx ON items USING GIN (name gin_trgm_ops);');
     }
 
     /**

@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class CategoryRankingTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -37,7 +37,7 @@ class CategoryRankingTest extends TestCase
             ->assertJsonStructure([
                 'data' => [
                     'category' => ['id', 'name', 'slug'],
-                    'ranking'  => [['id', 'name', 'vote_avg', 'vote_count']],
+                    'ranking' => [['id', 'name', 'vote_avg', 'vote_count']],
                 ],
                 'meta' => ['total', 'current_page', 'last_page', 'per_page'],
             ]);
@@ -53,9 +53,9 @@ class CategoryRankingTest extends TestCase
 
         $a = $this->createItem($peliculas, ['name' => 'A', 'vote_avg' => 9, 'vote_count' => 10]);
         $this->createItem($peliculas, [
-            'name'       => 'Inactivo',
-            'status'     => Item::STATUS_INACTIVE,
-            'vote_avg'   => 10,
+            'name' => 'Inactivo',
+            'status' => Item::STATUS_INACTIVE,
+            'vote_avg' => 10,
             'vote_count' => 50,
         ]);
         $this->createItem($series, ['name' => 'De series', 'vote_avg' => 10, 'vote_count' => 50]);

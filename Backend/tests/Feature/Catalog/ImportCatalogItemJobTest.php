@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Sleep;
+use InvalidArgumentException;
 use Tests\Concerns\CreatesItems;
 use Tests\Concerns\FakesRemoteImages;
 use Tests\Concerns\LoadsFixtures;
-use InvalidArgumentException;
 use Tests\TestCase;
 use UnexpectedValueException;
 

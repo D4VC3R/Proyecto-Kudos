@@ -13,8 +13,7 @@ class ProposalPolicy
     /**
      * Indica si se pueden listar las propuestas.
      *
-     * @param User $user Usuario autenticado.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
      */
     public function viewAny(User $user): bool
     {
@@ -24,9 +23,8 @@ class ProposalPolicy
     /**
      * Indica si se puede ver una propuesta.
      *
-     * @param User $user Usuario autenticado.
-     * @param Proposal $proposal Propuesta a consultar.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Proposal  $proposal  Propuesta a consultar.
      */
     public function view(User $user, Proposal $proposal): bool
     {
@@ -36,8 +34,7 @@ class ProposalPolicy
     /**
      * Indica si se puede crear una propuesta.
      *
-     * @param User $user Usuario autenticado.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
      */
     public function create(User $user): bool
     {
@@ -47,8 +44,7 @@ class ProposalPolicy
     /**
      * Indica si se puede revisar cualquier propuesta.
      *
-     * @param User $user Usuario autenticado.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
      */
     public function reviewAny(User $user): bool
     {
@@ -58,9 +54,8 @@ class ProposalPolicy
     /**
      * Indica si se puede actualizar una propuesta.
      *
-     * @param User $user Usuario autenticado.
-     * @param Proposal $proposal Propuesta a modificar.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Proposal  $proposal  Propuesta a modificar.
      */
     public function update(User $user, Proposal $proposal): bool
     {
@@ -75,13 +70,12 @@ class ProposalPolicy
     /**
      * Indica si se puede eliminar una propuesta.
      *
-     * @param User $user Usuario autenticado.
-     * @param Proposal $proposal Propuesta a eliminar.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Proposal  $proposal  Propuesta a eliminar.
      */
     public function delete(User $user, Proposal $proposal): bool
     {
-        if (!in_array($proposal->status, [Proposal::STATUS_PENDING, Proposal::STATUS_CHANGES_REQUESTED], true)) {
+        if (! in_array($proposal->status, [Proposal::STATUS_PENDING, Proposal::STATUS_CHANGES_REQUESTED], true)) {
             return false;
         }
 
@@ -91,9 +85,8 @@ class ProposalPolicy
     /**
      * Indica si se puede revisar una propuesta.
      *
-     * @param User $user Usuario autenticado.
-     * @param Proposal $proposal Propuesta a revisar.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Proposal  $proposal  Propuesta a revisar.
      */
     public function review(User $user, Proposal $proposal): bool
     {

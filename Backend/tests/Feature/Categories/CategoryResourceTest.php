@@ -14,7 +14,7 @@ use Tests\TestCase;
  */
 class CategoryResourceTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems, InteractsWithUsers;
+    use CreatesItems, InteractsWithUsers, RefreshDatabase;
 
     private function createMovieCategory(): Category
     {

@@ -28,7 +28,8 @@ class ListAdminItemsRequest extends FormRequest
             'sort_direction' => ['sometimes', Rule::in(['asc', 'desc'])],
         ];
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

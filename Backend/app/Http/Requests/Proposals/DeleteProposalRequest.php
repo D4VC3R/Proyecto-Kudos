@@ -22,4 +22,3 @@ class DeleteProposalRequest extends FormRequest
         return [];
     }
 }
-

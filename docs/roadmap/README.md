@@ -113,7 +113,7 @@ F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01. F5-1
 | F5-12 | Clases sin definir, duplicados y código muerto del frontend | FE | F5-06, F5-09 | hecho | [#16](https://github.com/D4VC3R/Proyecto-Kudos/issues/16) |
 | F5-13 | *Runbook* único del paso a Kudos 2.0 y salvaguardas de `main` | INFRA, DOCS | F5-00, F5-07, F5-08 | hecho | [#17](https://github.com/D4VC3R/Proyecto-Kudos/issues/17) |
 | F5-14 | Documentación lista para `main` | DOCS | F5-01…F5-13 | hecho | [#18](https://github.com/D4VC3R/Proyecto-Kudos/issues/18) |
-| F5-15 | Formato con Pint y controles de CI | INFRA | F5-14, F5-00 | pendiente | [#19](https://github.com/D4VC3R/Proyecto-Kudos/issues/19) |
+| F5-15 | Formato con Pint y controles de CI | INFRA | F5-14, F5-00 | hecho | [#19](https://github.com/D4VC3R/Proyecto-Kudos/issues/19) |
 | F5-16 | Fusión en `main` y paso a producción (sustituye a F1-11) | HUMANO | F5-15 | pendiente | [#20](https://github.com/D4VC3R/Proyecto-Kudos/issues/20) |
 | F5-17 | Sesión y verificación de correo en el frontend | FE | F5-16 | pendiente | [#21](https://github.com/D4VC3R/Proyecto-Kudos/issues/21) |
 | F5-18 | Convención de página y estado en la URL | FE | F5-16 | pendiente | [#22](https://github.com/D4VC3R/Proyecto-Kudos/issues/22) |

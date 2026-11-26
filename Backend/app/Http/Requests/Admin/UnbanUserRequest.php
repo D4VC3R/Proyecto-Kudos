@@ -19,4 +19,3 @@ class UnbanUserRequest extends FormRequest
         return [];
     }
 }
-

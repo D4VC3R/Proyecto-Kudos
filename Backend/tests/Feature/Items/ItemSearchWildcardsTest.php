@@ -14,7 +14,7 @@ use Tests\TestCase;
  */
 class ItemSearchWildcardsTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -30,7 +30,7 @@ class ItemSearchWildcardsTest extends TestCase
         $this->createItem($category, ['name' => 'Episodio 1000']);
         $this->createItem($category, ['name' => 'Elden Ring']);
 
-        $response = $this->getJson('/api/items?' . http_build_query(['search' => '0%']));
+        $response = $this->getJson('/api/items?'.http_build_query(['search' => '0%']));
 
         $response->assertOk();
         $this->assertSame(['Descuento del 100%'], collect($response->json('data'))->pluck('name')->all());
@@ -43,7 +43,7 @@ class ItemSearchWildcardsTest extends TestCase
         $this->createItem($category, ['name' => 'Pack 1']);
         $this->createItem($category, ['name' => 'Elden Ring']);
 
-        $response = $this->getJson('/api/items?' . http_build_query(['search' => '_1']));
+        $response = $this->getJson('/api/items?'.http_build_query(['search' => '_1']));
 
         $response->assertOk();
         $this->assertSame(['Pack_1'], collect($response->json('data'))->pluck('name')->all());
@@ -56,7 +56,7 @@ class ItemSearchWildcardsTest extends TestCase
         $this->createItem($category, ['name' => 'Rebajas 100%']);
         $this->createItem($category, ['name' => 'Matrix']);
 
-        $response = $this->getJson('/api/admin/items?' . http_build_query(['search' => '%']));
+        $response = $this->getJson('/api/admin/items?'.http_build_query(['search' => '%']));
 
         $response->assertOk();
         $this->assertSame(['Rebajas 100%'], collect($response->json('data'))->pluck('name')->all());
@@ -69,7 +69,7 @@ class ItemSearchWildcardsTest extends TestCase
         $this->createItem($category, ['name' => 'snake_case']);
         $this->createItem($category, ['name' => 'Matrix']);
 
-        $response = $this->getJson('/api/admin/items?' . http_build_query(['search' => '_']));
+        $response = $this->getJson('/api/admin/items?'.http_build_query(['search' => '_']));
 
         $response->assertOk();
         $this->assertSame(['snake_case'], collect($response->json('data'))->pluck('name')->all());
@@ -83,7 +83,7 @@ class ItemSearchWildcardsTest extends TestCase
         $this->createItem($category, ['name' => 'Rebajas 100%']);
         $this->createItem($category, ['name' => 'Matrix']);
 
-        $response = $this->getJson('/api/admin/items?' . http_build_query(['search' => '\\']));
+        $response = $this->getJson('/api/admin/items?'.http_build_query(['search' => '\\']));
 
         $response->assertOk();
         $this->assertSame(['C:\\Juegos'], collect($response->json('data'))->pluck('name')->all());

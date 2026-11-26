@@ -18,9 +18,9 @@ class OnboardingItemsService
      * sin voto de ningún tipo del usuario. Se reparten por turnos entre las categorías (orden sort_order, name):
      * el 1.º de cada una, después el 2.º… Si una categoría se queda sin ítems, las demás completan el cupo.
      *
-     * @param User|null $user Usuario que hace el onboarding, o null (portada sin sesión, F2-09): sin usuario no se excluye nada.
-     * @param array<int, string> $categorySlugs Slugs de las categorías elegidas.
-     * @param int|null $limit Máximo de ítems (por defecto catalog.onboarding_items).
+     * @param  User|null  $user  Usuario que hace el onboarding, o null (portada sin sesión, F2-09): sin usuario no se excluye nada.
+     * @param  array<int, string>  $categorySlugs  Slugs de las categorías elegidas.
+     * @param  int|null  $limit  Máximo de ítems (por defecto catalog.onboarding_items).
      * @return Collection<int, Item>
      */
     public function popularItems(?User $user, array $categorySlugs, ?int $limit = null): Collection

@@ -27,7 +27,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function ensureTestingDatabase(): void
     {
-        $database = config('database.connections.' . config('database.default') . '.database');
+        $database = config('database.connections.'.config('database.default').'.database');
         if ($database !== 'testing') {
             throw new \RuntimeException("Los tests deben ejecutarse contra la base de datos 'testing', no '{$database}'.");
         }

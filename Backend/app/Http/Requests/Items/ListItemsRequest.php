@@ -27,7 +27,7 @@ class ListItemsRequest extends FormRequest
     {
         return [
             'category_id' => ['nullable', 'string', 'exists:categories,id'],
-	          'category_slug' => ['nullable', 'string', 'exists:categories,slug'],
+            'category_slug' => ['nullable', 'string', 'exists:categories,slug'],
             'search' => ['nullable', 'string', 'min:2', 'max:255'],
             'sort_by' => ['nullable', 'string', 'in:vote_avg,recent,name,random'],
             'sort_order' => ['nullable', 'string', 'in:asc,desc'],
@@ -35,7 +35,8 @@ class ListItemsRequest extends FormRequest
             'discoverable' => ['nullable', 'boolean'],
         ];
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

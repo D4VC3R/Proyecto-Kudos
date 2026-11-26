@@ -8,9 +8,9 @@ use Illuminate\Support\Str;
 
 /**
  * Factory para la creación de categorías con datos predefinidos.
+ *
  * @extends Factory<Category>
  */
-
 class CategoryFactory extends Factory
 {
     /**
@@ -19,35 +19,35 @@ class CategoryFactory extends Factory
     private static $categories = [
         'videojuegos' => [
             'description' => 'Descubre y vota por los mejores videojuegos de todos los tiempos',
-            'image_keyword' => 'gaming'
+            'image_keyword' => 'gaming',
         ],
         'musica' => [
             'description' => 'Las mejores canciones, álbumes y artistas musicales',
-            'image_keyword' => 'music'
+            'image_keyword' => 'music',
         ],
         'peliculas' => [
             'description' => 'El cine que ha marcado historia y entretenimiento',
-            'image_keyword' => 'movies'
+            'image_keyword' => 'movies',
         ],
         'series' => [
             'description' => 'Las series de televisión más populares y aclamadas',
-            'image_keyword' => 'tv'
+            'image_keyword' => 'tv',
         ],
         'ciudades' => [
             'description' => 'Las ciudades más bellas e interesantes del mundo',
-            'image_keyword' => 'city'
+            'image_keyword' => 'city',
         ],
         'marcas' => [
             'description' => 'Las marcas más reconocidas e influyentes',
-            'image_keyword' => 'business'
+            'image_keyword' => 'business',
         ],
         'politicos' => [
             'description' => 'Figuras políticas destacadas en la historia',
-            'image_keyword' => 'people'
+            'image_keyword' => 'people',
         ],
         'paises' => [
             'description' => 'Los países más fascinantes del planeta',
-            'image_keyword' => 'nature'
+            'image_keyword' => 'nature',
         ],
     ];
 

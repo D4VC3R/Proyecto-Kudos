@@ -17,12 +17,12 @@ class ListItemCommentsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-	    $item = $this->route('item');
-	    if (!$item) {
-		    return false;
-	    }
+        $item = $this->route('item');
+        if (! $item) {
+            return false;
+        }
 
-	    return Gate::allows('viewAny', [ItemComment::class, $item]);
+        return Gate::allows('viewAny', [ItemComment::class, $item]);
     }
 
     /** Define las reglas de validación para listar los comentarios de un ítem.
@@ -35,7 +35,8 @@ class ListItemCommentsRequest extends FormRequest
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
         ];
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

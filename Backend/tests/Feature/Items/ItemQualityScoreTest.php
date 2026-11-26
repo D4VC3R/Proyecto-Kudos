@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class ItemQualityScoreTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {

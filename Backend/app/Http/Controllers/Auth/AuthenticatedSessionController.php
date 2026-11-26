@@ -7,7 +7,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -16,11 +15,12 @@ use Illuminate\Validation\ValidationException;
  */
 class AuthenticatedSessionController extends Controller
 {
-	/**
-	 * Función para autenticar al usuario y crear un token de acceso. Responde con los detalles del usuario y el token generado.
-	 * @param LoginRequest $request - La solicitud de inicio de sesión que contiene las credenciales del usuario.
-	 * @return JsonResponse - Respuesta JSON con el resultado de la petición.
-	 */
+    /**
+     * Función para autenticar al usuario y crear un token de acceso. Responde con los detalles del usuario y el token generado.
+     *
+     * @param  LoginRequest  $request  - La solicitud de inicio de sesión que contiene las credenciales del usuario.
+     * @return JsonResponse - Respuesta JSON con el resultado de la petición.
+     */
     public function store(LoginRequest $request): JsonResponse
     {
         try {
@@ -80,6 +80,7 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         $request->user()?->currentAccessToken()?->delete();
+
         return $this->respondMutation('Sesión cerrada con éxito.');
     }
 
@@ -89,6 +90,7 @@ class AuthenticatedSessionController extends Controller
     public function destroyAll(Request $request): JsonResponse
     {
         $request->user()?->tokens()->delete();
+
         return $this->respondMutation('Sesión cerrada en todos los dispositivos.');
     }
 }

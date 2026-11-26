@@ -25,7 +25,8 @@ class UpdateItemCommentRequest extends FormRequest
             'content' => ['required', 'string', 'min:2', 'max:2000'],
         ];
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

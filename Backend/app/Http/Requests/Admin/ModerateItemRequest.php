@@ -18,7 +18,7 @@ class ModerateItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', 'string', 'in:' . Item::STATUS_ACTIVE . ',' . Item::STATUS_INACTIVE],
+            'status' => ['required', 'string', 'in:'.Item::STATUS_ACTIVE.','.Item::STATUS_INACTIVE],
             'reason' => ['nullable', 'string', 'max:1000'],
         ];
     }
@@ -35,7 +35,8 @@ class ModerateItemRequest extends FormRequest
             }
         });
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

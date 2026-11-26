@@ -11,8 +11,8 @@ use App\Models\User;
 use App\Models\UserList;
 use App\Models\Vote;
 use App\Policies\CategoryPolicy;
-use App\Policies\ItemPolicy;
 use App\Policies\ItemCommentPolicy;
+use App\Policies\ItemPolicy;
 use App\Policies\ProposalPolicy;
 use App\Policies\ReportPolicy;
 use App\Policies\UserListPolicy;
@@ -61,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Interceptores de Correo Electrónico
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
-            return config('app.frontend_url') . "/password-reset/$token?" . http_build_query(['email' => $notifiable->getEmailForPasswordReset()]);
+            return config('app.frontend_url')."/password-reset/$token?".http_build_query(['email' => $notifiable->getEmailForPasswordReset()]);
         });
 
         VerifyEmail::createUrlUsing(function (object $notifiable) {
@@ -74,7 +74,7 @@ class AppServiceProvider extends ServiceProvider
                 ]
             );
 
-            return config('app.frontend_url') . '/verify-email?verify_url=' . urlencode($verifyUrl);
+            return config('app.frontend_url').'/verify-email?verify_url='.urlencode($verifyUrl);
         });
 
         // Registro de Políticas de Autorización
@@ -137,7 +137,7 @@ class AppServiceProvider extends ServiceProvider
         ];
 
         foreach ($directories as $directory) {
-            if (!is_dir($directory)) {
+            if (! is_dir($directory)) {
                 mkdir($directory, 0755, true);
             }
         }
@@ -155,11 +155,11 @@ class AppServiceProvider extends ServiceProvider
         $target = storage_path('app/public');
         $link = public_path('storage');
 
-        if (is_link($link) && !file_exists($link)) {
+        if (is_link($link) && ! file_exists($link)) {
             unlink($link);
         }
 
-        if (!file_exists($link)) {
+        if (! file_exists($link)) {
             if (file_exists($target)) {
                 @symlink($target, $link);
             }

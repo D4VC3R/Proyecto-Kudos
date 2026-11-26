@@ -33,4 +33,3 @@ class AdminUserListResource extends AdminUserBaseResource
         ];
     }
 }
-

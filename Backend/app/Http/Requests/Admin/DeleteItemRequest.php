@@ -19,4 +19,3 @@ class DeleteItemRequest extends FormRequest
         return [];
     }
 }
-

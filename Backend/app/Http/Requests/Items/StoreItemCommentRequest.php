@@ -37,7 +37,8 @@ class StoreItemCommentRequest extends FormRequest
             'is_review' => ['sometimes', 'boolean'],
         ];
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array
@@ -72,6 +73,7 @@ class StoreItemCommentRequest extends FormRequest
                 if ($parentId !== null) {
                     if ($isReview) {
                         $validator->errors()->add('is_review', 'Una respuesta no puede ser una reseña.');
+
                         return;
                     }
 

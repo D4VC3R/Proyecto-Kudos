@@ -13,7 +13,7 @@ use Tests\TestCase;
  */
 class CategoryItemsCountTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     private function createCategoryWithItems(): Category
     {

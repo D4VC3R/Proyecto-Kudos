@@ -27,28 +27,31 @@ class UpdateProposalRequest extends FormRequest
         ];
     }
 
-	public function withValidator($validator): void
-	{
-		$validator->after(function ($validator) {
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
 
-			$proposal = $this->route('proposal');
+            $proposal = $this->route('proposal');
 
-			if ($proposal) {
-				if ($proposal->trashed()) {
-					$validator->errors()->add('proposal', 'No se puede editar una propuesta eliminada.');
-				}
+            if ($proposal) {
+                if ($proposal->trashed()) {
+                    $validator->errors()->add('proposal', 'No se puede editar una propuesta eliminada.');
+                }
 
-				if (!in_array($proposal->status, [Proposal::STATUS_CHANGES_REQUESTED, Proposal::STATUS_PENDING], true)) {
-					$validator->errors()->add('proposal', 'Solo se pueden editar o reenviar propuestas en estado pending o changes_requested.');
-				}
-			}
+                if (! in_array($proposal->status, [Proposal::STATUS_CHANGES_REQUESTED, Proposal::STATUS_PENDING], true)) {
+                    $validator->errors()->add('proposal', 'Solo se pueden editar o reenviar propuestas en estado pending o changes_requested.');
+                }
+            }
 
-			$categoryId = $this->input('category_id', $proposal?->category_id);
-			if (!is_string($categoryId) || $categoryId === '') return;
+            $categoryId = $this->input('category_id', $proposal?->category_id);
+            if (! is_string($categoryId) || $categoryId === '') {
+                return;
+            }
 
-		});
-	}
-/**
+        });
+    }
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array
