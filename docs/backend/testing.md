@@ -20,10 +20,10 @@
 ```
 Backend/tests/
 ├── TestCase.php     # protección de la base de datos (§3) y Http::preventStrayRequests() (§5)
-├── Concerns/        # helpers: seedRolesAndPermissions, actingAsUser, actingAsAdmin, CreatesItems, LoadsFixtures
+├── Concerns/        # helpers: seedRolesAndPermissions, actingAsUser, actingAsAdmin, CreatesItems, FakesRemoteImages, LoadsFixtures
 ├── Feature/         # Votes/, Ranking/, Items/, Kudos/, Catalog/…
 ├── Unit/            # lógica pura: fórmulas, mapeadores, normalizadores
-└── Fixtures/catalog/  # respuestas recortadas de TMDB, Wikidata y Wikipedia (las de TMDB de la F1-03, escritas a mano con la forma de la API)
+└── Fixtures/catalog/  # respuestas recortadas en tmdb/, wikidata/, wikipedia/, igdb/, steam/ y commons/ (las de TMDB de la F1-03, escritas a mano con la forma de la API)
 ```
 
 ## 3. `tests/TestCase.php` (obligatorio, R3)
@@ -81,7 +81,7 @@ El `setUp()` llama a `parent::setUp()` primero (donde corre `setUpTraits()`), as
 - **Feature:** contra endpoints reales (`$this->postJson('/api/votes', …)`) con `RefreshDatabase`. Comprueba el estado HTTP, el JSON (`assertJsonPath`, `assertJsonStructure`) y la base de datos (`assertDatabaseHas`).
 - **Unit:** solo lógica pura.
 - **Nombres:** `test_<comportamiento_en_snake_case>` o `#[Test]`. Por ejemplo, `test_cambiar_un_voto_mantiene_los_medios_puntos`.
-- **Factories:** existen `Category`, `Item`, `User`, `Vote`, `Proposal` y `Profile`. `UserFactory` crea usuarios verificados por defecto. `VoteFactory` ya tiene `->rated(float)` (nota decimal, tipo `vote`; `->withScore(int)` trunca los medios puntos). Añade *states* (`->want()`, …) en lugar de repetir arrays.
+- **Factories:** existen `Category`, `Item`, `ItemComment`, `ListItem`, `Profile`, `Proposal`, `Report`, `User`, `UserList` y `Vote`. `UserFactory` crea usuarios verificados por defecto. `VoteFactory` ya tiene `->rated(float)` (nota decimal, tipo `vote`; `->withScore(int)` trunca los medios puntos). Añade *states* (`->want()`, …) en lugar de repetir arrays.
 - **Trampa de las factories:** `ItemFactory::definition()` elige categoría (`Category::inRandomOrder()`) y creador (`User::inRandomOrder()`), y `VoteFactory::definition()` elige usuario e ítem activo, **siempre**, aunque pases *overrides*. Antes de crear un ítem o un voto tiene que existir en la base de datos al menos un usuario (y una categoría, o un ítem activo). `CategoryFactory` elige el nombre de una lista corta que se reinicia, así que pasa siempre `name` y `slug` explícitos o dos categorías del mismo test pueden chocar. Usa `CreatesItems`.
 - **Tiempo:** `$this->travelTo(...)` o `Carbon::setTestNow`.
 - **Caché:** `Cache::flush()` al probar `NextCategoryItemService`. El azar de la cola usa `mt_rand()`: para un orden reproducible, `mt_srand(semilla)` **después** de crear los datos (Faker también consume `mt_rand`) y `mt_srand()` al terminar para no dejar la semilla fijada.
@@ -130,6 +130,6 @@ Http::fake([
   - No crea `storage/framework/*`: aunque no está versionado, `AppServiceProvider::ensureFrameworkDirectoriesExist()` lo crea al arrancar la app (ya lo hace el `package:discover` de `composer install`).
   - Ejecuta `php artisan test`.
   - `composer install` ya no avisa de que `composer.lock` esté desfasado (F0-19).
-- **`frontend`:** Node 22, pnpm fijado en `Frontend/package.json` (`packageManager`, 12.15.0; el workflow lee la versión de ahí y lo instala con `npm install -g`) y `pnpm install --frozen-lockfile && pnpm build`.
+- **`frontend`:** Node 22, pnpm fijado en `Frontend/package.json` (`packageManager`, 12.15.0; el workflow lee la versión de ahí y lo instala con `npm install -g`) y `pnpm install --frozen-lockfile && pnpm build`; el job termina con `pnpm test:seo` (`tests.yml:101`).
 
 Sin secretos. La protección de `tests/TestCase.php` (§3) también actúa en CI.

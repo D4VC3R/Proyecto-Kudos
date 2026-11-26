@@ -9,18 +9,19 @@
 
 **Despliegue:** Vercel, en `kudos.dcerdan.es`. Es una SPA: `vercel.json` reescribe todo a `index.html` y tiene un `ignoreCommand` que solo construye si cambia `Frontend/`. Las fichas (`/:categorySlug/item/:itemId`) se reescriben solo para los *user-agents* de rastreadores a la función `api/meta.js`, que devuelve el `index.html` con `<title>`, `description`, `og:*`, `twitter:*` y JSON-LD (F2-10; lógica en `api/_lib/seo.js`). Igual con las listas (`/listas/:slug`) y los perfiles públicos (`/u/:username`) (F3-09): las listas no listadas llevan `noindex` (`<meta name="robots">` y `X-Robots-Tag`) y las privadas, los perfiles privados y los slugs o nombres inexistentes dan 404 con meta genéricas.
 
-Las rutas son relativas a `Frontend/src/`.
+Las rutas son relativas a `Frontend/src/`. Fuera de `src/` están `api/` (la función SEO de Vercel), `tests/seo/` (sus tests, `pnpm test:seo`) y `scripts/` (`check-tailwind-classes.mjs`).
 
 ## 1. Estructura
 
 | Carpeta | Contenido |
 |---|---|
+| `App.jsx`, `main.jsx` y `app/` | `main.jsx` monta la aplicación (`BrowserRouter` y los proveedores); `App.jsx` compone la cabecera, las rutas, el pie y los elementos globales (modal de listas, recompensa diaria, botón de subir). `app/AppProviders.jsx` son los proveedores globales: el límite de errores (`AppErrorBoundary`), React Query (`QueryClientProvider`) y las alertas `Toaster` de react-hot-toast |
 | `core/` | `axiosClient.js` (`VITE_API_URL`, token Bearer), `apiError.js` (`ApiError`, `applyFieldErrors`), `queryClient.js`, `AppErrorBoundary.jsx` |
 | `store/useSessionStore.js` | Sesión (Zustand): `token`, `user` y `onboardingPending` (el aviso del onboarding dura lo que la sesión, F2-07) |
 | `store/useAddToListStore.js` | Ítem para el que está abierto el modal "Añadir a una lista" (Zustand, sin `persist`, F3-01): `item`, `openAddToList(item)` y `closeAddToList()` |
 | `routes/routes.jsx`, `routes/guards/` | Rutas y guardas: invitado, autenticado + verificado, admin |
 | `pages/` | Una página por ruta: `HomePage`, `CategoryPage`, `ExplorePage`, `ItemDetailPage`, `VotePage`, `RankingPage`, `WishlistPage`, `OnboardingPage`, `SearchPage`, `ListPage` (lista pública, F2-09; con "Me gusta" y acceso a editar para el dueño, F3-01), `MyListsPage` y `MyListEditPage` (F3-01), `NewProposalPage`, `legal/` (`PrivacyPage` y `LegalNoticePage`, F3-07), `auth/`, `profile/`, `admin/` (incluye `AdminLists`, `AdminListDetail` y `AdminReports`) |
-| `hooks/pages/useXPage.js` | Cada página tiene su hook, que devuelve `{ state, actions }`; la página solo pinta |
+| `hooks/pages/useXPage.js` | La mayoría de las páginas tiene su hook, que devuelve `{ state, actions }`; la página solo pinta. Otras usan directamente hooks de dominio (`ItemDetailPage`, `RankingPage`, `NewProposalPage`, `ProfilePage`, `MyStatsPage` y las de `auth/`) o no tienen estado (`ErrorPage`, `ForbiddenPage`, `AuthPage`); la convención se fija en F5-18 |
 | `hooks/<dominio>/` | Consultas y mutaciones de React Query: `items/useItemQueries.js`, `votes/useVoteMutations.js`, `useVoteQueries.js`, `catalog/useCatalogQueries.js` y `useCatalogMutations.js` (búsqueda e importación bajo demanda, F1-07), `onboarding/useOnboardingQueries.js` (ítems del *speed-rating*, fuera de `['items']` y `['categories']`, F2-07), `home/useHomeQueries.js` (`['home', userId|'guest']`) y `lists/useListQueries.js` (`['lists', slug, userId|'guest']`, F2-09; `['my-lists', userId|'guest', …]` con `MY_LIST_KEYS`, F3-01), `lists/useListMutations.js` (listas propias y me gusta, invalidan `['my-lists']` y `['lists']`) y `lists/useAddToListModal.js` (F3-01), `users/useUserQueries.js` con `usePublicProfile` (`['users', 'public', username, userId|'guest']`, F3-03; guardar el perfil invalida `['users', 'public']`); votar invalida `['home']` y `['lists']`… |
 | `hooks/common/` | `useFilters` (búsqueda con *debounce*; `minSearchLength` fija la longitud mínima que se envía), `useGlobalSearch` (buscador de la cabecera), `useInfiniteScroll`, `useModal`, `useBaseMutation`, `useDismiss` (clic fuera + Escape de los desplegables), `useDialogFocus` (foco del `Modal`) |
 | `hooks/notifications/` | Notificaciones dentro de la app (F3-05): `useNotificationQueries.js` (`useNotifications`, clave `['notifications', 'list', userId\|'guest']`, `refetchInterval` de 60 s con `refetchIntervalInBackground: false`), `useNotificationMutations.js` (marcar una y marcar todas, invalidan `['notifications']`) y `useNotificationBell.js` (la lógica de la campana: `{ state, actions, refs }`) |
@@ -67,7 +68,7 @@ Las rutas son relativas a `Frontend/src/`.
 - `tailwind.config.js`: `primary` `#2563eb` y `accent` `#facc15`; los colores de superficie, texto y navegación son canales RGB de `index.css` (`--color-surface: 255 255 255`, con el hex en el comentario) y en la configuración van como `rgb(var(--color-surface) / <alpha-value>)`, así que admiten opacidad (`bg-surface/60`). Utilidades propias en `theme.extend`: `animate-fade-in` (`keyframes.fadeIn`, 0,5 s), `h-page-content` (`calc(100dvh - 9rem)`) y `min-h-state` (`60vh`). No hay utilidades de scroll propias ni `prose`. `plugins: []`.
 - Estética: `rounded-3xl`, `shadow-xl`, `ring-1`; titulares `font-black` en Inter (autoalojada con `@fontsource-variable/inter`, sin Google Fonts).
 
-**Clases sin definir:** resuelto en la F0-08. Solución aplicada a cada clase:
+**Clases sin definir:** resuelto en la F0-08 y la F5-12 (las 6 clases que quedaban); `pnpm check:classes` lo comprueba. Solución aplicada a cada clase:
 
 | Clase | Solución aplicada |
 |---|---|

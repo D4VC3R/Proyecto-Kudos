@@ -1,26 +1,40 @@
-# Kudos 2.0: documentación del rediseño
-
-Plan aprobado el 26-10-2026. Rama de integración: `rediseno-fase-0`; `docs/` solo existe en ella. El estado de cada tarea está **solo** en [roadmap/README.md](roadmap/README.md).
+# Documentación de Kudos
 
 **Objetivo:** *"Tu diario de pelis, series y juegos en español, y destinos que descubrir, con listas que lo conectan todo."* Tres categorías vivas (Pelis/Series, Juegos, Destinos) alimentadas por APIs gratuitas; votar como "¿Lo conoces? → valóralo / me interesa / no me interesa"; descubrimiento que no depende del volumen de usuarios.
 
 **Restricciones:** coste cero y sin ánimo de lucro; contenido en español; un VPS de 4 GB compartido; un solo desarrollador; los datos actuales son de prueba y se pueden resetear.
 
-## Lectura
+## Arquitectura
 
-- **Siempre:** [guia-agentes.md](guia-agentes.md), y después la ficha de tu tarea.
-- **Según la ficha:** las secciones que cite, de esta lista:
+Cómo está hecho el código y qué contrato expone la API.
 
-| Documento | Contenido |
-|---|---|
-| [producto/vision.md](producto/vision.md) | Decisiones de producto, funciones aplazadas, métricas |
-| [infra/entorno-local.md](infra/entorno-local.md) | Sail, base de datos de tests, frontend, comandos, problemas frecuentes |
-| [infra/produccion.md](infra/produccion.md) | `compose.prod.yml`, variables nuevas, copias, *runbook* del reset |
-| [backend/arquitectura.md](backend/arquitectura.md) | Capas, mapa de archivos, trampas conocidas, patrones |
-| [backend/base-de-datos.md](backend/base-de-datos.md) | Esquema actual y migraciones de cada fase |
-| [backend/testing.md](backend/testing.md) | `TestCase`, estructura, convenciones, APIs falseadas |
-| [frontend/arquitectura.md](frontend/arquitectura.md) | Stack, estructura, rutas, estilos, decisiones de UI |
-| [integraciones/fuentes-externas.md](integraciones/fuentes-externas.md) | Reglas y APIs permitidas, endpoints, cobertura |
-| [integraciones/pipeline-catalogo.md](integraciones/pipeline-catalogo.md) | Módulo `app/Catalog`: contratos, importación, refresco |
-| [legal/cumplimiento.md](legal/cumplimiento.md) | Atribuciones, datos de terceros, DSA, RGPD |
-| [roadmap/](roadmap/README.md) | Tablero y fichas de las fases 0–4 |
+- [backend/arquitectura.md](backend/arquitectura.md): capas, mapa por dominio, trampas conocidas y patrones.
+- [backend/base-de-datos.md](backend/base-de-datos.md): esquema actual y migraciones de cada fase.
+- [backend/testing.md](backend/testing.md): `TestCase`, estructura de los tests, convenciones y APIs falseadas.
+- [frontend/arquitectura.md](frontend/arquitectura.md): stack, estructura, rutas, estilos y decisiones de UI.
+- [../Backend/docs/api-contract.md](../Backend/docs/api-contract.md): contrato JSON de la API (respuestas, errores y reglas de votación).
+
+## Puesta en marcha
+
+- [infra/entorno-local.md](infra/entorno-local.md): Sail, base de datos de tests, frontend, comandos y problemas frecuentes.
+
+## Producción
+
+- [infra/produccion.md](infra/produccion.md): `compose.prod.yml`, variables, copias de seguridad y el *runbook* único del paso a Kudos 2.0 (§5).
+- [../deploy/README.md](../deploy/README.md): Nginx del host y copias de seguridad del VPS.
+
+## Integraciones
+
+- [integraciones/fuentes-externas.md](integraciones/fuentes-externas.md): reglas y APIs permitidas, endpoints y cobertura.
+- [integraciones/pipeline-catalogo.md](integraciones/pipeline-catalogo.md): módulo `app/Catalog`: contratos, importación y refresco.
+
+## Producto y legal
+
+- [producto/vision.md](producto/vision.md): decisiones de producto, funciones aplazadas y métricas.
+- [legal/cumplimiento.md](legal/cumplimiento.md): atribuciones, datos de terceros, DSA y RGPD.
+
+## Proceso de desarrollo
+
+- [guia-agentes.md](guia-agentes.md): reglas R1–R13 y el ciclo de trabajo con agentes.
+- [roadmap/README.md](roadmap/README.md): tablero y fichas de las fases 0–5, histórico del rediseño.
+- [../AGENTS.md](../AGENTS.md): instrucciones para agentes de IA.
