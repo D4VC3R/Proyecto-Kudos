@@ -1,4 +1,4 @@
-# CI de tests (F0-13): tests del backend contra PostgreSQL y compilación del frontend.
+# CI de tests (F0-13): formato, migraciones y tests del backend contra PostgreSQL, y compilación del frontend.
 # Las credenciales de la base de datos son de usar y tirar: solo existen dentro del job (no son secretos).
 name: Tests
 
@@ -61,10 +61,24 @@ jobs:
       - name: Instalar las dependencias de Composer
         run: composer install --no-interaction --prefer-dist --no-progress
 
+      - name: Comprobar el formato con Pint
+        run: vendor/bin/pint --test
+
       - name: Preparar .env
         run: |
           cp .env.example .env
           php artisan key:generate --ansi
+
+      - name: Comprobar que las migraciones se pueden deshacer
+        # .env sale de .env.example: apunta a la base de desarrollo y a Redis, que aquí no existen.
+        # Se usa la testing del servicio y la caché en memoria (la migración de permisos limpia la caché).
+        env:
+          DB_DATABASE: testing
+          CACHE_STORE: array
+        run: |
+          php artisan migrate:fresh --no-interaction
+          php artisan migrate:rollback --no-interaction
+          php artisan migrate --no-interaction
 
       - name: Ejecutar los tests
         run: php artisan test
