@@ -83,7 +83,7 @@ Las rutas son relativas a `Frontend/src/`. Fuera de `src/` están `api/` (la fun
 
 Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe devolver nada (las clases que se definen, `animate-fade-in`, `h-page-content` y `min-h-state`, se comprueban en el CSS generado). Para el resto, `pnpm build && pnpm check:classes` (`Frontend/scripts/check-tailwind-classes.mjs`) busca cada clase de `src/` en el CSS compilado y sale con 1 si falta alguna; es una heurística (literales de cadena con prefijo de utilidad), con una lista `IGNORE` solo para palabras que no son clases.
 
-**Modo oscuro:** aplazado. Existen `darkMode: 'class'` y las variables `.dark`, pero nada activa la clase y hay muchas clases `slate-*` fijas (`grep -rc "slate-" Frontend/src`). **No lo actives a medias.**
+**Modo oscuro:** entra en el rediseño visual ([../redesign/plan.md](../redesign/plan.md), decisión 3), con los tokens claros y oscuros de la tarea RB-1. Hasta entonces existen `darkMode: 'class'` y las variables `.dark`, pero nada activa la clase y hay muchas clases `slate-*` fijas (`grep -rc "slate-" Frontend/src`). **No lo actives a medias** fuera de ese plan.
 
 ## 4. Decisiones de UI
 
