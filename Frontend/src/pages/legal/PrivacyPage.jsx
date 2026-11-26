@@ -85,7 +85,30 @@ const PrivacyPage = () => {
       </section>
 
       <section>
-        <h2 className={H2}>7. Tus derechos</h2>
+        <h2 className={H2}>7. Servicios de terceros que carga tu navegador</h2>
+        <p>
+          Al abrir la ficha de un destino, tu navegador descarga el mapa (las teselas) directamente de los servidores de
+          la Fundación OpenStreetMap (<code>tile.openstreetmap.org</code>), que reciben tu dirección IP y los datos
+          técnicos de cualquier petición web (navegador y página de origen). Solo ocurre en las fichas con mapa. La
+          Fundación OpenStreetMap, con sede en el Reino Unido (país con decisión de adecuación de la Comisión Europea),
+          trata esos datos según su{' '}
+          <a
+            href="https://osmfoundation.org/wiki/Privacy_Policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold text-primary hover:underline"
+          >
+            política de privacidad
+          </a>.
+        </p>
+        <p className="mt-2">
+          La tipografía de la web se sirve desde nuestro propio servidor: no se contacta con Google ni con otros
+          proveedores de fuentes.
+        </p>
+      </section>
+
+      <section>
+        <h2 className={H2}>8. Tus derechos</h2>
         <p>
           Puedes ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad
           escribiendo al correo de contacto ({email}). También puedes reclamar ante la{' '}
@@ -101,12 +124,12 @@ const PrivacyPage = () => {
       </section>
 
       <section>
-        <h2 className={H2}>8. Edad mínima</h2>
+        <h2 className={H2}>9. Edad mínima</h2>
         <p>Para registrarte debes tener 14 años o más (edad de consentimiento digital en España).</p>
       </section>
 
       <section>
-        <h2 className={H2}>9. Cookies y almacenamiento local</h2>
+        <h2 className={H2}>10. Cookies y almacenamiento local</h2>
         <p>
           No usamos cookies de terceros ni analítica. La sesión se guarda en el almacenamiento local del navegador
           (<code>localStorage</code>) solo para mantenerte conectado.
@@ -114,7 +137,7 @@ const PrivacyPage = () => {
       </section>
 
       <p className="text-sm">
-        Última actualización: 1 de noviembre de 2026.
+        Última actualización: 26 de noviembre de 2026.
       </p>
     </LegalPageLayout>
   );
