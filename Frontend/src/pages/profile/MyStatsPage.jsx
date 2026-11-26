@@ -1,7 +1,7 @@
 import React from 'react';
 import {Loader2, AlertCircle, BarChart3, Star, Award, MessageSquare, ThumbsUp, EyeOff, BookmarkPlus, Flame} from 'lucide-react';
 // Componentes
-import StatCard from '../../components/profile/StatCard.jsx';
+import ProfileStatCard from '../../components/profile/ProfileStatCard.jsx';
 import SectionHeader from "../../components/ui/SectionHeader.jsx";
 import FadeUp from "../../components/animations/FadeUp.jsx"; // Añadido para estandarizar diseño
 // Hooks
@@ -35,70 +35,70 @@ const MyStatsPage = () => {
             </div>
           ) : (
             <>
-              <StatCard
+              <ProfileStatCard
                 title="Kudos Globales"
                 value={stats.total_kudos}
                 icon={Award}
                 colorClass="bg-yellow-100 text-yellow-600"
                 delay={0.1}
               />
-              <StatCard
+              <ProfileStatCard
                 title="Racha Actual"
                 value={stats.current_login_streak > 1 ? `${stats.current_login_streak} días` : `${stats.current_login_streak} día`}
                 icon={Flame}
                 colorClass="bg-orange-100 text-orange-500"
                 delay={0.2}
               />
-              <StatCard
+              <ProfileStatCard
                 title="Mayor Racha"
                 value={stats.max_login_streak > 1 ? `${stats.max_login_streak} días` : `${stats.max_login_streak} día`}
                 icon={Flame}
                 colorClass="bg-red-100 text-red-500"
                 delay={0.3}
               />
-              <StatCard
+              <ProfileStatCard
                 title="Votos Totales"
                 value={stats.total_votes}
                 icon={ThumbsUp}
                 colorClass="bg-blue-100 text-blue-500"
                 delay={0.4}
               />
-              <StatCard
+              <ProfileStatCard
                 title="No me interesan"
                 value={stats.total_not_interested ?? stats.total_skips}
                 icon={EyeOff}
                 colorClass="bg-slate-100 text-text-normal"
                 delay={0.5}
               />
-              <StatCard
+              <ProfileStatCard
                 title="En tu wishlist"
                 value={stats.total_want ?? 0}
                 icon={BookmarkPlus}
                 colorClass="bg-sky-100 text-sky-500"
                 delay={0.6}
               />
-              <StatCard
+              <ProfileStatCard
                 title="Puntuación Media"
                 value={stats.average_score !== null ? stats.average_score : '-'}
                 icon={Star}
                 colorClass="bg-amber-100 text-amber-500"
                 delay={0.7}
               />
-              <StatCard
+              <ProfileStatCard
                 title="Propuestas Aceptadas"
                 value={stats.accepted_proposals}
                 icon={BarChart3}
                 colorClass="bg-emerald-100 text-emerald-500"
                 delay={0.8}
               />
-              <StatCard
+              <ProfileStatCard
                 title="Comentarios"
                 value={stats.total_comments}
                 icon={MessageSquare}
                 colorClass="bg-purple-100 text-purple-500"
                 delay={0.9}
               />
-              <StatCard
+              <ProfileStatCard
                 title="Categoría Favorita"
                 value={stats.favorite_category || '-'}
                 icon={Star}

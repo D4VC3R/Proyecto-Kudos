@@ -56,6 +56,7 @@ const ItemImage = ({item, showTitle = true, variant = 'banner', showCredit = fal
           <>
             <StorageImage
               src={imageVariant}
+              loading="eager"
               className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-50 scale-110"
             />
 
@@ -64,6 +65,7 @@ const ItemImage = ({item, showTitle = true, variant = 'banner', showCredit = fal
             <StorageImage
               src={imageVariant}
               alt={item.name || 'Imagen del ítem'}
+              loading="eager"
               className="relative z-10 w-full h-full object-contain drop-shadow-xl"
               onError={() => setImageFailed(true)}
             />

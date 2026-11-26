@@ -46,24 +46,6 @@ export const useAdminUnhideComment = () => {
 };
 
 // --- ITEMS ---
-export const useAdminCreateItem = () => {
-  return useBaseMutation({
-    mutationFn: (newItem) => axiosClient.post('/items', newItem),
-    invalidateKeys: [ITEM_KEYS.lists(), ADMIN_ITEM_KEYS.lists()],
-    successMessage: 'Ítem creado con éxito',
-  });
-};
-export const useAdminUpdateItem = () => {
-  const queryClient = useQueryClient();
-  return useBaseMutation({
-    mutationFn: ({ id, data }) => axiosClient.put(`/admin/items/${id}`, data),
-    invalidateKeys: [ITEM_KEYS.lists(), ADMIN_ITEM_KEYS.lists()],
-    successMessage: 'Ítem actualizado con éxito',
-    onSuccessExtra: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ITEM_KEYS.detail(variables.id) });
-    }
-  });
-};
 export const useAdminModerateItem =  () => {
   const queryClient = useQueryClient();
   return useBaseMutation({

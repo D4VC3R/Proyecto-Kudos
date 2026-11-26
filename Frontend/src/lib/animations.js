@@ -3,7 +3,7 @@
  * smooth: Aceleración natural, frena suavemente al final (para entradas).
  * snappy: Rápido (para interacciones rápidas).
  */
-export const EASING = {
+const EASING = {
     smooth: [0.22, 1, 0.36, 1],
     snappy: [0.4, 0, 0.2, 1],
 };

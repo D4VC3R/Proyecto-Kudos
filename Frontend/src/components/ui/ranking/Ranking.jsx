@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { Trophy} from 'lucide-react';
 import PodiumItem from './PodiumItem.jsx';
 import StaggerGrid from '../../animations/StaggerGrid.jsx';
 import { buildItemUrl } from '../../../lib/search.js';
+import { useInfiniteScroll } from '../../../hooks/common/useInfiniteScroll.js';
 
 const Ranking = ({
   title,
@@ -16,30 +17,7 @@ const Ranking = ({
   disableScroll = false,
   categorySlug
 }) => {
-  const observerTarget = useRef(null);
-
-  useEffect(() => {
-    if (!fetchNextPage) return;
-
-    const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
-    };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  const sentinelRef = useInfiniteScroll({ isFetchingNextPage, hasNextPage, fetchNextPage });
 
   const containerHeightClass = disableScroll ? 'h-auto min-h-[760px]' : 'h-[800px]';
   const overflowClass = disableScroll ? 'overflow-visible' : 'overflow-y-auto';
@@ -64,7 +42,7 @@ const Ranking = ({
         })}
 
         {fetchNextPage && (
-          <div ref={observerTarget} className="flex h-12 items-center justify-center py-4">
+          <div ref={sentinelRef} className="flex h-12 items-center justify-center py-4">
           </div>
         )}
       </StaggerGrid>

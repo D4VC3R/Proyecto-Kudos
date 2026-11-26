@@ -86,20 +86,6 @@ export const statusColors = {
   dismissed: 'bg-slate-100 text-slate-700'
 };
 
-// Iconos asociados a cada categoría.
-export const categoryIcons = {
-  'ciudades': Building2,
-  'politicos': Landmark,
-  'albumes musicales': Disc,
-  'artistas musicales': Mic2,
-  'cantantes': Mic2,
-  'paises': Plane,
-  'peliculas': Clapperboard,
-  'series': Tv,
-  'videojuegos': Gamepad2,
-  'libros': Book,
-};
-
 // Iconos por slug de categoría para el placeholder de los ítems sin imagen.
 export const CATEGORY_SLUG_ICONS = {
   'videojuegos': Gamepad2,
@@ -111,6 +97,7 @@ export const CATEGORY_SLUG_ICONS = {
   'ciudades': Building2,
   'politicos': Landmark,
   'paises': Plane,
+  'destinos': MapPin,
 };
 
 // Iconos lucide admitidos en `category.icon` (llega en la F1, en kebab-case).
