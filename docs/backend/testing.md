@@ -128,8 +128,10 @@ Http::fake([
   - `DB_HOST=127.0.0.1`, `DB_USERNAME` y `DB_PASSWORD` van en el `env` del job y pisan los de `.env` (en local salen de `.env`, ver §1).
   - Sin Redis: `phpunit.xml` pone caché y sesión en array.
   - No crea `storage/framework/*`: aunque no está versionado, `AppServiceProvider::ensureFrameworkDirectoriesExist()` lo crea al arrancar la app (ya lo hace el `package:discover` de `composer install`).
+  - Ejecuta `vendor/bin/pint --test` justo después de `composer install`: el CI falla si algún PHP de `Backend/` no sigue el formato de Pint (configuración por defecto). En local se arregla con `sail pint --dirty` (solo los archivos tocados).
+  - Comprueba que todas las migraciones se pueden deshacer: `php artisan migrate:fresh`, `migrate:rollback` y `migrate`, en este orden y con `DB_DATABASE=testing` y `CACHE_STORE=array` en el `env` del paso (el `.env` sale de `.env.example` y apunta a `kudos_db` y a Redis, que no existen en el job; la migración de `spatie/laravel-permission` limpia la caché). Va antes de los tests y sirve para que todo `down()` funcione (R5). En local: `docker compose exec -T -e DB_DATABASE=testing kudos-app php artisan migrate:fresh` (y `migrate:rollback`, `migrate`).
   - Ejecuta `php artisan test`.
   - `composer install` ya no avisa de que `composer.lock` esté desfasado (F0-19).
-- **`frontend`:** Node 22, pnpm fijado en `Frontend/package.json` (`packageManager`, 12.15.0; el workflow lee la versión de ahí y lo instala con `npm install -g`) y `pnpm install --frozen-lockfile && pnpm build`; el job termina con `pnpm test:seo` (`tests.yml:101`).
+- **`frontend`:** Node 22, pnpm fijado en `Frontend/package.json` (`packageManager`, 12.15.0; el workflow lee la versión de ahí y lo instala con `npm install -g`) y `pnpm install --frozen-lockfile && pnpm build`; el job termina con `pnpm test:seo` (`tests.yml:115`).
 
 Sin secretos. La protección de `tests/TestCase.php` (§3) también actúa en CI.

@@ -9,7 +9,7 @@
 | R3 | Los tests van contra PostgreSQL `testing`. Nunca SQLite. No quites la protección de `tests/TestCase.php`. |
 | R4 | Ningún test hace peticiones reales: `Http::preventStrayRequests()` + `Http::fake()` con fixtures ([backend/testing.md](backend/testing.md) §5). |
 | R5 | Migraciones siempre **nuevas** y con un `down()` que funcione. No edites las existentes. |
-| R6 | Cambio mínimo: no refactorices código ajeno a la tarea. **No ejecutes Pint** sobre archivos que no hayas tocado. Imita el estilo del archivo, también la indentación (hay archivos con tabuladores y otros con espacios). |
+| R6 | Cambio mínimo: no refactorices código ajeno a la tarea. Desde F5-15, `Backend/` está formateado con Pint (configuración por defecto, sin `pint.json`) y el CI lo exige con `pint --test`: antes de entregar, pasa `./vendor/bin/sail pint --dirty` (solo los archivos que has tocado) y ya no imites tabuladores ni otros estilos. No ejecutes Pint sobre el resto de `Backend/`. |
 | R7 | No rompas el contrato JSON del frontend: los campos se **añaden**, nunca se renombran ni se quitan. |
 | R8 | No borres tests. Si uno deja de tener sentido, explícalo en el resumen. No desactives validaciones, *policies* ni middlewares para que algo pase. |
 | R9 | Sin secretos en el repo. Cada variable nueva va vacía en `Backend/.env.example` y `Backend/.env.production.example`, y se documenta en [infra/produccion.md](infra/produccion.md) §3. |
@@ -18,7 +18,7 @@
 | R12 | Si la tarea es inviable o mucho mayor de lo descrito, o una verificación no se puede hacer en tu entorno: **para y pregunta**. Nunca des por hecha una tarea sin verificar. |
 | R13 | Los comentarios del código explican el **porqué** y no citan IDs del roadmap (`F5-02`) ni de la auditoría (`BE-B1`): la trazabilidad la dan el commit, el PR y su issue (`git blame`). Los que ya existen se quedan (Fase 5, "No hacer"), pero el código nuevo no añade más. En `docs/` sí se citan. |
 
-**Excepciones puntuales aprobadas:** a R5, el esquema literal en las dos migraciones de activación (D6, solo en la F5-06), y a R6, un único commit de Pint (D4, solo en la F5-15). Ver [roadmap/fase-5-refactor.md](roadmap/fase-5-refactor.md), F5-00. No se extienden a otras tareas.
+**Excepciones puntuales aprobadas:** a R5, el esquema literal en las dos migraciones de activación (D6, solo en la F5-06), y a R6, un único commit de Pint (D4, ya aplicado en la F5-15). Ver [roadmap/fase-5-refactor.md](roadmap/fase-5-refactor.md), F5-00. No se extienden a otras tareas.
 
 ## 2. Flujo de una tarea
 
