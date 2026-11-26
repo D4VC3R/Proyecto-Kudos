@@ -106,7 +106,7 @@ F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01. F5-1
 | F5-07 | Catálogo: política de jobs, *throttle* acotado e importación concurrente | INT | — | hecho | [#11](https://github.com/D4VC3R/Proyecto-Kudos/issues/11) |
 | F5-08 | Datos y recursos de terceros (`seed-data`, portadas, fuente, privacidad) | BE, FE, LEGAL | F5-00 | hecho | [#12](https://github.com/D4VC3R/Proyecto-Kudos/issues/12) |
 | F5-09 | Barrera de errores y tarjetas de ítem como enlaces | FE | — | hecho | [#13](https://github.com/D4VC3R/Proyecto-Kudos/issues/13) |
-| F5-10 | Errores de API tipados en el frontend | FE | F5-04 | pendiente | [#14](https://github.com/D4VC3R/Proyecto-Kudos/issues/14) |
+| F5-10 | Errores de API tipados en el frontend | FE | F5-04 | hecho | [#14](https://github.com/D4VC3R/Proyecto-Kudos/issues/14) |
 | F5-11 | Accesibilidad de formularios, modal y botones | FE | F5-09 | pendiente | [#15](https://github.com/D4VC3R/Proyecto-Kudos/issues/15) |
 | F5-12 | Clases sin definir, duplicados y código muerto del frontend | FE | F5-06, F5-09 | pendiente | [#16](https://github.com/D4VC3R/Proyecto-Kudos/issues/16) |
 | F5-13 | *Runbook* único del paso a Kudos 2.0 y salvaguardas de `main` | INFRA, DOCS | F5-00, F5-07, F5-08 | pendiente | [#17](https://github.com/D4VC3R/Proyecto-Kudos/issues/17) |

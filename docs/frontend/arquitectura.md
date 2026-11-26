@@ -15,7 +15,7 @@ Las rutas son relativas a `Frontend/src/`.
 
 | Carpeta | Contenido |
 |---|---|
-| `core/` | `axiosClient.js` (`VITE_API_URL`, token Bearer), `queryClient.js`, `AppErrorBoundary.jsx` |
+| `core/` | `axiosClient.js` (`VITE_API_URL`, token Bearer), `apiError.js` (`ApiError`, `applyFieldErrors`), `queryClient.js`, `AppErrorBoundary.jsx` |
 | `store/useSessionStore.js` | Sesión (Zustand): `token`, `user` y `onboardingPending` (el aviso del onboarding dura lo que la sesión, F2-07) |
 | `store/useAddToListStore.js` | Ítem para el que está abierto el modal "Añadir a una lista" (Zustand, sin `persist`, F3-01): `item`, `openAddToList(item)` y `closeAddToList()` |
 | `routes/routes.jsx`, `routes/guards/` | Rutas y guardas: invitado, autenticado + verificado, admin |
@@ -111,6 +111,7 @@ Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe d
 
 - La lógica va en hooks; los componentes solo pintan. Las llamadas a la API, solo en `hooks/<dominio>/` con `axiosClient`.
 - Claves de React Query: arrays con el dominio primero (`['items', 'search', q]`). Invalida con precisión tras cada mutación (votar invalida la cola, la *wishlist*, la ficha, el perfil, la portada y las listas: `VOTE_INVALIDATE_KEYS` en `hooks/votes/useVoteMutations.js`).
+- Errores de la API: el interceptor de `axiosClient` rechaza con un `ApiError` (`core/apiError.js`: `status`, `code`, `details`; `status` es 0 si no hay respuesta) que sigue siendo un `Error` con `message`, así que los *toasts* no cambian. `useBaseMutation({setError})` recibe el `setError` de react-hook-form y, ante un 422, marca cada campo de `details` con `applyFieldErrors` (el *toast* se mantiene). Las páginas distinguen el 404 con `error.status` (la ficha: "Ítem no encontrado"; `useItem` no reintenta un 404). Los hooks de `useRegister`, `useUpdateProfile`, `useCreateProposal` y `useUpdateProposal` aceptan `{setError}`; el formulario llama antes a `useForm`.
 - Textos en español, tuteando y cortos.
 - Accesibilidad: `aria-label` en los botones que solo tienen icono; el voto se puede usar con teclado; contraste AA.
 - *Mobile-first*: prueba a 360 px.
