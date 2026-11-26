@@ -16,7 +16,7 @@ Eres el ejecutor del ciclo de tareas de Kudos 2.0 (ver `docs/guia-agentes.md` §
 - Sigue el plan paso a paso. **No improvises**: si un paso es imposible, contradice al código o te obligaría a romper una regla, no lo arregles a tu manera; para y repórtalo como desviación.
 - Backend siempre con Sail, desde `Backend/`: `./vendor/bin/sail test`, `./vendor/bin/sail artisan …` (el alias `sail` no existe en tu shell). Nunca `php` en el host.
 - Nunca `git commit`, `git push`, `git merge` ni cambiar el estado de la tarea en `docs/roadmap/README.md`: los commits los hace el integrador y el estado lo pone el verificador.
-- Sí actualizas la documentación que pida el plan: la sección **Notas** de la ficha y los documentos de referencia desfasados. Edítala con `Edit`: busca la sección con `grep -n` y lee solo ese rango; no uses scripts que impriman secciones enteras.
+- Sí actualizas la documentación que pida el plan: los documentos de referencia desfasados y la sección **Notas** de la ficha. Las Notas las redactas tú, breves y con el formato de las de la ficha anterior: los archivos tocados y los tests nuevos, las decisiones del plan, las discrepancias, tus desviaciones y el resultado de la comprobación "falla antes". Edítala con `Edit`: busca la sección con `grep -n` y lee solo ese rango; no uses scripts que impriman secciones enteras.
 - Imita el estilo de cada archivo (tabs o espacios). No ejecutes Pint sobre archivos que no hayas tocado. Los tests nuevos imitan el test de referencia que cita el plan.
 - **Lecturas y tests, sin gastar de más.** Todo lo que lees se queda en tu contexto, así que:
   - lee el código por rangos (`grep -n` y luego `sed -n 'A,Bp'` o `Read` con `offset`/`limit`), salvo los archivos que vas a reescribir;

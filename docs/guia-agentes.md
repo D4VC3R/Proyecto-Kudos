@@ -26,7 +26,7 @@
 
 | Fase | Agente | Hace los pasos |
 |---|---|---|
-| Inicio | `kudos-planificador` (Opus, esfuerzo alto, solo lectura salvo su plan) | 2: lee la ficha y el código y escribe un plan preciso (15–20 KB) |
+| Inicio | `kudos-planificador` (Opus, esfuerzo alto, solo lectura salvo su plan) | 2: lee la ficha y el código y escribe un plan preciso (18 KB como máximo) |
 | Ejecución | `kudos-ejecutor` (Sonnet, esfuerzo alto) | 5–7: implementa el plan, verifica y documenta, sin commits |
 | Revisión | `kudos-verificador` (Opus, esfuerzo alto) | 6–7: verifica de forma independiente; si todo está bien, marca `hecho` y escribe la descripción del PR y su revisión; si no, devuelve correcciones al ejecutor (máximo 3 rondas) |
 | Integración | `kudos-integrador` (Sonnet, esfuerzo medio) | 8: hace los commits del plan, abre el PR contra `rediseno-fase-0`, espera al CI y, en verde, publica la revisión, lo fusiona y cierra la issue (§4.1); en rojo, devuelve el log al verificador |
