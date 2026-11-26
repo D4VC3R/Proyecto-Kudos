@@ -11,34 +11,18 @@ use Database\Seeders\CategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Tests\Concerns\FakesRemoteImages;
 use Tests\TestCase;
 
 class CategorySeederTest extends TestCase
 {
-    use FakesRemoteImages, RefreshDatabase;
+    use RefreshDatabase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         Storage::fake('public');
-        Storage::fake('local');
-        $this->fakeHostResolver();
-        $this->fakeHttp();
-    }
-
-    /** Falsea las portadas que descarga CategorySeeder (un PNG nuevo por petición), más las reglas extra. */
-    private function fakeHttp(array $extra = []): void
-    {
-        $png = $this->fakePng();
-        $cover = fn () => Http::response($png, 200, ['Content-Type' => 'image/png']);
-
-        Http::fake($extra + [
-            'sm.ign.com/*' => $cover,               // videojuegos
-            'm.media-amazon.com/*' => $cover,       // peliculas
-            'images.bauerhosting.com/*' => $cover,  // series
-        ]);
+        Http::fake();
     }
 
     public function test_siembra_solo_las_cuatro_categorias_nuevas_en_orden(): void
@@ -89,16 +73,15 @@ class CategorySeederTest extends TestCase
         $this->assertNull($destinations->image);
     }
 
-    public function test_guarda_las_portadas_en_el_disco_public(): void
+    public function test_siembra_las_categorias_sin_portada_y_sin_peticiones(): void
     {
         $this->seed(CategorySeeder::class);
 
-        foreach (['peliculas', 'series', 'videojuegos'] as $slug) {
-            $image = Category::query()->where('slug', $slug)->value('image');
-
-            $this->assertStringStartsWith("categories/{$slug}/seed/cover-", $image);
-            Storage::disk('public')->assertExists($image);
+        foreach (['peliculas', 'series', 'videojuegos', 'destinos'] as $slug) {
+            $this->assertNull(Category::query()->where('slug', $slug)->value('image'));
         }
+        Http::assertNothingSent();
+        $this->assertSame([], Storage::disk('public')->allFiles());
     }
 
     public function test_las_categorias_inactivas_no_salen_en_la_api(): void
