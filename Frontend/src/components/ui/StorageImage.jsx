@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ImageOff } from 'lucide-react';
 import { getStorageUrl } from '../../lib/formatters.js';
 
-const StorageImage = ({src, alt = "Imagen", className = "", fallbackIcon: FallbackIcon = ImageOff, fallback, onError, ...props}) => {
+const StorageImage = ({src, alt = "Imagen", className = "", fallbackIcon: FallbackIcon = ImageOff, fallback, onError, loading = 'lazy', decoding = 'async', ...props}) => {
   const initialSrc = getStorageUrl(src);
   // Si de entrada no hay un src válido, marcamos el error como true directamente
   const [hasError, setHasError] = useState(!initialSrc);
@@ -34,6 +34,8 @@ const StorageImage = ({src, alt = "Imagen", className = "", fallbackIcon: Fallba
       src={imgSrc}
       alt={alt}
       className={`object-cover ${className}`}
+      loading={loading}
+      decoding={decoding}
       onError={(event) => {
         setHasError(true);
         onError?.(event);

@@ -1,4 +1,6 @@
 import React from 'react';
+import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 import { Loader2 } from 'lucide-react';
 import {VARIANTS, SIZES, RADII} from '../../lib/buttonStyles.js';
 
@@ -29,7 +31,7 @@ const Button = React.forwardRef(({
       ref={ref}
       type={type}
       disabled={isDisabled}
-      className={`${baseStyles} ${variantStyles} ${sizeStyles} ${radiusStyles} ${widthStyles} ${className}`}
+      className={twMerge(clsx(baseStyles, variantStyles, sizeStyles, radiusStyles, widthStyles, className))}
       {...props}
     >
       {isLoading && <Loader2 size={18} className="animate-spin shrink-0" />}
