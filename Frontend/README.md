@@ -2,7 +2,7 @@
 
 <img src="https://skillicons.dev/icons?i=react,vite,tailwind" alt="Frontend Stack" />
 
-> Esqueleto base para empezar a desarrollar el frontend de forma modular y desacoplada, consumiendo la API de `Backend/`.
+> SPA de Kudos (React 18 + Vite 6) que consume la API de `Backend/`; se despliega en Vercel.
 
 ---
 
@@ -16,6 +16,27 @@ El proyecto está configurado con las siguientes herramientas para mantener un c
 - **Estado y Caché:** 🐻 Zustand + 🔄 React Query
 - **Formularios y Validación:** 📝 React Hook Form + 🛡️ Zod
 - **UI y Experiencia:** ✨ Lucide Icons + 🎬 Framer Motion + 🔔 react-hot-toast
+
+---
+
+## 🧰 Scripts
+
+- `pnpm dev`: servidor de desarrollo de Vite.
+- `pnpm build`: compila la aplicación para producción.
+- `pnpm preview`: sirve la compilación en local (puerto 4174).
+- `pnpm test:seo`: tests de Node de la función SEO de `api/`.
+- `pnpm check:classes`: comprueba que solo se usan clases Tailwind que existen.
+
+---
+
+## 🗂 Estructura
+
+- `src/`: la SPA (páginas, componentes, hooks y rutas).
+- `api/`: función SEO de Vercel.
+- `tests/seo/`: tests de la función SEO.
+- `scripts/`: utilidades de desarrollo (`check-tailwind-classes.mjs`).
+
+Detalle en [../docs/frontend/arquitectura.md](../docs/frontend/arquitectura.md). Cómo ejecutar los comandos con Docker: [../docs/infra/entorno-local.md](../docs/infra/entorno-local.md) §5.
 
 ---
 

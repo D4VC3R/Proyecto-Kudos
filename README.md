@@ -6,7 +6,7 @@
 
 Proyecto Kudos es una plataforma de valoraciones multitemática con elementos de gamificación donde los usuarios crean, puntúan y comentan elementos culturales, sociales o populares, generando clasificaciones o ‘ránkings’ divididos por temáticas mientras ganan puntos Kudos con cada interacción, que les hará escalar en la clasificación general de usuarios.
 
-> **Kudos 2.0 en curso.** El proyecto está en pleno rediseño. El plan, las reglas de trabajo y el estado de cada tarea están en [docs/](docs/README.md) (tablero: [docs/roadmap/README.md](docs/roadmap/README.md)).
+> **Kudos 2.0.** Tu diario de pelis, series y juegos en español, y destinos que descubrir, con listas que lo conectan todo. La documentación está en [docs/](docs/README.md).
 
 ---
 
@@ -34,20 +34,22 @@ Proyecto Kudos es una plataforma de valoraciones multitemática con elementos de
 ## 🏗 Estructura del proyecto
 ```text
 .
-├── .github/workflows/      # docs.yml: documentación de la API con phpDocumentor (push a main)
+├── .github/workflows/      # tests.yml (CI) y docs.yml (phpDocumentor al hacer push a main)
 ├── Backend/                # API Laravel (Sail en desarrollo, compose.prod.yml en producción)
 │   ├── app/
 │   │   ├── Actions/
-│   │   ├── Console/Commands/
+│   │   ├── Catalog/        # proveedores, enriquecimiento e importación del catálogo
+│   │   ├── Console/Commands/   # con la subcarpeta Catalog/
 │   │   ├── Contracts/
 │   │   ├── Http/           # Controllers, Middleware, Requests, Resources
-│   │   ├── Jobs/
+│   │   ├── Jobs/           # con la subcarpeta Catalog/
 │   │   ├── Models/
 │   │   ├── Notifications/
 │   │   ├── Policies/
 │   │   ├── Providers/
 │   │   ├── Rules/
-│   │   └── Services/
+│   │   ├── Services/
+│   │   └── Support/
 │   ├── bootstrap/
 │   ├── config/
 │   ├── database/
@@ -58,7 +60,7 @@ Proyecto Kudos es una plataforma de valoraciones multitemática con elementos de
 │   │   ├── 8.5/            # imagen de Sail (desarrollo)
 │   │   ├── pgsql/          # crea la base de datos de tests `testing`
 │   │   └── prod/           # php.ini, PHP-FPM, Nginx interno y entrypoint
-│   ├── docs/               # contrato y referencia de la API
+│   ├── docs/               # contrato de la API (`api-contract.md`)
 │   ├── public/
 │   ├── routes/             # api.php, auth.php, console.php
 │   ├── scripts/            # verify-test-db-guard.sh
@@ -69,16 +71,19 @@ Proyecto Kudos es una plataforma de valoraciones multitemática con elementos de
 │       ├── Fixtures/
 │       └── Unit/
 ├── Frontend/               # React + Vite (desplegado en Vercel)
+│   ├── api/                # función SEO de Vercel
 │   ├── public/
-│   └── src/
-│       ├── app/
-│       ├── components/
-│       ├── core/
-│       ├── hooks/
-│       ├── lib/
-│       ├── pages/
-│       ├── routes/
-│       └── store/
+│   ├── scripts/            # check-tailwind-classes.mjs
+│   ├── src/
+│   │   ├── app/
+│   │   ├── components/
+│   │   ├── core/
+│   │   ├── hooks/
+│   │   ├── lib/
+│   │   ├── pages/
+│   │   ├── routes/
+│   │   └── store/
+│   └── tests/seo/          # tests de la función SEO (pnpm test:seo)
 ├── deploy/                 # Nginx del host y copias de seguridad del VPS
 ├── deploy.sh               # despliegue en producción
 └── docs/                   # documentación de Kudos 2.0
@@ -112,18 +117,17 @@ Si el volumen de PostgreSQL ya existía antes de añadir la base de datos `testi
 ./vendor/bin/sail exec pgsql sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /docker-entrypoint-initdb.d/10-create-testing-database.sql'
 ```
 
-Más detalle en [docs/infra/entorno-local.md](docs/infra/entorno-local.md) §4 y [docs/backend/testing.md](docs/backend/testing.md). El frontend no tiene tests; se comprueba que compila con `docker compose run --rm kudos-frontend pnpm build` desde `Frontend/`. En GitHub, `.github/workflows/tests.yml` ejecuta estos tests contra PostgreSQL y compila el frontend en cada pull request y en cada push a `main` y `rediseno-fase-0` ([docs/backend/testing.md](docs/backend/testing.md) §7).
+Más detalle en [docs/infra/entorno-local.md](docs/infra/entorno-local.md) §4 y [docs/backend/testing.md](docs/backend/testing.md). El frontend no incluye tests de la SPA: se comprueba que compila con `docker compose run --rm kudos-frontend pnpm build` desde `Frontend/`, y la función SEO de `Frontend/api/` tiene tests de Node (`pnpm test:seo`). En GitHub, `.github/workflows/tests.yml` ejecuta estos tests contra PostgreSQL y compila el frontend en cada pull request y en cada push a `main` y `rediseno-fase-0` ([docs/backend/testing.md](docs/backend/testing.md) §7).
 
 ---
 
 ## 📚 Documentación
 
-- [docs/README.md](docs/README.md): índice de Kudos 2.0.
+- [docs/README.md](docs/README.md): índice de la documentación.
 - [docs/guia-agentes.md](docs/guia-agentes.md): reglas de trabajo.
 - [docs/roadmap/README.md](docs/roadmap/README.md): tablero de tareas.
 - [Backend/README.md](Backend/README.md): arquitectura del backend.
 - [Backend/docs/api-contract.md](Backend/docs/api-contract.md): contrato JSON de la API.
-- [Backend/docs/api-reference.md](Backend/docs/api-reference.md): referencia de endpoints.
 - [Frontend/README.md](Frontend/README.md): frontend.
 - [deploy/README.md](deploy/README.md): despliegue en producción.
 
