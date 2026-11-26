@@ -39,13 +39,24 @@ No escribas ningún archivo y devuelve solo `## BLOQUEO` con el motivo y la preg
 
 ## Formato del plan (el contenido del archivo)
 
-**Apunta a 15–20 KB.** El ejecutor y el verificador leen el plan entero. Lo que hace falta es precisión, no transcribir: el código solo va escrito donde el detalle importa, y lo demás se describe.
+**Tope: 18 KB.** El ejecutor y el verificador leen el plan entero y lo arrastran en cada turno. Lo que hace falta es precisión, no transcribir: el código solo va escrito donde el detalle importa, y lo demás se describe. Cada sección tiene su presupuesto:
+- **Contexto:** 2 KB.
+- **Pasos:** 9 KB.
+- **Tests:** 4 KB.
+- **Documentación:** 1 KB.
+- **Criterios:** 1,5 KB.
+- **El resto:** 0,5 KB.
+
+En la práctica:
+- **Tests, una línea por test:** `nombre — preparación clave → aserción clave`. La preparación común de un archivo se dice una vez, en su cabecera. Solo se detalla una técnica que no sea obvia (cómo simular concurrencia, el reloj o una cola), y sin escribir el código.
+- **Documentación:** qué documento y sección cambia y qué idea tiene que recoger, en una línea cada uno. Las Notas de la ficha las redacta el ejecutor a partir de las decisiones del plan y de lo que pase al implementar; tú no las escribes.
+- **Criterios de aceptación:** los puntos de "Hecho cuando", comprobables, sin repetir los pasos.
 
 ```
 # Plan FX-YY · <título>
 
 ## Contexto verificado
-- 10 viñetas como máximo: el estado actual del código relevante (archivo:línea) y las discrepancias con la documentación (R1).
+- 8 viñetas como máximo, de una línea: el estado actual del código relevante (archivo:línea) y las discrepancias con la documentación (R1).
 
 ## Rama
 fase-N/FX-YY-descripcion-corta
@@ -59,15 +70,16 @@ fase-N/FX-YY-descripcion-corta
 
 ## Tests
 - Test de referencia para el estilo: tests/…/YTest.php (el ejecutor lo imita: traits, factories, helpers).
-- tests/…/XTest.php — test_nombre_en_snake_case: preparación (qué datos), acción (petición o llamada) y aserciones concretas (código HTTP, campos, filas). En viñetas, sin el cuerpo del test.
+- tests/…/XTest.php (nuevo o existente; preparación común en una línea):
+  - test_nombre_en_snake_case — preparación clave → aserción clave (código HTTP, campo o fila).
 - Si la ficha pide un test que falle antes del arreglo, dilo y cómo comprobarlo.
 
 ## Documentación
-- Notas de la ficha (decisiones y desviaciones) y documentos de referencia que haya que actualizar.
+- <documento> §<sección> — la idea que debe recoger, en una línea. Las Notas de la ficha, las redacta el ejecutor.
 - El estado del tablero no lo cambia el ejecutor: lo pone el verificador.
 
 ## Commits
-Los commits del PR, en orden, como unidades lógicas que un revisor pueda leer por separado (guía §4). Para cada uno: el mensaje (`Área: descripción`) y los archivos exactos que entran. Se reparten por archivos, porque no hay `git add -p`: un archivo va entero en un solo commit. Cada commit tiene sentido por sí solo (el código va con sus tests) y la documentación (Notas de la ficha y tablero) va en el último, `Docs: …`. Una tarea pequeña puede tener un solo commit de código más el de docs; no partas por partir.
+Los commits del PR, en orden, como unidades lógicas que un revisor pueda leer por separado (guía §4). Para cada uno: el mensaje (`Área: descripción`) y los archivos exactos que entran. Se reparten por archivos, porque no hay `git add -p`: un archivo va entero en un solo commit. Cada commit tiene sentido por sí solo (el código va con sus tests) y la documentación va en el último, `Docs: …`, que **siempre** incluye `docs/roadmap/README.md` (el verificador pone ahí la tarea en `hecho`). El área es una de la guía §4: `Votos`, `Catálogo`, `Ranking`, `Tests`, `Frontend`, `Infra`, `Despliegue`, `Legal`, `Docs`, `Seguridad` o `General`; no inventes otras. Una tarea pequeña puede tener un solo commit de código más el de docs; no partas por partir.
 1. `Área: …` — archivos…
 2. `Docs: …` — ficha (Notas), `docs/roadmap/README.md` y documentos de referencia.
 
@@ -82,6 +94,8 @@ Los commits del PR, en orden, como unidades lógicas que un revisor pueda leer p
 ## Decisiones para validar por el humano
 - … (o "Ninguna")
 ```
+
+Antes de dar el plan por terminado, mide su tamaño con `wc -c`. Si pasa de 18 KB, recorta las secciones que se hayan pasado de su presupuesto.
 
 Recuerda en el plan las reglas que más se rompen:
 - R4: ninguna petición real.
