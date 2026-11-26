@@ -14,7 +14,7 @@ use Tests\TestCase;
  */
 class CategoryVisibilityTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems, InteractsWithUsers;
+    use CreatesItems, InteractsWithUsers, RefreshDatabase;
 
     private function createInactiveCategory(): Category
     {

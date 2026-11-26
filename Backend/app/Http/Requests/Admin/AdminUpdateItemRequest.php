@@ -21,11 +21,12 @@ class AdminUpdateItemRequest extends FormRequest
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'description' => ['sometimes', 'required', 'string', 'min:20', 'max:2000'],
             'category_id' => ['sometimes', 'required', 'uuid', 'exists:categories,id'],
-            'status' => ['sometimes', 'string', 'in:' . Item::STATUS_ACTIVE . ',' . Item::STATUS_INACTIVE],
+            'status' => ['sometimes', 'string', 'in:'.Item::STATUS_ACTIVE.','.Item::STATUS_INACTIVE],
             'moderation_reason' => ['sometimes', 'nullable', 'string', 'max:1000'],
         ];
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

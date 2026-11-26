@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Role;
+use Illuminate\Database\Seeder;
 
 /**
  * Seeder para roles y permisos.
@@ -19,8 +18,8 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name'=>'admin']);
-        Role::create(['name'=>'user']);
+        Role::create(['name' => 'admin']);
+        Role::create(['name' => 'user']);
 
         Role::findByName('admin')->givePermissionTo(Permission::all());
         Role::findByName('user')->givePermissionTo([

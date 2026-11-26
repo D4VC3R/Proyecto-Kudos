@@ -14,17 +14,17 @@ class EnsureUserIsNotBanned
     /**
      * Maneja una solicitud entrante y verifica si el usuario está actualmente baneado.
      *
-     * @param Closure(Request): (Response) $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
 
-        if (!$user->isCurrentlyBanned()) {
+        if (! $user->isCurrentlyBanned()) {
             return $next($request);
         }
 
@@ -40,4 +40,3 @@ class EnsureUserIsNotBanned
         ], 403);
     }
 }
-

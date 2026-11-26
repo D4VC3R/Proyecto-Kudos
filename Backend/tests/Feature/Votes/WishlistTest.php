@@ -15,7 +15,7 @@ use Tests\TestCase;
  */
 class WishlistTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     private Category $category;
 

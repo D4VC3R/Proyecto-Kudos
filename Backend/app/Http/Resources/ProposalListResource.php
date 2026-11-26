@@ -13,51 +13,51 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class ProposalListResource extends JsonResource
 {
-	/**
-	 * @return array<string, mixed>
-	 */
-	public function toArray(Request $request): array
-	{
-		/** @var Proposal $proposal */
-		$proposal = $this->resource;
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        /** @var Proposal $proposal */
+        $proposal = $this->resource;
 
-		return [
-			'id' => $proposal->id,
-			'name' => $proposal->name,
-			'description' => $proposal->description,
-			'images' => collect($proposal->images ?? [])
-				->map(fn ($img) => [
-					'variants' => [
-						'thumb' => $img['variants']['thumb'] ?? null,
-						'banner' => $img['variants']['banner'] ?? null,
-					],
-					'meta' => $img['meta'] ?? null,
-					'alt' => $img['alt'] ?? null,
-					'order' => $img['order'] ?? 0,
-				])->toArray(),
-			'status' => $proposal->status,
-			'creator_id' => $proposal->creator_id,
-			'category_id' => $proposal->category_id,
-			'categorySlug' => $proposal->category->slug,
-			'reviewed_by' => $proposal->reviewed_by,
-			'reviewed_at' => $proposal->reviewed_at?->toIso8601String(),
-			'admin_notes' => $proposal->admin_notes,
-			'created_at' => $proposal->created_at?->toIso8601String(),
-			'updated_at' => $proposal->updated_at?->toIso8601String(),
-			'creator' => $this->when($proposal->relationLoaded('creator'), fn () => [
-				'id' => $proposal->creator?->id,
-				'name' => $proposal->creator?->name,
-				'email' => $proposal->creator?->email,
-			]),
-			'category' => $this->when($proposal->relationLoaded('category'), fn () => [
-				'id' => $proposal->category?->id,
-				'name' => $proposal->category?->name,
-				'slug' => $proposal->category?->slug,
-			]),
-			'reviewer' => $this->when($proposal->relationLoaded('reviewer'), fn () => [
-				'id' => $proposal->reviewer?->id,
-				'name' => $proposal->reviewer?->name,
-			]),
-		];
-	}
+        return [
+            'id' => $proposal->id,
+            'name' => $proposal->name,
+            'description' => $proposal->description,
+            'images' => collect($proposal->images ?? [])
+                ->map(fn ($img) => [
+                    'variants' => [
+                        'thumb' => $img['variants']['thumb'] ?? null,
+                        'banner' => $img['variants']['banner'] ?? null,
+                    ],
+                    'meta' => $img['meta'] ?? null,
+                    'alt' => $img['alt'] ?? null,
+                    'order' => $img['order'] ?? 0,
+                ])->toArray(),
+            'status' => $proposal->status,
+            'creator_id' => $proposal->creator_id,
+            'category_id' => $proposal->category_id,
+            'categorySlug' => $proposal->category->slug,
+            'reviewed_by' => $proposal->reviewed_by,
+            'reviewed_at' => $proposal->reviewed_at?->toIso8601String(),
+            'admin_notes' => $proposal->admin_notes,
+            'created_at' => $proposal->created_at?->toIso8601String(),
+            'updated_at' => $proposal->updated_at?->toIso8601String(),
+            'creator' => $this->when($proposal->relationLoaded('creator'), fn () => [
+                'id' => $proposal->creator?->id,
+                'name' => $proposal->creator?->name,
+                'email' => $proposal->creator?->email,
+            ]),
+            'category' => $this->when($proposal->relationLoaded('category'), fn () => [
+                'id' => $proposal->category?->id,
+                'name' => $proposal->category?->name,
+                'slug' => $proposal->category?->slug,
+            ]),
+            'reviewer' => $this->when($proposal->relationLoaded('reviewer'), fn () => [
+                'id' => $proposal->reviewer?->id,
+                'name' => $proposal->reviewer?->name,
+            ]),
+        ];
+    }
 }

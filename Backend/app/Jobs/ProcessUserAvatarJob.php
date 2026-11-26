@@ -23,6 +23,7 @@ class ProcessUserAvatarJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private const TEMP_DISK = 'local';
+
     private const TEMP_DIR = 'temp_uploads';
 
     public function __construct(
@@ -37,41 +38,42 @@ class ProcessUserAvatarJob implements ShouldQueue
      * - Procesa la imagen del avatar utilizando el MediaManager y almacena el resultado en el sistema de archivos.
      * - Actualiza el perfil del usuario con la ruta del avatar procesado, creando un perfil si no existe (no deberia de pasar).
      */
-   public function handle(
-   		RemoteImageDownloader $downloader,
-   		MediaManager $mediaManager,
-   		MediaStorageInterface $storage,
-   	): void {
-   		$user = $this->user->fresh(['profile']);
+    public function handle(
+        RemoteImageDownloader $downloader,
+        MediaManager $mediaManager,
+        MediaStorageInterface $storage,
+    ): void {
+        $user = $this->user->fresh(['profile']);
 
-   		if (!$user) {
-   			return;
-   		}
+        if (! $user) {
+            return;
+        }
 
-   		$input = trim($this->avatarInput);
-   		if ($input === '') {
-   			return;
-   		}
+        $input = trim($this->avatarInput);
+        if ($input === '') {
+            return;
+        }
 
-   		$tempPath = $downloader->isRemoteUrl($input)
-   			? $downloader->downloadToTemp($input, self::TEMP_DISK, self::TEMP_DIR)
-   			: $input;
+        $tempPath = $downloader->isRemoteUrl($input)
+            ? $downloader->downloadToTemp($input, self::TEMP_DISK, self::TEMP_DIR)
+            : $input;
 
-   		// El temporal se borra también si el procesado falla; si no, se quedaría para siempre en el disco local.
-   		try {
-   			$absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);
-   			$avatarData = $mediaManager->processAvatar($absoluteTempPath, 'avatars/' . $user->id);
-   		} finally {
-   			$storage->delete(self::TEMP_DISK, $tempPath);
-   		}
+        // El temporal se borra también si el procesado falla; si no, se quedaría para siempre en el disco local.
+        try {
+            $absoluteTempPath = Storage::disk(self::TEMP_DISK)->path($tempPath);
+            $avatarData = $mediaManager->processAvatar($absoluteTempPath, 'avatars/'.$user->id);
+        } finally {
+            $storage->delete(self::TEMP_DISK, $tempPath);
+        }
 
-   		$storedPath = $avatarData['path'];
+        $storedPath = $avatarData['path'];
 
-   		if ($user->profile) {
-   			$user->profile->update(['avatar' => $storedPath]);
-   			return;
-   		}
+        if ($user->profile) {
+            $user->profile->update(['avatar' => $storedPath]);
 
-   		$user->profile()->create(['avatar' => $storedPath]);
-   	}
+            return;
+        }
+
+        $user->profile()->create(['avatar' => $storedPath]);
+    }
 }

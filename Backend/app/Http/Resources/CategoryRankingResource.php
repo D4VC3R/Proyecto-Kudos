@@ -19,9 +19,7 @@ class CategoryRankingResource extends JsonResource
     {
         return [
             'category' => new CategoryResource($this->resource['category']),
-	          'ranking' => ItemMinimalResource::collection($this->resource['ranking']),
+            'ranking' => ItemMinimalResource::collection($this->resource['ranking']),
         ];
     }
 }
-
-

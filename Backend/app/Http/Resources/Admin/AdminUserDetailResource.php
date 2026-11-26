@@ -48,4 +48,3 @@ class AdminUserDetailResource extends AdminUserBaseResource
         ];
     }
 }
-

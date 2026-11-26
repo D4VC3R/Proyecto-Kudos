@@ -18,7 +18,7 @@ use Tests\TestCase;
 
 class BayesianRankingTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {

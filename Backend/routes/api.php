@@ -199,4 +199,4 @@ Route::middleware(['auth:sanctum', 'verified', 'not_banned', 'admin'])->group(fu
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

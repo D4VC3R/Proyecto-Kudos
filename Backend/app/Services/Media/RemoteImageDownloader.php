@@ -19,10 +19,11 @@ class RemoteImageDownloader
      * Descarga una imagen desde una URL remota a un almacenamiento temporal, validando su formato y tamaño.
      * User-Agent identificativo (fuentes-externas §1.3): Wikimedia bloquea los genéricos (fotos de Commons, F4-02).
      *
-     * @param string $url La URL de la imagen remota a descargar.
-     * @param string $tempDisk El disco de almacenamiento temporal donde se guardará la imagen descargada.
-     * @param string $tempDir El directorio dentro del disco temporal donde se guardará la imagen descargada.
+     * @param  string  $url  La URL de la imagen remota a descargar.
+     * @param  string  $tempDisk  El disco de almacenamiento temporal donde se guardará la imagen descargada.
+     * @param  string  $tempDir  El directorio dentro del disco temporal donde se guardará la imagen descargada.
      * @return string La ruta relativa dentro del disco temporal donde se guardó la imagen descargada.
+     *
      * @throws RuntimeException Si la URL es inválida, el recurso no es una imagen permitida, o si ocurre un error durante la descarga o validación.
      */
     public function downloadToTemp(string $url, string $tempDisk = 'local', string $tempDir = 'temp_uploads'): string
@@ -36,12 +37,12 @@ class RemoteImageDownloader
         }
 
         Storage::disk($tempDisk)->makeDirectory($tempDir);
-        $tempPath = $tempDir . '/' . Str::uuid()->toString() . '.tmp';
+        $tempPath = $tempDir.'/'.Str::uuid()->toString().'.tmp';
         $absolutePath = Storage::disk($tempDisk)->path($tempPath);
 
         $response = Http::timeout(30)->withUserAgent((string) config('catalog.user_agent'))->withOptions(['stream' => true])->get($url);
 
-        if (!$response->successful()) {
+        if (! $response->successful()) {
             throw new RuntimeException('No se pudo descargar la imagen.');
         }
 
@@ -51,7 +52,7 @@ class RemoteImageDownloader
         $handle = fopen($absolutePath, 'wb');
 
         $bytes = 0;
-        while (!$body->eof()) {
+        while (! $body->eof()) {
             $chunk = $body->read(8192);
             $bytes += strlen($chunk);
 
@@ -70,7 +71,7 @@ class RemoteImageDownloader
     /**
      * Verifica si un valor es una URL remota válida.
      *
-     * @param string $value El valor a verificar.
+     * @param  string  $value  El valor a verificar.
      * @return bool Retorna true si el valor es una URL remota válida, false en caso contrario.
      */
     public function isRemoteUrl(string $value): bool
@@ -81,8 +82,9 @@ class RemoteImageDownloader
     /**
      * Valida los encabezados de una respuesta HTTP para asegurarse de que corresponden a una imagen permitida y no exceden el tamaño máximo.
      *
-     * @param array $headers Los encabezados de la respuesta HTTP a validar.
-     * @param int $maxBytes El tamaño máximo permitido en bytes para la imagen.
+     * @param  array  $headers  Los encabezados de la respuesta HTTP a validar.
+     * @param  int  $maxBytes  El tamaño máximo permitido en bytes para la imagen.
+     *
      * @throws RuntimeException Si el recurso no es una imagen permitida o si supera el tamaño máximo permitido.
      */
     private function assertImageHeaders(array $headers, int $maxBytes): void
@@ -100,13 +102,14 @@ class RemoteImageDownloader
     /**
      * Valida que el tipo MIME de un recurso corresponda a uno de los formatos de imagen permitidos.
      *
-     * @param string $contentType El valor del encabezado Content-Type a validar.
+     * @param  string  $contentType  El valor del encabezado Content-Type a validar.
+     *
      * @throws RuntimeException Si el tipo MIME no es uno de los formatos de imagen permitidos.
      */
     private function assertMimeType(string $contentType): void
     {
         $cleanType = strtolower(explode(';', $contentType)[0]);
-        if (!in_array($cleanType, config('media.allowed_mimes'), true)) {
+        if (! in_array($cleanType, config('media.allowed_mimes'), true)) {
             throw new RuntimeException('El recurso remoto no es un formato de imagen permitido (jpeg, png, webp).');
         }
     }
@@ -114,8 +117,9 @@ class RemoteImageDownloader
     /**
      * Valida que el tipo MIME sea válido, con fallback a extensión de archivo si el Content-Type es incorrecto.
      *
-     * @param string $contentType El valor del encabezado Content-Type a validar.
-     * @param string $url La URL del recurso para extraer la extensión como fallback.
+     * @param  string  $contentType  El valor del encabezado Content-Type a validar.
+     * @param  string  $url  La URL del recurso para extraer la extensión como fallback.
+     *
      * @throws RuntimeException Si ni el MIME type ni la extensión son válidos.
      */
     private function assertMimeTypeOrExtension(string $contentType, string $url): void
@@ -149,7 +153,8 @@ class RemoteImageDownloader
      * Valida que una URL sea segura para su uso, verificando su esquema, host y dirección IP.
      * La resolución del host la hace el HostResolverInterface inyectado (DnsHostResolver en producción).
      *
-     * @param string $url La URL a validar.
+     * @param  string  $url  La URL a validar.
+     *
      * @throws RuntimeException Si la URL es inválida, tiene un esquema no permitido, o si el host remoto no es accesible o pertenece a una red privada.
      */
     private function assertSafeUrl(string $url): void
@@ -157,13 +162,13 @@ class RemoteImageDownloader
         $host = parse_url($url, PHP_URL_HOST);
         $scheme = strtolower(parse_url($url, PHP_URL_SCHEME));
 
-        if (!in_array($scheme, ['http', 'https'], true) || !$host) {
+        if (! in_array($scheme, ['http', 'https'], true) || ! $host) {
             throw new RuntimeException('URL inválida o esquema no permitido.');
         }
 
         $ip = $this->hostResolver->resolve($host);
 
-        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+        if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
             throw new RuntimeException('El host remoto no es accesible o es una red privada.');
         }
     }

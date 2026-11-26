@@ -19,66 +19,66 @@ use Illuminate\Support\Str;
  */
 class CatalogController extends Controller
 {
-	public function __construct(
-		protected CatalogSearch $catalogSearch,
-		protected ImportCatalogItemOnDemandAction $importAction,
-	) {}
+    public function __construct(
+        protected CatalogSearch $catalogSearch,
+        protected ImportCatalogItemOnDemandAction $importAction,
+    ) {}
 
-	public function search(SearchCatalogRequest $request): JsonResponse
-	{
-		$validated = $request->validated();
+    public function search(SearchCatalogRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
 
-		try {
-			$results = $this->catalogSearch->search($validated['category'], $validated['q']);
-		} catch (CatalogUnavailableException) {
-			return $this->catalogUnavailable();
-		}
+        try {
+            $results = $this->catalogSearch->search($validated['category'], $validated['q']);
+        } catch (CatalogUnavailableException) {
+            return $this->catalogUnavailable();
+        }
 
-		return $this->respondList(
-			data: CatalogSearchResultResource::collection($results),
-			meta: ['category' => $validated['category'], 'query' => Str::squish($validated['q'])],
-		);
-	}
+        return $this->respondList(
+            data: CatalogSearchResultResource::collection($results),
+            meta: ['category' => $validated['category'], 'query' => Str::squish($validated['q'])],
+        );
+    }
 
-	public function import(ImportCatalogItemRequest $request): JsonResponse
-	{
-		$validated = $request->validated();
+    public function import(ImportCatalogItemRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
 
-		try {
-			$result = $this->importAction->execute($request->user(), $validated['category'], $validated['external_id']);
-		} catch (CatalogUnavailableException) {
-			return $this->catalogUnavailable();
-		}
+        try {
+            $result = $this->importAction->execute($request->user(), $validated['category'], $validated['external_id']);
+        } catch (CatalogUnavailableException) {
+            return $this->catalogUnavailable();
+        }
 
-		return match ($result->outcome) {
-			OnDemandImportResult::CREATED => $this->respondMutation(
-				'Título añadido a Kudos.',
-				new ItemDetailResource($result->item->fresh(['category', 'creator'])),
-				status: 201,
-			),
-			OnDemandImportResult::EXISTING => $this->respondMutation(
-				'Este título ya estaba en Kudos.',
-				['item_id' => $result->item->id],
-			),
-			OnDemandImportResult::UNAVAILABLE => $this->respondError(
-				'conflict',
-				'Este título ya está en Kudos, pero ahora mismo no está disponible.',
-				status: 409,
-			),
-			OnDemandImportResult::NOT_FOUND => $this->respondError(
-				'not_found',
-				'No hemos encontrado este título en el catálogo externo.',
-				status: 404,
-			),
-		};
-	}
+        return match ($result->outcome) {
+            OnDemandImportResult::CREATED => $this->respondMutation(
+                'Título añadido a Kudos.',
+                new ItemDetailResource($result->item->fresh(['category', 'creator'])),
+                status: 201,
+            ),
+            OnDemandImportResult::EXISTING => $this->respondMutation(
+                'Este título ya estaba en Kudos.',
+                ['item_id' => $result->item->id],
+            ),
+            OnDemandImportResult::UNAVAILABLE => $this->respondError(
+                'conflict',
+                'Este título ya está en Kudos, pero ahora mismo no está disponible.',
+                status: 409,
+            ),
+            OnDemandImportResult::NOT_FOUND => $this->respondError(
+                'not_found',
+                'No hemos encontrado este título en el catálogo externo.',
+                status: 404,
+            ),
+        };
+    }
 
-	private function catalogUnavailable(): JsonResponse
-	{
-		return $this->respondError(
-			'catalog_unavailable',
-			'No hemos podido consultar el catálogo externo. Inténtalo de nuevo en unos minutos.',
-			status: 503,
-		);
-	}
+    private function catalogUnavailable(): JsonResponse
+    {
+        return $this->respondError(
+            'catalog_unavailable',
+            'No hemos podido consultar el catálogo externo. Inténtalo de nuevo en unos minutos.',
+            status: 503,
+        );
+    }
 }

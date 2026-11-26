@@ -19,7 +19,6 @@ class UserSeeder extends Seeder
      * Crea el administrador del sistema (config('kudos.seed_admin')) y, solo en local, 50 usuarios de prueba
      * con una contraseña que nadie conoce, para que no se pueda iniciar sesión con ellos.
      *
-     * @return void
      * @throws RuntimeException Si no están definidos el email o la contraseña del administrador.
      */
     public function run(): void
@@ -43,9 +42,9 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->create([
-                'name'              => $admin['name'],
-                'email'             => $admin['email'],
-                'password'          => Hash::make($admin['password']),
+                'name' => $admin['name'],
+                'email' => $admin['email'],
+                'password' => Hash::make($admin['password']),
                 'email_verified_at' => now(),
             ])
             ->syncRoles(['admin']);

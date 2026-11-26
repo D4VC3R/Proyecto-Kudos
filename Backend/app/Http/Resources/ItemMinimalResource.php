@@ -13,19 +13,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class ItemMinimalResource extends JsonResource
 {
-	/**
-	 * @return array<string, mixed>
-	 */
-	public function toArray(Request $request): array
-	{
-		/** @var Item $item */
-		$item = $this->resource;
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        /** @var Item $item */
+        $item = $this->resource;
 
-		return [
-			'id' => $item->id,
-			'name' => $item->name,
-			'vote_avg' => (float) $item->vote_avg,
-			'vote_count' => (int)$item->vote_count,
-		];
-	}
+        return [
+            'id' => $item->id,
+            'name' => $item->name,
+            'vote_avg' => (float) $item->vote_avg,
+            'vote_count' => (int) $item->vote_count,
+        ];
+    }
 }

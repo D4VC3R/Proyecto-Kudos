@@ -15,7 +15,7 @@ class EnsureEmailIsVerified
     /**
      * Maneja una solicitud entrante y verifica si el usuario ha verificado su correo electrónico.
      *
-     * @param Closure(Request): (Response) $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {

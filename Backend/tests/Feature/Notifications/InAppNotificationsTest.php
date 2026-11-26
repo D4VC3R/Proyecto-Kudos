@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserList;
 use App\Notifications\CommentRepliedNotification;
 use App\Notifications\ContentRemovedNotification;
+use App\Notifications\InAppNotification;
 use App\Notifications\ListLikedNotification;
 use App\Notifications\WishlistReleasedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,7 +23,7 @@ class InAppNotificationsTest extends TestCase
     /**
      * Devuelve una instancia de cada una de las cuatro clases.
      *
-     * @return array<int, \App\Notifications\InAppNotification>
+     * @return array<int, InAppNotification>
      */
     private function allNotifications(): array
     {

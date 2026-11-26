@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Services\KudosService;
 use App\Services\ModerationAuditLogger;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 /**
@@ -23,17 +22,18 @@ class ReviewProposalAction
         protected MediaStorageInterface $mediaStorage,
     ) {}
 
-	/**
-	 * Revisa una propuesta, actualizando su estado y tomando las acciones correspondientes.
-	 *
-	 * @param Proposal $proposal La propuesta a revisar.
-	 * @param User $admin El administrador que realiza la revisión.
-	 * @param string $status El nuevo estado de la propuesta (aceptada, rechazada, etc.).
-	 * @param string|null $adminNotes Notas adicionales del administrador.
-	 * @return Proposal La propuesta actualizada con sus relaciones cargadas.
-	 * @throws ConflictHttpException si la propuesta ya no está pendiente.
-	 * @throws \Throwable
-	 */
+    /**
+     * Revisa una propuesta, actualizando su estado y tomando las acciones correspondientes.
+     *
+     * @param  Proposal  $proposal  La propuesta a revisar.
+     * @param  User  $admin  El administrador que realiza la revisión.
+     * @param  string  $status  El nuevo estado de la propuesta (aceptada, rechazada, etc.).
+     * @param  string|null  $adminNotes  Notas adicionales del administrador.
+     * @return Proposal La propuesta actualizada con sus relaciones cargadas.
+     *
+     * @throws ConflictHttpException si la propuesta ya no está pendiente.
+     * @throws \Throwable
+     */
     public function execute(Proposal $proposal, User $admin, string $status, ?string $adminNotes): Proposal
     {
         return DB::transaction(function () use ($proposal, $admin, $status, $adminNotes) {
@@ -65,12 +65,11 @@ class ReviewProposalAction
         });
     }
 
-		/**
-		 * Maneja las acciones necesarias cuando una propuesta es aceptada, (mover imágenes y crear el ítem).
-		 *
-		 * @param Proposal $proposal La propuesta que ha sido aceptada.
-		 * @return void
-		 */
+    /**
+     * Maneja las acciones necesarias cuando una propuesta es aceptada, (mover imágenes y crear el ítem).
+     *
+     * @param  Proposal  $proposal  La propuesta que ha sido aceptada.
+     */
     private function handleAcceptedProposal(Proposal $proposal): void
     {
         $categorySlug = $proposal->category()->value('slug') ?? 'general';
@@ -84,22 +83,24 @@ class ReviewProposalAction
             $alt = is_array($image) ? ($image['alt'] ?? null) : null;
             $order = is_array($image) ? ($image['order'] ?? 0) : 0;
 
-            if (empty($variants) || !is_array($variants) || $disk !== 'public') {
+            if (empty($variants) || ! is_array($variants) || $disk !== 'public') {
                 continue;
             }
 
             $movedVariants = [];
             foreach ($variants as $type => $path) {
-                if (!is_string($path) || $path === '') continue;
+                if (! is_string($path) || $path === '') {
+                    continue;
+                }
 
                 $filename = basename($path);
-                $targetPath = 'items/' . $categorySlug . '/' . $proposal->id . '/' . $filename;
+                $targetPath = 'items/'.$categorySlug.'/'.$proposal->id.'/'.$filename;
 
                 $movedVariants[$type] = $targetPath;
                 $moves[] = [$path, $targetPath];
             }
 
-            if (!empty($movedVariants)) {
+            if (! empty($movedVariants)) {
                 $images[] = [
                     'variants' => $movedVariants,
                     'meta' => $meta,

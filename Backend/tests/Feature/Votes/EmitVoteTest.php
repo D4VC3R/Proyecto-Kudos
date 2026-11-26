@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class EmitVoteTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -36,8 +36,8 @@ class EmitVoteTest extends TestCase
         $this->assertDatabaseHas('votes', [
             'user_id' => $user->id,
             'item_id' => $item->id,
-            'type'    => 'vote',
-            'score'   => 8,
+            'type' => 'vote',
+            'score' => 8,
         ]);
 
         $item = $item->fresh();
@@ -89,8 +89,8 @@ class EmitVoteTest extends TestCase
         $this->assertDatabaseHas('votes', [
             'user_id' => $user->id,
             'item_id' => $item->id,
-            'type'    => 'not_interested',
-            'score'   => null,
+            'type' => 'not_interested',
+            'score' => null,
         ]);
         $this->assertDatabaseCount('kudos_transactions', 0);
     }
@@ -143,10 +143,10 @@ class EmitVoteTest extends TestCase
     public function test_un_usuario_baneado_no_puede_votar(): void
     {
         $this->actingAsUser([
-            'is_banned'    => true,
-            'banned_at'    => now(),
+            'is_banned' => true,
+            'banned_at' => now(),
             'banned_until' => null,
-            'ban_reason'   => 'Spam',
+            'ban_reason' => 'Spam',
         ]);
         $item = $this->createItem($this->createCategory());
 

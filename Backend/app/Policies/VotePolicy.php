@@ -11,12 +11,10 @@ use App\Models\Vote;
  */
 class VotePolicy
 {
-
     /**
      * Indica si se pueden listar los votos.
      *
-     * @param User $user Usuario autenticado.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
      */
     public function viewAny(User $user): bool
     {
@@ -26,9 +24,8 @@ class VotePolicy
     /**
      * Indica si se puede ver un voto.
      *
-     * @param User $user Usuario autenticado.
-     * @param Vote $vote Voto a consultar.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Vote  $vote  Voto a consultar.
      */
     public function view(User $user, Vote $vote): bool
     {
@@ -38,9 +35,8 @@ class VotePolicy
     /**
      * Indica si se puede crear un voto para un item.
      *
-     * @param User $user Usuario autenticado.
-     * @param Item $item Item sobre el que se vota.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Item  $item  Item sobre el que se vota.
      */
     public function create(User $user, Item $item): bool
     {
@@ -50,33 +46,30 @@ class VotePolicy
     /**
      * Indica si se puede actualizar un voto.
      *
-     * @param User $user Usuario autenticado.
-     * @param Vote $vote Voto a modificar.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Vote  $vote  Voto a modificar.
      */
     public function update(User $user, Vote $vote): bool
     {
-      return $user->id === $vote->user_id;
+        return $user->id === $vote->user_id;
     }
 
     /**
      * Indica si se puede eliminar un voto.
      *
-     * @param User $user Usuario autenticado.
-     * @param Vote $vote Voto a eliminar.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Vote  $vote  Voto a eliminar.
      */
     public function delete(User $user, Vote $vote): bool
     {
-	    return $user->id === $vote->user_id;
+        return $user->id === $vote->user_id;
     }
 
     /**
      * Indica si se puede restaurar un voto.
      *
-     * @param User $user Usuario autenticado.
-     * @param Vote $vote Voto a restaurar.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Vote  $vote  Voto a restaurar.
      */
     public function restore(User $user, Vote $vote): bool
     {
@@ -86,9 +79,8 @@ class VotePolicy
     /**
      * Indica si se puede borrar definitivamente un voto.
      *
-     * @param User $user Usuario autenticado.
-     * @param Vote $vote Voto a borrar definitivamente.
-     * @return bool
+     * @param  User  $user  Usuario autenticado.
+     * @param  Vote  $vote  Voto a borrar definitivamente.
      */
     public function forceDelete(User $user, Vote $vote): bool
     {

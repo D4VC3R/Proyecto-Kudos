@@ -13,7 +13,7 @@ use Tests\TestCase;
  */
 class VoteTypesTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -64,8 +64,8 @@ class VoteTypesTest extends TestCase
         $this->assertDatabaseHas('votes', [
             'user_id' => $user->id,
             'item_id' => $item->id,
-            'type'    => 'want',
-            'score'   => null,
+            'type' => 'want',
+            'score' => null,
         ]);
 
         $item = $item->fresh();
@@ -87,8 +87,8 @@ class VoteTypesTest extends TestCase
         $this->assertDatabaseHas('votes', [
             'user_id' => $user->id,
             'item_id' => $item->id,
-            'type'    => 'not_interested',
-            'score'   => null,
+            'type' => 'not_interested',
+            'score' => null,
         ]);
 
         $item = $item->fresh();

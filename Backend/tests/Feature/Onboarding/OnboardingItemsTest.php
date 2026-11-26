@@ -15,7 +15,7 @@ use Tests\TestCase;
  */
 class OnboardingItemsTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {

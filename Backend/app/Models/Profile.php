@@ -25,7 +25,7 @@ class Profile extends Model
         'city',
         'birthdate',
         'interests',
-        'is_public'
+        'is_public',
     ];
 
     // Privado por defecto: un perfil recién creado devuelve false sin recargarlo (F3-03).
@@ -37,7 +37,7 @@ class Profile extends Model
         'social_links' => 'array',
         'birthdate' => 'date',
         'interests' => 'array',
-        'is_public' => 'boolean'
+        'is_public' => 'boolean',
     ];
 
     /*

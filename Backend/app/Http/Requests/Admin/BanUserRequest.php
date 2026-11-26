@@ -34,7 +34,8 @@ class BanUserRequest extends FormRequest
             }
         });
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

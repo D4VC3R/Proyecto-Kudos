@@ -26,6 +26,6 @@ class QueuedVerifyEmail extends VerifyEmail implements ShouldQueue
             ->subject('Confirma tu correo electrónico')
             ->line('Pulsa el botón para confirmar tu dirección de correo.')
             ->action('Confirmar correo', $url)
-            ->line('Si no has creado una cuenta en ' . config('app.name') . ', no tienes que hacer nada.');
+            ->line('Si no has creado una cuenta en '.config('app.name').', no tienes que hacer nada.');
     }
 }

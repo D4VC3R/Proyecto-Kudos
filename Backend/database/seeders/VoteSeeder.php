@@ -19,117 +19,119 @@ use RuntimeException;
  */
 class VoteSeeder extends Seeder
 {
-	public function run(): void
-	{
-		// Votos y kudos falsos: nunca fuera de local, ni siquiera con db:seed --class=VoteSeeder --force (F1-10).
-		if (! app()->isLocal()) {
-			throw new RuntimeException('VoteSeeder solo se ejecuta en local (APP_ENV=local): genera votos y kudos falsos. Entorno actual: ' . app()->environment() . '.');
-		}
+    public function run(): void
+    {
+        // Votos y kudos falsos: nunca fuera de local, ni siquiera con db:seed --class=VoteSeeder --force (F1-10).
+        if (! app()->isLocal()) {
+            throw new RuntimeException('VoteSeeder solo se ejecuta en local (APP_ENV=local): genera votos y kudos falsos. Entorno actual: '.app()->environment().'.');
+        }
 
-		$itemIds = Item::where('status', Item::STATUS_ACTIVE)->pluck('id');
+        $itemIds = Item::where('status', Item::STATUS_ACTIVE)->pluck('id');
 
-		if ($itemIds->isEmpty()) {
-			$this->command->error('No hay ítems activos. Importa antes el catálogo con catalog:fetch-new.');
-			return;
-		}
+        if ($itemIds->isEmpty()) {
+            $this->command->error('No hay ítems activos. Importa antes el catálogo con catalog:fetch-new.');
 
-		$userIds = User::pluck('id');
+            return;
+        }
 
-		if ($userIds->isEmpty()) {
-			$this->command->error('No hay usuarios disponibles. Ejecuta UserSeeder primero.');
-			return;
-		}
+        $userIds = User::pluck('id');
 
-		$now = now();
-		$voteRows = [];
-		$kudosRows = [];
-		$kudosByUser = [];
+        if ($userIds->isEmpty()) {
+            $this->command->error('No hay usuarios disponibles. Ejecuta UserSeeder primero.');
 
-		// Recompensa base por voto (F2-03). El seeder no simula el rendimiento decreciente ni el tope diario.
-		$reward = (int) config('kudos.voting.reward');
-		$reason = (string) config('kudos.reasons.vote_first_time_item');
+            return;
+        }
 
-		foreach ($itemIds as $itemId) {
-			$numVotes = random_int(5, 20);
-			$voters = $userIds->random(min($numVotes, $userIds->count()));
+        $now = now();
+        $voteRows = [];
+        $kudosRows = [];
+        $kudosByUser = [];
 
-			foreach ($voters as $voterId) {
-				$createdAt = Carbon::instance($now)->subDays(random_int(1, 60));
+        // Recompensa base por voto (F2-03). El seeder no simula el rendimiento decreciente ni el tope diario.
+        $reward = (int) config('kudos.voting.reward');
+        $reason = (string) config('kudos.reasons.vote_first_time_item');
 
-				$voteRows[] = [
-					'id' => Str::uuid()->toString(),
-					'type' => Vote::TYPE_VOTE,
-					'score' => random_int(0, 10),
-					'user_id' => $voterId,
-					'item_id' => $itemId,
-					'created_at' => $createdAt->toDateTimeString(),
-					'updated_at' => $createdAt->toDateTimeString(),
-				];
+        foreach ($itemIds as $itemId) {
+            $numVotes = random_int(5, 20);
+            $voters = $userIds->random(min($numVotes, $userIds->count()));
 
-				$kudosRows[] = [
-					'id' => Str::uuid()->toString(),
-					'user_id' => $voterId,
-					'kudos_amount' => $reward,
-					'reason' => $reason,
-					// Replicamos la lógica del buildActionKey del KudosService (implode con ':')[cite: 49]
-					'action_key' => "{$reason}:{$voterId}:{$itemId}",
-					'reference_type' => Item::class,
-					'reference_id' => $itemId,
-					'created_at' => $createdAt->toDateTimeString(),
-					'updated_at' => $createdAt->toDateTimeString(),
-				];
+            foreach ($voters as $voterId) {
+                $createdAt = Carbon::instance($now)->subDays(random_int(1, 60));
 
-				$kudosByUser[$voterId] = ($kudosByUser[$voterId] ?? 0) + $reward;
-			}
-		}
+                $voteRows[] = [
+                    'id' => Str::uuid()->toString(),
+                    'type' => Vote::TYPE_VOTE,
+                    'score' => random_int(0, 10),
+                    'user_id' => $voterId,
+                    'item_id' => $itemId,
+                    'created_at' => $createdAt->toDateTimeString(),
+                    'updated_at' => $createdAt->toDateTimeString(),
+                ];
 
-		DB::transaction(function () use ($voteRows, $kudosRows, $kudosByUser) {
-			foreach (array_chunk($voteRows, 1000) as $chunk) {
-				Vote::insert($chunk);
-			}
+                $kudosRows[] = [
+                    'id' => Str::uuid()->toString(),
+                    'user_id' => $voterId,
+                    'kudos_amount' => $reward,
+                    'reason' => $reason,
+                    // Replicamos la lógica del buildActionKey del KudosService (implode con ':')[cite: 49]
+                    'action_key' => "{$reason}:{$voterId}:{$itemId}",
+                    'reference_type' => Item::class,
+                    'reference_id' => $itemId,
+                    'created_at' => $createdAt->toDateTimeString(),
+                    'updated_at' => $createdAt->toDateTimeString(),
+                ];
 
-			foreach (array_chunk($kudosRows, 1000) as $chunk) {
-				DB::table('kudos_transactions')->insert($chunk);
-			}
+                $kudosByUser[$voterId] = ($kudosByUser[$voterId] ?? 0) + $reward;
+            }
+        }
 
-			foreach ($kudosByUser as $userId => $kudosAmount) {
-				User::where('id', $userId)->increment('total_kudos', $kudosAmount);
-			}
-		});
+        DB::transaction(function () use ($voteRows, $kudosRows, $kudosByUser) {
+            foreach (array_chunk($voteRows, 1000) as $chunk) {
+                Vote::insert($chunk);
+            }
 
-		$voteStats = Vote::query()
-			->where('type', Vote::TYPE_VOTE)
-			->selectRaw('item_id, AVG(score) as avg_score, COUNT(*) as total_votes')
-			->groupBy('item_id')
-			->get();
+            foreach (array_chunk($kudosRows, 1000) as $chunk) {
+                DB::table('kudos_transactions')->insert($chunk);
+            }
 
-		DB::transaction(function () use ($voteStats) {
-			foreach ($voteStats as $stat) {
-				Item::where('id', $stat->item_id)->update([
-					'vote_avg' => round((float) $stat->avg_score, 2),
-					'vote_count' => (int) $stat->total_votes,
-				]);
-			}
-		});
+            foreach ($kudosByUser as $userId => $kudosAmount) {
+                User::where('id', $userId)->increment('total_kudos', $kudosAmount);
+            }
+        });
 
-		// bayes_score (F0-04): los update() directos de arriba no pasan por ItemStatsService, así que se calcula aquí.
-		$itemStatsService = app(ItemStatsService::class);
-		$categoryMeans = Category::query()->pluck('id')
-			->mapWithKeys(fn ($id) => [$id => $itemStatsService->refreshCategoryMean($id)]);
+        $voteStats = Vote::query()
+            ->where('type', Vote::TYPE_VOTE)
+            ->selectRaw('item_id, AVG(score) as avg_score, COUNT(*) as total_votes')
+            ->groupBy('item_id')
+            ->get();
 
-		DB::transaction(function () use ($itemStatsService, $categoryMeans) {
-			Item::query()
-				->where('vote_count', '>', 0)
-				->get(['id', 'category_id', 'vote_avg', 'vote_count'])
-				->each(fn (Item $item) => Item::whereKey($item->id)->update([
-					'bayes_score' => $itemStatsService->bayesScore(
-						(int) $item->vote_count,
-						(float) $item->vote_avg,
-						(float) ($categoryMeans[$item->category_id] ?? config('kudos.ranking.category_mean_fallback'))
-					),
-				]));
-		});
+        DB::transaction(function () use ($voteStats) {
+            foreach ($voteStats as $stat) {
+                Item::where('id', $stat->item_id)->update([
+                    'vote_avg' => round((float) $stat->avg_score, 2),
+                    'vote_count' => (int) $stat->total_votes,
+                ]);
+            }
+        });
 
-		$this->command->info(count($voteRows) . ' votos generados.');
-	}
+        // bayes_score (F0-04): los update() directos de arriba no pasan por ItemStatsService, así que se calcula aquí.
+        $itemStatsService = app(ItemStatsService::class);
+        $categoryMeans = Category::query()->pluck('id')
+            ->mapWithKeys(fn ($id) => [$id => $itemStatsService->refreshCategoryMean($id)]);
+
+        DB::transaction(function () use ($itemStatsService, $categoryMeans) {
+            Item::query()
+                ->where('vote_count', '>', 0)
+                ->get(['id', 'category_id', 'vote_avg', 'vote_count'])
+                ->each(fn (Item $item) => Item::whereKey($item->id)->update([
+                    'bayes_score' => $itemStatsService->bayesScore(
+                        (int) $item->vote_count,
+                        (float) $item->vote_avg,
+                        (float) ($categoryMeans[$item->category_id] ?? config('kudos.ranking.category_mean_fallback'))
+                    ),
+                ]));
+        });
+
+        $this->command->info(count($voteRows).' votos generados.');
+    }
 }

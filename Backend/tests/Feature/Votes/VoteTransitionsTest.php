@@ -17,7 +17,7 @@ use Tests\TestCase;
  */
 class VoteTransitionsTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     private const INVALID_CONVERSION = 'Una valoración no se puede convertir en "me interesa" ni en "no me interesa": bórrala y vuelve a crearla.';
 
@@ -97,8 +97,8 @@ class VoteTransitionsTest extends TestCase
         $this->assertEquals(7.0, (float) $item->vote_avg);
 
         $this->assertDatabaseHas('kudos_transactions', [
-            'user_id'    => $user->id,
-            'reason'     => 'vote_first_time_item',
+            'user_id' => $user->id,
+            'reason' => 'vote_first_time_item',
             'action_key' => "vote_first_time_item:{$user->id}:{$item->id}",
         ]);
     }
@@ -123,8 +123,8 @@ class VoteTransitionsTest extends TestCase
         $this->assertEquals(7.0, (float) $item->vote_avg);
 
         $this->assertDatabaseHas('kudos_transactions', [
-            'user_id'    => $user->id,
-            'reason'     => 'vote_first_time_item',
+            'user_id' => $user->id,
+            'reason' => 'vote_first_time_item',
             'action_key' => "vote_first_time_item:{$user->id}:{$item->id}",
         ]);
     }

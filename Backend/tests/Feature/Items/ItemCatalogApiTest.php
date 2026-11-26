@@ -14,7 +14,7 @@ use Tests\TestCase;
  */
 class ItemCatalogApiTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     private function movieCategory(): Category
     {

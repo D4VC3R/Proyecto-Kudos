@@ -9,24 +9,24 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class DeleteAccountRequest extends FormRequest
 {
-	public function authorize(): bool
-	{
-		return $this->user() !== null;
-	}
+    public function authorize(): bool
+    {
+        return $this->user() !== null;
+    }
 
-	public function rules(): array
-	{
-		return [
-			// current_password con el guard de Sanctum (la API se autentica con token).
-			'password' => ['required', 'string', 'current_password:sanctum'],
-		];
-	}
+    public function rules(): array
+    {
+        return [
+            // current_password con el guard de Sanctum (la API se autentica con token).
+            'password' => ['required', 'string', 'current_password:sanctum'],
+        ];
+    }
 
-	public function messages(): array
-	{
-		return [
-			'password.required' => 'Escribe tu contraseña para confirmar el borrado.',
-			'password.current_password' => 'La contraseña no es correcta.',
-		];
-	}
+    public function messages(): array
+    {
+        return [
+            'password.required' => 'Escribe tu contraseña para confirmar el borrado.',
+            'password.current_password' => 'La contraseña no es correcta.',
+        ];
+    }
 }

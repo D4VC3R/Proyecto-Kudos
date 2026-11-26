@@ -26,18 +26,18 @@ class DailyRewardController extends Controller
         $user = Auth::user();
         $rewardResult = $this->kudosService->processDailyLogin($user);
 
-        if (!$rewardResult['awarded']) {
+        if (! $rewardResult['awarded']) {
             return $this->respondData(
                 data: [
                     'status' => 'already_claimed',
                     'kudos' => $user->fresh()->total_kudos,
-                    'streak' => $rewardResult['streak']
+                    'streak' => $rewardResult['streak'],
                 ],
                 meta: [
                     'message' => 'Ya has reclamado la recompensa de hoy.',
                     'server_date' => $rewardResult['server_date'],
                     'is_new_record' => $rewardResult['is_new_record'],
-	                  'is_critical' => $rewardResult['is_critical'],
+                    'is_critical' => $rewardResult['is_critical'],
                 ]
             );
         }
@@ -46,16 +46,16 @@ class DailyRewardController extends Controller
             data: [
                 'status' => 'claimed',
                 'kudos' => $user->fresh()->total_kudos,
-                'streak' => $rewardResult['streak']
+                'streak' => $rewardResult['streak'],
             ],
             meta: [
                 'message' => '¡Recompensa diaria conseguida!',
                 'server_date' => $rewardResult['server_date'],
                 'is_new_record' => $rewardResult['is_new_record'],
                 'kudos_awarded' => $rewardResult['kudos_awarded'],
-		            'base_kudos' => $rewardResult['base_kudos'],
-		            'multiplier' => $rewardResult['multiplier'],
-	              'is_critical' => $rewardResult['is_critical'],
+                'base_kudos' => $rewardResult['base_kudos'],
+                'multiplier' => $rewardResult['multiplier'],
+                'is_critical' => $rewardResult['is_critical'],
             ]
         );
     }

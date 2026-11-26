@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 class RecommendationService
 {
     public const STRATEGY_CONTENT = 'content';
+
     public const STRATEGY_POPULAR = 'popular';
 
     public function __construct(

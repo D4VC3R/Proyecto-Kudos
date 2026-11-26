@@ -19,8 +19,6 @@ class ListAdminUsersRequest extends FormRequest
     /**
      * Define las reglas de validación para los parámetros de consulta utilizados en el listado de usuarios.
      * Permite filtrar por búsqueda, estado de baneo, rol, paginación y ordenamiento.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,7 +33,8 @@ class ListAdminUsersRequest extends FormRequest
             'sort_direction' => ['sometimes', Rule::in(['asc', 'desc'])],
         ];
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

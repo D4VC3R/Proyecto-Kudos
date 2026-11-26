@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 class VoteKudosTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -63,12 +63,12 @@ class VoteKudosTest extends TestCase
 
         $this->assertSame($reward, (int) $user->fresh()->total_kudos);
         $this->assertDatabaseHas('kudos_transactions', [
-            'user_id'        => $user->id,
-            'reason'         => 'vote_first_time_item',
-            'action_key'     => "vote_first_time_item:{$user->id}:{$item->id}",
+            'user_id' => $user->id,
+            'reason' => 'vote_first_time_item',
+            'action_key' => "vote_first_time_item:{$user->id}:{$item->id}",
             'reference_type' => Item::class,
-            'reference_id'   => $item->id,
-            'kudos_amount'   => $reward,
+            'reference_id' => $item->id,
+            'kudos_amount' => $reward,
         ]);
     }
 

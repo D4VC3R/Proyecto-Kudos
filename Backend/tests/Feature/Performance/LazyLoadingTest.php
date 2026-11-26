@@ -14,7 +14,7 @@ use Tests\TestCase;
  */
 class LazyLoadingTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     public function test_la_carga_perezosa_esta_prohibida_fuera_de_produccion(): void
     {

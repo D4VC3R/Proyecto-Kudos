@@ -16,7 +16,7 @@ use Tests\TestCase;
 
 class NextCategoryItemTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {

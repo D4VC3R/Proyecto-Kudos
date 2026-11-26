@@ -22,4 +22,3 @@ class ShowProposalRequest extends FormRequest
         return [];
     }
 }
-

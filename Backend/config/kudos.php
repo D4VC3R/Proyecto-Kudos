@@ -3,27 +3,27 @@
 return [
     'rewards' => [
         'proposal_accepted' => 1000,
-	    'daily_login_streak' => [
-		    1 => ['base' => 10,  'bonus_chance' => 50,  'bonus_multiplier' => 2],
-		    2 => ['base' => 25,  'bonus_chance' => 45, 'bonus_multiplier' => 2],
-		    3 => ['base' => 50,  'bonus_chance' => 40, 'bonus_multiplier' => 2],
-		    4 => ['base' => 100, 'bonus_chance' => 35, 'bonus_multiplier' => 3],
-		    5 => ['base' => 200, 'bonus_chance' => 30, 'bonus_multiplier' => 5],
-	    ],
+        'daily_login_streak' => [
+            1 => ['base' => 10,  'bonus_chance' => 50,  'bonus_multiplier' => 2],
+            2 => ['base' => 25,  'bonus_chance' => 45, 'bonus_multiplier' => 2],
+            3 => ['base' => 50,  'bonus_chance' => 40, 'bonus_multiplier' => 2],
+            4 => ['base' => 100, 'bonus_chance' => 35, 'bonus_multiplier' => 3],
+            5 => ['base' => 200, 'bonus_chance' => 30, 'bonus_multiplier' => 5],
+        ],
     ],
 
-	// Recompensa por votar un ítem por primera vez (F2-03). Valores bajos a propósito: los kudos no deben
-	// premiar el voto masivo, sino valorar lo que de verdad se conoce. Hasta 'threshold' votos al día se
-	// da 'reward'; por encima, 'new_reward'; a partir del voto daily_cap + 1 el voto ya no da kudos.
-	// Con threshold = daily_cap (20 y 20) el tramo de 'new_reward' no se alcanza: el voto 21 supera el tope.
-	'voting' => [
-		'reward' => 2,
-		'diminishing_returns' => [
-			'threshold' => 20,
-			'new_reward' => 1,
-		],
-		'daily_cap' => 20,
-	],
+    // Recompensa por votar un ítem por primera vez (F2-03). Valores bajos a propósito: los kudos no deben
+    // premiar el voto masivo, sino valorar lo que de verdad se conoce. Hasta 'threshold' votos al día se
+    // da 'reward'; por encima, 'new_reward'; a partir del voto daily_cap + 1 el voto ya no da kudos.
+    // Con threshold = daily_cap (20 y 20) el tramo de 'new_reward' no se alcanza: el voto 21 supera el tope.
+    'voting' => [
+        'reward' => 2,
+        'diminishing_returns' => [
+            'threshold' => 20,
+            'new_reward' => 1,
+        ],
+        'daily_cap' => 20,
+    ],
 
     // Ranking bayesiano (F0-04): bayes = (v·R + m·C) / (v + m) si v > 0; 0 si v = 0.
     // v = vote_count, R = vote_avg, C = media de los votos de la categoría (cacheada 1 h en category-mean:{id}).
@@ -113,4 +113,3 @@ return [
         'password' => env('SEED_ADMIN_PASSWORD'),
     ],
 ];
-

@@ -26,12 +26,12 @@ class StoreProposalRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'min:20', 'max:2000'],
-            'image_path' => ['nullable', new FileOrUrlRule()],
+            'image_path' => ['nullable', new FileOrUrlRule],
             'category_id' => ['required', 'uuid', 'exists:categories,id'],
         ];
     }
 
-/**
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

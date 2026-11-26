@@ -22,4 +22,3 @@ class UnhideItemCommentRequest extends FormRequest
         return [];
     }
 }
-

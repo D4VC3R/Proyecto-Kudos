@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class ItemDetailTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -30,7 +30,7 @@ class ItemDetailTest extends TestCase
                 'data' => [
                     'id', 'name', 'description', 'images', 'status', 'vote_avg', 'vote_count', 'can_vote',
                     'category' => ['id', 'name', 'description', 'slug', 'image', 'items_count'],
-                    'creator'  => ['id', 'name'],
+                    'creator' => ['id', 'name'],
                 ],
             ])
             ->assertJsonPath('data.can_vote', false)

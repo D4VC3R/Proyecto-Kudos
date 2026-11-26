@@ -23,4 +23,3 @@ class DeleteItemCommentRequest extends FormRequest
         return [];
     }
 }
-

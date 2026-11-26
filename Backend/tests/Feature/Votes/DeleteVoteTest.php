@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class DeleteVoteTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Factory para generar datos de prueba para el modelo Vote.
+ *
  * @extends Factory<Vote>
  */
 class VoteFactory extends Factory
@@ -34,7 +35,7 @@ class VoteFactory extends Factory
     /**
      * Define un estado para un voto asociado a un ítem específico.
      *
-     * @param Item $item El ítem al que se asociará el voto.
+     * @param  Item  $item  El ítem al que se asociará el voto.
      * @return static La instancia de la fábrica con el estado actualizado para el ítem especificado.
      */
     public function forItem(Item $item): static
@@ -47,7 +48,7 @@ class VoteFactory extends Factory
     /**
      * Define un estado para un voto asociado a un usuario específico.
      *
-     * @param User $user El usuario al que se asociará el voto.
+     * @param  User  $user  El usuario al que se asociará el voto.
      * @return static La instancia de la fábrica con el estado actualizado para el usuario especificado.
      */
     public function byUser(User $user): static
@@ -60,7 +61,7 @@ class VoteFactory extends Factory
     /**
      * Define un estado para un voto con una puntuación específica, asegurando que la puntuación esté entre 0 y 10.
      *
-     * @param int $score La puntuación del voto (entre 0 y 10).
+     * @param  int  $score  La puntuación del voto (entre 0 y 10).
      * @return static La instancia de la fábrica con el estado actualizado para la puntuación especificada.
      */
     public function withScore(int $score): static
@@ -73,7 +74,7 @@ class VoteFactory extends Factory
     /**
      * Define un estado para un voto con una puntuación decimal (admite medios puntos).
      *
-     * @param float $score La puntuación del voto (entre 0 y 10).
+     * @param  float  $score  La puntuación del voto (entre 0 y 10).
      * @return static La instancia de la fábrica con el estado actualizado.
      */
     public function rated(float $score): static

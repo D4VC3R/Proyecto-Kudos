@@ -14,7 +14,7 @@ use Tests\TestCase;
  */
 class ListingQueryCountTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     /**
      * Número de consultas de una petición, con la caché vacía para que todas las mediciones sigan el mismo camino.

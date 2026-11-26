@@ -24,4 +24,3 @@ class MediaServiceProvider extends ServiceProvider
         $this->app->singleton(HostResolverInterface::class, DnsHostResolver::class);
     }
 }
-

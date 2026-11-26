@@ -24,9 +24,9 @@ class SimilarItemsService
      * menos parecido, con la categoría cargada y, si hay sesión, el voto del usuario en userVote.
      * Una categoría inactiva no tiene similares (no sale en la API pública).
      *
-     * @param Item $item Ítem de la ficha.
-     * @param User|null $viewer Usuario con sesión, si lo hay.
-     * @param int|null $limit Máximo de ítems (por defecto catalog.similar.limit).
+     * @param  Item  $item  Ítem de la ficha.
+     * @param  User|null  $viewer  Usuario con sesión, si lo hay.
+     * @param  int|null  $limit  Máximo de ítems (por defecto catalog.similar.limit).
      * @return Collection<int, Item>
      */
     public function similarTo(Item $item, ?User $viewer = null, ?int $limit = null): Collection
@@ -50,11 +50,11 @@ class SimilarItemsService
      * Ítems similares todavía elegibles, en el orden de similitud de la caché. Como la caché dura horas,
      * se vuelve a comprobar que sigan activos, descubribles y de la misma categoría.
      *
-     * @param Item $item Ítem de origen.
-     * @param int $limit Máximo de ítems.
-     * @param User|null $viewer Usuario con sesión: se carga su voto en userVote.
-     * @param array<int, string> $excludeIds IDs que no deben salir.
-     * @param bool $excludeVotedByViewer Si es true, quita los ítems con voto (de cualquier tipo) del usuario.
+     * @param  Item  $item  Ítem de origen.
+     * @param  int  $limit  Máximo de ítems.
+     * @param  User|null  $viewer  Usuario con sesión: se carga su voto en userVote.
+     * @param  array<int, string>  $excludeIds  IDs que no deben salir.
+     * @param  bool  $excludeVotedByViewer  Si es true, quita los ítems con voto (de cualquier tipo) del usuario.
      * @return Collection<int, Item>
      */
     public function eligibleItems(Item $item, int $limit, ?User $viewer = null, array $excludeIds = [], bool $excludeVotedByViewer = false): Collection
@@ -138,20 +138,20 @@ class SimilarItemsService
 
         if ($genres !== []) {
             // Géneros del candidato que están en los del origen (sin repetir)
-            $terms[] = '(SELECT count(DISTINCT g.name) FROM jsonb_array_elements_text(' . self::jsonArraySql("items.attributes->'genres'") . ') AS g(name)'
-                . ' WHERE g.name IN (SELECT jsonb_array_elements_text(CAST(? AS jsonb)))) * ' . $genreWeight;
+            $terms[] = '(SELECT count(DISTINCT g.name) FROM jsonb_array_elements_text('.self::jsonArraySql("items.attributes->'genres'").') AS g(name)'
+                .' WHERE g.name IN (SELECT jsonb_array_elements_text(CAST(? AS jsonb)))) * '.$genreWeight;
             $bindings[] = json_encode($genres, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
         }
 
         if ($people !== []) {
             // jsonb_exists_any en lugar del operador ?| (PDO lo confunde con un placeholder)
-            $terms[] = 'CASE WHEN jsonb_exists_any(' . self::jsonArraySql("items.attributes->'directors'") . ' || ' . self::jsonArraySql("items.attributes->'creators'")
-                . ', ARRAY(SELECT jsonb_array_elements_text(CAST(? AS jsonb)))) THEN ' . $peopleWeight . ' ELSE 0 END';
+            $terms[] = 'CASE WHEN jsonb_exists_any('.self::jsonArraySql("items.attributes->'directors'").' || '.self::jsonArraySql("items.attributes->'creators'")
+                .', ARRAY(SELECT jsonb_array_elements_text(CAST(? AS jsonb)))) THEN '.$peopleWeight.' ELSE 0 END';
             $bindings[] = json_encode($people, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
         }
 
         if ($decade !== null) {
-            $terms[] = 'CASE WHEN ' . self::DECADE_SQL . ' = CAST(? AS integer) THEN ' . $decadeWeight . ' ELSE 0 END';
+            $terms[] = 'CASE WHEN '.self::DECADE_SQL.' = CAST(? AS integer) THEN '.$decadeWeight.' ELSE 0 END';
             $bindings[] = $decade;
         }
 
@@ -159,7 +159,7 @@ class SimilarItemsService
             return [];
         }
 
-        $score = '(' . implode(' + ', $terms) . ')';
+        $score = '('.implode(' + ', $terms).')';
 
         return Item::query()
             ->where('category_id', $item->category_id)

@@ -15,7 +15,7 @@ use Tests\TestCase;
  */
 class ItemOriginalTitleSearchTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {

@@ -12,7 +12,7 @@ use Tests\TestCase;
  */
 class VoteScoreValidationTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     private const MESSAGE = 'La puntuación debe ir en pasos de medio punto (por ejemplo, 7 o 7,5).';
 

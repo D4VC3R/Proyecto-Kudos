@@ -12,23 +12,23 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class CatalogSearchResultResource extends JsonResource
 {
-	/**
-	 * Transform the resource into an array.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function toArray(Request $request): array
-	{
-		return [
-			'external_id' => $this->resource['external_id'] ?? null,
-			'name' => $this->resource['name'] ?? null,
-			'original_title' => $this->resource['original_title'] ?? null,
-			'released_at' => $this->resource['released_at'] ?? null,
-			'year' => $this->resource['year'] ?? null,
-			'description' => $this->resource['description'] ?? null,
-			'source_url' => $this->resource['source_url'] ?? null,
-			'exists' => (bool) ($this->resource['exists'] ?? false),
-			'item_id' => $this->resource['item_id'] ?? null,
-		];
-	}
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'external_id' => $this->resource['external_id'] ?? null,
+            'name' => $this->resource['name'] ?? null,
+            'original_title' => $this->resource['original_title'] ?? null,
+            'released_at' => $this->resource['released_at'] ?? null,
+            'year' => $this->resource['year'] ?? null,
+            'description' => $this->resource['description'] ?? null,
+            'source_url' => $this->resource['source_url'] ?? null,
+            'exists' => (bool) ($this->resource['exists'] ?? false),
+            'item_id' => $this->resource['item_id'] ?? null,
+        ];
+    }
 }

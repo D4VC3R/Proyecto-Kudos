@@ -35,12 +35,12 @@ trait CreatesItems
 
         $attrs = array_merge([
             'category_id' => $category->id,
-            'status'      => Item::STATUS_ACTIVE,
-            'vote_avg'    => 0,
-            'vote_count'  => 0,
+            'status' => Item::STATUS_ACTIVE,
+            'vote_avg' => 0,
+            'vote_count' => 0,
             // Ficha completa por defecto (quality_score = 80) para que la cola y discoverable la incluyan;
             // los tests de fichas pobres pasan 'images' => [] y su propia descripción.
-            'images'      => [[
+            'images' => [[
                 'disk' => 'public', 'alt' => null, 'order' => 0,
                 'variants' => ['thumb' => 'items/tests/imagen-thumb.webp', 'banner' => 'items/tests/imagen-banner.webp'],
             ]],

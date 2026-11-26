@@ -18,8 +18,6 @@ class ListAdminProposalsRequest extends FormRequest
 
     /**
      * Define las reglas de validación para los parámetros de consulta al listar propuestas.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -37,7 +35,8 @@ class ListAdminProposalsRequest extends FormRequest
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
         ];
     }
-/**
+
+    /**
      * Mensajes de validación personalizados para las reglas.
      */
     public function messages(): array

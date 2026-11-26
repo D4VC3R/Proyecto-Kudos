@@ -19,4 +19,3 @@ class DeleteCategoryRequest extends FormRequest
         return [];
     }
 }
-

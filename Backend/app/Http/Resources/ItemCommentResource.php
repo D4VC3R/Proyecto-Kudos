@@ -34,7 +34,7 @@ class ItemCommentResource extends JsonResource
             'user' => [
                 'id' => $this->user_id,
                 'name' => $this->user?->name,
-	              'avatar' => $this->user?->profile?->avatar,
+                'avatar' => $this->user?->profile?->avatar,
             ],
             'can_edit' => $this->when($user instanceof User, fn () => $user->can('update', $this->resource)),
             'can_delete' => $this->when($user instanceof User, fn () => $user->can('delete', $this->resource)),

@@ -14,7 +14,7 @@ use Tests\TestCase;
  */
 class SimilarItemsTest extends TestCase
 {
-    use RefreshDatabase, CreatesItems;
+    use CreatesItems, RefreshDatabase;
 
     protected function setUp(): void
     {
