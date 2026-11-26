@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useId, useLayoutEffect, useRef, useState } from 'react';
 import { useCreateReport } from './useReportMutations.js';
+import { useDismiss } from '../common/useDismiss.js';
 
 // Ancestro más cercano que recorta su contenido (p. ej. la caja de comentarios con scroll); si no hay, el viewport.
 const getClippingBounds = (element) => {
@@ -27,9 +28,11 @@ export const useReportMenu = ({ type, id }) => {
   const menuId = useId();
   const containerRef = useRef(null);
   const panelRef = useRef(null);
+  const buttonRef = useRef(null);
   const [placement, setPlacement] = useState(DEFAULT_PLACEMENT);
 
   const toggleMenu = useCallback(() => setIsMenuOpen((open) => !open), []);
+  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
   const openReport = () => {
     setIsMenuOpen(false);
@@ -82,29 +85,7 @@ export const useReportMenu = ({ type, id }) => {
   }, [isMenuOpen]);
 
   // Mientras el menú está abierto: clic fuera lo cierra; Escape lo cierra y devuelve el foco al botón.
-  useEffect(() => {
-    if (!isMenuOpen) return undefined;
-
-    const handleMouseDown = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setIsMenuOpen(false);
-      }
-    };
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setIsMenuOpen(false);
-        // Button no reenvía refs: se busca el botón disparador dentro del contenedor.
-        containerRef.current?.querySelector('button')?.focus();
-      }
-    };
-
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isMenuOpen]);
+  useDismiss({ isOpen: isMenuOpen, containerRef, onDismiss: closeMenu, returnFocusRef: buttonRef });
 
   return {
     state: {
@@ -118,6 +99,6 @@ export const useReportMenu = ({ type, id }) => {
       isPending: createReport.isPending,
     },
     actions: { toggleMenu, openReport, closeModal, changeReason, changeDetails, submit },
-    refs: { containerRef, panelRef },
+    refs: { containerRef, panelRef, buttonRef },
   };
 };

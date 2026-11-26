@@ -87,10 +87,11 @@ const CommentBox = ({ itemId, userVote, className = "" }) => {
         <input
           {...register('content')}
           placeholder="Escribe un comentario..."
+          aria-label="Escribe un comentario"
           className="flex-1 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           autoComplete="off"
         />
-        <Button type="submit" isLoading={createCommentMutation.isPending} variant="solid" color="primary" radius="lg" size="iconMd" icon={Send} />
+        <Button type="submit" isLoading={createCommentMutation.isPending} variant="solid" color="primary" radius="lg" size="iconMd" icon={Send} aria-label="Publicar comentario" />
       </form>
 
       {canReview && (
@@ -119,13 +120,14 @@ const CommentBox = ({ itemId, userVote, className = "" }) => {
                   value={replyContent}
                   onChange={(e) => setReplyContent(e.target.value)}
                   placeholder="Escribe una respuesta..."
+                  aria-label="Escribe una respuesta"
                   maxLength={2000}
                   autoFocus
                   className="flex-1 min-w-0 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   autoComplete="off"
                 />
-                <Button type="submit" isLoading={createCommentMutation.isPending} variant="solid" color="primary" radius="lg" size="iconMd" icon={Send} />
-                <Button type="button" onClick={() => setReplyingTo(null)} variant="ghost" color="neutral" radius="lg" size="iconMd" icon={X} title="Cancelar" />
+                <Button type="submit" isLoading={createCommentMutation.isPending} variant="solid" color="primary" radius="lg" size="iconMd" icon={Send} aria-label="Enviar respuesta" />
+                <Button type="button" onClick={() => setReplyingTo(null)} variant="ghost" color="neutral" radius="lg" size="iconMd" icon={X} title="Cancelar" aria-label="Cancelar respuesta" />
               </form>
             )}
             {comment.replies?.length > 0 && (

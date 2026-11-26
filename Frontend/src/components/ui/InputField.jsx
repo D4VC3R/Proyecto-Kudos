@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useId } from 'react';
 const InputField = ({ label, labelEnd, icon: Icon, type = 'text', placeholder, registration, error, disabled, ...props }) => {
+  const generatedId = useId();
+  const fieldId = props.id ?? generatedId;
+  const errorId = `${fieldId}-error`;
+
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
-        <label className="text-sm font-bold text-slate-700">{label}</label>
+        {label && <label htmlFor={fieldId} className="text-sm font-bold text-slate-700">{label}</label>}
         {labelEnd && labelEnd}
       </div>
       <div className="relative">
@@ -13,6 +17,9 @@ const InputField = ({ label, labelEnd, icon: Icon, type = 'text', placeholder, r
           </div>
         )}
         <input
+          id={fieldId}
+          aria-invalid={error ? 'true' : undefined}
+          aria-describedby={error ? errorId : undefined}
           type={type}
           disabled={disabled}
           placeholder={placeholder}
@@ -21,7 +28,7 @@ const InputField = ({ label, labelEnd, icon: Icon, type = 'text', placeholder, r
           className={`w-full rounded-xl border border-border bg-background py-3 ${Icon ? 'pl-10' : 'pl-4'} pr-4 text-text-highlight transition-colors focus:border-blue-500 focus:bg-surface focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50`}
         />
       </div>
-      {error && <span className="mt-1 text-xs text-red-500">{error.message || error}</span>}
+      {error && <span id={errorId} className="mt-1 text-xs text-red-500">{error.message || error}</span>}
     </div>
   );
 };

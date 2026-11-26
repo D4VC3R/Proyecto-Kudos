@@ -22,6 +22,7 @@ const ExplorePage = () => {
         <SectionHeader title="Explorar" highlight={state.displayCategoryName} icon={Compass}>
           <div className="flex gap-2 flex-wrap">
             <SelectFilter
+              label="Ordenar por"
               icon={Flame}
               value={state.sortValue}
               onChange={actions.handleSortChange}

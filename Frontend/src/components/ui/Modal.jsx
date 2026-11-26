@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useId} from 'react';
 import {AnimatePresence} from 'framer-motion';
 import {RemoveScroll} from 'react-remove-scroll';
 import {X} from 'lucide-react';
 import Button from './Button.jsx';
 import Fade from '../animations/Fade.jsx';
 import ModalTransition from '../animations/ModalTransition.jsx';
+import {useDialogFocus} from '../../hooks/common/useDialogFocus.js';
 
-const Modal = ({isOpen, onClose, title, children, footer}) => {
+const Modal = ({isOpen, onClose, title, children, footer, returnFocusRef}) => {
+  const titleId = useId();
+  const {dialogRef, handleKeyDown} = useDialogFocus({isOpen, onClose, returnFocusRef});
 
   return (
     <AnimatePresence>
@@ -22,27 +25,37 @@ const Modal = ({isOpen, onClose, title, children, footer}) => {
             <ModalTransition
               className="flex flex-col rounded-3xl bg-surface shadow-2xl ring-1 ring-slate-200 overflow-hidden"
             >
-              <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-                <h3 className="text-xl font-bold text-text-highlight">{title}</h3>
-                <Button
-                  onClick={onClose}
-                  variant="ghost"
-                  color="neutral"
-                  size="iconMd"
-                  icon={X}
-                  aria-label="Cerrar modal"
-                />
-              </div>
-
-              <div className="p-6">
-                {children}
-              </div>
-
-              {footer && (
-                <div className="bg-background px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-100">
-                  {footer}
+              <div
+                ref={dialogRef}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={title ? titleId : undefined}
+                tabIndex={-1}
+                onKeyDown={handleKeyDown}
+                className="flex flex-col focus:outline-none"
+              >
+                <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+                  <h3 id={titleId} className="text-xl font-bold text-text-highlight">{title}</h3>
+                  <Button
+                    onClick={onClose}
+                    variant="ghost"
+                    color="neutral"
+                    size="iconMd"
+                    icon={X}
+                    aria-label="Cerrar modal"
+                  />
                 </div>
-              )}
+
+                <div className="p-6">
+                  {children}
+                </div>
+
+                {footer && (
+                  <div className="bg-background px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-100">
+                    {footer}
+                  </div>
+                )}
+              </div>
             </ModalTransition>
           </RemoveScroll>
 

@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 const TextAreaField = ({label, labelEnd, icon: Icon, rows = 4, placeholder, registration, error, disabled, ...props}) => {
+  const generatedId = useId();
+  const fieldId = props.id ?? generatedId;
+  const errorId = `${fieldId}-error`;
+
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
-        <label className="text-sm font-bold text-slate-700">{label}</label>
+        {label && <label htmlFor={fieldId} className="text-sm font-bold text-slate-700">{label}</label>}
         {labelEnd && labelEnd}
       </div>
       <div className="relative">
@@ -13,6 +17,9 @@ const TextAreaField = ({label, labelEnd, icon: Icon, rows = 4, placeholder, regi
             <Icon size={18}/>
           </div>)}
         <textarea
+          id={fieldId}
+          aria-invalid={error ? 'true' : undefined}
+          aria-describedby={error ? errorId : undefined}
           rows={rows}
           disabled={disabled}
           placeholder={placeholder}
@@ -21,7 +28,7 @@ const TextAreaField = ({label, labelEnd, icon: Icon, rows = 4, placeholder, regi
           className={`w-full resize-none rounded-xl border border-border bg-background py-3 ${Icon ? 'pl-10' : 'pl-4'} pr-4 text-text-highlight transition-colors focus:border-blue-500 focus:bg-surface focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50`}
         />
       </div>
-      {error && <span className="mt-1 block text-xs text-red-500">{error.message || error}</span>}
+      {error && <span id={errorId} className="mt-1 block text-xs text-red-500">{error.message || error}</span>}
     </div>
   );
 };

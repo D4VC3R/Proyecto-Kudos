@@ -64,6 +64,7 @@ const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams }) => 
 
       <div className="flex flex-1 md:flex-none justify-end gap-3 items-center">
         <SelectFilter
+          label="Categoría"
           icon={Filter}
           value={currentCategory || ''}
           onChange={handleCategoryChange}

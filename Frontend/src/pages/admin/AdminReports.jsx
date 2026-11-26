@@ -33,12 +33,14 @@ const AdminReports = () => {
       <SectionHeader title="Cola de" highlight="Reportes" highlightColor="accent" icon={Flag}>
         <div className="flex gap-2 flex-wrap">
           <SelectFilter
+            label="Estado"
             value={state.filters.status}
             onChange={(e) => actions.handleFilterChange('status', e.target.value)}
             defaultOption="Todos"
             options={REPORT_STATUS_OPTIONS}
           />
           <SelectFilter
+            label="Tipo de contenido"
             icon={Flag}
             value={state.filters.reportable_type}
             onChange={(e) => actions.handleFilterChange('reportable_type', e.target.value)}

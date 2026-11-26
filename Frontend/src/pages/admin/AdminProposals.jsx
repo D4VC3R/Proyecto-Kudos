@@ -22,6 +22,7 @@ const AdminProposals = () => {
       <SectionHeader title="Revisión de" highlight="Propuestas" highlightColor="accent" icon={FileText}>
         <div className="flex gap-2 flex-wrap">
           <SelectFilter
+            label="Categoría"
             icon={LayoutGrid}
             value={state.filters.category_id}
             onChange={(e) => actions.handleFilterChange('category_id', e.target.value)}
@@ -29,6 +30,7 @@ const AdminProposals = () => {
             options={state.categoryOptions}
           />
           <SelectFilter
+            label="Estado"
             value={state.filters.status}
             onChange={(e) => actions.handleFilterChange('status', e.target.value)}
             defaultOption="Todas"

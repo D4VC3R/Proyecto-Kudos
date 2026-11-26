@@ -23,6 +23,7 @@ const AdminItems = () => {
       <SectionHeader title="Gestión de" highlight="Ítems" highlightColor="accent" icon={Target}>
         <div className="flex gap-2 flex-wrap">
           <SelectFilter
+            label="Categoría"
             icon={LayoutGrid}
             value={state.filters.category_id}
             onChange={(e) => actions.handleFilterChange('category_id', e.target.value)}
@@ -30,6 +31,7 @@ const AdminItems = () => {
             options={state.categoryOptions}
           />
           <SelectFilter
+            label="Estado"
             value={state.filters.status}
             onChange={(e) => actions.handleFilterChange('status', e.target.value)}
             defaultOption="Todos los Estados"
