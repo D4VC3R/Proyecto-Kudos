@@ -6,12 +6,14 @@ import { USER_KEYS } from './useUserQueries';
 import { useSessionStore } from './../../store/useSessionStore';
 import { useBaseMutation } from '../common/useBaseMutation';
 
-export const useUpdateProfile = () => {
+// Acepta `{setError}` (el de react-hook-form) para marcar en el formulario los campos que el backend rechaza con un 422.
+export const useUpdateProfile = ({ setError } = {}) => {
   const setSession = useSessionStore((state) => state.setSession);
   const token = useSessionStore((state) => state.token);
 
   return useBaseMutation({
     mutationFn: (data) => axiosClient.put('/profile', data),
+    setError,
     invalidateKeys: [USER_KEYS.profile, ['users', 'public']],
     successMessage: 'Perfil actualizado correctamente',
     onSuccessExtra: (response) => {

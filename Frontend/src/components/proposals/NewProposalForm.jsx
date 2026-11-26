@@ -14,21 +14,21 @@ import {useForm} from 'react-hook-form';
 const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
   const navigate = useNavigate();
 
-  const {mutate: createProposal, isPending: isCreating} = useCreateProposal();
-  const {mutate: updateProposal, isPending: isUpdating} = useUpdateProposal();
-
-  const isSubmitting = isCreating || isUpdating;
-
   const defaultValues = isEdit && initialData ? {
     name: initialData.name || '',
     description: initialData.description || '',
     image_path: initialData.images?.[0]?.path || initialData.image_path || '',
   } : {};
 
-  const {register, handleSubmit, formState: {errors}} = useForm({
+  const {register, handleSubmit, setError, formState: {errors}} = useForm({
     resolver: zodResolver(proposalSchema),
     defaultValues,
   });
+
+  const {mutate: createProposal, isPending: isCreating} = useCreateProposal({setError});
+  const {mutate: updateProposal, isPending: isUpdating} = useUpdateProposal({setError});
+
+  const isSubmitting = isCreating || isUpdating;
 
   const onSubmit = (data) => {
     const payload = {

@@ -13,12 +13,13 @@ import {requiresEmailVerification, useRegister} from '../../hooks/auth/useAuthMu
 const RegisterForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {mutate: registerUser, isPending} = useRegister();
 
-  const {register, handleSubmit, formState: {errors}} = useForm({
+  const {register, handleSubmit, setError, formState: {errors}} = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {accept_privacy: false, age_confirmation: false}
   });
+
+  const {mutate: registerUser, isPending} = useRegister({setError});
 
   const onSubmit = (data) => {
     registerUser(data, {
