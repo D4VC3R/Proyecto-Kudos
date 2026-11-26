@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getCategoryIcon } from '../../lib/formatters.js';
+import { resolveCategoryIcon } from '../../lib/formatters.js';
 
 // Accesos rápidos a las categorías en la portada (F2-09). Sin categorías no pinta nada.
 const CategoryShortcuts = ({ categories = [] }) => {
@@ -10,7 +10,7 @@ const CategoryShortcuts = ({ categories = [] }) => {
     <nav aria-label="Categorías">
       <ul className="flex gap-3 overflow-x-auto pb-2">
         {categories.map((category) => {
-          const Icon = getCategoryIcon(category.name);
+          const Icon = resolveCategoryIcon(category);
           return (
             <li key={category.id} className="shrink-0">
               <Link

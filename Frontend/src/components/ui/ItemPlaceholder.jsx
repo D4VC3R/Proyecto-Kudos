@@ -1,5 +1,5 @@
 import React from 'react';
-import { CATEGORY_ICONS_BY_NAME, CATEGORY_SLUG_ICONS, DEFAULT_CATEGORY_ICON } from '../../lib/constants.js';
+import { resolveCategoryIcon } from '../../lib/formatters.js';
 import { getInitials, getPlaceholderColors } from '../../lib/placeholder.js';
 
 // Variantes: `card` (tarjetas), `banner` (imagen grande de la ficha/votación) y `thumb` (miniaturas pequeñas).
@@ -15,9 +15,7 @@ const ItemPlaceholder = ({ name = '', categorySlug, categoryIcon, className = ''
   const styles = VARIANT_STYLES[variant] || VARIANT_STYLES.card;
   const { from, to } = getPlaceholderColors(name);
   const initials = getInitials(name);
-  const Icon = (categoryIcon && CATEGORY_ICONS_BY_NAME[categoryIcon])
-    || CATEGORY_SLUG_ICONS[categorySlug]
-    || DEFAULT_CATEGORY_ICON;
+  const Icon = resolveCategoryIcon({ icon: categoryIcon, slug: categorySlug });
 
   return (
     <div

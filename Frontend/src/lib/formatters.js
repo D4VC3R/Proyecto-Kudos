@@ -1,5 +1,4 @@
-import {categoryIcons} from "./constants.js";
-import {LayoutGrid} from "lucide-react";
+import {CATEGORY_ICONS_BY_NAME, CATEGORY_SLUG_ICONS, DEFAULT_CATEGORY_ICON} from "./constants.js";
 
 export const formatDate = (dateString) => {
   if (!dateString) return '';
@@ -61,15 +60,8 @@ export const formatStatus = (status) => {
   }
 }
 
-// Devuelve el icono asociado a una categoría
-export const getCategoryIcon = (categoryName) => {
-
-  const normalizedName = categoryName
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-  return categoryIcons[normalizedName] || LayoutGrid;
-};
+// Icono de una categoría: primero `category.icon` (nombre lucide en kebab-case), después el slug y, si no, uno genérico.
+export const resolveCategoryIcon = (category) =>
+  CATEGORY_ICONS_BY_NAME[category?.icon] || CATEGORY_SLUG_ICONS[category?.slug] || DEFAULT_CATEGORY_ICON;
 
 
