@@ -5,10 +5,11 @@ import TextAreaField from '../ui/TextAreaField.jsx';
 import { REPORT_REASONS, REPORT_DETAILS_MAX_LENGTH } from '../../lib/reports.js';
 
 // Modal para reportar un contenido (F3-04): motivo obligatorio y detalles opcionales ("Otro" los exige).
-const ReportModal = ({ isOpen, onClose, onSubmit, isPending, reason, details, error, onReasonChange, onDetailsChange }) => (
+const ReportModal = ({ isOpen, onClose, onSubmit, isPending, reason, details, error, onReasonChange, onDetailsChange, returnFocusRef }) => (
   <Modal
     isOpen={isOpen}
     onClose={onClose}
+    returnFocusRef={returnFocusRef}
     title="Reportar contenido"
     footer={
       <ModalButtons
