@@ -103,7 +103,7 @@ F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01. F5-1
 | F5-04 | Contrato de errores y endpoints de cuenta | BE | F5-01, F5-00 | hecho | [#8](https://github.com/D4VC3R/Proyecto-Kudos/issues/8) |
 | F5-05 | Visibilidad y autorización coherentes | BE | F5-01 | hecho | [#9](https://github.com/D4VC3R/Proyecto-Kudos/issues/9) |
 | F5-06 | Código muerto y contratos heredados del backend | BE, INT | F5-01, F5-00 | hecho | [#10](https://github.com/D4VC3R/Proyecto-Kudos/issues/10) |
-| F5-07 | Catálogo: política de jobs, *throttle* acotado e importación concurrente | INT | — | pendiente | [#11](https://github.com/D4VC3R/Proyecto-Kudos/issues/11) |
+| F5-07 | Catálogo: política de jobs, *throttle* acotado e importación concurrente | INT | — | hecho | [#11](https://github.com/D4VC3R/Proyecto-Kudos/issues/11) |
 | F5-08 | Datos y recursos de terceros (`seed-data`, portadas, fuente, privacidad) | BE, FE, LEGAL | F5-00 | pendiente | [#12](https://github.com/D4VC3R/Proyecto-Kudos/issues/12) |
 | F5-09 | Barrera de errores y tarjetas de ítem como enlaces | FE | — | pendiente | [#13](https://github.com/D4VC3R/Proyecto-Kudos/issues/13) |
 | F5-10 | Errores de API tipados en el frontend | FE | F5-04 | pendiente | [#14](https://github.com/D4VC3R/Proyecto-Kudos/issues/14) |
