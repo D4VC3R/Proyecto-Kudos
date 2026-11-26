@@ -12,6 +12,7 @@ const ReportMenu = ({ type, id, label }) => {
   return (
     <div ref={refs.containerRef} className="relative">
       <Button
+        ref={refs.buttonRef}
         onClick={actions.toggleMenu}
         variant="ghost"
         color="neutral"
@@ -48,6 +49,7 @@ const ReportMenu = ({ type, id, label }) => {
 
       <ReportModal
         isOpen={state.isModalOpen}
+        returnFocusRef={refs.buttonRef}
         onClose={actions.closeModal}
         onSubmit={actions.submit}
         isPending={state.isPending}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Loader2 } from 'lucide-react';
 import {VARIANTS, SIZES, RADII} from '../../lib/buttonStyles.js';
 
-const Button = ({
+const Button = React.forwardRef(({
                          children,
                          variant = 'solid',   // solid, soft, ghost, outline
                          color = 'primary',   // primary, danger, neutral, neutralToPrimary, etc.
@@ -15,7 +15,7 @@ const Button = ({
                          disabled,
                          icon: Icon,
                          ...props
-                       }) => {
+                       }, ref) => {
   const baseStyles = 'inline-flex items-center justify-center gap-2 font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none';
 
   const variantStyles = VARIANTS[variant]?.[color] || VARIANTS.solid.primary;
@@ -26,6 +26,7 @@ const Button = ({
 
   return (
     <button
+      ref={ref}
       type={type}
       disabled={isDisabled}
       className={`${baseStyles} ${variantStyles} ${sizeStyles} ${radiusStyles} ${widthStyles} ${className}`}
@@ -36,6 +37,8 @@ const Button = ({
       {children}
     </button>
   );
-};
+});
+
+Button.displayName = 'Button';
 
 export default Button;

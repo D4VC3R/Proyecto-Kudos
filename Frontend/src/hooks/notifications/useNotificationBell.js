@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useCallback, useId, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSessionStore, selectIsVerified } from '../../store/useSessionStore.js';
 import { formatUnreadCount } from '../../lib/notifications.js';
+import { useDismiss } from '../common/useDismiss.js';
 import { useNotifications } from './useNotificationQueries.js';
 import { useMarkNotificationRead, useMarkAllNotificationsRead } from './useNotificationMutations.js';
 
@@ -33,28 +34,7 @@ export const useNotificationBell = () => {
   const markAllAsRead = () => markAll.mutate();
 
   // Mientras está abierto: clic fuera cierra; Escape cierra y devuelve el foco a la campana.
-  useEffect(() => {
-    if (!isOpen) return undefined;
-
-    const handleMouseDown = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-        buttonRef.current?.focus();
-      }
-    };
-
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen]);
+  useDismiss({ isOpen, containerRef, onDismiss: close, returnFocusRef: buttonRef });
 
   return {
     state: {
