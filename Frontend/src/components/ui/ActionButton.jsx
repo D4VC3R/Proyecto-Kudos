@@ -15,6 +15,7 @@ const ActionButton = ({title, description, icon: Icon, to, color = 'blue'}) => {
   return (
     <Link to={to} className="block w-full h-full">
       <BouncyCard
+        tabIndex={-1}
         className={clsx(
           'relative flex h-full items-center overflow-hidden rounded-3xl text-text-btn shadow-xl ring-1 transition-shadow hover:shadow-2xl',
           'p-5 md:p-4 lg:p-6',

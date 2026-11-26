@@ -11,6 +11,7 @@ const CategoryCard = ({ category }) => {
   return (
     <Link to={`/${category.slug}`}>
       <BouncyCard
+        tabIndex={-1}
         className="group relative h-80 w-full cursor-pointer overflow-hidden rounded-3xl bg-slate-100 shadow-md transition-shadow duration-300 hover:shadow-[0_20px_50px_-12px_rgba(37,99,235,0.6)]"
       >
         <div className="absolute inset-0">
