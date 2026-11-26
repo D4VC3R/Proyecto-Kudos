@@ -15,9 +15,9 @@ const AuthPage = () => {
   return (
       <div className="flex w-full flex-col md:flex-row min-h-[80vh] bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 overflow-hidden mx-auto max-w-5xl my-4">
         <div className="hidden md:flex md:w-1/2 flex-col justify-center items-center bg-primary p-12 text-text-btn relative overflow-hidden">
-          <div className="absolute top-10 left-10 w-24 h-24 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-          <div className="absolute top-10 right-10 w-24 h-24 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-20 w-32 h-32 bg-blue-700 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+          <div className="absolute top-10 left-10 w-24 h-24 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
+          <div className="absolute top-10 right-10 w-24 h-24 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
+          <div className="absolute -bottom-8 left-20 w-32 h-32 bg-blue-700 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
 
           <div className="relative z-10 flex flex-col items-center text-center">
             <Gamepad2 size={80} className="mb-6 text-text-btn drop-shadow-md" />
