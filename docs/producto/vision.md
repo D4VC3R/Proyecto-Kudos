@@ -24,7 +24,7 @@ Es responsabilidad del humano. Los agentes lo leen para entender el porqué, per
 | Tema | Decisión |
 |---|---|
 | Categorías vivas | Películas y Series (TMDB); Videojuegos (IGDB, con la descripción de Steam o Wikipedia ES); Destinos = ciudades y países fusionados (Wikidata, Wikipedia ES, Commons, OSM) |
-| Categorías que salen | Libros, álbumes y artistas: no se reimportan, pero sus snapshots siguen en `seed-data/`. Políticos se elimina (atrae toxicidad) |
+| Categorías que salen | Libros, álbumes y artistas: no se reimportan (sus volcados se borraron del repositorio en la F5-08 por sus licencias). Políticos se elimina (atrae toxicidad) |
 | Datos actuales | Son de prueba y se pueden resetear: no se migran votos, kudos ni imágenes |
 | Plazo | Sin fecha límite; las fases van en orden |
 | Base de datos | Cambios mínimos: columnas nuevas, `item_sources` y ampliar `votes.type` ([../backend/base-de-datos.md](../backend/base-de-datos.md)) |

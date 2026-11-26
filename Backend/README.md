@@ -184,9 +184,9 @@ Grupos de rutas:
 - `users.total_kudos` es un caché acumulado.
 - `kudos_transactions` funciona como ledger (fuente de la verdad).
 
-### Seed de items (heredado)
+### Catálogo y categorías
 
-`ItemSeeder` es heredado desde la F1-10: ya no lo ejecuta `DatabaseSeeder` y los JSON de `database/seed-data/` se conservan como referencia. El catálogo se importa con `catalog:fetch-new` (ver [../docs/infra/entorno-local.md](../docs/infra/entorno-local.md) §3).
+Los seeders no crean ítems: el catálogo se importa con `catalog:fetch-new` (ver [../docs/infra/entorno-local.md](../docs/infra/entorno-local.md) §3). `CategorySeeder` crea las categorías sin portada y no hace ninguna petición externa. Los volcados de `database/seed-data/` y los seeders heredados se borraron en la F5-08 porque eran datos de terceros no redistribuibles.
 
 ### Entorno local (Docker)
 
