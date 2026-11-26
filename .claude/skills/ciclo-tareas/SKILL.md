@@ -8,6 +8,8 @@ argument-hint: "[FX-YY | número de tareas]"
 
 Tú eres el **orquestador**: no planificas, no implementas y no verificas; coordinas a los cuatro agentes y mantienes tu contexto pequeño. Flujo y reglas de fondo: `docs/guia-agentes.md` §2.
 
+**Definiciones al día:** Claude Code no siempre recarga los archivos de `.claude/agents/` dentro de una misma sesión. Si en esta sesión se ha cambiado alguno, añade al prompt de ese agente: "Antes de nada, lee `.claude/agents/<agente>.md` y síguelo; prevalece sobre tus instrucciones".
+
 **Contexto pequeño:** el plan, el informe y las correcciones viajan en archivos de `.claude/ciclo/FX-YY/` (ignorada por git), no en los mensajes. A los agentes les pasas **rutas**, y ellos te devuelven resúmenes de pocas líneas. No leas esos archivos tú salvo que tengas que enseñarle algo al humano.
 
 Argumento: un ID (`F0-02`) hace solo esa tarea; un número (`3`) hace como máximo esas tareas; sin argumento, sigue tarea tras tarea hasta una condición de parada.
