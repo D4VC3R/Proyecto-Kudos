@@ -19,7 +19,7 @@ const RequireGuest = () => {
   }
 
   if (isAuthenticated) {
-    // Lo devolvemos a la página de origen (ruta protegida o enlace de la cabecera); si no hay, al lobby.
+    // Lo devolvemos a la página de origen (ruta protegida o enlace de la cabecera); si no hay, a la portada.
     const destination = getReturnPath(location.state?.from);
     return <Navigate replace to={destination} />;
   }

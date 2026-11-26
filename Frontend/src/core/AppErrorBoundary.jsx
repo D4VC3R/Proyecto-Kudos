@@ -1,6 +1,6 @@
 import React from 'react';
 import FeedbackState from "../components/ui/FeedbackState.jsx";
-import logo from "./../../public/logo.svg"
+import { AlertTriangle } from "lucide-react";
 
 /**
  * Pantalla de error, evita mostrar la página en blanco
@@ -16,19 +16,24 @@ export class AppErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
-  componentDidCatch(error) {
-    console.error('Error chungo: ', error);
+  componentDidCatch(error, info) {
+    console.error('Error no controlado en la interfaz:', error, info?.componentStack);
   }
+
+  // Propiedad flecha para que `this` no se pierda al pasarlo como manejador.
+  handleReload = () => {
+    window.location.reload();
+  };
 
   render() {
     if (this.state.hasError) {
       return (
           <div className="flex min-h-[50vh] w-full items-center justify-center p-4">
             <FeedbackState
-                icon={logo}
+                icon={AlertTriangle}
                 iconColorClass="bg-red-100 text-red-600"
-                title="Esto no pinta bien..."
-                description="Estamos trabajando para volver lo más rápido posible."
+                title="Algo ha fallado"
+                description="Se ha producido un error inesperado. Recarga la página para seguir navegando."
                 actionText="Recargar página"
                 onAction={this.handleReload}
             />

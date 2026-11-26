@@ -12,9 +12,9 @@ const ForbiddenPage = () => {
       <FeedbackState
         icon={Ban}
         iconColorClass={'bg-red-100 text-red-500'}
-        title={'¡Alto ahí, individuo!'}
-        description={'Vuelve a un sitio seguro haciendo clic en el botón de aquí abajo.'}
-        actionText="Justo aquí"
+        title={'No tienes acceso a esta página'}
+        description={'Tu cuenta no tiene permiso para ver este contenido.'}
+        actionText="Volver al inicio"
         onAction={() => navigate('/')}
       />
     </FadeUp>
