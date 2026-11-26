@@ -15,20 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Generate Documentation (phpDocumentor)
         run: |
           docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:3 \
-            -d ./Backend/app/Http/Controllers \
-            -d ./Backend/app/Models \
-            -d ./Backend/app/Http/Middleware \
-            -d ./Backend/app/Http/Requests \
-            -d ./Backend/app/Http/Resources \
-            -d ./Backend/app/Policies \
-            -d ./Backend/app/Providers \
-            -d ./Backend/app/Services \
-            -d ./Backend/app/Repositories \
+            -d ./Backend/app \
             -d ./Backend/routes \
             -d ./Backend/database/migrations \
             -d ./Backend/database/seeders \
@@ -39,7 +31,7 @@ jobs:
             --ignore="vendor/*,storage/*,bootstrap/cache/*,node_modules/*"
 
       - name: Create .nojekyll file
-        run: touch ./Backend/docs/.nojekyll
+        run: touch ./Backend/docs/api/.nojekyll
 
       - name: List generated files
         run: |
