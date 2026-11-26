@@ -9,12 +9,12 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 | Rutas | `routes/api.php`, `routes/auth.php`, `routes/console.php` (comandos y *schedule*) | Middleware: `auth:sanctum`, `verified`, `not_banned`, `admin` y `auth.optional` (alias en `bootstrap/app.php`; este último es la sesión opcional de las rutas públicas: `Auth::shouldUse('sanctum')`, y los controladores, Resources y policies usan `$request->user()`) |
 | Controller | `app/Http/Controllers/<Dominio>/` | HTTP de entrada y salida; sin lógica de negocio |
 | Form Request | `app/Http/Requests/<Dominio>/` | Validación y `authorize()` con *policies*; mensajes en español |
-| Action | `app/Actions/` (en la raíz, sin subcarpetas) | Un caso de uso de escritura transaccional con `execute(...)`: `EmitVoteAction`, `ChangeVoteAction`, `DeleteVoteAction`, `ReviewProposalAction`, `ModerateCommentAction`, `ImportCatalogItemOnDemandAction` (F1-07; llama a la fuente externa y usa un candado, no una transacción única) |
-| Service | `app/Services/` | Lógica reutilizable: `KudosService`, `NextCategoryItemService`, `ItemStatsService`, `ItemQualityScorer`, `OnboardingItemsService`, `ModerationAuditLogger`, `Media/*` |
+| Action | `app/Actions/` (en la raíz, sin subcarpetas) | Un caso de uso de escritura transaccional con `execute(...)`: `AddItemToListAction`, `ChangeVoteAction`, `CreateItemCommentAction`, `CreateReportAction`, `CreateUserListAction`, `DeleteAccountAction`, `DeleteVoteAction`, `EmitVoteAction`, `ImportCatalogItemOnDemandAction` (F1-07; llama a la fuente externa y usa un candado, no una transacción única), `LikeListAction`, `ModerateCommentAction`, `RemoveItemFromListAction`, `ReorderListItemsAction`, `ResolveReportAction`, `ReviewProposalAction` y `UnlikeListAction` |
+| Service | `app/Services/` | Lógica reutilizable: `KudosService`, `NextCategoryItemService`, `ItemStatsService`, `ItemQualityScorer`, `OnboardingItemsService`, `ModerationAuditLogger`, `HomeFeedService`, `PublicProfileService`, `RecommendationService`, `SimilarItemsService`, `UsageMetricsService`, `Media/*` |
 | Model | `app/Models/` | Relaciones, *scopes* (`scopeApplyFilters`, `scopeApplySorting`, `scopeAdminApply*`) y *casts* |
 | Resource | `app/Http/Resources/` | Toda respuesta JSON |
 | Policy | `app/Policies/` | Autorización por modelo: `ItemPolicy`, `ItemCommentPolicy`, `CategoryPolicy`, `ProposalPolicy`, `VotePolicy`, `UserListPolicy`, `UserPolicy` y `ReportPolicy` |
-| Job | `app/Jobs/` | `ProcessProposalImagesJob`, `ProcessUserAvatarJob`, `RecalculateItemStatsJob`, `RecalculateItemQualityJob` (cola `catalog`) |
+| Job | `app/Jobs/` | `ProcessProposalImagesJob` y `ProcessUserAvatarJob` (no fijan cola: `default`), `NotifyWishlistReleasesJob` (cola `default`), `RecalculateItemStatsJob` y `RecalculateItemQualityJob` (cola `catalog`) y `Jobs/Catalog/` (`FetchNewCatalogItemsJob`, `ImportCatalogItemJob`, `DownloadItemImagesJob` y `PurgeStaleCatalogItemsJob`, cola `catalog`) |
 | Support | `app/Support/` | Utilidades sin estado: `Like` (escapa los comodines de `LIKE`/`ILIKE`, F0-15) |
 | Catálogo (F1) | `app/Catalog/` | Proveedores, enriquecimiento e importación: ver [../integraciones/pipeline-catalogo.md](../integraciones/pipeline-catalogo.md) |
 
@@ -140,12 +140,12 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 | 4 | `$table->enum()` en PostgreSQL crea un `varchar` + CHECK (`votes_type_check`). Para añadir valores hay que borrar y recrear la restricción con SQL | Migración de `votes` | F2-01 (resuelta) |
 | 5 | `CheckMinimumKudos` existía sin registrar; se ha borrado | `app/Http/Middleware/` | F5-06 (resuelta) |
 | 6 | `Vote::kudosTransactions()` era código muerto; se ha borrado | `app/Models/Vote.php` | F5-06 (resuelta) |
-| 7 | `phpunit.xml` usa SQLite en memoria, que no puede ejecutar las migraciones | `phpunit.xml` | F0-01 |
+| 7 | `phpunit.xml` usaba SQLite en memoria, que no puede ejecutar las migraciones | `phpunit.xml` | F0-01 (resuelta: `DB_CONNECTION=pgsql` con `force="true"` y la base `testing`) |
 | 8 | No hay scheduler en producción | `compose.prod.yml` | F0-10 (resuelta) |
 | 9 | `users.name` no es único | Migración de `users` | F3-03 (`username`) |
 | 10 | La búsqueda (`ilike '%…%'`) depende del índice GIN trigram `items_name_trgm_idx`. Cada campo de búsqueda nuevo necesita su propio índice trigram | `Item`, `Vote::scopeApplyFilters` | F1-01 |
 | 11 | `DatabaseSeeder` usa `WithoutModelEvents`: los hooks de `Item` (`saving`, `creating`) no se ejecutan al sembrar | `database/seeders/` | Se tiene en cuenta en F0-05 y F1-01 |
-| 12 | `.github/workflows/docs.yml` publica phpDocumentor en `Backend/docs/api`. No tiene nada que ver con `docs/` | — | — |
+| 12 | `.github/workflows/docs.yml` genera con phpDocumentor `Backend/app`, `routes` y `database` en `Backend/docs/api` (ignorado por git) y lo publica en GitHub Pages en cada *push* a `main`. No tiene nada que ver con `docs/`; `Backend/docs/api-contract.md` sí se versiona | — | F5-14 (corregido) |
 
 ## 4. Patrones
 

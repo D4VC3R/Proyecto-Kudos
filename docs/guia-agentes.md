@@ -40,7 +40,7 @@ Los pasos, hagas la tarea a mano o con los agentes:
 1. En [roadmap/README.md](roadmap/README.md), elige la primera tarea `pendiente` con todas sus dependencias en `hecho`. No saltes de fase salvo que el humano lo pida.
 2. Lee su ficha, las secciones que cite en **Lee** y el código actual de los **Archivos**.
 3. Marca la tarea `en curso` en el tablero y asígnate su issue (§4.2).
-4. `git switch rediseno-fase-0 && git pull --ff-only origin rediseno-fase-0`, y crea `fase-N/FN-XX-descripcion-corta` (ej. `fase-0/F0-03-recalculo-medias`). Cuando la tarea esté hecha, entra en `rediseno-fase-0` mediante un PR (§4.1). A `main` solo se fusiona por fases, con aprobación y lo hace el humano.
+4. Rama base: hasta F5-16, `rediseno-fase-0`; después, `main`. `git switch rediseno-fase-0 && git pull --ff-only origin rediseno-fase-0`, y crea `fase-N/FN-XX-descripcion-corta` (ej. `fase-0/F0-03-recalculo-medias`). Cuando la tarea esté hecha, entra en `rediseno-fase-0` mediante un PR (§4.1). A `main` solo se fusiona por fases, con aprobación y lo hace el humano.
 5. Implementa.
 6. Verifica la definición de hecho (§3).
 7. Actualiza la documentación: estado `hecho` en el tablero, una sección **Notas** en la ficha con las decisiones y desviaciones, y los documentos de referencia que hayan quedado desfasados.
@@ -66,7 +66,7 @@ Si la tarea no puede avanzar, márcala `bloqueada` y explica el motivo en su fic
 
 ### 4.1. Pull requests
 
-Desde la F5-02, todo cambio entra en `rediseno-fase-0` mediante un PR en GitHub, para que la revisión y el CI queden a la vista. Las tareas anteriores se fusionaron en local y sus ramas no se suben.
+Rama base: hasta F5-16, `rediseno-fase-0`; después, `main`. Desde la F5-02, todo cambio entra en `rediseno-fase-0` mediante un PR en GitHub, para que la revisión y el CI queden a la vista. Las tareas anteriores se fusionaron en local y sus ramas no se suben.
 
 - **Título:** como un commit, `Área: FX-YY, descripción`.
 - **Descripción:** la plantilla [`.github/pull_request_template.md`](../.github/pull_request_template.md): `## Qué cambia`, `## Cómo se ha verificado` (la salida real de los tests y del build), `## Notas` (desviaciones y decisiones para validar) y la línea `Tarea: FX-YY · Refs #<issue> · Ficha: …`. Lleva las mismas etiquetas que su issue.
