@@ -25,6 +25,13 @@ class DownloadItemImagesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 
+    /** Varias imágenes, cada una con descarga y dos variantes WebP. */
+    public int $tries = 3;
+
+    public array $backoff = [30, 120];
+
+    public int $timeout = 120;
+
     private const PUBLIC_DISK = 'public';
 
     private const TEMP_DISK = 'local';
