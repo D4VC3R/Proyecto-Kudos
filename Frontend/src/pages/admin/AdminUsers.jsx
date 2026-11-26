@@ -23,6 +23,7 @@ const AdminUsers = () => {
       <SectionHeader title="Gestión de" highlight="Usuarios" highlightColor="accent" icon={Users}>
         <div className="flex gap-2 flex-wrap">
           <SelectFilter
+            label="Estado de la cuenta"
             icon={Filter}
             value={state.filters.isBanned}
             onChange={(e) => actions.handleFilterChange('isBanned', e.target.value)}
@@ -33,6 +34,7 @@ const AdminUsers = () => {
             ]}
           />
           <SelectFilter
+            label="Rol"
             icon={Shield}
             value={state.filters.role}
             onChange={(e) => actions.handleFilterChange('role', e.target.value)}
@@ -43,6 +45,7 @@ const AdminUsers = () => {
             ]}
           />
           <SelectFilter
+            label="Verificación del email"
             icon={CheckCircle}
             value={state.filters.isVerified}
             onChange={(e) => actions.handleFilterChange('isVerified', e.target.value)}
@@ -56,6 +59,7 @@ const AdminUsers = () => {
             value={state.searchInput}
             onChange={actions.handleSearchChange}
             placeholder="Buscar..."
+            label="Buscar usuarios"
             maxWidth="max-w-[180px]"
           />
         </div>

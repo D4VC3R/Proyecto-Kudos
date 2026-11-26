@@ -98,11 +98,12 @@ const Comment = ({ comment, itemId, onRequestHide, onRequestDelete, onReply, isR
               onChange={(e) => setEditContent(e.target.value)}
               rows={3}
               disabled={isUpdating}
+              aria-label="Editar comentario"
               className="w-full resize-none rounded-xl border border-border bg-background py-2 px-3 text-sm text-text-highlight focus:border-blue-500 focus:bg-surface focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
             <div className="flex gap-2 justify-end">
-              <Button onClick={() => setIsEditing(false)} disabled={isUpdating} variant="ghost" color="neutral" size="iconSm" icon={X} />
-              <Button onClick={handleUpdate} disabled={isUpdating || !editContent.trim()} variant="ghost" color="primary" size="iconSm" icon={Check} />
+              <Button onClick={() => setIsEditing(false)} disabled={isUpdating} variant="ghost" color="neutral" size="iconSm" icon={X} aria-label="Cancelar edición" />
+              <Button onClick={handleUpdate} disabled={isUpdating || !editContent.trim()} variant="ghost" color="primary" size="iconSm" icon={Check} aria-label="Guardar cambios" />
             </div>
           </div>
         ) : (

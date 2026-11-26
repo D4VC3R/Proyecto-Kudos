@@ -29,6 +29,7 @@ const MyProposalsHeader = ({ meta, filters, updateParams }) => {
       />
 
       <SelectFilter
+        label="Estado"
         icon={Filter}
         value={filters.status || ''}
         onChange={(e) => updateParams({ status: e.target.value })}
