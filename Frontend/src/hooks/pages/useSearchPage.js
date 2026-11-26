@@ -8,7 +8,6 @@ import { useImportCatalogItem } from '../catalog/useCatalogMutations.js';
 import { selectIsAuthenticated, selectIsBanned, selectIsVerified, useSessionStore } from '../../store/useSessionStore.js';
 import { buildAuthLinkState } from '../../lib/authRedirect.js';
 import {
-  buildItemUrl,
   getImportedItemId,
   groupItemsByCategory,
   MIN_LOCAL_RESULTS_FOR_CATALOG,
@@ -24,7 +23,7 @@ import {
  * - `state.catalog` (F1-07): importación bajo demanda. `isVisible` es true con pocos resultados locales;
  *   incluye el permiso (`canImport`, `isAuthenticated`, `isVerified`, `isBanned`), las categorías con proveedor
  *   y la elegida, los candidatos de la fuente externa (`results`), y el estado de la búsqueda y de la importación.
- * - `actions`: clic en un ítem (navega a su ficha) y las del bloque de catálogo: cambiar de categoría,
+ * - `actions`: las del bloque de catálogo: cambiar de categoría,
  *   buscar en la fuente externa, importar un candidato y abrir uno que ya está en Kudos.
  * - `refs`: referencia necesaria para implementar el scroll infinito.
  * */
@@ -53,11 +52,6 @@ export const useSearchPage = () => {
 
   const items = useMemo(() => data?.pages.flatMap((page) => page.data) || [], [data]);
   const groups = useMemo(() => groupItemsByCategory(items), [items]);
-
-  const handleItemClick = (item) => {
-    const url = buildItemUrl(item);
-    if (url) navigate(url);
-  };
 
   // Importación bajo demanda (F1-07).
   const isAuthenticated = useSessionStore(selectIsAuthenticated);
@@ -131,7 +125,6 @@ export const useSearchPage = () => {
       },
     },
     actions: {
-      handleItemClick,
       handleCatalogCategoryChange,
       handleCatalogSearch,
       handleCatalogImport,

@@ -1,13 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSessionStore, selectIsAdmin, selectIsVerified } from '../../store/useSessionStore.js';
 import { usePublicProfile } from '../users/useUserQueries';
-import { buildItemUrl } from '../../lib/search.js';
 
 /**
  * Hook para la página del perfil público (/u/:username, F3-03).
  *
  * @returns {object} `state` con el perfil, sus secciones (`topByCategory`, `lists`, `reviews`), `isOwner`,
- * `canReport` e `isEmpty`, y `actions` con `handleItemClick` y `handleGoHome`.
+ * `canReport` e `isEmpty`, y `actions` con `handleGoHome`.
  */
 export const usePublicProfilePage = () => {
   const { username } = useParams();
@@ -19,11 +18,6 @@ export const usePublicProfilePage = () => {
   const topByCategory = profile?.top_by_category ?? [];
   const lists = profile?.lists ?? [];
   const reviews = profile?.reviews ?? [];
-
-  const handleItemClick = (item) => {
-    const url = buildItemUrl(item);
-    if (url) navigate(url);
-  };
 
   const handleGoHome = () => navigate('/');
 
@@ -40,6 +34,6 @@ export const usePublicProfilePage = () => {
       reviews,
       isEmpty: topByCategory.length === 0 && lists.length === 0 && reviews.length === 0,
     },
-    actions: { handleItemClick, handleGoHome },
+    actions: { handleGoHome },
   };
 };

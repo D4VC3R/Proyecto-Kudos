@@ -2,13 +2,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSessionStore, selectIsAdmin, selectIsAuthenticated, selectIsVerified } from '../../store/useSessionStore.js';
 import { useList } from '../lists/useListQueries';
 import { useLikeList, useUnlikeList } from '../lists/useListMutations';
-import { buildItemUrl } from '../../lib/search.js';
 
 /**
  * Hook para la página pública de una lista (/listas/:slug, F2-09; "me gusta" y dueño, F3-01).
  *
  * @returns {object} `state` con la lista, sus entradas, `canReport` y los datos del "me gusta", y `actions`
- * con `handleItemClick`, `handleGoHome` y `handleToggleLike`.
+ * con `handleGoHome` y `handleToggleLike`.
  */
 export const useListPage = () => {
   const { slug } = useParams();
@@ -22,11 +21,6 @@ export const useListPage = () => {
 
   const isOwner = Boolean(list?.can_edit);
   const liked = Boolean(list?.liked_by_me);
-
-  const handleItemClick = (item) => {
-    const url = buildItemUrl(item);
-    if (url) navigate(url);
-  };
 
   const handleGoHome = () => navigate('/');
 
@@ -56,6 +50,6 @@ export const useListPage = () => {
       // Con sesión verificada y siendo otra persona se puede dar "me gusta"; sin sesión el botón lleva a /login.
       likeDisabled: isAuthenticated && (!isVerified || isOwner),
     },
-    actions: { handleItemClick, handleGoHome, handleToggleLike },
+    actions: { handleGoHome, handleToggleLike },
   };
 };

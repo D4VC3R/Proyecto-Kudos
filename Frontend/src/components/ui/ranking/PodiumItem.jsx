@@ -1,28 +1,31 @@
 import React from 'react';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { UserCircle, ChevronRight } from 'lucide-react';
 import {RANK_CONFIG} from '../../../lib/constants.js';
 import { getScoreColor } from '../../../lib/formatters.js';
+import { staggerItemVariants } from '../../../lib/animations';
 
 import StaggerItem from '../../animations/StaggerItem.jsx';
 import StorageImage from '../StorageImage.jsx';
 
+const MotionLink = motion.create(Link);
 
-const PodiumItem = ({ data, rank, type = "item", onClick }) => {
+const PodiumItem = ({ data, rank, type = "item", to }) => {
   const config = RANK_CONFIG[rank] || RANK_CONFIG.default;
   const scoreValue = type === "user" ? data.total_kudos : (data.score || data.vote_avg || 0);
   const scoreBgClass = getScoreColor(type, scoreValue);
   const RankIcon = config.Icon;
 
-  return (
-    <StaggerItem
-      className={clsx(
-        'flex items-center gap-3 rounded-2xl transition-all group',
-        onClick && 'cursor-pointer hover:scale-[1.01]',
-        config.wrapperClass
-      )}
-      onClick={onClick}
-    >
+  const rowClass = clsx(
+    'flex items-center gap-3 rounded-2xl transition-all group',
+    to && 'cursor-pointer hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+    config.wrapperClass
+  );
+
+  const content = (
+    <>
       <div className={clsx("flex shrink-0 items-center justify-center rounded-full bg-surface shadow-sm", config.iconWrapperClass)}>
         {RankIcon ? (
           <RankIcon size={config.iconSize} className={config.iconClass} />
@@ -52,12 +55,24 @@ const PodiumItem = ({ data, rank, type = "item", onClick }) => {
         {scoreValue} {type === "user" && "K"}
       </div>
 
-      {onClick && (
+      {to && (
         <div className="flex shrink-0 items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
           <ChevronRight size={20} />
         </div>
       )}
-    </StaggerItem>
+    </>
+  );
+
+  if (!to) {
+    return <StaggerItem className={rowClass}>{content}</StaggerItem>;
+  }
+
+  // El enlace es el propio elemento animado (así conserva el z-index del podio como elemento flex);
+  // equivale a un StaggerItem sin `alternate` y con índice 0.
+  return (
+    <MotionLink to={to} variants={staggerItemVariants} custom={0} className={rowClass}>
+      {content}
+    </MotionLink>
   );
 };
 

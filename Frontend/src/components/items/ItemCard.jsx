@@ -1,19 +1,21 @@
 import React from 'react';
 import { Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import  BouncyCard  from '../animations/BouncyCard';
 import StorageImage from "../ui/StorageImage.jsx";
 import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 import AttributeChips from './AttributeChips.jsx';
 import AddToListButton from '../lists/AddToListButton.jsx';
+import { buildItemUrl } from '../../lib/search.js';
 
-const ItemCard = ({ item, onClick }) => {
+const ItemCard = ({ item }) => {
   const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
   const imagePath = item.images?.[0]?.variants?.thumb;
 
-  return (
+  const card = (
     <BouncyCard
-      onClick={onClick}
-      className="group relative w-full aspect-[3/4] cursor-pointer overflow-hidden rounded-3xl bg-surface shadow-lg ring-1 ring-slate-200 transition-shadow hover:shadow-xl"
+      tabIndex={-1}
+      className="group relative w-full aspect-[3/4] overflow-hidden rounded-3xl bg-surface shadow-lg ring-1 ring-slate-200 transition-shadow hover:shadow-xl"
     >
       <div className="absolute inset-0">
         <StorageImage
@@ -51,6 +53,17 @@ const ItemCard = ({ item, onClick }) => {
         <AttributeChips schema={item.category?.attribute_schema} attributes={item.attributes} variant="card" />
       </div>
     </BouncyCard>
+  );
+
+  // `whileTap` hace tabulable el artículo: se quita para que el enlace sea la única parada de Tab.
+  // Es un enlace real para el teclado, la pestaña nueva y los buscadores; sin categoría no hay URL.
+  const url = buildItemUrl(item);
+  if (!url) return card;
+
+  return (
+    <Link to={url} className="block rounded-3xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary">
+      {card}
+    </Link>
   );
 };
 

@@ -3,13 +3,14 @@ import { motion } from 'framer-motion';
 import { bouncyCardVariants } from '../../lib/animations';
 
 // Componente que envuelve cualquier contenido para aplicar una animación de rebote al interactuar con él.
-const BouncyCard = ({ children, className = '', onClick }) => {
+const BouncyCard = ({ children, className = '', onClick, tabIndex }) => {
     return (
         <motion.article
             variants={bouncyCardVariants}
             whileHover="hover"
             whileTap="tap"
             onClick={onClick}
+            tabIndex={tabIndex}
             className={className}
         >
             {children}

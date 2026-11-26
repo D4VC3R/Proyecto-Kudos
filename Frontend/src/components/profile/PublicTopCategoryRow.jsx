@@ -2,7 +2,7 @@ import React from 'react';
 import ItemCard from '../items/ItemCard.jsx';
 
 // Fila de los mejores ítems de un usuario en una categoría (F3-03), con su nota debajo de cada tarjeta.
-const PublicTopCategoryRow = ({ group, onItemClick }) => {
+const PublicTopCategoryRow = ({ group }) => {
   if (!group?.items?.length) return null;
 
   const labelId = `top-${group.category.slug}`;
@@ -14,7 +14,7 @@ const PublicTopCategoryRow = ({ group, onItemClick }) => {
         {group.items.map((entry) => (
           <li key={entry.item.id} className="w-36 shrink-0 snap-start sm:w-44">
             <div className="flex flex-col gap-2">
-              <ItemCard item={entry.item} onClick={() => onItemClick?.(entry.item)} />
+              <ItemCard item={entry.item} />
               <p className="text-sm font-bold text-text-normal">Su nota: {entry.score}</p>
             </div>
           </li>

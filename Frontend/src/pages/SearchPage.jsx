@@ -61,7 +61,7 @@ const SearchPage = () => {
             </h3>
             <div className={GRID_CLASSES}>
               {group.items.map((item) => (
-                <ItemCard key={item.id} item={item} onClick={() => actions.handleItemClick(item)} />
+                <ItemCard key={item.id} item={item} />
               ))}
             </div>
           </section>

@@ -14,7 +14,8 @@ const AddToListButton = ({ item, variant = 'card' }) => {
   if (!isAuthenticated || !isVerified || !item) return null;
 
   const handleClick = (event) => {
-    // En la tarjeta, el clic no debe abrir la ficha del ítem.
+    // En la tarjeta, el botón va dentro del enlace: ni navega ni abre la ficha.
+    event.preventDefault();
     event.stopPropagation();
     openAddToList(item);
   };

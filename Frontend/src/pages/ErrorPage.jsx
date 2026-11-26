@@ -12,9 +12,9 @@ const ErrorPage = () => {
       <FeedbackState
         icon={Ban}
         iconColorClass={'bg-red-100 text-red-500'}
-        title={'¡Enhorabuena, has me has roto el proyecto!'}
-        description={'Por desgracia esta acción no te hace ganar Kudos, mejor vuelve a la página principal y busca otra manera de conseguirlos.'}
-        actionText="Más Kudos y menos bugs."
+        title={'No encontramos esta página'}
+        description={'Puede que el enlace esté mal escrito o que la página ya no exista.'}
+        actionText="Volver al inicio"
         onAction={() => navigate('/')}
       />
     </FadeUp>
