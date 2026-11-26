@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemSource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Log;
  * status = active; **solo al crear**: al refrescar no se toca el status, así que un ítem desactivado
  * (a mano o por un 404) sigue inactivo. Un ítem borrado (soft delete) no se resucita ni se actualiza.
  * Las imágenes no se descargan aquí: lo hace DownloadItemImagesJob.
+ * Si otro proceso importa el mismo título a la vez y choca un índice único, se deshace la transacción y se repite una vez.
  */
 final class CatalogImporter
 {
@@ -36,8 +38,25 @@ final class CatalogImporter
     {
         $category = Category::query()->where('slug', $data->categorySlug)->firstOrFail();
 
+        try {
+            return $this->upsert($data, $category);
+        } catch (UniqueConstraintViolationException) {
+            // Otro proceso (el worker o una importación bajo demanda) ha creado la misma fuente o el mismo QID
+            // entre la búsqueda y el INSERT. La transacción ya se ha deshecho: al repetir, la búsqueda por fuente
+            // (o por QID) encuentra su ítem y se actualiza en lugar de crear otro.
+            Log::info('Catálogo: otro proceso importó el mismo título a la vez; se repite la importación.', [
+                'provider' => $data->provider, 'external_id' => $data->externalId,
+            ]);
+
+            return $this->upsert($data, $category);
+        }
+    }
+
+    private function upsert(CatalogItemData $data, Category $category): Item
+    {
         return DB::transaction(function () use ($data, $category): Item {
             $item = $this->findBySource($data);
+            $sourceExists = $item !== null;
 
             if ($item?->trashed()) {
                 // Lo borró un admin: no se resucita ni se actualiza.
@@ -60,7 +79,7 @@ final class CatalogImporter
             $item->fill($this->itemAttributes($data, $item, $wikidataId));
             $item->save(); // slug al crear (Item::booted) y quality_score en saving
 
-            $this->syncSources($item, $data);
+            $this->syncSources($item, $data, $sourceExists);
 
             return $item;
         });
@@ -186,14 +205,20 @@ final class CatalogImporter
     }
 
     /** Deja la fuente del proveedor como única primaria y mantiene al día la de Wikidata y las secundarias. */
-    private function syncSources(Item $item, CatalogItemData $data): void
+    private function syncSources(Item $item, CatalogItemData $data, bool $sourceExists): void
     {
         $now = now();
 
-        ItemSource::query()->updateOrCreate(
-            ['provider' => $data->provider, 'external_id' => $data->externalId],
-            ['item_id' => $item->id, 'url' => $data->sourceUrl, 'is_primary' => true, 'last_synced_at' => $now],
-        );
+        $keys = ['provider' => $data->provider, 'external_id' => $data->externalId];
+        $values = ['item_id' => $item->id, 'url' => $data->sourceUrl, 'is_primary' => true, 'last_synced_at' => $now];
+
+        if ($sourceExists) {
+            ItemSource::query()->updateOrCreate($keys, $values);
+        } else {
+            // INSERT plano: updateOrCreate absorbe la violación del índice único y movería a este ítem una fuente
+            // que otro proceso acaba de crear (ítem duplicado). Así salta la excepción e import() repite.
+            ItemSource::query()->create($keys + $values);
+        }
 
         // Una sola fuente primaria por ítem.
         $item->sources()

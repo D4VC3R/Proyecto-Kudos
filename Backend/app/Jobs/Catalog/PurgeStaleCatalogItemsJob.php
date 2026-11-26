@@ -23,6 +23,13 @@ class PurgeStaleCatalogItemsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 
+    /** Solo base de datos y disco, pero en lotes de ítems. */
+    public int $tries = 3;
+
+    public array $backoff = [30, 120];
+
+    public int $timeout = 120;
+
     /** @param  list<string>  $itemIds */
     public function __construct(public array $itemIds)
     {

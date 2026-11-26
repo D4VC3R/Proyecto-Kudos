@@ -34,6 +34,7 @@
   `schedule:work` ejecuta cada tarea **dentro de este contenedor**, así que las tareas programadas solo encolan jobs (`Schedule::job(...)`, o comandos que recorren IDs y despachan). El trabajo va al worker.
 - **Worker:**
   - `command: ["php", "artisan", "queue:work", "--queue=default,catalog", "--tries=3", "--backoff=60", "--max-time=3600"]`. `default` (correos, avatares) tiene prioridad sobre `catalog` (importaciones y recálculos);
+  - los jobs del catálogo declaran `$tries`, `$backoff` y `$timeout` (120 s), que prevalecen sobre las opciones del comando; `retry_after` de la cola es 180 (F5-07);
   - 512M.
 - **Comentario de presupuesto en la cabecera:** postgres 512M + app 1G + worker 512M + scheduler 128M + redis 128M + nginx 64M ≈ 2,3 GB. Si el humano dice que no cabe, se propone bajar `app` a 768M y `pm.max_children` (`docker/prod/`) en proporción, pero **se consulta**, no se decide.
 - Nada de LibreTranslate ni de otros servicios pesados.

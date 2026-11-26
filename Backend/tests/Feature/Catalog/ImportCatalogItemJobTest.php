@@ -3,7 +3,9 @@
 namespace Tests\Feature\Catalog;
 
 use App\Jobs\Catalog\DownloadItemImagesJob;
+use App\Jobs\Catalog\FetchNewCatalogItemsJob;
 use App\Jobs\Catalog\ImportCatalogItemJob;
+use App\Jobs\Catalog\PurgeStaleCatalogItemsJob;
 use App\Models\Item;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
@@ -11,12 +13,15 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Sleep;
 use Tests\Concerns\CreatesItems;
 use Tests\Concerns\FakesRemoteImages;
 use Tests\Concerns\LoadsFixtures;
+use InvalidArgumentException;
 use Tests\TestCase;
+use UnexpectedValueException;
 
 class ImportCatalogItemJobTest extends TestCase
 {
@@ -196,5 +201,61 @@ class ImportCatalogItemJobTest extends TestCase
         $this->assertSame(2, $item->sources()->count());
         $this->assertCount(2, $item->images);
         $this->assertSame(4, $this->imageRequests()); // HEAD + GET de cada imagen, solo la primera vez
+    }
+
+    public function test_el_mismo_titulo_encolado_dos_veces_da_un_solo_job(): void
+    {
+        Queue::fake();
+
+        ImportCatalogItemJob::dispatch('peliculas', 'movie:603');
+        ImportCatalogItemJob::dispatch('peliculas', 'movie:603');
+        ImportCatalogItemJob::dispatch('series', 'tv:1399');
+
+        Queue::assertPushed(ImportCatalogItemJob::class, 2);
+        $this->assertSame(1, Queue::pushed(ImportCatalogItemJob::class)
+            ->filter(fn (ImportCatalogItemJob $job) => $job->externalId === 'movie:603')
+            ->count());
+    }
+
+    public function test_una_respuesta_inesperada_del_proveedor_falla_sin_reintentos(): void
+    {
+        // Sin "id": AbstractTmdbProvider::fetch() no entiende la respuesta y lanza UnexpectedValueException.
+        Http::fake(['api.themoviedb.org/3/movie/603*' => Http::response(['title' => 'Matrix'])]);
+
+        $job = (new ImportCatalogItemJob('peliculas', 'movie:603'))->withFakeQueueInteractions();
+        app()->call([$job, 'handle']);
+
+        $job->assertFailedWith(UnexpectedValueException::class);
+        $job->assertNotReleased();
+        $this->assertSame(0, Item::query()->count());
+    }
+
+    public function test_una_categoria_sin_proveedor_falla_sin_reintentos(): void
+    {
+        Http::fake();
+
+        $job = (new ImportCatalogItemJob('libros', '123'))->withFakeQueueInteractions();
+        app()->call([$job, 'handle']);
+
+        $job->assertFailedWith(InvalidArgumentException::class);
+        Http::assertNothingSent();
+    }
+
+    public function test_el_candado_de_unicidad_va_por_categoria_y_external_id(): void
+    {
+        $this->assertSame('peliculas:movie:603', (new ImportCatalogItemJob('peliculas', 'movie:603'))->uniqueId());
+    }
+
+    public function test_retry_after_de_la_cola_supera_el_timeout_de_los_jobs_del_catalogo(): void
+    {
+        $maxTimeout = max(
+            (new ImportCatalogItemJob('peliculas', 'movie:603'))->timeout,
+            (new FetchNewCatalogItemsJob('peliculas', 1))->timeout,
+            (new DownloadItemImagesJob('id', []))->timeout,
+            (new PurgeStaleCatalogItemsJob([]))->timeout,
+        );
+
+        $this->assertLessThan((int) config('queue.connections.database.retry_after'), $maxTimeout);
+        $this->assertLessThan((int) config('queue.connections.redis.retry_after'), $maxTimeout);
     }
 }

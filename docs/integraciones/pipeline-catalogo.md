@@ -131,10 +131,11 @@ final readonly class CatalogItemData
    - las imágenes que ya no están en la lista se borran del disco (solo las de `items/{categoría}/{id}/`).
 5. **`quality_score`** lo recalcula el hook `saving` del modelo; sin descripción nunca llega al umbral.
 6. **Idempotente:** el mismo DTO dos veces no crea filas ni vuelve a descargar.
+7. **Importación concurrente:** si otro proceso (el worker o una importación bajo demanda) crea la misma fuente o el mismo QID entre la búsqueda y el INSERT, salta `UniqueConstraintViolationException`, la transacción se deshace y `import()` se repite una vez: la búsqueda encuentra ya el ítem y lo actualiza. La fuente primaria nueva se inserta sin `updateOrCreate` para que la colisión salte en lugar de moverse a un ítem duplicado.
 
 ## 5. Refresco y cumplimiento de TMDB
 
-- **`catalog:fetch-new`** (diario): encola un `FetchNewCatalogItemsJob` por categoría (el comando no llama a TMDB); el job pide `fetchNew()` y encola un `ImportCatalogItemJob` por cada `external_id`, incluidos los ítems que ya existen (se refrescan sin duplicar). `--limit` cuenta candidatos de `fetchNew()`, no ítems nuevos. Las categorías con `manual_fetch_new` (destinos, F4-02) las omite `--all`; con `--category` el listado (una consulta SPARQL por país: el listado completo dura unos 25 minutos; con `--limit=40` solo se consulta España, unos segundos) se hace en el proceso del comando (`dispatchSync`) y solo las importaciones van a la cola, porque el worker corta a los 60 s.
+- **`catalog:fetch-new`** (diario): encola un `FetchNewCatalogItemsJob` por categoría (el comando no llama a TMDB); el job pide `fetchNew()` y encola un `ImportCatalogItemJob` por cada `external_id`, incluidos los ítems que ya existen (se refrescan sin duplicar). `--limit` cuenta candidatos de `fetchNew()`, no ítems nuevos. Las categorías con `manual_fetch_new` (destinos, F4-02) las omite `--all`; con `--category` el listado (una consulta SPARQL por país: el listado completo dura unos 25 minutos; con `--limit=40` solo se consulta España, unos segundos) se hace en el proceso del comando (`dispatchSync`) y solo las importaciones van a la cola, porque el job corta a los 120 s (`$timeout`).
 - **`catalog:refresh`** (diario): toma hasta `--batch` ítems con `last_synced_at` anterior a `--older-than` días (150 por defecto, con margen frente a los 180 de TMDB; cada categoría puede fijar el suyo con `catalog.categories.{slug}.refresh_older_than_days`: destinos, 90, refresco trimestral; `--older-than` lo fija para todas), los más antiguos primero, y encola un `ImportCatalogItemJob` por cada uno. Incluye los inactivos (siguen inactivos) y excluye los borrados. El lote debe recorrer todo el catálogo de TMDB en menos de 150 días (con ~3.000 ítems, 200 al día bastan). Registra un aviso en el log si quedan pendientes tras el lote.
 - **404 del proveedor:** `status = inactive` y aviso en el log. No se borra, porque puede tener votos.
 - **`catalog:purge-stale`** (semanal, red de seguridad): encola `PurgeStaleCatalogItemsJob` por bloques. Los ítems de TMDB (con fuente `tmdb`) sin refrescar en más de 180 días, **incluidos los borrados**, pasan a inactivos, se vacían sus campos procedentes de TMDB (la sinopsis si su `description_source` es `tmdb`, `attributes` y `popularity`) y **se borran sus imágenes de TMDB** del disco y de `images`. Conserva el nombre, el título original, la fecha, el slug y las fuentes, y lo que no viene de TMDB (descripción de Wikipedia/Wikidata o manual, imágenes propias). Un ítem purgado vuelve a refrescarse con `catalog:refresh`, pero sigue `inactive` hasta que lo reactive un admin.
@@ -154,6 +155,8 @@ final readonly class CatalogItemData
 
 Todas llevan `withoutOverlapping()`.
 
+Los cuatro jobs de `app/Jobs/Catalog/` declaran `tries` 3, `backoff` [30, 120] y `timeout` 120 (prevalecen sobre las opciones del worker), y `retry_after` de la cola es 180. `ImportCatalogItemJob` es único por (categoría, `external_id`) durante 1 h, y una `UnexpectedValueException` o una `InvalidArgumentException` lo manda a `failed_jobs` sin reintentos (F5-07).
+
 ## 7. Importación bajo demanda (F1-07)
 
 Las dos rutas están en el grupo `auth:sanctum` + `verified` + `not_banned`. Los límites son `RateLimiter::for()` con nombre en `AppServiceProvider` (por usuario y minuto) y responden 429 con `{"error": {"code": "too_many_requests", "message"}}` y las cabeceras `Retry-After` y `X-RateLimit-*`.
@@ -169,7 +172,7 @@ Las dos rutas están en el grupo `auth:sanctum` + `verified` + `not_banned`. Los
   - **201** `{"message", "data": <ItemDetailResource>}` si se ha creado (el frontend muestra el *placeholder* hasta que llegan las imágenes); **200** `{"message", "data": {"item_id"}}` si ya existía y está activo, sin duplicar (también si coincide por QID con un ítem existente);
   - **409** `conflict` si existe pero está inactivo o borrado (su ficha daría 403 a un usuario normal); **404** `not_found` si la fuente no tiene el título; **503** `catalog_unavailable` si la fuente falla (error HTTP, sin conexión, sin token) o hay otra importación del mismo título en curso (la búsqueda usa el mismo 503);
   - `creator_id` queda `null` (lo crea el sistema); en el log (`Catálogo: importación bajo demanda.`) se registra `user_id`, categoría, `external_id`, resultado e `item_id`.
-- **Timeout corto:** durante la petición, `catalog.on_demand.timeout_seconds` (5) y `retry_times` (1, un solo intento) sustituyen a `catalog.http.*`, que se restauran al terminar. Como la macro `Http::catalog()` los lee en cada llamada, afecta a TMDB, IGDB, Steam, Wikidata y Wikipedia. Solo se envuelven las llamadas al proveedor y al resolver, nunca `CatalogImporter::import()`. En los tests, una petición sin falsear sigue lanzando `StrayRequestException` (no se convierte en 503).
+- **Timeout corto:** durante la petición, `catalog.on_demand.timeout_seconds` (5) y `retry_times` (1, un solo intento) sustituyen a `catalog.http.*`, que se restauran al terminar. Como la macro `Http::catalog()` los lee en cada llamada, afecta a TMDB, IGDB, Steam, Wikidata, Wikipedia y Commons. La espera al RateLimiter de cada proveedor queda acotada a `catalog.on_demand.max_throttle_wait_seconds` (5 s; si hace falta más, 503, F5-07). Solo se envuelven las llamadas al proveedor y al resolver, nunca `CatalogImporter::import()`. En los tests, una petición sin falsear sigue lanzando `StrayRequestException` (no se convierte en 503).
 
 ## 8. `config/catalog.php`
 
@@ -188,6 +191,7 @@ return [
         'timeout_seconds' => 10,
         'retry_times' => 3,                     // intentos en total; solo ante 429, 5xx o fallo de conexión
         'retry_sleep_ms' => 500,                // espera del reintento N: N × este valor
+        'max_throttle_wait_seconds' => null,    // F5-07: espera máxima al RateLimiter (null = sin límite, jobs y comandos)
     ],
     'categories' => [
         'peliculas' => ['provider' => \App\Catalog\Providers\TmdbMovieProvider::class],
@@ -216,6 +220,7 @@ return [
         'search_cache_minutes' => 10,           // caché de cada búsqueda por (categoría, texto)
         'timeout_seconds' => 5,                 // sustituye a http.timeout_seconds durante la petición
         'retry_times' => 1,                     // sustituye a http.retry_times (1 = un solo intento)
+        'max_throttle_wait_seconds' => 5,       // F5-07: sustituye a http.max_throttle_wait_seconds (si hace falta más, 503)
         'lock_wait_seconds' => 10,              // espera a otra importación del mismo título antes del 503
     ],
     'queue_weights' => ['pop' => 0.45, 'new' => 0.2, 'qual' => 0.15, 'rand' => 0.2],   // F2-06: cola de votación ponderada

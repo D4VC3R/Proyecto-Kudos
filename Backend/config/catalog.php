@@ -43,6 +43,10 @@ return [
         'retry_times' => 3,
         // Espera antes del reintento N: N × este valor (500 ms, 1000 ms…).
         'retry_sleep_ms' => 500,
+        // Espera máxima (s) al RateLimiter de un proveedor antes de rendirse con una RuntimeException.
+        // null = sin límite (jobs y comandos esperan lo que haga falta); bajo demanda la sustituye
+        // on_demand.max_throttle_wait_seconds durante la petición.
+        'max_throttle_wait_seconds' => null,
     ],
 
     // Proveedor de cada categoría (CatalogProviderRegistry), en app/Catalog/Providers (F1-03).
@@ -115,6 +119,9 @@ return [
         // Sustituyen a http.timeout_seconds y http.retry_times durante la petición (1 = un solo intento).
         'timeout_seconds' => 5,
         'retry_times' => 1,
+        // Sustituye a http.max_throttle_wait_seconds durante la petición: si la ventana del proveedor está
+        // agotada (p. ej. por una carga del worker), se responde 503 en vez de bloquear un proceso de PHP-FPM.
+        'max_throttle_wait_seconds' => 5,
         // Segundos que se espera a otra importación simultánea del mismo título antes de responder 503.
         'lock_wait_seconds' => 10,
     ],

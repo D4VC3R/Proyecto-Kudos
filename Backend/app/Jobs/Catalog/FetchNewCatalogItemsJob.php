@@ -18,6 +18,13 @@ class FetchNewCatalogItemsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 
+    /** Valores explícitos para no depender de las opciones del worker (--tries, --backoff, --timeout). */
+    public int $tries = 3;
+
+    public array $backoff = [30, 120];
+
+    public int $timeout = 120;
+
     public function __construct(public string $categorySlug, public int $limit)
     {
         $this->onQueue('catalog');
