@@ -125,7 +125,7 @@ final readonly class CatalogItemData
    - además, las **fuentes secundarias** del proveedor (`data.secondarySources`, F4-01: la página de Steam de un juego de IGDB), siempre con `is_primary = false`. Si la fuente ya pertenece a otro ítem no se mueve (aviso en el log); si el proveedor da otro ID para el mismo proveedor secundario, sustituye al anterior.
 4. **Imágenes**, fuera de la transacción:
    - las hace `DownloadItemImagesJob(itemId, images)`; solo se descargan si cambian o faltan (la ruta lleva el hash de la URL: `items/{categoría}/{id}/{md5(url)}-{thumb|banner}.webp`);
-   - con `RemoteImageDownloader::downloadToTemp()` + `MediaManager::processItemVariants()` (patrón de `database/seeders/Trait/DownloadsSeedImages.php`);
+   - con `RemoteImageDownloader::downloadToTemp()` + `MediaManager::processItemVariants()`;
    - cada entrada guarda `role` (`poster`/`banner`), `license`, `author` y `source_url`;
    - si una falla, se registra un aviso y se sigue; si fallan todas, se conservan las actuales;
    - las imágenes que ya no están en la lista se borran del disco (solo las de `items/{categoría}/{id}/`).

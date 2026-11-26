@@ -65,7 +65,7 @@ Las rutas son relativas a `Frontend/src/`.
 ## 3. Estilos
 
 - `tailwind.config.js`: `primary` `#2563eb` y `accent` `#facc15`; los colores de superficie, texto y navegación son variables CSS de `index.css`. Utilidades propias en `theme.extend`: `animate-fade-in` (`keyframes.fadeIn`, 0,5 s), `h-page-content` (`calc(100dvh - 9rem)`) y `min-h-state` (`60vh`). No hay utilidades de scroll propias ni `prose`. `plugins: []`.
-- Estética: `rounded-3xl`, `shadow-xl`, `ring-1`; titulares `font-black` en Inter.
+- Estética: `rounded-3xl`, `shadow-xl`, `ring-1`; titulares `font-black` en Inter (autoalojada con `@fontsource-variable/inter`, sin Google Fonts).
 
 **Clases sin definir:** resuelto en la F0-08. Solución aplicada a cada clase:
 

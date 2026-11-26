@@ -30,8 +30,8 @@ class DatabaseSeeder extends Seeder
 			UserSeeder::class,      // Luego los usuarios
 		];
 
-		// El catálogo ya no se siembra: lo importa catalog:fetch-new (F1-10). ItemSeeder y ProposalSeeder
-		// son heredados. Los votos de prueba, solo en local: en producción los votos son de usuarios reales.
+		// El catálogo no se siembra: lo importa catalog:fetch-new. Los votos de prueba, solo en local:
+		// en producción los votos son de usuarios reales.
 		if (app()->isLocal()) {
 			$seeders[] = VoteSeeder::class;
 		}

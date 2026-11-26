@@ -38,7 +38,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 **Ítems y categorías**
 - `app/Models/Item.php`:
   - `applyFilters`: `ilike` sobre `name` u `original_title`, con el OR agrupado (el texto se escapa con `App\Support\Like::contains()`, F0-15; igual en `adminApplyFilters` de Item, Proposal y User y en `Vote::applyFilters`; Item (ambos scopes) y `Vote::applyFilters` buscan en `name` u `original_title`; toda búsqueda nueva debe usar `Like::contains()`); acepta `discoverable` (`scopeDiscoverable`, umbral `catalog.min_quality_for_discovery`);
-  - el hook `creating` (`booted()`) genera el `slug` si viene vacío con `generateUniqueSlug()` (`Str::slug(name)` + año de `released_at` o `attributes.year`, sufijo `-2`, `-3`… si colisiona, contando los borrados; no cambia al renombrar; desde la F1-10 los seeders no crean ítems; los del `ItemSeeder` heredado quedaban con `slug = null`);
+  - el hook `creating` (`booted()`) genera el `slug` si viene vacío con `generateUniqueSlug()` (`Str::slug(name)` + año de `released_at` o `attributes.year`, sufijo `-2`, `-3`… si colisiona, contando los borrados; no cambia al renombrar; desde la F1-10 los seeders no crean ítems; los del antiguo `ItemSeeder` (borrado en la F5-08) quedaban con `slug = null`);
   - la columna `attributes` choca con `Model::$attributes`: dentro del modelo se lee con `getAttribute('attributes')`;
   - relación `sources()` (hasMany `ItemSource`);
   - el hook `saving` (`booted()`) recalcula `quality_score` con `ItemQualityScorer` si cambian `images`, `description`, `released_at` o `attributes`; sin descripción, `ItemQualityScorer` limita la puntuación a `min_quality_for_discovery` − 1 (F1-04);
@@ -119,7 +119,7 @@ Stack: Laravel 12, PHP 8.5 (mínimo 8.5 en `composer.json`), PostgreSQL 18, Redi
 **Media**
 - `app/Services/Media/RemoteImageDownloader.php`: `downloadToTemp(url)` valida la URL (anti-SSRF: resuelve el host con `HostResolverInterface`, cuya implementación `DnsHostResolver` usa `gethostbyname()`), el MIME y el tamaño; también `isRemoteUrl()`.
 - `app/Services/Media/MediaManager.php`: `processItemVariants(absTempPath, targetDir, ?filename)` genera las variantes `thumb` y `banner`; también `processAvatar` y `processCategory`.
-- `database/seeders/Trait/DownloadsSeedImages.php` es el **patrón de referencia** para combinar los dos anteriores. No se reutiliza el trait: es de seeders.
+- `app/Jobs/Catalog/DownloadItemImagesJob.php` es el patrón de referencia para combinar los dos anteriores (descarga a temporal, variantes y borrado del temporal). `processCategory` no tiene llamadas desde que las categorías no llevan portada (F5-08).
 - `ProcessUserAvatarJob` y `ProcessProposalImagesJob` borran el temporal en un `finally`, también si el procesado falla (F5-06). `POST /items`, `PUT /admin/items/{id}` y `PUT /proposals/{id}` no aceptan `images` (D8): las imágenes solo entran por el *pipeline* de propuestas, el avatar y el catálogo.
 
 `items.images` (jsonb, array). Desde la F1, cada entrada añade `role` (`poster`/`banner`), `license`, `author` y `source_url`:

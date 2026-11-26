@@ -33,7 +33,7 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales (IGDB, 
 
 | Fuente | Motivo |
 |---|---|
-| iTunes / Apple | Su arte solo puede usarse para promocionar la tienda. Las portadas de álbumes del snapshot actual lo incumplen y se eliminan con el reset de la F1 |
+| iTunes / Apple | Su arte solo puede usarse para promocionar la tienda. Las portadas de álbumes del antiguo volcado lo incumplían; el volcado se borró en la F5-08 |
 | RestCountries | La v3.1 está deprecada; la v5 pide clave (500 peticiones al mes). Los países salen de Wikidata |
 | Nominatim | 4 peticiones/min para scripts e innecesario: las coordenadas salen de P625 |
 | LibreTranslate en el servidor | Necesita 2–4 GB de RAM |
@@ -42,6 +42,7 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales (IGDB, 
 | Commons para portadas | Commons borra las portadas con copyright; solo sirve para lugares y dominio público |
 | RAWG | Solo en inglés y sin nada que no tenga IGDB; exige un enlace en **cada página** con sus datos y prohíbe la redistribución y la publicación sin consentimiento escrito (§4.3 y §6.2 de sus [términos](https://rawg.io/tos_api)). Descartada en la F4-00 |
 | Steam como fuente principal de videojuegos | Sin exclusivos de consola (Nintendo), `platforms` solo de PC, sin listado limpio de novedades y endpoint no documentado. Solo se usa para la descripción (F4-00) |
+| Portadas de categoría (carteles y capturas de Amazon/IMDb, Empire, IGN) | Sin licencia para redistribuirlas. Portadas de categoría: ninguna (D1, F5-08); el frontend pinta el icono |
 
 ## 4. Endpoints
 

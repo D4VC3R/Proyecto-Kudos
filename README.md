@@ -53,7 +53,6 @@ Proyecto Kudos es una plataforma de valoraciones multitemática con elementos de
 │   ├── database/
 │   │   ├── factories/
 │   │   ├── migrations/
-│   │   ├── seed-data/      # snapshots JSON del catálogo antiguo
 │   │   └── seeders/
 │   ├── docker/
 │   │   ├── 8.5/            # imagen de Sail (desarrollo)

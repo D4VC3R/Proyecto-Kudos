@@ -46,17 +46,10 @@ class DatabaseSeederTest extends TestCase
         ]);
     }
 
-    /** Falsea las portadas que descarga CategorySeeder (un PNG nuevo por petición), más las reglas extra. */
+    /** Falsea las respuestas HTTP que pida cada test. Los seeders ya no piden nada: las categorías se crean sin portada. */
     private function fakeHttp(array $extra = []): void
     {
-        $png = $this->fakePng();
-        $cover = fn () => Http::response($png, 200, ['Content-Type' => 'image/png']);
-
-        Http::fake($extra + [
-            'sm.ign.com/*' => $cover,               // videojuegos
-            'm.media-amazon.com/*' => $cover,       // peliculas
-            'images.bauerhosting.com/*' => $cover,  // series
-        ]);
+        Http::fake($extra);
     }
 
     /** Página de un listado de TMDB sin genre_ids (así no se pide la lista de géneros). */
@@ -93,6 +86,8 @@ class DatabaseSeederTest extends TestCase
         $this->assertTrue(Role::query()->where('name', 'user')->exists());
         $this->assertSame(1, User::query()->count());
         $this->assertTrue(User::query()->where('email', 'admin@kudos.test')->firstOrFail()->hasRole('admin'));
+        Http::assertNothingSent();
+        $this->assertSame(0, Category::query()->whereNotNull('image')->count());
     }
 
     public function test_en_local_crea_tambien_los_50_usuarios_de_prueba(): void
