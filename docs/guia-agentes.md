@@ -22,15 +22,18 @@
 
 ## 2. Flujo de una tarea
 
-**Automatizado:** la skill `/ciclo-tareas` ([../.claude/skills/ciclo-tareas/SKILL.md](../.claude/skills/ciclo-tareas/SKILL.md)) recorre el roadmap tarea a tarea con tres agentes ([../.claude/agents/](../.claude/agents/)):
+**Automatizado:** la skill `/ciclo-tareas` ([../.claude/skills/ciclo-tareas/SKILL.md](../.claude/skills/ciclo-tareas/SKILL.md)) recorre el roadmap tarea a tarea con cuatro agentes ([../.claude/agents/](../.claude/agents/)):
 
 | Fase | Agente | Hace los pasos |
 |---|---|---|
-| Inicio | `kudos-planificador` (Opus, esfuerzo alto, solo lectura salvo su plan) | 1–2: elige la tarea, lee y escribe un plan detallado |
+| Inicio | `kudos-planificador` (Opus, esfuerzo alto, solo lectura salvo su plan) | 2: lee la ficha y el código y escribe un plan preciso (15–20 KB) |
 | Ejecución | `kudos-ejecutor` (Sonnet, esfuerzo alto) | 5–7: implementa el plan, verifica y documenta, sin commits |
-| Fin | `kudos-verificador` (Opus, esfuerzo alto) | 6–9: verifica de forma independiente; si todo está bien, marca `hecho`, hace los commits del plan, abre el PR contra `rediseno-fase-0`, publica en él su revisión, lo fusiona con el CI en verde y cierra la issue (§4.1); si no, devuelve correcciones al ejecutor (máximo 3 rondas) |
+| Revisión | `kudos-verificador` (Opus, esfuerzo alto) | 6–7: verifica de forma independiente; si todo está bien, marca `hecho` y escribe la descripción del PR y su revisión; si no, devuelve correcciones al ejecutor (máximo 3 rondas) |
+| Integración | `kudos-integrador` (Sonnet, esfuerzo medio) | 8: hace los commits del plan, abre el PR contra `rediseno-fase-0`, espera al CI y, en verde, publica la revisión, lo fusiona y cierra la issue (§4.1); en rojo, devuelve el log al verificador |
 
-El orquestador (la sesión principal) crea la rama y marca `en curso` (pasos 3–4), y para y pregunta al humano ante cualquier punto de §6, R10, R11 o R12. Cada agente arranca con contexto limpio: entre tareas solo pasa un resumen. El plan, el informe del ejecutor y las correcciones se pasan como archivos en `.claude/ciclo/FX-YY/` (ignorada por git), y los agentes solo devuelven al orquestador resúmenes cortos, para que su contexto no crezca con cada tarea.
+El orquestador (la sesión principal) elige la tarea, crea la rama y marca `en curso` (pasos 1, 3 y 4), y para y pregunta al humano ante cualquier punto de §6, R10, R11 o R12. Cada agente arranca con contexto limpio: entre tareas solo pasa un resumen. El plan, el informe del ejecutor, las correcciones y la descripción del PR se pasan como archivos en `.claude/ciclo/FX-YY/` (ignorada por git), y los agentes solo devuelven al orquestador resúmenes cortos, para que su contexto no crezca con cada tarea.
+
+**Consumo de tokens:** cada turno de un agente vuelve a enviar todo su contexto, así que lo que se lee al principio se paga en cada turno siguiente. Por eso los agentes leen los documentos por secciones y el código por rangos, lanzan en paralelo las lecturas independientes y ejecutan los tests con `--filter` mientras trabajan (la suite completa, al final). La integración la hace un agente aparte, con contexto limpio, para no arrastrar el contexto de la revisión.
 
 Los pasos, hagas la tarea a mano o con los agentes:
 
@@ -67,7 +70,7 @@ Desde la F5-02, todo cambio entra en `rediseno-fase-0` mediante un PR en GitHub,
 
 - **Título:** como un commit, `Área: FX-YY, descripción`.
 - **Descripción:** la plantilla [`.github/pull_request_template.md`](../.github/pull_request_template.md): `## Qué cambia`, `## Cómo se ha verificado` (la salida real de los tests y del build), `## Notas` (desviaciones y decisiones para validar) y la línea `Tarea: FX-YY · Refs #<issue> · Ficha: …`. Lleva las mismas etiquetas que su issue.
-- **Revisión:** antes de fusionar, el verificador publica en el PR un comentario `## Revisión independiente (kudos-verificador)` con cada criterio comprobado y su evidencia. GitHub no permite aprobar un PR propio; el comentario deja constancia de la revisión.
+- **Revisión:** antes de fusionar se publica en el PR, como comentario, la revisión que ha escrito el verificador: `## Revisión independiente (kudos-verificador)` con cada criterio comprobado y su evidencia, y el resultado del CI. Lo publica el integrador. GitHub no permite aprobar un PR propio; el comentario deja constancia de la revisión.
 - **Fusión:** solo con el workflow `Tests` en verde, como merge commit y con el asunto por defecto de GitHub (`gh pr merge --merge`, sin `--subject`), igual que cuando fusiona el humano. Nunca *squash*, *rebase* ni `--admin`. GitHub borra la rama remota al fusionar.
 - **CI en rojo:** se corrige con commits nuevos en la misma rama, sin reescribir el historial ni abrir otro PR.
 - El PR final `rediseno-fase-0 → main` (F5-16) lo fusiona el humano.
@@ -77,7 +80,7 @@ Desde la F5-02, todo cambio entra en `rediseno-fase-0` mediante un PR en GitHub,
 Cada tarea pendiente desde la Fase 5 tiene su issue en GitHub, enlazada en la columna **Issue** del tablero. El **tablero sigue siendo la fuente de verdad** para los agentes; la issue es su reflejo público.
 
 - **Contenido:** la ficha de la tarea, las dependencias enlazadas a sus issues, la etiqueta de fase (`fase-5`) y las de área (`backend`, `frontend`, `infra`, `integraciones`, `tests`, `legal`, `documentation` y `humano`).
-- **Ciclo:** al empezar, el orquestador se la asigna y comenta la rama. El PR la cita con `Refs #N`, no con `Closes #N`: GitHub solo cierra issues al fusionar en la rama por defecto (`main`). Al fusionar, el verificador la cierra con `gh issue close N --comment "Hecha en #<PR>."`. Si se bloquea, recibe un comentario con el motivo y la etiqueta `humano`.
+- **Ciclo:** al empezar, el orquestador se la asigna y comenta la rama. El PR la cita con `Refs #N`, no con `Closes #N`: GitHub solo cierra issues al fusionar en la rama por defecto (`main`). Al fusionar, el integrador la cierra con `gh issue close N --comment "Hecha en #<PR>."`. Si se bloquea, recibe un comentario con el motivo y la etiqueta `humano`.
 - **Tareas nuevas:** el PR que añade una tarea al roadmap crea también su issue y la enlaza en el tablero.
 
 ## 5. Convenciones
