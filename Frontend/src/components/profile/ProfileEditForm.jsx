@@ -12,9 +12,7 @@ import {useForm} from 'react-hook-form';
 import {useUpdateProfile} from '../../hooks/users/useUserMutations';
 
 const ProfileEditForm = ({profile}) => {
-  const {mutate: updateProfile, isPending} = useUpdateProfile();
-
-  const {register, handleSubmit, formState: {errors}} = useForm({
+  const {register, handleSubmit, setError, formState: {errors}} = useForm({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       avatar: '',
@@ -25,6 +23,8 @@ const ProfileEditForm = ({profile}) => {
       is_public: Boolean(profile?.is_public),
     }
   });
+
+  const {mutate: updateProfile, isPending} = useUpdateProfile({setError});
 
   const onSubmit = (data) => {
     const payload = {

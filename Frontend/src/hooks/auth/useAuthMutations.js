@@ -56,12 +56,14 @@ export const requiresEmailVerification = (response) => response?.data?.requires_
 
 /** useRegister: Maneja el proceso de registro de nuevos usuarios.
  * Al finalizar, limpia el caché de consultas para reflejar cualquier cambio relacionado con la autenticación.
+ * Acepta `{setError}` (el de react-hook-form) para marcar en el formulario los campos que el backend rechaza con un 422.
  */
-export const useRegister = () => {
+export const useRegister = ({ setError } = {}) => {
   const queryClient = useQueryClient();
 
   return useBaseMutation({
     mutationFn: (data) => axiosClient.post('/register', data),
+    setError,
     successMessage: (response) => requiresEmailVerification(response)
       ? 'Cuenta creada. Revisa tu email para confirmar y empezar a jugar.'
       : 'Cuenta creada. Ya puedes iniciar sesión.',

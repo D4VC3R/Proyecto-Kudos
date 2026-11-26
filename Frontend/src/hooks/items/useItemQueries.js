@@ -47,6 +47,8 @@ export const useItem = (id) => {
     queryFn: () => axiosClient.get(`/items/${id}`),
     enabled: !!id, // No ejecuta la petición si no hay ID
     select: (response) => response.data,
+    // Un ítem inexistente no aparece al reintentar; el resto conserva el reintento global.
+    retry: (failureCount, error) => error?.status !== 404 && failureCount < 1,
   });
 };
 

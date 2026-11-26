@@ -584,6 +584,16 @@ Decisiones menores, que se toman después de `main`: la popularidad de IGDB (F5-
   - el login de una cuenta baneada sigue mostrando su mensaje;
   - sin `pageerror`.
 
+**Notas (F5-10):**
+- **Archivos tocados** (todo bajo `Frontend/src/`): nuevo `core/apiError.js` (`ApiError` con `status`, `code` y `details`, y `applyFieldErrors`), `core/axiosClient.js`, `hooks/common/useBaseMutation.js`, `hooks/items/useItemQueries.js`, `pages/ItemDetailPage.jsx`, `hooks/auth/useAuthMutations.js` (`useRegister`), `hooks/users/useUserMutations.js` (`useUpdateProfile`), `hooks/proposals/useProposalMutations.js` (`useCreateProposal` y `useUpdateProposal`) y los formularios `RegisterForm`, `ProfileEditForm` y `NewProposalForm`. Documentación: `docs/frontend/arquitectura.md` §1 y §5.
+- **Tests:** ninguno nuevo (el frontend no tiene tests de componentes); la verificación es el *build*, `test:seo` y la prueba de navegador.
+- **Decisiones del plan (para validar):** ante un 422 se mantiene el *toast* además de marcar el campo; textos nuevos de la ficha ante un 404: título "Ítem no encontrado" y descripción "Este ítem no existe o ya no está disponible."; `useItem` deja de reintentar un 404 (el resto conserva el reintento global). `useBaseMutation` recibe el `setError` de react-hook-form (no un `onFieldErrors`) y los formularios llaman a `useForm` antes que al hook de mutación.
+- **Discrepancia (R1):** los pasos citaban `axiosClient.js:41-55` y `ItemDetailPage.jsx:46-55`; las líneas reales eran `:39-56` y `:39-48`. Sin efecto.
+- **Desviaciones del plan:** ninguna.
+- **Prueba de navegador** (`vite preview` en `:4174`, Chrome headless en Docker, API local real para los GET, todo POST/PUT respondido con el JSON exacto del backend, cualquier otro origen abortado; script en `.claude/ciclo/F5-10/e2e/f5-10.mjs`, reutiliza la estructura del de F5-09; escritorio 1440x900 y móvil 360x740, 34 comprobaciones por modo, todas en verde): la ficha con un UUID inexistente (404 real) muestra "Ítem no encontrado" y "Este ítem no existe o ya no está disponible." con **una sola** petición a `/items/<uuid>`; con un 500 simulado muestra "Intenta nuevamente en unos segundos." (con su reintento: 2 peticiones); un 422 con `details.email` en `/register`, `details.username` en `/profile` y `details.name` en `/<categoria>/proposals/new` marca solo ese campo y además sale el *toast*; un 500 en `PUT /profile` sale como *toast* "Error interno del servidor." sin campos marcados; el 403 de un baneo en `/login` muestra "Tu cuenta está suspendida y no puedes iniciar sesión." sin sesión; sin `pageerror` ni peticiones externas. Contenedores de Chrome y del preview eliminados.
+- **Comprobación "falla antes": no se ha hecho** contra el código viejo (no hay tests automáticos nuevos); por lectura de código, con el `Error` genérico `error.status` es `undefined`, así que el 404 y los campos no se marcarían.
+- **Verificación:** `pnpm build` y `pnpm test:seo` (45/45) sin errores; `grep -rn "response?.data?.message" Frontend/src/hooks` sin salida.
+
 ---
 
 ## F5-11 · Accesibilidad de formularios, modal y botones (FE)
