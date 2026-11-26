@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {useSessionStore} from '../store/useSessionStore.js';
 import toast from 'react-hot-toast';
+import {ApiError} from './apiError.js';
 
 /**
  * Instancia de Axios configurada para interactuar con la API del backend.
@@ -30,7 +31,8 @@ axiosClient.interceptors.request.use((config) => {
 /**
  * Interceptor de respuesta para manejar errores de forma centralizada.
  * Si la respuesta es correcta, devuelve solo los datos.
- * Si hay un error, extrae el mensaje del backend o usa un mensaje genérico.
+ * Si hay un error, extrae el mensaje del backend o usa un mensaje genérico y rechaza con un `ApiError`
+ * (`status`, `code` y `details`; `status` es 0 si no hay respuesta).
  * En caso de error 401, limpia la sesión y muestra una notificación si el usuario estaba autenticado.
  */
 axiosClient.interceptors.response.use(
@@ -52,7 +54,12 @@ axiosClient.interceptors.response.use(
       }
     }
 
-    return Promise.reject(new Error(finalMessage));
+    const apiError = error.response?.data?.error;
+    return Promise.reject(new ApiError(finalMessage, {
+      status: error.response?.status ?? 0,
+      code: apiError?.code ?? null,
+      details: apiError?.details ?? null,
+    }));
   }
 );
 

@@ -15,8 +15,9 @@ const ItemDetailPage = () => {
   const {itemId} = useParams();
   const navigate = useNavigate();
 
-  const {data: item, isLoading, isError} = useItem(itemId);
+  const {data: item, isLoading, isError, error} = useItem(itemId);
   const {data: similarItems = []} = useSimilarItems(itemId);
+  const isNotFound = error?.status === 404;
 
   // Al abrir otro ítem desde la fila de similares la ruta es la misma y el componente no se desmonta: vuelve arriba.
   useEffect(() => {
@@ -41,8 +42,8 @@ const ItemDetailPage = () => {
           <div className="flex min-h-state items-center justify-center">
             <FeedbackState
               icon={AlertTriangle}
-              title="No se ha podido cargar el ítem"
-              description="Intenta nuevamente en unos segundos."
+              title={isNotFound ? 'Ítem no encontrado' : 'No se ha podido cargar el ítem'}
+              description={isNotFound ? 'Este ítem no existe o ya no está disponible.' : 'Intenta nuevamente en unos segundos.'}
               actionText="Volver"
               onAction={() => navigate(-1)}
             />

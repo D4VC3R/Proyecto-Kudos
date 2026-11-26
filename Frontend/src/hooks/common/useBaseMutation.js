@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { applyFieldErrors } from '../../core/apiError.js';
 
 /**
  * Hook personalizado para manejar mutaciones con React Query, centralizando la lógica de éxito, error e invalidación de caché.
@@ -11,6 +12,7 @@ import toast from 'react-hot-toast';
  * @param onSuccessExtra - Función adicional a ejecutar tras el éxito (opcional).
  * @param onErrorExtra - Función adicional a ejecutar tras el error (opcional).
  * @param onSettledExtra - Función adicional a ejecutar siempre al finalizar la mutación, sin importar el resultado (opcional).
+ * @param setError - `setError` de react-hook-form del formulario (opcional): ante un 422 marca cada campo de `details` en el formulario.
  *
  * @returns Un objeto con las propiedades y métodos proporcionados por `useMutation`.
  */
@@ -22,6 +24,7 @@ export const useBaseMutation = ({
                                   onSuccessExtra,
                                   onErrorExtra,
                                   onSettledExtra, // Para acciones que deben ocurrir sí o sí
+                                  setError,
                                 }) => {
   const queryClient = useQueryClient();
 
@@ -38,8 +41,8 @@ export const useBaseMutation = ({
       if (onSuccessExtra) onSuccessExtra(data, variables, context);
     },
     onError: (error, variables, context) => {
-      const message = error?.response?.data?.message || error.message || errorMessage;
-      toast.error(message);
+      toast.error(error?.message || errorMessage);
+      if (setError) applyFieldErrors(error, setError);
       if (onErrorExtra) onErrorExtra(error, variables, context);
     },
 
