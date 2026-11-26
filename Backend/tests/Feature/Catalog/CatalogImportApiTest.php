@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Sleep;
 use Illuminate\Testing\TestResponse;
 use Tests\Concerns\CreatesItems;
@@ -207,6 +208,38 @@ class CatalogImportApiTest extends TestCase
 
         $this->assertSame(0, Item::query()->count());
         $this->assertSame(1, $this->movieRequests());
+    }
+
+    public function test_con_el_limite_de_peticiones_agotado_responde_503_sin_esperar_mas_del_maximo(): void
+    {
+        // Reloj sincronizado con las esperas: si el código esperase, la ventana avanzaría en lugar de girar en vacío.
+        $this->freezeTime();
+        Sleep::fake(syncWithCarbon: true);
+        config(['catalog.providers.tmdb.rate_per_second' => 1]);
+        RateLimiter::hit('catalog:tmdb', 60);
+        $this->fakeMovie();
+        $this->actingAsUser();
+
+        $this->importar()->assertStatus(503)->assertJsonPath('error.code', 'catalog_unavailable');
+
+        Sleep::assertNeverSlept();
+        $this->assertSame(0, Item::query()->count());
+        $this->assertNull(config('catalog.http.max_throttle_wait_seconds'));
+    }
+
+    public function test_si_la_espera_al_limite_cabe_en_el_maximo_espera_e_importa(): void
+    {
+        $this->freezeTime();
+        Sleep::fake(syncWithCarbon: true);
+        config(['catalog.providers.tmdb.rate_per_second' => 1]);
+        RateLimiter::hit('catalog:tmdb', 2);
+        $this->fakeMovie();
+        $this->actingAsUser();
+
+        $this->importar()->assertStatus(201);
+
+        Sleep::assertSleptTimes(1);
+        $this->assertSame(1, Item::query()->count());
     }
 
     public function test_valida_la_categoria_y_el_external_id(): void
