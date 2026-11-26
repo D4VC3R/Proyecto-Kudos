@@ -104,10 +104,12 @@ admin (los 50 usuarios de prueba y los votos solo se siembran en local). Despué
 ```bash
 kudos-dc run --rm app php artisan db:seed --force                # categorías, roles y el admin
 kudos-dc run --rm app php artisan catalog:fetch-new --all        # solo encola; el worker importa
+# --all omite destinos: su listado (unos 25 min) se hace en el propio proceso del comando
+kudos-dc run --rm app php artisan catalog:fetch-new --category=destinos --limit=3000
 kudos-dc logs -f worker                                          # Ctrl+C solo deja de mirar
 ```
 
-Para resetear una base que ya tiene datos de prueba, sigue el *runbook* de
+Para el paso a Kudos 2.0, o para resetear una base con datos de prueba, sigue el *runbook* de
 [../docs/infra/produccion.md](../docs/infra/produccion.md) §5. Los datos son desechables,
 pero no lo hagas cuando ya haya usuarios reales.
 
@@ -170,7 +172,8 @@ Añade estas líneas (cada día a las 03:30 y a las 03:45; se conservan 7 días)
 45 3 * * * $HOME/apps/kudos/deploy/backup-storage.sh >> $HOME/backups/kudos/backup.log 2>&1
 ```
 
-Espacio: con unos 200 MB de imágenes (medido tras la siembra, ver "Duración de la siembra") son
+Espacio: con unos 200 MB de imágenes (medido tras la siembra antigua, ver "Duración de la siembra";
+el tamaño tras la importación nueva se anotará en la F5-16) son
 unos 1,6 GB para unas 8 copias, porque gzip apenas reduce. Si el disco va justo, se baja la
 retención solo en esa línea: `45 3 * * * RETENTION_DAYS=3 $HOME/apps/kudos/deploy/backup-storage.sh >> …`.
 
@@ -246,22 +249,25 @@ cambios locales).
 ## Tareas programadas y colas
 
 El servicio `scheduler` ejecuta `php artisan schedule:work` (128M) y lanza las tareas de
-`Backend/routes/console.php`, que solo encolan jobs en la cola `catalog`. El `worker` (512M)
+`Backend/routes/console.php`, que encolan jobs en la cola `catalog` o `default`, salvo la purga de
+tokens, que es un `DELETE` directo. El `worker` (512M)
 escucha `--queue=default,catalog` y atiende siempre antes `default` (correos, avatares).
 
 Tareas actuales, en UTC:
 
+- `sanctum:prune-expired --hours=24`: cada día a las 02:30.
 - `items:recalculate-stats`: cada día a las 03:00.
 - `items:recalculate-quality`: los lunes a las 03:30.
 - `catalog:fetch-new --all`: cada día a las 04:00.
 - `catalog:refresh`: cada día a las 05:00.
 - `catalog:purge-stale`: los domingos a las 05:30.
+- `wishlist:notify-releases`: cada día a las 06:00.
 
 Cómo comprobarlo:
 
 ```bash
 kudos-dc ps                                         # scheduler y worker "Up"
-kudos-dc exec app php artisan schedule:list         # las cinco tareas con su próxima ejecución
+kudos-dc exec app php artisan schedule:list         # las siete tareas con su próxima ejecución
 kudos-dc logs scheduler                             # una línea por tarea lanzada
 kudos-dc logs -f worker                             # los jobs de catalog procesándose
 ```
@@ -281,12 +287,13 @@ en la hora del host, mientras que las tareas de Laravel van en UTC.
 
 ## Duración de la siembra
 
-Esta medición es de la siembra antigua (anterior a la F1-10); la duración de la importación nueva se anotará en la F1-11.
+Esta medición es de la siembra antigua (anterior a la F1-10); la duración de la importación nueva se anotará en la F5-16.
 
 Medido en local (2026-10-03) con el stack de producción: **unos 17 minutos**. Crea 51 usuarios,
 4.349 ítems, 54.558 votos y 30 propuestas, y deja unos 200 MB de imágenes en el volumen
 `kudos_storage-public`. Casi todo el tiempo se va en `ItemSeeder`: descarga cada imagen y genera
-sus variantes con GD. En el VPS (2 vCores) puede tardar algo más.
+sus variantes con GD (el `ItemSeeder` y las portadas sembradas se retiraron en la F5-08: la medición
+queda como histórica). En el VPS (2 vCores) puede tardar algo más.
 
 Consumo en reposo medido con `docker stats`: unos 170 MB en total (nginx 10, app 29, worker 33,
 postgres 90, redis 7). Los límites de `compose.prod.yml` son techos, no reservas.

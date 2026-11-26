@@ -55,97 +55,90 @@ Van vacías en `Backend/.env.example` y `Backend/.env.production.example`, y se 
 
 `deploy/backup-storage.sh` hace un `tar.gz` del volumen `kudos_storage-public` en `~/backups/kudos`, con la misma rotación que los volcados (`RETENTION_DAYS`, 7 días). El `tar` corre en un contenedor efímero de `kudos-api:latest` (`--pull never`, `--network none`, volumen `:ro`, `--entrypoint tar`). Antes de copiar comprueba que el volumen existe, y después que el gzip está entero. La instalación, la línea de cron (03:45, después de `backup-db.sh`) y la restauración están en `deploy/README.md` §8; en el VPS lo instala el humano.
 
-## 5. *Runbook*: reset de producción (revisado en la F1-10; lo ejecuta el humano en la F1-11)
+## 5. *Runbook*: paso a Kudos 2.0 (fases 0–4; lo ejecuta el humano en la F5-16)
 
-Los datos actuales son de prueba, y eso está confirmado. Ningún agente ejecuta este *runbook* (R10).
+Ningún agente lo ejecuta (R10). Funde en un solo procedimiento el reset de producción y la activación de videojuegos y destinos. Los datos actuales son de prueba, y eso está confirmado: `migrate:fresh` los borra y, con ellos, cierra todas las sesiones y revoca los tokens.
 
-**Requisitos:**
-- `main` con la Fase 1 fusionada (Vercel despliega el frontend al hacer *push* a `main`).
-- En `Backend/.env.production`: `TMDB_API_TOKEN`, `CATALOG_USER_AGENT` (con un correo real) y `CATALOG_IMPORT_LIMIT=300` (§3, F1-00), además de `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` (sin ellos, `UserSeeder` falla).
-- Hacerlo fuera de 03:00–05:30 UTC (tareas programadas) y de las copias del host (03:30 y 03:45). `migrate:fresh` cierra todas las sesiones y revoca los tokens.
+**Ventana:** fuera de 02:30–06:00 UTC (tareas programadas) y de las copias del host (03:30 y 03:45, hora del host). Conviene empezar pronto: destinos ocupa al worker más de 1 hora.
+
+**1. Variables.** En `Backend/.env.production` (§3): `TMDB_API_TOKEN`, `IGDB_CLIENT_ID`, `IGDB_CLIENT_SECRET`, `CATALOG_USER_AGENT` (con un correo real), `CATALOG_IMPORT_LIMIT=300`, `LEGAL_CONTACT_EMAIL` (un buzón que reciba correo), `SEED_ADMIN_NAME`, `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` (sin ellas, `UserSeeder` falla). Comprueba que no falta ninguna, sin mostrar valores, desde `~/apps/kudos/Backend` (no debe salir ninguna línea con `<`):
 
 ```bash
-# En el VPS
-cd ~/apps/kudos && git pull --ff-only origin main   # main con la Fase 1 fusionada
-~/apps/kudos/deploy/backup-db.sh                    # copia por si acaso
-~/apps/kudos/deploy/backup-storage.sh               # imágenes, antes de vaciarlas en el paso 3
-./deploy.sh                                         # imagen nueva, migraciones y arranque
+diff <(grep -o '^[A-Z_]*=' .env.production.example | sort) <(grep -o '^[A-Z_]*=' .env.production | sort)
+```
 
-cd Backend
+En Vercel, `VITE_API_URL` y `VITE_STORAGE_URL` en *Production* y *Preview* (§1 y `deploy/README.md` §9).
+
+**2. Pausar el despliegue de Vercel.** En el proyecto: Settings → Environments → Production, desactiva "Auto-assign Custom Production Domains". Así el *push* a `main` construye el despliegue, pero no lo asigna a `kudos.dcerdan.es` hasta que lo promuevas. No sirve el "Ignored Build Step" del panel, porque lo anula el `ignoreCommand` de `Frontend/vercel.json`. Para comprobarlo, antes del *push* anota el *bundle* servido:
+
+```bash
+curl -s https://kudos.dcerdan.es/ | grep -o 'assets/index-[^"]*\.js'
+```
+
+Tras el *push*, el despliegue nuevo aparece en Deployments sin el dominio asignado, y el mismo `curl` devuelve el mismo nombre.
+
+**3. Copias.** En el VPS, y comprueba que las dos imprimen "OK":
+
+```bash
+~/apps/kudos/deploy/backup-db.sh
+~/apps/kudos/deploy/backup-storage.sh
+```
+
+**4. *Push* a `main`.** Lo hace el humano desde su equipo, tras fusionar `rediseno-fase-0` en `main` (F5-16).
+
+**5. Despliegue.** En el VPS: `cd ~/apps/kudos && ./deploy.sh` (*pull*, *build*, `migrate --force` y `up -d`). Si falla en `migrate` por los datos heredados, la imagen ya está construida: sigue con el paso 6 y, al acabar el paso 7, ejecuta `dc up -d --remove-orphans`.
+
+**6. Reset.**
+
+```bash
+cd ~/apps/kudos/Backend
 dc() { docker compose -f compose.prod.yml --env-file .env.production "$@"; }
 
-# 1. Parar worker y scheduler: que ningún job ni tarea programada se ejecute mientras se rehace el esquema
+# Parar worker y scheduler: que ningún job ni tarea programada se ejecute mientras se rehace el esquema
 dc stop worker scheduler
-# 2. Esquema limpio: categorías (peliculas, series y, desde la F4-01 y la F4-02, videojuegos y destinos activas), permisos,
-#    roles y el admin. Sin usuarios de prueba, ítems, propuestas ni votos (esos solo se siembran en local)
+# Esquema limpio: 4 categorías activas sin portada, permisos, roles y el admin.
+# Sin usuarios de prueba, ítems, propuestas ni votos (esos solo se siembran en local)
 dc run --rm app php artisan migrate:fresh --seed --force
-# 3. Vaciar las imágenes que ya no referencia ninguna fila: ítems, propuestas, avatares y portadas de las
-#    categorías retiradas. NO borres categories/peliculas, series ni videojuegos: CategorySeeder reutiliza esas portadas
-dc run --rm app sh -c 'cd storage/app/public && rm -rf items/* proposals/* avatars/* \
-  categories/albumes-musicales categories/artistas-musicales categories/libros \
-  categories/ciudades categories/politicos categories/paises'
-# 4. Caché de Redis: las colas de votación (6 h) guardan IDs de ítems que ya no existen
+# Vaciar las imágenes. categories/* incluye las portadas sembradas categories/{slug}/seed/ y las carpetas
+# de las categorías retiradas, porque ninguna fila las referencia ya
+dc run --rm app sh -c 'cd storage/app/public && rm -rf items/* proposals/* avatars/* categories/*'
+```
+
+**7. Caché y arranque.** Las colas de votación (6 h) guardan IDs de ítems que ya no existen:
+
+```bash
 dc run --rm app php artisan cache:clear
-# 5. Volver a arrancar el worker y el scheduler
 dc start worker scheduler
-# 6. Importación inicial: el comando solo encola (QUEUE_CONNECTION=database) y acaba en segundos; la hace el worker
+```
+
+**8. Importación inicial.** El primer comando (películas, series y videojuegos) solo encola; `destinos` no entra en `--all` y hace su listado en el propio proceso del comando:
+
+```bash
 dc run --rm app php artisan catalog:fetch-new --all --limit=300
-# destinos (F4-02) no entra en --all: su listado (unas 200 consultas, una por país) dura unos 25 minutos y se hace en el proceso del comando (ver §7)
 dc run --rm app php artisan catalog:fetch-new --category=destinos --limit=3000
 dc logs -f --tail=100 worker                        # Ctrl+C solo deja de mirar
 ```
 
-**Ruta de las imágenes (confirmada en la F1-10):** la raíz del disco `public` es el volumen `kudos_storage-public`, montado en `/var/www/html/storage/app/public` en `app`, `worker` y `scheduler` (en `nginx`, solo lectura); el `WORKDIR` de la imagen `app` es `/var/www/html`, así que `storage/app/public/…` dentro de `dc run --rm app sh -c '…'` es correcto. Dentro hay `items/{categoría}/{id|seed}/` (del `ItemSeeder` heredado, de propuestas aceptadas y del importador nuevo), `proposals/`, `avatars/` y `categories/{slug}/seed/` (portadas, que no se borran).
+- Duración: el trabajo lo hace el worker y lo limita Wikimedia (150 peticiones por minuto). Steam va a 1 petición cada 2 s, así que 300 juegos tardan al menos 10 minutos. El listado de destinos (unas 200 consultas SPARQL, una por país, con una pausa entre ellas) tarda unos 25 minutos; encola unos 2.100 jobs, y el worker tarda más de 1 hora en procesarlos.
+- Si al final sale "no se pudieron listar las ciudades de algunos países de destinos", vuelve a lanzar el mismo comando: reimporta sin duplicar.
+- Los fallos se reintentan con `dc exec app php artisan queue:retry all`.
 
-**Duración:** el trabajo lo hace el worker: hasta 600 importaciones más sus descargas de imágenes. Es una estimación a partir de la F1-05 (20 películas en unos 27 s en local), limitada por Wikimedia (150/min), así que puede ir de 15 a 30 minutos o más en el VPS. Si hace falta, se reintenta con `dc exec app php artisan queue:retry all`.
-
-**Comprobaciones** (los resultados se anotan en la ficha de la F1-11):
-- `curl -s https://api.kudos.dcerdan.es/api/categories` devuelve solo `peliculas` y `series`, en ese orden, con `attribute_schema` e `icon`.
-- `dc exec app php artisan schedule:list` muestra las cinco tareas.
+**9. Comprobaciones** (los resultados se anotan en la ficha de la F5-16):
+- `curl -s https://api.kudos.dcerdan.es/api/categories` devuelve 4 categorías, en este orden: `peliculas`, `series`, `videojuegos` y `destinos`. Todas con `image: null` y `attribute_schema`, y `destinos` con `has_catalog_provider: false`. Para verlo de un vistazo (`Controller::respondData` envuelve la lista en `data`): `| python3 -c 'import json,sys; [print(c["slug"], c["image"]) for c in json.load(sys.stdin)["data"]]'`.
+- `dc exec app php artisan schedule:list` muestra 7 tareas (la cifra sale de `grep -c "Schedule::" Backend/routes/console.php`): `sanctum:prune-expired --hours=24` (02:30), `items:recalculate-stats` (03:00), `items:recalculate-quality` (lunes, 03:30), `catalog:fetch-new --all` (04:00), `catalog:refresh` (05:00), `catalog:purge-stale` (domingos, 05:30) y `wishlist:notify-releases` (06:00).
 - La cola está vacía y sin fallos: `dc exec app php artisan queue:failed` y `dc exec postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT queue, count(*) FROM jobs GROUP BY queue;"'`.
 - Recuento por categoría (el umbral 40 es `catalog.min_quality_for_discovery`):
   `dc exec postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT c.slug, count(i.id) AS items, count(i.description) AS con_descripcion, count(*) FILTER (WHERE i.quality_score >= 40) AS sobre_umbral FROM categories c LEFT JOIN items i ON i.category_id = c.id GROUP BY c.slug ORDER BY c.slug;"'`
-- En `https://kudos.dcerdan.es` salen solo Películas y Series, y una ficha muestra chips de atributos y la atribución de TMDB.
+- Descripción por fuente (`steam` con `?l=english` en la URL es el inglés de respaldo):
+  `dc exec postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT c.slug, COALESCE(i.description_source, '"'"'sin descripcion'"'"') AS fuente, count(*) FROM items i JOIN categories c ON c.id = i.category_id GROUP BY 1, 2 ORDER BY 1, 3 DESC;"'`
+- El volumen del log de moderación existe: `docker volume ls | grep kudos_storage-logs`.
 
-**Si algo sale mal:** restaurar el volcado y las imágenes como en `deploy/README.md` §8 (restaurar las imágenes no borra los archivos nuevos).
+**10. Reanudar Vercel.** En Deployments, el último despliegue de *Production* de `main` → ⋯ → Promote, y vuelve a activar "Auto-assign Custom Production Domains". Comprobaciones: el `curl` del paso 2 devuelve otro nombre de *bundle*; en `https://kudos.dcerdan.es` salen las 4 categorías y las fichas muestran las atribuciones; la pestaña de red llama a `api.kudos.dcerdan.es` y la consola no muestra errores de CORS.
+
+**Ruta de las imágenes:** la raíz del disco `public` es el volumen `kudos_storage-public`, montado en `/var/www/html/storage/app/public` en `app`, `worker` y `scheduler` (en `nginx`, solo lectura); el `WORKDIR` de la imagen `app` es `/var/www/html`, así que `storage/app/public/…` dentro de `dc run --rm app sh -c '…'` es correcto. Dentro hay `items/{categoría}/{id}/` (de propuestas aceptadas y del importador), `proposals/` y `avatars/`. `categories/` queda vacía: ya no hay portadas de categoría.
+
+**Logs:** `storage-logs` es un volumen con nombre del ancla `x-laravel` (`app`, `worker` y `scheduler`), así que sobrevive a `deploy.sh`, a `migrate:fresh` y al paso 6. En él están `moderation/` (30 días) y `security/` (90 días); `LOG_CHANNEL=stderr` solo afecta al canal por defecto. Este *runbook* no lo borra.
+
+**Si algo sale mal:** restaurar el volcado y las imágenes como en `deploy/README.md` §8 (restaurar las imágenes no borra los archivos nuevos). Mientras no se promueva el despliegue, el dominio sigue sirviendo el frontend anterior.
 
 `VoteSeeder` se niega a ejecutarse fuera de local (falla con "VoteSeeder solo se ejecuta en local…"), y `UserSeeder` solo crea los 50 usuarios de prueba en local: en producción la base queda con el admin como único usuario.
-
-## 6. *Runbook*: activar videojuegos (F4-01; lo ejecuta el humano)
-
-Ningún agente lo ejecuta (R10). Se hace al desplegar la Fase 4, con producción ya sembrada (§5).
-
-1. Pon `IGDB_CLIENT_ID` e `IGDB_CLIENT_SECRET` en `Backend/.env.production` **antes** de desplegar (Steam y Wikimedia no llevan clave). Sin ellas, los jobs de `videojuegos` fallan.
-2. `./deploy.sh`: la migración `2026_11_04_000000_activate_videojuegos_category` activa la categoría con su `attribute_schema`.
-3. Justo después, para que no se vea vacía hasta la importación de las 04:00:
-   ```bash
-   cd Backend
-   dc() { docker compose -f compose.prod.yml --env-file .env.production "$@"; }
-   dc run --rm app php artisan catalog:fetch-new --category=videojuegos --limit=300
-   dc logs -f --tail=100 worker                        # Ctrl+C solo deja de mirar
-   ```
-   Con Steam a 1 petición cada 2 s, 300 juegos tardan al menos 10 minutos en el worker.
-4. Comprobaciones:
-   - `curl -s https://api.kudos.dcerdan.es/api/categories` incluye `videojuegos` con su `attribute_schema`.
-   - Recuento por fuente de la descripción (`steam` con `?l=english` en la URL es el inglés de respaldo):
-     `dc exec postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT COALESCE(i.description_source, '"'"'sin descripcion'"'"') AS fuente, count(*) FROM items i JOIN categories c ON c.id = i.category_id WHERE c.slug = '"'"'videojuegos'"'"' GROUP BY 1 ORDER BY 2 DESC;"'`
-
-## 7. *Runbook*: activar destinos (F4-02; lo ejecuta el humano)
-
-Ningún agente lo ejecuta (R10). Se hace al desplegar la Fase 4, con producción ya sembrada (§5).
-
-1. No hay variables nuevas: Wikidata, Commons y Wikipedia no llevan clave (`Backend/.env.production` no cambia).
-2. `./deploy.sh`: la migración `2026_11_05_000000_activate_destinos_category` activa la categoría con su `attribute_schema`.
-3. Justo después, la carga inicial (el diario `catalog:fetch-new --all` omite destinos):
-   ```bash
-   cd Backend
-   dc() { docker compose -f compose.prod.yml --env-file .env.production "$@"; }
-   dc run --rm app php artisan catalog:fetch-new --category=destinos --limit=3000
-   dc logs -f --tail=100 worker                        # Ctrl+C solo deja de mirar
-   ```
-   El comando hace el listado en el propio proceso (unos 25 minutos: unas 200 consultas SPARQL, una por país, con una pausa entre ellas para respetar la cuota de WDQS) y encola unos 2.100 `ImportCatalogItemJob`. Cada destino son unas 5 peticiones a Wikimedia (150 por minuto en total), así que el worker tarda algo más de 1 hora. Si al final sale el error "no se pudieron listar las ciudades de algunos países de destinos", vuelve a lanzar el mismo comando (reimporta sin duplicar).
-4. Comprobaciones:
-   - `curl -s https://api.kudos.dcerdan.es/api/categories` incluye `destinos` con su `attribute_schema` y `has_catalog_provider: false`.
-   - Recuento por fuente de la descripción:
-     `dc exec postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT COALESCE(i.description_source, '"'"'sin descripcion'"'"') AS fuente, count(*) FROM items i JOIN categories c ON c.id = i.category_id WHERE c.slug = '"'"'destinos'"'"' GROUP BY 1 ORDER BY 2 DESC;"'`
-   - El refresco es trimestral (`catalog:refresh` usa 90 días para destinos).
