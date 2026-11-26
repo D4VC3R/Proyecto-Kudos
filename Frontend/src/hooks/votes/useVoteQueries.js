@@ -1,19 +1,10 @@
-import { useQuery, useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
+import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 import axiosClient from '../../core/axiosClient.js';
 
 export const VOTE_KEYS = {
   all: ['votes'],
   myVotesList: () => [...VOTE_KEYS.all, 'my-votes'],
-  myVotes: (filters) => [...VOTE_KEYS.myVotesList(), { filters }],
   infiniteMyVotes: (filters) => [...VOTE_KEYS.myVotesList(), 'infinite', { filters }],
-};
-
-export const useMyVotes = (filters = {}) => {
-  return useQuery({
-    queryKey: VOTE_KEYS.myVotes(filters),
-    queryFn: () => axiosClient.get('/votes/my-votes', { params: filters }),
-    placeholderData: keepPreviousData,
-  });
 };
 
 export const useInfiniteMyVotes = (filters = {}, perPage = 15) => {

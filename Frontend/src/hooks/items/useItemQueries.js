@@ -11,7 +11,6 @@ export const ITEM_KEYS = {
   details: () => [...ITEM_KEYS.all, 'detail'],
   detail: (id) => [...ITEM_KEYS.details(), id],
   similar: (id) => [...ITEM_KEYS.detail(id), 'similar'],
-  myItems: () => [...ITEM_KEYS.all, 'my-items'],
 };
 
 export const useItems = (filters = {}, options = {}) => {
@@ -58,13 +57,6 @@ export const useItemComments = (id) => {
     queryFn: () => axiosClient.get(`/items/${id}/comments`),
     enabled: !!id,
     select: (response) => response.data || [],
-  });
-};
-
-export const useMyItems = () => {
-  return useQuery({
-    queryKey: ITEM_KEYS.myItems(),
-    queryFn: () => axiosClient.get('/items/my-items'),
   });
 };
 
