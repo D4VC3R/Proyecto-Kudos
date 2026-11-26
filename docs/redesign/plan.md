@@ -53,6 +53,16 @@ Guarda en este directorio `auditoria.md`, `direcciones.md`, `plan.md` y las 113 
 - **Qué decide el humano:** elige una dirección o una mezcla.
 - **Esfuerzo:** M.
 - **Paralelizable:** sí, con un subagente por dirección.
+- **Estado:** hechas, en [mockups/index.html](mockups/index.html), con 36 capturas en [mockups/capturas/](mockups/capturas/).
+- **Cómo abrirlas:** sírvelas por HTTP, porque Chrome bloquea las fuentes locales con `file://`. Ejecuta `python3 -m http.server 8766` dentro de `docs/redesign/mockups/` y abre `http://localhost:8766/`.
+- **Qué se ha verificado con Playwright:**
+  - Ningún error en consola.
+  - Ningún desbordamiento horizontal de 360 a 1440 px.
+  - Un `h1` por pantalla.
+  - Contraste AA del texto en los dos modos.
+  - Foco visible con Tab y "Saltar al contenido".
+  - Los atajos de votar (S, N, 1–5 y Esc).
+- **Datos inventados en las maquetas:** los otros dos usuarios del ranking de la semana y sus kudos.
 
 ### a) Fallos funcionales
 
