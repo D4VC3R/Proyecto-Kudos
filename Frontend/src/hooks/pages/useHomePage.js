@@ -1,16 +1,13 @@
-import { useNavigate } from 'react-router-dom';
 import { useHome } from '../home/useHomeQueries';
 import { selectIsAuthenticated, useSessionStore } from '../../store/useSessionStore.js';
-import { buildItemUrl } from '../../lib/search.js';
 
 /**
  * Hook para la portada (F2-09): "Para ti" (o populares sin sesión), novedades, listas destacadas,
  * mejor valorados y accesos a las categorías.
  *
- * @returns {object} `state` con las secciones ya preparadas y `actions` con `handleItemClick`.
+ * @returns {object} `state` con las secciones ya preparadas y `actions` vacío (las tarjetas son enlaces).
  */
 export const useHomePage = () => {
-  const navigate = useNavigate();
   const isAuthenticated = useSessionStore(selectIsAuthenticated);
   const { data, isLoading, isError, isFetching } = useHome();
 
@@ -30,11 +27,6 @@ export const useHomePage = () => {
 
   const isEmpty = !forYouRows.length && !newReleases.length && !editorialLists.length && !topRated.length;
 
-  const handleItemClick = (item) => {
-    const url = buildItemUrl(item);
-    if (url) navigate(url);
-  };
-
   return {
     state: {
       categories,
@@ -48,6 +40,6 @@ export const useHomePage = () => {
       isBackgroundUpdating: isFetching && !isLoading,
       isEmpty,
     },
-    actions: { handleItemClick },
+    actions: {},
   };
 };

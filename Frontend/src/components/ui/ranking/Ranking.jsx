@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Trophy} from 'lucide-react';
 import PodiumItem from './PodiumItem.jsx';
 import StaggerGrid from '../../animations/StaggerGrid.jsx';
+import { buildItemUrl } from '../../../lib/search.js';
 
 const Ranking = ({
   title,
@@ -13,7 +14,7 @@ const Ranking = ({
   hasNextPage,
   isFetchingNextPage,
   disableScroll = false,
-  onItemClick
+  categorySlug
 }) => {
   const observerTarget = useRef(null);
 
@@ -55,8 +56,10 @@ const Ranking = ({
       >
         {items.map((item, index) => {
           const rank = disableScroll ? ((page - 1) * itemsPerPage) + index + 1 : index + 1;
+          // Los ítems del ranking no traen `category`, así que el slug llega aparte.
+          const to = type === 'item' ? buildItemUrl({ id: item.id, category: { slug: categorySlug } }) : null;
           return (
-            <PodiumItem key={`${item.id}-${index}`} data={item} rank={rank} type={type} onClick={() => onItemClick && onItemClick(item)} />
+            <PodiumItem key={`${item.id}-${index}`} data={item} rank={rank} type={type} to={to} />
           );
         })}
 

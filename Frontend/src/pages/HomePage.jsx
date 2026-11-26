@@ -12,7 +12,7 @@ import EditorialListCard from '../components/home/EditorialListCard.jsx';
 import { useHomePage } from '../hooks/pages/useHomePage.js';
 
 const HomePage = () => {
-  const { state, actions } = useHomePage();
+  const { state } = useHomePage();
 
   return (
     <div className={`flex w-full flex-col gap-10 transition-opacity duration-300 ${state.isBackgroundUpdating ? 'opacity-60' : 'opacity-100'}`}>
@@ -53,7 +53,6 @@ const HomePage = () => {
                   items={row.items}
                   label={row.label}
                   labelId={`home-for-you-${row.key}`}
-                  onItemClick={actions.handleItemClick}
                 />
               ))}
             </HomeSection>
@@ -61,7 +60,7 @@ const HomePage = () => {
 
           {state.newReleases.length > 0 && (
             <HomeSection id="home-new-releases" title="Novedades">
-              <HomeItemRow items={state.newReleases} onItemClick={actions.handleItemClick} />
+              <HomeItemRow items={state.newReleases} />
             </HomeSection>
           )}
 
@@ -69,7 +68,7 @@ const HomePage = () => {
             <HomeSection id="home-editorial-lists" title="Listas destacadas">
               <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 {state.editorialLists.map((list) => (
-                  <EditorialListCard key={list.id} list={list} onItemClick={actions.handleItemClick} />
+                  <EditorialListCard key={list.id} list={list} />
                 ))}
               </div>
             </HomeSection>
@@ -77,7 +76,7 @@ const HomePage = () => {
 
           {state.topRated.length > 0 && (
             <HomeSection id="home-top-rated" title="Mejor valorados">
-              <HomeItemRow items={state.topRated} onItemClick={actions.handleItemClick} />
+              <HomeItemRow items={state.topRated} />
             </HomeSection>
           )}
         </>

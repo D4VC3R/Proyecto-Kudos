@@ -104,7 +104,7 @@ const ListPage = () => {
                 {state.list.is_ranked && (
                   <span className="text-sm font-black text-primary">#{entry.position}</span>
                 )}
-                <ItemCard item={entry.item} onClick={() => actions.handleItemClick(entry.item)} />
+                <ItemCard item={entry.item} />
                 {hasText(entry.note) && <p className="text-sm text-text-normal">{entry.note}</p>}
               </li>
             ))}

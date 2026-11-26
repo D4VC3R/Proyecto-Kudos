@@ -10,7 +10,6 @@ import AddToListButton from '../components/lists/AddToListButton.jsx';
 // Hooks
 import {useParams, useNavigate} from 'react-router-dom';
 import {useItem, useSimilarItems} from '../hooks/items/useItemQueries';
-import {buildItemUrl} from '../lib/search.js';
 
 const ItemDetailPage = () => {
   const {itemId} = useParams();
@@ -18,11 +17,6 @@ const ItemDetailPage = () => {
 
   const {data: item, isLoading, isError} = useItem(itemId);
   const {data: similarItems = []} = useSimilarItems(itemId);
-
-  const handleSimilarItemClick = (similar) => {
-    const url = buildItemUrl(similar);
-    if (url) navigate(url);
-  };
 
   // Al abrir otro ítem desde la fila de similares la ruta es la misma y el componente no se desmonta: vuelve arriba.
   useEffect(() => {
@@ -58,7 +52,7 @@ const ItemDetailPage = () => {
             <div className="w-full lg:w-2/3 h-full min-h-0">
               <ItemDetailColumn key={item.id} item={item}>
                 {similarItems.length > 0 && (
-                  <SimilarItemsRow items={similarItems} onItemClick={handleSimilarItemClick}/>
+                  <SimilarItemsRow items={similarItems}/>
                 )}
               </ItemDetailColumn>
             </div>

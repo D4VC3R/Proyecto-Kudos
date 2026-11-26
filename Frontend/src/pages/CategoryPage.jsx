@@ -58,7 +58,7 @@ const CategoryPage = () => {
           <div className="mt-6 px-8 border-b border-border pb-4">
             <h3 className=" text-2xl md:text-3xl font-black text-text-highlight">Destacados de <span className="text-primary">esta semana</span></h3>
           </div>
-          <InfiniteItemSlider items={state.sliderItems} onItemClick={actions.handleItemClick} />
+          <InfiniteItemSlider items={state.sliderItems} />
         </div>
       )}
 
@@ -85,7 +85,7 @@ const CategoryPage = () => {
                 fetchNextPage={actions.fetchNextRanking}
                 hasNextPage={state.hasNextRanking}
                 isFetchingNextPage={state.isFetchingNextRanking}
-                onItemClick={actions.handleItemClick}
+                categorySlug={state.categorySlug}
               />
             </div>
           )}

@@ -63,7 +63,7 @@ const PublicProfilePage = () => {
         <section className="flex flex-col gap-4">
           <SectionHeader title="Sus favoritos" />
           {state.topByCategory.map((group) => (
-            <PublicTopCategoryRow key={group.category.id} group={group} onItemClick={actions.handleItemClick} />
+            <PublicTopCategoryRow key={group.category.id} group={group} />
           ))}
         </section>
       )}

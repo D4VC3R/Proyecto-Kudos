@@ -2,7 +2,7 @@ import React from 'react';
 import ItemCard from './ItemCard.jsx';
 
 // Fila "Similares" de la ficha (F2-08): tarjetas en scroll horizontal. Sin ítems no pinta nada.
-const SimilarItemsRow = ({ items = [], onItemClick }) => {
+const SimilarItemsRow = ({ items = [] }) => {
   if (!items?.length) return null;
 
   return (
@@ -11,7 +11,7 @@ const SimilarItemsRow = ({ items = [], onItemClick }) => {
       <ul className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2">
         {items.map((similar) => (
           <li key={similar.id} className="w-36 shrink-0 snap-start sm:w-40">
-            <ItemCard item={similar} onClick={() => onItemClick?.(similar)} />
+            <ItemCard item={similar} />
           </li>
         ))}
       </ul>
