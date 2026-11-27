@@ -11,7 +11,7 @@ const SearchFilter = ({value, onChange, placeholder = "Buscar...", maxWidth = "m
         aria-label={label ?? placeholder}
         onChange={onChange}
         value={value}
-        className={`w-full ${maxWidth} rounded-2xl border-border bg-background pl-10 py-2.5 text-sm focus:bg-surface focus:ring-2 focus:ring-blue-500 font-medium`}
+        className={`w-full ${maxWidth} rounded-2xl border border-border-strong bg-background pl-10 py-2.5 text-sm focus:bg-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 font-medium`}
       />
     </div>
   );

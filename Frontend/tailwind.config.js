@@ -14,6 +14,7 @@ export default {
         background: 'rgb(var(--color-background) / <alpha-value>)',
         surface: 'rgb(var(--color-surface) / <alpha-value>)',
         border: 'rgb(var(--color-border) / <alpha-value>)',
+        'border-strong': 'rgb(var(--color-border-strong) / <alpha-value>)',
 
         text: {
           highlight: 'rgb(var(--color-text-highlight) / <alpha-value>)',
