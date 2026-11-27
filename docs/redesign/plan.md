@@ -18,7 +18,8 @@ Este documento recoge el plan por fases del rediseño visual del frontend y las 
 | 4 | Admin | **Rediseño completo** | La página 13 pasa a esfuerzo L, con sus propias primitivas de tabla y de filtros. |
 | 5 | Kudos y ranking | **Se mantienen destacados** | Los kudos tienen un color propio y un componente `KudosBadge`. El contador de la cabecera queda visible en todos los anchos, a 12 px como mínimo. El podio se rediseña sin perder protagonismo. |
 | 6 | Pie y fechas | **El pie se queda; no hay fecha de entrega** | El autor, "Desarrollo de Aplicaciones Web · IES Paco Mollà", GitHub y las atribuciones se mantienen tal cual. El orden lo marca la calidad, no un plazo. |
-| 7 | Dirección (R1) | **A, "Cuaderno"**, con otra paleta | Se quedan la maquetación, las fuentes y los componentes de A. La paleta original (papel crema y teja) se descarta por parecer "hecha con IA": está a elegir entre tres variantes (R1, "Variantes de paleta"). |
+| 7 | Dirección (R1) | **A, "Cuaderno"**, con la paleta **Azulejo** por defecto | Se quedan la maquetación, las fuentes y los componentes de A. Azulejo conserva el azul de la web anterior, en un cobalto más propio. |
+| 8 | Otras paletas | **Elegibles por el usuario** | "Original", "Taquilla" y "Videoclub" quedan como temas opcionales, cada uno con su modo claro y oscuro. Se eligen en "Cambiar tema", dentro del menú de usuario. Detalle en RB-1 y RB-3. |
 
 ## 2. Flujo de trabajo
 
@@ -64,7 +65,7 @@ Guarda en este directorio `auditoria.md`, `direcciones.md`, `plan.md` y las 113 
   - Foco visible con Tab y "Saltar al contenido".
   - Los atajos de votar (S, N, 1–5 y Esc).
 - **Datos inventados en las maquetas:** los otros dos usuarios del ranking de la semana y sus kudos.
-- **Decisión:** dirección A (§1, decisión 7), pero con otra paleta y con más movimiento.
+- **Decisión:** dirección A con la paleta Azulejo por defecto y las otras tres como temas que el usuario puede elegir (§1, decisiones 7 y 8). El movimiento de la maqueta de variantes entra en el rediseño.
 
 **Variantes de paleta de A** ([mockups/a-variantes.html](mockups/a-variantes.html)):
 - Es la misma maqueta que A. El panel añade un selector de paleta, y "Original" deja comparar con la de A.
@@ -114,7 +115,16 @@ Va en serie, sin paralelizar, porque todo lo demás depende de esto.
 - Escala tipográfica: `display`, `h1`–`h3`, `body`, `small` y `caption`, este último de 12 px como mínimo.
 - Radios `sm` (6), `md` (8), `lg` (12) y `full`; dos sombras; un `container` único; y el `ring` de foco.
 - Fuentes de `@fontsource`. Es una dependencia ligera y se propone en el PR.
-- Conmutador de tema con `useTheme`, que arranca con `prefers-color-scheme` y guarda la elección en `localStorage` dentro de un `try/catch`. Va acompañado del *script* que evita el parpadeo.
+- **Temas (decisión 8):** hay dos ejes independientes, que juntos dan 8 combinaciones.
+  - La paleta, en `data-palette` sobre `<html>`: `azulejo` (por defecto), `original`, `taquilla` y `videoclub`.
+  - El modo: claro, oscuro o el del sistema, con la clase `.dark`.
+- **Dónde viven los temas:** cada paleta es un bloque de variables en `src/index.css`, con canales RGB para claro y para oscuro, incluido el juego `band-*` de la banda. Los componentes solo usan tokens semánticos, así que añadir o quitar una paleta no toca ningún componente. La firma decorativa de cada paleta (cenefa, troquel o franjas) es una regla CSS bajo su `data-palette`.
+- **Las cuatro paletas comparten maquetación:** "Original" también tiene banda en el ranking, para no tener que probar *layouts* distintos.
+- **Hook `useTheme`:** expone `{ palette, mode, setPalette, setMode }`, aplica los atributos a `<html>` y guarda `{ palette, mode }` en `localStorage` (`kudos.theme`) dentro de un `try/catch`. Si no hay nada guardado, usa Azulejo y el modo del sistema. Escucha el evento `storage` para sincronizar las pestañas.
+- **Sin parpadeo:** un *script* en línea en `index.html` aplica la paleta y el modo antes de pintar. Si algún día se añade una CSP, ese *script* se autoriza por *hash*.
+- **`<meta name="theme-color">`:** se actualiza con el lienzo de la paleta activa.
+- **Despliegue:** no le afecta, porque todo es CSS y JS del cliente. No hay dependencias nuevas ni backend, y el peso es de unos 2–3 KB más de CSS.
+- **Pendiente para más adelante (no entra en RB-1):** guardar el tema en el perfil para que siga al usuario entre dispositivos. Requiere una migración y un campo en la API.
 - Bloque `prefers-reduced-motion`.
 - Los nombres de token actuales se mantienen como alias, para que nada se rompa mientras dura la migración, y se borra `logo.*`.
 - Actualiza `docs/legal/cumplimiento.md` si cambia la fuente autoalojada declarada.
@@ -129,7 +139,12 @@ Va en serie, sin paralelizar, porque todo lo demás depende de esto.
 - Animaciones reducidas a `fade` y `fade-up`, con `useReducedMotion` en `components/animations/*`.
 
 **RB-3, layout y marca (M).**
-- `MainHeader`, con el logotipo redibujado, el nombre "Kudos", el conmutador de tema y el contador de kudos.
+- `MainHeader`, con el logotipo redibujado, el nombre "Kudos", el conmutador de modo claro u oscuro y el contador de kudos.
+- **"Cambiar tema" en el menú de usuario:**
+  - Despliega un grupo de opciones (`menuitemradio`) con una muestra de color y el nombre de cada paleta, y debajo el modo (claro, oscuro o sistema).
+  - Se maneja con el teclado (flechas, Intro y Esc).
+  - El cambio usa la transición en círculo de la maqueta, salvo con `prefers-reduced-motion`.
+  - Sin sesión no hay menú de usuario, así que el mismo selector va en el menú ☰ del móvil y en el pie.
 - `NavBar`, con texto siempre visible desde `lg` y las opciones secundarias en un menú de usuario.
 - `NavBarMobile`, con un panel que atrapa el foco.
 - `Footer`, con las atribuciones intactas y legibles en los dos modos: los logos de TMDB, IGDB y OSM.
@@ -167,7 +182,7 @@ Ordenado por prioridad, según cuánto se usa cada página y cuánto daño visua
 ### d) Revisión final (M, en serie)
 
 - Repetir todas las capturas en claro y en oscuro y compararlas lado a lado con las de la auditoría.
-- Barrido de contraste en todas las rutas y los dos modos.
+- Barrido de contraste automático en todas las rutas, con las 4 paletas y los 2 modos (8 combinaciones). Las capturas completas se hacen con Azulejo en claro y en oscuro; las otras paletas se revisan por muestreo.
 - Recorrido completo con Tab en cada plantilla.
 - Comprobación a 360 px y con `prefers-reduced-motion`.
 - `grep` de colores de paleta y de valores arbitrarios `-[`. El objetivo es 0, salvo casos justificados.
@@ -176,7 +191,6 @@ Ordenado por prioridad, según cuánto se usa cada página y cuánto daño visua
 
 ## 4. Preguntas
 
-Las seis preguntas de la auditoría ya tienen respuesta (§1), y la dirección es A (decisión 7). Quedan dos puntos abiertos:
+Las seis preguntas de la auditoría ya tienen respuesta (§1). La dirección es A, con Azulejo por defecto y otras tres paletas a elegir (decisiones 7 y 8). Queda un punto abierto:
 
-- **Qué paleta de A** se elige (Azulejo, Taquilla o Videoclub), o qué mezcla. Por ejemplo, la cenefa de una con los colores de otra.
 - **Si el logotipo se redibuja** o solo cambia de color. Por ahora se interpreta que se puede redibujar (decisión 1).
