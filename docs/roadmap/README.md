@@ -138,12 +138,15 @@ Va **antes de F5-16**: la fusión en `main` incluye el rediseño, así que mient
 | RA-03 | Categoría inexistente sin consultas inútiles | FE | — | hecho | [#56](https://github.com/D4VC3R/Proyecto-Kudos/issues/56) |
 | RA-04 | Pluralización y nota vacía | FE | — | hecho | [#57](https://github.com/D4VC3R/Proyecto-Kudos/issues/57) |
 | RA-05 | Posición del ranking con empates | BE, FE | — | hecho | [#58](https://github.com/D4VC3R/Proyecto-Kudos/issues/58) |
+| RA-06 | Imágenes nítidas en la ficha | BE, INT, FE | RC-03 | pendiente | [#91](https://github.com/D4VC3R/Proyecto-Kudos/issues/91) |
 | RB-01 | Tokens, temas y modo oscuro | FE | RA-00 | hecho | [#59](https://github.com/D4VC3R/Proyecto-Kudos/issues/59) |
 | RB-02 | Primitivas | FE | RB-01 | hecho | [#60](https://github.com/D4VC3R/Proyecto-Kudos/issues/60) |
 | RB-03 | Cabecera, navegación, pie y selector de tema | FE | RB-02 | hecho | [#61](https://github.com/D4VC3R/Proyecto-Kudos/issues/61) |
+| RB-04 | Cambio de tema fluido | FE | RB-03, RC-03 | pendiente | [#92](https://github.com/D4VC3R/Proyecto-Kudos/issues/92) |
 | RC-01 | Tarjeta de ítem | FE | RB-03 | hecho | [#62](https://github.com/D4VC3R/Proyecto-Kudos/issues/62) |
 | RC-02 | Portada | FE | RC-01 | hecho | [#63](https://github.com/D4VC3R/Proyecto-Kudos/issues/63) |
 | RC-03 | Ficha | FE | RC-01 | hecho | [#64](https://github.com/D4VC3R/Proyecto-Kudos/issues/64) |
+| RC-16 | Distribución de notas en la ficha | BE, FE | RC-03 | pendiente | [#90](https://github.com/D4VC3R/Proyecto-Kudos/issues/90) |
 | RC-04 | Votar | FE | RC-03 | pendiente | [#65](https://github.com/D4VC3R/Proyecto-Kudos/issues/65) |
 | RC-05 | Categoría y Explorar | FE | RC-01 | pendiente | [#66](https://github.com/D4VC3R/Proyecto-Kudos/issues/66) |
 | RC-06 | Buscar y buscador global | FE | RC-01, RA-02 | pendiente | [#67](https://github.com/D4VC3R/Proyecto-Kudos/issues/67) |
@@ -156,7 +159,7 @@ Va **antes de F5-16**: la fusión en `main` incluye el rediseño, así que mient
 | RC-13 | Administración | FE | RB-03 | pendiente | [#74](https://github.com/D4VC3R/Proyecto-Kudos/issues/74) |
 | RC-14 | Piezas globales | FE | RB-03 | pendiente | [#75](https://github.com/D4VC3R/Proyecto-Kudos/issues/75) |
 | RC-15 | Textos | FE, BE | RC-01…RC-14 | pendiente | [#76](https://github.com/D4VC3R/Proyecto-Kudos/issues/76) |
-| RD-01 | Revisión final | QA, FE, DOCS | RC-15 | pendiente | [#77](https://github.com/D4VC3R/Proyecto-Kudos/issues/77) |
+| RD-01 | Revisión final | QA, FE, DOCS | RC-15, RC-16, RA-06, RB-04 | pendiente | [#77](https://github.com/D4VC3R/Proyecto-Kudos/issues/77) |
 
 ## Aplazado
 

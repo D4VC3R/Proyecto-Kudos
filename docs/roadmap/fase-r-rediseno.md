@@ -235,6 +235,34 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 
 ---
 
+## RA-06 · Imágenes nítidas en la ficha (BE, INT, FE)
+
+**Depende:** RC-03 · **Cierra:** F2 (la causa real, que RC-03 no pudo arreglar desde el frontend)
+
+**Contexto:** RC-03 comprobó que `ItemImage` ya pide `banner`, pero en los juegos la portada que llega de IGDB (`IgdbGameProvider::POSTER_SIZE = 't_cover_big'`) mide 264×352 y `MediaManager` no la puede agrandar. La ficha la muestra a su tamaño natural y queda estrecha. El humano pide buscar el motivo en todos los proveedores y, si es posible, traer las imágenes con más resolución, para que no se vean pixeladas fuera de las miniaturas.
+
+**Pasos:**
+1. **Investiga cada proveedor** (TMDB películas y series, IGDB y Wikidata/Commons), para el póster y para el *banner*:
+   - qué tamaño se pide (`POSTER_SIZE`, `BANNER_SIZE`, `catalog.places.image_width`);
+   - qué píxeles llegan de verdad;
+   - qué guardan las variantes `thumb` (400) y `banner` (1280) de `MediaManager`, y si alguna amplía.
+
+   Deja una tabla en las Notas. Las comprobaciones contra las APIs reales se hacen solo con Sail en local y con pocas peticiones. IGDB, TMDB y Commons son gratuitas.
+2. **Sube el tamaño pedido** donde no llegue a lo que necesita la ficha: el ancho de la columna del póster a 1440 px con DPR 2. Para IGDB valen, por ejemplo, `t_cover_big_2x` o `t_720p`. Las tarjetas siguen usando `thumb`. Respeta `docs/legal/cumplimiento.md`, y las atribuciones no cambian.
+3. **Ítems ya importados:** usa una vía para regenerar sus imágenes, ya sea un comando existente o uno nuevo de Artisan. Pásala con Sail en local.
+   - En producción **no** se ejecuta. Deja en las Notas la instrucción para el humano, como paso de despliegue.
+4. **Frontend:**
+   - Con la imagen grande, el póster de la ficha llena su columna. Revisa el límite de "no ampliar" de `ItemDetailPoster`.
+   - Si hacen falta `srcset`/`sizes` para que las tarjetas no descarguen la variante grande, añádelos.
+5. **Tests** sobre PostgreSQL, con `Http::fake` y sin APIs reales: las URL piden el tamaño nuevo, y la regeneración sustituye las variantes sin perder la atribución.
+
+**Hecho cuando:**
+- En la ficha de una película, un juego y un destino a 1440 px con DPR 2, el póster tiene `naturalWidth` ≥ su ancho pintado × 1,5, medido con un script de Playwright en `.claude/ciclo/RA-06/`. Si un proveedor no da más resolución, queda justificado en las Notas.
+- `sail test` pasa entero.
+- El script de RA-00 con `--themes all` pasa sobre las tres fichas.
+
+---
+
 ## RB-01 · Tokens, temas y modo oscuro (FE)
 
 **Depende:** RA-00
@@ -377,6 +405,40 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 - **Falla antes:** no hay prueba previa automática. En `HEAD` no existe nada de lo que `tema-check.mjs` busca en la portada: `git grep -c 'aria-haspopup\|startViewTransition\|role="radiogroup"\|role="radio"' HEAD -- Frontend/src` solo da `ReportMenu.jsx` (que no está en la cabecera ni en el pie), así que las pruebas 1, 2, 3, 4, 6, 8, 9 y 10 no podían pasar; con el cambio, las 12 pasan (la 12 dio `FALLO` con `max-h-dvh`: `lastBottom` 402,6 con una ventana de 360).
 - **Resultados:** `pnpm build`, `pnpm check:classes` (789 clases) y `pnpm test:seo` (45 pass) en verde; `git diff rediseno-fase-0 -- src tailwind.config.js | grep '^+' | grep -c -- '-\['` = 0. `visual-check.sh --themes all`, rutas públicas a 360 y 1440: sin errores de JS, y los de consola y los `h1` iguales que en la línea base de RA-00 (404 de `/listas/no-existe` y `/u/no-existe`, y 0 `h1` en `/buscar` y `/videojuegos/explore`, de sus RC); sin desbordamiento. Con sesión (`/` y `/ranking`, 360 a 1440, 8 temas): 0 errores, 0 desbordes y 1 `h1` en todas las filas; 0 fallos de foco en la cabecera (los 8 de las públicas son del mapa de Leaflet en `/destinos/item/…`). Anchos 768 y 1024 sin sesión: sin desbordamiento. El filtro `jq` da `[]` en `publicas`; en `auth` da 32 coincidencias de «#» y «1» en `/ranking` en oscuro, que no son de la cabecera sino del podio (`div.text-3xl.font-black.text-kudos`, de la RC del ranking): el «#1» de la píldora cumple (el filtro compara solo el texto).
 - **Pendiente (lista para RD-01):** `LogoKudos` se queda solo para `MysteryBox` y sale con él en RC-14. Ya no existen `NavBar` con la API antigua de `Button`, `LogoutButton`, `UserInfo` ni `KudosCounter`. Capturas en `.claude/ciclo/RB-03/capturas/` (ignorada por git).
+
+---
+
+## RB-04 · Cambio de tema fluido (FE)
+
+**Depende:** RB-03, RC-03 · **Cierra:** —
+
+**Contexto:** el humano nota poco fluida la animación del cambio de claro a oscuro: el círculo que se abre desde el botón (`hooks/common/themeTransition.js` y los `::view-transition-*` de `index.css`). Tiene que dar sensación de fluidez.
+
+**Pasos:**
+1. **Mide antes de tocar nada.** Escribe un script de Playwright en `.claude/ciclo/RB-04/` que, a 1440 px y 390 px, en la portada y en una ficha, con y sin sesión, cambie de claro a oscuro y vuelva en cada paleta. Debe registrar:
+   - el tiempo desde el clic hasta el primer fotograma de la animación;
+   - la duración de cada fotograma durante la animación, con `requestAnimationFrame`, o CDP `Performance`/*tracing*;
+   - las tareas largas.
+
+   Deja la línea base en las Notas.
+2. **Busca las causas con esa medida.** Candidatas:
+   - el re-render de todo el árbol de React dentro de `flushSync` antes de la captura;
+   - las `transition` de color de muchos elementos, que corren durante la captura;
+   - la cabecera como grupo aparte (`site-header`) con su propio recorte;
+   - el círculo hasta `150vmax` con una curva que acaba la parte visible antes de tiempo;
+   - imágenes o sombras pesadas.
+3. **Corrige según la evidencia.** Por ejemplo:
+   - aplicar la clase `.dark` y `data-palette` sobre `<html>` dentro del *callback* sin esperar a React;
+   - desactivar las `transition` mientras dura el cambio;
+   - calcular el radio exacto hasta la esquina más lejana y animarlo con WAAPI y una curva de salida suave;
+   - quitar el grupo de la cabecera si no aporta.
+
+   El cambio de paleta recibe el mismo tratamiento. Sin soporte o con `prefers-reduced-motion`, sigue siendo instantáneo.
+
+**Hecho cuando:**
+- Con el mismo script y en la misma máquina, el tiempo desde el clic hasta la animación y los fotogramas largos (más de 33 ms) bajan claramente respecto a la línea base, con las cifras antes y después en las Notas. Durante la animación no queda ningún fotograma de más de 50 ms.
+- El script de RA-00 con `--themes all` pasa.
+- Con `reduce`, el cambio es instantáneo.
 
 ---
 
@@ -588,9 +650,40 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 
 ---
 
+## RC-16 · Distribución de notas en la ficha (BE, FE)
+
+**Depende:** RC-03 · **Cierra:** —
+
+**Contexto:** la maqueta de la ficha (`.dist` en `a-variantes.html`) tiene barras con el reparto de notas, pero RC-03 salió sin ellas porque `ItemDetailResource` solo da `vote_avg` y `vote_count`. El humano decide añadirlas ya: esta tarea amplía la API.
+
+**Pasos:**
+1. **Backend:**
+   - `ItemDetailResource` (ficha, `GET /api/items/{id}`) añade `vote_distribution`: el número de votos por cada nivel de nota de la escala de voto (la de `VoteScoreLevels` y `StoreVoteRequest`), con los niveles sin votos a 0.
+   - Solo cuentan los votos con nota.
+   - Una sola consulta agrupada, sin N+1. Si hay caché de estadísticas del ítem, se invalida al votar.
+   - El contrato solo se amplía (R7), y `Backend/docs/api-contract.md` se actualiza.
+2. **Tests** sobre PostgreSQL:
+   - el reparto con votos;
+   - sin votos (todo a 0);
+   - excluye los votos sin nota;
+   - el número de consultas.
+3. **Frontend:**
+   - Las barras de la maqueta van en el bloque de la nota de `ItemDetailColumn`: una fila por nivel con su etiqueta, la barra y el recuento.
+   - Las barras crecen al aparecer, salvo con `reduce`.
+   - Accesible: el recuento es texto («5 · 12 votos»), las barras son decorativas (`aria-hidden`) y se usan los tokens de RB-01.
+   - Sin votos no se pintan barras.
+   - Ningún otro sitio de la interfaz cambia.
+
+**Hecho cuando:**
+- `sail test` pasa entero.
+- Un script de Playwright en `.claude/ciclo/RC-16/` comprueba que los recuentos de la ficha coinciden con la API.
+- El script de RA-00 con `--themes all` pasa sobre las fichas de una película, un juego y un destino.
+
+---
+
 ## RD-01 · Revisión final (QA, FE, DOCS)
 
-**Depende:** RC-15
+**Depende:** RC-15, RC-16, RA-06, RB-04
 
 **Pasos:**
 1. Script de RA-00 en `--themes all` sobre todas las rutas de la auditoría (§2) a 360, 768 y 1440 px, con sesión y sin ella.
