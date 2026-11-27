@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useInfiniteCategoryRanking } from '../categories/useCategoryQueries.js';
+import { useCategories, useInfiniteCategoryRanking } from '../categories/useCategoryQueries.js';
 import { useInfiniteItems } from '../items/useItemQueries.js';
 
 /**
@@ -15,6 +15,14 @@ export const useCategoryPage = () => {
   const navigate = useNavigate();
   const itemsPerPage = 12;
 
+  // La existencia se decide con la lista de categorías activas (cacheada y compartida),
+  // para no pedir ranking ni destacados de un slug que no existe.
+  const { data: categories, isLoading: isLoadingCategory } = useCategories();
+  const category = useMemo(
+    () => categories?.find((c) => c.slug === categorySlug) ?? null,
+    [categories, categorySlug]
+  );
+
   const {
     data: rankingData,
     isLoading: isLoadingRanking,
@@ -24,7 +32,7 @@ export const useCategoryPage = () => {
     fetchNextPage: fetchNextRanking,
     isError: isErrorRanking,
     error: rankingError
-  } = useInfiniteCategoryRanking(categorySlug, itemsPerPage);
+  } = useInfiniteCategoryRanking(category?.slug, itemsPerPage);
 
   const {
     data: detailedItemsData,
@@ -39,12 +47,8 @@ export const useCategoryPage = () => {
       // Destacados: solo fichas con calidad suficiente (F0-05)
       discoverable: 1
     },
-    { enabled: !!categorySlug }
+    { enabled: !!category }
   );
-
-  const category = useMemo(() => {
-    return rankingData?.pages?.[0]?.data?.category || null;
-  }, [rankingData]);
 
   const rankingItems = useMemo(() => {
     if (!rankingData) return [];
@@ -57,7 +61,7 @@ export const useCategoryPage = () => {
   }, [detailedItemsData]);
 
   const hasRankingData = rankingItems.length > 0;
-  const showNotFound = !isLoadingRanking && !category;
+  const showNotFound = !isLoadingCategory && !category;
   const isBackgroundUpdating = isFetchingRanking && !isFetchingNextRanking && !isLoadingRanking;
 
   const handleGoHome = () => navigate('/');
@@ -66,6 +70,7 @@ export const useCategoryPage = () => {
     state: {
       categorySlug,
       category,
+      isLoadingCategory,
       rankingItems,
       sliderItems,
       hasRankingData,
