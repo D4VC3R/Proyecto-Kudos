@@ -34,10 +34,10 @@ const CatalogImportPanel = ({ catalog, term, actions }) => {
         <>
           <div className="flex flex-wrap items-end gap-3">
             <div className="flex flex-col gap-1">
-              <label htmlFor="catalog-category" className="text-sm font-bold text-text-subtitle">Categoría</label>
+              <label htmlFor="catalog-category" className="text-sm font-bold text-text-normal">Categoría</label>
               <select
                 id="catalog-category"
-                className="rounded-2xl border-border bg-surface py-2.5 px-4 pr-8 text-sm focus:ring-2 focus:ring-blue-500 font-bold text-slate-700"
+                className="rounded-2xl border border-border-strong bg-surface py-2.5 px-4 pr-8 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 font-bold text-slate-700"
                 value={catalog.category}
                 onChange={actions.handleCatalogCategoryChange}
               >
@@ -60,7 +60,7 @@ const CatalogImportPanel = ({ catalog, term, actions }) => {
                   <li key={result.external_id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex min-w-0 flex-col gap-1">
                       <span className="font-bold text-text-highlight">{result.name}</span>
-                      <span className="text-sm text-text-subtitle">
+                      <span className="text-sm text-text-normal">
                         {[result.year, result.original_title && result.original_title !== result.name ? result.original_title : null]
                           .filter(Boolean)
                           .join(' · ')}
@@ -84,7 +84,7 @@ const CatalogImportPanel = ({ catalog, term, actions }) => {
                           Ver en Kudos
                         </Button>
                       ) : (
-                        <span className="text-sm font-bold text-text-subtitle">No disponible</span>
+                        <span className="text-sm font-bold text-text-normal">No disponible</span>
                       )}
                     </div>
                   </li>

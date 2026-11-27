@@ -8,6 +8,7 @@
     --color-background: 248 250 252;    /* #f8fafc, bg-slate-50 */
     --color-surface: 255 255 255;       /* #ffffff, bg-white */
     --color-border: 226 232 240;        /* #e2e8f0, border-slate-200 */
+    --color-border-strong: 100 116 139; /* #64748b, slate-500: borde de los campos, ≥ 3:1 sobre surface y background */
 
     --color-text-highlight: 15 23 42;   /* #0f172a, slate-900 */
     --color-text-normal: 100 116 139;   /* #64748b, text-slate-500 */
@@ -23,6 +24,7 @@
     --color-background: 15 23 42;       /* #0f172a, bg-slate-900 */
     --color-surface: 30 41 59;          /* #1e293b, bg-slate-800 */
     --color-border: 51 65 85;           /* #334155, border-slate-700 */
+    --color-border-strong: 148 163 184; /* #94a3b8, slate-400: ≥ 3:1 sobre slate-800 y slate-900 */
 
     --color-text-highlight: 248 250 252; /* #f8fafc, slate-50 */
     --color-text-normal: 148 163 184;   /* #94a3b8, text-slate-400 */

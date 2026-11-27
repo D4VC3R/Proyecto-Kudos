@@ -172,6 +172,14 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 
 **Hecho cuando:** el script de RA-00 sobre `/videojuegos/explore` y `/buscar?q=star` (con sesión) no da fallos de contraste en esos componentes, y los dos filtros muestran un solo anillo de foco.
 
+**Notas (RA-02):**
+- **Archivos:** `Frontend/src/index.css` (token nuevo `--color-border-strong`: slate-500 en claro y slate-400 en `.dark`), `Frontend/tailwind.config.js` (`border-strong`, que genera `border-border-strong`), `components/ui/SearchFilter.jsx` y `components/ui/SelectFilter.jsx` (`border border-border-strong`, `focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500`) y `components/catalog/CatalogImportPanel.jsx` (las tres etiquetas de `text-text-subtitle` a `text-text-normal`). Documentado en `docs/frontend/arquitectura.md` §3 y §4. Sin tests nuevos (la SPA no tiene suite): la prueba es `visual-check.sh` y un script de interacción con Playwright fuera del repo (`.claude/ciclo/RA-02/filters-check.mjs`).
+- **Causa:** `border-border` sin `border` no pinta nada (el *preflight* pone el ancho a 0), y `--color-border` (slate-200) da 1,23:1 sobre blanco, así que no vale para un campo; la maqueta usa `--line-strong`. `--color-text-subtitle` (slate-200) se queda sin usos: su sitio lo decide el sistema de diseño.
+- **Ampliación menor:** el `select#catalog-category` del panel copiaba las clases de `SelectFilter` y tenía el mismo defecto, así que lleva el mismo borde y el mismo foco.
+- **Resultados:** `pnpm build` y `pnpm check:classes` en verde (732 clases). `filters-check.mjs`, 6 pasos en OK: bordes de 1 px sólidos con 4,55:1 (`SearchFilter`, sobre `background`) y 4,76:1 (`SelectFilter` y `select` del panel); foco con Tab sin *outline* (`rgba(0,0,0,0)`) y un solo anillo `box-shadow` azul a 3,68:1; «Categoría», el año y «No disponible» a 4,76:1. La búsqueda en TMDB va simulada con `page.route` (R4). `visual-check.sh --routes /videojuegos/explore,/buscar?q=star` (con y sin sesión, 360/768/1440): 0 fallos de contraste en las 12 filas, sin errores de JS ni desbordamiento y los filtros (`select` y `input`) en `focus.order` sin fallos de foco. Los fallos de foco restantes son los de RA-00 (el anillo a 1,42:1 y 1,36:1 de `button` y enlaces `ring-blue-200`) y no hay ninguno nuevo; la salida es 1 por ellos.
+- **Comprobación "falla antes":** sobre el código sin cambiar, los 6 pasos de `filters-check.mjs` fallan (borde de 0 px, *outline* `auto` del navegador visible junto al *ring*, etiqueta, año y «No disponible» a 1,23:1); con los cambios, pasan.
+- **Discrepancia con el plan:** el plan pide `h1Count: 1`, pero el informe de RA-00 ya da `h1Count: 0` en `/videojuegos/explore` y `/buscar?q=star` (las dos filas sin sesión; el resto no estaba en RA-00). No cambia con esta tarea; queda para quien cierre las cabeceras de esas páginas.
+
 ## RA-03 · Categoría inexistente sin consultas inútiles (FE)
 
 **Depende:** — · **Cierra:** F5
