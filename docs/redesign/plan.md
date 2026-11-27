@@ -18,6 +18,7 @@ Este documento recoge el plan por fases del rediseño visual del frontend y las 
 | 4 | Admin | **Rediseño completo** | La página 13 pasa a esfuerzo L, con sus propias primitivas de tabla y de filtros. |
 | 5 | Kudos y ranking | **Se mantienen destacados** | Los kudos tienen un color propio y un componente `KudosBadge`. El contador de la cabecera queda visible en todos los anchos, a 12 px como mínimo. El podio se rediseña sin perder protagonismo. |
 | 6 | Pie y fechas | **El pie se queda; no hay fecha de entrega** | El autor, "Desarrollo de Aplicaciones Web · IES Paco Mollà", GitHub y las atribuciones se mantienen tal cual. El orden lo marca la calidad, no un plazo. |
+| 7 | Dirección (R1) | **A, "Cuaderno"**, con otra paleta | Se quedan la maquetación, las fuentes y los componentes de A. La paleta original (papel crema y teja) se descarta por parecer "hecha con IA": está a elegir entre tres variantes (R1, "Variantes de paleta"). |
 
 ## 2. Flujo de trabajo
 
@@ -63,6 +64,31 @@ Guarda en este directorio `auditoria.md`, `direcciones.md`, `plan.md` y las 113 
   - Foco visible con Tab y "Saltar al contenido".
   - Los atajos de votar (S, N, 1–5 y Esc).
 - **Datos inventados en las maquetas:** los otros dos usuarios del ranking de la semana y sus kudos.
+- **Decisión:** dirección A (§1, decisión 7), pero con otra paleta y con más movimiento.
+
+**Variantes de paleta de A** ([mockups/a-variantes.html](mockups/a-variantes.html)):
+- Es la misma maqueta que A. El panel añade un selector de paleta, y "Original" deja comparar con la de A.
+- **Paletas:** las tres dejan el papel crema, porque el crema con teja y serif es lo que recordaba a otras webs. Mantienen el dorado de los kudos.
+  - **Azulejo:** cobalto sobre blanco frío, como la loza de Talavera o de Manises.
+  - **Taquilla:** verde botella, como la entrada de un cine de barrio.
+  - **Videoclub:** ciruela y fucsia de neón.
+- **Qué cambia de color:** en las variantes, el acento firma los sellos de nota, los filetes de sección, los antetítulos y los iconos de categoría. El ranking pasa a ser una banda de color con un detalle propio de cada paleta:
+  - Azulejo: una cenefa de rombos.
+  - Taquilla: las muescas y el troquel de una entrada.
+  - Videoclub: las franjas de una carátula de VHS.
+- **Movimiento** (común a las tres; con `prefers-reduced-motion` desaparece):
+  - Transición entre pantallas con la View Transitions API. El póster de la tarjeta pulsada se convierte en el de la ficha. En React Router 7 se activa con la prop `viewTransition` de `Link`, sin dependencias nuevas.
+  - El cambio de tema se abre en círculo desde el botón pulsado.
+  - Las tarjetas aparecen en cascada, y al pasar por encima se levantan con una sombra del color del acento.
+  - En la ficha, el sello de la nota se "estampa" y las barras crecen.
+  - Al votar, el contador de kudos de la cabecera da un salto y sale un "+2" flotando.
+- **Verificado con Playwright** (4 paletas × 2 modos × 360, 768 y 1440 px × 3 pantallas):
+  - Contraste del texto ≥ 4,5:1 en todas las combinaciones.
+  - Ningún desbordamiento horizontal.
+  - Un `h1` por pantalla.
+  - Ningún error de JS.
+  - Las transiciones y la animación de kudos se ejecutan.
+- **Capturas:** 36 más en [mockups/capturas/](mockups/capturas/), con el nombre `a-{azulejo|taquilla|videoclub}-…`.
 
 ### a) Fallos funcionales
 
@@ -150,7 +176,7 @@ Ordenado por prioridad, según cuánto se usa cada página y cuánto daño visua
 
 ## 4. Preguntas
 
-Las seis preguntas de la auditoría ya tienen respuesta (§1). Quedan dos puntos abiertos, que se resuelven en R1:
+Las seis preguntas de la auditoría ya tienen respuesta (§1), y la dirección es A (decisión 7). Quedan dos puntos abiertos:
 
-- **Qué dirección**, o qué mezcla, se elige.
+- **Qué paleta de A** se elige (Azulejo, Taquilla o Videoclub), o qué mezcla. Por ejemplo, la cenefa de una con los colores de otra.
 - **Si el logotipo se redibuja** o solo cambia de color. Por ahora se interpreta que se puede redibujar (decisión 1).
