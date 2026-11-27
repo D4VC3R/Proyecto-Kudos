@@ -121,4 +121,4 @@ Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe d
 - Accesibilidad: `aria-label` en los botones que solo tienen icono; los campos llevan etiqueta asociada o `aria-label`; los desplegables (campana, menú de reporte) usan `useDismiss`; el voto se puede usar con teclado; contraste AA.
 - *Mobile-first*: prueba a 360 px.
 - `item.creator` puede ser `null` (ítems importados): protégelo siempre.
-- No hay linter ni tests de la SPA. La verificación es `pnpm build` + prueba manual ([../infra/entorno-local.md](../infra/entorno-local.md) §5). La función SEO de `api/` sí tiene tests de Node (`pnpm test:seo`, F2-10).
+- No hay linter ni tests de la SPA. La verificación es `pnpm build` + prueba manual ([../infra/entorno-local.md](../infra/entorno-local.md) §5). La función SEO de `api/` sí tiene tests de Node (`pnpm test:seo`, F2-10). La verificación visual automática es `Frontend/scripts/visual-check.sh` (Playwright en Docker): con o sin sesión, hace capturas y comprueba errores de JS y de consola, desbordamiento, `h1`, contraste y foco por ruta, ancho y tema ([uso en el README](../../Frontend/README.md#-scripts)).
