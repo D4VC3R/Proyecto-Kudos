@@ -121,6 +121,17 @@ export default {
       aspectRatio: {
         poster: '2 / 3',
       },
+      // Ancho de las columnas de las filas horizontales: 2,3 tarjetas en móvil, 4,3 en tableta y 6 en escritorio, como la
+      // maqueta (la fracción sobrante insinúa que la fila se desplaza).
+      gridAutoColumns: {
+        row: 'calc((100% - 24px) / 2.3)',
+        'row-md': 'calc((100% - 3 * 16px) / 4.3)',
+        'row-lg': 'calc((100% - 5 * 16px) / 6)',
+      },
+      // Texto y podio de la banda del ranking.
+      gridTemplateColumns: {
+        band: 'minmax(0, 1fr) minmax(0, 1.1fr)',
+      },
       transitionTimingFunction: {
         soft: 'cubic-bezier(.2, .7, .2, 1)',
       },

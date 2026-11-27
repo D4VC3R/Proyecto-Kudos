@@ -210,3 +210,60 @@ html[data-vt="theme"]::view-transition-old(root), html[data-vt="theme"]::view-tr
 html[data-vt="theme"]::view-transition-new(root), html[data-vt="theme"]::view-transition-new(site-header) { animation: vt-reveal .6s cubic-bezier(.4, 0, .2, 1) both; mix-blend-mode: normal; }
 @keyframes vt-reveal { from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); } to { clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 0)); } }
 html[data-vt="palette"]::view-transition-old(root), html[data-vt="palette"]::view-transition-new(root) { animation-duration: .35s; }
+
+/* Pista fina de las filas horizontales de la portada. */
+.scroll-track {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--color-line-strong)) transparent;
+}
+
+/* Banda del ranking: reasigna los tokens para que las piezas de siempre (títulos, botones, píldoras) se lean sobre
+   el fondo de la banda. `canvas` es el hueco del anillo de foco. Los derivados (`stamp`, `rule`, `kicker`) se
+   resuelven en `<html>`, así que cambiar `accent` aquí no los cambia y hay que reasignarlos. */
+.home-ranking {
+  --color-canvas: var(--color-band);
+  --color-ink: var(--color-band-ink);
+  --color-ink-muted: var(--color-band-muted);
+  --color-line: var(--color-band-line);
+  --color-accent: var(--color-band-accent);
+  --color-kicker: var(--color-band-muted);
+  --color-stamp: var(--color-band-ink);
+  --color-rule: var(--color-band-line);
+}
+
+/* Firma de cada paleta en la banda, puramente decorativa (Original no lleva). */
+html[data-palette="azulejo"] .home-ranking::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 14px;
+  background:
+    radial-gradient(circle, rgb(var(--color-kudos)) 0 1.6px, transparent 2.2px) 0 0 / 16px 14px,
+    conic-gradient(from 45deg, rgb(var(--color-band-line)) 25%, transparent 0 50%, rgb(var(--color-band-line)) 0 75%, transparent 0) 0 0 / 16px 14px;
+}
+html[data-palette="taquilla"] .home-ranking {
+  -webkit-mask: radial-gradient(circle 14px at 0 50%, #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 14px at 100% 50%, #0000 97%, #000) right / 51% 100% no-repeat;
+          mask: radial-gradient(circle 14px at 0 50%, #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 14px at 100% 50%, #0000 97%, #000) right / 51% 100% no-repeat;
+}
+html[data-palette="taquilla"] .home-ranking > div:first-child {
+  padding-bottom: 22px;
+  border-bottom: 2px dashed rgb(var(--color-band-line));
+}
+@media (min-width: 768px) {
+  html[data-palette="taquilla"] .home-ranking > div:first-child {
+    padding: 0 40px 0 0;
+    border-bottom: 0;
+    border-right: 2px dashed rgb(var(--color-band-line));
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+html[data-palette="videoclub"] .home-ranking::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 12px;
+  background: linear-gradient(rgb(var(--color-band-accent)) 0 33.3%, rgb(var(--color-kudos)) 0 66.6%, #7DD3FC 0);
+}
