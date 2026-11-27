@@ -25,13 +25,15 @@ const readStored = () => {
 let current = readStored();
 const listeners = new Set();
 
+/** Indica si un modo se ve oscuro; con `system`, según lo que pida el sistema operativo en este momento. */
+const isDarkFor = (mode) => mode === 'dark' || (mode === 'system' && !!window.matchMedia?.(DARK_QUERY).matches);
+
 /** Pone `data-palette` y la clase `.dark` en `<html>` y ajusta el `theme-color` del navegador al lienzo resultante. */
 const apply = ({ palette, mode }) => {
   const root = document.documentElement;
-  const dark = mode === 'dark' || (mode === 'system' && !!window.matchMedia?.(DARK_QUERY).matches);
 
   root.dataset.palette = palette;
-  root.classList.toggle('dark', dark);
+  root.classList.toggle('dark', isDarkFor(mode));
 
   const canvas = getComputedStyle(root).getPropertyValue('--color-canvas').trim();
   const meta = document.querySelector('meta[name="theme-color"]');
@@ -74,6 +76,9 @@ const subscribe = (listener) => {
     const onSystemChange = () => {
       if (current.mode === 'system') {
         apply(current);
+        // Copia nueva para que vuelva a pintarse quien muestra el modo efectivo.
+        current = { ...current };
+        notify();
       }
     };
 
@@ -102,7 +107,8 @@ const getSnapshot = () => current;
  * El estado vive a nivel de módulo, así que todas las instancias del hook comparten el mismo valor.
  * Se guarda en `localStorage` (`kudos.theme`) y se aplica en `<html>` con `data-palette` y la clase `dark`.
  *
- * @returns `{ palette, mode, setPalette, setMode }`. Los setters ignoran valores que no estén en `PALETTES` o `MODES`.
+ * @returns `{ palette, mode, isDark, setPalette, setMode }`. `isDark` es el modo efectivo (con `system`, el del
+ * sistema, y se actualiza si este cambia). Los setters ignoran valores que no estén en `PALETTES` o `MODES`.
  */
 export const useTheme = () => {
   const { palette, mode } = useSyncExternalStore(subscribe, getSnapshot);
@@ -114,5 +120,5 @@ export const useTheme = () => {
     if (MODES.includes(value)) update({ mode: value });
   };
 
-  return { palette, mode, setPalette, setMode };
+  return { palette, mode, isDark: isDarkFor(mode), setPalette, setMode };
 };
