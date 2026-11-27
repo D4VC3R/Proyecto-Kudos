@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquetas del rediseño</title>
+<style>
+  /* Página neutra a propósito: no debe favorecer a ninguna dirección. */
+  :root { --bg:#f4f4f5; --card:#fff; --ink:#18181b; --muted:#52525b; --line:#d4d4d8; --link:#1d4ed8; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#18181b; --card:#27272a; --ink:#f4f4f5; --muted:#a1a1aa; --line:#3f3f46; --link:#93c5fd; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 system-ui, sans-serif; }
+  .wrap { max-width:1100px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:28px; margin:0 0 8px; }
+  p { color:var(--muted); margin:0 0 16px; max-width:70ch; }
+  .grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); margin-top:24px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
+  .card img { width:100%; aspect-ratio:16/10; object-fit:cover; object-position:top; display:block; border-bottom:1px solid var(--line); background:var(--line); }
+  .card .body { padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; }
+  .card h2 { margin:0; font-size:20px; }
+  .card .tag { font-size:13px; color:var(--muted); }
+  .links { display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:auto; padding-top:8px; }
+  a { color:var(--link); font-weight:600; }
+  a:focus-visible { outline:2px solid var(--link); outline-offset:3px; border-radius:2px; }
+  ul { color:var(--muted); padding-left:20px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Maquetas del rediseño de Kudos</h1>
+  <p>Tres direcciones con el mismo contenido: portada, ficha y votar. Cada maqueta tiene abajo a la derecha un panel para cambiar de pantalla, de tema (claro u oscuro) y a la vista de móvil. Son HTML estático: no tocan la aplicación.</p>
+  <p>Las imágenes son ilustraciones generadas, no pósteres reales. En la web de verdad, los pósteres y las fotos pondrán mucho más color.</p>
+
+  <div class="grid">
+    <article class="card">
+      <img src="capturas/a-cuaderno-home-1440-light.webp" alt="Portada de la dirección A, Cuaderno, en modo claro">
+      <div class="body">
+        <h2>A · Cuaderno <span class="tag">(recomendada)</span></h2>
+        <span class="tag">Fraunces + Inter · papel cálido, teja y dorado para los kudos</span>
+        <div class="links">
+          <a href="a-cuaderno.html?screen=home">Portada</a>
+          <a href="a-cuaderno.html?screen=ficha">Ficha</a>
+          <a href="a-cuaderno.html?screen=votar">Votar</a>
+        </div>
+      </div>
+    </article>
+    <article class="card">
+      <img src="capturas/b-sala-oscura-home-1440-dark.webp" alt="Portada de la dirección B, Sala oscura, en modo oscuro">
+      <div class="body">
+        <h2>B · Sala oscura</h2>
+        <span class="tag">Archivo + Inter · oscura de serie, ámbar y celeste</span>
+        <div class="links">
+          <a href="b-sala-oscura.html?screen=home">Portada</a>
+          <a href="b-sala-oscura.html?screen=ficha">Ficha</a>
+          <a href="b-sala-oscura.html?screen=votar">Votar</a>
+        </div>
+      </div>
+    </article>
+    <article class="card">
+      <img src="capturas/c-pasaporte-home-1440-light.webp" alt="Portada de la dirección C, Pasaporte, en modo claro">
+      <div class="body">
+        <h2>C · Pasaporte</h2>
+        <span class="tag">Bricolage Grotesque + Figtree · un color por categoría y sellos</span>
+        <div class="links">
+          <a href="c-pasaporte.html?screen=home">Portada</a>
+          <a href="c-pasaporte.html?screen=ficha">Ficha</a>
+          <a href="c-pasaporte.html?screen=votar">Votar</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <h2 style="margin-top:40px;font-size:20px">Elegida: A, con otra paleta</h2>
+  <p>La misma maqueta de A con tres paletas nuevas y más movimiento. Se cambian con el panel, y «Original» es la de A tal cual.</p>
+  <div class="grid">
+    <article class="card">
+      <img src="capturas/a-azulejo-home-1440-light.webp" alt="Portada de A con la paleta Azulejo, en modo claro">
+      <div class="body"><h2>Azulejo</h2><span class="tag">Cobalto sobre blanco frío, como la loza de Talavera</span>
+        <div class="links"><a href="a-variantes.html?screen=home&amp;palette=azulejo">Portada</a><a href="a-variantes.html?screen=ficha&amp;palette=azulejo">Ficha</a><a href="a-variantes.html?screen=votar&amp;palette=azulejo">Votar</a></div></div>
+    </article>
+    <article class="card">
+      <img src="capturas/a-taquilla-home-1440-light.webp" alt="Portada de A con la paleta Taquilla, en modo claro">
+      <div class="body"><h2>Taquilla</h2><span class="tag">Verde botella y oro, como la entrada de un cine de barrio</span>
+        <div class="links"><a href="a-variantes.html?screen=home&amp;palette=taquilla">Portada</a><a href="a-variantes.html?screen=ficha&amp;palette=taquilla">Ficha</a><a href="a-variantes.html?screen=votar&amp;palette=taquilla">Votar</a></div></div>
+    </article>
+    <article class="card">
+      <img src="capturas/a-videoclub-home-1440-dark.webp" alt="Portada de A con la paleta Videoclub, en modo oscuro">
+      <div class="body"><h2>Videoclub</h2><span class="tag">Ciruela y fucsia de neón, la estantería del viernes</span>
+        <div class="links"><a href="a-variantes.html?screen=home&amp;palette=videoclub">Portada</a><a href="a-variantes.html?screen=ficha&amp;palette=videoclub">Ficha</a><a href="a-variantes.html?screen=votar&amp;palette=videoclub">Votar</a></div></div>
+    </article>
+  </div>
+  <p style="margin-top:16px">Para ver el movimiento: pulsa un póster de la portada (se convierte en el de la ficha), cambia de tema con la luna de la cabecera y vota con S y luego 1–5.</p>
+
+  <h2 style="margin-top:40px;font-size:20px">Qué mirar al comparar</h2>
+  <ul>
+    <li>¿Se lee bien el título de cada tarjeta sin tapar la imagen?</li>
+    <li>¿Se ven los kudos de un vistazo en la cabecera y al votar?</li>
+    <li>¿Te gusta igual en claro que en oscuro?</li>
+    <li>¿Quedan bien juntas una peli, un juego y un destino (bloque «Listas»)?</li>
+    <li>En el móvil, ¿es cómoda la pantalla de votar con el pulgar?</li>
+  </ul>
+  <p>Las capturas de cada pantalla, a 390 y a 1440 px y en los dos modos, están en <a href="capturas/">capturas/</a>. La descripción de cada dirección está en <a href="../direcciones.md">direcciones.md</a>.</p>
+</main>
+</body>
+</html>

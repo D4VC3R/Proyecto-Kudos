@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maqueta B · Sala oscura</title>
+<script src="shared/data.js?v=2"></script>
+<script src="shared/mockup.js?v=2"></script>
+<style>
+/* ---------- Fuentes autoalojadas ---------- */
+@font-face { font-family: "Archivo"; src: url("fonts/archivo-latin-standard-normal.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("fonts/inter-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+/* ---------- Tokens: claros en :root, oscuros en html.dark (paleta B de direcciones.md) ---------- */
+:root {
+  --canvas: #F6F5F2; --surface: #FFFFFF; --ink: #15171C; --muted: #52525B;
+  --line: #E4E4E7; --line-strong: #52525B;
+  --accent: #F5B83D; --accent-ink: #15171C; --accent-text: #8A5200;
+  --info: #0369A1; --kudos: #F5B83D;
+  --glow: rgba(245, 184, 61, .30); --shadow: rgba(21, 23, 28, .12);
+  --raise: color-mix(in srgb, var(--ink) 5%, var(--surface));
+  --chip: color-mix(in srgb, var(--ink) 7%, transparent);
+  color-scheme: light;
+}
+html.dark {
+  --canvas: #0F1115; --surface: #181B22; --ink: #F2F1EE; --muted: #A1A1AA;
+  --line: #2A2E37; --line-strong: #6B7080;
+  --accent: #F5B83D; --accent-ink: #0F1115; --accent-text: #F5B83D;
+  --info: #7DD3FC; --kudos: #F5B83D;
+  --glow: rgba(245, 184, 61, .38); --shadow: rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--canvas); color: var(--ink); font: 400 16px/1.55 "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+button, input, textarea { font: inherit; color: inherit; }
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; border-radius: 6px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wrap { width: 100%; max-width: 1200px; margin-inline: auto; padding-inline: 16px; }
+@media (min-width: 768px) { .wrap { padding-inline: 24px; } }
+.ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ic.sm { width: 16px; height: 16px; }
+.star-fill { fill: currentColor; stroke: none; }
+.display { font-family: "Archivo", sans-serif; font-stretch: 70%; font-weight: 800; line-height: .95; letter-spacing: -.005em; }
+.kicker { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text); }
+.muted { color: var(--muted); }
+kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; padding: 1px 6px; border: 1px solid color-mix(in srgb, currentColor 45%, transparent); border-radius: 5px; font: 600 12px/1.4 "Inter", sans-serif; }
+
+/* ---------- Botones ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid transparent; border-radius: 10px; font-weight: 600; font-size: 15px; text-decoration: none; cursor: pointer; transition: transform .15s, box-shadow .15s, background-color .15s; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { box-shadow: 0 0 0 4px var(--glow), 0 8px 24px var(--glow); }
+.btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+.btn-secondary:hover { background: var(--raise); }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover { background: var(--chip); }
+.btn-ghost[aria-pressed="true"] { color: var(--accent-text); }
+.btn.xl { min-height: 56px; font-size: 17px; }
+.icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 0; border-radius: 10px; background: transparent; color: var(--ink); cursor: pointer; position: relative; }
+.icon-btn:hover { background: var(--chip); }
+.icon-btn.sm { width: 32px; height: 32px; border-radius: 8px; color: var(--muted); }
+.icon-btn:disabled { opacity: .35; cursor: default; }
+.chip { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; background: var(--chip); color: var(--muted); font-size: 12px; font-weight: 600; white-space: nowrap; }
+
+/* ---------- Kudos (siempre en dorado) ---------- */
+.kudos-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--kudos) 16%, transparent); border: 1px solid color-mix(in srgb, var(--kudos) 55%, transparent); color: var(--accent-text); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kudos-badge .ic { width: 14px; height: 14px; color: var(--kudos); }
+html.dark .kudos-badge { text-shadow: 0 0 12px var(--glow); }
+
+/* ---------- Cabecera ---------- */
+.skip { position: absolute; left: 16px; top: -60px; z-index: 100; padding: 10px 14px; border-radius: 8px; background: var(--accent); color: var(--accent-ink); font-weight: 700; text-decoration: none; }
+.skip:focus { top: 12px; }
+.hdr { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--canvas) 88%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.hdr-in { display: flex; align-items: center; gap: 6px; height: 64px; }
+.logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-right: 8px; }
+.logo svg { width: 30px; height: 30px; }
+.logo span { font-family: "Archivo", sans-serif; font-stretch: 68%; font-weight: 900; font-size: 26px; letter-spacing: .01em; }
+html.dark .logo svg { filter: drop-shadow(0 0 8px var(--glow)); }
+.dnav { display: none; }
+.dnav ul { display: flex; gap: 2px; }
+.dnav a { display: block; padding: 8px 12px; font-size: 14px; font-weight: 600; text-decoration: none; color: var(--muted); border-radius: 8px; position: relative; }
+.dnav a:hover { color: var(--ink); }
+.dnav a[aria-current="page"] { color: var(--ink); }
+.dnav a[aria-current="page"]::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -13px; height: 3px; border-radius: 3px 3px 0 0; background: var(--accent); box-shadow: 0 0 12px var(--glow); }
+.search { display: none; position: relative; flex: 1; max-width: 320px; margin-left: auto; }
+.search .ic { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search input { width: 100%; height: 40px; padding: 0 12px 0 40px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); }
+.search input::placeholder { color: var(--muted); }
+.hdr-actions { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+.icon-btn .dot { position: absolute; top: 9px; right: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--canvas); }
+.theme-dark-ic { display: none; }
+html.dark .theme-dark-ic { display: block; }
+html.dark .theme-light-ic { display: none; }
+.umenu { position: relative; }
+.upill { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 8px 0 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; }
+.upill:hover { border-color: var(--line-strong); }
+.avatar { display: none; width: 30px; height: 30px; border-radius: 50%; align-items: center; justify-content: center; background: var(--chip); font-weight: 700; font-size: 13px; }
+.uname { display: none; font-size: 14px; font-weight: 600; }
+.rank { display: inline-flex; align-items: center; gap: 3px; font-size: 13px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pop { position: absolute; right: 0; top: calc(100% + 8px); min-width: 220px; padding: 6px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); box-shadow: 0 16px 40px var(--shadow); }
+.pop a { display: block; padding: 10px 12px; border-radius: 8px; font-size: 14px; text-decoration: none; }
+.pop a:hover { background: var(--chip); }
+.pop hr { border: 0; border-top: 1px solid var(--line); margin: 6px 0; }
+.mnav { border-top: 1px solid var(--line); background: var(--canvas); padding-block: 12px 16px; }
+.mnav .search { display: block; max-width: none; margin: 0 0 12px; }
+.mnav li a { display: block; padding: 12px 4px; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--line); }
+.mnav li a[aria-current="page"] { color: var(--accent-text); }
+.mnav .btn { margin-top: 12px; width: 100%; }
+.hide-s { display: none; }
+@media (min-width: 420px) { .avatar { display: inline-flex; } .hide-s { display: inline-flex; } }
+@media (min-width: 640px) { .uname { display: inline; } }
+@media (min-width: 768px) { .search { display: block; } .search + .hdr-actions { margin-left: 8px; } }
+@media (min-width: 1024px) { .dnav { display: block; } .only-m { display: none; } .mnav { display: none !important; } .hdr-in { height: 72px; } .dnav a[aria-current="page"]::after { bottom: -17px; } }
+
+/* ---------- Filas tipo streaming ---------- */
+.row { margin-top: 28px; }
+.row-head { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+.row-head h2, .row-head h3 { font-family: "Archivo", sans-serif; font-stretch: 75%; font-weight: 800; font-size: 22px; line-height: 1.1; }
+.row-head h3 { font-size: 19px; font-weight: 700; }
+.row-head h3 em { font-style: normal; color: var(--accent-text); }
+.see-all { margin-left: auto; font-size: 14px; font-weight: 600; color: var(--info); text-decoration: none; white-space: nowrap; }
+.see-all:hover { text-decoration: underline; }
+.arrows { display: none; gap: 4px; }
+.arrows .icon-btn { border: 1px solid var(--line); }
+@media (min-width: 768px) { .arrows { display: flex; } }
+.track { display: grid; grid-auto-flow: column; grid-auto-columns: 42%; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; margin-inline: -16px; padding: 10px 16px 18px; scrollbar-width: thin; scroll-behavior: smooth; }
+.track > li { scroll-snap-align: start; min-width: 0; }
+@media (min-width: 640px) { .track { grid-auto-columns: 28%; } }
+@media (min-width: 768px) { .track { margin-inline: -24px; padding-inline: 24px; scroll-padding-inline: 24px; grid-auto-columns: calc((100% - 4 * 14px) / 4.4); } }
+@media (min-width: 1024px) { .track { grid-auto-columns: calc((100% - 5 * 16px) / 6); gap: 16px; margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; scrollbar-width: none; } }
+
+/* ---------- Tarjeta de ítem ---------- */
+.card { position: relative; }
+.card-link { display: block; text-decoration: none; border-radius: 12px; }
+.poster { position: relative; display: block; aspect-ratio: 2 / 3; border-radius: 12px; overflow: hidden; background: var(--raise); transition: transform .2s, box-shadow .2s; }
+.poster img { width: 100%; height: 100%; object-fit: cover; }
+.card-link:hover .poster, .card-link:focus-visible .poster { transform: translateY(-4px); box-shadow: 0 0 0 1px color-mix(in srgb, var(--kudos) 60%, transparent), 0 12px 32px var(--glow); }
+.card-link:focus-visible { outline-offset: 4px; }
+.score { position: absolute; top: 8px; right: 8px; display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; background: var(--accent); color: #0F1115; font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.score .ic { width: 13px; height: 13px; }
+.score.none { background: rgba(15, 17, 21, .78); color: #F2F1EE; font-weight: 600; font-size: 12px; }
+.rank-n { display: block; margin-top: 10px; font-family: "Archivo", sans-serif; font-stretch: 70%; font-weight: 900; font-size: 15px; color: var(--accent-text); }
+.card-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: 14px; font-weight: 600; line-height: 1.3; }
+.rank-n + .card-title { margin-top: 2px; }
+.card-meta { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--muted); min-width: 0; }
+.card-meta .chip { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.card-meta .icon-btn { margin-left: auto; }
+
+/* ---------- Portada ---------- */
+.home-hero { position: relative; display: grid; gap: 28px; padding-block: 32px 8px; }
+.home-hero::before { content: ""; position: absolute; inset: -40px 0 auto; height: 340px; z-index: -1; background: radial-gradient(60% 70% at 25% 30%, var(--glow), transparent 70%); opacity: .6; pointer-events: none; }
+.home-hero h1 { font-size: clamp(40px, 9vw, 76px); margin-top: 10px; }
+.lead { margin-top: 14px; max-width: 56ch; font-size: 17px; color: var(--muted); }
+.cats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.cats a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 15px; font-weight: 600; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+.cats a:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+.cats a .ic { color: var(--accent-text); }
+@media (min-width: 1024px) { .home-hero { grid-template-columns: 1fr 380px; align-items: end; padding-top: 48px; } }
+.board { padding: 18px; border-radius: 16px; background: var(--surface); border: 1px solid color-mix(in srgb, var(--kudos) 45%, var(--line)); box-shadow: 0 0 0 4px color-mix(in srgb, var(--kudos) 10%, transparent), 0 18px 48px var(--shadow); }
+html.dark .board { box-shadow: 0 0 0 4px color-mix(in srgb, var(--kudos) 8%, transparent), 0 0 48px color-mix(in srgb, var(--kudos) 14%, transparent); }
+.board-head { display: flex; align-items: center; gap: 8px; }
+.board-head h2 { font-family: "Archivo", sans-serif; font-stretch: 72%; font-weight: 800; font-size: 22px; }
+.board-head .ic { color: var(--kudos); }
+.board ol { margin-top: 12px; display: grid; gap: 6px; }
+.board li { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; }
+.board li.me { background: color-mix(in srgb, var(--kudos) 12%, transparent); outline: 1px solid color-mix(in srgb, var(--kudos) 50%, transparent); }
+.board .pos { font-family: "Archivo", sans-serif; font-stretch: 65%; font-weight: 900; font-size: 30px; line-height: 1; color: var(--accent-text); text-align: center; font-variant-numeric: tabular-nums; }
+html.dark .board .pos { text-shadow: 0 0 14px var(--glow), 0 0 2px var(--kudos); }
+.board .who { font-weight: 600; font-size: 15px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.board .who small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); }
+.board-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; font-size: 13px; color: var(--muted); }
+.board-foot a { color: var(--info); font-weight: 600; text-decoration: none; }
+.section-title { font-family: "Archivo", sans-serif; font-stretch: 72%; font-weight: 800; font-size: clamp(28px, 5vw, 38px); margin-top: 44px; }
+.lists { display: grid; gap: 16px; margin-top: 16px; padding-bottom: 8px; }
+@media (min-width: 640px) { .lists { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .lists { grid-template-columns: repeat(3, 1fr); } }
+.list-card { display: block; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); text-decoration: none; transition: transform .2s, box-shadow .2s; }
+.list-card:hover, .list-card:focus-visible { transform: translateY(-3px); box-shadow: 0 12px 32px var(--glow); }
+.collage { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; border-radius: 10px; overflow: hidden; }
+.collage img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; }
+.list-card h3 { margin-top: 12px; font-family: "Archivo", sans-serif; font-stretch: 75%; font-weight: 800; font-size: 20px; line-height: 1.15; }
+.list-card p { margin-top: 4px; font-size: 13px; color: var(--muted); }
+.list-card .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+/* ---------- Ficha ---------- */
+.fhero { position: relative; isolation: isolate; overflow: hidden; padding-block: 28px 32px; }
+.fhero-bg { position: absolute; inset: 0; z-index: -2; }
+.fhero-bg img { width: 100%; height: 100%; object-fit: cover; filter: blur(40px) saturate(1.3); transform: scale(1.2); opacity: .7; }
+.fhero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in srgb, var(--canvas) 74%, transparent), color-mix(in srgb, var(--canvas) 86%, transparent) 60%, var(--canvas)); }
+.fhero-in { display: grid; gap: 24px; justify-items: center; }
+.fposter { width: min(220px, 60%); }
+.fposter img { border-radius: 12px; box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent), 0 24px 60px var(--shadow), 0 0 60px var(--glow); }
+figcaption { margin-top: 8px; font-size: 12px; color: var(--muted); text-align: center; }
+.finfo { width: 100%; }
+.ftitle { font-size: clamp(38px, 8vw, 68px); margin-top: 8px; }
+.orig { margin-top: 8px; color: var(--muted); font-size: 15px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.fscore { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin-top: 20px; }
+.fscore .big { font-family: "Archivo", sans-serif; font-stretch: 68%; font-weight: 900; font-size: 56px; line-height: 1; color: var(--accent-text); font-variant-numeric: tabular-nums; }
+html.dark .fscore .big { text-shadow: 0 0 22px var(--glow); }
+.fscore .of { font-size: 18px; font-weight: 700; color: var(--muted); }
+.fscore .votes { font-size: 14px; color: var(--muted); }
+.facts { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 20px; }
+.facts dt { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.facts dd { font-size: 15px; font-weight: 600; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+@media (min-width: 768px) {
+  .fhero { padding-block: 56px 48px; }
+  .fhero-in { grid-template-columns: 280px 1fr; justify-items: stretch; align-items: end; gap: 40px; }
+  .fposter { width: 100%; }
+}
+.fbody { display: grid; gap: 32px; padding-block: 16px 8px; }
+@media (min-width: 1024px) { .fbody { grid-template-columns: 1fr 360px; gap: 48px; } }
+.block-title { font-family: "Archivo", sans-serif; font-stretch: 75%; font-weight: 800; font-size: 24px; margin-bottom: 12px; }
+.about p { max-width: 65ch; margin-bottom: 12px; font-size: 16px; }
+.source { font-size: 13px; color: var(--muted); }
+.panel { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.dist { display: grid; gap: 10px; }
+.dist li { display: grid; grid-template-columns: 96px 1fr 24px; align-items: center; gap: 10px; font-size: 14px; }
+.bar { height: 10px; border-radius: 999px; background: var(--chip); overflow: hidden; }
+.bar span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+html.dark .bar span { box-shadow: 0 0 10px var(--glow); }
+.dist .n { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.comments { margin-top: 32px; }
+.cform label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+.cform textarea { width: 100%; min-height: 96px; padding: 12px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); resize: vertical; }
+.cform .help { margin-top: 6px; font-size: 13px; color: var(--muted); }
+.cform .btn { margin-top: 10px; }
+.clist { margin-top: 20px; display: grid; gap: 12px; }
+.comment { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.comment header { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 14px; }
+.comment header .avatar { display: inline-flex; }
+.comment header b { font-weight: 700; }
+.comment header .when { color: var(--muted); font-size: 13px; }
+.comment header .chip { margin-left: auto; color: var(--accent-text); background: color-mix(in srgb, var(--kudos) 14%, transparent); }
+.comment p { margin-top: 8px; }
+
+/* ---------- Votar ---------- */
+.vote { padding-block: 24px 16px; }
+.vote-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.queue { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
+.vote-grid { display: grid; gap: 24px; margin-top: 20px; }
+.vposter { width: min(240px, 66%); margin-inline: auto; }
+.vposter img { border-radius: 12px; box-shadow: 0 24px 60px var(--shadow), 0 0 70px var(--glow); }
+.vtitle { font-size: clamp(36px, 7vw, 60px); }
+.vmeta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.syn { margin-top: 14px; max-width: 60ch; color: var(--muted); }
+.step { margin-top: 24px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.q { font-family: "Archivo", sans-serif; font-stretch: 75%; font-weight: 800; font-size: 28px; line-height: 1.1; }
+.q:focus { outline: none; }
+.two { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 16px; }
+.two .btn { padding: 0 12px; text-align: center; }
+@media (min-width: 400px) { .two { grid-template-columns: 1fr 1fr; } }
+.levels { display: flex; flex-direction: column-reverse; gap: 8px; margin-top: 16px; }
+.levels .btn { justify-content: space-between; }
+@media (min-width: 640px) { .levels { display: grid; grid-template-columns: repeat(5, 1fr); } .levels .btn { flex-direction: column; justify-content: center; gap: 6px; min-height: 76px; padding: 8px; } }
+.back { margin-top: 12px; }
+.done { display: grid; justify-items: start; gap: 6px; }
+.done .ic { width: 36px; height: 36px; color: var(--kudos); }
+html.dark .done .ic { filter: drop-shadow(0 0 10px var(--glow)); }
+.hint { margin-top: 12px; font-size: 13px; color: var(--muted); }
+@media (min-width: 768px) {
+  .vote { padding-top: 40px; }
+  .vote-grid { grid-template-columns: 320px 1fr; gap: 40px; align-items: start; }
+  .vposter { width: 100%; position: sticky; top: 96px; }
+}
+
+/* ---------- Pie ---------- */
+.foot { margin-top: 64px; border-top: 1px solid var(--line); background: var(--surface); }
+.foot-top { display: grid; gap: 20px; padding-block: 28px; }
+.foot-brand { font-family: "Archivo", sans-serif; font-stretch: 70%; font-weight: 900; font-size: 24px; }
+.foot-links { display: flex; gap: 16px; margin-top: 6px; font-size: 14px; }
+.foot-links a { text-decoration: none; font-weight: 600; }
+.foot-links a:hover, .gh:hover { text-decoration: underline; }
+.foot-school { font-size: 14px; }
+.foot-school b { display: block; }
+.gh { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; text-decoration: none; }
+.foot-bottom { display: grid; gap: 10px; padding-block: 20px 28px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.tmdb { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.tmdb-logo { font-family: "Archivo", sans-serif; font-stretch: 85%; font-weight: 900; font-size: 18px; letter-spacing: .12em; color: var(--info); }
+.tmdb p { flex: 1; min-width: 220px; }
+@media (min-width: 768px) { .foot-top { grid-template-columns: 1fr auto auto; align-items: center; gap: 40px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  .card-link:hover .poster, .card-link:focus-visible .poster, .list-card:hover, .list-card:focus-visible { transform: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#" id="skip">Saltar al contenido</a>
+<header class="hdr" id="hdr"></header>
+<main data-screen="home" id="main-home" tabindex="-1"></main>
+<main data-screen="ficha" id="main-ficha" tabindex="-1" hidden></main>
+<main data-screen="votar" id="main-votar" tabindex="-1" hidden></main>
+<footer class="foot" id="foot"></footer>
+
+<script>
+(function () {
+  const K = window.KUDOS;
+  const $ = (s, r = document) => r.querySelector(s);
+
+  // ---------- Iconos (trazo simple, 24×24) ----------
+  const ICONS = {
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+    bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+    menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+    x: '<path d="M18 6 6 18M6 6l12 12"/>',
+    chevL: '<path d="m15 18-6-6 6-6"/>',
+    chevR: '<path d="m9 18 6-6-6-6"/>',
+    listPlus: '<path d="M11 12H3M16 6H3M16 18H3M18 9v6M21 12h-6"/>',
+    bookmark: '<path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>',
+    film: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 7.5h4M3 12h18M3 16.5h4M17 7.5h4M17 16.5h4"/>',
+    tv: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="m17 2-5 5-5-5"/>',
+    gamepad: '<rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"/>',
+    pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+    github: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3.1-.4 6.4-1.5 6.4-7a5.4 5.4 0 0 0-1.5-3.8 5 5 0 0 0-.1-3.8s-1.2-.4-3.9 1.5a13.4 13.4 0 0 0-7 0C6.3 1.6 5.1 2 5.1 2a5 5 0 0 0-.1 3.8A5.4 5.4 0 0 0 3.5 9.6c0 5.5 3.3 6.6 6.4 7a3.4 3.4 0 0 0-.9 2.6V23"/>',
+    trophy: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    eyeOff: '<path d="M9.9 4.2A10 10 0 0 1 12 4c7 0 10 8 10 8a17 17 0 0 1-2.2 3.2M6.6 6.6A16 16 0 0 0 2 12s3 8 10 8a10 10 0 0 0 5.4-1.6"/><path d="M2 2l20 20M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
+    arrowL: '<path d="M19 12H5M12 19l-7-7 7-7"/>',
+    message: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/>',
+  };
+  const STAR = '<path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/>';
+  const ic = (name, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]}</svg>`;
+  const star = (cls = '') => `<svg class="ic star-fill ${cls}" viewBox="0 0 24 24" aria-hidden="true">${STAR}</svg>`;
+  const catIcon = { peliculas: 'film', series: 'tv', videojuegos: 'gamepad', destinos: 'pin' };
+  const kudosBadge = (label) => `<span class="kudos-badge">${star()}${label}</span>`;
+  const levelLabel = (score) => (K.vote.levels.find((l) => l.score === score) || {}).label || '';
+
+  // Logotipo: estrella dorada dentro de un rótulo de marquesina con bombillas.
+  const LOGO = `<svg viewBox="0 0 32 32" aria-hidden="true">
+    <rect x="1.5" y="1.5" width="29" height="29" rx="8" fill="none" stroke="var(--kudos)" stroke-width="2"/>
+    <g fill="var(--kudos)"><circle cx="8" cy="5.5" r="1.1"/><circle cx="16" cy="5.5" r="1.1"/><circle cx="24" cy="5.5" r="1.1"/>
+    <circle cx="8" cy="26.5" r="1.1"/><circle cx="16" cy="26.5" r="1.1"/><circle cx="24" cy="26.5" r="1.1"/></g>
+    <path transform="translate(6.4 6.6) scale(.8)" fill="var(--kudos)" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>`;
+
+  // ---------- Cabecera ----------
+  const navLinks = (prefix) => K.nav.map((n, i) => `<li><a href="#" ${i === 0 ? 'aria-current="page"' : ''} ${n.key === 'categorias' ? 'data-go="home"' : ''} id="${prefix}-${n.key}">${n.label}</a></li>`).join('');
+  const searchForm = (id) => `<form class="search" role="search" onsubmit="return false"><label class="sr" for="${id}">Buscar en Kudos</label>${ic('search')}<input id="${id}" type="search" placeholder="Buscar en Kudos…" autocomplete="off"></form>`;
+  $('#hdr').innerHTML = `
+    <div class="wrap hdr-in">
+      <button class="icon-btn only-m" id="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Abrir menú">${ic('menu')}</button>
+      <a class="logo" href="#" data-go="home" aria-label="Kudos, ir a la portada">${LOGO}<span>Kudos</span></a>
+      <nav class="dnav" aria-label="Principal"><ul>${navLinks('d')}</ul></nav>
+      ${searchForm('q')}
+      <div class="hdr-actions">
+        <button class="icon-btn hide-s" type="button" data-theme-toggle aria-label="Cambiar entre modo claro y oscuro">${ic('moon', 'theme-light-ic')}${ic('sun', 'theme-dark-ic')}</button>
+        <button class="icon-btn" type="button" aria-label="Notificaciones: 2 sin leer">${ic('bell')}<span class="dot"></span></button>
+        <div class="umenu">
+          <button class="upill" id="user-btn" type="button" aria-expanded="false" aria-controls="user-menu" aria-label="Tu cuenta: ${K.user.name}, ${K.user.kudos.toLocaleString('es-ES')} kudos, posición ${K.user.rank} del ranking">
+            <span class="avatar" aria-hidden="true">${K.user.name[0].toUpperCase()}</span>
+            <span class="uname" aria-hidden="true">${K.user.name}</span>
+            ${kudosBadge(K.user.kudosLabel)}
+            <span class="rank" aria-hidden="true">${ic('trophy', 'sm')}#${K.user.rank}</span>
+          </button>
+          <div class="pop" id="user-menu" hidden>
+            <a href="#">Mi perfil</a><a href="#">Mis propuestas</a><a href="#">Mis estadísticas</a><a href="#">Privacidad</a><hr><a href="#">Cerrar sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mnav" id="mnav" hidden>
+      <div class="wrap">
+        ${searchForm('q-m')}
+        <nav aria-label="Principal (móvil)"><ul>${navLinks('m')}</ul></nav>
+        <button class="btn btn-secondary" type="button" data-theme-toggle>${ic('moon', 'theme-light-ic')}${ic('sun', 'theme-dark-ic')}Cambiar tema</button>
+      </div>
+    </div>`;
+
+  // Desplegables (menú móvil y menú de usuario): Escape y clic fuera los cierran.
+  function disclosure(btnSel, panelSel, labels) {
+    const btn = $(btnSel), panel = $(panelSel);
+    const set = (open) => {
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+      if (labels) btn.setAttribute('aria-label', open ? labels[1] : labels[0]);
+      if (labels) btn.innerHTML = ic(open ? 'x' : 'menu');
+    };
+    btn.addEventListener('click', (e) => { e.stopPropagation(); set(panel.hidden); });
+    document.addEventListener('click', (e) => { if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) set(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { e.preventDefault(); set(false); btn.focus(); } });
+    panel.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+    document.addEventListener('mockup:screen', () => set(false));
+    return () => !panel.hidden;
+  }
+  const menuOpen = disclosure('#menu-btn', '#mnav', ['Abrir menú', 'Cerrar menú']);
+  const userOpen = disclosure('#user-btn', '#user-menu');
+
+  $('#skip').addEventListener('click', (e) => {
+    e.preventDefault();
+    const m = document.querySelector('main:not([hidden])');
+    if (m) m.focus();
+  });
+
+  // ---------- Piezas reutilizables ----------
+  function card(item, opts = {}) {
+    const s = K.score(item.avg);
+    const cat = K.categories[item.cat];
+    const art = item.cat === 'destinos' ? K.art(item, { title: false }) : K.art(item);
+    return `<article class="card">
+      <a class="card-link" href="#" data-go="ficha">
+        <span class="poster"><img src="${art}" alt="" width="400" height="600" loading="lazy">
+          <span class="score ${s ? '' : 'none'}">${s ? `${star()}<span class="sr">Nota </span>${s}` : 'Sin nota'}</span></span>
+        ${opts.rank ? `<span class="rank-n">Nº ${opts.rank}</span>` : ''}
+        <span class="card-title">${item.name}</span>
+      </a>
+      <div class="card-meta"><span>${item.year || cat.short}</span><span class="chip">${item.genres[0]}</span>
+        <button class="icon-btn sm" type="button" aria-label="Añadir ${item.name} a una lista">${ic('listPlus', 'sm')}</button></div>
+    </article>`;
+  }
+
+  let rowCount = 0;
+  function row(titleHtml, ids, opts = {}) {
+    const id = `row-${++rowCount}`;
+    const tag = opts.level || 'h2';
+    const plain = titleHtml.replace(/<[^>]+>/g, '');
+    return `<section class="row" aria-labelledby="${id}" data-row>
+      <div class="row-head"><${tag} id="${id}">${titleHtml}</${tag}>
+        <a class="see-all" href="#">Ver todo</a>
+        <div class="arrows"><button class="icon-btn" type="button" data-dir="-1" aria-label="Anteriores: ${plain}">${ic('chevL')}</button>
+          <button class="icon-btn" type="button" data-dir="1" aria-label="Siguientes: ${plain}">${ic('chevR')}</button></div></div>
+      <ul class="track">${ids.map((n, i) => `<li>${card(K.byId[n], { rank: opts.ranked ? i + 1 : 0 })}</li>`).join('')}</ul>
+    </section>`;
+  }
+
+  // ---------- Portada ----------
+  const board = [
+    { name: 'marta_viaja', note: 'Destinos y listas', kudos: '61,8 K' },
+    { name: 'noctambulo', note: 'Terror y suspense', kudos: '52,4 K' },
+    { name: K.user.name, note: `Tú · ${K.user.streak} días seguidos votando`, kudos: K.user.kudosLabel, me: true },
+  ];
+  const listCard = (l) => {
+    const cats = [...new Set(l.ids.map((n) => K.categories[K.byId[n].cat].label))];
+    return `<a class="list-card" href="#">
+      <span class="collage" aria-hidden="true">${l.ids.map((n) => `<img src="${K.art(K.byId[n], { title: false })}" alt="" loading="lazy">`).join('')}</span>
+      <h3>${l.title}</h3><p>Por @${l.by} · ${l.count} ítems</p>
+      <span class="chips">${cats.map((c) => `<span class="chip">${c}</span>`).join('')}</span></a>`;
+  };
+  $('#main-home').innerHTML = `
+    <section class="wrap home-hero">
+      <div>
+        <p class="kicker">Tu diario de pelis, series, juegos y destinos</p>
+        <h1 class="display">${K.home.title}</h1>
+        <p class="lead">${K.home.subtitle}</p>
+        <nav class="cats" aria-label="Categorías">${Object.values(K.categories).map((c) => `<a href="#">${ic(catIcon[c.slug])}${c.label}</a>`).join('')}</nav>
+      </div>
+      <aside class="board" aria-labelledby="board-t">
+        <div class="board-head">${ic('trophy')}<h2 id="board-t">Ranking de la semana</h2></div>
+        <ol>${board.map((u, i) => `<li class="${u.me ? 'me' : ''}"><span class="pos" aria-label="Puesto ${i + 1}">${i + 1}</span>
+          <span class="who">${u.name}<small>${u.note}</small></span>${kudosBadge(u.kudos)}</li>`).join('')}</ol>
+        <div class="board-foot"><span>Votar y comentar suma kudos</span><a href="#">Ver ranking</a></div>
+      </aside>
+    </section>
+    <div class="wrap">
+      <h2 class="section-title display">Para ti</h2>
+      ${K.home.forYou.map((f) => row(`Porque te gustó <em>${f.because}</em>`, f.ids, { level: 'h3' })).join('')}
+      <h2 class="section-title display">Lo último</h2>
+      ${row('Novedades', K.home.news, { level: 'h3' })}
+      ${row('Mejor valorados', K.home.top, { level: 'h3', ranked: true })}
+      <h2 class="section-title display">Listas</h2>
+      <div class="lists">${K.home.lists.map(listCard).join('')}</div>
+    </div>`;
+
+  // ---------- Ficha ----------
+  (function renderFicha() {
+    const d = K.detail, it = K.byId[d.id], cat = K.categories[it.cat];
+    const levelsDesc = K.vote.levels.slice().reverse();
+    const max = Math.max(...d.distribution);
+    $('#main-ficha').innerHTML = `
+      <article>
+        <section class="fhero" aria-labelledby="f-title">
+          <div class="fhero-bg" aria-hidden="true"><img src="${K.art(it, { ratio: 'wide', title: false })}" alt=""></div>
+          <div class="wrap fhero-in">
+            <figure class="fposter"><img src="${K.art(it)}" alt="Póster de ${it.name}" width="400" height="600"><figcaption>Datos e imagen de TMDB</figcaption></figure>
+            <div class="finfo">
+              <p class="kicker">${cat.short} · ${it.year}</p>
+              <h1 class="ftitle display" id="f-title">${it.name}</h1>
+              <p class="orig">Título original: <span lang="en">${d.original}</span></p>
+              <ul class="chips">${it.genres.map((g) => `<li class="chip">${g}</li>`).join('')}</ul>
+              <p class="fscore"><span class="big"><span class="sr">Nota media: </span>${K.score(it.avg)}</span><span class="of">/10</span><span class="votes">${K.votesLabel(it.votes)}</span></p>
+              <dl class="facts"><div><dt>Dirección</dt><dd>${d.director}</dd></div><div><dt>Duración</dt><dd>${d.runtime}</dd></div><div><dt>País</dt><dd>${d.country}</dd></div></dl>
+              <div class="actions">
+                <a class="btn btn-primary" href="#" data-go="votar">${ic('check')}Votar</a>
+                <button class="btn btn-secondary" type="button">${ic('listPlus')}Añadir a lista</button>
+                <button class="btn btn-ghost" type="button" aria-pressed="false" id="wish">${ic('bookmark')}Wishlist</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="wrap fbody">
+          <div>
+            <section class="about" aria-labelledby="about-t">
+              <h2 class="block-title" id="about-t">Acerca de</h2>
+              ${d.about.map((p) => `<p>${p}</p>`).join('')}
+              <p class="source">Fuente: ${d.aboutSource}</p>
+            </section>
+            <section class="comments" aria-labelledby="com-t">
+              <h2 class="block-title" id="com-t">Comentarios (${d.comments.length})</h2>
+              <form class="cform" onsubmit="return false">
+                <label for="c-text">Tu comentario</label>
+                <textarea id="c-text" aria-describedby="c-help" placeholder="¿Qué te ha parecido?"></textarea>
+                <p class="help" id="c-help">Sin spoilers, por favor. Comentar también suma kudos.</p>
+                <button class="btn btn-primary" type="submit">${ic('message')}Publicar</button>
+              </form>
+              <ul class="clist">${d.comments.map((c) => `<li class="comment"><header><span class="avatar" aria-hidden="true">${c.user[0].toUpperCase()}</span><b>${c.user}</b><span class="when">${c.when}</span><span class="chip">${levelLabel(c.score)} · ${c.score}</span></header><p>${c.text}</p></li>`).join('')}</ul>
+            </section>
+          </div>
+          <aside>
+            <section class="panel" aria-labelledby="dist-t">
+              <h2 class="block-title" id="dist-t">Cómo la ha votado la gente</h2>
+              <ul class="dist">${levelsDesc.map((l, i) => `<li><span>${l.label}</span><span class="bar" aria-hidden="true"><span style="width:${(d.distribution[i] / max) * 100}%"></span></span><span class="n">${d.distribution[i]}</span></li>`).join('')}</ul>
+              <p class="source" style="margin-top:14px">${K.votesLabel(it.votes)} en Kudos.</p>
+            </section>
+          </aside>
+        </div>
+        <div class="wrap">${row('Similares', d.similar)}</div>
+      </article>`;
+    $('#wish').addEventListener('click', (e) => {
+      const b = e.currentTarget, on = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', String(on));
+      b.lastChild.textContent = on ? 'En tu wishlist' : 'Wishlist';
+    });
+  })();
+
+  // ---------- Votar ----------
+  const V = { step: 'know', left: K.vote.queueLeft, timer: null };
+  (function renderVotar() {
+    const it = K.byId[K.vote.id], cat = K.categories[it.cat];
+    $('#main-votar').innerHTML = `
+      <div class="wrap vote">
+        <div class="vote-top"><p class="kicker">Votar · ${cat.label}</p>
+          <p class="queue"><span id="queue">Quedan ${V.left} por votar</span>${kudosBadge('Cada voto suma kudos')}</p></div>
+        <div class="vote-grid">
+          <figure class="vposter"><img src="${K.art(it)}" alt="Póster de ${it.name}" width="400" height="600"><figcaption>Datos e imagen de TMDB</figcaption></figure>
+          <div>
+            <h1 class="vtitle display">${it.name}</h1>
+            <ul class="vmeta"><li class="chip">${it.year}</li>${it.genres.map((g) => `<li class="chip">${g}</li>`).join('')}</ul>
+            <p class="syn">${K.vote.synopsis}</p>
+            <div class="step" id="step"></div>
+            <p class="hint">Atajos: S sí y N no · 1–5 para valorar · Esc para volver</p>
+          </div>
+        </div>
+      </div>`;
+  })();
+
+  const backBtn = `<button class="btn btn-ghost back" type="button" data-act="back" aria-keyshortcuts="Escape">${ic('arrowL')}Volver <kbd>Esc</kbd></button>`;
+  const STEPS = {
+    know: () => `<h2 class="q" tabindex="-1">¿Lo conoces?</h2>
+      <div class="two"><button class="btn btn-secondary xl" type="button" data-act="no" aria-keyshortcuts="N">${ic('x')}No <kbd>N</kbd></button>
+      <button class="btn btn-primary xl" type="button" data-act="yes" aria-keyshortcuts="S">${ic('check')}Sí <kbd>S</kbd></button></div>`,
+    rate: () => `<h2 class="q" tabindex="-1">¿Qué te ha parecido?</h2>
+      <div class="levels">${K.vote.levels.map((l) => `<button class="btn btn-secondary" type="button" data-act="rate" data-score="${l.score}" aria-keyshortcuts="${l.key}">${l.label} <kbd>${l.key}</kbd></button>`).join('')}</div>${backBtn}`,
+    interest: () => `<h2 class="q" tabindex="-1">¿Te interesa?</h2>
+      <div class="two"><button class="btn btn-primary xl" type="button" data-act="want" aria-keyshortcuts="1">${ic('bookmark')}Me interesa <kbd>1</kbd></button>
+      <button class="btn btn-secondary xl" type="button" data-act="skip" aria-keyshortcuts="2">${ic('eyeOff')}No me interesa <kbd>2</kbd></button></div>${backBtn}`,
+    done: () => `<div class="done" role="status">${star()}<p class="q" tabindex="-1">¡Hecho! +kudos</p><p class="muted">Tu voto ya cuenta. Vamos con el siguiente.</p></div>`,
+  };
+
+  function setStep(step, focus = true) {
+    V.step = step;
+    const box = $('#step');
+    const hadFocus = box.contains(document.activeElement) || document.activeElement === document.body;
+    box.innerHTML = STEPS[step]();
+    if (focus && hadFocus) { const q = box.querySelector('.q'); if (q) q.focus(); }
+  }
+
+  function act(a) {
+    if (V.step === 'done') return;
+    if (a === 'back') return setStep('know');
+    if (a === 'yes') return setStep('rate');
+    if (a === 'no') return setStep('interest');
+    if (['rate', 'want', 'skip'].includes(a)) {
+      V.left = Math.max(0, V.left - 1);
+      $('#queue').textContent = `Quedan ${V.left} por votar`;
+      setStep('done');
+      clearTimeout(V.timer);
+      V.timer = setTimeout(() => setStep('know'), 1400);
+    }
+  }
+
+  $('#step').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-act]');
+    if (b) act(b.dataset.act);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (window.Mockup.screen !== 'votar' || e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.target.closest('input, textarea, select')) return;
+    if (menuOpen() || userOpen()) return;
+    const k = e.key.toLowerCase();
+    if (V.step === 'know' && (k === 's' || k === 'n')) { e.preventDefault(); act(k === 's' ? 'yes' : 'no'); }
+    else if (V.step === 'rate' && /^[1-5]$/.test(k)) { e.preventDefault(); act('rate'); }
+    else if (V.step === 'interest' && (k === '1' || k === '2')) { e.preventDefault(); act(k === '1' ? 'want' : 'skip'); }
+    else if (k === 'escape' && (V.step === 'rate' || V.step === 'interest')) { e.preventDefault(); act('back'); }
+  });
+
+  setStep('know', false);
+
+  // ---------- Pie ----------
+  const F = K.footer;
+  $('#foot').innerHTML = `
+    <div class="wrap foot-top">
+      <div><p class="foot-brand">${F.brand}</p><p class="muted" style="font-size:14px">${F.author}</p>
+        <p class="foot-links"><a href="#">Privacidad</a><a href="#">Aviso legal</a></p></div>
+      <p class="foot-school"><b>${F.school}</b><span class="muted">${F.schoolSub}</span></p>
+      <a class="gh" href="https://github.com/D4VC3R/Proyecto-Kudos">${ic('github')}GitHub</a>
+    </div>
+    <div class="wrap foot-bottom">
+      <div class="tmdb"><span class="tmdb-logo" aria-label="TMDB">TMDB</span><p lang="en">${F.tmdb}</p></div>
+      <p>${F.igdb}</p>
+    </div>`;
+
+  // ---------- Flechas de las filas ----------
+  function updateArrows(sec) {
+    const t = sec.querySelector('.track');
+    const [prev, next] = sec.querySelectorAll('[data-dir]');
+    prev.disabled = t.scrollLeft <= 2;
+    next.disabled = t.scrollLeft + t.clientWidth >= t.scrollWidth - 2;
+  }
+  document.querySelectorAll('[data-row]').forEach((sec) => {
+    const t = sec.querySelector('.track');
+    sec.querySelectorAll('[data-dir]').forEach((b) => b.addEventListener('click', () => {
+      t.scrollBy({ left: Number(b.dataset.dir) * t.clientWidth * 0.85 });
+    }));
+    t.addEventListener('scroll', () => updateArrows(sec), { passive: true });
+  });
+  const refreshArrows = () => document.querySelectorAll('main:not([hidden]) [data-row]').forEach(updateArrows);
+  document.addEventListener('mockup:screen', () => requestAnimationFrame(refreshArrows));
+  window.addEventListener('resize', refreshArrows);
+  window.addEventListener('load', refreshArrows);
+})();
+</script>
+</body>
+</html>
