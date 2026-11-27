@@ -20,7 +20,7 @@ const AdminListDetail = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title={state.list.title} highlightColor="accent" icon={ListOrdered}>
+      <SectionHeader title={state.list.title} highlightColor="kudos" icon={ListOrdered}>
         <Button onClick={actions.handleGoBack} variant="ghost" color="primary" size="sm" icon={ArrowLeft}>
           Volver a listas
         </Button>

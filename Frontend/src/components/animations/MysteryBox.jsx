@@ -32,7 +32,7 @@ const MysteryBox = ({ onReveal }) => {
       <h2 className="text-xl sm:text-2xl font-bold text-slate-800">
         ¡Recoge tu <span className="text-primary">bonus</span> diario!
       </h2>
-      <p className="text-sm sm:text-base text-accent mt-2 animate-pulse">
+      <p className="text-sm sm:text-base text-kudos mt-2 animate-pulse">
         Toca para abrir
       </p>
     </motion.div>

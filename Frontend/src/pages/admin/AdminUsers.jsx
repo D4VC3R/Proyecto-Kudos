@@ -20,7 +20,7 @@ const AdminUsers = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Gestión de" highlight="Usuarios" highlightColor="accent" icon={Users}>
+      <SectionHeader title="Gestión de" highlight="Usuarios" highlightColor="kudos" icon={Users}>
         <div className="flex gap-2 flex-wrap">
           <SelectFilter
             label="Estado de la cuenta"

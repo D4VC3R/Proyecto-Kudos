@@ -21,7 +21,7 @@ const AdminLists = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Listas" highlight="editoriales" highlightColor="accent" icon={ListOrdered}>
+      <SectionHeader title="Listas" highlight="editoriales" highlightColor="kudos" icon={ListOrdered}>
         <div className="flex gap-4 items-center flex-wrap">
           <SearchFilter
             value={state.searchInput}

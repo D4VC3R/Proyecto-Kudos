@@ -41,7 +41,7 @@ const ItemCard = ({ item }) => {
       </div>
 
       <div className="absolute right-3 top-3">
-        <div className="flex items-center gap-1 rounded-full bg-accent px-2 py-1 font-bold text-yellow-950 shadow-md ring-2 ring-yellow-300">
+        <div className="flex items-center gap-1 rounded-full bg-kudos px-2 py-1 font-bold text-yellow-950 shadow-md ring-2 ring-yellow-300">
           <Star size={14} className="fill-yellow-600 stroke-yellow-700" />
           <span className="text-xs">{displayScore}</span>
         </div>

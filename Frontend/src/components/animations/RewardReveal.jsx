@@ -5,8 +5,8 @@ import {rewardRevealVariants, popInVariants, fadeUpVariants, springPopVariants} 
 
 const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
   const isUpgraded = data.isCritical && isMultiplierActive;
-  const iconBg = isUpgraded ? 'bg-accent text-yellow-900 shadow-yellow-900' : 'bg-amber-100 text-amber-500 shadow-amber-200';
-  const textColor = isUpgraded ? 'text-accent' : 'text-primary';
+  const iconBg = isUpgraded ? 'bg-kudos text-yellow-900 shadow-yellow-900' : 'bg-amber-100 text-amber-500 shadow-amber-200';
+  const textColor = isUpgraded ? 'text-kudos' : 'text-primary';
 
   return (
     <motion.div
