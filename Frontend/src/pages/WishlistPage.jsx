@@ -4,7 +4,7 @@ import { Bookmark, Loader2 } from 'lucide-react';
 // Componentes
 import SectionHeader from '../components/ui/SectionHeader.jsx';
 import FeedbackState from '../components/ui/FeedbackState.jsx';
-import ScaleFadeIn from '../components/animations/ScaleFadeIn.jsx';
+import Button from '../components/ui/Button.jsx';
 import FadeUp from '../components/animations/FadeUp.jsx';
 import Modal from '../components/ui/Modal.jsx';
 import MyVoteItemCardSkeleton from '../components/ui/skeletons/MyVoteItemCardSkeleton.jsx';
@@ -61,7 +61,7 @@ const WishlistPage = () => {
             ))}
           </div>
         ) : state.isEmpty ? (
-          <ScaleFadeIn>
+          <FadeUp>
             <FeedbackState
               icon={Bookmark}
               iconColorClass="h-20 w-20 rounded-3xl bg-blue-50 text-blue-500"
@@ -69,14 +69,11 @@ const WishlistPage = () => {
               description='Cuando votes "No lo conozco" → "Me interesa", el ítem aparecerá aquí.'
               customLayoutClass="border border-border shadow-sm bg-surface rounded-3xl p-12"
             >
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 font-bold text-text-btn shadow-lg transition-transform hover:-translate-y-1 active:translate-y-0"
-              >
+              <Button as={Link} to="/" variant="primary" size="lg">
                 Ir a votar
-              </Link>
+              </Button>
             </FeedbackState>
-          </ScaleFadeIn>
+          </FadeUp>
         ) : (
           <>
             {renderSection('Ya disponible', state.available)}

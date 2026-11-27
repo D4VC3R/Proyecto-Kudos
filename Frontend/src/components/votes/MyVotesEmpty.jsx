@@ -3,11 +3,12 @@ import { ThumbsUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import  FeedbackState  from '../ui/FeedbackState.jsx';
-import ScaleFadeIn from "../animations/ScaleFadeIn.jsx";
+import FadeUp from "../animations/FadeUp.jsx";
+import Button from "../ui/Button.jsx";
 
 const MyVotesEmpty = () => {
   return (
-      <ScaleFadeIn>
+      <FadeUp>
         <FeedbackState
             icon={ThumbsUp}
             iconColorClass="h-20 w-20 rounded-3xl bg-blue-50 text-blue-500"
@@ -15,14 +16,11 @@ const MyVotesEmpty = () => {
             description="Aún no has valorado ningún ítem."
             customLayoutClass="border border-border shadow-sm bg-surface rounded-3xl p-12"
         >
-          <Link
-              to="/"
-              className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 font-bold text-text-btn shadow-lg transition-transform hover:-translate-y-1 active:translate-y-0"
-          >
+          <Button as={Link} to="/" variant="primary" size="lg">
             Comenzar a votar
-          </Link>
+          </Button>
         </FeedbackState>
-      </ScaleFadeIn>
+      </FadeUp>
   );
 };
 

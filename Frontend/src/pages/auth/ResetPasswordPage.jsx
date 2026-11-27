@@ -5,7 +5,7 @@ import {resetPasswordSchema} from '../../lib/schemas.js';
 // Componentes
 import InputField from '../../components/ui/InputField.jsx';
 import Button from '../../components/ui/Button.jsx';
-import ScaleFadeIn from '../../components/animations/ScaleFadeIn.jsx';
+import FadeUp from '../../components/animations/FadeUp.jsx';
 import FeedbackState from '../../components/ui/FeedbackState.jsx';
 // Hooks
 import {useParams, useSearchParams, useNavigate} from 'react-router-dom';
@@ -36,7 +36,7 @@ const ResetPasswordPage = () => {
   if (!token || !email) {
     return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center p-4">
-        <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
+        <FadeUp className="w-full max-w-md rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
           <FeedbackState
             icon={Lock}
             iconColorClass="bg-red-100 text-red-500"
@@ -45,14 +45,14 @@ const ResetPasswordPage = () => {
             actionText="Solicitar nuevo enlace"
             onAction={() => navigate('/forgot-password')}
           />
-        </ScaleFadeIn>
+        </FadeUp>
       </div>
     );
   }
 
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center p-4">
-      <ScaleFadeIn className="w-full max-w-md rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
+      <FadeUp className="w-full max-w-md rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
 
         {isSuccess ? (
           <FeedbackState
@@ -109,7 +109,7 @@ const ResetPasswordPage = () => {
             </form>
           </>
         )}
-      </ScaleFadeIn>
+      </FadeUp>
     </div>
   );
 };
