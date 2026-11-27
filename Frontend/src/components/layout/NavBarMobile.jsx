@@ -5,21 +5,21 @@ import clsx from 'clsx';
 import { VARIANTS } from "../../lib/buttonStyles.js";
 import GlobalSearch from "./GlobalSearch.jsx";
 
-const NavBarMobile = ({ isOpen, setIsOpen, navItems }) => {
+const NavBarMobile = ({ id, isOpen, onClose, navItems }) => {
   if (!isOpen) return null;
 
   const mobileBaseStyles = "flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all";
 
   return (
-    <div className="absolute top-[72px] left-0 w-full bg-surface border-b border-border shadow-xl md:hidden py-4 px-4 flex flex-col gap-2 z-40">
-      <GlobalSearch onNavigate={() => setIsOpen(false)} className="mb-2" />
+    <div id={id} className="absolute top-full left-0 w-full bg-surface border-y border-border shadow-xl md:hidden py-4 px-4 flex flex-col gap-2 z-40">
+      <GlobalSearch onNavigate={onClose} className="mb-2" />
       {navItems.map((item) => {
         const Icon = item.icon;
         return (
           <NavLink
             key={item.path}
             to={item.path}
-            onClick={() => setIsOpen(false)}
+            onClick={onClose}
             className={({ isActive }) => twMerge(
               clsx(
                 mobileBaseStyles,
