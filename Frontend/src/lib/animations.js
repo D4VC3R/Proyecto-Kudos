@@ -94,15 +94,6 @@ export const scaleFadeVariants = {
     }
 };
 
-export const hoverFadeTextVariants = {
-    initial: { y: 10, opacity: 0.9 },
-    hover: {
-        y: 0,
-        opacity: 1,
-        transition: { duration: 0.2, ease: EASING.snappy }
-    }
-};
-
 /* -----------------------------------------------------------------
  * TRANSICIONES GENÉRICAS DE LAYOUT
  * ----------------------------------------------------------------- */

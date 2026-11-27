@@ -24,12 +24,9 @@ const AdminListDetail = () => {
         <Button onClick={actions.handleGoBack} variant="ghost" color="primary" size="sm" icon={ArrowLeft}>
           Volver a listas
         </Button>
-        <Link
-          to={`/listas/${state.list.slug}`}
-          className="inline-flex items-center rounded-xl px-3 py-2 text-sm font-bold text-primary hover:bg-blue-50"
-        >
+        <Button as={Link} to={`/listas/${state.list.slug}`} variant="ghost">
           Ver pública
-        </Link>
+        </Button>
       </SectionHeader>
 
       <section aria-labelledby="admin-list-add" className="flex flex-col gap-3">

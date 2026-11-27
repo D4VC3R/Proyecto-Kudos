@@ -1,6 +1,7 @@
 import React from 'react';
 import { User as UserIcon } from 'lucide-react';
 import StorageImage from "../ui/StorageImage.jsx";
+import KudosBadge from "../ui/KudosBadge.jsx";
 
 const ProfileSummaryCard = ({ user, profile }) => {
   return (
@@ -18,9 +19,7 @@ const ProfileSummaryCard = ({ user, profile }) => {
       <p className="text-text-normal font-medium mb-4">{user?.email}</p>
 
       <div className="flex flex-wrap justify-center gap-2">
-        <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">
-          {profile?.total_kudos || user?.total_kudos || 0} Kudos
-        </span>
+        <KudosBadge value={profile?.total_kudos || user?.total_kudos || 0} size="lg" />
         {user?.role === 'admin' && (
           <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
             Admin

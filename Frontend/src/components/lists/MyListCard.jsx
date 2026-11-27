@@ -32,20 +32,12 @@ const MyListCard = ({ list, onDelete }) => (
     )}
 
     <div className="mt-4 flex gap-2 border-t border-slate-100 pt-4">
-      <Link
-        to={`/mis-listas/${list.id}`}
-        className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2 font-bold text-primary transition-colors hover:bg-blue-50"
-      >
-        <Edit2 size={18} className="shrink-0" />
+      <Button as={Link} to={`/mis-listas/${list.id}`} variant="ghost" icon={Edit2} className="flex-1">
         Editar
-      </Link>
-      <Link
-        to={`/listas/${list.slug}`}
-        className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2 font-bold text-primary transition-colors hover:bg-blue-50"
-      >
-        <Eye size={18} className="shrink-0" />
+      </Button>
+      <Button as={Link} to={`/listas/${list.slug}`} variant="ghost" icon={Eye} className="flex-1">
         Ver
-      </Link>
+      </Button>
       <Button
         onClick={() => onDelete(list)}
         variant="ghost"

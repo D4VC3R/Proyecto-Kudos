@@ -1,5 +1,5 @@
 import React from 'react';
-import {motion} from 'framer-motion';
+import {motion, useReducedMotion} from 'framer-motion';
 import {staggerItemVariants, alternateStaggerItemVariants} from '../../lib/animations';
 
 const StaggerItem = ({
@@ -10,11 +10,13 @@ const StaggerItem = ({
                        onClick
                      }) => {
 
+  const reduce = useReducedMotion();
   const selectedVariants = alternate ? alternateStaggerItemVariants : staggerItemVariants;
 
   return (
     <motion.div
       variants={selectedVariants}
+      initial={reduce ? false : undefined}
       custom={index}
       className={className}
       onClick={onClick}

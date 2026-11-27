@@ -1,4 +1,5 @@
 import React from 'react';
+import Chip from '../ui/Chip.jsx';
 import { getAttributeEntries } from '../../lib/attributes.js';
 
 // En la tarjeta caben pocos chips: como mucho dos valores por atributo (p. ej. dos géneros).
@@ -36,12 +37,7 @@ const AttributeChips = ({ schema, attributes, variant = 'detail', className = ''
           <dt className="text-xs font-bold uppercase tracking-wide text-slate-500">{entry.label}</dt>
           <dd className="flex flex-wrap gap-2">
             {entry.values.map((value, index) => (
-              <span
-                key={`${entry.key}-${index}`}
-                className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700 ring-1 ring-slate-200"
-              >
-                {value}
-              </span>
+              <Chip key={`${entry.key}-${index}`}>{value}</Chip>
             ))}
           </dd>
         </div>

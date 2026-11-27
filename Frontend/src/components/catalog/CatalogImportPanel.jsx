@@ -1,14 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import clsx from 'clsx';
 import { ExternalLink, Plus, Search } from 'lucide-react';
 import Button from '../ui/Button.jsx';
-import { VARIANTS, RADII } from '../../lib/buttonStyles.js';
 
 // Panel de /buscar para añadir a Kudos un título que aún no está (F1-07): busca en la fuente externa (TMDB)
 // y permite importar un candidato. Solo presenta: la lógica está en useSearchPage. Los resultados son solo texto.
-const linkStyles = 'inline-flex items-center justify-center whitespace-nowrap font-bold text-sm py-2.5 px-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200';
-
 const CatalogImportPanel = ({ catalog, term, actions }) => {
   const { results } = catalog;
   const noResults = catalog.hasSearched && !catalog.isSearching && !catalog.errorMessage && results.length === 0;
@@ -22,9 +18,9 @@ const CatalogImportPanel = ({ catalog, term, actions }) => {
       {!catalog.isAuthenticated ? (
         <div className="flex flex-col items-start gap-3">
           <p className="text-sm text-text-normal">Busca el título en el catálogo externo y añádelo a Kudos.</p>
-          <Link to="/login" state={catalog.loginLinkState} className={clsx(linkStyles, VARIANTS.solid.primary, RADII.lg)}>
+          <Button as={Link} to="/login" state={catalog.loginLinkState} variant="primary" className="whitespace-nowrap">
             Inicia sesión para añadir
-          </Link>
+          </Button>
         </div>
       ) : !catalog.isVerified ? (
         <p className="text-sm text-text-normal">Verifica tu correo para añadir títulos a Kudos.</p>

@@ -1,5 +1,7 @@
 import React from 'react';
 
+// En desuso: cada página pasa a PageHeader (título de la página) o SectionHead (título de una sección) al rediseñarse.
+
 const SectionHeader = ({title, highlight, highlightColor = 'primary', subtitle, size = 'default', children}) => {
   const isLarge = size === 'large';
 

@@ -1,3 +1,4 @@
+import { MotionConfig } from 'framer-motion';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { AppErrorBoundary } from '../core/AppErrorBoundary.jsx';
@@ -12,11 +13,15 @@ export const AppProviders = ({ children }) => {
   useTheme();
 
   return (
-    <AppErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <Toaster position="bottom-center" toastOptions={{ duration: 3000 }} />
-      </QueryClientProvider>
-    </AppErrorBoundary>
+    // El CSS global de prefers-reduced-motion no frena a framer-motion (anima por JS): `reducedMotion="user"`
+    // desactiva las animaciones de transformación cuando el sistema lo pide.
+    <MotionConfig reducedMotion="user">
+      <AppErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          {children}
+          <Toaster position="bottom-center" toastOptions={{ duration: 3000 }} />
+        </QueryClientProvider>
+      </AppErrorBoundary>
+    </MotionConfig>
   );
 };
