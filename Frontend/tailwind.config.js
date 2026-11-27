@@ -131,6 +131,12 @@ export default {
       // Texto y podio de la banda del ranking.
       gridTemplateColumns: {
         band: 'minmax(0, 1fr) minmax(0, 1.1fr)',
+        // Póster y texto de la ficha: el póster ocupa hasta 360 px y el resto es del texto.
+        detail: 'minmax(0, 360px) minmax(0, 1fr)',
+      },
+      // Distancia a la que se queda fijo el póster de la ficha al desplazarla: la cabecera (64 px) más 24 px de aire.
+      inset: {
+        'sticky-offset': '5.5rem',
       },
       transitionTimingFunction: {
         soft: 'cubic-bezier(.2, .7, .2, 1)',

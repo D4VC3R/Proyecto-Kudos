@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from 'react';
+import SectionHead from '../ui/SectionHead.jsx';
 
 // Leaflet y react-leaflet solo se descargan en las fichas con coordenadas (destinos, F4-03): van en un chunk aparte.
 const PlaceMap = lazy(() => import('./PlaceMap.jsx'));
@@ -28,9 +29,9 @@ class PlaceMapErrorBoundary extends React.Component {
 // Sección "Ubicación" de la ficha: solo se monta si el ítem tiene coordenadas válidas.
 const ItemPlaceMap = ({ name, coordinates, zoom, className = '' }) => (
   <PlaceMapErrorBoundary>
-    <section aria-label={`Mapa de ${name}`} className={`flex flex-col gap-3 ${className}`}>
-      <h3 className="text-lg font-bold text-slate-800">Ubicación</h3>
-      <Suspense fallback={<div aria-hidden="true" className={`${MAP_HEIGHT} w-full animate-pulse rounded-2xl bg-slate-100`} />}>
+    <section aria-labelledby="item-location" className={`flex flex-col gap-4 ${className}`}>
+      <SectionHead id="item-location" title="Ubicación" />
+      <Suspense fallback={<div aria-hidden="true" className={`${MAP_HEIGHT} w-full animate-pulse rounded-md bg-line/50`} />}>
         <PlaceMap coordinates={coordinates} zoom={zoom} className={MAP_HEIGHT} />
       </Suspense>
     </section>

@@ -16,7 +16,7 @@ const PlaceMap = ({ coordinates, zoom, className = '' }) => {
   const center = [coordinates.lat, coordinates.lng];
 
   return (
-    <div className={`isolate overflow-hidden rounded-2xl ring-1 ring-slate-200 ${className}`}>
+    <div data-place-map className={`isolate overflow-hidden rounded-md border border-line ${className}`}>
       <MapContainer center={center} zoom={zoom} scrollWheelZoom={false} className="h-full w-full">
         <TileLayer url={OSM_TILE_URL} attribution={OSM_ATTRIBUTION} maxZoom={OSM_MAX_ZOOM} />
         <CircleMarker center={center} radius={8} pathOptions={MARKER_STYLE} />

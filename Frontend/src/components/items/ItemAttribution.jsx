@@ -1,8 +1,9 @@
 import React from 'react';
 import { hasText } from '../../lib/text.js';
 import { hasAttribution } from '../../lib/attribution.js';
+import { FOCUS_RING } from '../layout/headerStyles.js';
 
-const linkClassName = 'font-semibold text-slate-700 underline decoration-slate-300 underline-offset-2 transition-colors hover:text-primary';
+const linkClassName = `rounded-sm font-semibold text-ink underline decoration-line-strong underline-offset-2 transition-colors hover:text-accent ${FOCUS_RING}`;
 
 // Enlace externo de una fuente; si la API no da URL, solo el nombre.
 export const SourceLink = ({ href, children }) => (
@@ -11,7 +12,7 @@ export const SourceLink = ({ href, children }) => (
       {children}
     </a>
   ) : (
-    <span className="font-semibold text-slate-700">{children}</span>
+    <span className="font-semibold text-ink">{children}</span>
   )
 );
 
@@ -22,7 +23,7 @@ const ItemAttribution = ({ attribution, className = '' }) => {
   const { data_source: dataSource, description_source: descriptionSource } = attribution;
 
   return (
-    <p className={`text-xs font-medium leading-relaxed text-slate-500 ${className}`}>
+    <p className={`text-xs font-medium leading-relaxed text-ink-muted ${className}`}>
       {dataSource && (
         <span>
           Datos: <SourceLink href={dataSource.url}>{dataSource.name}</SourceLink>

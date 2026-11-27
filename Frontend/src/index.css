@@ -211,6 +211,33 @@ html[data-vt="theme"]::view-transition-new(root), html[data-vt="theme"]::view-tr
 @keyframes vt-reveal { from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); } to { clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 0)); } }
 html[data-vt="palette"]::view-transition-old(root), html[data-vt="palette"]::view-transition-new(root) { animation-duration: .35s; }
 
+/* Del póster de una tarjeta al de la ficha: se mueve y se agranda como un solo elemento, y el resto de la pantalla se desvanece. */
+[data-detail-poster] { view-transition-name: poster; }
+::view-transition-group(poster) { animation-duration: .45s; animation-timing-function: cubic-bezier(.2, .7, .2, 1); }
+::view-transition-image-pair(poster) { isolation: auto; }
+html[data-vt="screen"]::view-transition-old(root) { animation: vt-out .2s ease-in both; }
+html[data-vt="screen"]::view-transition-new(root) { animation: vt-in .38s cubic-bezier(.2, .7, .2, 1) .05s both; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+
+/* Mapa de la ficha: el fondo y los controles de Leaflet con los colores del tema. `[data-place-map]` va delante para
+   ganar a `leaflet.css`, que se carga después (y en la atribución, `.leaflet-container` para empatar su especificidad). */
+[data-place-map] .leaflet-container { background-color: rgb(var(--color-line)); }
+[data-place-map] .leaflet-bar a {
+  background-color: rgb(var(--color-surface));
+  color: rgb(var(--color-ink));
+  border-color: rgb(var(--color-line));
+}
+[data-place-map] .leaflet-container .leaflet-control-attribution {
+  background-color: rgb(var(--color-surface) / .9);
+  color: rgb(var(--color-ink-muted));
+}
+[data-place-map] .leaflet-container .leaflet-control-attribution a { color: rgb(var(--color-accent)); }
+[data-place-map] a:focus-visible {
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 2px;
+}
+
 /* Pista fina de las filas horizontales de la portada. */
 .scroll-track {
   scrollbar-width: thin;
