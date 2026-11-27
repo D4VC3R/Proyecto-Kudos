@@ -36,7 +36,7 @@ El proyecto está configurado con las siguientes herramientas para mantener un c
 
   - `--routes` (obligatorio): lista separada por comas o un `.json` con un array de rutas, cada una `"/x"` o `{ "path": "/x", "auth": true, "name": "opcional" }`.
   - `--widths` (por defecto `360,768,1440`), `--height` (`900`), `--base` (`http://localhost:5174`).
-  - `--themes`: `current` (por defecto), `all` (4 paletas × claro y oscuro) o una lista como `azulejo-dark,original-light`. Aplica `localStorage['kudos.theme']` antes de cargar, así que hasta que el sistema de temas la lea no cambia nada.
+  - `--themes`: `current` (por defecto), `all` (4 paletas × claro y oscuro) o una lista como `azulejo-dark,original-light`. Aplica `localStorage['kudos.theme']` antes de cargar.
   - `--auth`: las rutas de la lista van con sesión. Inicia sesión por la interfaz con el usuario del *seeder* local: `visual-check.sh` lee `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` de `Backend/.env` (se sustituyen con `KUDOS_VISUAL_EMAIL` y `KUDOS_VISUAL_PASSWORD`).
   - `--out`: carpeta de salida (por defecto `.claude/ciclo/visual-check/`) con las capturas `ruta-ancho-tema[-sesion].png`, `report.json` (incluye `focus.order`, el orden del Tab) y `storageState.json`. Este último lleva el token de la sesión: no se commitea (`.claude/ciclo/` está ignorada).
   - Salida por consola: una tabla resumen y el detalle de cada fila que falla. Código de salida: `0` todo bien, `1` alguna comprobación falla, `2` error de la herramienta (argumentos, *login* o frontend caído).

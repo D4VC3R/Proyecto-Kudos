@@ -272,6 +272,31 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 - No hay parpadeo al recargar con una paleta guardada.
 - `pnpm build` y `pnpm check:classes` sin errores.
 
+**Notas (RB-01):**
+- **Archivos:** `Frontend/src/index.css` (tokens `--color-*` por paleta y modo, `body` con `bg-canvas text-ink` y `prefers-reduced-motion`), `Frontend/tailwind.config.js`, `Frontend/src/hooks/common/useTheme.js` (nuevo), `Frontend/src/app/AppProviders.jsx` (llama a `useTheme()`), `Frontend/index.html` (`data-palette`, `theme-color` y el script de tema en línea), `Frontend/src/main.jsx` (importa Fraunces), `Frontend/package.json` y `pnpm-lock.yaml`. Más el cambio `accent` → `kudos` en 9 archivos de `components/` y `lib/constants.js` y en los 11 de `pages/admin/` y `components/admin/` que pasan `highlightColor="accent"` (ver Desviaciones). Documentado en `docs/frontend/arquitectura.md` §3 y `Frontend/README.md`. Sin tests nuevos (la SPA no tiene suite): se comprueba con el build, `check:classes`, `test:seo` y `visual-check.sh`.
+- **Fraunces:** `@fontsource-variable/fraunces` **5.3.0**, fijada, como Inter; es la única dependencia nueva. Se importa `opsz.css` (existe) y declara `font-family: 'Fraunces Variable'`.
+- **Decisiones:** los alias (`primary`, `background`, `border`, `border-strong`, `text.*`, `nav.*`) apuntan a los tokens nuevos y desaparecen al migrar las páginas (RC); `logo.*` se borra (sin usos). `accent` es ahora el acento de la paleta (cobalto en Azulejo) y el amarillo de los kudos pasa a `kudos` (`bg-`, `text-`, `ring-` y `border-` en 10 usos, incluida la cadena del podio en `lib/constants.js`: solo estilo). Azulejo vive en `:root`/`.dark`; las otras tres, en `[data-palette]` y `.dark[data-palette]`. Los valores salen de la maqueta, salvo los derivados.
+- **Derivados (no están en la maqueta):** `warning` `#8A4B00`/`#F2B33D`, `danger` `#B42318`/`#FF8A80` e `info` `#1D5FA8`/`#7CB8FF` (claro/oscuro, comunes a las 4 paletas). Banda de Original: claro `#1C1917` con texto `#FAF7F2`, apagado `#D6D0C8`, línea `#44403C` y acento `#F2B33D`; oscuro `#2B2621` con `#F3EEE7`, `#BDB4AA`, `#3D362F` y `#EE8A66`. `stamp`, `rule`, `kicker` y `cat-icon` valen `accent` en las demás paletas y tinta en Original.
+- **Contraste (WCAG, mínimo sobre `canvas` y `surface`; `on-accent` sobre `accent`, `on-kudos` sobre `kudos`, `band-*` sobre `band`; recalculado con `python3` sobre `index.css`):**
+
+| Combinación | ink | ink-muted | accent | success | warning | danger | info | on-accent | on-kudos | line-strong | band-ink | band-muted | band-accent |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| azulejo-light | 16.44 | 7.06 | 7.45 | 6.13 | 6.34 | 6.13 | 6.02 | 7.99 | 9.48 | 3.35 | 9.43 | 6.85 | 9.43 |
+| azulejo-dark | 15.17 | 7.61 | 7.58 | 8.09 | 9.15 | 7.45 | 8.23 | 8.42 | 9.48 | 3.99 | 13.71 | 8.31 | 8.22 |
+| original-light | 16.37 | 7.14 | 5.40 | 6.67 | 6.37 | 6.15 | 6.04 | 5.77 | 9.40 | 3.58 | 16.37 | 11.42 | 9.40 |
+| original-dark | 14.50 | 6.74 | 6.75 | 7.96 | 9.00 | 7.33 | 8.10 | 7.05 | 9.40 | 3.46 | 12.98 | 7.33 | 6.04 |
+| taquilla-light | 15.52 | 6.60 | 6.10 | 6.55 | 6.25 | 6.04 | 5.93 | 6.64 | 9.09 | 3.33 | 9.42 | 6.69 | 10.18 |
+| taquilla-dark | 14.56 | 7.49 | 9.51 | 9.51 | 9.00 | 7.33 | 8.10 | 10.53 | 9.09 | 3.98 | 10.87 | 6.97 | 8.27 |
+| videoclub-light | 16.92 | 7.37 | 6.30 | 6.71 | 6.40 | 6.18 | 6.07 | 6.70 | 9.67 | 3.66 | 15.39 | 9.88 | 8.02 |
+| videoclub-dark | 15.74 | 7.91 | 8.33 | 8.50 | 9.61 | 7.83 | 8.64 | 8.39 | 9.67 | 3.60 | 14.74 | 8.51 | 8.72 |
+
+  Todo el texto sale por encima de 4,5, `line-strong` por encima de 3 y el foco (`accent` sobre `canvas`) por encima de 3. `band-line` es solo un separador decorativo (1,3–1,7): no se exige.
+- **Cambios esperados de "se ve igual":** el azul de los botones y titulares pasa de `#2563eb` a `#2342C2` (un tono más profundo); `rounded-md` pasa de 6 a 8 px y `rounded-lg` de 8 a 12 px; el lienzo pasa de `#f8fafc` a `#F5F7FB`; el amarillo de los kudos es `#F2B33D` y no `#facc15`; el texto base del `body` es `ink` (`#0F1733`). En `azulejo-light` las capturas coinciden con `antes/` salvo eso: sin colores perdidos ni clases sin estilo. En oscuro y en las otras paletas, las clases `slate-*` y `bg-white` fijas siguen hasta las RC y dan fallos de contraste esperados (login, etiquetas, botón "Sig").
+- **Discrepancia con el plan (R1):** `ringColor.DEFAULT` y `ringOffsetColor.DEFAULT` no pueden usar `rgb(var(--color-x) / <alpha-value>)`: Tailwind vuelca el valor por defecto tal cual en `--tw-ring-offset-color` (con `<alpha-value>` sin sustituir, inválido) y descarta el de `--tw-ring-color`, y el anillo de foco quedaba a 1:1 (496 fallos nuevos y "sin indicador de foco" en el logo). Se dejan `rgb(var(--color-accent) / 1)` y `rgb(var(--color-canvas))`, con un comentario en la configuración. Las utilidades `ring-accent` etc. siguen usando `<alpha-value>`.
+- **Desviaciones:** (1) el plan lista 10 usos de `accent` pero `SectionHeader` monta `text-${highlightColor}` y 11 archivos del admin pasan `highlightColor="accent"`: ese `text-accent` ya no existía como literal y se habría quedado sin estilo (o cobalto). Se cambian a `"kudos"` para que sigan en amarillo. (2) La corrección del anillo de foco de la discrepancia anterior.
+- **Falla antes:** no hay prueba automática (no hay suite de componentes). Comprobación manual: antes de tocar nada, `localStorage['kudos.theme']` no cambiaba las capturas (`--themes all` daba 8 imágenes iguales); ahora las 8 combinaciones cambian el fondo y el texto base.
+- **Resultados:** `pnpm build`, `pnpm check:classes` (733 clases) y `pnpm test:seo` (45 pass) en verde; `dist/index.html` lleva el script en línea (`kudos.theme`) antes del `<script type="module">`. `visual-check.sh --themes all` sobre `/`, `/ranking`, `/login` y `/privacidad` (96 filas, 8 combinaciones × 4 rutas × 3 anchos): `jsErrors` y `consoleErrors` vacíos y `error: null` en todas, sin desbordamiento y un `h1` por ruta, igual que `antes/`. Salida 1 por los fallos de contraste en oscuro y en otras paletas (clases fijas, esperado hasta las RC) y por el foco de 1,42:1 de la línea base de RA-00 (igual que en `antes/`, 136 en 96 filas frente a 34 en 12), más 24 de 1,06:1 en las pestañas de `/login` en oscuro (`slate-*` fijo).
+
 ## RB-02 · Primitivas (FE)
 
 **Depende:** RB-01
