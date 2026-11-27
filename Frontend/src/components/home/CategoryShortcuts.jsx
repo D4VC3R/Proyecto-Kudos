@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Card from '../ui/Card.jsx';
 import { resolveCategoryIcon } from '../../lib/formatters.js';
 
 // Accesos rápidos a las categorías en la portada (F2-09). Sin categorías no pinta nada.
@@ -13,13 +14,10 @@ const CategoryShortcuts = ({ categories = [] }) => {
           const Icon = resolveCategoryIcon(category);
           return (
             <li key={category.id} className="shrink-0">
-              <Link
-                to={`/${category.slug}`}
-                className="flex items-center gap-2 rounded-full bg-surface px-4 py-2 font-bold text-text-highlight shadow-sm ring-1 ring-border transition-colors hover:ring-primary"
-              >
-                <Icon size={18} />
+              <Card as={Link} to={`/${category.slug}`} variant="interactive" className="flex items-center gap-2 px-4 py-3 font-semibold">
+                <Icon size={18} className="text-cat-icon" />
                 {category.name}
-              </Link>
+              </Card>
             </li>
           );
         })}

@@ -6,6 +6,7 @@ import { hasText } from '../../lib/text.js';
 import { clsx } from 'clsx';
 import AnimatedCard from '../animations/AnimatedCard.jsx';
 import Button from '../ui/Button.jsx';
+import ScoreStamp from '../ui/ScoreStamp.jsx';
 
 const AdminItemCard = ({ item, onModerate, onDelete }) => {
   const score = formatScore(item.vote_avg, item.vote_count);
@@ -22,7 +23,10 @@ const AdminItemCard = ({ item, onModerate, onDelete }) => {
       )}
 
       <div className="flex flex-col gap-1 mt-2 text-xs font-medium text-text-normal">
-        <div>Puntuación: <span className="font-bold text-yellow-600">{score ? `${score} (${formatVotes(item.vote_count)})` : 'Sin nota'}</span></div>
+        <div className="flex items-center gap-2">
+          Puntuación: <ScoreStamp score={score} />
+          {score && <span>({formatVotes(item.vote_count)})</span>}
+        </div>
         <div>Categoría: <span className="font-bold text-slate-700">{item.category?.name}</span></div>
       </div>
 

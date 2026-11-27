@@ -90,14 +90,27 @@ export default {
       ringOffsetColor: { DEFAULT: 'rgb(var(--color-canvas))' },
       ringOpacity: { DEFAULT: '1' },
       // Animación de entrada de las páginas (antes `animate-in fade-in` de tailwindcss-animate, que no está instalado).
+      // `bump` hace saltar el contador de Kudos al cambiar y `stamp` estampa el sello de la nota en la ficha: son CSS
+      // para que el CSS global de `prefers-reduced-motion` las frene sin código.
       keyframes: {
         fadeIn: {
           from: { opacity: '0' },
           to: { opacity: '1' },
         },
+        bump: {
+          '30%': { transform: 'scale(1.25) rotate(-6deg)' },
+          '100%': { transform: 'none' },
+        },
+        stamp: {
+          '0%': { opacity: '0', transform: 'scale(1.9) rotate(-20deg)' },
+          '55%': { opacity: '1' },
+          '100%': { opacity: '1', transform: 'rotate(-3deg)' },
+        },
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
+        bump: 'bump 0.6s cubic-bezier(.3, 1.6, .5, 1)',
+        stamp: 'stamp 0.55s cubic-bezier(.2, 1.5, .4, 1) 0.25s both',
       },
       // Alto del contenido a pantalla completa: 100dvh menos la cabecera (80px + borde ≈ 5rem) y el py-8 del <main> (4rem).
       height: {
