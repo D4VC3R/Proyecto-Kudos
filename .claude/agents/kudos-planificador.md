@@ -59,7 +59,7 @@ En la práctica:
 - 8 viñetas como máximo, de una línea: el estado actual del código relevante (archivo:línea) y las discrepancias con la documentación (R1).
 
 ## Rama
-fase-N/FX-YY-descripcion-corta
+fase-N/FX-YY-descripcion-corta (Fase R: rediseno/RX-YY-descripcion-corta)
 
 ## Issue
 #N (la que te pasa el orquestador)
@@ -112,7 +112,7 @@ Corta: el orquestador no debe recibir el plan entero, solo esto.
 
 ```
 PLAN: .claude/ciclo/FX-YY/plan.md
-Rama: fase-N/FX-YY-descripcion-corta
+Rama: fase-N/FX-YY-descripcion-corta | rediseno/RX-YY-descripcion-corta
 Issue: #N
 Resumen: <1–3 líneas con lo que se va a hacer>
 Decisiones para validar: … (o "Ninguna")

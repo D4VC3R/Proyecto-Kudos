@@ -1,6 +1,6 @@
 # Tablero de tareas
 
-> **Plan cerrado: histórico de Kudos 2.0.** Las fichas de las fases 0–5 cuentan cómo se hizo el rediseño y se quedan donde están, porque el código las cita. Hasta la fusión en `main` (F5-16) el tablero sigue en uso; las tareas de "Después de `main`" se gestionan con sus issues.
+> **Plan cerrado: histórico de Kudos 2.0.** Las fichas de las fases 0–5 cuentan cómo se hizo el rediseño y se quedan donde están, porque el código las cita. Hasta la fusión en `main` (F5-16), que espera al rediseño visual (Fase R), el tablero sigue en uso; las tareas de "Después de `main`" se gestionan con sus issues.
 
 Estados: `pendiente` · `en curso` · `hecho` · `bloqueada` (con el motivo en la ficha). Coge la primera `pendiente` con todas sus dependencias en `hecho` ([../guia-agentes.md](../guia-agentes.md) §2). Desde la Fase 5, cada tarea pendiente tiene su issue en GitHub (columna **Issue**); este tablero sigue siendo la fuente de verdad (guía §4.2).
 
@@ -94,7 +94,7 @@ Resp.: `BE` backend · `FE` frontend · `INFRA` infraestructura · `INT` integra
 
 ## Fase 5: refactor y preparación para `main`. [Fichas](fase-5-refactor.md)
 
-F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01. F5-15 (Pint) va la última, antes de la fusión.
+F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01. F5-15 (Pint) va la última, antes de la fusión. F5-16 espera a la Fase R (RD-01).
 
 | ID | Tarea | Resp. | Depende de | Estado | Issue |
 |---|---|---|---|---|---|
@@ -114,7 +114,7 @@ F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01. F5-1
 | F5-13 | *Runbook* único del paso a Kudos 2.0 y salvaguardas de `main` | INFRA, DOCS | F5-00, F5-07, F5-08 | hecho | [#17](https://github.com/D4VC3R/Proyecto-Kudos/issues/17) |
 | F5-14 | Documentación lista para `main` | DOCS | F5-01…F5-13 | hecho | [#18](https://github.com/D4VC3R/Proyecto-Kudos/issues/18) |
 | F5-15 | Formato con Pint y controles de CI | INFRA | F5-14, F5-00 | hecho | [#19](https://github.com/D4VC3R/Proyecto-Kudos/issues/19) |
-| F5-16 | Fusión en `main` y paso a producción (sustituye a F1-11) | HUMANO | F5-15 | pendiente | [#20](https://github.com/D4VC3R/Proyecto-Kudos/issues/20) |
+| F5-16 | Fusión en `main` y paso a producción (sustituye a F1-11) | HUMANO | F5-15, RD-01 | pendiente | [#20](https://github.com/D4VC3R/Proyecto-Kudos/issues/20) |
 | F5-17 | Sesión y verificación de correo en el frontend | FE | F5-16 | pendiente | [#21](https://github.com/D4VC3R/Proyecto-Kudos/issues/21) |
 | F5-18 | Convención de página y estado en la URL | FE | F5-16 | pendiente | [#22](https://github.com/D4VC3R/Proyecto-Kudos/issues/22) |
 | F5-19 | *Code splitting*, ESLint y tests de `lib/` | FE, QA | F5-16 | pendiente | [#23](https://github.com/D4VC3R/Proyecto-Kudos/issues/23) |
@@ -122,6 +122,41 @@ F5-02, F5-07 y F5-09 no dependen de nada y pueden ir en paralelo con F5-01. F5-1
 | F5-21 | Catálogo: helpers comunes y Wikidata sin peticiones duplicadas | INT | F5-16 | pendiente | [#25](https://github.com/D4VC3R/Proyecto-Kudos/issues/25) |
 | F5-22 | Catálogo: fuentes huérfanas, popularidad y `config/discovery.php` | INT, BE, HUMANO | F5-16 | pendiente | [#26](https://github.com/D4VC3R/Proyecto-Kudos/issues/26) |
 | F5-23 | Limpieza de tests y del entorno de desarrollo | QA, INFRA, HUMANO | F5-16 | pendiente | [#27](https://github.com/D4VC3R/Proyecto-Kudos/issues/27) |
+
+## Fase R: rediseño visual. [Fichas](fase-r-rediseno.md)
+
+Va **antes de F5-16**: la fusión en `main` incluye el rediseño, así que mientras quede una tarea R pendiente, la fase actual es esta. Ramas `rediseno/RX-YY-…` y etiqueta `rediseno`. Por orden: RA-00 (herramienta de verificación) → fallos RA → sistema de diseño RB, en serie → páginas RC → RD-01. Las tareas RA-03, RA-04 y RA-05 no dependen de nada.
+
+| ID | Tarea | Resp. | Depende de | Estado | Issue |
+|---|---|---|---|---|---|
+| R0-01 | Auditoría, direcciones y plan | DOCS | — | hecho | [#48](https://github.com/D4VC3R/Proyecto-Kudos/issues/48) |
+| R1-01 | Maquetas y elección de dirección | HUMANO, DOCS | R0-01 | hecho | [#50](https://github.com/D4VC3R/Proyecto-Kudos/issues/50) |
+| R1-02 | Tablero de la Fase R | DOCS | R1-01 | hecho | [#52](https://github.com/D4VC3R/Proyecto-Kudos/issues/52) |
+| RA-00 | Herramienta de verificación visual | FE, QA | — | pendiente | [#53](https://github.com/D4VC3R/Proyecto-Kudos/issues/53) |
+| RA-01 | Menú móvil accesible y "Saltar al contenido" | FE | RA-00 | pendiente | [#54](https://github.com/D4VC3R/Proyecto-Kudos/issues/54) |
+| RA-02 | Filtros con borde y etiquetas visibles | FE | RA-00 | pendiente | [#55](https://github.com/D4VC3R/Proyecto-Kudos/issues/55) |
+| RA-03 | Categoría inexistente sin consultas inútiles | FE | — | pendiente | [#56](https://github.com/D4VC3R/Proyecto-Kudos/issues/56) |
+| RA-04 | Pluralización y nota vacía | FE | — | pendiente | [#57](https://github.com/D4VC3R/Proyecto-Kudos/issues/57) |
+| RA-05 | Posición del ranking con empates | BE, FE | — | pendiente | [#58](https://github.com/D4VC3R/Proyecto-Kudos/issues/58) |
+| RB-01 | Tokens, temas y modo oscuro | FE | RA-00 | pendiente | [#59](https://github.com/D4VC3R/Proyecto-Kudos/issues/59) |
+| RB-02 | Primitivas | FE | RB-01 | pendiente | [#60](https://github.com/D4VC3R/Proyecto-Kudos/issues/60) |
+| RB-03 | Cabecera, navegación, pie y selector de tema | FE | RB-02 | pendiente | [#61](https://github.com/D4VC3R/Proyecto-Kudos/issues/61) |
+| RC-01 | Tarjeta de ítem | FE | RB-03 | pendiente | [#62](https://github.com/D4VC3R/Proyecto-Kudos/issues/62) |
+| RC-02 | Portada | FE | RC-01 | pendiente | [#63](https://github.com/D4VC3R/Proyecto-Kudos/issues/63) |
+| RC-03 | Ficha | FE | RC-01 | pendiente | [#64](https://github.com/D4VC3R/Proyecto-Kudos/issues/64) |
+| RC-04 | Votar | FE | RC-03 | pendiente | [#65](https://github.com/D4VC3R/Proyecto-Kudos/issues/65) |
+| RC-05 | Categoría y Explorar | FE | RC-01 | pendiente | [#66](https://github.com/D4VC3R/Proyecto-Kudos/issues/66) |
+| RC-06 | Buscar y buscador global | FE | RC-01, RA-02 | pendiente | [#67](https://github.com/D4VC3R/Proyecto-Kudos/issues/67) |
+| RC-07 | Listas | FE | RC-01 | pendiente | [#68](https://github.com/D4VC3R/Proyecto-Kudos/issues/68) |
+| RC-08 | Wishlist y onboarding | FE | RC-01 | pendiente | [#69](https://github.com/D4VC3R/Proyecto-Kudos/issues/69) |
+| RC-09 | Perfil y perfil público | FE | RC-01 | pendiente | [#70](https://github.com/D4VC3R/Proyecto-Kudos/issues/70) |
+| RC-10 | Autenticación | FE | RB-03 | pendiente | [#71](https://github.com/D4VC3R/Proyecto-Kudos/issues/71) |
+| RC-11 | Ranking global | FE | RC-05 | pendiente | [#72](https://github.com/D4VC3R/Proyecto-Kudos/issues/72) |
+| RC-12 | Legal, 404, Forbidden y error | FE | RB-03 | pendiente | [#73](https://github.com/D4VC3R/Proyecto-Kudos/issues/73) |
+| RC-13 | Administración | FE | RB-03 | pendiente | [#74](https://github.com/D4VC3R/Proyecto-Kudos/issues/74) |
+| RC-14 | Piezas globales | FE | RB-03 | pendiente | [#75](https://github.com/D4VC3R/Proyecto-Kudos/issues/75) |
+| RC-15 | Textos | FE, BE | RC-01…RC-14 | pendiente | [#76](https://github.com/D4VC3R/Proyecto-Kudos/issues/76) |
+| RD-01 | Revisión final | QA, FE, DOCS | RC-15 | pendiente | [#77](https://github.com/D4VC3R/Proyecto-Kudos/issues/77) |
 
 ## Aplazado
 

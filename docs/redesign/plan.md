@@ -30,7 +30,8 @@ Este documento recoge el plan por fases del rediseño visual del frontend y las 
 - Así, la fusión en `main` de la F5-16 incluye el rediseño.
 
 **Tablero:**
-- Justo después de R0, un PR añade la **Fase R: rediseño visual** al tablero, con sus fichas en `docs/roadmap/fase-r-rediseno.md` y sus issues.
+- La **Fase R: rediseño visual** está en el tablero ([../roadmap/README.md](../roadmap/README.md)), con sus fichas en [../roadmap/fase-r-rediseno.md](../roadmap/fase-r-rediseno.md) y una issue por tarea (#52–#77). Va antes de F5-16, que depende de RD-01.
+- Se añade RA-00, una herramienta de verificación visual (Playwright en Docker, sin dependencias nuevas), para que cada tarea se compruebe sin pasos manuales. Los IDs del tablero son `RA-0N`, `RB-0N`, `RC-NN` y `RD-01`; los de este plan (RA-1, RB-1, página n.º) se corresponden uno a uno.
 - Con eso, `/ciclo-tareas` puede ejecutarla con su planificador, ejecutor, verificador e integrador.
 - Las tareas de las fases b) y c) dependen de R1, que es una decisión del humano.
 
