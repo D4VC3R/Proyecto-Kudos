@@ -26,6 +26,21 @@ El proyecto está configurado con las siguientes herramientas para mantener un c
 - `pnpm preview`: sirve la compilación en local (puerto 4174).
 - `pnpm test:seo`: tests de Node de la función SEO de `api/`.
 - `pnpm check:classes`: comprueba que solo se usan clases Tailwind que existen.
+- `scripts/visual-check.sh`: verificación visual automática con Playwright dentro de Docker (no instala nada en el host). Con el frontend en `localhost:5174`, para cada ruta, ancho y tema hace una captura a página completa y comprueba errores de JS y de consola, desbordamiento horizontal, un solo `h1`, contraste del texto (4,5:1; 3:1 en texto grande) y el anillo de foco de los 15 primeros Tab (≥ 3:1). Se lanza desde la raíz del repo:
+
+  ```bash
+  Frontend/scripts/visual-check.sh --routes / --widths 360
+  Frontend/scripts/visual-check.sh --routes /admin,/admin/users --auth --widths 1440
+  Frontend/scripts/visual-check.sh --routes rutas.json --themes all --out ./capturas
+  ```
+
+  - `--routes` (obligatorio): lista separada por comas o un `.json` con un array de rutas, cada una `"/x"` o `{ "path": "/x", "auth": true, "name": "opcional" }`.
+  - `--widths` (por defecto `360,768,1440`), `--height` (`900`), `--base` (`http://localhost:5174`).
+  - `--themes`: `current` (por defecto), `all` (4 paletas × claro y oscuro) o una lista como `azulejo-dark,original-light`. Aplica `localStorage['kudos.theme']` antes de cargar, así que hasta que el sistema de temas la lea no cambia nada.
+  - `--auth`: las rutas de la lista van con sesión. Inicia sesión por la interfaz con el usuario del *seeder* local: `visual-check.sh` lee `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` de `Backend/.env` (se sustituyen con `KUDOS_VISUAL_EMAIL` y `KUDOS_VISUAL_PASSWORD`).
+  - `--out`: carpeta de salida (por defecto `.claude/ciclo/visual-check/`) con las capturas `ruta-ancho-tema[-sesion].png`, `report.json` y `storageState.json`. Este último lleva el token de la sesión: no se commitea (`.claude/ciclo/` está ignorada).
+  - Salida por consola: una tabla resumen y el detalle de cada fila que falla. Código de salida: `0` todo bien, `1` alguna comprobación falla, `2` error de la herramienta (argumentos, *login* o frontend caído).
+  - El contraste no mide los textos sobre una imagen, un degradado o una capa superpuesta (los cuenta como `skipped` en `report.json`).
 
 ---
 
@@ -34,7 +49,7 @@ El proyecto está configurado con las siguientes herramientas para mantener un c
 - `src/`: la SPA (páginas, componentes, hooks y rutas).
 - `api/`: función SEO de Vercel.
 - `tests/seo/`: tests de la función SEO.
-- `scripts/`: utilidades de desarrollo (`check-tailwind-classes.mjs`).
+- `scripts/`: utilidades de desarrollo (`check-tailwind-classes.mjs`, `visual-check.sh`).
 
 Detalle en [../docs/frontend/arquitectura.md](../docs/frontend/arquitectura.md). Cómo ejecutar los comandos con Docker: [../docs/infra/entorno-local.md](../docs/infra/entorno-local.md) §5.
 

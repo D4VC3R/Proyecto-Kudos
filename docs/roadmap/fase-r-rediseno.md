@@ -123,6 +123,20 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 - Funciona con y sin sesión.
 - No añade dependencias al `package.json`.
 
+**Notas (RA-00):**
+- **Archivos nuevos:** `Frontend/scripts/visual-check.mjs` y `visual-check.sh` (modo 755). Documentados en `Frontend/README.md` (§Scripts) y en `docs/frontend/arquitectura.md` §5. No se ha tocado `package.json` ni `pnpm-lock.yaml`, y no hay tests de Node nuevos (la SPA no tiene suite): la prueba ha sido ejecutar la herramienta. `pnpm build` sigue en verde.
+- **Discrepancias con la ficha (R1, se sigue el código):**
+  - La contraseña del *seeder* no está escrita en `UserSeeder`: la lee de `config('kudos.seed_admin')`, es decir, de `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` en `Backend/.env`. `visual-check.sh` las lee de ahí (o de `KUDOS_VISUAL_EMAIL` y `KUDOS_VISUAL_PASSWORD`) y se las pasa al contenedor por nombre; no hay ninguna contraseña en el repo.
+  - El amarillo del admin (auditoría §4) no está en `/` sino en `/admin` y `/admin/users`, con sesión. `--routes / --widths 360` demuestra que la herramienta corre; la detección se prueba con `--routes /admin,/admin/users --auth --widths 1440`: lista «Dashboard» a 1,46:1 y «Usuarios» a 1,53:1 (`rgb(250, 204, 21)` sobre `rgb(248, 250, 252)` y sobre blanco), y sale con código 1.
+  - `/buscar?q=star` con sesión (1440 px) detecta además el panel de TMDB: «Categoría» a 1,23:1 (`rgb(226, 232, 240)` sobre blanco, F7).
+- **Decisiones de implementación:** el contraste mide el fondo subiendo por los ancestros, como pedía el plan, pero cuenta como `skipped` (no medible) el texto que tiene detrás una imagen, un degradado, un fondo que no es de un ancestro o que está recortado; sin eso, los títulos y *chips* de las tarjetas sobre un póster daban blanco sobre blanco. Para ello el script hace scroll al medir, así que la captura va antes del contraste. Los textos `sr-only` se descartan por el tamaño del elemento (su rectángulo de texto desborda de 1 px). Antes del recorrido con Tab se desactivan las transiciones, para leer el estilo de foco ya terminado.
+- **Línea base** (rutas públicas de la auditoría §2, 18 rutas × 360, 768 y 1440 px = 54 filas, todas con fallo; salida en `.claude/ciclo/RA-00/capturas/report.json`, ignorada por git). Sin errores de JS ni desbordamiento horizontal en ninguna:
+  - **Foco (todas las rutas):** el anillo de foco da 1,42:1 en los botones y enlaces `inline-flex` (1,36:1 en algunos botones), con 2 a 4 elementos entre los 15 primeros Tab. Ninguno se queda sin indicador.
+  - **`h1`:** 0 visibles en `/videojuegos/explore` y en `/buscar?q=star` (en las demás rutas, 1).
+  - **Contraste:** `/peliculas` (3 anchos): tres textos a 2,8:1 en un `div.flex.shrink-0` (4,91, 4,33 y 4,21); `/login` y `/register`: el enlace «No tengo cuenta» / «Ya tengo cuenta» a 4,34:1 y, a 768 y 1440 px, el lema «Valora candidatos, descubre joyas ocultas…» a 4,24:1 (`text-blue-100`). Sin fallos de contraste en las demás.
+  - **Consola:** un 404 («Failed to load resource») en `/listas/no-existe` y `/u/no-existe`, que la herramienta cuenta como fallo.
+- **Comprobaciones de uso:** sin `--routes` o con `--themes foo` sale con código 2 y un mensaje; con el frontend parado (`--base` a un puerto sin servidor) da «No responde…» y código 2; sin contraseña, «Falta KUDOS_VISUAL_PASSWORD…» y código 2. `--themes all` genera las 8 capturas `home-360-<paleta>-<modo>.png`, idénticas entre sí porque hasta RB-01 no hay temas.
+
 ## RA-01 · Menú móvil accesible y "Saltar al contenido" (FE)
 
 **Depende:** RA-00 · **Cierra:** F4, F9 ([../redesign/auditoria.md](../redesign/auditoria.md) §3)
