@@ -3,6 +3,7 @@
 // Parámetros de la URL: ?screen=home&theme=light|dark&palette=…&embed=1 (embed oculta el panel; lo usa la vista móvil).
 // Opcional en <html>: data-palettes="clave:Nombre,…" añade un selector de paleta; data-motion activa las
 // transiciones entre pantallas y la del cambio de tema (View Transitions; sin soporte, el cambio es instantáneo).
+// Si cambias este archivo o data.js, sube el ?v= de sus <script> en las maquetas: si no, el navegador puede seguir usando la versión guardada.
 (function () {
   const params = new URLSearchParams(location.search);
   const embed = params.has('embed');
