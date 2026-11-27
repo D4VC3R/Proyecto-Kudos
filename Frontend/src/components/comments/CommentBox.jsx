@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Loader2, MessageSquare, Send, X } from 'lucide-react';
+import { Loader2, Send, X } from 'lucide-react';
 // Componentes
 import Modal  from '../ui/Modal.jsx';
 import CommentHideBody from "./CommentHideBody.jsx";
@@ -8,6 +8,8 @@ import ModalButtons from "../ui/ModalButtons.jsx";
 import Comment from './Comment';
 import Button from '../ui/Button.jsx';
 import Input from '../ui/Input.jsx';
+import Textarea from '../ui/Textarea.jsx';
+import SectionHead from '../ui/SectionHead.jsx';
 import Checkbox from '../ui/Checkbox.jsx';
 // Hooks
 import { useForm } from 'react-hook-form';
@@ -80,35 +82,37 @@ const CommentBox = ({ itemId, userVote, className = "" }) => {
   }
 
   return (
-    <div className={`flex flex-col w-full text-left min-h-0 ${className}`}>
-      <h3 className="shrink-0 text-lg font-bold text-text-highlight mb-2 flex items-center gap-2">
-        <MessageSquare size={20} /> Comentarios ({comments?.length || 0})
-      </h3>
+    <section aria-labelledby="item-comments" className={className}>
+      <SectionHead
+        id="item-comments"
+        title={<>Comentarios <span className="tabular-nums">({comments?.length || 0})</span></>}
+      />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="shrink-0 flex gap-2 pt-4 border-t border-slate-100 mb-2">
-        <Input
-          hideLabel
+      <form onSubmit={handleSubmit(onSubmit)} className="mb-2 mt-4 grid gap-2">
+        <Textarea
           label="Escribe un comentario"
           registration={register('content')}
           placeholder="Escribe un comentario..."
-          className="min-w-0 flex-1"
+          rows={3}
           autoComplete="off"
         />
-        <Button type="submit" isLoading={createCommentMutation.isPending} variant="solid" color="primary" radius="lg" size="iconMd" icon={Send} aria-label="Publicar comentario" />
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          {canReview ? (
+            <Checkbox
+              label={`Publicar como reseña (tu nota: ${userVote.score})`}
+              checked={isReview}
+              onChange={(e) => setIsReview(e.target.checked)}
+            />
+          ) : (
+            <span />
+          )}
+          <Button type="submit" isLoading={createCommentMutation.isPending} icon={Send}>Publicar</Button>
+        </div>
       </form>
 
-      {canReview && (
-        <Checkbox
-          label={`Publicar como reseña (tu nota: ${userVote.score})`}
-          checked={isReview}
-          onChange={(e) => setIsReview(e.target.checked)}
-          className="mb-2 shrink-0"
-        />
-      )}
-
-      <div className="flex-1 min-h-0 flex flex-col gap-4 overflow-y-auto pr-2">
+      <ul>
         {comments?.map((comment) => (
-          <div key={comment.id} className="flex flex-col gap-2">
+          <li key={comment.id} className="border-t border-line py-4">
             <Comment
               itemId={itemId}
               comment={comment}
@@ -119,7 +123,7 @@ const CommentBox = ({ itemId, userVote, className = "" }) => {
             {replyingTo === comment.id && (
               <form
                 onSubmit={(e) => { e.preventDefault(); submitReply(comment.id); }}
-                className="ml-6 sm:ml-10 flex gap-2"
+                className="ml-6 mt-3 flex gap-2 sm:ml-10"
               >
                 <Input
                   hideLabel
@@ -132,12 +136,12 @@ const CommentBox = ({ itemId, userVote, className = "" }) => {
                   className="min-w-0 flex-1"
                   autoComplete="off"
                 />
-                <Button type="submit" isLoading={createCommentMutation.isPending} variant="solid" color="primary" radius="lg" size="iconMd" icon={Send} aria-label="Enviar respuesta" />
-                <Button type="button" onClick={() => setReplyingTo(null)} variant="ghost" color="neutral" radius="lg" size="iconMd" icon={X} title="Cancelar" aria-label="Cancelar respuesta" />
+                <Button type="submit" isLoading={createCommentMutation.isPending} icon={Send} className="w-11 px-0" aria-label="Enviar respuesta" />
+                <Button type="button" onClick={() => setReplyingTo(null)} variant="ghost" icon={X} className="w-11 px-0" title="Cancelar" aria-label="Cancelar respuesta" />
               </form>
             )}
             {comment.replies?.length > 0 && (
-              <div className="ml-6 sm:ml-10 flex flex-col gap-2 border-l-2 border-slate-100 pl-3">
+              <div className="ml-6 mt-3 flex flex-col gap-3 border-l border-line pl-4">
                 {comment.replies.map((reply) => (
                   <Comment
                     key={reply.id}
@@ -150,12 +154,12 @@ const CommentBox = ({ itemId, userVote, className = "" }) => {
                 ))}
               </div>
             )}
-          </div>
+          </li>
         ))}
-        {comments?.length === 0 && (
-          <p className="text-sm text-text-normal text-center py-4 m-auto">Sé el primero en comentar.</p>
-        )}
-      </div>
+      </ul>
+      {comments?.length === 0 && (
+        <p className="py-4 text-small text-ink-muted">Sé el primero en comentar.</p>
+      )}
 
       <Modal
         isOpen={isOpen}
@@ -177,7 +181,7 @@ const CommentBox = ({ itemId, userVote, className = "" }) => {
           <CommentHideBody hideReason={hideReason} setHideReason={setHideReason} />
         ) : null}
       </Modal>
-    </div>
+    </section>
   );
 };
 

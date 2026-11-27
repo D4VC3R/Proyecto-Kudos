@@ -9,8 +9,8 @@ const ItemImageCredit = ({ image, className = '' }) => {
   if (!credit) return null;
 
   return (
-    <p className={`max-w-2xl break-words text-xs font-medium leading-relaxed text-slate-500 ${className}`}>
-      Foto: <span className="font-semibold text-slate-700">{credit.author}</span>,{' '}
+    <p className={`max-w-2xl break-words text-xs font-medium leading-relaxed text-ink-muted ${className}`}>
+      Foto: <span className="font-semibold text-ink">{credit.author}</span>,{' '}
       <SourceLink href={credit.licenseUrl}>{credit.license}</SourceLink>, vía{' '}
       <SourceLink href={credit.sourceUrl}>Wikimedia Commons</SourceLink>
     </p>

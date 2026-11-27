@@ -1,92 +1,100 @@
 import React from 'react';
 import { Info } from 'lucide-react';
-import ItemImage from './ItemImage.jsx';
-import ItemAttribution from './ItemAttribution.jsx';
 import AttributeChips from './AttributeChips.jsx';
-import ScoreStamp from '../ui/ScoreStamp.jsx';
-import Card from '../ui/Card.jsx';
+import ItemFacts from './ItemFacts.jsx';
 import ItemPlaceMap from './ItemPlaceMap.jsx';
+import ScoreStamp from '../ui/ScoreStamp.jsx';
+import SectionHead from '../ui/SectionHead.jsx';
+import CommentBox from '../comments/CommentBox.jsx';
+import AddToListButton from '../lists/AddToListButton.jsx';
 import { hasText } from '../../lib/text.js';
-import { hasAttribution } from '../../lib/attribution.js';
+import { getAttributeEntries } from '../../lib/attributes.js';
 import { getPlaceCoordinates, getPlaceMapZoom } from '../../lib/places.js';
 import { VOTE_TYPE_BADGES } from '../../lib/constants.js';
 import { formatScore, formatVotes } from '../../lib/formatters.js';
 
-const ItemDetailColumn = ({ item, children }) => {
-  // Los ítems sin descripción (p. ej. importados) no muestran la caja "Acerca de…".
+const PILL = 'inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-small text-ink';
+
+const ItemDetailColumn = ({ item }) => {
+  // Los ítems sin descripción (p. ej. importados) no muestran la sección "Acerca de".
   const description = hasText(item.description) ? item.description.trim() : null;
-  const showAttribution = hasAttribution(item.attribution);
-  // Mapa solo con coordenadas válidas (destinos, F4-03); el resto de categorías no las tienen.
+  // Mapa solo con coordenadas válidas (destinos); el resto de categorías no las tienen.
   const coordinates = getPlaceCoordinates(item.attributes);
-  // Estado del usuario con este ítem (F2-04): nota, wishlist o "no me interesa". Sin sesión no llega user_vote.
+  // Estado del usuario con este ítem: nota, wishlist o "no me interesa". Sin sesión no llega user_vote.
   const userVote = item.user_vote;
   const userVoteBadge = userVote ? (VOTE_TYPE_BADGES[userVote.type] ?? null) : null;
   const userVoteText = userVote?.type === 'vote' && userVote.score != null ? `Tu nota: ${userVote.score}` : userVoteBadge?.label;
   const score = formatScore(item.vote_avg, item.vote_count);
 
+  const year = item.attributes?.year ?? item.released_at?.slice(0, 4);
+  const schema = item.category?.attribute_schema;
+  // Lo que ya sale como chips (los atributos de la tarjeta) no se repite en la cuadrícula de datos.
+  const chipKeys = new Set(getAttributeEntries(schema, item.attributes, { cardOnly: true }).map((entry) => entry.key));
+  const facts = getAttributeEntries(schema, item.attributes).filter((entry) => !chipKeys.has(entry.key));
+  const hasOriginalTitle = hasText(item.original_title) && item.original_title.trim() !== item.name?.trim();
+
   return (
-    <div className="flex flex-col h-full w-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 p-6 md:p-8 lg:overflow-y-auto">
+    <article aria-labelledby="item-title" className="min-w-0">
+      <p className="text-caption font-semibold uppercase tracking-widest text-kicker">
+        {item.category?.name}{year ? ` · ${year}` : ''}
+      </p>
+      <h1 id="item-title" className="mb-1.5 mt-2 font-display text-h1 text-ink">{item.name}</h1>
+      {hasOriginalTitle && (
+        <p className="text-small text-ink-muted">
+          Título original: <i className="font-display not-italic">{item.original_title.trim()}</i>
+        </p>
+      )}
 
-      <div className="flex flex-col gap-6 mb-8 shrink-0">
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-text-highlight leading-tight">
-          {item.name}
-        </h1>
+      <AttributeChips schema={schema} attributes={item.attributes} />
+      <ItemFacts entries={facts} />
 
-        <div className="flex items-center gap-4">
-          <ScoreStamp score={score} size="lg" />
-          {score && <span className="text-small text-ink-muted">{formatVotes(item.vote_count)}</span>}
+      <div className="my-6 flex items-center gap-6">
+        <ScoreStamp score={score} size="lg" />
+        <div>
+          <p className="text-small font-semibold">Nota de la comunidad</p>
+          <p className="text-small tabular-nums text-ink-muted">{formatVotes(item.vote_count)}</p>
         </div>
-
-        {(userVoteBadge || item.creator) && (
-          <div className="flex flex-wrap items-center gap-3">
-            {userVoteBadge && (
-              <span className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold ${userVoteBadge.color}`}>
-                <userVoteBadge.icon size={16} />
-                {userVoteText}
-              </span>
-            )}
-
-            {item.creator && (
-              <span className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 ring-1 ring-slate-200">
-                <Info size={16} className="text-slate-500" />
-                Aportado por <strong>{item.creator.name}</strong>
-              </span>
-            )}
-          </div>
-        )}
-
-        <AttributeChips schema={item.category?.attribute_schema} attributes={item.attributes} />
       </div>
 
-      <div className="w-full flex justify-center mb-8 shrink-0">
-        <ItemImage item={item} showTitle={false} showCredit />
+      {(userVoteBadge || item.creator) && (
+        <div className="flex flex-wrap items-center gap-3">
+          {userVoteBadge && (
+            <span className={PILL}>
+              <userVoteBadge.icon size={16} aria-hidden="true" />
+              {userVoteText}
+            </span>
+          )}
+          {item.creator && (
+            <span className={PILL}>
+              <Info size={16} aria-hidden="true" />
+              Aportado por <strong>{item.creator.name}</strong>
+            </span>
+          )}
+        </div>
+      )}
+
+      <div className="mt-6 flex flex-wrap gap-2">
+        <AddToListButton item={item} variant="detail" />
       </div>
+
+      {description && (
+        <section aria-labelledby="item-about" className="mt-10 flex flex-col gap-4">
+          <SectionHead id="item-about" title="Acerca de" />
+          <p className="max-w-prose whitespace-pre-line text-body leading-relaxed text-ink">{description}</p>
+        </section>
+      )}
 
       {coordinates && (
         <ItemPlaceMap
           name={item.name}
           coordinates={coordinates}
           zoom={getPlaceMapZoom(item.attributes)}
-          className="mb-8 shrink-0"
+          className="mt-10"
         />
       )}
 
-      {(description || showAttribution) && (
-        <div className="mt-auto shrink-0 flex flex-col gap-3">
-          {description && (
-            <Card className="p-6">
-              <h3 className="text-lg font-bold text-ink mb-3">Acerca de {item.name}:</h3>
-              <p className="whitespace-pre-line text-lg text-ink font-medium leading-relaxed">
-                {description}
-              </p>
-            </Card>
-          )}
-          <ItemAttribution attribution={item.attribution} className="px-2" />
-        </div>
-      )}
-
-      {children && <div className="mt-8 shrink-0">{children}</div>}
-    </div>
+      <CommentBox itemId={item.id} userVote={item.user_vote} className="mt-10" />
+    </article>
   );
 };
 

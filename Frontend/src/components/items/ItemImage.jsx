@@ -3,9 +3,12 @@ import StorageImage from '../ui/StorageImage.jsx';
 import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 import ItemImageCredit from './ItemImageCredit.jsx';
 
+// Variante pedida de una imagen; si no existe, la grande de la ficha y, si tampoco, la miniatura.
+export const pickImageVariant = (image, preferred = 'banner') => image?.variants?.[preferred] || image?.variants?.banner || image?.variants?.thumb || null;
+
 const ItemImage = ({item, showTitle = true, variant = 'banner', showCredit = false}) => {
   const image = item.images?.[0];
-  const imageVariant = image?.variants?.[variant] || image?.variants?.[variant];
+  const imageVariant = pickImageVariant(image, variant);
 
   // Si no hay imagen o falla su carga, mostramos el placeholder generativo.
   const [imageFailed, setImageFailed] = useState(false);

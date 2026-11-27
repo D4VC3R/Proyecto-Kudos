@@ -18,7 +18,7 @@ const AddToListButton = ({ item, variant = 'card' }) => {
 
   if (variant === 'detail') {
     return (
-      <Button onClick={handleClick} variant="ghost" color="primary" size="sm" radius="full" icon={ListPlus}>
+      <Button onClick={handleClick} variant="secondary" icon={ListPlus}>
         Añadir a lista
       </Button>
     );

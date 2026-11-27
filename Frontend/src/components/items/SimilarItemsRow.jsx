@@ -1,22 +1,11 @@
 import React from 'react';
-import ItemCard from './ItemCard.jsx';
+import HomeRowSection from '../home/HomeRowSection.jsx';
 
-// Fila "Similares" de la ficha (F2-08): tarjetas en scroll horizontal. Sin ítems no pinta nada.
+// Fila "Similares" de la ficha, con la misma fila desplazable y flechas de la portada. Sin ítems no pinta nada.
 const SimilarItemsRow = ({ items = [] }) => {
   if (!items?.length) return null;
 
-  return (
-    <section aria-labelledby="similar-items-title" className="flex flex-col gap-3">
-      <h3 id="similar-items-title" className="text-lg font-bold text-slate-800">Similares</h3>
-      <ul className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2">
-        {items.map((similar) => (
-          <li key={similar.id} className="w-36 shrink-0 snap-start sm:w-40">
-            <ItemCard item={similar} />
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+  return <HomeRowSection id="similar-items" title="Similares" items={items} />;
 };
 
 export default SimilarItemsRow;

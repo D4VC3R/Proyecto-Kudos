@@ -1,15 +1,18 @@
 import React, {useEffect} from 'react';
 import {Loader2, AlertTriangle} from 'lucide-react';
 // Componentes
-import CommentBox from '../components/comments/CommentBox';
-import BackButton from "../components/ui/BackButton.jsx";
 import FeedbackState from "../components/ui/FeedbackState.jsx";
 import ItemDetailColumn from '../components/items/ItemDetailColumn.jsx';
+import ItemDetailPoster from '../components/items/ItemDetailPoster.jsx';
+import ItemAttribution from '../components/items/ItemAttribution.jsx';
 import SimilarItemsRow from '../components/items/SimilarItemsRow.jsx';
-import AddToListButton from '../components/lists/AddToListButton.jsx';
+import {FOCUS_RING} from '../components/layout/headerStyles.js';
+import {hasAttribution} from '../lib/attribution.js';
 // Hooks
-import {useParams, useNavigate} from 'react-router-dom';
+import {useParams, useNavigate, Link} from 'react-router-dom';
 import {useItem, useSimilarItems} from '../hooks/items/useItemQueries';
+
+const CRUMB_LINK = 'rounded-sm underline-offset-3 hover:text-ink hover:underline';
 
 const ItemDetailPage = () => {
   const {itemId} = useParams();
@@ -26,11 +29,26 @@ const ItemDetailPage = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full relative animate-fade-in pb-6 lg:pb-0 lg:h-page-content">
-        <div className="shrink-0 mb-4 px-2 lg:px-0 flex items-center justify-between">
-          <BackButton/>
-          {item && <AddToListButton item={item} variant="detail"/>}
-        </div>
+      <div className="animate-fade-in pb-6">
+        {item && (
+          <nav aria-label="Migas de pan" className="mb-5 text-small text-ink-muted">
+            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <li>
+                <Link to="/" className={`${CRUMB_LINK} ${FOCUS_RING}`}>Inicio</Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              {item.category?.slug && (
+                <>
+                  <li>
+                    <Link to={`/${item.category.slug}`} className={`${CRUMB_LINK} ${FOCUS_RING}`}>{item.category.name}</Link>
+                  </li>
+                  <li aria-hidden="true">/</li>
+                </>
+              )}
+              <li aria-current="page" className="text-ink">{item.name}</li>
+            </ol>
+          </nav>
+        )}
         {isLoading ? (<div className="flex min-h-state items-center justify-center">
           <FeedbackState
             icon={Loader2}
@@ -49,19 +67,22 @@ const ItemDetailPage = () => {
             />
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-0">
-            <div className="w-full lg:w-2/3 h-full min-h-0">
-              <ItemDetailColumn key={item.id} item={item}>
-                {similarItems.length > 0 && (
-                  <SimilarItemsRow items={similarItems}/>
-                )}
-              </ItemDetailColumn>
+          <>
+            <div className="grid gap-6 lg:grid-cols-detail lg:items-start lg:gap-14">
+              <ItemDetailPoster key={`poster-${item.id}`} item={item}/>
+              <ItemDetailColumn key={`detail-${item.id}`} item={item}/>
             </div>
-            <div
-              className="flex flex-col w-full lg:w-1/3 h-[500px] lg:h-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 p-6 overflow-hidden min-h-0">
-              <CommentBox itemId={item.id} userVote={item.user_vote} className="h-full"/>
-            </div>
-          </div>
+            {similarItems.length > 0 && (
+              <div className="mt-12">
+                <SimilarItemsRow items={similarItems}/>
+              </div>
+            )}
+            {hasAttribution(item.attribution) && (
+              <div className="mt-8 border-t border-line pt-3">
+                <ItemAttribution attribution={item.attribution}/>
+              </div>
+            )}
+          </>
         )}
       </div>
     </>
