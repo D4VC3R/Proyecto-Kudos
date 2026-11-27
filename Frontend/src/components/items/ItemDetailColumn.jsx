@@ -8,6 +8,7 @@ import { hasText } from '../../lib/text.js';
 import { hasAttribution } from '../../lib/attribution.js';
 import { getPlaceCoordinates, getPlaceMapZoom } from '../../lib/places.js';
 import { VOTE_TYPE_BADGES } from '../../lib/constants.js';
+import { formatScore, formatVotes } from '../../lib/formatters.js';
 
 const ItemDetailColumn = ({ item, children }) => {
   // Los ítems sin descripción (p. ej. importados) no muestran la caja "Acerca de…".
@@ -19,6 +20,7 @@ const ItemDetailColumn = ({ item, children }) => {
   const userVote = item.user_vote;
   const userVoteBadge = userVote ? (VOTE_TYPE_BADGES[userVote.type] ?? null) : null;
   const userVoteText = userVote?.type === 'vote' && userVote.score != null ? `Tu nota: ${userVote.score}` : userVoteBadge?.label;
+  const score = formatScore(item.vote_avg, item.vote_count);
 
   return (
     <div className="flex flex-col h-full w-full bg-surface rounded-3xl shadow-xl ring-1 ring-slate-200 p-6 md:p-8 lg:overflow-y-auto">
@@ -31,7 +33,7 @@ const ItemDetailColumn = ({ item, children }) => {
         <div className="flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-2 rounded-full bg-yellow-50 px-4 py-2 text-sm font-bold text-yellow-800 ring-1 ring-yellow-300">
             <Star size={18} className="text-yellow-600 fill-yellow-500" />
-            {item.vote_avg?.toFixed(1) || '0.0'} ({item.vote_count ?? 0} votos)
+            {score ? `${score} (${formatVotes(item.vote_count)})` : 'Sin nota'}
           </span>
 
           {userVoteBadge && (

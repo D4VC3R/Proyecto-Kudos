@@ -7,9 +7,10 @@ import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 import AttributeChips from './AttributeChips.jsx';
 import AddToListButton from '../lists/AddToListButton.jsx';
 import { buildItemUrl } from '../../lib/search.js';
+import { formatScore } from '../../lib/formatters.js';
 
 const ItemCard = ({ item }) => {
-  const displayScore = item.vote_avg ? Number(item.vote_avg).toFixed(1) : '-.-';
+  const displayScore = formatScore(item.vote_avg, item.vote_count) ?? 'Sin nota';
   const imagePath = item.images?.[0]?.variants?.thumb;
 
   const card = (

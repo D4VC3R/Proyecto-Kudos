@@ -65,3 +65,19 @@ export const resolveCategoryIcon = (category) =>
   CATEGORY_ICONS_BY_NAME[category?.icon] || CATEGORY_SLUG_ICONS[category?.slug] || DEFAULT_CATEGORY_ICON;
 
 
+
+// "1 voto", "N votos"; sin recuento o con 0, "Sin votos".
+export const formatVotes = (count) => {
+  const n = Number(count) || 0;
+  if (n <= 0) return 'Sin votos';
+  return n === 1 ? '1 voto' : `${n} votos`;
+};
+
+// Nota media con un decimal, o null si no hay votos. Manda el recuento porque el backend admite la nota 0
+// y una media de 0 no siempre significa "sin votos". Si la respuesta no trae el recuento, se usa la media.
+export const formatScore = (avg, count) => {
+  const value = Number(avg);
+  if (avg == null || Number.isNaN(value)) return null;
+  const hasVotes = count == null ? value > 0 : Number(count) > 0;
+  return hasVotes ? value.toFixed(1) : null;
+};
