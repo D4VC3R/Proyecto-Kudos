@@ -4,6 +4,7 @@ import { Telescope } from 'lucide-react';
 import Ranking from '../components/ui/ranking/Ranking.jsx';
 import InfiniteItemSlider from '../components/items/InfiniteItemSlider.jsx';
 import SliderSkeleton from "../components/ui/skeletons/SliderSkeleton.jsx";
+import Skeleton from "../components/ui/skeletons/Skeleton.jsx";
 import HeaderSkeleton from "../components/ui/skeletons/HeaderSkeleton.jsx";
 import RankingSkeleton from "../components/ui/skeletons/RankingSkeleton.jsx";
 import SectionHeader from "../components/ui/SectionHeader.jsx";
@@ -14,6 +15,19 @@ import { useCategoryPage } from '../hooks/pages/useCategoryPage.js';
 
 const CategoryPage = () => {
   const { state, actions } = useCategoryPage();
+
+  if (state.isLoadingCategory) {
+    return (
+      <div className="flex w-full flex-col" aria-busy="true">
+        <div className="mb-8 shrink-0"><HeaderSkeleton /></div>
+        <SliderSkeleton />
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+          <Skeleton className="lg:col-span-5 h-80 w-full rounded-3xl" />
+          <div className="lg:col-span-7 flex flex-col w-full"><RankingSkeleton /></div>
+        </div>
+      </div>
+    );
+  }
 
   if (state.showNotFound) {
     return (
@@ -34,16 +48,12 @@ const CategoryPage = () => {
     <div className={`flex w-full flex-col transition-opacity duration-500 ${state.isBackgroundUpdating ? 'opacity-60' : 'opacity-100'}`}>
 
       <div className="mb-8 shrink-0">
-        {state.isLoadingRanking ? (
-          <HeaderSkeleton />
-        ) : (
-          <SectionHeader
-            size="large"
-            title="Bienvenido a"
-            highlight={state.category?.name}
-            subtitle={state.category?.description}
-          />
-        )}
+        <SectionHeader
+          size="large"
+          title="Bienvenido a"
+          highlight={state.category?.name}
+          subtitle={state.category?.description}
+        />
       </div>
 
 
