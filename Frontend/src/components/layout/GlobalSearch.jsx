@@ -5,6 +5,7 @@ import StorageImage from '../ui/StorageImage.jsx';
 import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 import { useGlobalSearch } from '../../hooks/common/useGlobalSearch.js';
 import { getOptionId } from '../../lib/combobox.js';
+import { FOCUS_RING } from './headerStyles.js';
 
 const GlobalSearch = ({ className = '', onNavigate }) => {
   const { state, actions } = useGlobalSearch({ onNavigate });
@@ -14,7 +15,7 @@ const GlobalSearch = ({ className = '', onNavigate }) => {
       <Search
         size={18}
         aria-hidden="true"
-        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted"
       />
       <input
         ref={state.inputRef}
@@ -32,7 +33,7 @@ const GlobalSearch = ({ className = '', onNavigate }) => {
         aria-label="Buscar en Kudos"
         autoComplete="off"
         enterKeyHint="search"
-        className="w-full rounded-2xl border border-border bg-background py-2 pl-10 pr-3 text-sm font-medium focus:bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={`h-10 w-full rounded-sm border border-line-strong bg-surface pl-9 pr-3 text-small text-ink placeholder:text-ink-muted ${FOCUS_RING}`}
       />
       {/* Región viva: anuncia "Buscando…", "Sin resultados" o el número de resultados al lector de pantalla (F0-21). */}
       <p role="status" aria-live="polite" aria-atomic="true" className="sr-only">{state.statusMessage}</p>

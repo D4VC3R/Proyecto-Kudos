@@ -140,7 +140,7 @@ Va **antes de F5-16**: la fusión en `main` incluye el rediseño, así que mient
 | RA-05 | Posición del ranking con empates | BE, FE | — | hecho | [#58](https://github.com/D4VC3R/Proyecto-Kudos/issues/58) |
 | RB-01 | Tokens, temas y modo oscuro | FE | RA-00 | hecho | [#59](https://github.com/D4VC3R/Proyecto-Kudos/issues/59) |
 | RB-02 | Primitivas | FE | RB-01 | hecho | [#60](https://github.com/D4VC3R/Proyecto-Kudos/issues/60) |
-| RB-03 | Cabecera, navegación, pie y selector de tema | FE | RB-02 | pendiente | [#61](https://github.com/D4VC3R/Proyecto-Kudos/issues/61) |
+| RB-03 | Cabecera, navegación, pie y selector de tema | FE | RB-02 | hecho | [#61](https://github.com/D4VC3R/Proyecto-Kudos/issues/61) |
 | RC-01 | Tarjeta de ítem | FE | RB-03 | pendiente | [#62](https://github.com/D4VC3R/Proyecto-Kudos/issues/62) |
 | RC-02 | Portada | FE | RC-01 | pendiente | [#63](https://github.com/D4VC3R/Proyecto-Kudos/issues/63) |
 | RC-03 | Ficha | FE | RC-01 | pendiente | [#64](https://github.com/D4VC3R/Proyecto-Kudos/issues/64) |

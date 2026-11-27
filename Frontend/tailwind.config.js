@@ -112,9 +112,20 @@ export default {
         bump: 'bump 0.6s cubic-bezier(.3, 1.6, .5, 1)',
         stamp: 'stamp 0.55s cubic-bezier(.2, 1.5, .4, 1) 0.25s both',
       },
-      // Alto del contenido a pantalla completa: 100dvh menos la cabecera (80px + borde ≈ 5rem) y el py-8 del <main> (4rem).
+      // Ancho máximo de las páginas: lectura (las páginas legales, el antiguo `max-w-3xl`), contenido (el `--max` de la
+      // maqueta) y panel (la administración, el ancho que tenía todo el sitio).
+      maxWidth: {
+        reading: '48rem',
+        content: '75rem',
+        panel: '80rem',
+      },
+      // Alto máximo de un panel que se abre bajo la cabecera (64 px): así no se sale de la pantalla y su final se ve al desplazarlo.
+      maxHeight: {
+        'below-header': 'calc(100dvh - 4rem)',
+      },
+      // Alto del contenido a pantalla completa: 100dvh menos la cabecera (64px + borde ≈ 4rem) y el py-8 del <main> (4rem).
       height: {
-        'page-content': 'calc(100dvh - 9rem)',
+        'page-content': 'calc(100dvh - 8rem)',
       },
       // Alto mínimo de los estados de carga, vacío o error.
       minHeight: {

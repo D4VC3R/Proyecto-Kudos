@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bell } from 'lucide-react';
 import clsx from 'clsx';
-import { VARIANTS, SIZES, RADII } from '../../lib/buttonStyles.js';
+import { ICON_BUTTON } from './headerStyles.js';
 import { formatDate } from '../../lib/formatters.js';
 import { useNotificationBell } from '../../hooks/notifications/useNotificationBell.js';
 
@@ -23,18 +23,13 @@ const NotificationBell = () => {
         aria-expanded={isOpen}
         aria-controls={panelId}
         title="Notificaciones"
-        className={clsx(
-          'relative inline-flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200',
-          VARIANTS.ghost.neutral,
-          SIZES.iconMd,
-          RADII.full,
-        )}
+        className={ICON_BUTTON}
       >
         <Bell size={18} aria-hidden="true" />
         {badgeLabel && (
           <span
             aria-hidden="true"
-            className="absolute -right-1 -top-1 min-w-5 h-5 rounded-full bg-red-600 px-1 text-center text-[10px] font-black leading-5 text-white"
+            className="absolute -right-1 -top-1 h-5 min-w-5 rounded-full border-2 border-canvas bg-accent px-1 text-center text-caption font-bold leading-4 text-on-accent"
           >
             {badgeLabel}
           </span>
@@ -44,7 +39,7 @@ const NotificationBell = () => {
       {isOpen && (
         <div
           id={panelId}
-          className="fixed inset-x-4 top-20 z-50 mt-2 overflow-hidden rounded-2xl bg-surface shadow-xl ring-1 ring-border sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:w-96"
+          className="fixed inset-x-4 top-16 z-50 mt-2 overflow-hidden rounded-2xl bg-surface shadow-xl ring-1 ring-border sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:w-96"
         >
           <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
             <h2 className="font-black text-text-highlight">Notificaciones</h2>
