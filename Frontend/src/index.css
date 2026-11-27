@@ -3,39 +3,189 @@
 @tailwind utilities;
 
 @layer base {
-  /* Los colores van en canales RGB para que Tailwind pueda aplicarles opacidad (`bg-surface/60`). */
+  /*
+   * Los colores van en canales RGB para que Tailwind pueda aplicarles opacidad (`bg-surface/60`).
+   * Azulejo es la paleta por defecto y vive en `:root` (claro) y `.dark` (oscuro); el resto, en `[data-palette]`.
+   * Orden de la cascada: `:root`, `.dark` y, por cada paleta, `[data-palette]` seguido de `.dark[data-palette]`
+   * (este último tiene más especificidad y gana en modo oscuro). Todo lo que declara una paleta lo repite en su
+   * versión oscura, salvo `on-kudos`, que no depende del modo.
+   */
   :root {
-    --color-background: 248 250 252;    /* #f8fafc, bg-slate-50 */
-    --color-surface: 255 255 255;       /* #ffffff, bg-white */
-    --color-border: 226 232 240;        /* #e2e8f0, border-slate-200 */
-    --color-border-strong: 100 116 139; /* #64748b, slate-500: borde de los campos, ≥ 3:1 sobre surface y background */
+    color-scheme: light;
 
-    --color-text-highlight: 15 23 42;   /* #0f172a, slate-900 */
-    --color-text-normal: 100 116 139;   /* #64748b, text-slate-500 */
-    --color-text-btn: 255 255 255;      /* #ffffff, white */
-    --color-text-subtitle: 226 232 240; /* #e2e8f0, slate-200 */
+    --color-kudos: 242 179 61;          /* #F2B33D, el amarillo de los kudos en todas las paletas */
+    --color-warning: 138 75 0;          /* #8A4B00 */
+    --color-danger: 180 35 24;          /* #B42318 */
+    --color-info: 29 95 168;            /* #1D5FA8 */
 
-    --color-nav-item: 71 85 105;        /* #475569, text-slate-600 */
-    --color-nav-hover-bg: 241 245 249;  /* #f1f5f9, hover:bg-nav-hover-bg */
-    --color-nav-hover-text: 15 23 42;   /* #0f172a, hover:text-nav-hover-text */
+    /* Derivados del acento; Original los redefine con tinta. */
+    --color-stamp: var(--color-accent);
+    --color-rule: var(--color-accent);
+    --color-kicker: var(--color-accent);
+    --color-cat-icon: var(--color-accent);
+
+    /* azulejo-light */
+    --color-canvas: 245 247 251;        /* #F5F7FB */
+    --color-surface: 255 255 255;       /* #FFFFFF */
+    --color-ink: 15 23 51;              /* #0F1733 */
+    --color-ink-muted: 74 83 114;       /* #4A5372 */
+    --color-line: 221 227 240;          /* #DDE3F0 */
+    --color-line-strong: 125 135 159;   /* #7D879F */
+    --color-accent: 35 66 194;          /* #2342C2 */
+    --color-on-accent: 255 255 255;     /* #FFFFFF */
+    --color-success: 19 107 58;         /* #136B3A */
+    --color-on-kudos: 15 23 51;         /* #0F1733 */
+    --color-band: 30 58 168;            /* #1E3AA8 */
+    --color-band-ink: 255 255 255;      /* #FFFFFF */
+    --color-band-muted: 211 219 247;    /* #D3DBF7 */
+    --color-band-line: 69 96 200;       /* #4560C8 */
+    --color-band-accent: 255 255 255;   /* #FFFFFF */
   }
 
   .dark {
-    --color-background: 15 23 42;       /* #0f172a, bg-slate-900 */
-    --color-surface: 30 41 59;          /* #1e293b, bg-slate-800 */
-    --color-border: 51 65 85;           /* #334155, border-slate-700 */
-    --color-border-strong: 148 163 184; /* #94a3b8, slate-400: ≥ 3:1 sobre slate-800 y slate-900 */
+    color-scheme: dark;
 
-    --color-text-highlight: 248 250 252; /* #f8fafc, slate-50 */
-    --color-text-normal: 148 163 184;   /* #94a3b8, text-slate-400 */
-    --color-text-btn: 255 255 255;      /* #ffffff, se mantiene blanco sobre el fondo primario */
-    --color-text-subtitle: 71 85 105;   /* #475569, slate-600 (oscurecido para contrastar en tarjeta oscura) */
+    --color-warning: 242 179 61;        /* #F2B33D */
+    --color-danger: 255 138 128;        /* #FF8A80 */
+    --color-info: 124 184 255;          /* #7CB8FF */
 
-    --color-nav-item: 148 163 184;      /* #94a3b8, text-slate-400 */
-    --color-nav-hover-bg: 51 65 85;     /* #334155, hover:bg-slate-700 */
-    --color-nav-hover-text: 248 250 252; /* #f8fafc, hover:text-slate-50 */
+    /* azulejo-dark */
+    --color-canvas: 11 16 34;           /* #0B1022 */
+    --color-surface: 20 27 51;          /* #141B33 */
+    --color-ink: 238 242 251;           /* #EEF2FB */
+    --color-ink-muted: 164 173 200;     /* #A4ADC8 */
+    --color-line: 37 48 82;             /* #253052 */
+    --color-line-strong: 110 122 156;   /* #6E7A9C */
+    --color-accent: 147 169 255;        /* #93A9FF */
+    --color-on-accent: 11 16 34;        /* #0B1022 */
+    --color-success: 108 197 138;       /* #6CC58A */
+    --color-band: 24 34 74;             /* #18224A */
+    --color-band-ink: 238 242 251;      /* #EEF2FB */
+    --color-band-muted: 180 190 221;    /* #B4BEDD */
+    --color-band-line: 46 60 116;       /* #2E3C74 */
+    --color-band-accent: 169 187 255;   /* #A9BBFF */
+  }
+
+  [data-palette="original"] {
+    --color-canvas: 250 247 242;        /* #FAF7F2 */
+    --color-surface: 255 255 255;       /* #FFFFFF */
+    --color-ink: 28 25 23;              /* #1C1917 */
+    --color-ink-muted: 87 83 78;        /* #57534E */
+    --color-line: 231 225 216;          /* #E7E1D8 */
+    --color-line-strong: 138 129 120;   /* #8A8178 */
+    --color-accent: 185 56 21;          /* #B93815 */
+    --color-on-accent: 255 255 255;     /* #FFFFFF */
+    --color-success: 22 101 52;         /* #166534 */
+    --color-on-kudos: 28 25 23;         /* #1C1917 */
+    --color-band: 28 25 23;             /* #1C1917 */
+    --color-band-ink: 250 247 242;      /* #FAF7F2 */
+    --color-band-muted: 214 208 200;    /* #D6D0C8 */
+    --color-band-line: 68 64 60;        /* #44403C */
+    --color-band-accent: 242 179 61;    /* #F2B33D */
+
+    --color-stamp: var(--color-ink);
+    --color-rule: var(--color-ink);
+    --color-kicker: var(--color-ink-muted);
+    --color-cat-icon: var(--color-ink-muted);
+  }
+
+  .dark[data-palette="original"] {
+    --color-canvas: 22 19 15;           /* #16130F */
+    --color-surface: 33 29 25;          /* #211D19 */
+    --color-ink: 243 238 231;           /* #F3EEE7 */
+    --color-ink-muted: 172 163 154;     /* #ACA39A */
+    --color-line: 51 45 39;             /* #332D27 */
+    --color-line-strong: 122 112 103;   /* #7A7067 */
+    --color-accent: 238 138 102;        /* #EE8A66 */
+    --color-on-accent: 28 25 23;        /* #1C1917 */
+    --color-success: 108 197 138;       /* #6CC58A */
+    --color-band: 43 38 33;             /* #2B2621 */
+    --color-band-ink: 243 238 231;      /* #F3EEE7 */
+    --color-band-muted: 189 180 170;    /* #BDB4AA */
+    --color-band-line: 61 54 47;        /* #3D362F */
+    --color-band-accent: 238 138 102;   /* #EE8A66 */
+
+    --color-stamp: var(--color-ink);
+    --color-rule: var(--color-ink);
+    --color-kicker: var(--color-ink-muted);
+    --color-cat-icon: var(--color-ink-muted);
+  }
+
+  [data-palette="taquilla"] {
+    --color-canvas: 243 246 243;        /* #F3F6F3 */
+    --color-surface: 255 255 255;       /* #FFFFFF */
+    --color-ink: 16 32 25;              /* #102019 */
+    --color-ink-muted: 75 91 83;        /* #4B5B53 */
+    --color-line: 220 229 223;          /* #DCE5DF */
+    --color-line-strong: 123 138 130;   /* #7B8A82 */
+    --color-accent: 23 105 76;          /* #17694C */
+    --color-on-accent: 255 255 255;     /* #FFFFFF */
+    --color-success: 22 101 52;         /* #166534 */
+    --color-on-kudos: 16 32 25;         /* #102019 */
+    --color-band: 19 74 55;             /* #134A37 */
+    --color-band-ink: 244 247 242;      /* #F4F7F2 */
+    --color-band-muted: 195 214 203;    /* #C3D6CB */
+    --color-band-line: 46 104 82;       /* #2E6852 */
+    --color-band-accent: 255 255 255;   /* #FFFFFF */
+  }
+
+  .dark[data-palette="taquilla"] {
+    --color-canvas: 13 21 18;           /* #0D1512 */
+    --color-surface: 21 32 27;          /* #15201B */
+    --color-ink: 233 241 236;           /* #E9F1EC */
+    --color-ink-muted: 159 178 167;     /* #9FB2A7 */
+    --color-line: 36 51 44;             /* #24332C */
+    --color-line-strong: 108 128 119;   /* #6C8077 */
+    --color-accent: 116 214 168;        /* #74D6A8 */
+    --color-on-accent: 13 21 18;        /* #0D1512 */
+    --color-success: 116 214 168;       /* #74D6A8 */
+    --color-band: 23 58 45;             /* #173A2D */
+    --color-band-ink: 233 241 236;      /* #E9F1EC */
+    --color-band-muted: 175 199 186;    /* #AFC7BA */
+    --color-band-line: 44 85 68;        /* #2C5544 */
+    --color-band-accent: 143 227 188;   /* #8FE3BC */
+  }
+
+  [data-palette="videoclub"] {
+    --color-canvas: 250 247 250;        /* #FAF7FA */
+    --color-surface: 255 255 255;       /* #FFFFFF */
+    --color-ink: 30 18 36;              /* #1E1224 */
+    --color-ink-muted: 93 76 99;        /* #5D4C63 */
+    --color-line: 235 225 234;          /* #EBE1EA */
+    --color-line-strong: 140 124 143;   /* #8C7C8F */
+    --color-accent: 176 23 95;          /* #B0175F */
+    --color-on-accent: 255 255 255;     /* #FFFFFF */
+    --color-success: 22 101 52;         /* #166534 */
+    --color-on-kudos: 30 18 36;         /* #1E1224 */
+    --color-band: 42 16 51;             /* #2A1033 */
+    --color-band-ink: 251 239 246;      /* #FBEFF6 */
+    --color-band-muted: 217 188 208;    /* #D9BCD0 */
+    --color-band-line: 78 42 89;        /* #4E2A59 */
+    --color-band-accent: 255 140 195;   /* #FF8CC3 */
+  }
+
+  .dark[data-palette="videoclub"] {
+    --color-canvas: 19 12 23;           /* #130C17 */
+    --color-surface: 29 20 34;          /* #1D1422 */
+    --color-ink: 247 238 245;           /* #F7EEF5 */
+    --color-ink-muted: 185 167 186;     /* #B9A7BA */
+    --color-line: 51 36 58;             /* #33243A */
+    --color-line-strong: 124 106 128;   /* #7C6A80 */
+    --color-accent: 255 140 195;        /* #FF8CC3 */
+    --color-on-accent: 30 18 36;        /* #1E1224 */
+    --color-success: 108 197 138;       /* #6CC58A */
+    --color-band: 44 20 51;             /* #2C1433 */
+    --color-band-ink: 247 238 245;      /* #F7EEF5 */
+    --color-band-muted: 201 178 199;    /* #C9B2C7 */
+    --color-band-line: 74 40 82;        /* #4A2852 */
+    --color-band-accent: 255 157 204;   /* #FF9DCC */
+  }
+
+  body {
+    @apply bg-canvas text-ink;
   }
 }
+
 * {
   box-sizing: border-box;
 }
@@ -43,4 +193,13 @@
 body {
   margin: 0;
   min-width: 320px;
+}
+
+/* Quien pide menos movimiento en el sistema no ve transiciones ni animaciones. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
 }

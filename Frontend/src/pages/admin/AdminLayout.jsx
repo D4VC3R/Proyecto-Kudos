@@ -16,7 +16,7 @@ const AdminLayout = () => {
           size="large"
           title="Admin"
           highlight="Dashboard"
-          highlightColor="accent"
+          highlightColor="kudos"
           subtitle="Centro de gestión y moderación de la aplicación"
         />
       </div>

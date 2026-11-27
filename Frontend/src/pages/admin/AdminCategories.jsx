@@ -19,7 +19,7 @@ const AdminCategories = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Gestión de" highlight="Categorías" highlightColor="accent" icon={LayoutGrid}>
+      <SectionHeader title="Gestión de" highlight="Categorías" highlightColor="kudos" icon={LayoutGrid}>
         <div className="flex gap-4 items-center flex-wrap">
           <SearchFilter
             value={state.searchInput}

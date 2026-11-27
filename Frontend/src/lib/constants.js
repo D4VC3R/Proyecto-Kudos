@@ -39,7 +39,7 @@ export const PROPOSAL_STATUS_CONFIG = {
 // Configuración del ranking, con estilos específicos para los primeros 3 puestos y un estilo genérico para el resto.
 export const RANK_CONFIG = {
   1: {
-    wrapperClass: 'bg-gradient-to-r from-yellow-200 to-white border-accent shadow-[20px_0_25px_rgba(250,204,21,0.5)] z-30 border-2 py-5 px-5',
+    wrapperClass: 'bg-gradient-to-r from-yellow-200 to-white border-kudos shadow-[20px_0_25px_rgba(250,204,21,0.5)] z-30 border-2 py-5 px-5',
     iconWrapperClass: 'h-12 w-12',
     Icon: Trophy,
     iconSize: 28,

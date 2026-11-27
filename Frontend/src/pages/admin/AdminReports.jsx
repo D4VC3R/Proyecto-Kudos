@@ -30,7 +30,7 @@ const AdminReports = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Cola de" highlight="Reportes" highlightColor="accent" icon={Flag}>
+      <SectionHeader title="Cola de" highlight="Reportes" highlightColor="kudos" icon={Flag}>
         <div className="flex gap-2 flex-wrap">
           <SelectFilter
             label="Estado"

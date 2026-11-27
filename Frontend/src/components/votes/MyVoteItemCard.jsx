@@ -53,7 +53,7 @@ const MyVoteItemCard = ({ vote, isDeleting, onDeleteClick }) => {
               <span className="text-text-normal text-sm font-bold mr-1">Puntuación:</span>
               <span className="text-lg font-black text-slate-800">{vote.score}</span>
               <span className="text-slate-400 text-sm">/ 10</span>
-              <Star size={16} className="text-accent ml-1" fill="currentColor" />
+              <Star size={16} className="text-kudos ml-1" fill="currentColor" />
             </div>
           )}
         </div>
