@@ -45,7 +45,7 @@ Las rutas son relativas a `Frontend/src/`. Fuera de `src/` están `api/` (la fun
 | Ruta | Página | Acceso |
 |---|---|---|
 | `/` | Portada por secciones: accesos a categorías, "Para ti" ("Populares" sin sesión), "Novedades", "Listas destacadas" y "Mejor valorados" (F2-09) | Público |
-| `/:categorySlug` | Cabecera, destacados (`sort_by: 'vote_avg'` en `useCategoryPage.js`), `ActionMenu` y ranking | Público |
+| `/:categorySlug` | Cabecera, destacados (`sort_by: 'vote_avg'` en `useCategoryPage.js`), `ActionMenu` y ranking; espera a la lista de categorías antes de pedir ranking y destacados | Público |
 | `/:categorySlug/explore` | Rejilla con búsqueda y orden | Público |
 | `/:categorySlug/item/:itemId` | Ficha con comentarios | Público |
 | `/:categorySlug/vote` | Votación de un ítem cada vez | Login y verificado |
@@ -114,6 +114,7 @@ Comprobación: `grep -rn "animate-in\|prose\|scrollbar-" Frontend/src` no debe d
 | Limpieza del frontend | Los iconos de categoría salen de un solo sitio, `resolveCategoryIcon(category)` (`lib/formatters.js`: `category.icon`, luego el slug, luego `LayoutGrid`); "Destinos" ya no sale con el icono genérico. `Ranking` usa `useInfiniteScroll` en lugar de un observador propio. `StatCard` se separó en `AdminStatCard` y `ProfileStatCard` (diseños distintos). `Button` junta las clases con `twMerge(clsx(…))`, así que un `className` gana al estilo base. `ItemImage` carga con `loading="eager"` (es la imagen principal de la ficha, `/votar` y el onboarding). Código muerto fuera: `CategoryCard`, `CategoryCardSkeleton`, `useAdminCreateItem`, `useAdminUpdateItem`, `useMyItems`, `useMyVotes`, `usePendingProposals`, `categoryIcons`, `@types/*` y `loadEnv` | F5-12 |
 | Navegación por teclado en la cabecera | "Saltar al contenido" (`App.jsx`) es el primer enfocable: solo se ve al recibir el foco y lleva a `<main id="contenido" tabindex="-1">`. El botón ☰ de `NavBar` lleva `aria-expanded` y `aria-controls` (el `id` del panel de `NavBarMobile`); el menú se cierra con Escape (el foco vuelve al botón), con un clic fuera y al navegar, con `useDismiss`. El panel va con `top-full`, justo bajo la cabecera | RA-01 |
 | Campos de filtro | `SearchFilter`, `SelectFilter` y el `select` de categoría de `CatalogImportPanel` llevan `border border-border-strong` y un solo indicador de foco: `focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500` (sin el *outline* del navegador sumado al *ring*). Las etiquetas del panel de TMDB usan `text-text-normal` (≥ 4,5:1), no `text-text-subtitle` | RA-02 |
+| Categoría inexistente | `useCategoryPage` decide si la categoría existe con `useCategories()` (solo las activas, cacheada 24 h y compartida con el resto de la aplicación). El ranking y los destacados solo se activan si existe (`enabled`); mientras se resuelve, `CategoryPage` pinta solo *skeletons* (sin `ActionMenu` ni textos que dependan de la categoría) y, si no existe, solo "Categoría no encontrada" con su `h1`. Antes se pedía el ranking para averiguarlo, con su reintento, y se lanzaba `/api/items?category_slug=…` y se pintaba "catálogo de undefined" mientras tanto | RA-03 |
 
 ## 5. Convenciones
 
