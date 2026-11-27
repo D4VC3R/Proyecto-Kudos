@@ -14,7 +14,7 @@
 | R8 | No borres tests. Si uno deja de tener sentido, explícalo en el resumen. No desactives validaciones, *policies* ni middlewares para que algo pase. |
 | R9 | Sin secretos en el repo. Cada variable nueva va vacía en `Backend/.env.example` y `Backend/.env.production.example`, y se documenta en [infra/produccion.md](infra/produccion.md) §3. |
 | R10 | **Prohibido sin permiso explícito del humano:** conectarse al VPS, ejecutar `deploy.sh` o cualquier comando contra producción; usar APIs de pago o pruebas que caduquen; incumplir los términos de una API ([integraciones/fuentes-externas.md](integraciones/fuentes-externas.md) §1); enviar correos reales, publicar o crear cuentas en servicios externos; implementar funciones **aplazadas** ([producto/vision.md](producto/vision.md) §3). |
-| R11 | Git: en `rediseno-fase-0` y en `main` **nunca se hace un commit directo**; todo entra por PR, también la documentación y los bloqueos (§4.1). El único `push` permitido es el de una rama de tarea (`fase-N/…`) para abrir su PR. Nunca `push` a `rediseno-fase-0` ni a `main`, nunca `--force` ni `--no-verify`, y en `main` solo fusiona el humano. |
+| R11 | Git: en `rediseno-fase-0` y en `main` **nunca se hace un commit directo**; todo entra por PR, también la documentación y los bloqueos (§4.1). El único `push` permitido es el de una rama de tarea (`fase-N/…` o `rediseno/…`) para abrir su PR. Nunca `push` a `rediseno-fase-0` ni a `main`, nunca `--force` ni `--no-verify`, y en `main` solo fusiona el humano. |
 | R12 | Si la tarea es inviable o mucho mayor de lo descrito, o una verificación no se puede hacer en tu entorno: **para y pregunta**. Nunca des por hecha una tarea sin verificar. |
 | R13 | Los comentarios del código explican el **porqué** y no citan IDs del roadmap (`F5-02`) ni de la auditoría (`BE-B1`): la trazabilidad la dan el commit, el PR y su issue (`git blame`). Los que ya existen se quedan (Fase 5, "No hacer"), pero el código nuevo no añade más. En `docs/` sí se citan. |
 
@@ -37,10 +37,10 @@ El orquestador (la sesión principal) elige la tarea, crea la rama y marca `en c
 
 Los pasos, hagas la tarea a mano o con los agentes:
 
-1. En [roadmap/README.md](roadmap/README.md), elige la primera tarea `pendiente` con todas sus dependencias en `hecho`. No saltes de fase salvo que el humano lo pida.
+1. En [roadmap/README.md](roadmap/README.md), elige la primera tarea `pendiente` con todas sus dependencias en `hecho`. No saltes de fase salvo que el humano lo pida. La Fase R (rediseño visual) va antes de F5-16, que depende de RD-01.
 2. Lee su ficha, las secciones que cite en **Lee** y el código actual de los **Archivos**.
 3. Marca la tarea `en curso` en el tablero y asígnate su issue (§4.2).
-4. Rama base: hasta F5-16, `rediseno-fase-0`; después, `main`. `git switch rediseno-fase-0 && git pull --ff-only origin rediseno-fase-0`, y crea `fase-N/FN-XX-descripcion-corta` (ej. `fase-0/F0-03-recalculo-medias`). Cuando la tarea esté hecha, entra en `rediseno-fase-0` mediante un PR (§4.1). A `main` solo se fusiona por fases, con aprobación y lo hace el humano.
+4. Rama base: hasta F5-16, `rediseno-fase-0`; después, `main`. `git switch rediseno-fase-0 && git pull --ff-only origin rediseno-fase-0`, y crea `fase-N/FN-XX-descripcion-corta` (ej. `fase-0/F0-03-recalculo-medias`); en la Fase R, `rediseno/RX-YY-descripcion-corta`. Cuando la tarea esté hecha, entra en `rediseno-fase-0` mediante un PR (§4.1). A `main` solo se fusiona por fases, con aprobación y lo hace el humano.
 5. Implementa.
 6. Verifica la definición de hecho (§3).
 7. Actualiza la documentación: estado `hecho` en el tablero, una sección **Notas** en la ficha con las decisiones y desviaciones, y los documentos de referencia que hayan quedado desfasados.
@@ -79,7 +79,7 @@ Rama base: hasta F5-16, `rediseno-fase-0`; después, `main`. Desde la F5-02, tod
 
 Cada tarea pendiente desde la Fase 5 tiene su issue en GitHub, enlazada en la columna **Issue** del tablero. El **tablero sigue siendo la fuente de verdad** para los agentes; la issue es su reflejo público.
 
-- **Contenido:** la ficha de la tarea, las dependencias enlazadas a sus issues, la etiqueta de fase (`fase-5`) y las de área (`backend`, `frontend`, `infra`, `integraciones`, `tests`, `legal`, `documentation` y `humano`).
+- **Contenido:** la ficha de la tarea, las dependencias enlazadas a sus issues, la etiqueta de fase (`fase-5`; en la Fase R, `rediseno`) y las de área (`backend`, `frontend`, `infra`, `integraciones`, `tests`, `legal`, `documentation` y `humano`).
 - **Ciclo:** al empezar, el orquestador se la asigna y comenta la rama. El PR la cita con `Refs #N`, no con `Closes #N`: GitHub solo cierra issues al fusionar en la rama por defecto (`main`). Al fusionar, el integrador la cierra con `gh issue close N --comment "Hecha en #<PR>."`. Si se bloquea, recibe un comentario con el motivo y la etiqueta `humano`.
 - **Tareas nuevas:** el PR que añade una tarea al roadmap crea también su issue y la enlaza en el tablero.
 

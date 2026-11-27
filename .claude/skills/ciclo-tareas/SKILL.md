@@ -1,7 +1,7 @@
 ---
 name: ciclo-tareas
 description: Avanza el roadmap de Kudos 2.0 de forma automática. Cada tarea pasa por kudos-planificador (Opus, solo lectura), kudos-ejecutor (Sonnet), kudos-verificador (Opus, revisión independiente) y kudos-integrador (Sonnet), que hace los commits, abre el PR y lo fusiona con el CI en verde; si algo falla, se corrige y se vuelve a verificar. Úsala cuando el humano pida avanzar, empezar o continuar con las tareas del roadmap.
-argument-hint: "[FX-YY | número de tareas]"
+argument-hint: "[FX-YY | RX-YY | número de tareas]"
 ---
 
 # Ciclo de tareas de Kudos 2.0
@@ -23,11 +23,11 @@ Desde la raíz del repo:
 
 ## 1. Elegir la tarea
 
-En `docs/roadmap/README.md`, la primera `pendiente` con todas sus dependencias en `hecho`, sin saltar de fase. Su issue está en la columna **Issue**. Si es de `HUMANO`, o no queda ninguna disponible, para (§5).
+En `docs/roadmap/README.md`, la primera `pendiente` con todas sus dependencias en `hecho`, sin saltar de fase. La Fase R va antes de F5-16 (F5-16 depende de RD-01): mientras quede una tarea R pendiente, la fase actual es la R. Su issue está en la columna **Issue**. Si es de `HUMANO`, o no queda ninguna disponible, para (§5).
 
 ## 2. Planificar
 
-Calcula el rango de la ficha con `grep -n '^## F' docs/roadmap/<archivo de la fase>.md`: va desde su encabezado hasta la línea anterior al siguiente. Lanza `kudos-planificador` con el ID de la tarea, la issue, la ruta de la ficha y ese rango de líneas. Las dependencias ya las has comprobado tú, en el paso 1. Escribe el plan en `.claude/ciclo/FX-YY/plan.md` y te devuelve la ruta, la rama, un resumen corto y las decisiones para validar. Si devuelve `## BLOQUEO`, pregunta al humano con `AskUserQuestion`, pásale la respuesta en un planificador nuevo, y si sigue bloqueada, regístralo **con un PR**, como cualquier cambio (guía §4.1): desde `rediseno-fase-0`, `git switch -c fase-N/FX-YY-bloqueada`; márcala `bloqueada` en el tablero con el motivo en la ficha; un commit `Docs: FX-YY bloqueada, <motivo corto>`; `git push -u origin <rama>`; `gh pr create --base rediseno-fase-0` con el motivo y `Refs #<issue>`; con el CI en verde, `gh pr merge --merge`; `gh issue comment <issue>` con el motivo y la pregunta para el humano, y `gh issue edit <issue> --add-label humano`; vuelve a `rediseno-fase-0` con `git pull --ff-only origin rediseno-fase-0` y pasa a la siguiente.
+Calcula el rango de la ficha con `grep -nE '^## [FR][0-9A-D]-' docs/roadmap/<archivo de la fase>.md`: va desde su encabezado hasta la línea anterior al siguiente. Lanza `kudos-planificador` con el ID de la tarea, la issue, la ruta de la ficha y ese rango de líneas. Las dependencias ya las has comprobado tú, en el paso 1. Escribe el plan en `.claude/ciclo/FX-YY/plan.md` y te devuelve la ruta, la rama, un resumen corto y las decisiones para validar. Si devuelve `## BLOQUEO`, pregunta al humano con `AskUserQuestion`, pásale la respuesta en un planificador nuevo, y si sigue bloqueada, regístralo **con un PR**, como cualquier cambio (guía §4.1): desde `rediseno-fase-0`, `git switch -c fase-N/FX-YY-bloqueada` (Fase R: `rediseno/RX-YY-bloqueada`); márcala `bloqueada` en el tablero con el motivo en la ficha; un commit `Docs: FX-YY bloqueada, <motivo corto>`; `git push -u origin <rama>`; `gh pr create --base rediseno-fase-0` con el motivo y `Refs #<issue>`; con el CI en verde, `gh pr merge --merge`; `gh issue comment <issue>` con el motivo y la pregunta para el humano, y `gh issue edit <issue> --add-label humano`; vuelve a `rediseno-fase-0` con `git pull --ff-only origin rediseno-fase-0` y pasa a la siguiente.
 
 ## 3. Preparar la rama
 
