@@ -1,9 +1,19 @@
+import { useLocation } from 'react-router-dom';
 import AppRoutes from './routes/routes.jsx';
 import MainHeader from "./components/layout/MainHeader.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ScrollToTopButton from "./components/ui/ScrollToTopButton.jsx";
 import DailyRewardChecker from "./components/ui/DailyRewardChecker.jsx";
 import AddToListModal from "./components/lists/AddToListModal.jsx";
+
+// Ancho del contenido según la página: la administración usa tablas anchas (panel), los textos legales se leen
+// mejor con líneas cortas (lectura) y el resto va al ancho de la maqueta (contenido).
+const pageWidthFor = (pathname) => {
+  if (pathname === '/admin' || pathname.startsWith('/admin/')) return 'max-w-panel';
+  if (pathname === '/privacidad' || pathname === '/aviso-legal') return 'max-w-reading';
+  return 'max-w-content';
+};
+
 /**
  * Bienvenido a Proyecto Kudos, aquí tienes la estructura del proyecto por si necesitas modificar algo:
  * - app: Contiene los proveedores de la aplicación.
@@ -15,6 +25,8 @@ import AddToListModal from "./components/lists/AddToListModal.jsx";
  * - store: Zustand para manejar el estado global de la sesión del usuario.
  * */
 const App = () => {
+  const { pathname } = useLocation();
+
   return (
     <div className="bg-background text-text-highlight flex flex-col font-sans min-h-[100dvh]">
       {/* Primer elemento enfocable: con teclado, salta la cabecera y lleva al contenido de la página. */}
@@ -28,7 +40,7 @@ const App = () => {
       <DailyRewardChecker />
       <AddToListModal />
 
-      <main id="contenido" tabIndex={-1} className="mx-auto w-full max-w-7xl flex-grow scroll-mt-20 px-4 py-8 outline-none sm:px-6 lg:px-8">
+      <main id="contenido" tabIndex={-1} className={`mx-auto w-full flex-grow scroll-mt-16 px-4 py-8 outline-none md:px-6 ${pageWidthFor(pathname)}`}>
         <AppRoutes />
       </main>
 
