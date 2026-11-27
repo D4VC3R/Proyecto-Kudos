@@ -20,6 +20,7 @@ const IGNORE = new Set([
   'peer',
   'bottom-center', // posición de react-hot-toast
   'list-visibility', // id de un campo de formulario
+  'font-size', // nombre de un grupo de tailwind-merge (src/lib/twMerge.js)
 ]);
 
 // Prefijos de utilidad (la clase base debe ser `prefijo-algo`).

@@ -46,13 +46,9 @@ const ListPage = () => {
             <span className="inline-flex items-center rounded-full bg-background px-3 py-1 text-sm font-bold text-slate-500">
               {LIST_VISIBILITY_LABELS[state.list.visibility]}
             </span>
-            <Link
-              to={`/mis-listas/${state.list.id}`}
-              className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-primary hover:bg-blue-50"
-            >
-              <Edit2 size={16} className="shrink-0" />
+            <Button as={Link} to={`/mis-listas/${state.list.id}`} variant="ghost" icon={Edit2}>
               Editar
-            </Link>
+            </Button>
           </>
         )}
         <Button

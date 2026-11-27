@@ -19,13 +19,9 @@ const AdminListCard = ({ list, onEdit, onDelete }) => {
       )}
 
       <div className="flex gap-2 mt-4 pt-4 border-t border-slate-100">
-        <Link
-          to={`/admin/lists/${list.id}`}
-          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2 font-bold text-primary transition-colors hover:bg-blue-50"
-        >
-          <ListOrdered size={18} className="shrink-0" />
+        <Button as={Link} to={`/admin/lists/${list.id}`} variant="ghost" icon={ListOrdered} className="flex-1">
           Ítems
-        </Link>
+        </Button>
         <Button
           onClick={() => onEdit(list)}
           variant="ghost"

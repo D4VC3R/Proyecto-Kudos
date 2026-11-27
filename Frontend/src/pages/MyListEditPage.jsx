@@ -33,12 +33,9 @@ const MyListEditPage = () => {
         <Button onClick={actions.handleGoBack} variant="ghost" color="primary" size="sm" icon={ArrowLeft}>
           Volver a mis listas
         </Button>
-        <Link
-          to={`/listas/${state.list.slug}`}
-          className="inline-flex items-center rounded-xl px-3 py-2 text-sm font-bold text-primary hover:bg-blue-50"
-        >
+        <Button as={Link} to={`/listas/${state.list.slug}`} variant="ghost">
           Ver lista
-        </Link>
+        </Button>
       </SectionHeader>
 
       <section aria-labelledby="my-list-data" className="flex flex-col gap-4 rounded-3xl border border-slate-100 bg-surface p-6">
