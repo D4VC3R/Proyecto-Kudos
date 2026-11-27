@@ -7,6 +7,8 @@ import CommentDeleteBody from "./CommentDeleteBody.jsx";
 import ModalButtons from "../ui/ModalButtons.jsx";
 import Comment from './Comment';
 import Button from '../ui/Button.jsx';
+import Input from '../ui/Input.jsx';
+import Checkbox from '../ui/Checkbox.jsx';
 // Hooks
 import { useForm } from 'react-hook-form';
 import { useItemComments } from '../../hooks/items/useItemQueries';
@@ -84,21 +86,24 @@ const CommentBox = ({ itemId, userVote, className = "" }) => {
       </h3>
 
       <form onSubmit={handleSubmit(onSubmit)} className="shrink-0 flex gap-2 pt-4 border-t border-slate-100 mb-2">
-        <input
-          {...register('content')}
+        <Input
+          hideLabel
+          label="Escribe un comentario"
+          registration={register('content')}
           placeholder="Escribe un comentario..."
-          aria-label="Escribe un comentario"
-          className="flex-1 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="min-w-0 flex-1"
           autoComplete="off"
         />
         <Button type="submit" isLoading={createCommentMutation.isPending} variant="solid" color="primary" radius="lg" size="iconMd" icon={Send} aria-label="Publicar comentario" />
       </form>
 
       {canReview && (
-        <label className="shrink-0 flex items-center gap-2 text-xs text-text-normal mb-2 cursor-pointer">
-          <input type="checkbox" checked={isReview} onChange={(e) => setIsReview(e.target.checked)} className="accent-blue-600" />
-          Publicar como reseña (tu nota: {userVote.score})
-        </label>
+        <Checkbox
+          label={`Publicar como reseña (tu nota: ${userVote.score})`}
+          checked={isReview}
+          onChange={(e) => setIsReview(e.target.checked)}
+          className="mb-2 shrink-0"
+        />
       )}
 
       <div className="flex-1 min-h-0 flex flex-col gap-4 overflow-y-auto pr-2">
@@ -116,14 +121,15 @@ const CommentBox = ({ itemId, userVote, className = "" }) => {
                 onSubmit={(e) => { e.preventDefault(); submitReply(comment.id); }}
                 className="ml-6 sm:ml-10 flex gap-2"
               >
-                <input
+                <Input
+                  hideLabel
+                  label="Escribe una respuesta"
                   value={replyContent}
                   onChange={(e) => setReplyContent(e.target.value)}
                   placeholder="Escribe una respuesta..."
-                  aria-label="Escribe una respuesta"
                   maxLength={2000}
                   autoFocus
-                  className="flex-1 min-w-0 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="min-w-0 flex-1"
                   autoComplete="off"
                 />
                 <Button type="submit" isLoading={createCommentMutation.isPending} variant="solid" color="primary" radius="lg" size="iconMd" icon={Send} aria-label="Enviar respuesta" />
