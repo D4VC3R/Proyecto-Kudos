@@ -154,6 +154,14 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 - El menú no tapa la cabecera.
 - `pnpm build` y `pnpm check:classes` sin errores.
 
+**Notas (RA-01):**
+- **Archivos:** `Frontend/src/App.jsx` (enlace "Saltar al contenido" y `<main id="contenido" tabIndex={-1}>` con `scroll-mt-20 outline-none`), `components/layout/NavBar.jsx` (☰ con `aria-expanded`/`aria-controls`, `useDismiss`, `NavBarMobile` dentro del contenedor del botón para que pulsar ☰ no cuente como clic fuera), `components/layout/NavBarMobile.jsx` (recibe `id` y `onClose`; `top-full` en lugar de `top-[72px]` y `border-y`, porque el panel tapaba 8 px de la cabecera de 80 px) y `hooks/common/useDismiss.js`. Documentado en `docs/frontend/arquitectura.md` §4 y §5 y en `Frontend/README.md`. Sin tests nuevos (la SPA no tiene suite): la prueba son `visual-check.sh` y un script de interacción con Playwright fuera del repo (`.claude/ciclo/RA-01/menu-check.mjs`).
+- **Ampliación del informe (R1):** `visual-check.mjs` guarda ahora, por fila, `focus.order` (el elemento que recibe cada Tab, con su `aria-label` o texto), porque `steps` y `failures` no permitían comprobar qué se enfoca primero.
+- **Guarda en `useDismiss`:** ignora un Escape con `defaultPrevented`. Sin ella, el Escape con el que el buscador cierra sus resultados cerraba también el menú móvil entero.
+- **Resultados:** `pnpm build` y `pnpm check:classes` en verde. `visual-check.sh --routes /,/ranking --widths 360,768,1440`: `focus.order[0]` es «Saltar al contenido» en las 6 filas, sin ningún fallo de foco en ese enlace; sin errores de JS, sin desbordamiento y un `h1`. Frente a RA-00, los mismos fallos de foco (el anillo a 1,42:1 de los botones y enlaces ya existentes, salida con código 1) y ninguno nuevo; solo sube en 1 el número de elementos recorridos por el Tab (el enlace nuevo). `menu-check.mjs` a 360 px, 7 pasos en OK: primer Tab sobre el enlace (177 px de ancho), Enter lleva el foco a `main#contenido`, menú abierto con `aria-expanded="true"`, etiqueta "Cerrar menú" y panel con el borde superior en 80 px (el inferior de la cabecera), Escape lo cierra y el foco vuelve al botón, el clic fuera y el clic en «Ranking» también lo cierran.
+- **Comprobación "falla antes":** sin la guarda `!event.defaultPrevented` en `useDismiss`, el paso 6 de `menu-check.mjs` falla (el Escape con resultados abiertos cierra el menú); con ella, pasa.
+- **Desviación:** en el paso 6 se ha escrito `star` en el buscador en lugar de `zz`, porque `zz` no devuelve resultados y no abre el listbox (el paso quedaba como "no aplica"); con `star` el listbox se abre y la guarda queda comprobada.
+
 ## RA-02 · Filtros con borde y etiquetas visibles (FE)
 
 **Depende:** RA-00 · **Cierra:** F6, F7

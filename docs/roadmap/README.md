@@ -133,7 +133,7 @@ Va **antes de F5-16**: la fusión en `main` incluye el rediseño, así que mient
 | R1-01 | Maquetas y elección de dirección | HUMANO, DOCS | R0-01 | hecho | [#50](https://github.com/D4VC3R/Proyecto-Kudos/issues/50) |
 | R1-02 | Tablero de la Fase R | DOCS | R1-01 | hecho | [#52](https://github.com/D4VC3R/Proyecto-Kudos/issues/52) |
 | RA-00 | Herramienta de verificación visual | FE, QA | — | hecho | [#53](https://github.com/D4VC3R/Proyecto-Kudos/issues/53) |
-| RA-01 | Menú móvil accesible y "Saltar al contenido" | FE | RA-00 | pendiente | [#54](https://github.com/D4VC3R/Proyecto-Kudos/issues/54) |
+| RA-01 | Menú móvil accesible y "Saltar al contenido" | FE | RA-00 | hecho | [#54](https://github.com/D4VC3R/Proyecto-Kudos/issues/54) |
 | RA-02 | Filtros con borde y etiquetas visibles | FE | RA-00 | pendiente | [#55](https://github.com/D4VC3R/Proyecto-Kudos/issues/55) |
 | RA-03 | Categoría inexistente sin consultas inútiles | FE | — | pendiente | [#56](https://github.com/D4VC3R/Proyecto-Kudos/issues/56) |
 | RA-04 | Pluralización y nota vacía | FE | — | pendiente | [#57](https://github.com/D4VC3R/Proyecto-Kudos/issues/57) |
