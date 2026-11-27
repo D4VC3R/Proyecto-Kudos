@@ -1,8 +1,29 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-palette="azulejo">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#F5F7FB" />
+    <!-- Aplica el tema guardado antes del primer pintado para que no parpadee; debe coincidir con useTheme.
+         Con una CSP se autorizaría por hash. -->
+    <script>
+      (function () {
+        var palette = 'azulejo';
+        var mode = 'system';
+        try {
+          var stored = JSON.parse(localStorage.getItem('kudos.theme'));
+          if (stored) {
+            if (['azulejo', 'original', 'taquilla', 'videoclub'].indexOf(stored.palette) !== -1) palette = stored.palette;
+            if (stored.mode === 'light' || stored.mode === 'dark') mode = stored.mode;
+          }
+        } catch (e) {}
+        var dark = mode === 'dark' ||
+          (mode === 'system' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        var root = document.documentElement;
+        root.setAttribute('data-palette', palette);
+        if (dark) root.classList.add('dark');
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" />
     <title>Proyecto Kudos</title>
