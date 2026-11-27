@@ -1,34 +1,41 @@
 import React from 'react';
 import Chip from '../ui/Chip.jsx';
 import { getAttributeEntries } from '../../lib/attributes.js';
+import { resolveCategoryIcon } from '../../lib/formatters.js';
 
-// En la tarjeta caben pocos chips: como mucho dos valores por atributo (p. ej. dos géneros).
-const CARD_MAX_VALUES = 2;
-
-// Chips de los atributos del catálogo a partir de attribute_schema (F1-09).
-// variant="detail": todos los atributos con valor, con su etiqueta. variant="card": solo los de show_in_card, sin etiqueta visible, en una fila.
-const AttributeChips = ({ schema, attributes, variant = 'detail', className = '' }) => {
+// Atributos del catálogo a partir de attribute_schema.
+// variant="detail": todos los atributos con valor, con su etiqueta. variant="card": el icono de la categoría, el primer
+// valor de los atributos de show_in_card y un chip con el segundo (año y género en películas, tipo y país en destinos).
+const AttributeChips = ({ schema, attributes, variant = 'detail', category, className = '' }) => {
   const isCard = variant === 'card';
   const entries = getAttributeEntries(schema, attributes, { cardOnly: isCard });
 
-  if (entries.length === 0) return null;
-
   if (isCard) {
+    const [first, second] = entries.flatMap((entry) => entry.values.map((value) => ({ label: entry.label, value })));
+    if (!category && !first) return null;
+    const Icon = category ? resolveCategoryIcon(category) : null;
+
     return (
-      <ul className={`flex flex-nowrap gap-1 overflow-hidden ${className}`}>
-        {entries.flatMap((entry) => entry.values.slice(0, CARD_MAX_VALUES).map((value, index) => (
-          <li
-            key={`${entry.key}-${index}`}
-            title={entry.label}
-            className="shrink-0 whitespace-nowrap rounded-full bg-white/20 px-2 py-0.5 text-xs font-semibold text-text-btn ring-1 ring-white/30 backdrop-blur-sm"
-          >
-            <span className="sr-only">{entry.label}: </span>
-            {value}
-          </li>
-        )))}
-      </ul>
+      <div className={`flex flex-wrap items-center gap-1.5 text-caption text-ink-muted ${className}`}>
+        {category && (
+          <>
+            <span title={category.name}>
+              <Icon size={14} aria-hidden="true" className="text-cat-icon" />
+            </span>
+            <span className="sr-only">{category.name}{first ? ', ' : ''}</span>
+          </>
+        )}
+        {first && <span title={first.label} className="tabular-nums">{first.value}</span>}
+        {second && (
+          <Chip title={second.label} className="max-w-full">
+            <span className="truncate">{second.value}</span>
+          </Chip>
+        )}
+      </div>
     );
   }
+
+  if (entries.length === 0) return null;
 
   return (
     <dl className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${className}`}>

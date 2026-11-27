@@ -9,9 +9,9 @@ const HomeItemRow = ({ items = [], label, labelId }) => {
     <div className="flex flex-col gap-3">
       {label && <h3 id={labelId} className="text-lg font-bold text-slate-800">{label}</h3>}
       <ul aria-labelledby={label ? labelId : undefined} className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <li key={item.id} className="w-36 shrink-0 snap-start sm:w-44">
-            <ItemCard item={item} />
+            <ItemCard item={item} index={index} />
           </li>
         ))}
       </ul>

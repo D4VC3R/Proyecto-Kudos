@@ -91,7 +91,8 @@ export default {
       ringOpacity: { DEFAULT: '1' },
       // Animación de entrada de las páginas (antes `animate-in fade-in` de tailwindcss-animate, que no está instalado).
       // `bump` hace saltar el contador de Kudos al cambiar y `stamp` estampa el sello de la nota en la ficha: son CSS
-      // para que el CSS global de `prefers-reduced-motion` las frene sin código.
+      // para que el CSS global de `prefers-reduced-motion` las frene sin código. `rise` hace subir las tarjetas en
+      // cascada (el retraso sale de `--i`) y también es CSS por lo mismo.
       keyframes: {
         fadeIn: {
           from: { opacity: '0' },
@@ -106,11 +107,28 @@ export default {
           '55%': { opacity: '1' },
           '100%': { opacity: '1', transform: 'rotate(-3deg)' },
         },
+        rise: {
+          from: { opacity: '0', transform: 'translateY(14px)' },
+        },
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
         bump: 'bump 0.6s cubic-bezier(.3, 1.6, .5, 1)',
         stamp: 'stamp 0.55s cubic-bezier(.2, 1.5, .4, 1) 0.25s both',
+        rise: 'rise 0.45s cubic-bezier(.2, .7, .2, 1) calc(var(--i, 0) * 45ms) both',
+      },
+      // Proporción del póster de una tarjeta.
+      aspectRatio: {
+        poster: '2 / 3',
+      },
+      transitionTimingFunction: {
+        soft: 'cubic-bezier(.2, .7, .2, 1)',
+      },
+      transitionDuration: {
+        250: '250ms',
+      },
+      textUnderlineOffset: {
+        3: '3px',
       },
       // Ancho máximo de las páginas: lectura (las páginas legales, el antiguo `max-w-3xl`), contenido (el `--max` de la
       // maqueta) y panel (la administración, el ancho que tenía todo el sitio).
