@@ -136,7 +136,7 @@ Va **antes de F5-16**: la fusión en `main` incluye el rediseño, así que mient
 | RA-01 | Menú móvil accesible y "Saltar al contenido" | FE | RA-00 | hecho | [#54](https://github.com/D4VC3R/Proyecto-Kudos/issues/54) |
 | RA-02 | Filtros con borde y etiquetas visibles | FE | RA-00 | hecho | [#55](https://github.com/D4VC3R/Proyecto-Kudos/issues/55) |
 | RA-03 | Categoría inexistente sin consultas inútiles | FE | — | hecho | [#56](https://github.com/D4VC3R/Proyecto-Kudos/issues/56) |
-| RA-04 | Pluralización y nota vacía | FE | — | pendiente | [#57](https://github.com/D4VC3R/Proyecto-Kudos/issues/57) |
+| RA-04 | Pluralización y nota vacía | FE | — | hecho | [#57](https://github.com/D4VC3R/Proyecto-Kudos/issues/57) |
 | RA-05 | Posición del ranking con empates | BE, FE | — | pendiente | [#58](https://github.com/D4VC3R/Proyecto-Kudos/issues/58) |
 | RB-01 | Tokens, temas y modo oscuro | FE | RA-00 | pendiente | [#59](https://github.com/D4VC3R/Proyecto-Kudos/issues/59) |
 | RB-02 | Primitivas | FE | RB-01 | pendiente | [#60](https://github.com/D4VC3R/Proyecto-Kudos/issues/60) |
