@@ -11,22 +11,26 @@ const VARIANT_STYLES = {
 
 // Placeholder generativo para los ítems sin imagen: degradado estable a partir del nombre,
 // icono de la categoría (category.icon si existe, si no por slug) y hasta dos iniciales.
-const ItemPlaceholder = ({ name = '', categorySlug, categoryIcon, className = '', variant = 'card' }) => {
+// `decorative` lo oculta a los lectores de pantalla: en una tarjeta el nombre ya está en el enlace.
+const ItemPlaceholder = ({ name = '', categorySlug, categoryIcon, className = '', variant = 'card', decorative = false }) => {
   const styles = VARIANT_STYLES[variant] || VARIANT_STYLES.card;
   const { from, to } = getPlaceholderColors(name);
   const initials = getInitials(name);
   const Icon = resolveCategoryIcon({ icon: categoryIcon, slug: categorySlug });
 
+  const a11yProps = decorative
+    ? { 'aria-hidden': 'true' }
+    : { role: 'img', 'aria-label': name ? `Sin imagen: ${name}` : 'Sin imagen' };
+
   return (
     <div
-      role="img"
-      aria-label={name ? `Sin imagen: ${name}` : 'Sin imagen'}
+      {...a11yProps}
       className={`flex flex-col items-center justify-center text-white select-none ${styles.gap} ${className}`}
       style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
     >
       <Icon size={styles.iconSize} strokeWidth={1.5} aria-hidden="true" />
       {initials && (
-        <span aria-hidden="true" className={`font-black leading-none tracking-tight ${styles.initials}`}>
+        <span aria-hidden="true" className={`font-display font-semibold leading-none tracking-tight ${styles.initials}`}>
           {initials}
         </span>
       )}
