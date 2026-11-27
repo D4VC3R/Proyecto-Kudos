@@ -1,13 +1,14 @@
 import React from 'react';
 import { Trash2 } from 'lucide-react';
 import {statusColors} from "../../lib/constants.js";
-import {formatStatus} from "../../lib/formatters.js";
+import {formatStatus, formatScore, formatVotes} from "../../lib/formatters.js";
 import { hasText } from '../../lib/text.js';
 import { clsx } from 'clsx';
 import AnimatedCard from '../animations/AnimatedCard.jsx';
 import Button from '../ui/Button.jsx';
 
 const AdminItemCard = ({ item, onModerate, onDelete }) => {
+  const score = formatScore(item.vote_avg, item.vote_count);
   return (
     <AnimatedCard className="bg-surface border border-slate-100 shadow-sm hover:shadow-md transition-shadow rounded-3xl p-5 flex flex-col gap-3 group relative overflow-hidden">
       <div className="flex justify-between items-start gap-2">
@@ -21,7 +22,7 @@ const AdminItemCard = ({ item, onModerate, onDelete }) => {
       )}
 
       <div className="flex flex-col gap-1 mt-2 text-xs font-medium text-text-normal">
-        <div>Puntuación: <span className="font-bold text-yellow-600">{item.vote_avg} ({item.vote_count} votos)</span></div>
+        <div>Puntuación: <span className="font-bold text-yellow-600">{score ? `${score} (${formatVotes(item.vote_count)})` : 'Sin nota'}</span></div>
         <div>Categoría: <span className="font-bold text-slate-700">{item.category?.name}</span></div>
       </div>
 
