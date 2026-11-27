@@ -1,23 +1,14 @@
 import React from 'react';
-import Button from '../ui/Button.jsx';
+import Tabs from '../ui/Tabs.jsx';
 
-const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => {
-  return (
-    <div className="w-full flex overflow-x-auto border-b border-border mb-6 gap-2 md:gap-8 min-w-0">
-      {tabs.map((tab) => (
-        <Button
-          key={tab.id}
-          onClick={() => setActiveTab(tab.id)}
-          variant="tab"
-          color={activeTab === tab.id ? 'active' : 'inactive'}
-          className="whitespace-nowrap md:px-2 py-4 ml-2"
-          icon={tab.icon}
-        >
-          {tab.name}
-        </Button>
-      ))}
-    </div>
-  );
-};
+const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => (
+  <Tabs
+    items={tabs.map((tab) => ({ id: tab.id, label: tab.name, icon: tab.icon }))}
+    activeId={activeTab}
+    onChange={setActiveTab}
+    label="Secciones del perfil"
+    className="mb-6"
+  />
+);
 
 export default ProfileTabs;

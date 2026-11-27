@@ -6,8 +6,9 @@ import Button from './Button.jsx';
 
 const FeedbackState = ({
                          icon: Icon,
-                         iconColorClass = 'bg-blue-100 text-blue-500',
+                         iconColorClass = 'bg-accent/10 text-accent',
                          title,
+                         titleAs: Title = 'h1',
                          description,
                          actionText,
                          onAction,
@@ -16,27 +17,30 @@ const FeedbackState = ({
                          children
                        }) => {
   return (
-    <StaggerGrid className={clsx("flex flex-col items-center text-center", customLayoutClass)}>
+    <StaggerGrid
+      role={isLoading ? 'status' : undefined}
+      className={clsx("flex flex-col items-center text-center", customLayoutClass)}
+    >
       <StaggerItem>
         {isLoading ? (
-          <Icon className="h-16 w-16 animate-spin text-blue-500 mb-6"/>
+          <Icon aria-hidden="true" className="h-16 w-16 animate-spin text-accent mb-6"/>
         ) : (
           <div
             className={clsx("mb-6 flex items-center justify-center relative rounded-full p-4", iconColorClass)}>
-            <Icon size={40} className="relative z-10"/>
+            <Icon aria-hidden="true" size={40} className="relative z-10"/>
           </div>
         )}
       </StaggerItem>
 
       {title && (
         <StaggerItem>
-          <h1 className="text-2xl font-black text-text-highlight mb-2">{title}</h1>
+          <Title className="mb-2 font-display text-h2 text-ink">{title}</Title>
         </StaggerItem>
       )}
 
       {description && (
         <StaggerItem>
-          <p className="text-text-normal mb-6 font-medium max-w-sm text-center">{description}</p>
+          <p className="text-ink-muted mb-6 font-medium max-w-sm text-center">{description}</p>
         </StaggerItem>
       )}
 
@@ -47,8 +51,7 @@ const FeedbackState = ({
           <Button
             onClick={onAction}
             isFullWidth
-            variant="solid"
-            color="neutral"
+            variant="secondary"
           >
             {actionText}
           </Button>

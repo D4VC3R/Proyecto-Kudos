@@ -1,7 +1,7 @@
 import React from 'react';
 import { Compass, ShieldAlert } from 'lucide-react';
 // Componentes
-import SectionHeader from '../components/ui/SectionHeader.jsx';
+import PageHeader from '../components/ui/PageHeader.jsx';
 import FeedbackState from '../components/ui/FeedbackState.jsx';
 import SliderSkeleton from '../components/ui/skeletons/SliderSkeleton.jsx';
 import CategoryShortcuts from '../components/home/CategoryShortcuts.jsx';
@@ -16,8 +16,8 @@ const HomePage = () => {
 
   return (
     <div className={`flex w-full flex-col gap-10 transition-opacity duration-300 ${state.isBackgroundUpdating ? 'opacity-60' : 'opacity-100'}`}>
-      <SectionHeader
-        size="large"
+      <PageHeader
+        size="display"
         title="Descubre"
         highlight="qué ver"
         subtitle="Recomendaciones, novedades y listas para encontrar tu próxima peli o serie."
@@ -33,6 +33,7 @@ const HomePage = () => {
       ) : state.isError ? (
         <FeedbackState
           icon={ShieldAlert}
+          titleAs="h2"
           title="Error"
           description="Servicio no disponible. Prueba de nuevo en unos minutos."
           iconColorClass="bg-red-500 text-white"
@@ -40,6 +41,7 @@ const HomePage = () => {
       ) : state.isEmpty ? (
         <FeedbackState
           icon={Compass}
+          titleAs="h2"
           title="Todavía no hay nada que mostrar"
           description="Vuelve en unos días o explora las categorías."
         />

@@ -1,12 +1,12 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import clsx from 'clsx';
+import { useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Gamepad2 } from 'lucide-react';
 // Componentes
 import LoginForm  from '../../components/auth/LoginForm.jsx';
 import RegisterForm from '../../components/auth/RegisterForm.jsx';
 import SlideTransition from '../../components/animations/SlideTransition.jsx';
+import Tabs from '../../components/ui/Tabs.jsx';
 
 const AuthPage = () => {
   const location = useLocation();
@@ -38,28 +38,15 @@ const AuthPage = () => {
             </p>
           </div>
 
-          <div className="mb-8 flex rounded-xl bg-slate-100 p-1">
-            <Link
-                to="/login"
-                state={location.state}
-                className={clsx(
-                    "flex-1 rounded-lg py-2.5 text-center text-sm font-bold transition-all",
-                    isLogin ? "bg-surface text-primary shadow-sm" : "text-text-normal hover:text-slate-700"
-                )}
-            >
-              Ya tengo cuenta
-            </Link>
-            <Link
-                to="/register"
-                state={location.state}
-                className={clsx(
-                    "flex-1 rounded-lg py-2.5 text-center text-sm font-bold transition-all",
-                    !isLogin ? "bg-surface text-primary shadow-sm" : "text-text-normal hover:text-slate-700"
-                )}
-            >
-              No tengo cuenta
-            </Link>
-          </div>
+          <Tabs
+            label="Acceso"
+            activeId={isLogin ? 'login' : 'register'}
+            items={[
+              { id: 'login', label: 'Ya tengo cuenta', to: '/login', state: location.state },
+              { id: 'register', label: 'No tengo cuenta', to: '/register', state: location.state },
+            ]}
+            className="mb-8"
+          />
 
           <div className="relative min-h-[300px]">
             <AnimatePresence mode="wait">
