@@ -1,22 +1,66 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import HomeItemRow from './HomeItemRow.jsx';
-import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
+import StorageImage from '../ui/StorageImage.jsx';
+import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 import { hasText } from '../../lib/text.js';
+import { resolveCategoryIcon } from '../../lib/formatters.js';
 
-// Tarjeta de una lista editorial en la portada (F2-09): título, descripción y sus primeros ítems.
-const EditorialListCard = ({ list }) => (
-  <Card as="article" className="flex flex-col gap-3 sm:p-6">
-    <h3 className="text-xl font-black text-text-highlight">
-      <Link to={`/listas/${list.slug}`} className="hover:text-primary">{list.title}</Link>
-    </h3>
-    {hasText(list.description) && (
-      <p className="line-clamp-2 text-sm font-medium text-text-normal">{list.description}</p>
-    )}
-    <HomeItemRow items={(list.items ?? []).map((entry) => entry.item)} />
-    <Button as={Link} to={`/listas/${list.slug}`} variant="link" className="self-start">Ver lista completa</Button>
-  </Card>
-);
+// Pósters del collage de la tarjeta.
+const COLLAGE_SIZE = 4;
+
+// Tarjeta de una lista en la portada: un solo enlace con el collage de sus primeros ítems, título, descripción y meta.
+// Todo son `span` porque dentro de un `<a>` no puede haber bloques de verdad.
+const EditorialListCard = ({ list }) => {
+  const items = (list.items ?? []).map((entry) => entry.item).filter(Boolean);
+  const count = list.items_count ?? items.length;
+  const categories = [...new Map(items.filter((item) => item.category).map((item) => [item.category.slug, item.category])).values()];
+
+  return (
+    <Card as={Link} to={`/listas/${list.slug}`} variant="interactive" data-list-card className="grid gap-3">
+      <span className="grid grid-cols-4 gap-1.5">
+        {items.slice(0, COLLAGE_SIZE).map((item) => (
+          <span key={item.id} className="block aspect-poster overflow-hidden rounded border border-line bg-surface">
+            <StorageImage
+              src={item.images?.[0]?.variants?.thumb}
+              alt=""
+              width={200}
+              height={300}
+              className="h-full w-full object-cover"
+              fallback={
+                <ItemPlaceholder
+                  name={item.name}
+                  categorySlug={item.category?.slug}
+                  categoryIcon={item.category?.icon}
+                  variant="thumb"
+                  decorative
+                  className="h-full w-full"
+                />
+              }
+            />
+          </span>
+        ))}
+      </span>
+      <span className="block font-display text-xl font-semibold leading-tight tracking-tight text-ink">{list.title}</span>
+      {hasText(list.description) && (
+        <span className="line-clamp-2 text-small text-ink-muted">{list.description}</span>
+      )}
+      <span className="flex flex-wrap items-center gap-2 text-small text-ink-muted">
+        <span>
+          {list.author ? `Lista de @${list.author.username}` : 'Lista editorial'}
+          {' · '}
+          <span className="tabular-nums">{count}</span> {count === 1 ? 'elemento' : 'elementos'}
+        </span>
+        {categories.map((category) => {
+          const Icon = resolveCategoryIcon(category);
+          return <Icon key={category.slug} size={16} className="text-cat-icon" aria-hidden="true" />;
+        })}
+        {categories.length > 0 && (
+          <span className="sr-only">Incluye: {categories.map((category) => category.name).join(', ')}</span>
+        )}
+      </span>
+    </Card>
+  );
+};
 
 export default EditorialListCard;

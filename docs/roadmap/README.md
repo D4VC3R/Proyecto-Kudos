@@ -142,7 +142,7 @@ Va **antes de F5-16**: la fusión en `main` incluye el rediseño, así que mient
 | RB-02 | Primitivas | FE | RB-01 | hecho | [#60](https://github.com/D4VC3R/Proyecto-Kudos/issues/60) |
 | RB-03 | Cabecera, navegación, pie y selector de tema | FE | RB-02 | hecho | [#61](https://github.com/D4VC3R/Proyecto-Kudos/issues/61) |
 | RC-01 | Tarjeta de ítem | FE | RB-03 | hecho | [#62](https://github.com/D4VC3R/Proyecto-Kudos/issues/62) |
-| RC-02 | Portada | FE | RC-01 | pendiente | [#63](https://github.com/D4VC3R/Proyecto-Kudos/issues/63) |
+| RC-02 | Portada | FE | RC-01 | hecho | [#63](https://github.com/D4VC3R/Proyecto-Kudos/issues/63) |
 | RC-03 | Ficha | FE | RC-01 | pendiente | [#64](https://github.com/D4VC3R/Proyecto-Kudos/issues/64) |
 | RC-04 | Votar | FE | RC-03 | pendiente | [#65](https://github.com/D4VC3R/Proyecto-Kudos/issues/65) |
 | RC-05 | Categoría y Explorar | FE | RC-01 | pendiente | [#66](https://github.com/D4VC3R/Proyecto-Kudos/issues/66) |
