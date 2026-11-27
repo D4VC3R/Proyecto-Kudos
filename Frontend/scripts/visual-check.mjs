@@ -13,6 +13,8 @@
  *   --out      carpeta de salida (por defecto ./visual-check-out): capturas, report.json y storageState.json.
  *   --auth     (bandera) las rutas de la lista van con sesión.
  *
+ * `report.json` incluye, por fila, `focus.order`: los elementos que recorre el Tab, en orden.
+ *
  * La sesión usa KUDOS_VISUAL_EMAIL (por defecto admin@kudos.com) y KUDOS_VISUAL_PASSWORD.
  *
  * Códigos de salida: 0 = todo bien, 1 = alguna comprobación falla, 2 = error de la herramienta (argumentos, login
@@ -324,6 +326,7 @@ const inspectFocus = (isFirst) => {
 
   const classes = (el.getAttribute('class') || '').split(/\s+/).filter(Boolean).slice(0, 3);
   const desc = `${el.tagName.toLowerCase()}${el.id ? `#${el.id}` : ''}${classes.map((c) => `.${c}`).join('')}`;
+  const label = (el.getAttribute('aria-label') || el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 40);
   const outlineVisible =
     withFocus.outlineStyle !== 'none' &&
     parseFloat(withFocus.outlineWidth) > 0 &&
@@ -331,14 +334,14 @@ const inspectFocus = (isFirst) => {
       withFocus.outlineWidth !== without.outlineWidth ||
       withFocus.outlineColor !== without.outlineColor);
   const shadowChanged = withFocus.boxShadow !== 'none' && withFocus.boxShadow !== without.boxShadow;
-  if (!outlineVisible && !shadowChanged) return { stop: false, desc, indicator: false };
+  if (!outlineVisible && !shadowChanged) return { stop: false, desc, label, indicator: false };
 
   const bg = background(el.parentElement || el);
   const colors = [];
   if (outlineVisible) colors.push(withFocus.outlineColor);
   if (shadowChanged) colors.push(...(withFocus.boxShadow.match(/(rgba?|hsla?|oklch|oklab|lab|lch|color)\([^)]*\)/g) || []));
   const ratios = colors.map((c) => ratio(over(parse(c), bg), bg));
-  return { stop: false, desc, indicator: true, ratio: ratios.length ? Math.max(...ratios) : 0 };
+  return { stop: false, desc, label, indicator: true, ratio: ratios.length ? Math.max(...ratios) : 0 };
 };
 
 const run = async (args) => {
@@ -427,7 +430,7 @@ const run = async (args) => {
             overflowElements: [],
             h1Count: 0,
             contrast: { checked: 0, skipped: 0, failedCount: 0, failures: [] },
-            focus: { steps: 0, failures: [] },
+            focus: { steps: 0, order: [], failures: [] },
             screenshot: null,
             ok: false,
           };
@@ -469,6 +472,7 @@ const run = async (args) => {
                 const info = await page.evaluate(inspectFocus, step === 0);
                 if (info.stop) break;
                 row.focus.steps += 1;
+                row.focus.order.push(info.label ? `${info.desc} «${info.label}»` : info.desc);
                 if (!info.indicator) row.focus.failures.push(`sin indicador de foco en ${info.desc}`);
                 else if (info.ratio < 3) row.focus.failures.push(`foco con contraste ${info.ratio}:1 (mín 3) en ${info.desc}`);
               }

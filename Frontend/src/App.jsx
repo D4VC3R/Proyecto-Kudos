@@ -17,11 +17,18 @@ import AddToListModal from "./components/lists/AddToListModal.jsx";
 const App = () => {
   return (
     <div className="bg-background text-text-highlight flex flex-col font-sans min-h-[100dvh]">
+      {/* Primer elemento enfocable: con teclado, salta la cabecera y lleva al contenido de la página. */}
+      <a
+        href="#contenido"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:font-bold focus:text-text-btn focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
+      >
+        Saltar al contenido
+      </a>
       <MainHeader />
       <DailyRewardChecker />
       <AddToListModal />
 
-      <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+      <main id="contenido" tabIndex={-1} className="mx-auto w-full max-w-7xl flex-grow scroll-mt-20 px-4 py-8 outline-none sm:px-6 lg:px-8">
         <AppRoutes />
       </main>
 

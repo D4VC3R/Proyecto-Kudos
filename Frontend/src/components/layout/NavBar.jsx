@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useId, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Grid, Trophy, Menu, X, ShieldPlus, Bookmark, ListPlus } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import Button from '../ui/Button.jsx';
 import { VARIANTS } from "../../lib/buttonStyles.js";
 import NavBarMobile from "./NavBarMobile.jsx";
+import { useDismiss } from "../../hooks/common/useDismiss.js";
 import { selectIsAdmin, selectIsAuthenticated, selectIsVerified, useSessionStore } from "../../store/useSessionStore.js";
 
 const NavBar = () => {
@@ -13,6 +14,13 @@ const NavBar = () => {
   const isAdmin = useSessionStore(selectIsAdmin);
   const isAuthenticated = useSessionStore(selectIsAuthenticated);
   const isVerified = useSessionStore(selectIsVerified);
+  const panelId = useId();
+  const containerRef = useRef(null);
+  const buttonRef = useRef(null);
+  const toggle = useCallback(() => setIsOpen((open) => !open), []);
+  const close = useCallback(() => setIsOpen(false), []);
+  // El contenedor abarca el botón y el panel: así pulsar ☰ no cuenta como "clic fuera".
+  useDismiss({ isOpen, containerRef, onDismiss: close, returnFocusRef: buttonRef });
 
   const navItems = [
     { name: 'Categorías', path: '/', icon: Grid },
@@ -57,9 +65,12 @@ const NavBar = () => {
         })}
       </nav>
 
-      <div className="flex md:hidden items-center">
+      <div ref={containerRef} className="flex md:hidden items-center">
         <Button
-          onClick={() => setIsOpen(!isOpen)}
+          ref={buttonRef}
+          onClick={toggle}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
           variant="outline"
           color="neutral"
           size="iconSm"
@@ -68,13 +79,13 @@ const NavBar = () => {
           aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
           icon={isOpen ? X : Menu}
         />
+        <NavBarMobile
+          id={panelId}
+          isOpen={isOpen}
+          onClose={close}
+          navItems={visibleNavItems}
+        />
       </div>
-
-      <NavBarMobile
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        navItems={visibleNavItems}
-      />
     </>
   );
 };
