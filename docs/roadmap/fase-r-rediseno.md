@@ -225,6 +225,14 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 
 **Hecho cuando:** con dos usuarios empatados, la cabecera y `/ranking` muestran la misma posición, y el test del caso pasa (`sail test --filter`) junto con la suite completa.
 
+**Notas (RA-05):**
+- **Archivos:** `Frontend/src/hooks/users/useUserMutations.js` (`useClaimDailyReward` invalida `USER_KEYS.profile` y `USER_KEYS.ranking` solo en la rama `claimed`; `already_claimed` no invalida nada porque los kudos no cambian) y `Backend/tests/Feature/Users/MinimalProfileRankTest.php` (dos tests nuevos, los dos que había quedan intactos). Documentado en `docs/frontend/arquitectura.md` §5 (viñeta de claves de React Query). Sin cambios en el backend de producción ni en ninguna clave de React Query ni en el contrato de la API.
+- **Causa (en el frontend):** el backend ya usaba un único criterio desde F5-05 (`total_kudos desc, created_at, id`) en `getRankingPaginator` y `getKudosRank`, que usan `/profile/minimal`, `meta.my_position.rank` y la fila de la tabla. El fallo era que `useClaimDailyReward` daba kudos al entrar y solo actualizaba el store de sesión, sin invalidar `['profile', 'minimal']` ni `['users', 'ranking']`: la cabecera se quedaba con la posición anterior al reclamo (#3) y cambiaba (#1) al volver a pedirse, y `/ranking` podía seguir con la caché (`staleTime` de 5 min). Con empates, una recompensa pequeña ya cambia la posición.
+- **Tests nuevos:** `test_tras_la_recompensa_diaria_la_cabecera_y_el_ranking_dan_la_misma_posicion` (posición 3 antes, reclamo, y 1 en la cabecera, en `meta.my_position.rank` y en la fila del usuario) y `test_con_la_misma_fecha_de_alta_el_desempate_por_id_coincide` (cabecera, `my_position.rank` y fila coinciden con el mismo `created_at`; no se fija el número porque depende del orden de los UUID).
+- **Falla antes:** no hay test que falle antes del arreglo. Los dos tests de backend pasan ya sin cambiar nada (el backend era correcto) y fijan el contrato en el que se apoya el arreglo; el arreglo es del frontend y no hay herramienta de tests de React (la fase no aprueba dependencias nuevas), así que no tiene test automático.
+- **Decisión a validar:** los kudos que llegan sin acción del usuario (propuesta aceptada por un admin) siguen tardando hasta 5 min (`staleTime`) en verse; queda fuera de esta tarea.
+- **Resultados:** `sail test --filter=MinimalProfileRankTest` 4 passed y `sail test` 960 passed; `pint --test` del archivo, en verde. `pnpm build` y `pnpm check:classes` en verde (733 clases). `visual-check.sh --auth` sobre `/` y `/ranking` a 1440 px: sin errores de JS ni de consola, sin desbordamiento y un `h1`; solo los fallos de foco (1,42:1) de la línea base de RA-00 (salida 1). En las capturas (`.claude/ciclo/RA-05/capturas/`) la cabecera y la tarjeta "Tu posición" de `/ranking` muestran la misma posición (#1, 72 K).
+
 ---
 
 ## RB-01 · Tokens, temas y modo oscuro (FE)

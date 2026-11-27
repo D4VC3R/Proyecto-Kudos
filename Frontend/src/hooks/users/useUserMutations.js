@@ -42,6 +42,7 @@ export const useUpdateInterests = () => {
 export const useClaimDailyReward = () => {
   const setSession = useSessionStore((state) => state.setSession);
   const token = useSessionStore((state) => state.token);
+  const queryClient = useQueryClient();
 
   return useBaseMutation({
     mutationFn: () => axiosClient.post('/profile/daily-claim'),
@@ -58,6 +59,9 @@ export const useClaimDailyReward = () => {
           last_login_streak_date: meta.server_date,
         };
         setSession({ token, user: newUser });
+        // Los kudos acaban de cambiar: la cabecera y el ranking se vuelven a pedir para que la posición salga del mismo estado.
+        queryClient.invalidateQueries({ queryKey: USER_KEYS.profile });
+        queryClient.invalidateQueries({ queryKey: USER_KEYS.ranking });
       } else if (data?.status === 'already_claimed') {
         const newUser = {
           ...currentUser,
