@@ -102,4 +102,18 @@ class CategorySeederTest extends TestCase
 
         $this->assertSame(4, Category::query()->count());
     }
+
+    public function test_las_descripciones_no_conservan_textos_de_la_version_anterior(): void
+    {
+        $this->seed(CategorySeeder::class);
+
+        foreach (['peliculas', 'series', 'videojuegos', 'destinos'] as $slug) {
+            $description = (string) Category::query()->where('slug', $slug)->value('description');
+
+            $this->assertNotSame('', $description);
+            foreach (['compiten', 'ránking', 'luchando', 'batalla'] as $old) {
+                $this->assertStringNotContainsString($old, $description);
+            }
+        }
+    }
 }
