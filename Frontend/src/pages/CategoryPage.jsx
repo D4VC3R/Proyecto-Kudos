@@ -2,14 +2,14 @@ import React from 'react';
 import { Telescope } from 'lucide-react';
 // Componentes
 import Ranking from '../components/ui/ranking/Ranking.jsx';
-import InfiniteItemSlider from '../components/items/InfiniteItemSlider.jsx';
 import SliderSkeleton from "../components/ui/skeletons/SliderSkeleton.jsx";
-import Skeleton from "../components/ui/skeletons/Skeleton.jsx";
 import HeaderSkeleton from "../components/ui/skeletons/HeaderSkeleton.jsx";
 import RankingSkeleton from "../components/ui/skeletons/RankingSkeleton.jsx";
-import SectionHeader from "../components/ui/SectionHeader.jsx";
+import PageHeader from "../components/ui/PageHeader.jsx";
+import Card from "../components/ui/Card.jsx";
 import ActionMenu from "../components/ui/ActionMenu.jsx";
 import FeedbackState from "../components/ui/FeedbackState.jsx";
+import HomeRowSection from "../components/home/HomeRowSection.jsx";
 // Hooks
 import { useCategoryPage } from '../hooks/pages/useCategoryPage.js';
 
@@ -18,13 +18,10 @@ const CategoryPage = () => {
 
   if (state.isLoadingCategory) {
     return (
-      <div className="flex w-full flex-col" aria-busy="true">
-        <div className="mb-8 shrink-0"><HeaderSkeleton /></div>
+      <div className="flex w-full flex-col gap-12" aria-busy="true">
+        <HeaderSkeleton />
         <SliderSkeleton />
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
-          <Skeleton className="lg:col-span-5 h-80 w-full rounded-3xl" />
-          <div className="lg:col-span-7 flex flex-col w-full"><RankingSkeleton /></div>
-        </div>
+        <RankingSkeleton />
       </div>
     );
   }
@@ -34,7 +31,6 @@ const CategoryPage = () => {
       <div className="flex min-h-[60vh] w-full items-center justify-center px-4">
         <FeedbackState
           icon={Telescope}
-          iconColorClass="bg-slate-100 text-text-normal"
           title="Categoría no encontrada"
           description="Parece que la categoría que buscas no existe o ha sido eliminada."
           actionText="Volver al inicio"
@@ -45,63 +41,34 @@ const CategoryPage = () => {
   }
 
   return (
-    <div className={`flex w-full flex-col transition-opacity duration-500 ${state.isBackgroundUpdating ? 'opacity-60' : 'opacity-100'}`}>
-
-      <div className="mb-8 shrink-0">
-        <SectionHeader
-          size="large"
-          title="Bienvenido a"
-          highlight={state.category?.name}
-          subtitle={state.category?.description}
-        />
+    <div className={`flex w-full flex-col gap-12 transition-opacity duration-300 ${state.isBackgroundUpdating ? 'opacity-60' : 'opacity-100'}`}>
+      <div className="flex flex-col gap-7 pt-2">
+        <PageHeader kicker="Categoría" title={state.category?.name} subtitle={state.category?.description} />
+        <ActionMenu categorySlug={state.categorySlug} name={state.category?.name} />
       </div>
-
 
       {state.isLoadingDetailed ? (
         <SliderSkeleton />
       ) : state.isErrorDetailed ? (
-        <div className="mb-8 flex min-h-[350px] w-full items-center justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border">
-          <p className="text-text-normal text-sm">No se pudieron cargar los ítems destacados.</p>
-        </div>
+        <Card><p className="text-small text-ink-muted">No se pudieron cargar los ítems destacados.</p></Card>
       ) : state.sliderItems.length > 0 && (
-        <div className="mb-8 flex w-full flex-col justify-center rounded-3xl bg-surface shadow-xl ring-1 ring-border animate-fade-in">
-          <div className="mt-6 px-8 border-b border-border pb-4">
-            <h3 className=" text-2xl md:text-3xl font-black text-text-highlight">Destacados de <span className="text-primary">esta semana</span></h3>
-          </div>
-          <InfiniteItemSlider items={state.sliderItems} />
-        </div>
+        <HomeRowSection id="category-featured" title="Destacados" items={state.sliderItems} />
       )}
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
-        <ActionMenu
-          className="lg:col-span-5 w-full shadow-2xl ring-2 ring-slate-200 rounded-3xl"
+      {state.isLoadingRanking || (state.isFetchingRanking && !state.hasRankingData) ? (
+        <RankingSkeleton />
+      ) : state.isErrorRanking && !state.hasRankingData ? (
+        <Card><p className="text-small text-ink-muted">Error al cargar el ranking: {state.rankingError?.message}</p></Card>
+      ) : (
+        <Ranking
+          title={state.category?.name}
+          items={state.rankingItems}
           categorySlug={state.categorySlug}
-          name={state.category?.name}
+          hasNextPage={state.hasNextRanking}
+          isFetchingNextPage={state.isFetchingNextRanking}
+          fetchNextPage={actions.fetchNextRanking}
         />
-
-        <div className="lg:col-span-7 flex flex-col w-full">
-          {state.isLoadingRanking || (state.isFetchingRanking && !state.hasRankingData) ? (
-            <RankingSkeleton />
-          ) : state.isErrorRanking && !state.hasRankingData ? (
-            <div className="flex h-[800px] w-full items-center justify-center rounded-3xl bg-surface p-6 text-center shadow-xl ring-1 ring-border">
-              <p className="text-text-normal">Error al cargar el ranking: {state.rankingError?.message}</p>
-            </div>
-          ) : (
-            <div className="animate-fade-in">
-              <Ranking
-                title={state.category?.name}
-                items={state.rankingItems}
-                itemsPerPage={state.itemsPerPage}
-                fetchNextPage={actions.fetchNextRanking}
-                hasNextPage={state.hasNextRanking}
-                isFetchingNextPage={state.isFetchingNextRanking}
-                categorySlug={state.categorySlug}
-              />
-            </div>
-          )}
-        </div>
-      </div>
-
+      )}
     </div>
   );
 };
