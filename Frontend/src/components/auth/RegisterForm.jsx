@@ -4,7 +4,8 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {Mail, Lock, User} from 'lucide-react';
 import {registerSchema} from '../../lib/schemas';
 
-import InputField from '../ui/InputField.jsx';
+import Input from '../ui/Input.jsx';
+import Checkbox from '../ui/Checkbox.jsx';
 import Button from '../ui/Button.jsx';
 
 import {useForm} from 'react-hook-form';
@@ -35,7 +36,7 @@ const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <InputField
+      <Input
         label="Nombre de Usuario"
         type="text"
         icon={User}
@@ -45,7 +46,7 @@ const RegisterForm = () => {
         disabled={isPending}
       />
 
-      <InputField
+      <Input
         label="Email"
         type="email"
         icon={Mail}
@@ -55,7 +56,7 @@ const RegisterForm = () => {
         disabled={isPending}
       />
 
-      <InputField
+      <Input
         label="Contraseña"
         type="password"
         icon={Lock}
@@ -65,7 +66,7 @@ const RegisterForm = () => {
         disabled={isPending}
       />
 
-      <InputField
+      <Input
         label="Confirmar Contraseña"
         type="password"
         icon={Lock}
@@ -75,33 +76,36 @@ const RegisterForm = () => {
         disabled={isPending}
       />
 
-      <div>
-        <label className="flex items-start gap-2 text-sm text-text-normal cursor-pointer">
-          <input type="checkbox" {...register('accept_privacy')} disabled={isPending} className="mt-1 accent-blue-600"/>
-          <span>
+      <Checkbox
+        registration={register('accept_privacy')}
+        error={errors.accept_privacy}
+        disabled={isPending}
+        label={
+          <>
             He leído y acepto la{' '}
-            <Link to="/privacidad" target="_blank" rel="noopener noreferrer" className="font-bold text-primary hover:underline">
+            <Link
+              to="/privacidad"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-sm font-semibold text-accent underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            >
               política de privacidad
             </Link>
-          </span>
-        </label>
-        {errors.accept_privacy && <span className="mt-1 text-xs text-red-500">{errors.accept_privacy.message}</span>}
-      </div>
+          </>
+        }
+      />
 
-      <div>
-        <label className="flex items-start gap-2 text-sm text-text-normal cursor-pointer">
-          <input type="checkbox" {...register('age_confirmation')} disabled={isPending} className="mt-1 accent-blue-600"/>
-          <span>Tengo 14 años o más</span>
-        </label>
-        {errors.age_confirmation && <span className="mt-1 text-xs text-red-500">{errors.age_confirmation.message}</span>}
-      </div>
+      <Checkbox
+        registration={register('age_confirmation')}
+        error={errors.age_confirmation}
+        disabled={isPending}
+        label="Tengo 14 años o más"
+      />
 
       <Button
         type="submit"
         isLoading={isPending}
         isFullWidth
-        variant="solid"
-        color="primary"
       >
         Registrarse
       </Button>
