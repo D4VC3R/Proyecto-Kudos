@@ -20,14 +20,14 @@ const AuthPage = () => {
         <div>
           <p className="font-display text-h2">Únete a la comunidad</p>
           <p className="mt-4 text-body text-band-muted">
-            Valora candidatos, descubre joyas ocultas y acumula Kudos para subir en el ránking global de usuarios.
+            Lleva el diario de tus pelis, series, juegos y destinos, descubre joyas ocultas y suma kudos para subir en el ranking.
           </p>
         </div>
       </div>
 
       <div className="flex w-full flex-col justify-center p-6 sm:p-10 md:w-7/12 lg:p-14">
         <PageHeader
-          title={isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
+          title={isLogin ? 'Iniciar sesión' : 'Crear cuenta'}
           subtitle={isLogin ? 'Inicia sesión para continuar votando.' : 'Únete a la comunidad Kudos.'}
         />
 

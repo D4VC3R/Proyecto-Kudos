@@ -77,7 +77,7 @@ const MyVotesPage = () => {
       >
         <p className="text-ink">
           ¿Hacer como si nunca hubieras votado <strong>{state.voteToDelete?.item?.name}</strong>?
-          No perderás Kudos por esta acción, pero volver a votar este elemento tampoco te dará más puntos.
+          No perderás kudos por esta acción, pero volver a votar este elemento tampoco te dará más puntos.
         </p>
       </Modal>
     </div>

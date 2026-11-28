@@ -46,7 +46,7 @@ const MyProposalItemCard = ({ proposal, isDeleting, onDeleteClick, onEditClick }
               )}
             >
               <span className="mb-1 block font-semibold">
-                {isRejected ? 'Nota del Administrador:' : 'Se requieren cambios:'}
+                {isRejected ? 'Nota del administrador:' : 'Se requieren cambios:'}
               </span>
               {proposal.admin_notes}
             </div>

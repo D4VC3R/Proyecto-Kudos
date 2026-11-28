@@ -53,12 +53,12 @@ const ProfileEditForm = ({profile}) => {
   return (
     <Card className="w-full flex-1 p-6 md:p-8">
       <h2 className="font-display text-h2 text-ink mb-6">
-        Editar Perfil
+        Editar perfil
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <Input
-          label="URL del Avatar"
+          label="URL del avatar"
           type="url"
           icon={ImageIcon}
           placeholder="https://ejemplo.com/avatar.jpg"
@@ -89,7 +89,7 @@ const ProfileEditForm = ({profile}) => {
 
           <div>
             <Input
-              label="Fecha de Nacimiento"
+              label="Fecha de nacimiento"
               type="date"
               icon={Calendar}
               registration={register('birthdate')}
@@ -130,7 +130,7 @@ const ProfileEditForm = ({profile}) => {
             variant="primary"
             icon={Save}
           >
-            Guardar Cambios
+            Guardar cambios
           </Button>
         </div>
       </form>

@@ -9,7 +9,7 @@ const AdminItemModerateBody = ({itemName, modStatus, setModStatus, modReason, se
         Estás moderando <span className="font-bold text-ink">{itemName}</span>. Selecciona un nuevo estado.
       </p>
       <Select
-        label="Nuevo Estado"
+        label="Nuevo estado"
         value={modStatus}
         onChange={(e) => setModStatus(e.target.value)}
         options={[

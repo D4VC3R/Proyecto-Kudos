@@ -49,7 +49,7 @@ const DailyRewardModal = ({ isOpen, onClose, data }) => {
 
   const modalFooter = isRevealed ? (
     <Button onClick={handleClose} variant="primary" isFullWidth autoFocus>
-      ¡Recoger Recompensa!
+      ¡Recoger recompensa!
     </Button>
   ) : null;
 
@@ -57,7 +57,7 @@ const DailyRewardModal = ({ isOpen, onClose, data }) => {
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title={isRevealed ? "¡Recompensa Desbloqueada!" : "Recompensa Diaria"}
+      title={isRevealed ? "¡Recompensa desbloqueada!" : "Recompensa diaria"}
       footer={modalFooter}
     >
       <div className="relative flex flex-col items-center justify-center min-h-[260px] sm:min-h-[300px] text-center px-2 py-4">

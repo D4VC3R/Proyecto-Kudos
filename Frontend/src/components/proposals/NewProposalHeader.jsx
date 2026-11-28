@@ -7,7 +7,7 @@ const NewProposalHeader = ({ categoryName }) => {
       <PageHeader
         kicker={categoryName}
         title="Crear"
-        highlight="Nueva Propuesta"
+        highlight="nueva propuesta"
         subtitle={`Ayuda a expandir el universo de ${categoryName} proponiendo nuevos ítems. Un embajador revisará tu idea para validarla.`}
       />
     </div>

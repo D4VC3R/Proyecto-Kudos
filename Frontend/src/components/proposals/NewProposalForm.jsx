@@ -70,7 +70,7 @@ const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
       />
 
       <Input
-        label="URL de Imagen (Opcional)"
+        label="URL de la imagen (opcional)"
         icon={ImageIcon}
         type="url"
         placeholder="Ej: https://ejemplo.com/zelda-cover.jpg"
@@ -85,7 +85,7 @@ const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
         isFullWidth
         variant="primary"
       >
-        {isEdit ? 'Guardar Cambios' : 'Enviar a Revisión'}
+        {isEdit ? 'Guardar cambios' : 'Enviar a revisión'}
       </Button>
     </form>
   );

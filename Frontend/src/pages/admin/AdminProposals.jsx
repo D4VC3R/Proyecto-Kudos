@@ -75,7 +75,7 @@ const AdminProposals = () => {
       <Modal
         isOpen={state.isOpen}
         onClose={actions.closeModal}
-        title={state.actionType === 'accepted' ? 'Aprobar Propuesta' : 'Rechazar Propuesta'}
+        title={state.actionType === 'accepted' ? 'Aprobar propuesta' : 'Rechazar propuesta'}
         footer={
           <ModalButtons
             onClose={actions.closeModal}

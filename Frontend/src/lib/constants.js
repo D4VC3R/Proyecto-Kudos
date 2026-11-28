@@ -32,7 +32,7 @@ export const PROPOSAL_STATUS_CONFIG = {
   changes_requested: {
     color: 'bg-orange-100 text-orange-800 border-orange-200',
     icon: AlertCircle,
-    label: 'Cambios Solicitados'
+    label: 'Cambios solicitados'
   }
 };
 
@@ -85,7 +85,7 @@ export const adminTabs = [
   { name: 'Usuarios', to: '/admin/users', icon: Users },
   { name: 'Propuestas', to: '/admin/proposals', icon: FileText },
   { name: 'Categorías', to: '/admin/categories', icon: LayoutGrid },
-  { name: 'Items', to: '/admin/items', icon: Target },
+  { name: 'Ítems', to: '/admin/items', icon: Target },
   { name: 'Listas', to: '/admin/lists', icon: ListOrdered },
   { name: 'Reportes', to: '/admin/reports', icon: Flag },
 ];
@@ -93,8 +93,8 @@ export const adminTabs = [
 // Objeto con la configuración de las pestañas para el panel de perfil.
 export const profileTabs = [
   { id: 'info', name: 'Información', icon: UserIcon },
-  { id: 'proposals', name: 'Mis Propuestas', icon: List },
-  { id: 'votes', name: 'Historial de Votos', icon: ThumbsUp },
+  { id: 'proposals', name: 'Mis propuestas', icon: List },
+  { id: 'votes', name: 'Historial de votos', icon: ThumbsUp },
   { id: 'stats', name: 'Estadísticas', icon: BarChart3 },
   { id: 'privacy', name: 'Privacidad', icon: ShieldCheck },
 ];

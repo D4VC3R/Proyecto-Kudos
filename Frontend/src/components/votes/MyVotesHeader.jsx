@@ -37,7 +37,7 @@ const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams }) => 
 
   return (
     <div className="flex flex-col gap-4">
-      <SectionHead title="Historial de Votaciones" />
+      <SectionHead title="Historial de votaciones" />
       <p className="text-small text-ink-muted">Echa un vistazo a tu historial de votaciones.</p>
 
       <div className="flex flex-wrap items-center gap-3">
@@ -60,7 +60,7 @@ const MyVotesHeader = ({ meta, currentView, currentCategory, updateParams }) => 
           value={currentCategory || ''}
           onChange={handleCategoryChange}
           options={categoryOptions}
-          defaultOption="Todas las Categorías"
+          defaultOption="Todas las categorías"
         />
 
         <p data-votes-total className="text-small text-ink-muted">{meta.total || 0} en total</p>

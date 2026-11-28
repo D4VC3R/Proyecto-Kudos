@@ -26,7 +26,7 @@ const TEMPLATE = `<!doctype html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon-CYvQuHf9.svg" />
     <link rel="alternate icon" href="/assets/favicon-BuU_IiDV.ico" />
-    <title>Proyecto Kudos</title>
+    <title>Kudos</title>
     <script type="module" crossorigin src="/assets/index-test.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-react-test.js">
     <link rel="stylesheet" crossorigin href="/assets/index-test.css">
@@ -280,7 +280,7 @@ test('handler_returns_404_for_missing_item', async () => {
     await handler(makeReq(itemUrl), res);
 
     assert.equal(res.statusCode, 404);
-    assert.ok(res.body.includes('<title>Proyecto Kudos</title>'));
+    assert.ok(res.body.includes('<title>Kudos</title>'));
     assert.ok(!res.body.includes('application/ld+json'));
     assert.equal(res.headers['cache-control'], CACHE_CONTROL_NONE);
   }

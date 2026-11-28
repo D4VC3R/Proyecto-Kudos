@@ -37,7 +37,7 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <Input
-        label="Nombre de Usuario"
+        label="Nombre de usuario"
         type="text"
         icon={User}
         placeholder=""
@@ -67,7 +67,7 @@ const RegisterForm = () => {
       />
 
       <Input
-        label="Confirmar Contraseña"
+        label="Confirmar contraseña"
         type="password"
         icon={Lock}
         placeholder="••••••••"

@@ -30,7 +30,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Películas',
                 'slug' => 'peliculas',
-                'description' => 'De Ciudadano Kane hasta Barbie pasando por Scarface y Pretty Woman, las mejores películas de la historia compiten en esta categoría para llegar a la primera posición del ránking.',
+                'description' => 'Clásicos, estrenos y joyas por descubrir: puntúa las películas que has visto y guarda en tu lista las que te faltan.',
                 'image' => null,
                 'icon' => 'clapperboard',
                 'sort_order' => 1,
@@ -40,7 +40,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Series',
                 'slug' => 'series',
-                'description' => 'Ya seas de Chicas Gilmore o Breaking Bad, en esta categoría encontrarás series de todos los tiempos luchando entre ellas por tener la nota media más alta de la categoría.',
+                'description' => 'De las que se ven de un tirón a las que duran temporadas: valora las series que has visto y apunta las siguientes.',
                 'image' => null,
                 'icon' => 'tv',
                 'sort_order' => 2,
@@ -50,7 +50,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Videojuegos',
                 'slug' => 'videojuegos',
-                'description' => 'La batalla definitiva por alzarse con el titulo de mejor videojuego de la historia ha comenzado, ¿Qué juego se alzará con la victoria?',
+                'description' => 'Grandes sagas, indies y clásicos de todas las plataformas: puntúa los juegos que has terminado y guarda los pendientes.',
                 'image' => null,
                 'icon' => 'gamepad-2',
                 'sort_order' => 3,

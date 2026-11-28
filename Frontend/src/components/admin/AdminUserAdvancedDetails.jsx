@@ -17,7 +17,7 @@ const AdminUserAdvancedDetails = ({ user }) => {
             <dd className={`${DD} break-all`}>{user.id}</dd>
           </div>
           <div className="flex flex-col">
-            <dt className={DT}>Email Verificado</dt>
+            <dt className={DT}>Email verificado</dt>
             <dd className={DD}>
               {user.is_verified ? 'Sí' : 'No'}
               {user.email_verified_at && <span className="ml-2 text-ink-muted">({formatDate(user.email_verified_at)})</span>}
@@ -28,7 +28,7 @@ const AdminUserAdvancedDetails = ({ user }) => {
             <dd className={DD}>{user.profile?.city || 'No especificada'}</dd>
           </div>
           <div className="flex flex-col">
-            <dt className={DT}>Fecha de Nacimiento</dt>
+            <dt className={DT}>Fecha de nacimiento</dt>
             <dd className={DD}>
               {user.profile?.birthdate ? formatDate(user.profile.birthdate) : 'No especificada'}
             </dd>

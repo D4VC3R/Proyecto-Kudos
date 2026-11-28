@@ -71,7 +71,7 @@ const LoginForm = () => {
         isLoading={isPending}
         isFullWidth
       >
-        Iniciar Sesión
+        Iniciar sesión
       </Button>
     </form>
   );
