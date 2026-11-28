@@ -4,7 +4,7 @@
   <img src="./Frontend/public/logo.svg" alt="Logo Kudos" width="200" />
 </p>
 
-Proyecto Kudos es una plataforma de valoraciones multitemática con elementos de gamificación donde los usuarios crean, puntúan y comentan elementos culturales, sociales o populares, generando clasificaciones o ‘ránkings’ divididos por temáticas mientras ganan puntos Kudos con cada interacción, que les hará escalar en la clasificación general de usuarios.
+Kudos es tu diario de pelis, series y juegos en español, y de destinos que descubrir, con listas que lo conectan todo: puntúas lo que conoces, guardas lo que te falta y sumas kudos por participar.
 
 > **Kudos 2.0.** Tu diario de pelis, series y juegos en español, y destinos que descubrir, con listas que lo conectan todo. La documentación está en [docs/](docs/README.md).
 
