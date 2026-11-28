@@ -757,6 +757,15 @@ CPU 4×:
 
 **Hecho cuando:** el script de RA-00 en `--themes all` sobre `/privacidad`, `/aviso-legal`, `/404` y `/forbidden` pasa.
 
+**Notas (RC-12):**
+- **Archivos (todo bajo `Frontend/`):** `src/components/legal/legalStyles.js` (nuevo: `LEGAL_H2` y `LEGAL_LINK`), `LegalPageLayout.jsx` (`PageHeader` y `max-w-prose`, sin tarjeta ni sombra), `LegalPending.jsx` (fondo `warning` translúcido), `LegalContactEmail.jsx`, `pages/legal/PrivacyPage.jsx` y `LegalNoticePage.jsx` (solo clases e imports: el texto legal no cambia), `components/ui/ErrorState.jsx` (nuevo), `pages/ErrorPage.jsx`, `pages/auth/ForbiddenPage.jsx` y `core/AppErrorBoundary.jsx` (con su propio `<main id="contenido">`). Docs: `docs/frontend/arquitectura.md` (§1 y §4).
+- **Tests nuevos:** ninguno de componentes (R8). `.claude/ciclo/RC-12/boundary-check.mjs` (Playwright en Docker; no va al repo): `boundary_un_h1`, `boundary_sin_cabecera_con_main`, `boundary_recargar` y `boundary_volver_al_inicio` (a 1440 y 360 px), `boundary_sin_desbordamiento` (360), `error404_volver_es_enlace`, `forbidden_kicker_y_enlace` y `legal_sin_sombra_ni_tarjeta`. Para romper `/ranking` se intercepta el módulo `RankingPage.jsx` con `page.route` (Vite en desarrollo lo sirve por su ruta; la interceptación surte efecto). Todas `OK`.
+- **Decisiones del plan (por validar):** (1) Kickers nuevos «Error 404» y «Error 403»; el resto de los textos no cambia. (2) `LegalPending` pasa de ámbar fijo a `warning` translúcido. (3) La salida de la 404 y la 403 sigue siendo «Volver al inicio», ahora como enlace principal; no se añade «Volver atrás».
+- **Discrepancias con el plan (R1):** `/ruta-que-no-existe` (un solo segmento) no llega a `/404`: lo captura `/:categorySlug` (`CategoryPage`). El script usa `/ruta/que/no/existe` para llegar a la ruta `*`.
+- **Desviaciones:** ninguna en `src/`.
+- **Falla antes:** con `src/` restaurado a `HEAD` (`git stash -u`), `boundary-check.mjs` falla en `boundary_sin_cabecera_con_main` y `boundary_volver_al_inicio` (a 1440 y 360 px: el límite no tiene `<main>` y el botón no es un enlace), `error404_volver_es_enlace` (es un `button`), `forbidden_kicker_y_enlace` y `legal_sin_sombra_ni_tarjeta` (sombra `shadow-xl` y `h1` fuera de un `header`); con los cambios, todas `OK`.
+- **Resultados:** `pnpm build`, `pnpm check:classes` (733 clases) y `pnpm test:seo` (45 pass) en verde; 0 clases `-[` nuevas y el `git grep` de colores fijos y alias antiguos, vacío. `visual-check.sh --themes all` sobre `/privacidad`, `/aviso-legal`, `/404` y `/forbidden` sin sesión a 360, 768 y 1440 (96 comprobaciones) y con sesión sobre `/privacidad`, `/404` y `/forbidden` a 360 y 1440 (48): 0 fallos. Capturas en `.claude/ciclo/RC-12/capturas/` (ignorada por git).
+
 ## RC-13 · Administración (FE)
 
 **Depende:** RB-03

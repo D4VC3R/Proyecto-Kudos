@@ -1,10 +1,12 @@
 import React from 'react';
+import PageHeader from '../ui/PageHeader.jsx';
 
-// Estructura común de las páginas legales (F3-07). Cada sección del contenido usa <section> con <h2>.
+// Estructura común de las páginas legales: el `h1` de PageHeader y el texto a 65 caracteres por línea; el ancho
+// de la página lo pone App.jsx. Cada sección del contenido usa <section> con <h2>.
 const LegalPageLayout = ({ title, children }) => (
-  <article className="mx-auto my-8 w-full max-w-3xl rounded-3xl bg-surface p-6 shadow-xl ring-1 ring-slate-200 sm:p-10">
-    <h1 className="mb-6 text-3xl font-black tracking-tight text-text-highlight">{title}</h1>
-    <div className="flex flex-col gap-6 text-text-normal">
+  <article className="flex w-full flex-col gap-8">
+    <PageHeader title={title} />
+    <div className="flex max-w-prose flex-col gap-8 text-body leading-relaxed text-ink">
       {children}
     </div>
   </article>

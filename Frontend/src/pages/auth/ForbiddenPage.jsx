@@ -1,23 +1,18 @@
-import FeedbackState from "../../components/ui/FeedbackState.jsx";
-import {Ban} from 'lucide-react'
-import {useNavigate} from "react-router-dom";
+import { Link } from "react-router-dom";
+import ErrorState from "../../components/ui/ErrorState.jsx";
+import Button from "../../components/ui/Button.jsx";
 import FadeUp from "../../components/animations/FadeUp.jsx";
 
 
-const ForbiddenPage = () => {
-  const navigate = useNavigate();
-
-  return (
-    <FadeUp>
-      <FeedbackState
-        icon={Ban}
-        iconColorClass={'bg-red-100 text-red-500'}
-        title={'No tienes acceso a esta página'}
-        description={'Tu cuenta no tiene permiso para ver este contenido.'}
-        actionText="Volver al inicio"
-        onAction={() => navigate('/')}
-      />
-    </FadeUp>
-  );
-}
+const ForbiddenPage = () => (
+  <FadeUp>
+    <ErrorState
+      kicker="Error 403"
+      title="No tienes acceso a esta página"
+      description="Tu cuenta no tiene permiso para ver este contenido."
+    >
+      <Button as={Link} to="/" size="lg">Volver al inicio</Button>
+    </ErrorState>
+  </FadeUp>
+);
 export default ForbiddenPage;

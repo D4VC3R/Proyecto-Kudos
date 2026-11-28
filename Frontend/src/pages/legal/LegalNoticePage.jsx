@@ -1,25 +1,23 @@
 import React from 'react';
 import {useLegalPage} from '../../hooks/pages/useLegalPage';
 import LegalPageLayout from '../../components/legal/LegalPageLayout.jsx';
+import {LEGAL_H2, LEGAL_LINK} from '../../components/legal/legalStyles.js';
 import LegalContactEmail from '../../components/legal/LegalContactEmail.jsx';
 
-const H2 = 'mb-2 text-lg font-bold text-text-highlight';
-const LINK = 'font-bold text-primary hover:underline';
-
-// Aviso legal (F3-07), texto aprobado el 2026-11-01. Los datos que completa el titular fuera del código van como <LegalPending>.
+// Aviso legal, texto aprobado el 2026-11-01. Los datos que completa el titular fuera del código van como <LegalPending>.
 const LegalNoticePage = () => {
   const {state} = useLegalPage();
 
   return (
     <LegalPageLayout title="Aviso legal">
       <section>
-        <h2 className={H2}>1. Titular</h2>
+        <h2 className={LEGAL_H2}>1. Titular</h2>
         <p>David Cerdán Valero.</p>
         <p className="mt-2">Dominio: kudos.dcerdan.es</p>
       </section>
 
       <section>
-        <h2 className={H2}>2. Qué es Kudos</h2>
+        <h2 className={LEGAL_H2}>2. Qué es Kudos</h2>
         <p>
           Proyecto sin ánimo de lucro, Proyecto Final del ciclo de Desarrollo de Aplicaciones Web (IES Paco Mollà). No
           hay publicidad, afiliados ni funciones de pago.
@@ -27,7 +25,7 @@ const LegalNoticePage = () => {
       </section>
 
       <section>
-        <h2 className={H2}>3. Contacto</h2>
+        <h2 className={LEGAL_H2}>3. Contacto</h2>
         <p>
           Punto de contacto: <LegalContactEmail email={state.contactEmail} isLoading={state.isLoading}/>. Sirve para
           notificar contenido ilegal (además del botón «Reportar» de comentarios, reseñas y listas, disponible para
@@ -36,7 +34,7 @@ const LegalNoticePage = () => {
       </section>
 
       <section>
-        <h2 className={H2}>4. Contenido de los usuarios y moderación</h2>
+        <h2 className={LEGAL_H2}>4. Contenido de los usuarios y moderación</h2>
         <p>
           Cada usuario es responsable de lo que publica. Los reportes se revisan en una cola de moderación; si se oculta
           o se borra contenido, el autor recibe una notificación con el motivo y cómo reclamar.
@@ -44,7 +42,7 @@ const LegalNoticePage = () => {
       </section>
 
       <section>
-        <h2 className={H2}>5. Propiedad intelectual y fuentes de datos</h2>
+        <h2 className={LEGAL_H2}>5. Propiedad intelectual y fuentes de datos</h2>
         <ul className="list-disc pl-5">
           <li>
             Datos de películas y series de TMDB. <span lang="en">This website uses TMDB and the TMDB APIs but is not
@@ -57,7 +55,7 @@ const LegalNoticePage = () => {
               href="https://creativecommons.org/licenses/by-sa/4.0/deed.es"
               target="_blank"
               rel="noopener noreferrer"
-              className={LINK}
+              className={LEGAL_LINK}
             >
               CC BY-SA 4.0
             </a>.
@@ -69,7 +67,7 @@ const LegalNoticePage = () => {
               href="https://github.com/D4VC3R/Proyecto-Kudos"
               target="_blank"
               rel="noopener noreferrer"
-              className={LINK}
+              className={LEGAL_LINK}
             >
               github.com/D4VC3R/Proyecto-Kudos
             </a>.
@@ -78,7 +76,7 @@ const LegalNoticePage = () => {
       </section>
 
       <section>
-        <h2 className={H2}>6. Responsabilidad y legislación aplicable</h2>
+        <h2 className={LEGAL_H2}>6. Responsabilidad y legislación aplicable</h2>
         <p>
           Kudos se ofrece «tal cual», sin garantías de disponibilidad continua ni de que los datos de las fuentes
           externas o el contenido de los usuarios sean exactos o estén completos; el titular no responde de los daños
@@ -88,7 +86,7 @@ const LegalNoticePage = () => {
         </p>
       </section>
 
-      <p className="text-sm">
+      <p className="text-small text-ink-muted">
         Última actualización: 1 de noviembre de 2026.
       </p>
     </LegalPageLayout>
