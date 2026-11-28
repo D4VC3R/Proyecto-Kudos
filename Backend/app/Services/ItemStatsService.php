@@ -45,6 +45,33 @@ class ItemStatsService
     }
 
     /**
+     * Votos con nota de un ítem por nivel de SCORE_LEVELS, del más bajo al más alto, con los niveles sin votos a 0.
+     * Una sola consulta agrupada. Cada nota va al nivel más cercano y, si queda en medio, al de arriba
+     * (ROUND de numeric en PostgreSQL): 0–2,5 → 2, 3–4,5 → 4, 5–6,5 → 6, 7–8,5 → 8 y 9–10 → 10.
+     *
+     * @return list<array{score: int, count: int}>
+     */
+    public function scoreDistribution(string $itemId): array
+    {
+        $bucket = 'CAST(GREATEST(1, ROUND(score::numeric / 2)) AS integer)';
+
+        $counts = Vote::query()
+            ->where('item_id', $itemId)
+            ->whereIn('type', Vote::RATED_TYPES)
+            ->whereNotNull('score')
+            ->toBase()
+            ->selectRaw("{$bucket} AS level, COUNT(*) AS votes")
+            ->groupByRaw($bucket)
+            ->pluck('votes', 'level');
+
+        return array_map(
+            fn (int $score, int $index) => ['score' => $score, 'count' => (int) ($counts[$index + 1] ?? 0)],
+            Vote::SCORE_LEVELS,
+            array_keys(Vote::SCORE_LEVELS),
+        );
+    }
+
+    /**
      * Puntuación bayesiana: (v·R + m·C) / (v + m) si v > 0; 0 si no hay votos (los ítems sin votos van al final).
      */
     public function bayesScore(int $voteCount, float $voteAvg, float $categoryMean): float

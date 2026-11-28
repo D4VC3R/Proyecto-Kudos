@@ -31,6 +31,9 @@ class Vote extends Model
     // Tipos que llevan nota y cuentan para las medias y los kudos (F2-01)
     public const RATED_TYPES = [self::TYPE_VOTE];
 
+    /** Niveles de nota de la votación (los botones de VOTE_LEVELS en el frontend): cada nota se agrupa en el más cercano. Van de 2 en 2: el reparto lo calcula con ROUND(score / 2). */
+    public const SCORE_LEVELS = [2, 4, 6, 8, 10];
+
     // not_interested y su valor heredado skip (la API ya no guarda skip, pero el CHECK lo admite)
     public const NOT_INTERESTED_TYPES = [self::TYPE_NOT_INTERESTED, self::TYPE_SKIP];
 
