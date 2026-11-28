@@ -4,8 +4,9 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {Mail, ArrowLeft, KeyRound, CheckCircle} from 'lucide-react';
 import {forgotPasswordSchema} from '../../lib/schemas.js'
 // Componentes
-import InputField from '../../components/ui/InputField.jsx';
+import Input from '../../components/ui/Input.jsx';
 import Button from '../../components/ui/Button.jsx';
+import Card from '../../components/ui/Card.jsx';
 import FadeUp from '../../components/animations/FadeUp.jsx';
 import FeedbackState from '../../components/ui/FeedbackState.jsx';
 // Hooks
@@ -28,12 +29,12 @@ const ForgotPasswordPage = () => {
 
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center p-4">
-      <FadeUp className="w-full max-w-md rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
-
+      <FadeUp className="w-full max-w-md">
+        <Card className="p-8 sm:p-10">
         {isSubmitted ? (
           <FeedbackState
             icon={CheckCircle}
-            iconColorClass="bg-green-100 text-green-500"
+            iconColorClass="bg-success/10 text-success"
             title="Revisa tu correo"
             description="Si el email está registrado, recibirás un enlace para restablecer tu contraseña en unos minutos."
             actionText="Volver al inicio de sesión"
@@ -42,17 +43,17 @@ const ForgotPasswordPage = () => {
         ) : (
           <>
             <div className="mb-8 text-center flex flex-col items-center">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-primary">
-                <KeyRound size={32}/>
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 text-accent">
+                <KeyRound aria-hidden="true" size={32}/>
               </div>
-              <h1 className="text-2xl font-black text-text-highlight">Recuperar contraseña</h1>
-              <p className="mt-2 text-sm text-text-normal">
+              <h1 className="font-display text-h2 text-ink">Recuperar contraseña</h1>
+              <p className="mt-2 text-small text-ink-muted">
                 Introduce tu correo electrónico y te enviaremos instrucciones para crear una nueva contraseña.
               </p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-              <InputField
+              <Input
                 label="Correo electrónico"
                 type="email"
                 icon={Mail}
@@ -66,23 +67,19 @@ const ForgotPasswordPage = () => {
                 type="submit"
                 isLoading={isPending}
                 isFullWidth
-                variant="solid"
-                color="primary"
               >
                 Enviar enlace
               </Button>
             </form>
 
             <div className="mt-8 text-center">
-              <Link to="/login"
-                    className="inline-flex items-center text-sm font-bold text-text-normal hover:text-slate-800 transition-colors">
-                <ArrowLeft size={16} className="mr-2"/>
+              <Button as={Link} to="/login" variant="ghost" icon={ArrowLeft}>
                 Volver al inicio de sesión
-              </Link>
+              </Button>
             </div>
           </>
         )}
-
+        </Card>
       </FadeUp>
     </div>
   );

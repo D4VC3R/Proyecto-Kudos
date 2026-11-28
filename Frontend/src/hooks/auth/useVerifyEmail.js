@@ -31,7 +31,6 @@ const useVerifyEmail = () => {
     if (!verifyUrl) {
       return {
         icon: Mail,
-        iconColorClass: "bg-blue-100 text-blue-500 shadow-inner",
         title: "Revisa tu bandeja de entrada",
         description: "Te hemos enviado un enlace de confirmación. Haz clic en él para validar tu cuenta de forma segura.",
         actionText: "Ir al Login",
@@ -51,7 +50,7 @@ const useVerifyEmail = () => {
     if (isSuccess) {
       return {
         icon: MailCheck,
-        iconColorClass: "bg-green-100 text-green-500 shadow-inner",
+        iconColorClass: 'bg-success/10 text-success',
         title: "¡Cuenta Verificada!",
         description: "Tu email ha sido validado correctamente. Ya puedes acceder a todas las funciones.",
         actionText: "Iniciar Sesión",
@@ -61,7 +60,7 @@ const useVerifyEmail = () => {
 
     return {
       icon: AlertCircle,
-      iconColorClass: "bg-red-100 text-red-500 shadow-inner",
+      iconColorClass: 'bg-danger/10 text-danger',
       title: "Fallo de Verificación",
       description: "El enlace es inválido o ha expirado por seguridad. Inicia sesión en tu cuenta para solicitar un nuevo enlace.",
       actionText: "Ir al Login",
