@@ -6,7 +6,7 @@ import BackButton from "../components/ui/BackButton.jsx";
 import Input from '../components/ui/Input.jsx';
 import SelectFilter from '../components/ui/SelectFilter.jsx';
 import FeedbackState from '../components/ui/FeedbackState.jsx';
-import ItemCard from '../components/items/ItemCard';
+import ItemGrid from '../components/items/ItemGrid.jsx';
 // Hooks
 import { useExplorePage } from '../hooks/pages/useExplorePage.js';
 
@@ -60,13 +60,7 @@ const ExplorePage = () => {
             description="No se encontraron resultados con los filtros actuales."
           />
         ) : (
-          <ul data-explore-grid className="grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 md:grid-cols-4 md:gap-x-4 md:gap-y-8 lg:grid-cols-6">
-            {state.flattenedItems.map((item, index) => (
-              <li key={item.id} className="min-w-0">
-                <ItemCard item={item} index={index} />
-              </li>
-            ))}
-          </ul>
+          <ItemGrid data-explore-grid items={state.flattenedItems} />
         )}
 
         {state.isFetchingNextPage && (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Search } from 'lucide-react';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '../../lib/twMerge.js';
 import StorageImage from '../ui/StorageImage.jsx';
 import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
 import { useGlobalSearch } from '../../hooks/common/useGlobalSearch.js';
@@ -41,17 +41,17 @@ const GlobalSearch = ({ className = '', onNavigate }) => {
       {state.isOpen && (
         // El preventDefault evita que el input pierda el foco al hacer clic en el desplegable (el foco se queda en el combobox).
         <div
-          className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl bg-surface shadow-xl ring-1 ring-border"
+          className="absolute left-0 right-0 top-full z-50 mt-2 rounded-md border border-line bg-surface p-1.5 shadow-raised"
           onMouseDown={(e) => e.preventDefault()}
         >
           {state.isLoading ? (
-            <p className="px-4 py-3 text-sm font-medium text-text-normal">Buscando...</p>
+            <p className="px-2.5 py-2 text-small text-ink-muted">Buscando...</p>
           ) : state.isError ? (
-            <p className="px-4 py-3 text-sm font-medium text-text-normal">No se ha podido buscar. Inténtalo de nuevo.</p>
+            <p className="px-2.5 py-2 text-small text-ink-muted">No se ha podido buscar. Inténtalo de nuevo.</p>
           ) : state.results.length === 0 ? (
-            <p className="px-4 py-3 text-sm font-medium text-text-normal">No hay resultados para «{state.term}».</p>
+            <p className="px-2.5 py-2 text-small text-ink-muted">No hay resultados para «{state.term}».</p>
           ) : (
-            <ul id={state.listboxId} role="listbox" aria-label="Resultados de la búsqueda">
+            <ul id={state.listboxId} role="listbox" aria-label="Resultados de la búsqueda" className="grid gap-0.5">
               {state.results.map((item, index) => {
                 const isActive = index === state.activeIndex;
                 return (
@@ -62,11 +62,11 @@ const GlobalSearch = ({ className = '', onNavigate }) => {
                     aria-selected={isActive}
                     onClick={() => actions.handleResultClick(item)}
                     className={twMerge(
-                      'flex w-full cursor-pointer items-center gap-3 px-4 py-2 text-left hover:bg-slate-50',
-                      isActive && 'bg-slate-100'
+                      'flex w-full cursor-pointer items-center gap-3 rounded-sm px-2.5 py-2 text-left hover:bg-line/60',
+                      isActive && 'bg-line/60 ring-2 ring-inset ring-accent'
                     )}
                   >
-                    <div aria-hidden="true" className="h-12 w-12 shrink-0 overflow-hidden rounded-lg">
+                    <div aria-hidden="true" className="h-12 w-8 shrink-0 overflow-hidden rounded-sm border border-line">
                       <StorageImage
                         src={item.images?.[0]?.variants?.thumb}
                         alt={item.name}
@@ -83,9 +83,9 @@ const GlobalSearch = ({ className = '', onNavigate }) => {
                       />
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-bold text-text-highlight">{item.name}</p>
+                      <p className="truncate text-small font-semibold text-ink">{item.name}</p>
                       {item.category?.name && (
-                        <p className="truncate text-xs font-medium text-text-normal">{item.category.name}</p>
+                        <p className="truncate text-caption text-ink-muted">{item.category.name}</p>
                       )}
                     </div>
                   </li>
@@ -94,13 +94,15 @@ const GlobalSearch = ({ className = '', onNavigate }) => {
             </ul>
           )}
 
-          <button
-            type="submit"
-            onKeyDown={actions.handleSeeAllKeyDown}
-            className="block w-full border-t border-border px-4 py-2.5 text-left text-sm font-bold text-primary hover:bg-slate-50 focus-visible:bg-slate-50 focus-visible:outline-none"
-          >
-            Ver todos los resultados
-          </button>
+          <div className="mt-1.5 border-t border-line pt-1.5">
+            <button
+              type="submit"
+              onKeyDown={actions.handleSeeAllKeyDown}
+              className={`block w-full rounded-sm p-2.5 text-left text-small font-semibold text-accent hover:bg-line/60 ${FOCUS_RING}`}
+            >
+              Ver todos los resultados
+            </button>
+          </div>
         </div>
       )}
     </form>

@@ -640,6 +640,16 @@ CPU 4×:
 
 **Hecho cuando:** el script de RA-00 en `--themes all` sobre `/buscar?q=star`, con sesión y sin ella, pasa, y el buscador de la cabecera se maneja con ↑, ↓, Intro y Esc.
 
+**Notas (RC-06):**
+- **Archivos (todo bajo `Frontend/src/`):** `components/items/ItemGrid.jsx` (nuevo: `ul > li > ItemCard` y `ITEM_GRID_CLASSES`), `pages/ExplorePage.jsx` (usa `ItemGrid data-explore-grid`, mismo DOM), `pages/SearchPage.jsx` (`PageHeader` con el `h1`, un `section` con `SectionHead` `h2` y `ItemGrid` por categoría, *skeletons* con `ITEM_GRID_CLASSES`, `FeedbackState` con `titleAs="h2"`), `components/catalog/CatalogImportPanel.jsx` (`Card`, `Select`, `h2`, tokens del sistema y el nombre de la fuente) y `components/layout/GlobalSearch.jsx` (solo clases y `twMerge` de `lib/twMerge.js`).
+- **Tests nuevos:** ninguno de componentes (R8). Script `.claude/ciclo/RC-06/buscar-check.mjs` (Playwright en Docker, 15 comprobaciones; no va al repo): `buscar_h1`, `buscar_rejilla`, `buscar_sin_resultados`, `combobox_flechas`, `combobox_opcion_visible`, `combobox_enter_opcion`, `combobox_enter_sin_opcion`, `combobox_escape`, `combobox_clic`, `combobox_movil`, `buscador_foco_visible`, `importar_sin_sesion`, `importar_con_sesion`, `importar_fuente_igdb` e `importar_sin_peticiones_reales`. El catálogo se simula con `page.route` sobre `/api/catalog/` (R4): nada llega a TMDB, a IGDB ni al backend.
+- **Decisiones del plan (por validar):** (1) El panel nombra la fuente según la categoría (TMDB para películas y series, IGDB para videojuegos); el vacío pasa a «No hay resultados en {fuente} para «…».». (2) La opción activa del desplegable lleva un anillo del acento (`ring-inset`) que la maqueta no dibuja.
+- **Discrepancias con el plan (R1):** `ExplorePage` tenía la rejilla en `:63` y no en `:353`. El panel de importar decía siempre TMDB aunque `videojuegos` importa de IGDB. El campo del buscador ya cumplía (foco con `FOCUS_RING`, borde `line-strong`): no se ha tocado.
+- **Desviaciones:** ninguna. El script usa `/\/api\/catalog\//` y no `**/catalog/**`, porque este último también capturaba los módulos de Vite de `/src/hooks/catalog/`. En el foco, un `outline` de `outline-none` es `2px solid` transparente: se da por apagado si su alfa es 0.
+- **Falla antes:** sobre `rediseno-fase-0` (árbol sin cambios, mismo script) fallaban 6: `buscar_h1` (`/buscar?q=star` sin `h1` y las otras dos con el de `FeedbackState`), `buscar_rejilla` (sin `section[aria-labelledby]` de grupos, `h3`), `buscar_sin_resultados` (era `h1`), `combobox_opcion_visible` (`box-shadow: none`), `importar_sin_sesion` (`h3`) e `importar_fuente_igdb` (decía TMDB).
+- **Resultados:** `pnpm build`, `pnpm check:classes` (782 clases) y `pnpm test:seo` (45 pass) en verde; 0 clases arbitrarias nuevas. `visual-check.sh --themes all` sobre `/buscar?q=star`, `/buscar?q=zzqxv` y `/buscar` a 360, 390, 768 y 1440, sin sesión y con ella: 96 + 96 comprobaciones, 0 con fallos (JS, consola, desbordamiento, `h1`, contraste y foco). `buscar-check.mjs`: 15 OK; `RC-05/categoria-check.mjs`: 14 OK.
+- **Pendiente:** capturas en `.claude/ciclo/RC-06/capturas/` (ignorada por git). Con la base local, `?q=star` solo da una categoría y 2 ítems (el 6 de columnas se comprueba por el `grid-template-columns`).
+
 ## RC-07 · Listas (FE)
 
 **Depende:** RC-01
