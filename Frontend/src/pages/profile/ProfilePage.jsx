@@ -23,7 +23,7 @@ export const ProfilePage = ({tab = 'info'}) => {
       <div className="mb-8 shrink-0">
         <PageHeader
           title="Mi"
-          highlight="Perfil"
+          highlight="perfil"
           subtitle="Gestiona tu identidad, revisa tus contribuciones y analiza tus estadísticas."
         />
       </div>

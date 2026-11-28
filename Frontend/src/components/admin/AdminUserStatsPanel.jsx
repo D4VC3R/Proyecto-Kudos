@@ -15,13 +15,13 @@ const AdminUserStatsPanel = ({ user }) => {
         </AdminStatCard>
         <AdminStatCard icon={CheckCircle} value={user.creations_accepted} label="Aceptados"/>
         <AdminStatCard icon={FileText} value={user.proposals_count} label="Propuestas"/>
-        <AdminStatCard icon={CheckCircle} value={user.votes_count} label="Votos Emitidos"/>
+        <AdminStatCard icon={CheckCircle} value={user.votes_count} label="Votos emitidos"/>
         <AdminStatCard icon={MessageSquare} value={user.comments_count} label="Comentarios"/>
-        <AdminStatCard icon={PlusSquare} value={user.items_count} label="Items Creados"/>
+        <AdminStatCard icon={PlusSquare} value={user.items_count} label="Ítems creados"/>
         {user.role === 'admin' && (
           <AdminStatCard icon={Eye} value={user.reviewed_proposals_count} label="Revisiones"/>
         )}
-        <AdminStatCard icon={Key} value={user.sessions_count} label="Sesiones Activas"/>
+        <AdminStatCard icon={Key} value={user.sessions_count} label="Sesiones activas"/>
       </div>
     </>
   );

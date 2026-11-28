@@ -52,7 +52,7 @@ const AdminUserDetail = () => {
             onClose={actions.closeModal}
             onConfirm={actions.executeAction}
             isPending={state.isPending}
-            confirmText="Confirmar Acción"
+            confirmText="Confirmar acción"
             actionStyle={state.modalType === 'ban' ? 'danger' : 'warning'}
           />
         }

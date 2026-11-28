@@ -58,7 +58,7 @@ const MyProposalsPage = () => {
       <Modal
         isOpen={!!state.proposalToDelete}
         onClose={actions.handleCloseDeleteModal}
-        title="Eliminar Propuesta"
+        title="Eliminar propuesta"
         footer={
           <ModalButtons
             onClose={actions.handleCloseDeleteModal}

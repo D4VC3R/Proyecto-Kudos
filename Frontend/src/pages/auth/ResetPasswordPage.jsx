@@ -63,7 +63,7 @@ const ResetPasswordPage = () => {
             iconColorClass="bg-success/10 text-success"
             title="¡Contraseña actualizada!"
             description="Tu contraseña se ha cambiado correctamente. Todas tus sesiones anteriores han sido cerradas por seguridad."
-            actionText="Iniciar Sesión"
+            actionText="Iniciar sesión"
             onAction={() => navigate('/login')}
           />
         ) : (

@@ -33,7 +33,7 @@ const useVerifyEmail = () => {
         icon: Mail,
         title: "Revisa tu bandeja de entrada",
         description: "Te hemos enviado un enlace de confirmación. Haz clic en él para validar tu cuenta de forma segura.",
-        actionText: "Ir al Login",
+        actionText: "Ir al login",
         onAction: () => navigate('/login')
       };
     }
@@ -51,9 +51,9 @@ const useVerifyEmail = () => {
       return {
         icon: MailCheck,
         iconColorClass: 'bg-success/10 text-success',
-        title: "¡Cuenta Verificada!",
+        title: "¡Cuenta verificada!",
         description: "Tu email ha sido validado correctamente. Ya puedes acceder a todas las funciones.",
-        actionText: "Iniciar Sesión",
+        actionText: "Iniciar sesión",
         onAction: () => navigate('/login')
       };
     }
@@ -61,9 +61,9 @@ const useVerifyEmail = () => {
     return {
       icon: AlertCircle,
       iconColorClass: 'bg-danger/10 text-danger',
-      title: "Fallo de Verificación",
+      title: "Fallo de verificación",
       description: "El enlace es inválido o ha expirado por seguridad. Inicia sesión en tu cuenta para solicitar un nuevo enlace.",
-      actionText: "Ir al Login",
+      actionText: "Ir al login",
       onAction: () => navigate('/login')
     };
   }, [verifyUrl, isLoading, isSuccess, navigate]);

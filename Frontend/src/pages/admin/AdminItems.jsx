@@ -80,7 +80,7 @@ const AdminItems = () => {
             onClose={actions.closeModal}
             onConfirm={actions.executeAction}
             isPending={state.isPending}
-            confirmText="Confirmar Acción"
+            confirmText="Confirmar acción"
             actionStyle={state.actionType === 'delete' ? 'danger' : 'info'}
           />
         }

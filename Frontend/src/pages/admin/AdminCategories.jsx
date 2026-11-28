@@ -54,7 +54,7 @@ const AdminCategories = () => {
       <Modal
         isOpen={state.isOpen}
         onClose={actions.handleCloseModal}
-        title={state.modalType === 'create' ? 'Nueva Categoría' : state.modalType === 'edit' ? 'Editar Categoría' : 'Eliminar Categoría'}
+        title={state.modalType === 'create' ? 'Nueva categoría' : state.modalType === 'edit' ? 'Editar categoría' : 'Eliminar categoría'}
         footer={
           <ModalButtons
             onClose={actions.handleCloseModal}

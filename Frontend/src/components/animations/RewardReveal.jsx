@@ -54,7 +54,7 @@ const RewardReveal = ({ data, displayedKudos, isMultiplierActive }) => {
       {data.isNewRecord && (
         <motion.div variants={fadeUpVariants} className="mt-5 flex items-center gap-2 rounded-full border border-kudos bg-surface px-4 py-2 font-semibold text-ink">
           <Sparkles size={18} className="animate-pulse" aria-hidden="true" />
-          <span className="text-small">¡Nuevo Récord Histórico!</span>
+          <span className="text-small">¡Nuevo récord histórico!</span>
         </motion.div>
       )}
     </motion.div>

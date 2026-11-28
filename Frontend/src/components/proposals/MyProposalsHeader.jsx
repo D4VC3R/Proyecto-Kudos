@@ -16,7 +16,7 @@ const PROPOSAL_STATUS_OPTIONS = Object.entries(PROPOSAL_STATUS_CONFIG).map(
 const MyProposalsHeader = ({ meta, filters, updateParams }) => {
   return (
     <div className="flex flex-col gap-4">
-      <SectionHead title="Mis Propuestas" />
+      <SectionHead title="Mis propuestas" />
       <p className="text-small text-ink-muted">{meta.total || 0} propuestas enviadas en total</p>
 
       <div className="flex flex-wrap items-center gap-3">
