@@ -157,7 +157,7 @@ Va **antes de F5-16**: la fusión en `main` incluye el rediseño, así que mient
 | RC-11 | Ranking global | FE | RC-05 | hecho | [#72](https://github.com/D4VC3R/Proyecto-Kudos/issues/72) |
 | RC-12 | Legal, 404, Forbidden y error | FE | RB-03 | hecho | [#73](https://github.com/D4VC3R/Proyecto-Kudos/issues/73) |
 | RC-13 | Administración | FE | RB-03 | hecho | [#74](https://github.com/D4VC3R/Proyecto-Kudos/issues/74) |
-| RC-14 | Piezas globales | FE | RB-03 | pendiente | [#75](https://github.com/D4VC3R/Proyecto-Kudos/issues/75) |
+| RC-14 | Piezas globales | FE | RB-03 | hecho | [#75](https://github.com/D4VC3R/Proyecto-Kudos/issues/75) |
 | RC-15 | Textos | FE, BE | RC-01…RC-14 | pendiente | [#76](https://github.com/D4VC3R/Proyecto-Kudos/issues/76) |
 | RD-01 | Revisión final | QA, FE, DOCS | RC-15, RC-16, RA-06, RB-04 | pendiente | [#77](https://github.com/D4VC3R/Proyecto-Kudos/issues/77) |
 
