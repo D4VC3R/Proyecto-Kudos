@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from './Button.jsx';
 
+// El sistema solo tiene una acción principal y otra destructiva: `warning`, `success` e `info` pasan a la principal.
 const ModalButtons = ({
                         onClose,
                         onConfirm,
@@ -14,16 +15,14 @@ const ModalButtons = ({
       <Button
         onClick={onClose}
         disabled={isPending}
-        variant="ghost"
-        color="neutral"
+        variant="secondary"
       >
         {cancelText}
       </Button>
       <Button
         onClick={onConfirm}
         isLoading={isPending}
-        variant={'solid'}
-        color={actionStyle}
+        variant={actionStyle === 'danger' ? 'danger' : 'primary'}
       >
         {confirmText}
       </Button>

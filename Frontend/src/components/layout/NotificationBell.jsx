@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bell } from 'lucide-react';
 import clsx from 'clsx';
-import { ICON_BUTTON } from './headerStyles.js';
+import { FOCUS_RING, ICON_BUTTON } from './headerStyles.js';
 import { formatDate } from '../../lib/formatters.js';
 import { useNotificationBell } from '../../hooks/notifications/useNotificationBell.js';
 
@@ -11,7 +11,7 @@ const NotificationBell = () => {
   const { isOpen, notifications, unreadCount, badgeLabel, isLoading, isError, isMarkingAll, panelId } = state;
 
   const ariaLabel = unreadCount > 0 ? `Notificaciones, ${unreadCount} sin leer` : 'Notificaciones';
-  const emptyMessageStyles = 'px-4 py-3 text-sm font-medium text-text-normal';
+  const emptyMessageStyles = 'px-4 py-3 text-small text-ink-muted';
 
   return (
     <div ref={refs.containerRef} className="relative">
@@ -39,16 +39,16 @@ const NotificationBell = () => {
       {isOpen && (
         <div
           id={panelId}
-          className="fixed inset-x-4 top-16 z-50 mt-2 overflow-hidden rounded-2xl bg-surface shadow-xl ring-1 ring-border sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:w-96"
+          className="fixed inset-x-4 top-16 z-50 mt-2 overflow-hidden rounded-md border border-line bg-surface shadow-raised sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:w-96"
         >
-          <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-            <h2 className="font-black text-text-highlight">Notificaciones</h2>
+          <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
+            <h2 className="font-display text-h3 text-ink">Notificaciones</h2>
             {unreadCount > 0 && (
               <button
                 type="button"
                 onClick={actions.markAllAsRead}
                 disabled={isMarkingAll}
-                className="text-sm font-bold text-primary hover:underline disabled:opacity-50"
+                className={`rounded-sm text-small font-semibold text-accent hover:underline disabled:opacity-50 ${FOCUS_RING}`}
               >
                 Marcar todas como leídas
               </button>
@@ -62,24 +62,24 @@ const NotificationBell = () => {
           )}
 
           {notifications.length > 0 && (
-            <ul className="max-h-96 overflow-y-auto divide-y divide-border">
+            <ul className="max-h-96 overflow-y-auto divide-y divide-line">
               {notifications.map((notification) => (
-                <li key={notification.id} className={clsx(!notification.is_read && 'bg-blue-50')}>
+                <li key={notification.id} className={clsx(!notification.is_read && 'bg-accent/10')}>
                   <button
                     type="button"
                     onClick={() => actions.openNotification(notification)}
-                    className="block w-full px-4 py-3 text-left hover:bg-slate-50 focus-visible:bg-slate-50 focus-visible:outline-none"
+                    className="block w-full px-4 py-3 text-left hover:bg-line/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset"
                   >
                     <div className="flex items-start gap-2">
                       {!notification.is_read && (
-                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary">
+                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-accent">
                           <span className="sr-only">Sin leer</span>
                         </span>
                       )}
                       <div className="min-w-0">
-                        <p className="text-sm font-bold text-text-highlight">{notification.data?.title}</p>
-                        <p className="text-sm text-text-normal">{notification.data?.message}</p>
-                        <p className="text-xs font-medium text-text-normal">{formatDate(notification.created_at)}</p>
+                        <p className="text-small font-semibold text-ink">{notification.data?.title}</p>
+                        <p className="text-small text-ink-muted">{notification.data?.message}</p>
+                        <p className="text-caption text-ink-muted">{formatDate(notification.created_at)}</p>
                       </div>
                     </div>
                   </button>
