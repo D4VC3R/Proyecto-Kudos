@@ -742,6 +742,16 @@ CPU 4×:
 - Un script de Playwright en `.claude/ciclo/RC-16/` comprueba que los recuentos de la ficha coinciden con la API.
 - El script de RA-00 con `--themes all` pasa sobre las fichas de una película, un juego y un destino.
 
+**Notas (RC-16):**
+- **Archivos:** `Backend/app/Models/Vote.php` (`SCORE_LEVELS = [2, 4, 6, 8, 10]`), `Backend/app/Services/ItemStatsService.php` (`scoreDistribution()`), `Backend/app/Http/Resources/ItemDetailResource.php` (`vote_distribution`), `Frontend/tailwind.config.js` (`animate-grow` y `grid-cols-dist`), `Frontend/src/components/items/VoteDistribution.jsx` (nuevo), `Frontend/src/components/items/ItemDetailColumn.jsx` (cabecera «Nota de la comunidad» con el recuento a la derecha y las barras debajo), `Backend/docs/api-contract.md` (§7 y nueva §8) y las arquitecturas de backend y frontend.
+- **Tests nuevos:** `Backend/tests/Feature/Items/ItemVoteDistributionTest.php` (6): reparto con votos (la suma coincide con `vote_count`), notas intermedias al nivel más cercano con el empate hacia arriba, sin votos, exclusión de `want`, `not_interested` y `skip`, una sola consulta a `votes` (y mismo total de consultas con 1 voto que con 10) y actualización al votar. Script `.claude/ciclo/RC-16/distribucion-check.mjs` (Playwright en Docker; no va al repo): 4 comprobaciones sobre la película, el juego y el destino (API real; reparto forzado con `page.route`; con `reduce`; reparto a 0).
+- **Decisiones del plan (por validar):** (1) las notas se agrupan en el nivel más cercano y el empate sube (0–2,5 → 2, 3–4,5 → 4, 5–6,5 → 6, 7–8,5 → 8, 9–10 → 10); (2) `vote_distribution` es una lista `[{score, count}]` ascendente y no un objeto con claves numéricas, y va en todas las respuestas que usan `ItemDetailResource`; (3) la etiqueta de cada fila es la del nivel («Me encantó»…) y el recuento se lee «12 votos». No hay caché de estadísticas por ítem (solo la media de categoría), así que el reparto se calcula en cada petición y no hay nada que invalidar.
+- **Discrepancias con el plan (R1):** ninguna.
+- **Desviaciones:** (1) `distribucion-check.mjs` comprueba además el texto singular «1 voto» de la fila de 2. (2) En el test del reparto con votos, las votaciones se crean con la factoría, que no actualiza `vote_count`, así que el test llama a `ItemStatsService::recalculate()` antes de comparar la suma con `vote_count`. (3) `VoteDistribution` calcula el máximo y devuelve `null` si es 0, lo que equivale a «la suma de los `count` es 0».
+- **Falla antes:** quitando de `ItemDetailResource` la línea `vote_distribution`, los 6 tests de `ItemVoteDistributionTest` fallan; con ella, pasan.
+- **Resultados:** `sail test` 973 passed (4616 assertions), `ItemDetailTest` 4 passed y `pint --test` en verde. `pnpm build`, `pnpm check:classes` (830 clases) y `pnpm test:seo` (45 pass) en verde. `distribucion-check.mjs`: 4 OK y `RC-03/ficha-check.mjs`: 11 OK, tras reiniciar el contenedor de Vite (sin reiniciarlo, el config nuevo no se recargaba y `animate-grow` salía como `none`). `visual-check.sh --themes all` sobre las 3 fichas, con sesión y sin ella: 72 comprobaciones cada una, 0 con fallos. Las tres fichas tienen votos en local (7, 1 y 1), así que las barras se ven también con datos reales.
+- **Pendiente:** capturas en `.claude/ciclo/RC-16/capturas/` (ignorada por git).
+
 ---
 
 ## RD-01 · Revisión final (QA, FE, DOCS)
