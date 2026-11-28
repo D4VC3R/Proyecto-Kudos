@@ -93,7 +93,8 @@ export default {
       // `bump` hace saltar el contador de Kudos al cambiar y `stamp` estampa el sello de la nota en la ficha: son CSS
       // para que el CSS global de `prefers-reduced-motion` las frene sin código. `rise` hace subir las tarjetas en
       // cascada (el retraso sale de `--i`) y también es CSS por lo mismo. `grow` hace crecer las barras del reparto de
-      // notas de la ficha, también en CSS para que la regla de `prefers-reduced-motion` la frene.
+      // notas de la ficha, también en CSS para que la regla de `prefers-reduced-motion` la frene. `fly` hace subir y
+      // desvanecerse el «+N» del contador de Kudos y `draw` traza la marca de «¡Hecho!» al votar, CSS por lo mismo.
       keyframes: {
         fadeIn: {
           from: { opacity: '0' },
@@ -112,6 +113,15 @@ export default {
           from: { opacity: '0', transform: 'translateY(14px)' },
         },
         grow: { from: { transform: 'scaleX(0)' } },
+        fly: {
+          '0%': { opacity: '0', transform: 'translate(-50%, 18px) scale(.7)' },
+          '20%': { opacity: '1', transform: 'translate(-50%, 0) scale(1)' },
+          '100%': { opacity: '0', transform: 'translate(-50%, -34px)' },
+        },
+        draw: {
+          from: { strokeDasharray: '24', strokeDashoffset: '24' },
+          to: { strokeDasharray: '24', strokeDashoffset: '0' },
+        },
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
@@ -119,6 +129,8 @@ export default {
         stamp: 'stamp 0.55s cubic-bezier(.2, 1.5, .4, 1) 0.25s both',
         rise: 'rise 0.45s cubic-bezier(.2, .7, .2, 1) calc(var(--i, 0) * 45ms) both',
         grow: 'grow 0.7s cubic-bezier(.2, .7, .2, 1) 0.35s both',
+        fly: 'fly 1.1s cubic-bezier(.2, .7, .2, 1) forwards',
+        draw: 'draw 0.45s ease-out 0.1s both',
       },
       // Proporción del póster de una tarjeta.
       aspectRatio: {
@@ -138,6 +150,9 @@ export default {
         detail: 'minmax(0, 360px) minmax(0, 1fr)',
         // Fila del reparto de notas de la ficha: etiqueta del nivel, barra y recuento (hasta cinco cifras).
         dist: '5.5rem minmax(0, 1fr) 2.5rem',
+        // Póster y texto de votar: el póster ocupa hasta 280 px (340 px en escritorio) y el resto es de la pregunta.
+        vote: 'minmax(0, 280px) minmax(0, 1fr)',
+        'vote-lg': 'minmax(0, 340px) minmax(0, 1fr)',
       },
       // Distancia a la que se queda fijo el póster de la ficha al desplazarla: la cabecera (64 px) más 24 px de aire.
       inset: {
@@ -162,10 +177,6 @@ export default {
       // Alto máximo de un panel que se abre bajo la cabecera (64 px): así no se sale de la pantalla y su final se ve al desplazarlo.
       maxHeight: {
         'below-header': 'calc(100dvh - 4rem)',
-      },
-      // Alto del contenido a pantalla completa: 100dvh menos la cabecera (64px + borde ≈ 4rem) y el py-8 del <main> (4rem).
-      height: {
-        'page-content': 'calc(100dvh - 8rem)',
       },
       // Alto mínimo de los estados de carga, vacío o error.
       minHeight: {

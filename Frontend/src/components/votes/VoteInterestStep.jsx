@@ -1,53 +1,31 @@
 import React from 'react';
 import { ArrowLeft, BookmarkPlus, EyeOff } from 'lucide-react';
+import clsx from 'clsx';
 import Button from '../ui/Button.jsx';
+import VoteStepTitle from './VoteStepTitle.jsx';
+import { KBD } from './voteStyles.js';
 
 // Paso 2b de la votación (F2-04): si no lo conoces, ¿te interesa? (wishlist o "no me interesa").
-const VoteInterestStep = ({ onWant, onNotInterested, onBack, isPending }) => {
+const VoteInterestStep = ({ onWant, onNotInterested, onBack, isPending, autoFocus = false }) => {
   return (
-    <div className="flex flex-col items-center mb-6">
-      <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">
-        ¿Te interesa?
-      </h4>
+    <div className="animate-rise">
+      <VoteStepTitle autoFocus={autoFocus}>¿Te interesa?</VoteStepTitle>
 
-      <div className="grid grid-cols-2 gap-3 w-full max-w-md">
-        <Button
-          onClick={onWant}
-          disabled={isPending}
-          variant="solid"
-          color="primary"
-          size="lg"
-          icon={BookmarkPlus}
-          className="py-4 text-lg"
-        >
+      <div className="grid grid-cols-2 gap-2.5">
+        <Button onClick={onWant} disabled={isPending} variant="primary" size="lg" icon={BookmarkPlus}>
           Me interesa
-          <kbd className="hidden sm:inline-flex rounded-md bg-black/10 px-1.5 py-0.5 text-xs font-bold">1</kbd>
+          <kbd className={clsx(KBD, 'hidden sm:inline-block')}>1</kbd>
         </Button>
-        <Button
-          onClick={onNotInterested}
-          disabled={isPending}
-          variant="ghost"
-          color="neutral"
-          size="lg"
-          icon={EyeOff}
-          className="py-4 text-lg"
-        >
+        <Button onClick={onNotInterested} disabled={isPending} variant="secondary" size="lg" icon={EyeOff}>
           No me interesa
-          <kbd className="hidden sm:inline-flex rounded-md bg-black/10 px-1.5 py-0.5 text-xs font-bold">2</kbd>
+          <kbd className={clsx(KBD, 'hidden sm:inline-block')}>2</kbd>
         </Button>
       </div>
 
       {onBack && (
-        <Button
-          onClick={onBack}
-          title="Volver (Esc)"
-          variant="ghost"
-          color="neutral"
-          size="sm"
-          icon={ArrowLeft}
-          className="mt-3"
-        >
+        <Button onClick={onBack} variant="ghost" icon={ArrowLeft} className="mt-3">
           Volver
+          <kbd className={clsx(KBD, 'hidden sm:inline-block')}>Esc</kbd>
         </Button>
       )}
     </div>

@@ -23,13 +23,13 @@ const SwipeVoteCard = ({ enabled, onSwipeRight, onSwipeLeft, children }) => {
       dragSnapToOrigin
       onDragEnd={handleDragEnd}
       style={{ x, rotate }}
-      className={`relative w-full h-full flex justify-center items-center [&_img]:pointer-events-none ${enabled ? 'cursor-grab active:cursor-grabbing' : ''}`}
+      className={`relative w-full [&_img]:pointer-events-none ${enabled ? 'cursor-grab active:cursor-grabbing' : ''}`}
     >
       {children}
       {enabled && (
         <>
-          <motion.span style={{ opacity: yesOpacity }} aria-hidden="true" className="pointer-events-none absolute top-4 left-4 z-20 -rotate-12 rounded-xl border-4 border-green-500 bg-white/80 px-3 py-1 text-2xl font-black uppercase text-green-600">Sí</motion.span>
-          <motion.span style={{ opacity: noOpacity }} aria-hidden="true" className="pointer-events-none absolute top-4 right-4 z-20 rotate-12 rounded-xl border-4 border-red-500 bg-white/80 px-3 py-1 text-2xl font-black uppercase text-red-600">No</motion.span>
+          <motion.span style={{ opacity: yesOpacity }} aria-hidden="true" className="pointer-events-none absolute top-4 left-4 z-20 -rotate-12 rounded-md border-4 border-success bg-surface/90 px-3 py-1 font-display text-2xl font-semibold uppercase text-success">Sí</motion.span>
+          <motion.span style={{ opacity: noOpacity }} aria-hidden="true" className="pointer-events-none absolute top-4 right-4 z-20 rotate-12 rounded-md border-4 border-danger bg-surface/90 px-3 py-1 font-display text-2xl font-semibold uppercase text-danger">No</motion.span>
         </>
       )}
     </motion.div>

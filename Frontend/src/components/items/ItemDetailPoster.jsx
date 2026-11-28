@@ -6,7 +6,7 @@ import { pickImageVariant } from './ItemImage.jsx';
 import { getCommonsImageCredit } from '../../lib/attribution.js';
 
 // Póster de la ficha: se queda fijo mientras se desplaza el texto y nunca se amplía por encima de su tamaño natural.
-const ItemDetailPoster = ({ item }) => {
+const ItemDetailPoster = ({ item, showCredit = true }) => {
   const image = item.images?.[0];
   const src = pickImageVariant(image);
 
@@ -48,7 +48,7 @@ const ItemDetailPoster = ({ item }) => {
           />
         )}
       </div>
-      {!showPlaceholder && getCommonsImageCredit(image) && (
+      {showCredit && !showPlaceholder && getCommonsImageCredit(image) && (
         <figcaption className="mt-2">
           <ItemImageCredit image={image} />
         </figcaption>

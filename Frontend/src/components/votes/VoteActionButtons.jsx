@@ -1,15 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MessageSquare } from 'lucide-react';
 import Button from '../ui/Button.jsx';
 
-const VoteActionButtons = ({ showComments, onToggleComments }) => {
+const VoteActionButtons = ({ itemUrl, showComments, onToggleComments, commentsId }) => {
   return (
-    <div className="flex items-center justify-end">
+    <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+      <Button as={Link} to={itemUrl} variant="link">
+        Ver ficha completa
+      </Button>
       <Button
-        onClick={onToggleComments}
-        variant="ghost"
-        color="primary"
+        variant="link"
         icon={MessageSquare}
+        aria-expanded={showComments}
+        aria-controls={commentsId}
+        onClick={onToggleComments}
       >
         {showComments ? 'Ocultar comentarios' : 'Comentar'}
       </Button>
