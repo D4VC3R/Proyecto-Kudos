@@ -7,6 +7,7 @@ const ProfileTabs = ({ tabs, activeTab, setActiveTab }) => (
     activeId={activeTab}
     onChange={setActiveTab}
     label="Secciones del perfil"
+    idPrefix="profile"
     className="mb-6"
   />
 );

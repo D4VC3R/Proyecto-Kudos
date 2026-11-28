@@ -1,12 +1,10 @@
 import React from 'react';
 import { PROPOSAL_STATUS_CONFIG } from '../../lib/constants.js';
-import { Filter } from 'lucide-react';
+import { Filter, Search } from 'lucide-react';
 // Componentes
-import SectionHeader from "../ui/SectionHeader.jsx";
-import SearchFilter from "../ui/SearchFilter.jsx";
+import SectionHead from "../ui/SectionHead.jsx";
+import Input from "../ui/Input.jsx";
 import SelectFilter from "../ui/SelectFilter.jsx";
-
-
 
 const PROPOSAL_STATUS_OPTIONS = Object.entries(PROPOSAL_STATUS_CONFIG).map(
   ([value, config]) => ({
@@ -17,26 +15,32 @@ const PROPOSAL_STATUS_OPTIONS = Object.entries(PROPOSAL_STATUS_CONFIG).map(
 
 const MyProposalsHeader = ({ meta, filters, updateParams }) => {
   return (
-    <SectionHeader
-      title="Mis"
-      highlight="Propuestas"
-      subtitle={`${meta.total || 0} propuestas enviadas en total`}
-    >
-      <SearchFilter
-        value={filters.search || ''}
-        onChange={(e) => updateParams({ search: e.target.value })}
-        placeholder="Buscar propuesta..."
-      />
+    <div className="flex flex-col gap-4">
+      <SectionHead title="Mis Propuestas" />
+      <p className="text-small text-ink-muted">{meta.total || 0} propuestas enviadas en total</p>
 
-      <SelectFilter
-        label="Estado"
-        icon={Filter}
-        value={filters.status || ''}
-        onChange={(e) => updateParams({ status: e.target.value })}
-        options={PROPOSAL_STATUS_OPTIONS}
-        defaultOption="Todos los estados"
-      />
-    </SectionHeader>
+      <div className="flex flex-wrap items-center gap-3">
+        <SelectFilter
+          label="Estado"
+          icon={Filter}
+          value={filters.status || ''}
+          onChange={(e) => updateParams({ status: e.target.value })}
+          options={PROPOSAL_STATUS_OPTIONS}
+          defaultOption="Todos los estados"
+        />
+
+        <Input
+          hideLabel
+          label="Buscar propuesta"
+          type="search"
+          icon={Search}
+          placeholder="Buscar propuesta..."
+          value={filters.search || ''}
+          onChange={(e) => updateParams({ search: e.target.value })}
+          className="w-full sm:w-64"
+        />
+      </div>
+    </div>
   );
 };
 

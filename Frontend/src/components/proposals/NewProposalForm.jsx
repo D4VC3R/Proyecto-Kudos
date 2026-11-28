@@ -3,8 +3,8 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {Type, AlignLeft, Image as ImageIcon} from 'lucide-react';
 import {proposalSchema} from '../../lib/schemas';
 // Componentes
-import InputField from '../ui/InputField.jsx';
-import TextAreaField from '../ui/TextAreaField.jsx';
+import Input from '../ui/Input.jsx';
+import Textarea from '../ui/Textarea.jsx';
 import Button from '../ui/Button.jsx';
 // Hooks
 import {useCreateProposal, useUpdateProposal} from '../../hooks/proposals/useProposalMutations';
@@ -50,7 +50,7 @@ const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-      <InputField
+      <Input
         label="Título / Nombre"
         icon={Type}
         placeholder="Ej: The Legend of Zelda: Ocarina of Time"
@@ -59,7 +59,7 @@ const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
         disabled={isSubmitting}
       />
 
-      <TextAreaField
+      <Textarea
         label="Descripción detallada"
         icon={AlignLeft}
         rows={6}
@@ -69,7 +69,7 @@ const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
         disabled={isSubmitting}
       />
 
-      <InputField
+      <Input
         label="URL de Imagen (Opcional)"
         icon={ImageIcon}
         type="url"
@@ -83,8 +83,7 @@ const NewProposalForm = ({category, isEdit = false, initialData = null}) => {
         type="submit"
         isLoading={isSubmitting}
         isFullWidth
-        variant="solid"
-        color="primary"
+        variant="primary"
       >
         {isEdit ? 'Guardar Cambios' : 'Enviar a Revisión'}
       </Button>

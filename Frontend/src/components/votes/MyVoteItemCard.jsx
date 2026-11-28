@@ -1,76 +1,92 @@
 import React from 'react';
-import { Star, Trash2, Clock } from 'lucide-react';
-import { formatDate } from '../../lib/formatters';
+import { Link } from 'react-router-dom';
+import clsx from 'clsx';
+import { Trash2 } from 'lucide-react';
+import { formatDate, resolveCategoryIcon } from '../../lib/formatters';
+import { buildItemUrl } from '../../lib/search.js';
 import Button from '../ui/Button.jsx';
+import Chip from '../ui/Chip.jsx';
 import StorageImage from "../ui/StorageImage.jsx";
 import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
+import { FOCUS_RING } from '../layout/headerStyles.js';
 import { VOTE_TYPE_BADGES } from '../../lib/constants.js';
 
+// Tarjeta de un voto del historial: solo pinta; el borrado llega por props.
 const MyVoteItemCard = ({ vote, isDeleting, onDeleteClick }) => {
   const badge = VOTE_TYPE_BADGES[vote.type] ?? VOTE_TYPE_BADGES.vote;
   const isRated = vote.type === 'vote';
   const item = vote.item;
-  const imageUrl = item.images?.[0]?.variants?.thumb || item.images?.[0]?.variants?.banner;
+  const name = item?.name || 'Ítem desconocido';
+  const imageUrl = item?.images?.[0]?.variants?.thumb || item?.images?.[0]?.variants?.banner;
+  const itemUrl = item ? buildItemUrl(item) : null;
+  const CategoryIcon = resolveCategoryIcon(item?.category);
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
-      <div className="flex items-start gap-4 flex-1">
-        <div className="mt-1 flex h-16 w-14 shrink-0 items-center justify-center rounded-xl overflow-hidden shadow-inner bg-slate-100">
+    <article data-my-vote-card className="flex flex-col gap-4 rounded-md border border-line bg-surface p-4 sm:flex-row sm:items-center">
+      <div className="flex min-w-0 flex-1 items-start gap-4">
+        <span className="block w-12 shrink-0 overflow-hidden rounded-sm border border-line bg-surface aspect-poster">
           <StorageImage
             src={imageUrl}
-            alt={item?.name || 'Ítem'}
-            className="h-full w-full"
+            alt=""
+            width={200}
+            height={300}
+            className="h-full w-full object-cover"
             fallback={
               <ItemPlaceholder
                 name={item?.name}
                 categorySlug={item?.category?.slug}
                 categoryIcon={item?.category?.icon}
                 variant="thumb"
+                decorative
                 className="h-full w-full"
               />
             }
           />
-        </div>
+        </span>
 
-        <div className="flex flex-col w-full">
-          <div className="flex items-center gap-3 flex-wrap">
-            <h4 className="text-lg font-bold text-text-highlight line-clamp-1">
-              {item?.name || 'Ítem desconocido'}
-            </h4>
-            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold border ${badge.color}`}>
-              {badge.label}
-            </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-display text-h3 text-ink line-clamp-2">
+              {itemUrl ? (
+                <Link to={itemUrl} className={clsx('rounded-sm underline-offset-3 hover:underline', FOCUS_RING)}>{name}</Link>
+              ) : (
+                name
+              )}
+            </h3>
+            <Chip>{badge.label}</Chip>
           </div>
 
-          <div className="flex items-center gap-3 mt-1 text-sm font-medium text-text-normal">
-            <span className="text-primary">{item?.category?.name || 'Categoría'}</span>
-            <span>•</span>
-            <span className="flex items-center gap-1"><Clock size={14} /> {formatDate(vote.voted_at)}</span>
-          </div>
+          <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-ink-muted">
+            {item?.category?.name && (
+              <span className="inline-flex items-center gap-1 text-ink">
+                <CategoryIcon size={14} aria-hidden="true" />
+                {item.category.name}
+              </span>
+            )}
+            <time dateTime={vote.voted_at}>{formatDate(vote.voted_at)}</time>
+          </p>
 
           {isRated && (
-            <div className="mt-3 flex items-center gap-1 bg-background rounded-xl px-3 py-2 w-fit border border-slate-100">
-              <span className="text-text-normal text-sm font-bold mr-1">Puntuación:</span>
-              <span className="text-lg font-black text-slate-800">{vote.score}</span>
-              <span className="text-slate-400 text-sm">/ 10</span>
-              <Star size={16} className="text-kudos ml-1" fill="currentColor" />
-            </div>
+            <p className="mt-2 text-small text-ink">
+              Tu nota: <span className="font-display font-semibold tabular-nums text-stamp">{vote.score}</span> de 10
+            </p>
           )}
         </div>
       </div>
 
-      <div className="flex items-center gap-2 self-end sm:self-center">
+      <div className="flex flex-wrap gap-2 sm:shrink-0">
         <Button
-          title="Eliminar registro"
+          variant="ghost"
+          icon={Trash2}
+          className="text-danger"
           onClick={() => onDeleteClick(vote)}
           isLoading={isDeleting}
-          variant="ghost"
-          color="danger"
-          size="iconLg"
-          icon={Trash2}
-        />
+          aria-label={`Eliminar el voto de «${name}»`}
+        >
+          Eliminar
+        </Button>
       </div>
-    </div>
+    </article>
   );
 };
 

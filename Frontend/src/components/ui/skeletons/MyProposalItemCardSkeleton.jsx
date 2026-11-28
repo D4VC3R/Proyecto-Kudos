@@ -3,23 +3,22 @@ import Skeleton from './Skeleton.jsx';
 
 const MyProposalItemCardSkeleton = () => {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-slate-200">
-      <div className="flex items-start gap-4 w-full">
+    <div className="flex flex-col gap-4 rounded-md border border-line bg-surface p-4 sm:flex-row sm:items-center">
+      <div className="flex w-full min-w-0 flex-1 items-start gap-4">
+        <Skeleton className="aspect-poster w-12 shrink-0 rounded-sm" />
 
-        <Skeleton className="mt-1 h-12 w-12 shrink-0 rounded-xl" />
-
-        <div className="flex flex-col flex-1 gap-2">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-1 flex-col gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Skeleton className="h-6 w-32 sm:w-48" />
             <Skeleton className="h-5 w-24 rounded-full" />
           </div>
-          <Skeleton className="h-4 w-24 sm:w-32 mt-0.5" />
+          <Skeleton className="h-4 w-24 sm:w-32" />
         </div>
       </div>
 
-      <div className="flex items-center gap-2 self-end sm:self-center">
-        <Skeleton className="h-10 w-10 rounded-xl" />
-        <Skeleton className="h-10 w-10 rounded-xl" />
+      <div className="flex gap-2 sm:shrink-0">
+        <Skeleton className="h-11 w-24 rounded-sm" />
+        <Skeleton className="h-11 w-28 rounded-sm" />
       </div>
     </div>
   );

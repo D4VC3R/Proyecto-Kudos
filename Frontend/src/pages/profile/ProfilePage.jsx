@@ -8,7 +8,7 @@ import MyVotesPage from './MyVotesPage.jsx';
 import MyStatsPage from './MyStatsPage.jsx';
 import ProfilePrivacyPage from './ProfilePrivacyPage.jsx';
 import ProfileInfoFormSkeleton from '../../components/ui/skeletons/ProfileInfoFormSkeleton.jsx';
-import SectionHeader from "../../components/ui/SectionHeader.jsx";
+import PageHeader from "../../components/ui/PageHeader.jsx";
 import ProfileTabs from "../../components/profile/ProfileTabs.jsx";
 import FeedbackState from '../../components/ui/FeedbackState.jsx';
 // Hooks
@@ -21,8 +21,7 @@ export const ProfilePage = ({tab = 'info'}) => {
   return (
     <div className="flex w-full flex-col">
       <div className="mb-8 shrink-0">
-        <SectionHeader
-          size="large"
+        <PageHeader
           title="Mi"
           highlight="Perfil"
           subtitle="Gestiona tu identidad, revisa tus contribuciones y analiza tus estadísticas."
@@ -33,11 +32,16 @@ export const ProfilePage = ({tab = 'info'}) => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
-      <div className="w-full min-h-[50vh]">
+      <div
+        role="tabpanel"
+        id={`profile-panel-${activeTab}`}
+        aria-labelledby={`profile-tab-${activeTab}`}
+        className="w-full min-h-[50vh]"
+      >
         {!isLoading && (isError || !profile) ? (
           <FeedbackState
             icon={UserIcon}
-            iconColorClass="bg-slate-100 text-slate-400"
+            titleAs="h2"
             title="Error al cargar perfil"
             description="No se pudo obtener la información de tu perfil. Intenta iniciar sesión de nuevo."
           />

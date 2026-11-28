@@ -1,20 +1,17 @@
 import React from 'react';
-import clsx from 'clsx';
-import FadeUp from '../animations/FadeUp.jsx';
 
-const ProfileStatCard = ({ title, value, icon: Icon, colorClass }) => {
+// Una cifra del resumen de estadísticas. Va dentro de un `ul`.
+const ProfileStatCard = ({ title, value, icon: Icon }) => {
   return (
-    <FadeUp
-      className="bg-surface rounded-3xl p-6 border border-border shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow"
-    >
-      <div className={clsx("flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl shadow-inner", colorClass)}>
-        <Icon size={32} strokeWidth={2.5} />
+    <li className="flex items-center gap-4 rounded-md border border-line bg-surface p-4">
+      <span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-accent/10 text-accent">
+        <Icon size={24} />
+      </span>
+      <div className="flex min-w-0 flex-col">
+        <p className="text-caption font-semibold uppercase tracking-widest text-ink-muted">{title}</p>
+        <p className="font-display text-h2 tabular-nums text-ink">{value}</p>
       </div>
-      <div className="flex flex-col">
-        <p className="text-sm font-bold text-text-normal uppercase tracking-widest">{title}</p>
-        <p className="text-3xl font-black text-text-highlight tracking-tight">{value}</p>
-      </div>
-    </FadeUp>
+    </li>
   );
 };
 

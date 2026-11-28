@@ -1,31 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import clsx from 'clsx';
 import { Star } from 'lucide-react';
 import { formatDate } from '../../lib/formatters';
 import { buildItemUrl } from '../../lib/search.js';
+import Card from '../ui/Card.jsx';
+import Chip from '../ui/Chip.jsx';
+import { FOCUS_RING } from '../layout/headerStyles.js';
 
-// Reseña reciente de un usuario en su perfil público (F3-03).
+// Reseña reciente de un usuario en su perfil público.
 const PublicReviewCard = ({ review }) => {
   const itemUrl = buildItemUrl(review.item);
 
   return (
-    <div className="flex flex-col gap-2 rounded-xl border border-slate-100 bg-background p-4">
+    <Card as="li" className="flex flex-col gap-2">
       <div className="flex flex-wrap items-center gap-2">
-        {itemUrl ? (
-          <Link to={itemUrl} className="break-words font-bold text-text-highlight hover:underline">
-            {review.item.name}
-          </Link>
-        ) : (
-          <span className="break-words font-bold text-text-highlight">{review.item.name}</span>
-        )}
-        <span className="flex shrink-0 items-center gap-1 rounded-full bg-yellow-50 px-2 py-0.5 text-[11px] font-bold text-yellow-800 ring-1 ring-yellow-300">
-          <Star size={12} className="text-yellow-600 fill-yellow-500" />
+        <h3 className="break-words font-display text-h3 text-ink">
+          {itemUrl ? (
+            <Link to={itemUrl} className={clsx('rounded-sm underline-offset-3 hover:underline', FOCUS_RING)}>
+              {review.item.name}
+            </Link>
+          ) : (
+            review.item.name
+          )}
+        </h3>
+        <Chip>
+          <Star size={12} aria-hidden="true" className="mr-1 text-kudos" />
           Reseña{review.score != null ? ` · ${review.score}` : ''}
-        </span>
+        </Chip>
       </div>
-      <p className="whitespace-pre-line text-sm text-slate-700">{review.content}</p>
-      <span className="text-xs text-slate-400">{formatDate(review.created_at)}</span>
-    </div>
+      <p className="whitespace-pre-line text-small text-ink">{review.content}</p>
+      <time dateTime={review.created_at} className="text-caption text-ink-muted">{formatDate(review.created_at)}</time>
+    </Card>
   );
 };
 
