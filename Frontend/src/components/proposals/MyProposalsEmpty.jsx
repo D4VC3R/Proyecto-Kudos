@@ -8,7 +8,7 @@ const MyProposalsEmpty = () => {
       icon={FileText}
       titleAs="h3"
       title="No tienes propuestas"
-      description="Aún no has sugerido ningún ítem. Dirígete a alguna categoría y crea tu primera propuesta para ganar Kudos."
+      description="Aún no has sugerido ningún ítem. Dirígete a alguna categoría y crea tu primera propuesta para ganar kudos."
       customLayoutClass="rounded-md border border-line bg-surface p-12"
     />
   );

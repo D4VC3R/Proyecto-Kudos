@@ -23,7 +23,7 @@ const HomePage = () => {
           size="display"
           kicker={state.heroKicker}
           title="Descubre qué ver"
-          subtitle="Recomendaciones, novedades y listas para encontrar tu próxima peli o serie."
+          subtitle="Recomendaciones, novedades y listas para encontrar tu próxima peli, serie, juego o destino."
         />
         <CategoryShortcuts categories={state.categories} />
       </div>

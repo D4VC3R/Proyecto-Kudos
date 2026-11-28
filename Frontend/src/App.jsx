@@ -15,7 +15,7 @@ const pageWidthFor = (pathname) => {
 };
 
 /**
- * Bienvenido a Proyecto Kudos, aquí tienes la estructura del proyecto por si necesitas modificar algo:
+ * Estructura del proyecto, por si necesitas modificar algo:
  * - app: Contiene los proveedores de la aplicación.
  * - components: Componentes reutilizables, contienen poca o ninguna lógica.
  * - core: Configuración de Axios, React-Query y componente fallback para errores fatales.

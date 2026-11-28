@@ -10,7 +10,7 @@ export const SITE_NAME = 'Kudos';
 export const DESCRIPTION_MAX_LENGTH = 160;
 
 /** Título por defecto: el mismo `<title>` que `index.html`. */
-export const DEFAULT_TITLE = 'Proyecto Kudos';
+export const DEFAULT_TITLE = 'Kudos';
 
 /** Descripción genérica para cuando no hay datos de la ficha. */
 export const DEFAULT_DESCRIPTION = 'Descubre, valora y guarda películas, series y mucho más en Kudos.';

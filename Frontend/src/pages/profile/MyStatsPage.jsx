@@ -13,8 +13,8 @@ const MyStatsPage = () => {
   return (
     <div className="flex w-full flex-col relative">
       <div className="relative flex flex-col gap-6">
-        <SectionHead title="Tus Estadísticas" />
-        <p className="text-small text-ink-muted">Así estás usando Proyecto Kudos.</p>
+        <SectionHead title="Tus estadísticas" />
+        <p className="text-small text-ink-muted">Así estás usando Kudos.</p>
         {isLoading ? (
           <FeedbackState icon={Loader2} isLoading/>
         ) : (isError || !stats) ? (
@@ -27,22 +27,22 @@ const MyStatsPage = () => {
         ) : (
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <ProfileStatCard
-              title="Kudos Globales"
+              title="Kudos globales"
               value={stats.total_kudos}
               icon={Award}
             />
             <ProfileStatCard
-              title="Racha Actual"
+              title="Racha actual"
               value={stats.current_login_streak > 1 ? `${stats.current_login_streak} días` : `${stats.current_login_streak} día`}
               icon={Flame}
             />
             <ProfileStatCard
-              title="Mayor Racha"
+              title="Mayor racha"
               value={stats.max_login_streak > 1 ? `${stats.max_login_streak} días` : `${stats.max_login_streak} día`}
               icon={Flame}
             />
             <ProfileStatCard
-              title="Votos Totales"
+              title="Votos totales"
               value={stats.total_votes}
               icon={ThumbsUp}
             />
@@ -57,12 +57,12 @@ const MyStatsPage = () => {
               icon={BookmarkPlus}
             />
             <ProfileStatCard
-              title="Puntuación Media"
+              title="Puntuación media"
               value={stats.average_score !== null ? stats.average_score : '-'}
               icon={Star}
             />
             <ProfileStatCard
-              title="Propuestas Aceptadas"
+              title="Propuestas aceptadas"
               value={stats.accepted_proposals}
               icon={BarChart3}
             />
@@ -72,7 +72,7 @@ const MyStatsPage = () => {
               icon={MessageSquare}
             />
             <ProfileStatCard
-              title="Categoría Favorita"
+              title="Categoría favorita"
               value={stats.favorite_category || '-'}
               icon={Star}
             />

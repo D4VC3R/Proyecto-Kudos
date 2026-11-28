@@ -17,8 +17,8 @@ const RankingPage = () => {
     <div className="flex w-full flex-col gap-8">
       <PageHeader
         title="Ranking"
-        highlight="Global"
-        subtitle="Conéctate todos los días, mándanos propuestas y vota en tus categorías favoritas para escalar en el ranking Kudos"
+        highlight="global"
+        subtitle="Conéctate todos los días, mándanos propuestas y vota en tus categorías favoritas para subir en el ranking."
       />
       <div
         className={clsx('transition-opacity duration-300', isFetching && !isLoading && 'pointer-events-none opacity-60')}

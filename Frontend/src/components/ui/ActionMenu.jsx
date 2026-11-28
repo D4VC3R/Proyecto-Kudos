@@ -15,8 +15,8 @@ const ActionMenu = ({ categorySlug, name, className = "" }) => (
       </li>
       <li>
         <ActionButton
-          title="Crear Propuesta"
-          description="¿Falta tu favorito? Proponlo y gana puntos Kudos si es aceptado."
+          title="Crear propuesta"
+          description="¿Falta tu favorito? Proponlo y gana kudos si lo aceptan."
           icon={PlusCircle}
           to={`/${categorySlug}/proposals/new`}
         />

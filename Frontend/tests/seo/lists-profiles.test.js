@@ -29,7 +29,7 @@ const TEMPLATE = `<!doctype html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon-CYvQuHf9.svg" />
     <link rel="alternate icon" href="/assets/favicon-BuU_IiDV.ico" />
-    <title>Proyecto Kudos</title>
+    <title>Kudos</title>
     <script type="module" crossorigin src="/assets/index-test.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-react-test.js">
     <link rel="stylesheet" crossorigin href="/assets/index-test.css">
@@ -364,7 +364,7 @@ test('handler_marks_unlisted_list_noindex', async () => {
 test('handler_returns_404_without_leaking_private_list', async () => {
   const { res: missing } = await run(listUrl, { fetch: { lists: {} } });
   assert.equal(missing.statusCode, 404);
-  assert.ok(missing.body.includes('<title>Proyecto Kudos</title>'));
+  assert.ok(missing.body.includes('<title>Kudos</title>'));
   assert.ok(!missing.body.includes('application/ld+json'));
   assert.equal(missing.headers['cache-control'], CACHE_CONTROL_NONE);
 
@@ -376,7 +376,7 @@ test('handler_returns_404_without_leaking_private_list', async () => {
 
     assert.equal(res.statusCode, 404);
     assert.ok(!res.body.includes('TOPSECRET'));
-    assert.ok(res.body.includes('<title>Proyecto Kudos</title>'));
+    assert.ok(res.body.includes('<title>Kudos</title>'));
     assert.equal(res.headers['cache-control'], CACHE_CONTROL_NONE);
     assert.equal(itemCalls(fetchImpl).length, 0);
   }
@@ -420,7 +420,7 @@ test('handler_returns_profile_meta', async () => {
 test('handler_returns_404_for_private_or_missing_profile', async () => {
   const { res: missing } = await run(profileUrl, { fetch: { users: {} } });
   assert.equal(missing.statusCode, 404);
-  assert.ok(missing.body.includes('<title>Proyecto Kudos</title>'));
+  assert.ok(missing.body.includes('<title>Kudos</title>'));
   assert.ok(missing.body.includes(DEFAULT_DESCRIPTION));
   assert.equal(missing.headers['cache-control'], CACHE_CONTROL_NONE);
 
