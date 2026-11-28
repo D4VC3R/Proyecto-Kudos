@@ -1,78 +1,85 @@
 import React from 'react';
+import clsx from 'clsx';
 import { FileText, Trash2, Edit3, Clock } from 'lucide-react';
 import { PROPOSAL_STATUS_CONFIG } from '../../lib/constants';
 // Componentes
 import Button from '../ui/Button.jsx';
+import Chip from '../ui/Chip.jsx';
 import StorageImage from '../ui/StorageImage.jsx';
 
+// Tarjeta de una propuesta propia: solo pinta; editar y borrar llegan por props.
 const MyProposalItemCard = ({ proposal, isDeleting, onDeleteClick, onEditClick }) => {
   const StateIcon = PROPOSAL_STATUS_CONFIG[proposal.status]?.icon || Clock;
-  const stateColor = PROPOSAL_STATUS_CONFIG[proposal.status]?.color || 'bg-slate-100 text-slate-800';
   const stateLabel = PROPOSAL_STATUS_CONFIG[proposal.status]?.label || 'Desconocido';
+  const hasNotes = proposal.admin_notes && (proposal.status === 'rejected' || proposal.status === 'changes_requested');
+  const isRejected = proposal.status === 'rejected';
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
-      <div className="flex items-start gap-4">
-        <div className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl overflow-hidden bg-slate-100">
+    <article data-my-proposal-card className="flex flex-col gap-4 rounded-md border border-line bg-surface p-4 sm:flex-row sm:items-center">
+      <div className="flex min-w-0 flex-1 items-start gap-4">
+        <span className="block w-12 shrink-0 overflow-hidden rounded-sm border border-line bg-surface aspect-poster">
           <StorageImage
             src={proposal.images?.[0]?.variants?.thumb}
-            alt={proposal.name || 'Propuesta'}
-            className="h-full w-full"
+            alt=""
+            width={200}
+            height={300}
+            className="h-full w-full object-cover"
             fallbackIcon={FileText}
           />
-        </div>
+        </span>
 
-        <div className="flex flex-col">
-          <div className="flex items-center gap-3">
-            <h4 className="text-lg font-bold text-text-highlight">{proposal.name}</h4>
-            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold border ${stateColor}`}>
-              <StateIcon size={12} strokeWidth={3} />
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-display text-h3 text-ink line-clamp-2">{proposal.name}</h3>
+            <Chip>
+              <StateIcon size={12} aria-hidden="true" className="mr-1" />
               {stateLabel}
-            </span>
+            </Chip>
           </div>
-          <p className="text-sm font-medium text-primary mt-0.5">{proposal.category?.name || 'Categoría'}</p>
+          <p className="mt-1 text-small text-ink-muted">{proposal.category?.name || 'Categoría'}</p>
 
-          {proposal.status === 'rejected' && proposal.admin_notes && (
-            <div className="mt-3 rounded-xl bg-red-50 p-3 text-sm text-red-800 border border-red-100">
-              <span className="font-bold block mb-1">Nota del Administrador:</span>
-              {proposal.admin_notes}
-            </div>
-          )}
-
-          {proposal.status === 'changes_requested' && proposal.admin_notes && (
-            <div className="mt-3 rounded-xl bg-orange-50 p-3 text-sm text-orange-800 border border-orange-100">
-              <span className="font-bold block mb-1">Se requieren cambios:</span>
+          {hasNotes && (
+            <div
+              className={clsx(
+                'mt-3 rounded-sm border p-3 text-small text-ink',
+                isRejected ? 'border-danger/40' : 'border-warning/60',
+              )}
+            >
+              <span className="mb-1 block font-semibold">
+                {isRejected ? 'Nota del Administrador:' : 'Se requieren cambios:'}
+              </span>
               {proposal.admin_notes}
             </div>
           )}
         </div>
       </div>
 
-      <div className="flex items-center gap-2 self-end sm:self-center">
+      <div className="flex flex-wrap gap-2 sm:shrink-0">
         {(proposal.status === 'changes_requested' || proposal.status === 'pending') && (
           <Button
-            title="Editar Propuesta"
-            onClick={() => onEditClick(proposal)}
             variant="ghost"
-            color="primary"
-            size="iconLg"
             icon={Edit3}
-          />
+            onClick={() => onEditClick(proposal)}
+            aria-label={`Editar «${proposal.name}»`}
+          >
+            Editar
+          </Button>
         )}
 
         {(proposal.status === 'pending' || proposal.status === 'rejected') && (
           <Button
-            title="Eliminar Propuesta"
+            variant="ghost"
+            icon={Trash2}
+            className="text-danger"
             onClick={() => onDeleteClick(proposal)}
             isLoading={isDeleting}
-            variant="ghost"
-            color="danger"
-            size="iconLg"
-            icon={Trash2}
-          />
+            aria-label={`Eliminar «${proposal.name}»`}
+          >
+            Eliminar
+          </Button>
         )}
       </div>
-    </div>
+    </article>
   );
 };
 

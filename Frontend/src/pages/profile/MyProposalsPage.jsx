@@ -6,7 +6,6 @@ import MyProposalsEmpty from '../../components/proposals/MyProposalsEmpty.jsx';
 import FeedbackState from "../../components/ui/FeedbackState.jsx";
 import MyProposalItemCard from '../../components/proposals/MyProposalItemCard.jsx';
 import MyProposalItemCardSkeleton from '../../components/ui/skeletons/MyProposalItemCardSkeleton.jsx';
-import FadeUp from "../../components/animations/FadeUp.jsx";
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from "../../components/ui/ModalButtons.jsx";
 // Hooks
@@ -17,9 +16,7 @@ const MyProposalsPage = () => {
 
   return (
     <div className="flex w-full flex-col relative">
-      <FadeUp
-        className={`flex flex-col gap-6 relative`}
-      >
+      <div className="relative flex flex-col gap-6">
         <MyProposalsHeader
           meta={state.meta}
           filters={state.filters}
@@ -37,25 +34,26 @@ const MyProposalsPage = () => {
         ) : state.filteredProposals.length === 0 ? (
           <FeedbackState
             icon={SearchX}
-            iconColorClass="bg-slate-200 text-slate-500"
+            titleAs="h3"
             title="No hay coincidencias"
             description="No encontramos propuestas que coincidan con tu búsqueda actual."
-            customLayoutClass="rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-12 w-full"
+            customLayoutClass="rounded-md border border-dashed border-line p-12"
           />
         ) : (
-          <div className="grid gap-4">
+          <ul className="grid gap-4">
             {state.filteredProposals.map((proposal) => (
-              <MyProposalItemCard
-                key={proposal.id}
-                proposal={proposal}
-                isDeleting={state.isDeleting && state.proposalToDelete?.id === proposal.id}
-                onDeleteClick={actions.handleOpenDeleteModal}
-                onEditClick={actions.handleEditClick}
-              />
+              <li key={proposal.id}>
+                <MyProposalItemCard
+                  proposal={proposal}
+                  isDeleting={state.isDeleting && state.proposalToDelete?.id === proposal.id}
+                  onDeleteClick={actions.handleOpenDeleteModal}
+                  onEditClick={actions.handleEditClick}
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         )}
-      </FadeUp>
+      </div>
 
       <Modal
         isOpen={!!state.proposalToDelete}
@@ -71,7 +69,7 @@ const MyProposalsPage = () => {
           />
         }
       >
-        <p className="text-nav-item font-medium">
+        <p className="text-ink">
           ¿Estás seguro de que deseas eliminar la propuesta <strong>{state.proposalToDelete?.name}</strong>?
         </p>
       </Modal>

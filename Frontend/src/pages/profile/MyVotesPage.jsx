@@ -5,7 +5,6 @@ import MyVotesHeader from '../../components/votes/MyVotesHeader.jsx';
 import MyVotesEmpty from '../../components/votes/MyVotesEmpty.jsx';
 import MyVoteItemCard from '../../components/votes/MyVoteItemCard.jsx';
 import MyVoteItemCardSkeleton from '../../components/ui/skeletons/MyVoteItemCardSkeleton.jsx';
-import FadeUp from "../../components/animations/FadeUp.jsx";
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from '../../components/ui/ModalButtons.jsx';
 // Hooks
@@ -16,8 +15,7 @@ const MyVotesPage = () => {
 
   return (
     <div className="flex w-full flex-col relative">
-      <FadeUp
-        className={`flex flex-col gap-6 relative`}>
+      <div className="relative flex flex-col gap-6">
 
         <MyVotesHeader
           meta={state.meta}
@@ -36,31 +34,32 @@ const MyVotesPage = () => {
           <MyVotesEmpty/>
         ) : (
           <>
-            <div className="grid gap-4">
+            <ul className="grid gap-4">
               {state.allVotes.map((vote) => (
-                <MyVoteItemCard
-                  key={vote.id}
-                  vote={vote}
-                  isDeleting={state.isDeleting && state.voteToDelete?.id === vote.id}
-                  onDeleteClick={actions.handleOpenDeleteModal}
-                  isUpdating={state.isUpdating}
-                  onUpdate={actions.updateVote}
-                />
+                <li key={vote.id}>
+                  <MyVoteItemCard
+                    vote={vote}
+                    isDeleting={state.isDeleting && state.voteToDelete?.id === vote.id}
+                    onDeleteClick={actions.handleOpenDeleteModal}
+                    isUpdating={state.isUpdating}
+                    onUpdate={actions.updateVote}
+                  />
+                </li>
               ))}
-            </div>
+            </ul>
 
             <div ref={refs.lastElementRef} className="flex h-12 w-full items-center justify-center py-4">
-              {state.isFetchingNextPage && <Loader2 className="animate-spin text-blue-500" size={24}/>}
+              {state.isFetchingNextPage && <Loader2 aria-hidden="true" className="animate-spin text-accent" size={24}/>}
             </div>
 
             {!state.hasNextPage && state.allVotes.length > 0 && (
-              <div className="text-center py-4 text-slate-400 font-medium text-sm">
+              <div className="py-4 text-center text-small text-ink-muted">
                 Has llegado al final de tu historial.
               </div>
             )}
           </>
         )}
-      </FadeUp>
+      </div>
 
       <Modal
         isOpen={!!state.voteToDelete}
@@ -76,7 +75,7 @@ const MyVotesPage = () => {
           />
         }
       >
-        <p className="text-nav-item font-medium">
+        <p className="text-ink">
           ¿Hacer como si nunca hubieras votado <strong>{state.voteToDelete?.item?.name}</strong>?
           No perderás Kudos por esta acción, pero volver a votar este elemento tampoco te dará más puntos.
         </p>
