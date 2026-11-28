@@ -1,16 +1,16 @@
 import React from 'react';
-import  TextAreaField from '../../ui/TextAreaField.jsx';
+import Textarea from '../../ui/Textarea.jsx';
 
 const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, setAdminNotes}) => {
   return (
     <>
-      <p className="text-nav-item">
+      <p className="text-ink-muted">
         Estás a punto de <span className="font-bold">{actionType === 'accepted' ? 'Aceptar' : 'Rechazar'}</span> la propuesta
-        <span className="font-bold text-text-highlight"> {proposalName}</span>.
+        <span className="font-bold text-ink"> {proposalName}</span>.
       </p>
 
       <div className="mt-2">
-        <TextAreaField
+        <Textarea
           label="Notas de revisión"
           placeholder="Escribe el motivo del rechazo o notas para el usuario..."
           value={adminNotes}
@@ -19,7 +19,7 @@ const AdminProposalReviewBody = ({actionType, proposalName, adminNotes, setAdmin
       </div>
 
       {actionType === 'accepted' && (
-        <div className="p-3 mt-2 bg-blue-50 rounded-xl text-sm text-blue-700 font-medium">
+        <div className="mt-2 rounded-md border border-line bg-canvas p-3 text-small text-ink">
           Al aceptar la propuesta, se creará un ítem público en la categoría correspondiente y el creador recibirá Kudos.
         </div>
       )}

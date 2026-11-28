@@ -1,11 +1,11 @@
 import React from 'react';
-import InputField from '../../ui/InputField.jsx';
-import TextAreaField  from '../../ui/TextAreaField.jsx';
+import Input from '../../ui/Input.jsx';
+import Textarea from '../../ui/Textarea.jsx';
 
 const AdminCategoryFormBody = ({ formData, setFormData }) => {
   return (
     <>
-      <InputField
+      <Input
         label="Nombre de la categoría"
         placeholder="Ej. Diseño..."
         name="name"
@@ -13,7 +13,7 @@ const AdminCategoryFormBody = ({ formData, setFormData }) => {
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
       />
       <div className="mt-4">
-        <TextAreaField
+        <Textarea
           label="Descripción"
           placeholder="No me seas rancio..."
           value={formData.description}
