@@ -1,41 +1,41 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
-import LogoKudos from "../layout/LogoKudos.jsx";
+import { Gift, Sparkles } from 'lucide-react';
 import { gamifiedEntryVariants, floatingLoopVariants, pulseLoopVariants } from './../../lib/animations';
 
 const MysteryBox = ({ onReveal }) => {
   return (
-    <motion.div
+    <motion.button
+      type="button"
       variants={gamifiedEntryVariants}
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="flex flex-col items-center cursor-pointer group"
+      className="flex flex-col items-center rounded-lg p-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       onClick={onReveal}
     >
       <motion.div
         variants={floatingLoopVariants}
         animate="animate"
-        className="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 sm:p-8 rounded-full shadow-lg shadow-purple-500/30 mb-4 group-hover:scale-105 transition-transform"
+        className="relative mb-4 rounded-full bg-kudos p-6 text-on-kudos shadow-raised transition-transform group-hover:scale-105 sm:p-8"
       >
-        <LogoKudos  className="w-14 h-14 lg:h-16 lg:w-16" />
+        <Gift size={56} aria-hidden="true" />
         <motion.div
           variants={pulseLoopVariants}
           animate="animate"
-          className="absolute -top-1 -right-1 text-amber-300"
+          className="absolute -top-1 -right-1 text-ink"
         >
-          <Sparkles size={24} />
+          <Sparkles size={24} aria-hidden="true" />
         </motion.div>
       </motion.div>
 
-      <h2 className="text-xl sm:text-2xl font-bold text-slate-800">
-        ¡Recoge tu <span className="text-primary">bonus</span> diario!
-      </h2>
-      <p className="text-sm sm:text-base text-kudos mt-2 animate-pulse">
+      <span className="font-display text-h2 text-ink">
+        ¡Recoge tu <span className="text-accent">bonus</span> diario!
+      </span>
+      <span className="mt-2 text-small text-ink-muted animate-pulse">
         Toca para abrir
-      </p>
-    </motion.div>
+      </span>
+    </motion.button>
   );
 };
 

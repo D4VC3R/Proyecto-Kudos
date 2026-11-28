@@ -48,7 +48,7 @@ const DailyRewardModal = ({ isOpen, onClose, data }) => {
   };
 
   const modalFooter = isRevealed ? (
-    <Button onClick={handleClose} variant="solid" color="primary" isFullWidth>
+    <Button onClick={handleClose} variant="primary" isFullWidth autoFocus>
       ¡Recoger Recompensa!
     </Button>
   ) : null;
