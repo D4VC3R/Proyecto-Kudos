@@ -6,7 +6,8 @@
  *
  * Argumentos (`--k v` o `--k=v`):
  *   --routes   obligatorio. Lista separada por comas, o un `.json` con un array de rutas (`"/x"` o
- *              `{ "path": "/x", "auth": true, "name": "opcional" }`).
+ *              `{ "path": "/x", "auth": true, "name": "opcional", "click": "selector" }`).
+ *              `click`: selector que se pulsa tras cargar (p. ej. una pestaña); el Tab empieza ahí.
  *   --base     URL del frontend (por defecto http://localhost:5174).
  *   --widths   anchos en px (por defecto 360,768,1440). --height: alto del viewport (por defecto 900).
  *   --themes   `current` (por defecto, no toca nada), `all` (4 paletas × claro/oscuro) o una lista `azulejo-dark,…`.
@@ -91,7 +92,7 @@ const loadRoutes = async (value, authDefault) => {
     const route = typeof item === 'string' ? { path: item } : item;
     if (!route || typeof route.path !== 'string' || !route.path) throw new ToolError('Ruta no válida en --routes');
     const path = route.path.startsWith('/') ? route.path : `/${route.path}`;
-    return { path, auth: route.auth ?? authDefault, name: route.name || slugify(path) };
+    return { path, auth: route.auth ?? authDefault, name: route.name || slugify(path), click: route.click || null };
   });
   if (!routes.length) throw new ToolError('--routes no tiene ninguna ruta');
   return routes;
@@ -423,6 +424,7 @@ const run = async (args) => {
             width,
             theme,
             auth: Boolean(route.auth),
+            click: route.click,
             error: null,
             jsErrors: [],
             consoleErrors: [],
@@ -448,6 +450,15 @@ const run = async (args) => {
               row.error = String(e.message).split('\n')[0];
             }
             firstGoto = false;
+
+            if (!row.error && route.click) {
+              try {
+                await page.locator(route.click).first().click({ timeout: 10000 });
+                await page.waitForLoadState('networkidle');
+              } catch (e) {
+                row.error = `No se pudo pulsar «${route.click}»: ${String(e.message).split('\n')[0]}`;
+              }
+            }
 
             if (!row.error) {
               await page.evaluate(checkImages);
