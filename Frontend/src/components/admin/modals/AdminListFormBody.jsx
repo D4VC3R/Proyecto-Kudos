@@ -1,11 +1,12 @@
 import React from 'react';
-import InputField from '../../ui/InputField.jsx';
-import TextAreaField from '../../ui/TextAreaField.jsx';
+import Input from '../../ui/Input.jsx';
+import Checkbox from '../../ui/Checkbox.jsx';
+import Textarea from '../../ui/Textarea.jsx';
 
 const AdminListFormBody = ({ formData, setFormData }) => {
   return (
     <>
-      <InputField
+      <Input
         label="Título"
         placeholder="Ej. Para ver en una tarde de lluvia"
         name="title"
@@ -14,22 +15,19 @@ const AdminListFormBody = ({ formData, setFormData }) => {
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
       />
       <div className="mt-4">
-        <TextAreaField
+        <Textarea
           label="Descripción"
           placeholder="Cuenta de qué va la lista"
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
         />
       </div>
-      <label className="flex items-center gap-2 text-sm font-bold text-slate-700 cursor-pointer mt-4">
-        <input
-          type="checkbox"
-          checked={formData.is_ranked}
-          onChange={(e) => setFormData({ ...formData, is_ranked: e.target.checked })}
-          className="rounded text-primary focus:ring-blue-500 w-4 h-4 cursor-pointer"
-        />
-        Lista numerada (muestra el puesto)
-      </label>
+      <Checkbox
+        className="mt-4"
+        label="Lista numerada (muestra el puesto)"
+        checked={formData.is_ranked}
+        onChange={(e) => setFormData({ ...formData, is_ranked: e.target.checked })}
+      />
     </>
   );
 };

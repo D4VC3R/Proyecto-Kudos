@@ -1,14 +1,14 @@
 import React from 'react';
-import { LayoutGrid, Plus, ShieldAlert } from 'lucide-react';
-import { AnimatePresence } from 'framer-motion';
+import { LayoutGrid, Plus, Search, ShieldAlert } from 'lucide-react';
 // Componentes
-import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import SectionHead from '../../components/ui/SectionHead.jsx';
 import FeedbackState from '../../components/ui/FeedbackState.jsx';
+import FilterBar from '../../components/ui/FilterBar.jsx';
+import Input from '../../components/ui/Input.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from "../../components/ui/ModalButtons.jsx";
-import SearchFilter from '../../components/ui/SearchFilter.jsx';
-import AdminCategoryCard from "../../components/admin/AdminCategoryCard.jsx";
+import AdminCategoriesTable from "../../components/admin/AdminCategoriesTable.jsx";
 import AdminCategoryFormBody from "../../components/admin/modals/AdminCategoryFormBody.jsx";
 import AdminCategoryDeleteBody from "../../components/admin/modals/AdminCategoryDeleteBody.jsx";
 // Hooks
@@ -19,43 +19,36 @@ const AdminCategories = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Gestión de" highlight="Categorías" highlightColor="kudos" icon={LayoutGrid}>
-        <div className="flex gap-4 items-center flex-wrap">
-          <SearchFilter
-            value={state.searchInput}
-            onChange={actions.handleSearchChange}
-            placeholder="Buscar categoría..."
-          />
-          <Button
-            onClick={() => actions.handleOpenAction(null, 'create')}
-            variant="ring"
-            color="primary"
-            icon={Plus}
-          >
-            Nueva
-          </Button>
-        </div>
-      </SectionHeader>
+      <SectionHead title="Gestión de categorías">
+        <Button onClick={() => actions.handleOpenAction(null, 'create')} icon={Plus}>
+          Nueva
+        </Button>
+      </SectionHead>
+
+      <FilterBar label="Filtrar categorías">
+        <Input
+          type="search"
+          label="Buscar"
+          icon={Search}
+          className="w-full sm:w-64"
+          value={state.searchInput}
+          onChange={actions.handleSearchChange}
+          placeholder="Buscar categoría..."
+        />
+      </FilterBar>
 
       {state.isLoading ? (
-        <FeedbackState icon={LayoutGrid} isLoading title="Cargando categorías..."/>
+        <FeedbackState icon={LayoutGrid} isLoading titleAs="h3" title="Cargando categorías..."/>
       ) : state.isError ? (
-        <FeedbackState icon={ShieldAlert} title="Error" description="No se pudieron cargar las categorías." iconColorClass="bg-red-100 text-red-500"/>
+        <FeedbackState icon={ShieldAlert} titleAs="h3" title="Error" description="No se pudieron cargar las categorías." iconColorClass="bg-danger/10 text-danger"/>
       ) : !state.filteredCategories?.length ? (
-        <FeedbackState icon={LayoutGrid} title="Sin resultados" description="No se encontraron categorías."/>
+        <FeedbackState icon={LayoutGrid} titleAs="h3" title="Sin resultados" description="No se encontraron categorías."/>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence>
-            {state.filteredCategories.map(cat => (
-              <AdminCategoryCard
-                key={cat.id}
-                category={cat}
-                onEdit={() => actions.handleOpenAction(cat, 'edit')}
-                onDelete={() => actions.handleOpenAction(cat, 'delete')}
-              />
-            ))}
-          </AnimatePresence>
-        </div>
+        <AdminCategoriesTable
+          categories={state.filteredCategories}
+          onEdit={(cat) => actions.handleOpenAction(cat, 'edit')}
+          onDelete={(cat) => actions.handleOpenAction(cat, 'delete')}
+        />
       )}
 
       <Modal

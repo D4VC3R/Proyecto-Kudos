@@ -1,14 +1,14 @@
 import React from 'react';
 import { Flag, ShieldAlert } from 'lucide-react';
-import { AnimatePresence } from 'framer-motion';
 // Componentes
-import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import SectionHead from '../../components/ui/SectionHead.jsx';
 import FeedbackState from '../../components/ui/FeedbackState.jsx';
+import FilterBar from '../../components/ui/FilterBar.jsx';
+import Select from '../../components/ui/Select.jsx';
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from "../../components/ui/ModalButtons.jsx";
 import Pagination from '../../components/ui/Pagination.jsx';
-import SelectFilter from "../../components/ui/SelectFilter.jsx";
-import AdminReportCard from "../../components/admin/AdminReportCard.jsx";
+import AdminReportsTable from "../../components/admin/AdminReportsTable.jsx";
 import AdminReportResolveBody from "../../components/admin/modals/AdminReportResolveBody.jsx";
 // Hooks y utilidades
 import { useAdminReportsPage } from '../../hooks/pages/useAdminReportsPage.js';
@@ -30,47 +30,42 @@ const AdminReports = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Cola de" highlight="Reportes" highlightColor="kudos" icon={Flag}>
-        <div className="flex gap-2 flex-wrap">
-          <SelectFilter
-            label="Estado"
-            value={state.filters.status}
-            onChange={(e) => actions.handleFilterChange('status', e.target.value)}
-            defaultOption="Todos"
-            options={REPORT_STATUS_OPTIONS}
-          />
-          <SelectFilter
-            label="Tipo de contenido"
-            icon={Flag}
-            value={state.filters.reportable_type}
-            onChange={(e) => actions.handleFilterChange('reportable_type', e.target.value)}
-            defaultOption="Todo el contenido"
-            options={REPORTABLE_TYPE_OPTIONS}
-          />
-        </div>
-      </SectionHeader>
+      <SectionHead title="Cola de reportes"/>
+
+      <FilterBar label="Filtrar reportes">
+        <Select
+          label="Estado"
+          value={state.filters.status}
+          onChange={(e) => actions.handleFilterChange('status', e.target.value)}
+          placeholder="Todos"
+          selectClassName="w-auto"
+          options={REPORT_STATUS_OPTIONS}
+        />
+        <Select
+          label="Tipo de contenido"
+          icon={Flag}
+          value={state.filters.reportable_type}
+          onChange={(e) => actions.handleFilterChange('reportable_type', e.target.value)}
+          placeholder="Todo el contenido"
+          selectClassName="w-auto"
+          options={REPORTABLE_TYPE_OPTIONS}
+        />
+      </FilterBar>
 
       {state.isLoading ? (
-        <FeedbackState icon={Flag} isLoading title="Cargando reportes..."/>
+        <FeedbackState icon={Flag} isLoading titleAs="h3" title="Cargando reportes..."/>
       ) : state.isError ? (
-        <FeedbackState icon={ShieldAlert} title="Error" description="No se pudieron cargar." iconColorClass="bg-red-100 text-red-500"/>
+        <FeedbackState icon={ShieldAlert} titleAs="h3" title="Error" description="No se pudieron cargar." iconColorClass="bg-danger/10 text-danger"/>
       ) : !state.reportsResponse?.data?.length ? (
-        <FeedbackState icon={Flag} title="Sin resultados" description="No hay reportes con estos filtros."/>
+        <FeedbackState icon={Flag} titleAs="h3" title="Sin resultados" description="No hay reportes con estos filtros."/>
       ) : (
         <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <AnimatePresence>
-              {state.reportsResponse.data.map(report => (
-                <AdminReportCard
-                  key={report.id}
-                  report={report}
-                  onHide={(r) => actions.handleOpenAction(r, 'hide')}
-                  onDelete={(r) => actions.handleOpenAction(r, 'delete')}
-                  onDismiss={(r) => actions.handleOpenAction(r, 'dismiss')}
-                />
-              ))}
-            </AnimatePresence>
-          </div>
+          <AdminReportsTable
+            reports={state.reportsResponse.data}
+            onHide={(r) => actions.handleOpenAction(r, 'hide')}
+            onDelete={(r) => actions.handleOpenAction(r, 'delete')}
+            onDismiss={(r) => actions.handleOpenAction(r, 'dismiss')}
+          />
           <Pagination meta={state.reportsResponse.meta} onPageChange={actions.setPage}/>
         </div>
       )}

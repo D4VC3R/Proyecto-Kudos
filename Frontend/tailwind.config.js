@@ -177,6 +177,8 @@ export default {
       // Alto máximo de un panel que se abre bajo la cabecera (64 px): así no se sale de la pantalla y su final se ve al desplazarlo.
       maxHeight: {
         'below-header': 'calc(100dvh - 4rem)',
+        // Alto máximo de una tabla: sus filas se desplazan por dentro y la cabecera queda fija.
+        table: '70vh',
       },
       // Alto mínimo de los estados de carga, vacío o error.
       minHeight: {

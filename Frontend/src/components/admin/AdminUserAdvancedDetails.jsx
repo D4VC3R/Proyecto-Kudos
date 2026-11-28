@@ -1,39 +1,40 @@
 import React from 'react';
-import  SectionHeader  from '../ui/SectionHeader.jsx';
-import { Calendar } from 'lucide-react';
+import SectionHead from '../ui/SectionHead.jsx';
+import Card from '../ui/Card.jsx';
 import { formatDate } from '../../lib/formatters.js';
+
+const DT = 'text-caption font-semibold uppercase text-ink-muted';
+const DD = 'text-small text-ink';
 
 const AdminUserAdvancedDetails = ({ user }) => {
   return (
     <>
-      <SectionHeader title="Detalles" highlight="Avanzados" highlightColor="kudos" icon={Calendar} />
-      <div className="bg-surface border border-slate-100 shadow-sm rounded-3xl p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
+      <SectionHead as="h3" title="Detalles avanzados"/>
+      <Card>
+        <dl className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div className="flex flex-col">
-            <span className="text-xs font-bold text-text-normal uppercase">ID Usuario</span>
-            <span className="text-sm font-medium text-slate-700 truncate">{user.id}</span>
+            <dt className={DT}>ID Usuario</dt>
+            <dd className={`${DD} break-all`}>{user.id}</dd>
           </div>
           <div className="flex flex-col">
-            <span className="text-xs font-bold text-text-normal uppercase">Email Verificado</span>
-            <span className="text-sm font-medium text-slate-700">
+            <dt className={DT}>Email Verificado</dt>
+            <dd className={DD}>
               {user.is_verified ? 'Sí' : 'No'}
-              {user.email_verified_at && <span className="text-xs text-slate-400 ml-2 font-normal">({formatDate(user.email_verified_at)})</span>}
-            </span>
-          </div>
-           <div className="flex flex-col">
-            <span className="text-xs font-bold text-text-normal uppercase">Ciudad</span>
-            <span className="text-sm font-medium text-slate-700">
-              {user.profile?.city || 'No especificada'}
-            </span>
+              {user.email_verified_at && <span className="ml-2 text-ink-muted">({formatDate(user.email_verified_at)})</span>}
+            </dd>
           </div>
           <div className="flex flex-col">
-            <span className="text-xs font-bold text-text-normal uppercase">Fecha de Nacimiento</span>
-            <span className="text-sm font-medium text-slate-700">
-              {user.profile?.birthdate ? formatDate(user.profile.birthdate) : 'No especificada'}
-            </span>
+            <dt className={DT}>Ciudad</dt>
+            <dd className={DD}>{user.profile?.city || 'No especificada'}</dd>
           </div>
-        </div>
-      </div>
+          <div className="flex flex-col">
+            <dt className={DT}>Fecha de Nacimiento</dt>
+            <dd className={DD}>
+              {user.profile?.birthdate ? formatDate(user.profile.birthdate) : 'No especificada'}
+            </dd>
+          </div>
+        </dl>
+      </Card>
     </>
   );
 };

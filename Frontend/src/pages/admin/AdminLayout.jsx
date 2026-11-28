@@ -1,5 +1,5 @@
-import {Outlet, Navigate, useLocation} from 'react-router-dom';
-import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import PageHeader from '../../components/ui/PageHeader.jsx';
 import AdminNav from '../../components/admin/AdminNav.jsx';
 
 const AdminLayout = () => {
@@ -10,24 +10,10 @@ const AdminLayout = () => {
   }
 
   return (
-    <div className="flex w-full flex-col animate-fade-in">
-      <div className="mb-8 shrink-0">
-        <SectionHeader
-          size="large"
-          title="Admin"
-          highlight="Dashboard"
-          highlightColor="kudos"
-          subtitle="Centro de gestión y moderación de la aplicación"
-        />
-      </div>
-
-      <div className="flex flex-col gap-6">
-        <AdminNav/>
-
-        <div className="bg-surface rounded-3xl shadow-sm ring-1 ring-slate-900/5 p-4 sm:p-6 md:p-8 min-h-[50vh]">
-          <Outlet/>
-        </div>
-      </div>
+    <div className="flex w-full flex-col gap-6 animate-fade-in">
+      <PageHeader title="Administración" subtitle="Centro de gestión y moderación de la aplicación"/>
+      <AdminNav/>
+      <Outlet/>
     </div>
   );
 };

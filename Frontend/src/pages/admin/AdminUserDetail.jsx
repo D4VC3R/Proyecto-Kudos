@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowLeft, UserSquare, ShieldAlert } from 'lucide-react';
 // Componentes
-import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import SectionHead from '../../components/ui/SectionHead.jsx';
 import FeedbackState from '../../components/ui/FeedbackState.jsx';
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from '../../components/ui/ModalButtons.jsx';
@@ -17,22 +17,16 @@ import { useAdminUserDetailPage } from '../../hooks/pages/useAdminUserDetailPage
 const AdminUserDetail = () => {
   const { state, actions } = useAdminUserDetailPage();
 
-  if (state.isLoading) return <FeedbackState icon={UserSquare} isLoading title="Cargando perfil de usuario..."/>;
-  if (state.isError || !state.user) return <FeedbackState icon={ShieldAlert} title="Error" description="No se pudo cargar la información del usuario." iconColorClass="bg-red-100 text-red-500"/>;
+  if (state.isLoading) return <FeedbackState icon={UserSquare} isLoading titleAs="h2" title="Cargando perfil de usuario..."/>;
+  if (state.isError || !state.user) return <FeedbackState icon={ShieldAlert} titleAs="h2" title="Error" description="No se pudo cargar la información del usuario." iconColorClass="bg-danger/10 text-danger"/>;
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Detalles del" highlight="Usuario" highlightColor="kudos" icon={UserSquare}>
-        <Button
-          onClick={actions.handleGoBack}
-          variant="ghost"
-          color="primary"
-          size="sm"
-          icon={ArrowLeft}
-        >
+      <SectionHead title="Detalles del usuario">
+        <Button onClick={actions.handleGoBack} variant="ghost" icon={ArrowLeft}>
           Volver a usuarios
         </Button>
-      </SectionHeader>
+      </SectionHead>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <AdminUserIdCard

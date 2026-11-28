@@ -1,25 +1,24 @@
 import React from 'react';
-import TextAreaField from '../../ui/TextAreaField.jsx';
+import Select from '../../ui/Select.jsx';
+import Textarea from '../../ui/Textarea.jsx';
 
 const AdminItemModerateBody = ({itemName, modStatus, setModStatus, modReason, setModReason}) => {
   return (
     <>
-      <p className="text-nav-item text-sm">
-        Estás moderando <span className="font-bold text-text-highlight">{itemName}</span>. Selecciona un nuevo estado.
+      <p className="text-small text-ink-muted">
+        Estás moderando <span className="font-bold text-ink">{itemName}</span>. Selecciona un nuevo estado.
       </p>
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold text-slate-700">Nuevo Estado</label>
-        <select
-          className="rounded-2xl border-border bg-background p-3 text-sm focus:bg-surface focus:ring-2 focus:ring-blue-500 font-bold text-slate-700"
-          value={modStatus}
-          onChange={(e) => setModStatus(e.target.value)}
-        >
-          <option value="active">Activo</option>
-          <option value="inactive">Inactivo</option>
-        </select>
-      </div>
+      <Select
+        label="Nuevo Estado"
+        value={modStatus}
+        onChange={(e) => setModStatus(e.target.value)}
+        options={[
+          { value: 'active', label: 'Activo' },
+          { value: 'inactive', label: 'Inactivo' },
+        ]}
+      />
       <div className="mt-2">
-        <TextAreaField
+        <Textarea
           label={`Razón ${modStatus === 'inactive' ? '(Obligatoria al desactivar)' : ''}`}
           placeholder="Motivo de la moderación para el historial..."
           value={modReason}
