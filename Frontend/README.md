@@ -34,7 +34,7 @@ El proyecto está configurado con las siguientes herramientas para mantener un c
   Frontend/scripts/visual-check.sh --routes rutas.json --themes all --out ./capturas
   ```
 
-  - `--routes` (obligatorio): lista separada por comas o un `.json` con un array de rutas, cada una `"/x"` o `{ "path": "/x", "auth": true, "name": "opcional" }`.
+  - `--routes` (obligatorio): lista separada por comas o un `.json` con un array de rutas, cada una `"/x"` o `{ "path": "/x", "auth": true, "name": "opcional", "click": "selector" }`. `click` es el selector de Playwright que se pulsa tras cargar la página (para medir lo que no tiene URL, como una pestaña): `{ "path": "/profile", "auth": true, "name": "perfil-votos", "click": "role=tab[name=\"Historial de Votos\"]" }`. El Tab empieza en el elemento pulsado.
   - `--widths` (por defecto `360,768,1440`), `--height` (`900`), `--base` (`http://localhost:5174`).
   - `--themes`: `current` (por defecto), `all` (4 paletas × claro y oscuro) o una lista como `azulejo-dark,original-light`. Aplica `localStorage['kudos.theme']` antes de cargar.
   - `--auth`: las rutas de la lista van con sesión. Inicia sesión por la interfaz con el usuario del *seeder* local: `visual-check.sh` lee `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` de `Backend/.env` (se sustituyen con `KUDOS_VISUAL_EMAIL` y `KUDOS_VISUAL_PASSWORD`).
