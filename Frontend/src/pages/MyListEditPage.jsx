@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ListPlus, ListX, ShieldAlert } from 'lucide-react';
+import { ArrowLeft, Eye, ListPlus, ListX, ShieldAlert } from 'lucide-react';
 import { Reorder } from 'framer-motion';
 // Componentes
-import SectionHeader from '../components/ui/SectionHeader.jsx';
+import PageHeader from '../components/ui/PageHeader.jsx';
+import SectionHead from '../components/ui/SectionHead.jsx';
+import Card from '../components/ui/Card.jsx';
 import FeedbackState from '../components/ui/FeedbackState.jsx';
 import Button from '../components/ui/Button.jsx';
 import MyListFormFields from '../components/lists/MyListFormFields.jsx';
@@ -28,20 +30,20 @@ const MyListEditPage = () => {
   }
 
   return (
-    <div className="flex w-full flex-col gap-6">
-      <SectionHeader title={state.list.title}>
-        <Button onClick={actions.handleGoBack} variant="ghost" color="primary" size="sm" icon={ArrowLeft}>
+    <div className="flex w-full flex-col gap-8">
+      <PageHeader kicker="Editar lista" title={state.list.title}>
+        <Button onClick={actions.handleGoBack} variant="ghost" icon={ArrowLeft}>
           Volver a mis listas
         </Button>
-        <Button as={Link} to={`/listas/${state.list.slug}`} variant="ghost">
+        <Button as={Link} to={`/listas/${state.list.slug}`} variant="secondary" icon={Eye}>
           Ver lista
         </Button>
-      </SectionHeader>
+      </PageHeader>
 
-      <section aria-labelledby="my-list-data" className="flex flex-col gap-4 rounded-3xl border border-slate-100 bg-surface p-6">
-        <h3 id="my-list-data" className="text-lg font-bold text-slate-800">Datos de la lista</h3>
+      <Card as="section" aria-labelledby="my-list-data" className="flex flex-col gap-4">
+        <h2 id="my-list-data" className="font-display text-h3 text-ink">Datos de la lista</h2>
         {state.isHiddenByModeration && (
-          <p role="alert" className="flex items-start gap-2 text-sm font-bold text-red-600">
+          <p role="alert" className="flex items-start gap-2 text-small font-semibold text-danger">
             <ShieldAlert size={18} className="mt-0.5 shrink-0" />
             Esta lista se ocultó por moderación y no puede volver a ser pública.
           </p>
@@ -58,16 +60,15 @@ const MyListEditPage = () => {
             Guardar cambios
           </Button>
         </div>
-      </section>
+      </Card>
 
       <section aria-labelledby="my-list-items" className="flex flex-col gap-3">
-        <h3 id="my-list-items" className="text-lg font-bold text-slate-800">
-          Títulos de la lista ({state.entries.length})
-        </h3>
+        <SectionHead id="my-list-items" title={`Títulos de la lista (${state.entries.length})`} />
         {state.entries.length === 0 ? (
           <FeedbackState
             icon={ListPlus}
             title="Lista vacía"
+            titleAs="h3"
             description="Añade títulos desde cualquier ficha con «Añadir a lista»."
           />
         ) : (

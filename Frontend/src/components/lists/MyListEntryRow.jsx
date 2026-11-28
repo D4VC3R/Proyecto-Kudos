@@ -3,7 +3,9 @@ import { Reorder, useDragControls } from 'framer-motion';
 import { ArrowDown, ArrowUp, GripVertical, Trash2 } from 'lucide-react';
 import Button from '../ui/Button.jsx';
 import StorageImage from '../ui/StorageImage.jsx';
-import TextAreaField from '../ui/TextAreaField.jsx';
+import Textarea from '../ui/Textarea.jsx';
+import ItemPlaceholder from '../ui/ItemPlaceholder.jsx';
+import { FOCUS_RING } from '../layout/headerStyles.js';
 import { LIST_NOTE_MAX_LENGTH } from '../../lib/lists.js';
 
 // Fila de una entrada en la edición de una lista propia (F3-01). El asa arrastra (framer-motion Reorder);
@@ -27,64 +29,82 @@ const MyListEntryRow = ({ entry, index, total, isRanked, isBusy, onMove, onRemov
       dragListener={false}
       dragControls={controls}
       onDragEnd={onDragEnd}
-      className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-surface px-4 py-3"
+      data-list-entry
+      className="flex flex-col gap-3 rounded-md border border-line bg-surface px-4 py-3"
     >
       <div className="flex items-center gap-3">
         <button
           type="button"
           onPointerDown={(e) => controls.start(e)}
           aria-label="Arrastrar para reordenar"
-          className="shrink-0 cursor-grab touch-none rounded-lg p-1 text-slate-400 hover:bg-slate-100 active:cursor-grabbing"
+          className={`inline-grid h-11 w-8 shrink-0 cursor-grab touch-none place-items-center rounded-sm text-ink-muted hover:bg-line/60 active:cursor-grabbing ${FOCUS_RING}`}
         >
-          <GripVertical size={18} />
+          <GripVertical size={18} aria-hidden="true" />
         </button>
-        {isRanked && <span className="w-6 shrink-0 text-center font-black text-primary">{index + 1}</span>}
-        {thumb && <StorageImage src={thumb} alt="" className="h-12 w-9 shrink-0 rounded-lg object-cover" />}
+        {isRanked && (
+          <span className="w-6 shrink-0 text-center font-display tabular-nums text-accent">{index + 1}</span>
+        )}
+        <span className="block h-12 w-8 shrink-0 overflow-hidden rounded-sm border border-line bg-surface">
+          <StorageImage
+            src={thumb}
+            alt=""
+            width={200}
+            height={300}
+            className="h-full w-full object-cover"
+            fallback={
+              <ItemPlaceholder
+                name={entry.item.name}
+                categorySlug={entry.item.category?.slug}
+                categoryIcon={entry.item.category?.icon}
+                variant="thumb"
+                decorative
+                className="h-full w-full"
+              />
+            }
+          />
+        </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate font-bold text-slate-800">{entry.item.name}</p>
-          {entry.item.status !== 'active' && <p className="text-xs font-bold text-red-500">No disponible</p>}
+          <p className="truncate font-semibold text-ink">{entry.item.name}</p>
+          {entry.item.status !== 'active' && <p className="text-caption text-danger">No disponible</p>}
         </div>
         <Button
           onClick={() => onMove(index, -1)}
           variant="ghost"
-          color="neutral"
-          size="iconMd"
           icon={ArrowUp}
-          aria-label="Subir"
+          className="w-11 shrink-0 px-0"
+          aria-label={`Subir «${entry.item.name}»`}
           disabled={index === 0 || isBusy}
         />
         <Button
           onClick={() => onMove(index, 1)}
           variant="ghost"
-          color="neutral"
-          size="iconMd"
           icon={ArrowDown}
-          aria-label="Bajar"
+          className="w-11 shrink-0 px-0"
+          aria-label={`Bajar «${entry.item.name}»`}
           disabled={index === total - 1 || isBusy}
         />
         <Button
           onClick={() => onRemove(entry.item.id)}
           variant="ghost"
-          color="danger"
-          size="iconMd"
           icon={Trash2}
-          aria-label="Quitar de la lista"
+          className="w-11 shrink-0 px-0 text-danger"
+          aria-label={`Quitar «${entry.item.name}» de la lista`}
           disabled={isBusy}
         />
       </div>
 
-      <TextAreaField
+      <Textarea
         label="Nota"
         placeholder="Añade una nota sobre este título"
         rows={2}
         maxLength={LIST_NOTE_MAX_LENGTH}
         value={note}
         onChange={(e) => setNote(e.target.value)}
-        labelEnd={<span className="text-xs font-bold text-slate-400">{note.length}/{LIST_NOTE_MAX_LENGTH}</span>}
+        labelEnd={<span className="text-caption tabular-nums text-ink-muted">{note.length}/{LIST_NOTE_MAX_LENGTH}</span>}
       />
       {isChanged && (
         <div className="flex justify-end">
-          <Button onClick={() => onSaveNote(entry.item.id, note)} size="sm" disabled={isBusy}>
+          <Button onClick={() => onSaveNote(entry.item.id, note)} variant="secondary" disabled={isBusy}>
             Guardar nota
           </Button>
         </div>
