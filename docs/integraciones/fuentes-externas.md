@@ -61,7 +61,7 @@ Verificado el 26-10-2026 con la documentación y los términos oficiales (IGDB, 
 - Qué juegos entran: `game_type = (0,4,8,9,10)` (juego principal, expansión independiente, remake, remaster y juego ampliado; IDs de `/game_types`, confirmados con la API real el 02-11-2026) y `version_parent = null` (fuera DLC, mods, packs, ediciones y ports).
 - `fetchNew`: dos listados intercalados por páginas de 50. Novedades: `first_release_date` entre hoy − 90 días y hoy + 90 días y `(hypes > 0 | total_rating_count > 0)`, `sort hypes desc`. Populares: `total_rating_count > 0`, `sort total_rating_count desc`.
 - QID de Wikidata: Action API con `list=search&srsearch=haswbstatement:P5794={slug}` y, si no hay resultado único, `haswbstatement:P1733={appid}` (probado con Hades el 02-11-2026: ambas dan Q59756366).
-- Imágenes: `https://images.igdb.com/igdb/image/upload/t_cover_big/{image_id}.jpg` y `t_screenshot_big`.
+- Imágenes: `https://images.igdb.com/igdb/image/upload/t_1080p/{image_id}.jpg` para la portada (~810×1080) y para la captura (1920×1080). Se pide `t_1080p` porque la columna del póster de la ficha (360 px) necesita ≥ 540 px y 720 a densidad 2: `t_cover_big` (264) se veía pixelada y `t_cover_big_2x` (528) o `t_720p` (540) no llegan. `MediaManager` reduce después a `thumb` (400) y `banner` (1280) y nunca amplía.
 
 **Steam Store** (sin clave):
 - `GET https://store.steampowered.com/api/appdetails?appids={appid}&l=spanish&cc=es` → `{"<appid>": {"success": true, "data": {…}}}`; `success: false` equivale a un 404. Un solo *appid* por petición.
