@@ -3,6 +3,7 @@ import { Flag, MoreHorizontal } from 'lucide-react';
 import clsx from 'clsx';
 import Button from '../ui/Button.jsx';
 import ReportModal from './ReportModal.jsx';
+import { MENU_ITEM } from '../layout/headerStyles.js';
 import { useReportMenu } from '../../hooks/reports/useReportMenu.js';
 
 // Menú "⋯ → Reportar" de un contenido (F3-04). `type`: comment | list | user. El contenedor padre debe ser `relative`.
@@ -15,9 +16,8 @@ const ReportMenu = ({ type, id, label }) => {
         ref={refs.buttonRef}
         onClick={actions.toggleMenu}
         variant="ghost"
-        color="neutral"
-        size="iconSm"
         icon={MoreHorizontal}
+        className="min-h-9 w-9 px-0"
         aria-label={`Más opciones del ${label}`}
         aria-haspopup="menu"
         aria-expanded={state.isMenuOpen}
@@ -30,7 +30,7 @@ const ReportMenu = ({ type, id, label }) => {
           ref={refs.panelRef}
           role="menu"
           className={clsx(
-            'absolute z-20 w-40 overflow-hidden rounded-xl bg-surface shadow-xl ring-1 ring-border',
+            'absolute z-20 w-44 rounded-md border border-line bg-surface p-1.5 shadow-raised',
             state.placement.alignLeft ? 'left-0' : 'right-0',
             state.placement.openUp ? 'bottom-full mb-1' : 'top-full mt-1',
           )}
@@ -39,9 +39,9 @@ const ReportMenu = ({ type, id, label }) => {
             type="button"
             role="menuitem"
             onClick={actions.openReport}
-            className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm font-bold text-text-highlight transition-colors hover:bg-background focus:bg-background focus:outline-none"
+            className={clsx(MENU_ITEM, 'font-semibold')}
           >
-            <Flag size={16} className="shrink-0" />
+            <Flag size={16} className="shrink-0" aria-hidden="true" />
             Reportar
           </button>
         </div>

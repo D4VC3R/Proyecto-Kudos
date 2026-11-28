@@ -5,6 +5,22 @@ import { AppErrorBoundary } from '../core/AppErrorBoundary.jsx';
 import { queryClient } from '../core/queryClient.js';
 import { useTheme } from '../hooks/common/useTheme.js';
 
+// react-hot-toast pone el fondo y el color en línea, así que los tokens van en `style` con las variables CSS
+// (cambian con la paleta y el modo).
+const TOAST_OPTIONS = {
+  duration: 3000,
+  style: {
+    background: 'rgb(var(--color-surface))',
+    color: 'rgb(var(--color-ink))',
+    border: '1px solid rgb(var(--color-line-strong))',
+    borderRadius: '8px',
+    boxShadow: '0 16px 32px -16px rgb(var(--color-ink) / 0.35)',
+    fontSize: '0.875rem',
+  },
+  success: { iconTheme: { primary: 'rgb(var(--color-success))', secondary: 'rgb(var(--color-surface))' } },
+  error: { iconTheme: { primary: 'rgb(var(--color-danger))', secondary: 'rgb(var(--color-surface))' } },
+};
+
 /**
  * Proveedores globales de la aplicación (errores, alertas toast, React Query)
  * */
@@ -19,7 +35,7 @@ export const AppProviders = ({ children }) => {
       <AppErrorBoundary>
         <QueryClientProvider client={queryClient}>
           {children}
-          <Toaster position="bottom-center" toastOptions={{ duration: 3000 }} />
+          <Toaster position="bottom-center" toastOptions={TOAST_OPTIONS} />
         </QueryClientProvider>
       </AppErrorBoundary>
     </MotionConfig>

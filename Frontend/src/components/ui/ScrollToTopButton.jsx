@@ -33,10 +33,10 @@ const ScrollToTopButton = ({ threshold = 800 }) => {
       {isVisible && (
         <PopButton
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-text-btn shadow-lg hover:bg-yellow-500 hover:-translate-y-1 transition-all"
-          aria-label="Volver arriba"
+          className="fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-on-accent shadow-raised hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          ariaLabel="Volver arriba"
         >
-          <ArrowUp size={24} />
+          <ArrowUp size={24} aria-hidden="true" />
         </PopButton>
       )}
     </AnimatePresence>

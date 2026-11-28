@@ -6,6 +6,7 @@ import { popInVariants } from '../../lib/animations';
 const PopButton = ({ children, onClick, className = '', ariaLabel = '' }) => {
     return (
         <motion.button
+            type="button"
             variants={popInVariants}
             initial="hidden"
             animate="visible"

@@ -18,12 +18,12 @@ const Modal = ({isOpen, onClose, title, children, footer, returnFocusRef}) => {
 
           <Fade
             onClick={onClose}
-            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-ink/40 backdrop-blur-sm dark:bg-canvas/80"
           />
 
           <RemoveScroll className="relative w-full max-w-lg">
             <ModalTransition
-              className="flex flex-col rounded-3xl bg-surface shadow-2xl ring-1 ring-slate-200 overflow-hidden"
+              className="flex flex-col overflow-hidden rounded-lg border border-line bg-surface shadow-raised"
             >
               <div
                 ref={dialogRef}
@@ -34,15 +34,14 @@ const Modal = ({isOpen, onClose, title, children, footer, returnFocusRef}) => {
                 onKeyDown={handleKeyDown}
                 className="flex flex-col focus:outline-none"
               >
-                <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-                  <h3 id={titleId} className="text-xl font-bold text-text-highlight">{title}</h3>
+                <div className="flex items-center justify-between border-b border-line px-6 py-4">
+                  <h3 id={titleId} className="font-display text-h3 text-ink">{title}</h3>
                   <Button
                     onClick={onClose}
                     variant="ghost"
-                    color="neutral"
-                    size="iconMd"
                     icon={X}
                     aria-label="Cerrar modal"
+                    className="w-11 px-0"
                   />
                 </div>
 
@@ -51,7 +50,7 @@ const Modal = ({isOpen, onClose, title, children, footer, returnFocusRef}) => {
                 </div>
 
                 {footer && (
-                  <div className="bg-background px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-100">
+                  <div className="bg-canvas px-6 py-4 flex items-center justify-end gap-3 border-t border-line">
                     {footer}
                   </div>
                 )}
