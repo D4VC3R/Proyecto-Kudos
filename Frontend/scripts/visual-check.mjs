@@ -6,8 +6,12 @@
  *
  * Argumentos (`--k v` o `--k=v`):
  *   --routes   obligatorio. Lista separada por comas, o un `.json` con un array de rutas (`"/x"` o
- *              `{ "path": "/x", "auth": true, "name": "opcional", "click": "selector" }`).
- *              `click`: selector que se pulsa tras cargar (p. ej. una pestaña); el Tab empieza ahí.
+ *              `{ "path": "/x", "auth": true, "name": "opcional", "click": "selector", "mocks": [...], "clock": "…" }`).
+ *              `click`: selector (o array de selectores, que se pulsan en orden) que se pulsa tras cargar
+ *              (p. ej. una pestaña o un modal); el Tab empieza ahí.
+ *              `mocks`: array de `{ "url": "**\/api/x", "method": "POST", "status": 200, "json": {…} }`; responde la
+ *              petición sin llegar al backend (`method` y `status` son opcionales; sin `method` vale cualquiera).
+ *              `clock`: fecha ISO que fija `Date` (los temporizadores siguen corriendo).
  *   --base     URL del frontend (por defecto http://localhost:5174).
  *   --widths   anchos en px (por defecto 360,768,1440). --height: alto del viewport (por defecto 900).
  *   --themes   `current` (por defecto, no toca nada), `all` (4 paletas × claro/oscuro) o una lista `azulejo-dark,…`.
@@ -92,7 +96,18 @@ const loadRoutes = async (value, authDefault) => {
     const route = typeof item === 'string' ? { path: item } : item;
     if (!route || typeof route.path !== 'string' || !route.path) throw new ToolError('Ruta no válida en --routes');
     const path = route.path.startsWith('/') ? route.path : `/${route.path}`;
-    return { path, auth: route.auth ?? authDefault, name: route.name || slugify(path), click: route.click || null };
+    const click = route.click ? [].concat(route.click) : [];
+    if (click.some((selector) => typeof selector !== 'string' || !selector)) {
+      throw new ToolError(`«click» de ${path} debe ser un selector o un array de selectores (cadenas)`);
+    }
+    const mocks = route.mocks ?? [];
+    if (!Array.isArray(mocks) || mocks.some((mock) => !mock || typeof mock.url !== 'string' || !mock.url)) {
+      throw new ToolError(`«mocks» de ${path} debe ser un array de objetos con «url»`);
+    }
+    if (route.clock !== undefined && Number.isNaN(new Date(route.clock).getTime())) {
+      throw new ToolError(`«clock» de ${path} no es una fecha válida: «${route.clock}»`);
+    }
+    return { path, auth: route.auth ?? authDefault, name: route.name || slugify(path), click, mocks, clock: route.clock ?? null };
   });
   if (!routes.length) throw new ToolError('--routes no tiene ninguna ruta');
   return routes;
@@ -443,6 +458,22 @@ const run = async (args) => {
               if (m.type() === 'error') row.consoleErrors.push(m.text());
             });
 
+            for (const mock of route.mocks) {
+              await page.route(mock.url, (request) => {
+                if (mock.method && mock.method.toUpperCase() !== request.request().method()) return request.fallback();
+                // La API está en otro origen: sin estas cabeceras el navegador rechazaría la respuesta simulada.
+                return request.fulfill({
+                  status: mock.status ?? 200,
+                  json: mock.json ?? {},
+                  headers: {
+                    'access-control-allow-origin': request.request().headers().origin || '*',
+                    'access-control-allow-credentials': 'true',
+                  },
+                });
+              });
+            }
+            if (route.clock) await page.clock.setFixedTime(new Date(route.clock));
+
             try {
               await page.goto(base + route.path, { waitUntil: 'networkidle', timeout: 30000 });
             } catch (e) {
@@ -451,12 +482,13 @@ const run = async (args) => {
             }
             firstGoto = false;
 
-            if (!row.error && route.click) {
+            for (const selector of row.error ? [] : route.click) {
               try {
-                await page.locator(route.click).first().click({ timeout: 10000 });
+                await page.locator(selector).first().click({ timeout: 10000 });
                 await page.waitForLoadState('networkidle');
               } catch (e) {
-                row.error = `No se pudo pulsar «${route.click}»: ${String(e.message).split('\n')[0]}`;
+                row.error = `No se pudo pulsar «${selector}»: ${String(e.message).split('\n')[0]}`;
+                break;
               }
             }
 
