@@ -150,7 +150,7 @@ Va **antes de F5-16**: la fusión en `main` incluye el rediseño, así que mient
 | RC-04 | Votar | FE | RC-03 | hecho | [#65](https://github.com/D4VC3R/Proyecto-Kudos/issues/65) |
 | RC-05 | Categoría y Explorar | FE | RC-01 | hecho | [#66](https://github.com/D4VC3R/Proyecto-Kudos/issues/66) |
 | RC-06 | Buscar y buscador global | FE | RC-01, RA-02 | hecho | [#67](https://github.com/D4VC3R/Proyecto-Kudos/issues/67) |
-| RC-07 | Listas | FE | RC-01 | pendiente | [#68](https://github.com/D4VC3R/Proyecto-Kudos/issues/68) |
+| RC-07 | Listas | FE | RC-01 | hecho | [#68](https://github.com/D4VC3R/Proyecto-Kudos/issues/68) |
 | RC-08 | Wishlist y onboarding | FE | RC-01 | pendiente | [#69](https://github.com/D4VC3R/Proyecto-Kudos/issues/69) |
 | RC-09 | Perfil y perfil público | FE | RC-01 | pendiente | [#70](https://github.com/D4VC3R/Proyecto-Kudos/issues/70) |
 | RC-10 | Autenticación | FE | RB-03 | pendiente | [#71](https://github.com/D4VC3R/Proyecto-Kudos/issues/71) |
