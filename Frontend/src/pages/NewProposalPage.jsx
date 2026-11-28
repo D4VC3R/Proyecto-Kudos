@@ -4,7 +4,7 @@ import {Loader2} from 'lucide-react';
 import NewProposalForm from '../components/proposals/NewProposalForm.jsx';
 import NewProposalHeader from '../components/proposals/NewProposalHeader.jsx';
 import NewProposalInfoBanner from '../components/proposals/NewProposalInfoBanner.jsx';
-import FadeUp from "../components/animations/FadeUp.jsx";
+import Card from "../components/ui/Card.jsx";
 import BackButton from "../components/ui/BackButton.jsx";
 
 import {useCategoryDetail} from '../hooks/categories/useCategoryQueries.js';
@@ -23,7 +23,7 @@ const NewProposalPage = ({isEdit = false}) => {
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
-        <Loader2 className="animate-spin text-blue-500" size={48}/>
+        <Loader2 aria-hidden="true" className="animate-spin text-accent" size={48}/>
       </div>
     );
   }
@@ -36,7 +36,7 @@ const NewProposalPage = ({isEdit = false}) => {
     <>
       <BackButton/>
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
-        <FadeUp className="w-full rounded-3xl bg-surface p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200">
+        <Card className="w-full p-6 sm:p-10">
 
           <NewProposalHeader categoryName={category.name} isEdit={isEdit}/>
 
@@ -49,7 +49,7 @@ const NewProposalPage = ({isEdit = false}) => {
           </div>
 
           {!isEdit && <NewProposalInfoBanner/>}
-        </FadeUp>
+        </Card>
       </div>
     </>
   );
