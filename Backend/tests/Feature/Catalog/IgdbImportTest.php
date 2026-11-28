@@ -285,4 +285,21 @@ class IgdbImportTest extends TestCase
         $this->assertSame(1, ItemSource::query()->where('provider', 'steam')->count());
         $this->assertSame(3, ItemSource::query()->count());
     }
+
+    public function test_reimportar_encola_las_imagenes_con_el_tamano_nuevo(): void
+    {
+        $this->fakeGame($this->hades(), 'es', $this->fakeWikidata($this->hadesQid(), null));
+
+        $this->import();
+        $this->import();
+
+        Bus::assertDispatched(DownloadItemImagesJob::class, 2);
+        Bus::assertDispatched(DownloadItemImagesJob::class, function ($job) {
+            $poster = $job->images[0];
+
+            return str_contains($poster['url'], '/t_1080p/')
+                && $poster['role'] === 'poster'
+                && $poster['license'] === '© titular de derechos';
+        });
+    }
 }

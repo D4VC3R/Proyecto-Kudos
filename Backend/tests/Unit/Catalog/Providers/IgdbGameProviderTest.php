@@ -163,14 +163,14 @@ class IgdbGameProviderTest extends TestCase
         $this->assertSame('https://www.igdb.com/games/hades--1', $data->sourceUrl);
         $this->assertSame([
             [
-                'url' => 'https://images.igdb.com/igdb/image/upload/t_cover_big/co39vc.jpg',
+                'url' => 'https://images.igdb.com/igdb/image/upload/t_1080p/co39vc.jpg',
                 'role' => 'poster',
                 'license' => '© titular de derechos',
                 'author' => null,
                 'source_url' => 'https://www.igdb.com/games/hades--1',
             ],
             [
-                'url' => 'https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc7v9a.jpg',
+                'url' => 'https://images.igdb.com/igdb/image/upload/t_1080p/sc7v9a.jpg',
                 'role' => 'banner',
                 'license' => '© titular de derechos',
                 'author' => null,

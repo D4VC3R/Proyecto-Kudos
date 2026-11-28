@@ -33,9 +33,15 @@ final class IgdbGameProvider implements CatalogProvider, RecognizesExternalIds
 
     public const IMAGE_BASE_URL = 'https://images.igdb.com/igdb/image/upload';
 
-    public const POSTER_SIZE = 't_cover_big';
+    /**
+     * t_1080p encaja la imagen en 1920×1080 sin recortarla: la portada llega a unos 810 px de ancho, lo que
+     * pide la columna del póster de la ficha (360 px) en pantallas de densidad 2; t_cover_big (264 px) se veía
+     * pixelada. MediaManager reduce después a thumb (400) y banner (1280), y nunca amplía.
+     */
+    public const POSTER_SIZE = 't_1080p';
 
-    public const BANNER_SIZE = 't_screenshot_big';
+    /** Captura a 1920×1080 para que la variante banner llegue a sus 1280 px (t_screenshot_big da 940). */
+    public const BANNER_SIZE = 't_1080p';
 
     public const IMAGE_LICENSE = '© titular de derechos';
 

@@ -261,6 +261,31 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 - `sail test` pasa entero.
 - El script de RA-00 con `--themes all` pasa sobre las tres fichas.
 
+**Notas (RA-06):**
+- **Archivos:** `Backend/app/Catalog/Providers/IgdbGameProvider.php` (`POSTER_SIZE` y `BANNER_SIZE` a `t_1080p`), `Backend/app/Console/Commands/Catalog/RefreshCommand.php` (`--category=` y `--older-than=0`). No se toca `Frontend/` ni hay migraciones ni variables de entorno.
+- **Tests nuevos:** `IgdbGameProviderTest` (URL esperadas a `t_1080p`, actualizado), `IgdbImportTest::test_reimportar_encola_las_imagenes_con_el_tamano_nuevo`, `DownloadItemImagesJobTest::test_la_regeneracion_sustituye_las_variantes_sin_perder_la_atribucion` y `test_la_variante_banner_no_amplia_una_imagen_pequena`, y en `RefreshCommandTest` `test_category_limita_el_refresco_a_esa_categoria`, `test_category_sin_proveedor_falla`, `test_older_than_cero_encola_tambien_los_recientes` y `test_older_than_negativo_falla`. Script de medida `.claude/ciclo/RA-06/nitidez-check.mjs` (Playwright en Docker, 4 comprobaciones: nitidez de la película, el juego y el destino, y miniaturas de las tarjetas).
+- **Tabla por proveedor** (medida real con `getimagesize` en local, ~10 peticiones a las CDN):
+
+  | Proveedor | Tamaño pedido | Píxeles reales | `thumb` / `banner` | ¿Amplía? |
+  |---|---|---|---|---|
+  | TMDB, póster | `w780` | 780×1170 | 400 / 780 | No (`scaleDown`) |
+  | TMDB, fondo | `w1280` | 1280×720 | 400 / 1280 | No |
+  | IGDB, portada (antes) | `t_cover_big` | 264×352 | 264 / 264 | No: se quedaba en 264 |
+  | IGDB, portada (ahora) | `t_1080p` | 809×1080 (`t_cover_big_2x` 528×704 y `t_720p` 540×720 no llegan a los 720 px que pide la ficha a DPR 2) | 400 / 809 | No |
+  | IGDB, captura (antes) | `t_screenshot_big` | 940×529 | 400 / 940 | No |
+  | IGDB, captura (ahora) | `t_1080p` | 1920×1080 | 400 / 1280 | No |
+  | Commons (destinos) | `Special:FilePath?width=1280` | 604 a 1280 según el archivo original (Commons no amplía) | 400 / hasta 1280 | No |
+
+  Anchos guardados en `images[0].meta.width` en la BD local antes del cambio: películas y series 780, destinos 604 a 1280, videojuegos 264.
+- **Decisiones del plan (por validar):** (1) `t_1080p` para la portada de IGDB en lugar de `t_cover_big_2x` o `t_720p`, que no llegan a 540 px (la columna del póster mide 360 px y se exige `naturalWidth` ≥ 1,5 × pintado). (2) La captura de IGDB (rol `banner`) también sube a `t_1080p`, aunque hoy ninguna vista la muestra: así queda igual que el fondo de TMDB. (3) La regeneración amplía `catalog:refresh` (`--category`, `--older-than=0`) en lugar de crear un comando nuevo.
+- **Por qué no se toca el frontend:** `ItemDetailPoster` limita `maxWidth` a `meta.width`; con 810 px supera la columna de 360 px y la llena sin cambios. Las tarjetas (`ItemCard`, `GlobalSearch`, `EditorialListCard`) ya usan `variants.thumb` y no descargan `banner`, así que no hacen falta `srcset` ni `sizes`.
+- **Discrepancias con el plan (R1):** la captura de prueba de IGDB con `t_screenshot_big` mide 940×529 y no 889×500 como decía el plan (el comentario del código usa 940). `./vendor/bin/sail psql` no imprime nada en este entorno; las consultas de solo lectura se hicieron con `docker exec backend-pgsql-1 psql` sobre la BD local.
+- **Desviaciones:** ninguna.
+- **Falla antes:** con `IgdbGameProvider.php` y `RefreshCommand.php` en su estado anterior fallan 5 tests: `fetch mapea el juego completo`, `reimportar encola las imágenes con el tamaño nuevo`, `category limita…`, `category sin proveedor falla` y `older than cero…` (`older_than_negativo` ya pasaba: `min_range` era 1; los dos del job, `DownloadItemImagesJob`, no dependen del proveedor y describen el comportamiento ya existente que garantiza la regeneración).
+- **Resultados:** `sail test` entero 967 passed y `pint --dirty` limpio. Regeneración local: `catalog:import igdb 282831` dejó la ficha de prueba en 810 px y `catalog:refresh --category=videojuegos --older-than=0 --batch=50` reimportó los 40 juegos (264 → 810-813 px). `nitidez-check.mjs` a 1440 px y DPR 2: película 780 px sobre 358 pintados, juego 810 sobre 358 y destino 1280 sobre 358 (todos ≥ 1,5×), y las tarjetas cargadas usan `-thumb.webp`. `RC-03/ficha-check.mjs` sigue en 11 OK. `visual-check.sh --themes all` sobre las 3 fichas: 72 comprobaciones, 0 con fallos.
+- **Paso de despliegue para el humano (no ejecutado):** tras desplegar, `dc exec app php artisan catalog:refresh --category=videojuegos --older-than=0 --batch=<n.º de juegos>`; encola en `catalog` y lo procesa el worker. Las películas, series y destinos no necesitan regenerarse.
+- **Pendiente:** capturas en `.claude/ciclo/RA-06/capturas/` (ignorada por git). Atribuciones y `docs/legal/cumplimiento.md` sin cambios.
+
 ---
 
 ## RB-01 · Tokens, temas y modo oscuro (FE)
