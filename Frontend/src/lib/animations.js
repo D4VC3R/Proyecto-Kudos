@@ -138,23 +138,6 @@ export const popInVariants = {
     }
 };
 
-export const slideTransitionVariants = {
-    initial: (direction) => ({
-        opacity: 0,
-        x: direction === 'left' ? -20 : 20
-    }),
-    animate: {
-        opacity: 1,
-        x: 0,
-        transition: { duration: 0.4, ease: EASING.smooth }
-    },
-    exit: (direction) => ({
-        opacity: 0,
-        x: direction === 'left' ? 20 : -20,
-        transition: { duration: 0.2, ease: "easeIn" }
-    })
-};
-
 export const depthTransitionVariants = {
     initial: { opacity: 0, scale: 0.6 },
     animate: {
