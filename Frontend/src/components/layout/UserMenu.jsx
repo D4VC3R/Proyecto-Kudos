@@ -103,7 +103,7 @@ const UserMenu = () => {
           <StorageImage src={profile?.avatar} alt="" className="h-full w-full" fallbackIcon={UserCircle} />
         </span>
         <span className="hidden max-w-40 truncate text-small font-semibold text-ink xl:inline">{name}</span>
-        <KudosBadge value={kudos} />
+        <KudosBadge value={kudos} showGain />
         <span className="text-caption font-semibold tabular-nums text-ink-muted">#{rank ?? '-'}</span>
       </button>
 
