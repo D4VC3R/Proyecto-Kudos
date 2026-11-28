@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\Log;
  * Encola el refresco de los ítems del catálogo sincronizados hace más de N días, los más antiguos primero.
  * Solo encola: el trabajo lo hace el worker en la cola 'catalog' (el scheduler tiene 128M, ver docs/infra/produccion.md §2).
  * Incluye los ítems inactivos (siguen inactivos: el importador no toca el status) y excluye los borrados.
+ * Con --category y --older-than=0 reimporta una categoría entera, por ejemplo para regenerar sus imágenes cuando cambia el tamaño que se pide al proveedor.
  */
 class RefreshCommand extends Command
 {
     protected $signature = 'catalog:refresh
-        {--older-than= : Días desde la última sincronización (por defecto, catalog.refresh_older_than_days = 150, o el de la categoría: destinos, 90)}
+        {--older-than= : Días desde la última sincronización (por defecto, catalog.refresh_older_than_days = 150, o el de la categoría: destinos, 90; 0 = todos)}
+        {--category= : Solo esta categoría (slug con proveedor: peliculas, series, videojuegos o destinos)}
         {--batch=200 : Máximo de ítems que se encolan en esta ejecución}';
 
     protected $description = 'Encola el refresco de los ítems del catálogo sincronizados hace más de N días en la cola catalog';
@@ -29,18 +31,30 @@ class RefreshCommand extends Command
         $olderThan = filter_var(
             $olderThanOption ?? config('catalog.refresh_older_than_days', 150),
             FILTER_VALIDATE_INT,
-            ['options' => ['min_range' => 1]]
+            ['options' => ['min_range' => 0]]
         );
         $batch = filter_var($this->option('batch'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
 
         if ($olderThan === false || $batch === false) {
-            $this->error('--older-than y --batch deben ser enteros positivos.');
+            $this->error('--older-than debe ser un entero mayor o igual que 0, y --batch, un entero positivo.');
 
             return self::FAILURE;
         }
 
         // Aquí no se filtra por is_active: los términos de TMDB obligan a refrescar también lo que no se muestra.
         $slugs = array_values(array_filter($registry->categorySlugs(), fn ($slug) => $registry->has($slug)));
+        $only = $this->option('category');
+
+        if ($only !== null) {
+            if (! in_array($only, $slugs, true)) {
+                $this->error("La categoría {$only} no tiene proveedor de catálogo.");
+
+                return self::FAILURE;
+            }
+
+            $slugs = [$only];
+        }
+
         $categories = Category::query()->whereIn('slug', $slugs)->pluck('slug', 'id');
 
         // Umbral por categoría (F4-02: destinos, trimestral); --older-than lo fija para todas.

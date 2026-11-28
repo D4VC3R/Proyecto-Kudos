@@ -182,6 +182,51 @@ class RefreshCommandTest extends TestCase
         Queue::assertNothingPushed();
     }
 
+    public function test_category_limita_el_refresco_a_esa_categoria(): void
+    {
+        Queue::fake();
+        $this->syncedItem($this->peliculas, 'movie:1', 200);
+        $this->syncedItem($this->series, 'tv:1', 200);
+
+        $this->artisan('catalog:refresh', ['--category' => 'series'])->assertSuccessful();
+
+        $this->assertSame([['series', 'tv:1']], $this->queuedPairs());
+    }
+
+    public function test_category_sin_proveedor_falla(): void
+    {
+        Queue::fake();
+        $libros = $this->createCategory('libros', 'Libros');
+        $this->syncedItem($libros, 'libro:1', 200);
+
+        $this->artisan('catalog:refresh', ['--category' => 'libros'])->assertFailed();
+        $this->artisan('catalog:refresh', ['--category' => 'nada'])->assertFailed();
+
+        Queue::assertNothingPushed();
+    }
+
+    public function test_older_than_cero_encola_tambien_los_recientes(): void
+    {
+        Queue::fake();
+        $this->syncedItem($this->peliculas, 'movie:1', 0);
+        $this->syncedItem($this->peliculas, 'movie:2', null);
+        $this->travel(5)->minutes();
+
+        $this->artisan('catalog:refresh', ['--older-than' => 0])->assertSuccessful();
+
+        $this->assertSame([['peliculas', 'movie:1'], ['peliculas', 'movie:2']], $this->queuedPairs());
+    }
+
+    public function test_older_than_negativo_falla(): void
+    {
+        Queue::fake();
+        $this->syncedItem($this->peliculas, 'movie:1', 200);
+
+        $this->artisan('catalog:refresh', ['--older-than' => -1])->assertFailed();
+
+        Queue::assertNothingPushed();
+    }
+
     /** Destino sincronizado hace $daysAgo días, con su fuente principal de Wikidata (F4-02). */
     private function syncedPlace(Category $category, int $daysAgo): Item
     {
