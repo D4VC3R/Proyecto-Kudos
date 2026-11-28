@@ -1,53 +1,45 @@
 import React from 'react';
-import { Trophy} from 'lucide-react';
 import PodiumItem from './PodiumItem.jsx';
-import StaggerGrid from '../../animations/StaggerGrid.jsx';
+import Button from '../Button.jsx';
 import { buildItemUrl } from '../../../lib/search.js';
-import { useInfiniteScroll } from '../../../hooks/common/useInfiniteScroll.js';
 
-const Ranking = ({
-  title,
-  items = [],
-  page = 1,
-  itemsPerPage = 10,
-  type = "item",
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  disableScroll = false,
-  categorySlug
-}) => {
-  const sentinelRef = useInfiniteScroll({ isFetchingNextPage, hasNextPage, fetchNextPage });
-
-  const containerHeightClass = disableScroll ? 'h-auto min-h-[760px]' : 'h-[800px]';
-  const overflowClass = disableScroll ? 'overflow-visible' : 'overflow-y-auto';
-
-  return (
-    <div className={`flex ${containerHeightClass} w-full flex-col rounded-3xl bg-surface p-6 md:p-8 shadow-2xl ring-2 ring-slate-200 overflow-hidden`}>
-      <div className="mb-6 flex items-center justify-between shrink-0 border-b border-slate-100 pb-4">
-        <h2 className="text-2xl font-black text-text-highlight">Top <span className="text-primary">{title}</span></h2>
-        <Trophy className="text-kudos" size={32} />
-      </div>
-
-      <StaggerGrid
-        className={`flex flex-col gap-1.5 pr-2 pb-2 ${overflowClass}`}
-      >
-        {items.map((item, index) => {
-          const rank = disableScroll ? ((page - 1) * itemsPerPage) + index + 1 : index + 1;
-          // Los ítems del ranking no traen `category`, así que el slug llega aparte.
-          const to = type === 'item' ? buildItemUrl({ id: item.id, category: { slug: categorySlug } }) : null;
-          return (
-            <PodiumItem key={`${item.id}-${index}`} data={item} rank={rank} type={type} to={to} />
-          );
-        })}
-
-        {fetchNextPage && (
-          <div ref={sentinelRef} className="flex h-12 items-center justify-center py-4">
-          </div>
-        )}
-      </StaggerGrid>
+// Ranking de una categoría como banda (la de la portada). No es una caja con scroll interno, para no
+// anidar desplazamientos: crece con «Ver más».
+const Ranking = ({ title, items = [], categorySlug, hasNextPage, isFetchingNextPage, fetchNextPage }) => (
+  <section
+    aria-labelledby="category-ranking"
+    data-ranking-band
+    data-title-top
+    className="home-ranking relative grid grid-cols-1 gap-6 overflow-hidden rounded-md bg-band px-5 pb-7 pt-8 text-ink md:grid-cols-band md:items-start md:gap-10 md:px-10 md:pb-8 md:pt-10"
+  >
+    <div>
+      <p className="text-caption font-semibold uppercase tracking-widest text-kicker">Ranking</p>
+      <h2 id="category-ranking" className="font-display text-h2">Top {title}</h2>
+      <p className="mt-2 max-w-md text-ink-muted">Ordenado por la nota media de quienes votan.</p>
     </div>
-  );
-};
+    <div>
+      {items.length === 0 ? (
+        <p className="text-ink-muted">Todavía no hay ítems en el ranking.</p>
+      ) : (
+        <ol>
+          {items.map((item, index) => (
+            <PodiumItem
+              key={`${item.id}-${index}`}
+              item={item}
+              rank={index + 1}
+              // Los ítems del ranking no traen `category`, así que el slug llega aparte.
+              to={buildItemUrl({ id: item.id, category: { slug: categorySlug } })}
+            />
+          ))}
+        </ol>
+      )}
+      {hasNextPage && (
+        <Button variant="link" onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className="mt-4">
+          {isFetchingNextPage ? 'Cargando…' : 'Ver más'}
+        </Button>
+      )}
+    </div>
+  </section>
+);
 
 export default Ranking;

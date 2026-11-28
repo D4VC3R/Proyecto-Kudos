@@ -1,11 +1,9 @@
 import React from 'react';
-import { Compass, Telescope, Flame } from 'lucide-react';
+import { Compass, Telescope, Flame, Search } from 'lucide-react';
 // Componentes
-import StaggerGrid from "../components/animations/StaggerGrid.jsx";
-import StaggerItem from "../components/animations/StaggerItem.jsx";
-import SectionHeader from '../components/ui/SectionHeader.jsx';
+import PageHeader from '../components/ui/PageHeader.jsx';
 import BackButton from "../components/ui/BackButton.jsx";
-import SearchFilter from '../components/ui/SearchFilter.jsx';
+import Input from '../components/ui/Input.jsx';
 import SelectFilter from '../components/ui/SelectFilter.jsx';
 import FeedbackState from '../components/ui/FeedbackState.jsx';
 import ItemCard from '../components/items/ItemCard';
@@ -18,64 +16,63 @@ const ExplorePage = () => {
   return (
     <>
       <BackButton />
-      <div className="flex flex-col gap-6 animate-fade-in relative container mx-auto px-4 py-8 max-w-7xl">
-        <SectionHeader title="Explorar" highlight={state.displayCategoryName} icon={Compass}>
-          <div className="flex gap-2 flex-wrap">
-            <SelectFilter
-              label="Ordenar por"
-              icon={Flame}
-              value={state.sortValue}
-              onChange={actions.handleSortChange}
-              defaultOption="Mejor valorados"
-              options={[
-                { value: 'recent|desc', label: 'Más recientes' },
-                { value: 'recent|asc', label: 'Más antiguos' },
-                { value: 'vote_avg|asc', label: 'Peor valorados' }
-              ]}
-            />
-            <SearchFilter
-              value={state.searchInput}
-              onChange={actions.handleSearchChange}
-              placeholder="Buscar ítem..."
-            />
-          </div>
-        </SectionHeader>
+      <div className="flex flex-col gap-8">
+        <PageHeader title="Explorar" highlight={state.displayCategoryName}>
+          <SelectFilter
+            label="Ordenar por"
+            icon={Flame}
+            value={state.sortValue}
+            onChange={actions.handleSortChange}
+            defaultOption="Mejor valorados"
+            options={[
+              { value: 'recent|desc', label: 'Más recientes' },
+              { value: 'recent|asc', label: 'Más antiguos' },
+              { value: 'vote_avg|asc', label: 'Peor valorados' }
+            ]}
+          />
+          <Input
+            type="search"
+            icon={Search}
+            label="Buscar ítem"
+            hideLabel
+            placeholder="Buscar ítem..."
+            value={state.searchInput}
+            onChange={actions.handleSearchChange}
+            className="w-full sm:w-60"
+          />
+        </PageHeader>
 
-        <div className="flex flex-col gap-8 w-full mt-4">
-          {state.isLoading ? (
-            <FeedbackState icon={Telescope} isLoading title={`Explorando ${state.displayCategoryName}...`}  />
-          ) : state.isError ? (
-            <FeedbackState
-              icon={Compass}
-              title="Problemas de conexión"
-              description="Algo no ha ido bien, inténtalo de nuevo más tarde."
-              iconColorClass="bg-red-100 text-red-500"
-            />
-          ) : state.flattenedItems.length === 0 ? (
-            <FeedbackState
-              icon={Telescope}
-              title="Buscas cosas muy raras, ¿no?"
-              description="No se encontraron resultados con los filtros actuales."
-            />
-          ) : (
-            <div className="overflow-x-hidden w-full py-4">
-              <StaggerGrid className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-center">
-                {state.flattenedItems.map((item, index) => (
-                  <StaggerItem key={item.id} alternate index={index}>
-                    <ItemCard item={item} />
-                  </StaggerItem>
-                ))}
-              </StaggerGrid>
-            </div>
-          )}
+        {state.isLoading ? (
+          <FeedbackState icon={Telescope} isLoading titleAs="h2" title={`Explorando ${state.displayCategoryName}...`} />
+        ) : state.isError ? (
+          <FeedbackState
+            icon={Compass}
+            titleAs="h2"
+            title="Problemas de conexión"
+            description="Algo no ha ido bien, inténtalo de nuevo más tarde."
+            iconColorClass="bg-danger text-canvas"
+          />
+        ) : state.flattenedItems.length === 0 ? (
+          <FeedbackState
+            icon={Telescope}
+            titleAs="h2"
+            title="Buscas cosas muy raras, ¿no?"
+            description="No se encontraron resultados con los filtros actuales."
+          />
+        ) : (
+          <ul data-explore-grid className="grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 md:grid-cols-4 md:gap-x-4 md:gap-y-8 lg:grid-cols-6">
+            {state.flattenedItems.map((item, index) => (
+              <li key={item.id} className="min-w-0">
+                <ItemCard item={item} index={index} />
+              </li>
+            ))}
+          </ul>
+        )}
 
-          {state.isFetchingNextPage && (
-            <div className="py-4">
-              <FeedbackState icon={Telescope} isLoading title="Cargando más resultados..." />
-            </div>
-          )}
-          <div ref={refs.observerRef} className="h-4 w-full" />
-        </div>
+        {state.isFetchingNextPage && (
+          <FeedbackState icon={Telescope} isLoading titleAs="h2" title="Cargando más resultados..." />
+        )}
+        <div ref={refs.observerRef} className="h-4 w-full" />
       </div>
     </>
   );

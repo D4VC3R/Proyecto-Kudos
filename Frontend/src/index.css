@@ -286,6 +286,10 @@ html[data-palette="taquilla"] .home-ranking > div:first-child {
     flex-direction: column;
     justify-content: center;
   }
+  /* Con una lista larga (la de la categoría), el título va arriba; el talón conserva el filete y el troquel. */
+  html[data-palette="taquilla"] .home-ranking[data-title-top] > div:first-child {
+    justify-content: flex-start;
+  }
 }
 html[data-palette="videoclub"] .home-ranking::before {
   content: '';
