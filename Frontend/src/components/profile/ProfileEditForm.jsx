@@ -1,18 +1,27 @@
 import React from 'react';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {Link} from 'react-router-dom';
 import {Save, MapPin, Calendar, AtSign, Image as ImageIcon} from 'lucide-react';
 import {profileSchema} from '../../lib/schemas';
 //  Componentes
-import InputField from '../ui/InputField.jsx';
-import TextAreaField from '../ui/TextAreaField.jsx';
+import Card from '../ui/Card.jsx';
+import Input from '../ui/Input.jsx';
+import Textarea from '../ui/Textarea.jsx';
+import Checkbox from '../ui/Checkbox.jsx';
 import Button from '../ui/Button.jsx';
 // Hooks
 import {useForm} from 'react-hook-form';
 import {useUpdateProfile} from '../../hooks/users/useUserMutations';
 
+// El campo de fecha nativo usa el idioma del navegador; debajo se repite en español.
+const BIRTHDATE_FORMAT = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const formatBirthdate = (value) => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value ?? '')) return null;
+  const date = new Date(`${value}T00:00:00Z`);
+  return Number.isNaN(date.getTime()) ? null : BIRTHDATE_FORMAT.format(date);
+};
+
 const ProfileEditForm = ({profile}) => {
-  const {register, handleSubmit, setError, formState: {errors}} = useForm({
+  const {register, handleSubmit, setError, watch, formState: {errors}} = useForm({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       avatar: '',
@@ -25,6 +34,8 @@ const ProfileEditForm = ({profile}) => {
   });
 
   const {mutate: updateProfile, isPending} = useUpdateProfile({setError});
+
+  const birthdateText = formatBirthdate(watch('birthdate'));
 
   const onSubmit = (data) => {
     const payload = {
@@ -40,13 +51,13 @@ const ProfileEditForm = ({profile}) => {
   };
 
   return (
-    <div className="w-full flex-1 bg-surface rounded-3xl p-6 md:p-8 shadow-sm border border-border">
-      <h3 className="text-xl font-black text-text-highlight mb-6 border-b border-slate-100 pb-4">
+    <Card className="w-full flex-1 p-6 md:p-8">
+      <h2 className="font-display text-h2 text-ink mb-6">
         Editar Perfil
-      </h3>
+      </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-        <InputField
+        <Input
           label="URL del Avatar"
           type="url"
           icon={ImageIcon}
@@ -56,7 +67,7 @@ const ProfileEditForm = ({profile}) => {
           disabled={isPending}
         />
 
-        <TextAreaField
+        <Textarea
           label="Biografía"
           rows={4}
           placeholder="Cuéntanos un poco sobre ti..."
@@ -66,7 +77,7 @@ const ProfileEditForm = ({profile}) => {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <InputField
+          <Input
             label="Ciudad"
             type="text"
             icon={MapPin}
@@ -76,19 +87,24 @@ const ProfileEditForm = ({profile}) => {
             disabled={isPending}
           />
 
-          <InputField
-            label="Fecha de Nacimiento"
-            type="date"
-            icon={Calendar}
-            registration={register('birthdate')}
-            error={errors.birthdate}
-            disabled={isPending}
-          />
+          <div>
+            <Input
+              label="Fecha de Nacimiento"
+              type="date"
+              icon={Calendar}
+              registration={register('birthdate')}
+              error={errors.birthdate}
+              disabled={isPending}
+            />
+            {birthdateText && (
+              <p data-birthdate-hint className="mt-1 text-caption text-ink-muted">{birthdateText}</p>
+            )}
+          </div>
         </div>
 
-        <h4 className="text-base font-black text-text-highlight">Perfil público</h4>
+        <h3 className="font-display text-h3 text-ink">Perfil público</h3>
 
-        <InputField
+        <Input
           label="Nombre de usuario"
           type="text"
           icon={AtSign}
@@ -99,43 +115,26 @@ const ProfileEditForm = ({profile}) => {
           disabled={isPending}
         />
 
-        <div>
-          <label className="flex cursor-pointer items-start gap-2 text-sm text-text-highlight">
-            <input
-              type="checkbox"
-              className="mt-0.5 h-4 w-4 shrink-0 accent-blue-600"
-              disabled={isPending}
-              {...register('is_public')}
-            />
-            <span className="flex flex-col">
-              <span className="font-bold">Hacer público mi perfil</span>
-              <span className="text-text-normal">
-                Cualquiera podrá ver en /u/tu_nombre tu avatar, tu biografía, tus mejores notas por categoría, tus listas públicas y tus reseñas. Tu correo, tu ciudad y tu fecha de nacimiento nunca se muestran.
-              </span>
-            </span>
-          </label>
-          {errors.is_public && <span className="mt-1 text-xs text-red-500">{errors.is_public.message}</span>}
-        </div>
+        <Checkbox
+          label="Hacer público mi perfil"
+          description="Cualquiera podrá ver en /u/tu_nombre tu avatar, tu biografía, tus mejores notas por categoría, tus listas públicas y tus reseñas. Tu correo, tu ciudad y tu fecha de nacimiento nunca se muestran."
+          registration={register('is_public')}
+          error={errors.is_public}
+          disabled={isPending}
+        />
 
-        {profile?.username && (
-          <Link to={`/u/${profile.username}`} className="font-bold text-primary hover:underline">
-            Ver mi perfil público
-          </Link>
-        )}
-
-        <div className="flex justify-end mt-4 pt-4 border-t border-slate-100">
+        <div className="flex justify-end mt-4 pt-4 border-t border-line">
           <Button
             type="submit"
             isLoading={isPending}
-            variant="solid"
-            color="primary"
+            variant="primary"
             icon={Save}
           >
             Guardar Cambios
           </Button>
         </div>
       </form>
-    </div>
+    </Card>
   );
 };
 

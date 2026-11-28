@@ -11,7 +11,8 @@ const TAB_INACTIVE = 'border-transparent text-ink-muted hover:border-line-strong
 // Pestañas. Si todos los elementos llevan `to` son enlaces de navegación (`aria-current="page"`); si no, son
 // pestañas de un `tablist` que cambian con `onChange` y se mueven con las flechas, Inicio y Fin.
 // `items: [{ id, label, icon?, to?, state? }]`.
-const Tabs = ({ items, activeId, onChange, label, className }) => {
+// Con `idPrefix`, cada pestaña apunta a su panel (`role="tabpanel"`, lo pinta la página).
+const Tabs = ({ items, activeId, onChange, label, className, idPrefix }) => {
   const tabRefs = useRef([]);
   const isNavigation = items.length > 0 && items.every((item) => item.to);
   const containerClass = twMerge(clsx(CONTAINER, className));
@@ -60,6 +61,8 @@ const Tabs = ({ items, activeId, onChange, label, className }) => {
         return (
           <button
             key={id}
+            id={idPrefix ? `${idPrefix}-tab-${id}` : undefined}
+            aria-controls={idPrefix ? `${idPrefix}-panel-${id}` : undefined}
             ref={(element) => { tabRefs.current[index] = element; }}
             type="button"
             role="tab"
