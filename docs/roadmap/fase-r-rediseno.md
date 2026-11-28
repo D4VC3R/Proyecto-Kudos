@@ -465,6 +465,44 @@ Esta ficha, la fase en el tablero y una issue por tarea. También adapta la guí
 - El script de RA-00 con `--themes all` pasa.
 - Con `reduce`, el cambio es instantáneo.
 
+**Notas (RB-04):**
+- **Archivos:** `Frontend/src/hooks/common/themeTransition.js` (reescrito `runThemeTransition`: `REVEAL_MS = 500` y `REVEAL_EASING = 'cubic-bezier(.2, .7, .2, 1)'`, `active` a nivel de módulo, `data-theme-switch` puesto dentro del *callback*, círculo con WAAPI sobre `::view-transition-new(root)` hasta la esquina más lejana, y sin `--vt-x`/`--vt-y`) y `Frontend/src/index.css` (la cabecera solo tiene `view-transition-name` fuera del tema y la paleta, `animation: none` para el tema, `html[data-theme-switch] *` sin `transition`, y fuera `@keyframes vt-reveal`). `docs/frontend/arquitectura.md` §3.
+- **Tests nuevos:** ninguno de componentes (R8). Script `.claude/ciclo/RB-04/tema-fluido.mjs` (Playwright en Docker; no va al repo): 160 transiciones por ejecución (1440 y 390 px × portada y ficha × con y sin sesión × 4 paletas × 2 repeticiones; a 390, además, un cambio de paleta), a CPU 1× y 4×, con las comprobaciones a (`reduce`), b (sin soporte), c (círculo), d (sin `pageerror`) y la limpieza de `data-vt`/`data-theme-switch`. Los JSON (`medidas-<antes|despues>-cpu<N>.json`) se quedan en esa carpeta. Renderer del headless: SwiftShader (sin GPU), Chromium 159.0.8154.6.
+- **Línea base y resultado (mediana por transición; `[antes]` entre corchetes):**
+
+CPU 1×:
+
+| Grupo | n | Clic→1.er fotograma (ms) | Fotogramas >33 ms (Σ) | >50 ms (Σ) | Fotograma máx. (ms) | RecalcStyle (ms) | Task (ms) |
+|---|---|---|---|---|---|---|---|
+| 1440 con sesión, tema | 32 | 31,7 [31,8] | 0 [162] | 0 [1] | 16,8 [50] | 17,3 [24,7] | 39,0 [78,8] |
+| 1440 sin sesión, tema | 32 | 31,9 [31,9] | 0 [120] | 0 [1] | 16,8 [50,1] | 13,7 [22,1] | 31,6 [66,7] |
+| 390 con sesión, tema | 32 | 31,8 [31,7] | 0 [0] | 0 [0] | 16,8 [16,8] | 17,9 [30,1] | 38,3 [86,7] |
+| 390 con sesión, paleta | 16 | 31,9 [31,8] | 0 [0] | 0 [0] | 16,8 [16,8] | 18,1 [20,8] | 40,3 [59,3] |
+| 390 sin sesión, tema | 32 | 31,7 [31,8] | 0 [0] | 0 [0] | 16,8 [16,8] | 14,2 [23,5] | 32,6 [68,8] |
+| 390 sin sesión, paleta | 16 | 32,0 [31,9] | 0 [0] | 0 [0] | 16,8 [16,8] | 14,5 [18,1] | 28,2 [48,4] |
+| **Total** | 160 | 31,8 [31,8] | **0 [282]** | **0 [2]** | 16,8 [50,1] | 15,1 [22,7] (-34 %) | 35,2 [64,3] (-45 %) |
+
+CPU 4×:
+
+| Grupo | n | Clic→1.er fotograma (ms) | Fotogramas >33 ms (Σ) | >50 ms (Σ) | Fotograma máx. (ms) | RecalcStyle (ms) | Task (ms) |
+|---|---|---|---|---|---|---|---|
+| 1440 con sesión, tema | 32 | 63,8 [79,1] | 0 [190] | 0 [1] | 16,8 [50,1] | 66,5 [96,5] | 150,2 [304,9] |
+| 1440 sin sesión, tema | 32 | 54,3 [63,5] | 0 [122] | 0 [0] | 16,8 [33,4] | 49,6 [88,3] | 110,7 [261,4] |
+| 390 con sesión, tema | 32 | 80,5 [97,0] | 0 [8] | 0 [0] | 16,8 [33,4] | 62,8 [109,5] | 132,8 [310,8] |
+| 390 con sesión, paleta | 16 | 71,6 [72,2] | 0 [0] | 0 [0] | 16,8 [16,8] | 68,2 [77,9] | 116,5 [214,2] |
+| 390 sin sesión, tema | 32 | 63,8 [71,9] | 0 [0] | 0 [0] | 16,8 [16,8] | 48,7 [87,0] | 107,0 [236,0] |
+| 390 sin sesión, paleta | 16 | 63,5 [63,7] | 0 [0] | 0 [0] | 16,8 [16,8] | 51,1 [63,5] | 92,5 [165,6] |
+| **Total** | 160 | 63,8 [64,2] | **0 [320]** | **0 [1]** | 16,8 [50,1] | 53,8 [84,4] (-36 %) | 113,3 [233,8] (-52 %) |
+
+- **Qué confirmó la medida:** (1) Los fotogramas largos desaparecen: de 282 a 0 de más de 33 ms a 1× y de 320 a 0 a 4× (casi todos en 1440; a 4× hay 8 más a 390 con sesión), y el máximo de 50 ms a 16,8 ms; no queda ninguno de más de 50 ms en `despues 1`. (2) El trabajo del hilo principal baja a la mitad (`Task` -45 % a 1× y -52 % a 4×; `RecalcStyle` -34 % y -36 %), y a 4× las tareas largas pasan de 21 a 8 en el tema y de 4 a 2 en la paleta, y los LoAF de 75 a 50 y de 12 a 16 (el máximo, 92,5 ms, no cambia). (3) `pseudos` confirma que la cabecera deja de ser un grupo aparte en el tema y en la paleta (grupo `site-header` animado en 0/128 y 0/32; antes, 128/128 y 32/32) y que el círculo sigue sobre `::view-transition-new(root)` (128/128). (4) Las causas se midieron juntas, no una a una: el plan las aplica a la vez y no se aislaron (la mejora de `RecalcStyle`/`Task` es coherente con quitar las variables CSS de la raíz, la capa de cabecera y las `transition` durante el cambio).
+- **El «clic al primer fotograma» no baja a 1× (hallazgo):** la mediana se queda en 31,8 ms antes y después (a 4×, 64,2 → 63,8 ms en total; por tipo, el tema baja de 71,2 a 63,8 ms y la paleta se queda igual). Con CPU 1× el valor está fijado por el ritmo de 60 Hz: `ready` llega hacia los 25 ms (mediana 26,0 → 24,4 ms) y el primer `requestAnimationFrame` posterior es el segundo fotograma (~32 ms). Lo que domina el tiempo hasta `ready` es el *callback* con `flushSync` más la captura de la vista (`RecalcStyle` + `Script` + raster por software), no la transición, y bajarlo más pasa por renderizar menos en `flushSync` o por una GPU; el plan no lo cubre y no se ha tocado (R6). Los criterios «bajan en los dos niveles de CPU» se cumplen en fotogramas largos y en `Task`/`RecalcStyle`, pero no estrictamente en la mediana del primer fotograma a 1×.
+- **Limitación de la medida:** el Chromium sin interfaz no tiene GPU (SwiftShader): los tiempos por fotograma son pesimistas y no valen como fluidez absoluta; solo se comparan antes y después, en la misma máquina. No se ha tomado ninguna medida en un móvil real.
+- **Decisiones del plan:** el círculo pasa de 0,6 s con `(.4, 0, .2, 1)` hasta `150vmax` a 0,5 s con la curva del póster y hasta la esquina más lejana; «bajan claramente» se interpreta como una bajada en los dos niveles de CPU, sin un porcentaje fijo.
+- **Discrepancias (R1):** `arquitectura.md` §3 describía la transición con el CSS de `vt-reveal` (círculo desde variables `--vt-x`/`--vt-y`); el código ya no tiene ese `@keyframes` ni esas variables. Actualizado.
+- **Desviaciones:** ninguna en el código. El script de RC-03 (`ficha-check.mjs`) falló la primera vez en el paso 7 (`article[data-item-card]` no apareció en 15 s) mientras corrían a la vez `pnpm build` y `check:classes`; se repitió sola y dio 11 OK, sin cambios.
+- **Falla antes:** el script con `Frontend/src` sin tocar también pasa a, b, c, d y la limpieza (160/160); lo que cambia son las cifras de las tablas. Es decir, la comprobación sobre `HEAD` no puede fallar por diseño del plan: el criterio es la comparación de cifras.
+- **Resultados:** `pnpm build`, `pnpm check:classes` (826 clases) y `pnpm test:seo` (45 pass) en verde; 0 clases arbitrarias nuevas (`git diff rediseno-fase-0 -- Frontend/src | grep '^+' | grep -c -- '-\['` = 0). `visual-check.sh --themes all`, rutas del plan, con y sin sesión: 48 comprobaciones y 0 con fallos cada una. `tema-check.mjs`: 12 OK; `ficha-check.mjs`: 11 OK. Capturas y JSON en `.claude/ciclo/RB-04/` (ignorada por git).
+
 ---
 
 ## RC-01 · Tarjeta de ítem (FE)
