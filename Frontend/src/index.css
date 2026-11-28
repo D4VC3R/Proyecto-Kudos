@@ -204,12 +204,12 @@ body {
   }
 }
 
-/* Cambio de tema: el modo nuevo se abre en círculo desde el botón pulsado, y la cabecera se anima con la página. */
-[data-site-header] { view-transition-name: site-header; }
-html[data-vt="theme"]::view-transition-old(root), html[data-vt="theme"]::view-transition-old(site-header) { animation: none; }
-html[data-vt="theme"]::view-transition-new(root), html[data-vt="theme"]::view-transition-new(site-header) { animation: vt-reveal .6s cubic-bezier(.4, 0, .2, 1) both; mix-blend-mode: normal; }
-@keyframes vt-reveal { from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); } to { clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 0)); } }
+/* Cambio de tema: el modo nuevo se abre en círculo desde el botón pulsado (lo anima `themeTransition.js`). Durante el
+   cambio de tema o de paleta, la cabecera va dentro de la captura de la página y no hay transiciones CSS. */
+html:not([data-vt="theme"]):not([data-vt="palette"]) [data-site-header] { view-transition-name: site-header; }
+html[data-vt="theme"]::view-transition-old(root), html[data-vt="theme"]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 html[data-vt="palette"]::view-transition-old(root), html[data-vt="palette"]::view-transition-new(root) { animation-duration: .35s; }
+html[data-theme-switch] *, html[data-theme-switch] *::before, html[data-theme-switch] *::after { transition: none !important; }
 
 /* Del póster de una tarjeta al de la ficha: se mueve y se agranda como un solo elemento, y el resto de la pantalla se desvanece. */
 [data-detail-poster] { view-transition-name: poster; }
