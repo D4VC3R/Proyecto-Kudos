@@ -1,22 +1,21 @@
 import React from 'react';
 import { Search, SearchX, Telescope } from 'lucide-react';
 // Componentes
-import SectionHeader from '../components/ui/SectionHeader.jsx';
+import PageHeader from '../components/ui/PageHeader.jsx';
+import SectionHead from '../components/ui/SectionHead.jsx';
 import FeedbackState from '../components/ui/FeedbackState.jsx';
-import ItemCard from '../components/items/ItemCard';
+import ItemGrid, { ITEM_GRID_CLASSES } from '../components/items/ItemGrid.jsx';
 import Skeleton from '../components/ui/skeletons/Skeleton.jsx';
 import CatalogImportPanel from '../components/catalog/CatalogImportPanel.jsx';
 // Hooks
 import { useSearchPage } from '../hooks/pages/useSearchPage.js';
-
-const GRID_CLASSES = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6";
 
 const SearchPage = () => {
   const { state, actions, refs } = useSearchPage();
 
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
-      <SectionHeader
+      <PageHeader
         title={state.term ? 'Resultados para' : 'Buscar'}
         highlight={state.term ? `«${state.term}»` : undefined}
       />
@@ -24,6 +23,7 @@ const SearchPage = () => {
       {!state.term ? (
         <FeedbackState
           icon={Search}
+          titleAs="h2"
           title="¿Qué estás buscando?"
           description="Escribe al menos 2 caracteres en el buscador."
         />
@@ -31,10 +31,10 @@ const SearchPage = () => {
         <div className="flex flex-col gap-8">
           {[0, 1].map((block) => (
             <div key={block} className="flex flex-col gap-4">
-              <Skeleton className="h-7 w-48 rounded-lg" />
-              <div className={GRID_CLASSES}>
-                {[0, 1, 2, 3, 4].map((card) => (
-                  <Skeleton key={card} className="w-full aspect-[3/4] rounded-3xl ring-1 ring-slate-200" />
+              <Skeleton className="h-7 w-48 rounded-sm" />
+              <div className={ITEM_GRID_CLASSES}>
+                {[0, 1, 2, 3, 4, 5].map((card) => (
+                  <Skeleton key={card} className="w-full aspect-poster rounded-md border border-line" />
                 ))}
               </div>
             </div>
@@ -43,27 +43,23 @@ const SearchPage = () => {
       ) : state.isError ? (
         <FeedbackState
           icon={Telescope}
+          titleAs="h2"
           title="Problemas de conexión"
           description="Algo no ha ido bien, inténtalo de nuevo más tarde."
-          iconColorClass="bg-red-100 text-red-500"
+          iconColorClass="bg-danger text-canvas"
         />
       ) : state.groups.length === 0 ? (
         <FeedbackState
           icon={SearchX}
+          titleAs="h2"
           title="Sin resultados"
           description={`No hemos encontrado nada para «${state.term}».`}
         />
       ) : (
-        state.groups.map((group) => (
-          <section key={group.key} className="flex flex-col gap-4">
-            <h3 className="text-xl font-black tracking-tight text-text-highlight">
-              {group.category?.name ?? 'Sin categoría'}
-            </h3>
-            <div className={GRID_CLASSES}>
-              {group.items.map((item) => (
-                <ItemCard key={item.id} item={item} />
-              ))}
-            </div>
+        state.groups.map((group, index) => (
+          <section key={group.key} aria-labelledby={`search-group-${index}`} className="flex flex-col gap-4">
+            <SectionHead id={`search-group-${index}`} title={group.category?.name ?? 'Sin categoría'} />
+            <ItemGrid items={group.items} />
           </section>
         ))
       )}
@@ -72,7 +68,7 @@ const SearchPage = () => {
 
       {state.isFetchingNextPage && (
         <div className="py-4">
-          <FeedbackState icon={Telescope} isLoading title="Cargando más resultados..." />
+          <FeedbackState icon={Telescope} isLoading titleAs="h2" title="Cargando más resultados..." />
         </div>
       )}
       <div ref={refs.observerRef} className="h-4 w-full" />
