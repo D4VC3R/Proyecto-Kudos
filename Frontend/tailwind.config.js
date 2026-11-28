@@ -92,7 +92,8 @@ export default {
       // Animación de entrada de las páginas (antes `animate-in fade-in` de tailwindcss-animate, que no está instalado).
       // `bump` hace saltar el contador de Kudos al cambiar y `stamp` estampa el sello de la nota en la ficha: son CSS
       // para que el CSS global de `prefers-reduced-motion` las frene sin código. `rise` hace subir las tarjetas en
-      // cascada (el retraso sale de `--i`) y también es CSS por lo mismo.
+      // cascada (el retraso sale de `--i`) y también es CSS por lo mismo. `grow` hace crecer las barras del reparto de
+      // notas de la ficha, también en CSS para que la regla de `prefers-reduced-motion` la frene.
       keyframes: {
         fadeIn: {
           from: { opacity: '0' },
@@ -110,12 +111,14 @@ export default {
         rise: {
           from: { opacity: '0', transform: 'translateY(14px)' },
         },
+        grow: { from: { transform: 'scaleX(0)' } },
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
         bump: 'bump 0.6s cubic-bezier(.3, 1.6, .5, 1)',
         stamp: 'stamp 0.55s cubic-bezier(.2, 1.5, .4, 1) 0.25s both',
         rise: 'rise 0.45s cubic-bezier(.2, .7, .2, 1) calc(var(--i, 0) * 45ms) both',
+        grow: 'grow 0.7s cubic-bezier(.2, .7, .2, 1) 0.35s both',
       },
       // Proporción del póster de una tarjeta.
       aspectRatio: {
@@ -133,6 +136,8 @@ export default {
         band: 'minmax(0, 1fr) minmax(0, 1.1fr)',
         // Póster y texto de la ficha: el póster ocupa hasta 360 px y el resto es del texto.
         detail: 'minmax(0, 360px) minmax(0, 1fr)',
+        // Fila del reparto de notas de la ficha: etiqueta del nivel, barra y recuento (hasta cinco cifras).
+        dist: '5.5rem minmax(0, 1fr) 2.5rem',
       },
       // Distancia a la que se queda fijo el póster de la ficha al desplazarla: la cabecera (64 px) más 24 px de aire.
       inset: {

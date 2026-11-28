@@ -237,3 +237,32 @@ Las rutas de `routes/api.php` se agrupan por el acceso que exigen:
 - Se ha quitado `GET /api/items/my-items`.
 - `images` ya no se acepta en las peticiones de escritura de ítems (creación, edición de administración) ni en la edición de propuestas.
 - `POST /api/proposals` puede traer `meta.images_failed: true` si no se pudieron procesar las imágenes.
+- La ficha de un ítem añade `vote_distribution` (ver §8).
+
+## 8) Ficha de un ítem
+
+### `GET /api/items/{item}`
+
+El mismo recurso (`ItemDetailResource`) lo usan también `GET /api/categories/{category}/next-item`, la creación de un ítem, las respuestas de administración de ítems y las del catálogo, así que `vote_distribution` va en todas.
+
+`vote_distribution` es el reparto de los votos con nota por nivel de la escala de voto: una lista de 5 entradas `{score, count}` en orden ascendente (de 2 a 10), con los niveles sin votos a 0.
+
+```json
+{
+  "data": {
+    "vote_avg": 8.4,
+    "vote_count": 20,
+    "vote_distribution": [
+      { "score": 2, "count": 1 },
+      { "score": 4, "count": 2 },
+      { "score": 6, "count": 3 },
+      { "score": 8, "count": 5 },
+      { "score": 10, "count": 9 }
+    ]
+  }
+}
+```
+
+- Solo cuentan los votos `type = vote` con nota (los mismos que `vote_count`): la suma de `count` coincide con `vote_count`. Los `want`, `not_interested` y `skip` no entran.
+- Cada nota va al nivel más cercano y, si queda en medio, al de arriba: 0–2,5 → 2, 3–4,5 → 4, 5–6,5 → 6, 7–8,5 → 8 y 9–10 → 10. Los votos de la interfaz (2, 4, 6, 8 y 10) caen en su nivel exacto; las notas intermedias (votos heredados o `PUT /api/votes`) se agrupan.
+- Se calcula en cada petición con una sola consulta agrupada (`ItemStatsService::scoreDistribution()`); no hay caché que invalidar.

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Item;
 use App\Models\User;
+use App\Services\ItemStatsService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * Desde la F1-06 incluye los campos del catálogo (original_title, released_at, attributes, slug) y la atribución de las fuentes.
  * Desde la F2-01, user_vote incluye type.
  * Desde la F4-04, cada imagen incluye license, license_url, author y source_url (pie de foto de Commons).
+ * Incluye vote_distribution: los votos con nota por nivel de la escala de voto.
  */
 class ItemDetailResource extends JsonResource
 {
@@ -61,6 +63,7 @@ class ItemDetailResource extends JsonResource
             'status' => $item->status,
             'vote_avg' => (float) $item->vote_avg,
             'vote_count' => (int) $item->vote_count,
+            'vote_distribution' => app(ItemStatsService::class)->scoreDistribution($item->id),
             'attribution' => [
                 'data_source' => $this->dataSource($item),
                 'description_source' => $this->descriptionSource($item),

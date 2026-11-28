@@ -4,6 +4,7 @@ import AttributeChips from './AttributeChips.jsx';
 import ItemFacts from './ItemFacts.jsx';
 import ItemPlaceMap from './ItemPlaceMap.jsx';
 import ScoreStamp from '../ui/ScoreStamp.jsx';
+import VoteDistribution from './VoteDistribution.jsx';
 import SectionHead from '../ui/SectionHead.jsx';
 import CommentBox from '../comments/CommentBox.jsx';
 import AddToListButton from '../lists/AddToListButton.jsx';
@@ -50,9 +51,12 @@ const ItemDetailColumn = ({ item }) => {
 
       <div className="my-6 flex items-center gap-6">
         <ScoreStamp score={score} size="lg" />
-        <div>
-          <p className="text-small font-semibold">Nota de la comunidad</p>
-          <p className="text-small tabular-nums text-ink-muted">{formatVotes(item.vote_count)}</p>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-baseline justify-between gap-3 text-small">
+            <p className="font-semibold">Nota de la comunidad</p>
+            <p className="tabular-nums text-ink-muted">{formatVotes(item.vote_count)}</p>
+          </div>
+          <VoteDistribution distribution={item.vote_distribution} />
         </div>
       </div>
 
