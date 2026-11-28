@@ -1,15 +1,15 @@
 import React from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { Users, ShieldAlert, Filter, Shield, CheckCircle } from 'lucide-react';
+import { Users, ShieldAlert, Filter, Shield, CheckCircle, Search } from 'lucide-react';
 // Componentes
-import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import SectionHead from '../../components/ui/SectionHead.jsx';
 import FeedbackState from '../../components/ui/FeedbackState.jsx';
+import FilterBar from '../../components/ui/FilterBar.jsx';
+import Input from '../../components/ui/Input.jsx';
+import Select from '../../components/ui/Select.jsx';
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from "../../components/ui/ModalButtons.jsx";
-import SearchFilter from "../../components/ui/SearchFilter.jsx";
-import SelectFilter from "../../components/ui/SelectFilter.jsx";
 import Pagination from '../../components/ui/Pagination.jsx';
-import AdminUserCard from "../../components/admin/AdminUserCard.jsx";
+import AdminUsersTable from "../../components/admin/AdminUsersTable.jsx";
 import AdminUserBanBody from "../../components/admin/modals/AdminUserBanBody.jsx";
 import AdminUserRevokeBody from "../../components/admin/modals/AdminUserRevokeBody.jsx";
 // Hooks
@@ -20,74 +20,72 @@ const AdminUsers = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Gestión de" highlight="Usuarios" highlightColor="kudos" icon={Users}>
-        <div className="flex gap-2 flex-wrap">
-          <SelectFilter
-            label="Estado de la cuenta"
-            icon={Filter}
-            value={state.filters.isBanned}
-            onChange={(e) => actions.handleFilterChange('isBanned', e.target.value)}
-            defaultOption="Usuarios: Todos"
-            options={[
-              { value: '0', label: 'Activos' },
-              { value: '1', label: 'Baneados' }
-            ]}
-          />
-          <SelectFilter
-            label="Rol"
-            icon={Shield}
-            value={state.filters.role}
-            onChange={(e) => actions.handleFilterChange('role', e.target.value)}
-            defaultOption="Roles: Todos"
-            options={[
-              { value: 'admin', label: 'Administradores' },
-              { value: 'user', label: 'Usuarios' }
-            ]}
-          />
-          <SelectFilter
-            label="Verificación del email"
-            icon={CheckCircle}
-            value={state.filters.isVerified}
-            onChange={(e) => actions.handleFilterChange('isVerified', e.target.value)}
-            defaultOption="Email: Todos"
-            options={[
-              { value: '1', label: 'Verificados' },
-              { value: '0', label: 'No verificados' }
-            ]}
-          />
-          <SearchFilter
-            value={state.searchInput}
-            onChange={actions.handleSearchChange}
-            placeholder="Buscar..."
-            label="Buscar usuarios"
-            maxWidth="max-w-[180px]"
-          />
-        </div>
-      </SectionHeader>
+      <SectionHead title="Gestión de usuarios"/>
+
+      <FilterBar label="Filtrar usuarios">
+        <Select
+          label="Estado de la cuenta"
+          icon={Filter}
+          value={state.filters.isBanned}
+          onChange={(e) => actions.handleFilterChange('isBanned', e.target.value)}
+          placeholder="Todos"
+          selectClassName="w-auto"
+          options={[
+            { value: '0', label: 'Activos' },
+            { value: '1', label: 'Baneados' }
+          ]}
+        />
+        <Select
+          label="Rol"
+          icon={Shield}
+          value={state.filters.role}
+          onChange={(e) => actions.handleFilterChange('role', e.target.value)}
+          placeholder="Todos"
+          selectClassName="w-auto"
+          options={[
+            { value: 'admin', label: 'Administradores' },
+            { value: 'user', label: 'Usuarios' }
+          ]}
+        />
+        <Select
+          label="Verificación del email"
+          icon={CheckCircle}
+          value={state.filters.isVerified}
+          onChange={(e) => actions.handleFilterChange('isVerified', e.target.value)}
+          placeholder="Todos"
+          selectClassName="w-auto"
+          options={[
+            { value: '1', label: 'Verificados' },
+            { value: '0', label: 'No verificados' }
+          ]}
+        />
+        <Input
+          type="search"
+          label="Buscar"
+          icon={Search}
+          className="w-full sm:w-64"
+          value={state.searchInput}
+          onChange={actions.handleSearchChange}
+          placeholder="Buscar..."
+        />
+      </FilterBar>
 
       {state.isLoading ? (
-        <FeedbackState icon={Users} isLoading title="Cargando usuarios..."/>
+        <FeedbackState icon={Users} isLoading titleAs="h3" title="Cargando usuarios..."/>
       ) : state.isError ? (
-        <FeedbackState icon={ShieldAlert} title="Error" description="No se pudieron cargar los usuarios. Verifica tus permisos." iconColorClass="bg-red-100 text-red-500"/>
+        <FeedbackState icon={ShieldAlert} titleAs="h3" title="Error" description="No se pudieron cargar los usuarios. Verifica tus permisos." iconColorClass="bg-danger/10 text-danger"/>
       ) : !state.usersResponse?.data?.length ? (
-        <FeedbackState icon={Users} title="Sin resultados" description="No se encontraron usuarios con esos filtros."/>
+        <FeedbackState icon={Users} titleAs="h3" title="Sin resultados" description="No se encontraron usuarios con esos filtros."/>
       ) : (
         <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <AnimatePresence>
-              {state.usersResponse.data.map(user => (
-                <AdminUserCard
-                  key={user.id}
-                  user={user}
-                  onToggleBan={() => actions.handleToggleBan(user)}
-                  onRevoke={() => actions.handleOpenAction(user, 'revoke')}
-                  isBanning={state.isBanning}
-                  isUnbanning={state.isUnbanning}
-                  isRevoking={state.isRevoking}
-                />
-              ))}
-            </AnimatePresence>
-          </div>
+          <AdminUsersTable
+            users={state.usersResponse.data}
+            onToggleBan={(user) => actions.handleToggleBan(user)}
+            onRevoke={(user) => actions.handleOpenAction(user, 'revoke')}
+            isBanning={state.isBanning}
+            isUnbanning={state.isUnbanning}
+            isRevoking={state.isRevoking}
+          />
           <Pagination meta={state.usersResponse.meta} onPageChange={actions.setPage}/>
         </div>
       )}

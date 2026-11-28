@@ -1,34 +1,30 @@
 import React from 'react';
 import { UserSquare, Ban, Unlock, Key } from 'lucide-react';
-import AnimatedCard from '../animations/AnimatedCard';
 import BanInfoAlert from './BanInfoAlert';
-import clsx from 'clsx';
+import AdminStatusChip from './AdminStatusChip.jsx';
 import Button from '../ui/Button.jsx';
+import Card from '../ui/Card.jsx';
+import Chip from '../ui/Chip.jsx';
 
 const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan, onRevokeSessions }) => {
   return (
-    <AnimatedCard className="bg-surface border text-sm border-slate-100 shadow-sm rounded-3xl p-6 flex flex-col gap-6 lg:col-span-1">
+    <Card className="flex flex-col gap-6 p-6 lg:col-span-1">
       <div className="flex flex-col items-center text-center gap-3">
-        <div className="w-24 h-24 bg-blue-100 text-primary rounded-full flex items-center justify-center">
-          <UserSquare size={48} />
+        <div className="w-24 h-24 bg-line text-ink-muted rounded-full flex items-center justify-center">
+          <UserSquare size={48} aria-hidden="true" />
         </div>
         <div>
-          <h2 className="text-xl font-black text-slate-800">{user.name}</h2>
-          <p className="text-text-normal text-sm font-medium">{user.email}</p>
+          <h3 className="font-display text-h3 text-ink">{user.name}</h3>
+          <p className="text-small text-ink-muted">{user.email}</p>
         </div>
 
         <div className="flex flex-wrap gap-2 justify-center mt-2">
-          <span className={clsx("px-3 py-1 rounded-xl text-xs font-bold",
-            user.role === 'admin' ? "bg-purple-100 text-purple-700" :
-            user.is_verified ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-nav-item"
-          )}>
+          <Chip>
             Rol: {user.role === 'admin' ? 'ADMIN' : (user.is_verified ? 'USUARIO' : 'INVITADO')}
-          </span>
-          <span className={clsx("px-3 py-1 rounded-xl text-xs font-bold",
-             user.is_banned ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
-          )}>
+          </Chip>
+          <AdminStatusChip tone={user.is_banned ? 'danger' : 'success'}>
             Estado: {user.ban_state_label?.toUpperCase() || (user.is_banned ? "SUSPENDIDO" : "ACTIVO")}
-          </span>
+          </AdminStatusChip>
         </div>
       </div>
 
@@ -45,8 +41,7 @@ const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan
         <Button
           onClick={onToggleBan}
           disabled={isBanning || isUnbanning}
-          variant="solid"
-          color={user.is_banned ? 'success' : 'danger'}
+          variant={user.is_banned ? 'primary' : 'danger'}
           isFullWidth
           icon={user.is_banned ? Unlock : Ban}
         >
@@ -55,15 +50,14 @@ const AdminUserIdCard = ({ user, isBanning, isUnbanning, isRevoking, onToggleBan
         <Button
           onClick={onRevokeSessions}
           disabled={isRevoking}
-          variant="solid"
-          color="warning"
+          variant="secondary"
           isFullWidth
           icon={Key}
         >
           Cerrar sesiones
         </Button>
       </div>
-    </AnimatedCard>
+    </Card>
   );
 };
 

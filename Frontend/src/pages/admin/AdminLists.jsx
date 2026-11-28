@@ -1,14 +1,14 @@
 import React from 'react';
-import { ListOrdered, Plus, ShieldAlert } from 'lucide-react';
-import { AnimatePresence } from 'framer-motion';
+import { ListOrdered, Plus, Search, ShieldAlert } from 'lucide-react';
 // Componentes
-import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import SectionHead from '../../components/ui/SectionHead.jsx';
 import FeedbackState from '../../components/ui/FeedbackState.jsx';
+import FilterBar from '../../components/ui/FilterBar.jsx';
+import Input from '../../components/ui/Input.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Modal from '../../components/ui/Modal.jsx';
 import ModalButtons from '../../components/ui/ModalButtons.jsx';
-import SearchFilter from '../../components/ui/SearchFilter.jsx';
-import AdminListCard from '../../components/admin/AdminListCard.jsx';
+import AdminListsTable from '../../components/admin/AdminListsTable.jsx';
 import AdminListFormBody from '../../components/admin/modals/AdminListFormBody.jsx';
 import AdminListDeleteBody from '../../components/admin/modals/AdminListDeleteBody.jsx';
 // Hooks
@@ -21,43 +21,36 @@ const AdminLists = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Listas" highlight="editoriales" highlightColor="kudos" icon={ListOrdered}>
-        <div className="flex gap-4 items-center flex-wrap">
-          <SearchFilter
-            value={state.searchInput}
-            onChange={actions.handleSearchChange}
-            placeholder="Buscar lista..."
-          />
-          <Button
-            onClick={() => actions.handleOpenAction(null, 'create')}
-            variant="ring"
-            color="primary"
-            icon={Plus}
-          >
-            Nueva
-          </Button>
-        </div>
-      </SectionHeader>
+      <SectionHead title="Listas editoriales">
+        <Button onClick={() => actions.handleOpenAction(null, 'create')} icon={Plus}>
+          Nueva
+        </Button>
+      </SectionHead>
+
+      <FilterBar label="Filtrar listas">
+        <Input
+          type="search"
+          label="Buscar"
+          icon={Search}
+          className="w-full sm:w-64"
+          value={state.searchInput}
+          onChange={actions.handleSearchChange}
+          placeholder="Buscar lista..."
+        />
+      </FilterBar>
 
       {state.isLoading ? (
-        <FeedbackState icon={ListOrdered} isLoading title="Cargando listas..."/>
+        <FeedbackState icon={ListOrdered} isLoading titleAs="h3" title="Cargando listas..."/>
       ) : state.isError ? (
-        <FeedbackState icon={ShieldAlert} title="Error" description="No se pudieron cargar las listas." iconColorClass="bg-red-100 text-red-500"/>
+        <FeedbackState icon={ShieldAlert} titleAs="h3" title="Error" description="No se pudieron cargar las listas." iconColorClass="bg-danger/10 text-danger"/>
       ) : !state.filteredLists?.length ? (
-        <FeedbackState icon={ListOrdered} title="Sin resultados" description="No hay listas editoriales."/>
+        <FeedbackState icon={ListOrdered} titleAs="h3" title="Sin resultados" description="No hay listas editoriales."/>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence>
-            {state.filteredLists.map((list) => (
-              <AdminListCard
-                key={list.id}
-                list={list}
-                onEdit={() => actions.handleOpenAction(list, 'edit')}
-                onDelete={() => actions.handleOpenAction(list, 'delete')}
-              />
-            ))}
-          </AnimatePresence>
-        </div>
+        <AdminListsTable
+          lists={state.filteredLists}
+          onEdit={(list) => actions.handleOpenAction(list, 'edit')}
+          onDelete={(list) => actions.handleOpenAction(list, 'delete')}
+        />
       )}
 
       <Modal

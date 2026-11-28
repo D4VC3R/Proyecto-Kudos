@@ -1,17 +1,17 @@
 import React from 'react';
-import { Target, ShieldAlert, LayoutGrid } from 'lucide-react';
-import { AnimatePresence } from 'framer-motion';
+import { Target, ShieldAlert, LayoutGrid, Search } from 'lucide-react';
 // Componentes
-import SectionHeader from '../../components/ui/SectionHeader.jsx';
+import SectionHead from '../../components/ui/SectionHead.jsx';
 import FeedbackState from '../../components/ui/FeedbackState.jsx';
+import FilterBar from '../../components/ui/FilterBar.jsx';
+import Input from '../../components/ui/Input.jsx';
+import Select from '../../components/ui/Select.jsx';
 import Modal from '../../components/ui/Modal.jsx';
 import Pagination from '../../components/ui/Pagination.jsx';
-import AdminItemCard from "../../components/admin/AdminItemCard.jsx";
+import AdminItemsTable from "../../components/admin/AdminItemsTable.jsx";
 import ModalButtons from "../../components/ui/ModalButtons.jsx";
 import AdminItemModerateBody from "../../components/admin/modals/AdminItemModerateBody.jsx";
 import AdminItemDeleteBody from "../../components/admin/modals/AdminItemDeleteBody.jsx";
-import SearchFilter from "../../components/ui/SearchFilter.jsx";
-import SelectFilter from "../../components/ui/SelectFilter.jsx";
 // Hooks
 import { useAdminItemsPage } from '../../hooks/pages/useAdminItemsPage.js';
 
@@ -20,50 +20,53 @@ const AdminItems = () => {
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in relative">
-      <SectionHeader title="Gestión de" highlight="Ítems" highlightColor="kudos" icon={Target}>
-        <div className="flex gap-2 flex-wrap">
-          <SelectFilter
-            label="Categoría"
-            icon={LayoutGrid}
-            value={state.filters.category_id}
-            onChange={(e) => actions.handleFilterChange('category_id', e.target.value)}
-            defaultOption="Todas las Categorías"
-            options={state.categoryOptions}
-          />
-          <SelectFilter
-            label="Estado"
-            value={state.filters.status}
-            onChange={(e) => actions.handleFilterChange('status', e.target.value)}
-            defaultOption="Todos los Estados"
-            options={[
-              { value: 'active', label: 'Activos' },
-              { value: 'inactive', label: 'Inactivos' }
-            ]}
-          />
-          <SearchFilter value={state.searchInput} onChange={actions.handleSearchChange} placeholder="Buscar ítem..."/>
-        </div>
-      </SectionHeader>
+      <SectionHead title="Gestión de ítems"/>
+
+      <FilterBar label="Filtrar ítems">
+        <Select
+          label="Categoría"
+          icon={LayoutGrid}
+          value={state.filters.category_id}
+          onChange={(e) => actions.handleFilterChange('category_id', e.target.value)}
+          placeholder="Todas"
+          selectClassName="w-auto"
+          options={state.categoryOptions}
+        />
+        <Select
+          label="Estado"
+          value={state.filters.status}
+          onChange={(e) => actions.handleFilterChange('status', e.target.value)}
+          placeholder="Todos"
+          selectClassName="w-auto"
+          options={[
+            { value: 'active', label: 'Activos' },
+            { value: 'inactive', label: 'Inactivos' }
+          ]}
+        />
+        <Input
+          type="search"
+          label="Buscar"
+          icon={Search}
+          className="w-full sm:w-64"
+          value={state.searchInput}
+          onChange={actions.handleSearchChange}
+          placeholder="Buscar ítem..."
+        />
+      </FilterBar>
 
       {state.isLoading ? (
-        <FeedbackState icon={Target} isLoading title="Cargando ítems..."/>
+        <FeedbackState icon={Target} isLoading titleAs="h3" title="Cargando ítems..."/>
       ) : state.isError ? (
-        <FeedbackState icon={ShieldAlert} title="Error" description="No se pudieron cargar los ítems." iconColorClass="bg-red-100 text-red-500"/>
+        <FeedbackState icon={ShieldAlert} titleAs="h3" title="Error" description="No se pudieron cargar los ítems." iconColorClass="bg-danger/10 text-danger"/>
       ) : !state.itemsResponse?.data?.length ? (
-        <FeedbackState icon={Target} title="Sin resultados" description="No se encontraron ítems con estos filtros."/>
+        <FeedbackState icon={Target} titleAs="h3" title="Sin resultados" description="No se encontraron ítems con estos filtros."/>
       ) : (
         <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <AnimatePresence>
-              {state.itemsResponse.data.map(item => (
-                <AdminItemCard
-                  key={item.id}
-                  item={item}
-                  onModerate={() => actions.handleOpenAction(item, 'moderate')}
-                  onDelete={() => actions.handleOpenAction(item, 'delete')}
-                />
-              ))}
-            </AnimatePresence>
-          </div>
+          <AdminItemsTable
+            items={state.itemsResponse.data}
+            onModerate={(item) => actions.handleOpenAction(item, 'moderate')}
+            onDelete={(item) => actions.handleOpenAction(item, 'delete')}
+          />
           <Pagination meta={state.itemsResponse.meta} onPageChange={actions.setPage}/>
         </div>
       )}
