@@ -1,5 +1,6 @@
 import React from 'react';
-import Button  from './Button.jsx';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Button from './Button.jsx';
 
 const Pagination = ({ meta, onPageChange }) => {
   if (!meta || meta.last_page <= 1) return null;
@@ -20,73 +21,20 @@ const Pagination = ({ meta, onPageChange }) => {
   };
 
   return (
-    <div className="flex items-center justify-between border-t border-border bg-surface px-4 py-3 sm:px-6 mt-4 rounded-xl shadow-sm">
-
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-text-normal">
-            Mostrando un total de <span className="font-medium text-text-highlight">{total}</span> resultados
-          </p>
-        </div>
-
-        <div>
-          <nav
-            className="isolate inline-flex -space-x-px rounded-md shadow-sm select-none"
-            aria-label="Pagination"
-          >
-            <Button
-              type="button"
-              onClick={handlePrevious}
-              disabled={current_page <= 1}
-              variant="outline"
-              color="neutral"
-              radius="md"
-            >
-              <span className="sr-only">Anterior</span>
-              &larr; Ant
-            </Button>
-
-            <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-text-highlight ring-1 ring-inset ring-slate-300 bg-surface">
-              Página {current_page} de {last_page}
-            </span>
-
-            <Button
-              type="button"
-              onClick={handleNext}
-              disabled={current_page >= last_page}
-              variant="outline"
-              color="neutral"
-              radius="md"
-              className="rounded-r-md rounded-l-none relative inline-flex items-center px-2 py-2 bg-surface"
-            >
-              <span className="sr-only">Siguiente</span>
-              Sig &rarr;
-            </Button>
-          </nav>
-        </div>
-      </div>
-
-      <div className="flex flex-1 justify-between sm:hidden">
-        <Button
-          type="button"
-          onClick={handlePrevious}
-          disabled={current_page <= 1}
-          variant="outline"
-          color="neutral"
-        >
-          Anterior
+    <nav aria-label="Paginación" data-pagination className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
+      <p className="hidden text-small text-ink-muted sm:block">
+        Mostrando un total de <span className="font-semibold text-ink">{total}</span> resultados
+      </p>
+      <div className="flex w-full items-center justify-between gap-2 sm:w-auto">
+        <Button variant="ghost" onClick={handlePrevious} disabled={current_page <= 1}>
+          <ChevronLeft aria-hidden="true" size={18} className="shrink-0" />Anterior
         </Button>
-        <Button
-          type="button"
-          onClick={handleNext}
-          disabled={current_page >= last_page}
-          variant="outline"
-          color="neutral"
-        >
-          Siguiente
+        <span className="text-small font-semibold tabular-nums text-ink">Página {current_page} de {last_page}</span>
+        <Button variant="ghost" onClick={handleNext} disabled={current_page >= last_page}>
+          Siguiente<ChevronRight aria-hidden="true" size={18} className="shrink-0" />
         </Button>
       </div>
-    </div>
+    </nav>
   );
 };
 

@@ -1,16 +1,15 @@
 import React from 'react';
+import KudosBadge from '../KudosBadge.jsx';
 
 const UserRankingMyPositionCard = ({ position }) => {
   if (!position) return null;
 
   return (
-    <div className="mx-auto flex w-full max-w-md items-center justify-between rounded-2xl bg-primary p-6 border border-blue-100 shadow-sm">
-      <div>
-        <h3 className="font-bold text-3xl text-surface">Tu posición: </h3>
-      </div>
-      <div className="text-right">
-        <div className="text-3xl font-black text-kudos">#{position.rank}</div>
-        <div className="text-sm font-bold text-surface">{position.total_kudos} K</div>
+    <div data-my-position className="mt-6 flex items-center justify-between gap-4 border-t border-line pt-4">
+      <p className="font-display text-lg font-semibold">Tu posición</p>
+      <div className="flex items-center gap-3">
+        <span className="font-display text-3xl font-semibold tabular-nums">#{position.rank}</span>
+        <KudosBadge value={position.total_kudos} size="lg" />
       </div>
     </div>
   );
