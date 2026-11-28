@@ -153,6 +153,69 @@ class DownloadItemImagesJobTest extends TestCase
         Storage::disk('public')->assertMissing($old['banner']);
     }
 
+    /** Falsea images.igdb.com con un PNG nuevo por petición; el tamaño sale de $size, que el test puede cambiar entre descargas. */
+    private function fakeIgdbImages(array &$size): void
+    {
+        Http::fake(['images.igdb.com/*' => function () use (&$size) {
+            return Http::response($this->fakePng(...$size), 200, ['Content-Type' => 'image/png']);
+        }]);
+    }
+
+    /** @return array{url: string, role: string, license: string, author: ?string, source_url: string} */
+    private function igdbImage(string $size): array
+    {
+        return [
+            'url' => "https://images.igdb.com/igdb/image/upload/{$size}/co39vc.jpg",
+            'role' => 'poster',
+            'license' => '© titular de derechos',
+            'author' => null,
+            'source_url' => 'https://www.igdb.com/games/hades--1',
+        ];
+    }
+
+    public function test_la_regeneracion_sustituye_las_variantes_sin_perder_la_atribucion(): void
+    {
+        $item = $this->newItem();
+
+        $size = [264, 352];
+        $this->fakeIgdbImages($size);
+        DownloadItemImagesJob::dispatchSync($item->id, [$this->igdbImage('t_cover_big')]);
+        $before = $item->fresh()->images;
+        $this->assertSame(264, $before[0]['meta']['width']);
+
+        $size = [810, 1080];
+        DownloadItemImagesJob::dispatchSync($item->id, [$this->igdbImage('t_1080p')]);
+
+        $images = $item->fresh()->images;
+        $this->assertCount(1, $images);
+
+        $hash = md5('https://images.igdb.com/igdb/image/upload/t_1080p/co39vc.jpg');
+        $this->assertSame("items/peliculas/{$item->id}/{$hash}-thumb.webp", $images[0]['variants']['thumb']);
+        $this->assertSame("items/peliculas/{$item->id}/{$hash}-banner.webp", $images[0]['variants']['banner']);
+        Storage::disk('public')->assertExists($images[0]['variants']['thumb']);
+        Storage::disk('public')->assertExists($images[0]['variants']['banner']);
+        Storage::disk('public')->assertMissing($before[0]['variants']['thumb']);
+        Storage::disk('public')->assertMissing($before[0]['variants']['banner']);
+
+        foreach (['role', 'license', 'author', 'source_url'] as $key) {
+            $this->assertSame($before[0][$key], $images[0][$key]);
+        }
+        $this->assertSame(810, $images[0]['meta']['width']);
+    }
+
+    public function test_la_variante_banner_no_amplia_una_imagen_pequena(): void
+    {
+        $item = $this->newItem();
+        $size = [264, 352];
+        $this->fakeIgdbImages($size);
+
+        DownloadItemImagesJob::dispatchSync($item->id, [$this->igdbImage('t_cover_big')]);
+
+        $variants = $item->fresh()->images[0]['variants'];
+        $this->assertSame(264, getimagesizefromstring(Storage::disk('public')->get($variants['banner']))[0]);
+        $this->assertSame(264, getimagesizefromstring(Storage::disk('public')->get($variants['thumb']))[0]);
+    }
+
     public function test_si_fallan_todas_conserva_las_imagenes_actuales(): void
     {
         $this->fakeImages(['image.tmdb.org/t/p/w780/b.jpg']); // la a.jpg se descarga y la b.jpg da 404
